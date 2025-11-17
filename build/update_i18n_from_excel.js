@@ -573,7 +573,7 @@ function main() {
     // 支持命令行参数指定 Excel 文件，或使用默认的4个文件
     const excelFiles = process.argv[2] 
         ? [process.argv[2]] 
-        : ['gy.xlsx', 'gyg.xlsx', 'sale.xlsx', 'yd.xlsx'];
+        : ['cw.xlsx', 'dp.xlsx', 'rw.xlsx', 'sj.xlsx'];
     
     if (!fs.existsSync(jsonPath)) {
         console.error(`❌ 错误: JSON 文件不存在: ${jsonPath}`);

@@ -196,7 +196,7 @@
 	},
 	"emut2": {
 		"zh-cn": "分类",
-		"en": "Category",
+		"en": "Categories",
 		"zh-tw": "分類"
 	},
 	"hbwz2": {
@@ -271,7 +271,7 @@
 	},
 	"9mdraq5": {
 		"zh-cn": "商家自配送",
-		"en": "Self-delivery by merchants",
+		"en": "Merchant Self-Delivery",
 		"zh-tw": "商家自配送"
 	},
 	"ekx8b3": {
@@ -536,7 +536,7 @@
 	},
 	"im16q54": {
 		"zh-cn": "退款成功",
-		"en": "Refund successful",
+		"en": "Refund Successful",
 		"zh-tw": "退款成功"
 	},
 	"pivtzh7": {
@@ -556,7 +556,7 @@
 	},
 	"ilzzyq4": {
 		"zh-cn": "退款失败",
-		"en": "Refund failed",
+		"en": "Refund Failure",
 		"zh-tw": "退款失敗"
 	},
 	"efg7b3": {
@@ -661,7 +661,7 @@
 	},
 	"d3gkpk4": {
 		"zh-cn": "支付成功",
-		"en": "Payment successful",
+		"en": "Payment Successful",
 		"zh-tw": "支付成功"
 	},
 	"ifuc8n4": {
@@ -681,17 +681,17 @@
 	},
 	"dl4oop4": {
 		"zh-cn": "最近一周",
-		"en": "In the recent week",
+		"en": "Last Week",
 		"zh-tw": "最近一週"
 	},
 	"4znkgj5": {
 		"zh-cn": "最近一个月",
-		"en": "In the recent month",
+		"en": "Last Month",
 		"zh-tw": "最近一個月"
 	},
 	"4zndsa5": {
 		"zh-cn": "最近三个月",
-		"en": "The last three months",
+		"en": "Last Three Months",
 		"zh-tw": "最近三個月"
 	},
 	"96wp4i5": {
@@ -896,7 +896,7 @@
 	},
 	"hm11": {
 		"zh-cn": "天",
-		"en": "day",
+		"en": "Day",
 		"zh-tw": "天"
 	},
 	"k521": {
@@ -1086,7 +1086,7 @@
 	},
 	"gme1": {
 		"zh-cn": "否",
-		"en": "no",
+		"en": "No",
 		"zh-tw": "否"
 	},
 	"av5kqa4": {
@@ -1391,7 +1391,7 @@
 	},
 	"e7wrf24": {
 		"zh-cn": "添加图片",
-		"en": "Add pictures",
+		"en": "Add Image",
 		"zh-tw": "添加圖片"
 	},
 	"gxnt9y4": {
@@ -1566,7 +1566,7 @@
 	},
 	"gmh5cf4": {
 		"zh-cn": "编辑内容",
-		"en": "Edit content",
+		"en": "Edit Content",
 		"zh-tw": "編輯內容"
 	},
 	"degf3r4": {
@@ -1591,7 +1591,7 @@
 	},
 	"nauqfr6": {
 		"zh-cn": "复制文章链接",
-		"en": "Copy the article link",
+		"en": "Copy Article Link",
 		"zh-tw": "複製文章鏈接"
 	},
 	"hlfe2": {
@@ -1851,7 +1851,7 @@
 	},
 	"dcv57g4": {
 		"zh-cn": "暂无数据",
-		"en": "Data not available",
+		"en": "Data Not Available",
 		"zh-tw": "暫無數據"
 	},
 	"d11zh78": {
@@ -1866,7 +1866,7 @@
 	},
 	"cjqdxi4": {
 		"zh-cn": "店铺名称",
-		"en": "Store Name",
+		"en": "Shop Name",
 		"zh-tw": "店鋪名稱"
 	},
 	"uznajn9": {
@@ -1991,7 +1991,7 @@
 	},
 	"il7vsf4": {
 		"zh-cn": "选择门店",
-		"en": "Select a store",
+		"en": "Select a Store",
 		"zh-tw": "選擇門店"
 	},
 	"hn40nw6": {
@@ -2001,7 +2001,7 @@
 	},
 	"jaxr3m4": {
 		"zh-cn": "门店名称",
-		"en": "Store name",
+		"en": "Store Name",
 		"zh-tw": "門店名稱"
 	},
 	"j02mpz6": {
@@ -2091,7 +2091,7 @@
 	},
 	"ikzrh64": {
 		"zh-cn": "选择日期",
-		"en": "Select a date",
+		"en": "Select Date",
 		"zh-tw": "選擇日期"
 	},
 	"to1gvf6": {
@@ -2266,7 +2266,7 @@
 	},
 	"b3hlg14": {
 		"zh-cn": "售后列表",
-		"en": "After-sales service list",
+		"en": "After-sales List",
 		"zh-tw": "售後列表"
 	},
 	"iq77af4": {
@@ -2301,7 +2301,7 @@
 	},
 	"lm09j3": {
 		"zh-cn": "退款单",
-		"en": "Refund form",
+		"en": "Refund Orders",
 		"zh-tw": "退款單"
 	},
 	"im8dp94": {
@@ -2361,7 +2361,7 @@
 	},
 	"g7vnat4": {
 		"zh-cn": "素材管理",
-		"en": "Material management",
+		"en": "Media Asset Management",
 		"zh-tw": "素材管理"
 	},
 	"gqac2": {
@@ -2401,7 +2401,7 @@
 	},
 	"c0hmu3": {
 		"zh-cn": "交易单",
-		"en": "Transaction order",
+		"en": "Transaction Orders",
 		"zh-tw": "交易單"
 	},
 	"mcgy2": {
@@ -2411,22 +2411,22 @@
 	},
 	"acncup4": {
 		"zh-cn": "交易统计",
-		"en": "Transaction statistics",
+		"en": "Transaction Statistics",
 		"zh-tw": "交易統計"
 	},
 	"cjxrmt4": {
 		"zh-cn": "店铺统计",
-		"en": "Store statistics",
+		"en": "Store Statistics",
 		"zh-tw": "店鋪統計"
 	},
 	"b488pp4": {
 		"zh-cn": "商品统计",
-		"en": "Commodity statistics",
+		"en": "Product Statistics",
 		"zh-tw": "商品統計"
 	},
 	"gihlvc4": {
 		"zh-cn": "结算汇总",
-		"en": "Settlement summary",
+		"en": "Settlement Summary",
 		"zh-tw": "結算彙總"
 	},
 	"ie4l1v5": {
@@ -2491,7 +2491,7 @@
 	},
 	"adu7754": {
 		"zh-cn": "业绩统计",
-		"en": "Performance statistics",
+		"en": "Performance Statistics",
 		"zh-tw": "業績統計"
 	},
 	"mny5ln5": {
@@ -2536,7 +2536,7 @@
 	},
 	"d1tfy94": {
 		"zh-cn": "操作日志",
-		"en": "Operation log",
+		"en": "Operation Log",
 		"zh-tw": "操作日誌"
 	},
 	"dngoy94": {
@@ -2581,7 +2581,7 @@
 	},
 	"b3i6y84": {
 		"zh-cn": "售后地址",
-		"en": "After-sales address",
+		"en": "After-sales Address",
 		"zh-tw": "售後地址"
 	},
 	"fajv5h5": {
@@ -2741,17 +2741,17 @@
 	},
 	"iiw2qi4": {
 		"zh-cn": "软文频道",
-		"en": "Soft Article Channel",
+		"en": "Channels",
 		"zh-tw": "軟文頻道"
 	},
 	"dbeip64": {
 		"zh-cn": "文章列表",
-		"en": "List of articles",
+		"en": "Article List",
 		"zh-tw": "文章列表"
 	},
 	"dbefxq4": {
 		"zh-cn": "文章分类",
-		"en": "Article Classification",
+		"en": "Article Category",
 		"zh-tw": "文章分類"
 	},
 	"g3wv4x4": {
@@ -2786,7 +2786,7 @@
 	},
 	"b4a3ou4": {
 		"zh-cn": "商品评价",
-		"en": "Product review",
+		"en": "Product Reviews",
 		"zh-tw": "商品評價"
 	},
 	"npah2": {
@@ -2856,17 +2856,17 @@
 	},
 	"ac57kw4": {
 		"zh-cn": "会员统计",
-		"en": "Member statistics",
+		"en": "Member Statistics",
 		"zh-tw": "會員統計"
 	},
 	"bycioz4": {
 		"zh-cn": "导出记录",
-		"en": "Export record",
+		"en": "Export Records",
 		"zh-tw": "導出記錄"
 	},
 	"nybjq36": {
 		"zh-cn": "转账凭证审核",
-		"en": "Review of Transfer Vouchers",
+		"en": "Transfer Voucher Review",
 		"zh-tw": "轉賬憑證審覈"
 	},
 	"cn7b13": {
@@ -3251,7 +3251,7 @@
 	},
 	"iqy6474": {
 		"zh-cn": "退货地址",
-		"en": "Return address",
+		"en": "Return Address",
 		"zh-tw": "退貨地址"
 	},
 	"cjtska4": {
@@ -3486,7 +3486,7 @@
 	},
 	"xz1blu5": {
 		"zh-cn": "店铺白名单",
-		"en": "Store whitelist",
+		"en": "Shop Whitelist",
 		"zh-tw": "店鋪白名單"
 	},
 	"mz8udh5": {
@@ -3566,7 +3566,7 @@
 	},
 	"lz4hw3": {
 		"zh-cn": "配送员",
-		"en": "Delivery Person",
+		"en": "Delivery Personnel",
 		"zh-tw": "配送員"
 	},
 	"cjqe2m4": {
@@ -3826,7 +3826,7 @@
 	},
 	"e7vzgj4": {
 		"zh-cn": "添加分组",
-		"en": "Add groups",
+		"en": "Add Group",
 		"zh-tw": "添加分組"
 	},
 	"cv2ifw4": {
@@ -3866,7 +3866,7 @@
 	},
 	"avad1l4": {
 		"zh-cn": "全部图片",
-		"en": "All pictures",
+		"en": "All Images",
 		"zh-tw": "全部圖片"
 	},
 	"ed0kp3": {
@@ -3881,7 +3881,7 @@
 	},
 	"a6d3a74": {
 		"zh-cn": "上传图片",
-		"en": "Upload pictures",
+		"en": "Upload Image",
 		"zh-tw": "上傳圖片"
 	},
 	"lfzd2": {
@@ -4036,7 +4036,7 @@
 	},
 	"2ecf6i5": {
 		"zh-cn": "请选择门店",
-		"en": "Please select a store",
+		"en": "Please Select a Store",
 		"zh-tw": "請選擇門店"
 	},
 	"7rdgf35": {
@@ -4106,7 +4106,7 @@
 	},
 	"ekkk43": {
 		"zh-cn": "店铺号",
-		"en": "Store Number",
+		"en": "Shop Number",
 		"zh-tw": "店鋪號"
 	},
 	"cjqqab4": {
@@ -4196,7 +4196,7 @@
 	},
 	"gpkj3j4": {
 		"zh-cn": "联系电话",
-		"en": "Contact number",
+		"en": "Contact Number",
 		"zh-tw": "聯繫電話"
 	},
 	"gdpm984": {
@@ -4256,7 +4256,7 @@
 	},
 	"iinv554": {
 		"zh-cn": "软文标题",
-		"en": "Title of Soft article",
+		"en": "Seeding Article Title",
 		"zh-tw": "軟文標題"
 	},
 	"do8uh37": {
@@ -4991,7 +4991,7 @@
 	},
 	"cjz4gc4": {
 		"zh-cn": "店铺装修",
-		"en": "Shop decoration",
+		"en": "Decoration",
 		"zh-tw": "店鋪裝修"
 	},
 	"8ju6t76": {
@@ -5306,7 +5306,7 @@
 	},
 	"axk3tq4": {
 		"zh-cn": "分账导出",
-		"en": "Account sharing and export",
+		"en": "Split Account Export",
 		"zh-tw": "分賬導出"
 	},
 	"vb8fbo5": {
@@ -5331,7 +5331,7 @@
 	},
 	"yg1fwc5": {
 		"zh-cn": "交易单导出",
-		"en": "Export of trading order",
+		"en": "Transaction Order",
 		"zh-tw": "交易單導出"
 	},
 	"8o0pzp5": {
@@ -5341,12 +5341,12 @@
 	},
 	"t9kh236": {
 		"zh-cn": "商品统计导出",
-		"en": "Export of commodity statistics",
+		"en": "Product Statistics",
 		"zh-tw": "商品統計導出"
 	},
 	"b41zp54": {
 		"zh-cn": "商品导出",
-		"en": "Export of goods",
+		"en": "Product Export",
 		"zh-tw": "商品導出"
 	},
 	"qbhakw6": {
@@ -5356,137 +5356,137 @@
 	},
 	"ajomvw5": {
 		"zh-cn": "商品码导出",
-		"en": "Export of product code",
+		"en": "Product Code",
 		"zh-tw": "商品碼導出"
 	},
 	"j67xt3": {
 		"zh-cn": "结算单",
-		"en": "Settlement statement",
+		"en": "Settlement Statement",
 		"zh-tw": "結算單"
 	},
 	"elrlk95": {
 		"zh-cn": "结算单明细",
-		"en": "Settlement statement details",
+		"en": "Settlement Statement Details",
 		"zh-tw": "結算單明細"
 	},
 	"bk7lpr7": {
 		"zh-cn": "配送员业绩导出",
-		"en": "Delivery person performance export",
+		"en": "Delivery Personnel Performance",
 		"zh-tw": "配送員業績導出"
 	},
 	"abyykc4": {
 		"zh-cn": "会员导出",
-		"en": "Member export",
+		"en": "Member Export",
 		"zh-tw": "會員導出"
 	},
 	"t2pslz7": {
 		"zh-cn": "实体主订单导出",
-		"en": "Export of physical master orders",
+		"en": "Main Order",
 		"zh-tw": "實體主訂單導出"
 	},
 	"970pt87": {
 		"zh-cn": "实体子订单导出",
-		"en": "Export of physical sub-orders",
+		"en": "Sub-order",
 		"zh-tw": "實體子訂單導出"
 	},
 	"her2gha": {
 		"zh-cn": "社区团购销售数据导出",
-		"en": "Export of community group buying sales data",
+		"en": "Group Buying",
 		"zh-tw": "社區團購銷售數據導出"
 	},
 	"a4s8bh6": {
 		"zh-cn": "发票信息导出",
-		"en": "Export of invoice information",
+		"en": "Invoice Information",
 		"zh-tw": "發票信息導出"
 	},
 	"mlwzuu7": {
 		"zh-cn": "供应商商品导出",
-		"en": "Export of goods from suppliers",
+		"en": "Supplier Products",
 		"zh-tw": "供應商商品導出"
 	},
 	"bdaoiu6": {
 		"zh-cn": "积分记录导出",
-		"en": "Export of integral records",
+		"en": "Points Record",
 		"zh-tw": "積分記錄導出"
 	},
 	"gh7kn86": {
 		"zh-cn": "店铺商品导出",
-		"en": "Export of goods in the store",
+		"en": "Store Products",
 		"zh-tw": "店鋪商品導出"
 	},
 	"csnybq4": {
 		"zh-cn": "报名导出",
-		"en": "Registration export",
+		"en": "Registration Export",
 		"zh-tw": "報名導出"
 	},
 	"8nzc5k5": {
 		"zh-cn": "退款单列表",
-		"en": "Refund list",
+		"en": "Refund Order",
 		"zh-tw": "退款單列表"
 	},
 	"uq3no75": {
 		"zh-cn": "银联分账单",
-		"en": "Unionpay branch statement",
+		"en": "UnionPay Split Bill",
 		"zh-tw": "銀聯分賬單"
 	},
 	"2kxesy8": {
 		"zh-cn": "财务销售报表导出",
-		"en": "Export of financial sales reports",
+		"en": "Financial Sales Report",
 		"zh-tw": "財務銷售報表導出"
 	},
 	"3c6ia76": {
 		"zh-cn": "交易统计导出",
-		"en": "Export of transaction statistics",
+		"en": "Transaction Statistics",
 		"zh-tw": "交易統計導出"
 	},
 	"3wvinx6": {
 		"zh-cn": "提现记录导出",
-		"en": "Export of withdrawal records",
+		"en": "Withdrawal Record",
 		"zh-tw": "提現記錄導出"
 	},
 	"d86jru4": {
 		"zh-cn": "斗拱分账",
-		"en": "The dougong accounts are shared",
+		"en": "Dougong Split Accounting",
 		"zh-tw": "斗拱分賬"
 	},
 	"mvgw296": {
 		"zh-cn": "转账审核导出",
-		"en": "Transfer review export",
+		"en": "Transfer Review",
 		"zh-tw": "轉賬審覈導出"
 	},
 	"b14u4e4": {
 		"zh-cn": "员工列表",
-		"en": "Employee list",
+		"en": "Employee List",
 		"zh-tw": "員工列表"
 	},
 	"px2bcw7": {
 		"zh-cn": "店铺白名单导出",
-		"en": "Export the store whitelist",
+		"en": "Store Whitelist",
 		"zh-tw": "店鋪白名單導出"
 	},
 	"ex4qc27": {
 		"zh-cn": "推广员业绩导出",
-		"en": "Promotion staff performance export",
+		"en": "Promoter Performance",
 		"zh-tw": "推廣員業績導出"
 	},
 	"adw2824": {
 		"zh-cn": "业绩订单",
-		"en": "Performance order",
+		"en": "Performance Orders",
 		"zh-tw": "業績訂單"
 	},
 	"d4z7rm4": {
 		"zh-cn": "文件名称",
-		"en": "File name",
+		"en": "File Name",
 		"zh-tw": "文件名稱"
 	},
 	"w8vqkk6": {
 		"zh-cn": "处理完成时间",
-		"en": "Processed Time",
+		"en": "Processing Completion Time",
 		"zh-tw": "處理完成時間"
 	},
 	"bpqivh4": {
 		"zh-cn": "处理状态",
-		"en": "Status",
+		"en": "Processing Status",
 		"zh-tw": "處理狀態"
 	},
 	"fy7x7i4": {
@@ -5526,7 +5526,7 @@
 	},
 	"fj8ux3": {
 		"zh-cn": "未回复",
-		"en": "No reply",
+		"en": "Unreplied",
 		"zh-tw": "未回覆"
 	},
 	"bbuzl94": {
@@ -5556,7 +5556,7 @@
 	},
 	"ytf6465": {
 		"zh-cn": "会员手机号",
-		"en": "Member Phone Number",
+		"en": "Member Mobile Number",
 		"zh-tw": "會員手機號"
 	},
 	"c6r76u4": {
@@ -5936,12 +5936,12 @@
 	},
 	"kco1": {
 		"zh-cn": "月",
-		"en": "month",
+		"en": "Month",
 		"zh-tw": "月"
 	},
 	"go81": {
 		"zh-cn": "周",
-		"en": "weeks",
+		"en": "Week",
 		"zh-tw": "周"
 	},
 	"vk5lkqa": {
@@ -6141,7 +6141,7 @@
 	},
 	"cs44ip4": {
 		"zh-cn": "所属店铺",
-		"en": "Store",
+		"en": "Shop",
 		"zh-tw": "所屬店鋪"
 	},
 	"iekw2x5": {
@@ -7101,7 +7101,7 @@
 	},
 	"qvp1rp6": {
 		"zh-cn": "添加售后地址",
-		"en": "Add after-sales address",
+		"en": "Add After-sales Address",
 		"zh-tw": "添加售後地址"
 	},
 	"yfpdbi6": {
@@ -7251,12 +7251,12 @@
 	},
 	"b3i65m4": {
 		"zh-cn": "售后地区",
-		"en": "After-sales service area",
+		"en": "After-sales Region",
 		"zh-tw": "售後地區"
 	},
 	"d92ns34": {
 		"zh-cn": "是否默认",
-		"en": "Is it default?",
+		"en": "Is Default",
 		"zh-tw": "是否默認"
 	},
 	"m6u2ao6": {
@@ -7496,7 +7496,7 @@
 	},
 	"bl3tv44": {
 		"zh-cn": "复制链接",
-		"en": "Copy the link",
+		"en": "Copy Link",
 		"zh-tw": "複製鏈接"
 	},
 	"fwq7q95": {
@@ -7696,7 +7696,7 @@
 	},
 	"oxvu2": {
 		"zh-cn": "返回",
-		"en": "Return",
+		"en": "Back",
 		"zh-tw": "返回"
 	},
 	"8nywqi5": {
@@ -7706,7 +7706,7 @@
 	},
 	"hymdzq4": {
 		"zh-cn": "订单号:",
-		"en": "Order Number",
+		"en": "Transaction Order No.",
 		"zh-tw": "訂單號:"
 	},
 	"b5h6co5": {
@@ -7746,7 +7746,7 @@
 	},
 	"fk50h3": {
 		"zh-cn": "未审核",
-		"en": "Unreviewed",
+		"en": "Pending Review",
 		"zh-tw": "未審覈"
 	},
 	"imasuh4": {
@@ -7766,12 +7766,12 @@
 	},
 	"ey742": {
 		"zh-cn": "售后",
-		"en": "AFTERSALES",
+		"en": "After-sales",
 		"zh-tw": "售後"
 	},
 	"exun2": {
 		"zh-cn": "售前",
-		"en": "Pre-sale",
+		"en": "Pre-sales",
 		"zh-tw": "售前"
 	},
 	"h9kz2": {
@@ -7791,7 +7791,7 @@
 	},
 	"lsjmx3": {
 		"zh-cn": "退运费",
-		"en": "Refund of shipping fee",
+		"en": "Refund Shipping Fee",
 		"zh-tw": "退運費"
 	},
 	"6zda2j6": {
@@ -7841,7 +7841,7 @@
 	},
 	"gbmt0q4": {
 		"zh-cn": "线下退款",
-		"en": "Offline refund",
+		"en": "Offline Refund",
 		"zh-tw": "線下退款"
 	},
 	"dlv3fb4": {
@@ -7851,7 +7851,7 @@
 	},
 	"b568xm4": {
 		"zh-cn": "原路返回",
-		"en": "Return by the same route",
+		"en": "Refund to Original Payment Method",
 		"zh-tw": "原路返回"
 	},
 	"djyqh3": {
@@ -7911,7 +7911,7 @@
 	},
 	"rekihi5": {
 		"zh-cn": "开启白名单",
-		"en": "Enable the whitelist",
+		"en": "Enable Whitelist",
 		"zh-tw": "開啓白名單"
 	},
 	"uepk186": {
@@ -8051,7 +8051,7 @@
 	},
 	"hynsc64": {
 		"zh-cn": "订单号：",
-		"en": "Order Number",
+		"en": "Transaction Order No.",
 		"zh-tw": "訂單號："
 	},
 	"k6rohx5": {
@@ -8091,7 +8091,7 @@
 	},
 	"acj6ct4": {
 		"zh-cn": "交易时间",
-		"en": "Trading hours",
+		"en": "Transaction Time",
 		"zh-tw": "交易時間"
 	},
 	"hym7z54": {
@@ -8121,7 +8121,7 @@
 	},
 	"hyxqu74": {
 		"zh-cn": "订单金额",
-		"en": "Order amount",
+		"en": "Order Amount",
 		"zh-tw": "訂單金額"
 	},
 	"ixcclm4": {
@@ -8131,17 +8131,17 @@
 	},
 	"lzfqd3": {
 		"zh-cn": "配送费",
-		"en": "Delivery fee",
+		"en": "Delivery Fee",
 		"zh-tw": "配送費"
 	},
 	"j1uo2": {
 		"zh-cn": "汇率",
-		"en": "Exchange rate",
+		"en": "Exchange Rate",
 		"zh-tw": "匯率"
 	},
 	"d3jhas4": {
 		"zh-cn": "支付状态",
-		"en": "Payment status",
+		"en": "Payment Status",
 		"zh-tw": "支付狀態"
 	},
 	"d3fdy54": {
@@ -8206,17 +8206,17 @@
 	},
 	"e7y8so4": {
 		"zh-cn": "添加店铺",
-		"en": "Add a store",
+		"en": "Add Shop",
 		"zh-tw": "添加店鋪"
 	},
 	"by22ng4": {
 		"zh-cn": "导入店铺",
-		"en": "Import the store",
+		"en": "Import Shops",
 		"zh-tw": "導入店鋪"
 	},
 	"whodkya": {
 		"zh-cn": "设置店铺默认可见范围",
-		"en": "Set the default visible range of the store",
+		"en": "Default Shop Visibility",
 		"zh-tw": "設置店鋪默認可見範圍"
 	},
 	"33l8rq9": {
@@ -8226,7 +8226,7 @@
 	},
 	"6svtqf9": {
 		"zh-cn": "编辑默认虚拟店信息",
-		"en": "Edit the default virtual store information",
+		"en": "Edit Virtual Store Info",
 		"zh-tw": "編輯默認虛擬店信息"
 	},
 	"emxt2": {
@@ -8236,12 +8236,12 @@
 	},
 	"s1ghjm6": {
 		"zh-cn": "自动同步商品",
-		"en": "Automatic synchronization of goods",
+		"en": "Auto-Sync Products",
 		"zh-tw": "自動同步商品"
 	},
 	"d8xirh4": {
 		"zh-cn": "是否自提",
-		"en": "Whether to pick up by oneself",
+		"en": "In-Store Pickup Available",
 		"zh-tw": "是否自提"
 	},
 	"9gkj518": {
@@ -8251,7 +8251,7 @@
 	},
 	"cpc5jv4": {
 		"zh-cn": "快递配送",
-		"en": "Express delivery",
+		"en": "Express Delivery",
 		"zh-tw": "快遞配送"
 	},
 	"r8nbhe5": {
@@ -8261,7 +8261,7 @@
 	},
 	"6nc6tl5": {
 		"zh-cn": "进店白名单",
-		"en": "Store entry whitelist",
+		"en": "Store Entry Whitelist",
 		"zh-tw": "進店白名單"
 	},
 	"xg1ax96": {
@@ -8281,32 +8281,32 @@
 	},
 	"vi727o5": {
 		"zh-cn": "下载店铺码",
-		"en": "Download the store code",
+		"en": "Shop QR Code",
 		"zh-tw": "下載店鋪碼"
 	},
 	"o2j4ct6": {
 		"zh-cn": "复制店铺链接",
-		"en": "Copy the store link",
+		"en": "Copy Shop Link",
 		"zh-tw": "複製店鋪鏈接"
 	},
 	"ahwpkz6": {
 		"zh-cn": "微信支付配置",
-		"en": "Wechat Pay configuration",
+		"en": "WeChat Pay",
 		"zh-tw": "微信支付配置"
 	},
 	"k8153f5": {
 		"zh-cn": "支付宝配置",
-		"en": "Alipay configuration",
+		"en": "Alipay",
 		"zh-tw": "支付寶配置"
 	},
 	"judynx8": {
 		"zh-cn": "银联商务支付配置",
-		"en": "Unionpay Business payment configuration",
+		"en": "UnionPay Business Payment",
 		"zh-tw": "銀聯商務支付配置"
 	},
 	"aoy6az6": {
 		"zh-cn": "店铺范围配置",
-		"en": "Store scope configuration",
+		"en": "Shop Scope",
 		"zh-tw": "店鋪範圍配置"
 	},
 	"i0122": {
@@ -8366,7 +8366,7 @@
 	},
 	"d3fjv14": {
 		"zh-cn": "支付完成",
-		"en": "Payment completed",
+		"en": "Payment Completed",
 		"zh-tw": "支付完成"
 	},
 	"d17rj2j": {
@@ -8376,7 +8376,7 @@
 	},
 	"im1vlg4": {
 		"zh-cn": "退款方式",
-		"en": "Refund method",
+		"en": "Refund Method",
 		"zh-tw": "退款方式"
 	},
 	"glcpg85": {
@@ -8441,7 +8441,7 @@
 	},
 	"7djicl6": {
 		"zh-cn": "请输入订单号",
-		"en": "Please enter the order number",
+		"en": "Enter Order Number",
 		"zh-tw": "請輸入訂單號"
 	},
 	"t9q3f56": {
@@ -8456,27 +8456,27 @@
 	},
 	"e75dg3": {
 		"zh-cn": "已处理",
-		"en": "Dealt with",
+		"en": "Processed",
 		"zh-tw": "已處理"
 	},
 	"je1qwx4": {
 		"zh-cn": "错误状态",
-		"en": "Error status",
+		"en": "Error Status",
 		"zh-tw": "錯誤狀態"
 	},
 	"mind73": {
 		"zh-cn": "错误码",
-		"en": "Error code",
+		"en": "Error Code",
 		"zh-tw": "錯誤碼"
 	},
 	"jdzh4n4": {
 		"zh-cn": "错误描述",
-		"en": "Incorrect description",
+		"en": "Error Description",
 		"zh-tw": "錯誤描述"
 	},
 	"xpente7": {
 		"zh-cn": "是否已重新提交",
-		"en": "Has it been resubmitted",
+		"en": "Resubmitted (Yes/No)",
 		"zh-tw": "是否已重新提交"
 	},
 	"e8s3q3": {
@@ -8486,7 +8486,7 @@
 	},
 	"fle2m3": {
 		"zh-cn": "未提交",
-		"en": "Not submitted",
+		"en": "Not Submitted",
 		"zh-tw": "未提交"
 	},
 	"itej6f4": {
@@ -8606,7 +8606,7 @@
 	},
 	"acl1ru4": {
 		"zh-cn": "交易状态",
-		"en": "Transaction status",
+		"en": "Transaction Status",
 		"zh-tw": "交易狀態"
 	},
 	"imoan04": {
@@ -9836,7 +9836,7 @@
 	},
 	"eghwt3": {
 		"zh-cn": "待开票",
-		"en": "Pending invoice",
+		"en": "Pending Invoicing",
 		"zh-tw": "待開票"
 	},
 	"frru4e4": {
@@ -10086,12 +10086,12 @@
 	},
 	"ddnvd94": {
 		"zh-cn": "本地图片",
-		"en": "Local image",
+		"en": "Local Images",
 		"zh-tw": "本地圖片"
 	},
 	"ddwpvz4": {
 		"zh-cn": "本地视频",
-		"en": "Local video",
+		"en": "Local Videos",
 		"zh-tw": "本地視頻"
 	},
 	"bu74rj7": {
@@ -10396,7 +10396,7 @@
 	},
 	"1w000t5": {
 		"zh-cn": "查询日期:",
-		"en": "Query date",
+		"en": "Query Date",
 		"zh-tw": "查詢日期:"
 	},
 	"i5iwxn5": {
@@ -10461,7 +10461,7 @@
 	},
 	"giip7z4": {
 		"zh-cn": "结算状态",
-		"en": "Settlement status",
+		"en": "Settlement Status",
 		"zh-tw": "結算狀態"
 	},
 	"hyu6l04": {
@@ -10616,12 +10616,12 @@
 	},
 	"q5732": {
 		"zh-cn": "销量",
-		"en": "Sales volume",
+		"en": "Sales Volume",
 		"zh-tw": "銷量"
 	},
 	"m8zzj3": {
 		"zh-cn": "销售额",
-		"en": "Sales volume",
+		"en": "Sales Amount",
 		"zh-tw": "銷售額"
 	},
 	"dtcdf3": {
@@ -10636,52 +10636,52 @@
 	},
 	"kv0f13": {
 		"zh-cn": "订单数",
-		"en": "Order quantity",
+		"en": "Number of Orders",
 		"zh-tw": "訂單數"
 	},
 	"b3hm574": {
 		"zh-cn": "售后单数",
-		"en": "After-sales order number",
+		"en": "Number of After-sales Orders",
 		"zh-tw": "售後單數"
 	},
 	"lmdy73": {
 		"zh-cn": "退款额",
-		"en": "Refund amount",
+		"en": "Refund Amount",
 		"zh-tw": "退款額"
 	},
 	"c0vbi3": {
 		"zh-cn": "交易额",
-		"en": "Transaction amount",
+		"en": "Transaction Amount",
 		"zh-tw": "交易額"
 	},
 	"wrrv495": {
 		"zh-cn": "付款订单数",
-		"en": "Payment order number",
+		"en": "Number of Paid Orders",
 		"zh-tw": "付款訂單數"
 	},
 	"c004y3": {
 		"zh-cn": "会员数",
-		"en": "Number of members",
+		"en": "Number of Members",
 		"zh-tw": "會員數"
 	},
 	"qf6u147": {
 		"zh-cn": "交易额(积分)",
-		"en": "Transaction amount (points",
+		"en": "Transaction Amount (Points)",
 		"zh-tw": "交易額(積分)"
 	},
 	"jk0r477": {
 		"zh-cn": "订单数(积分)",
-		"en": "Order quantity (points)",
+		"en": "Number of Orders (Points)",
 		"zh-tw": "訂單數(積分)"
 	},
 	"zf86an9": {
 		"zh-cn": "付款订单数(积分)",
-		"en": "Number of paid orders (points)",
+		"en": "Number of Paid Orders (Points)",
 		"zh-tw": "付款訂單數(積分)"
 	},
 	"ey6zoa7": {
 		"zh-cn": "GMV(积分)",
-		"en": "GMV(Points",
+		"en": "GMV (Points)",
 		"zh-tw": "GMV(積分)"
 	},
 	"h2uku45": {
@@ -11021,7 +11021,7 @@
 	},
 	"im43bd4": {
 		"zh-cn": "退款状态",
-		"en": "Refund status",
+		"en": "Refund Status",
 		"zh-tw": "退款狀態"
 	},
 	"bpvh2l4": {
@@ -11246,17 +11246,17 @@
 	},
 	"yugvum6": {
 		"zh-cn": "GMV(元)",
-		"en": "GMV(yuan",
+		"en": "GMV (CNY)",
 		"zh-tw": "GMV(元)"
 	},
 	"60kobk6": {
 		"zh-cn": "交易额(元)",
-		"en": "Transaction amount (yuan)",
+		"en": "Transaction Amount (CNY)",
 		"zh-tw": "交易額(元)"
 	},
 	"72pamp6": {
 		"zh-cn": "退款额(元)",
-		"en": "Refund amount (yuan)",
+		"en": "Refund Amount (CNY)",
 		"zh-tw": "退款額(元)"
 	},
 	"cs29fz4": {
@@ -11601,12 +11601,12 @@
 	},
 	"oc5bev8": {
 		"zh-cn": "待结算金额（元）",
-		"en": "Amount to be settled (yuan)",
+		"en": "Amount Pending Settlement (CNY)",
 		"zh-tw": "待結算金額（元）"
 	},
 	"93qoz08": {
 		"zh-cn": "已结算金额（元）",
-		"en": "Settled amount (yuan)",
+		"en": "Settled Amount (CNY)",
 		"zh-tw": "已結算金額（元）"
 	},
 	"f04493": {
@@ -11626,7 +11626,7 @@
 	},
 	"dloloe4": {
 		"zh-cn": "查看明细",
-		"en": "View details",
+		"en": "View Details",
 		"zh-tw": "查看明細"
 	},
 	"m90k2": {
@@ -11651,17 +11651,17 @@
 	},
 	"hyq5qq4": {
 		"zh-cn": "订单数量",
-		"en": "Order quantity",
+		"en": "Number of Orders",
 		"zh-tw": "訂單數量"
 	},
 	"gidl234": {
 		"zh-cn": "结算周期",
-		"en": "Settlement cycle",
+		"en": "Settlement Cycle",
 		"zh-tw": "結算週期"
 	},
 	"gigtsy4": {
 		"zh-cn": "结算时间",
-		"en": "Settlement time",
+		"en": "Settlement Time",
 		"zh-tw": "結算時間"
 	},
 	"w8mp2e6": {
@@ -11836,7 +11836,7 @@
 	},
 	"jvk7goi": {
 		"zh-cn": "建议尺寸：200像素 * 200像素",
-		"en": "Suggested size: 200 pixels * 200 pixels",
+		"en": "Recommended Size: 200px * 200px",
 		"zh-tw": "建議尺寸：200像素 * 200像素"
 	},
 	"xiptlo6": {
@@ -11916,7 +11916,7 @@
 	},
 	"bz15hf4": {
 		"zh-cn": "审批状态",
-		"en": "Approval status",
+		"en": "Approval Status",
 		"zh-tw": "審批狀態"
 	},
 	"dvwoy3": {
@@ -12271,7 +12271,7 @@
 	},
 	"k4g1": {
 		"zh-cn": "无",
-		"en": "no",
+		"en": "No",
 		"zh-tw": "無"
 	},
 	"cvhahw4": {
@@ -13636,7 +13636,7 @@
 	},
 	"le7t2": {
 		"zh-cn": "税率",
-		"en": "Tax rate",
+		"en": "Tax Rate",
 		"zh-tw": "稅率"
 	},
 	"g0fg5z5": {
@@ -13766,7 +13766,7 @@
 	},
 	"devbay4": {
 		"zh-cn": "更新时间",
-		"en": "Updated Time",
+		"en": "Update Time",
 		"zh-tw": "更新時間"
 	},
 	"ego673": {
@@ -13961,7 +13961,7 @@
 	},
 	"b8wroa5": {
 		"zh-cn": "订单编号:",
-		"en": "Order Number",
+		"en": "Transaction Order No.",
 		"zh-tw": "訂單編號:"
 	},
 	"banz2c5": {
@@ -14886,22 +14886,22 @@
 	},
 	"mfh2td7": {
 		"zh-cn": "请输入商品ID",
-		"en": "Please enter the product ID",
+		"en": "Enter Product ID",
 		"zh-tw": "請輸入商品ID"
 	},
 	"fggrps5": {
 		"zh-cn": "是否评价:",
-		"en": "Whether to comment",
+		"en": "Review Status",
 		"zh-tw": "是否評價:"
 	},
 	"x1kvb57": {
 		"zh-cn": "请选择是否评价",
-		"en": "Please choose whether to evaluate",
+		"en": "Select Review Status",
 		"zh-tw": "請選擇是否評價"
 	},
 	"o7g32": {
 		"zh-cn": "评价",
-		"en": "Evaluation",
+		"en": "Review",
 		"zh-tw": "評價"
 	},
 	"kuuef3": {
@@ -15031,22 +15031,22 @@
 	},
 	"f0f5pq7": {
 		"zh-cn": "请输入软文标题",
-		"en": "Please enter the title of the soft article",
+		"en": "Enter Seeding Article Title",
 		"zh-tw": "請輸入軟文標題"
 	},
 	"e86ail4": {
 		"zh-cn": "添加软文",
-		"en": "Add soft articles",
+		"en": "Add Seeding Article",
 		"zh-tw": "添加軟文"
 	},
 	"1leq14": {
 		"zh-cn": "AI创作",
-		"en": "AI creation",
+		"en": "AI Generation",
 		"zh-tw": "AI創作"
 	},
 	"eeg0n3": {
 		"zh-cn": "待发布",
-		"en": "To be released",
+		"en": "To Be Released",
 		"zh-tw": "待發布"
 	},
 	"e656s3": {
@@ -15911,7 +15911,7 @@
 	},
 	"agin164": {
 		"zh-cn": "保存栏目",
-		"en": "Save column",
+		"en": "Save Column",
 		"zh-tw": "保存欄目"
 	},
 	"dmbqf64": {
@@ -15921,7 +15921,7 @@
 	},
 	"dme81o4": {
 		"zh-cn": "栏目排序",
-		"en": "Column sorting",
+		"en": "Column Sorting",
 		"zh-tw": "欄目排序"
 	},
 	"mzxrv56": {
@@ -15931,7 +15931,7 @@
 	},
 	"bizlkx4": {
 		"zh-cn": "增加栏目",
-		"en": "Add columns",
+		"en": "Add Column",
 		"zh-tw": "增加欄目"
 	},
 	"d0xkfh4": {
@@ -16081,37 +16081,37 @@
 	},
 	"516clb7": {
 		"zh-cn": "首页自定义分享",
-		"en": "Home page custom sharing",
+		"en": "Homepage Custom Share",
 		"zh-tw": "首頁自定義分享"
 	},
 	"c8ctvu4": {
 		"zh-cn": "封面图片",
-		"en": "Cover image",
+		"en": "Cover Image",
 		"zh-tw": "封面圖片"
 	},
 	"qumrjy8": {
 		"zh-cn": "软文列表自定分享",
-		"en": "The list of soft articles can be customized for sharing",
+		"en": "Seeding Article List Custom Share",
 		"zh-tw": "軟文列表自定分享"
 	},
 	"oyxc1mb": {
 		"zh-cn": "商品默认列表自定义分享",
-		"en": "Customize the default list of products for sharing",
+		"en": "Product Default List Custom Share",
 		"zh-tw": "商品默認列表自定義分享"
 	},
 	"ectc74a": {
 		"zh-cn": "拼团列表页自定义分享",
-		"en": "Customize the sharing of the group buying list page",
+		"en": "Group Buying List Custom Share",
 		"zh-tw": "拼團列表頁自定義分享"
 	},
 	"vbx93ca": {
 		"zh-cn": "秒杀列表页自定义分享",
-		"en": "Customize the sharing of the flash sale list page",
+		"en": "Flash Sale List Custom Share",
 		"zh-tw": "秒殺列表頁自定義分享"
 	},
 	"lzt72yd": {
 		"zh-cn": "优惠券领取列表页自定义分享",
-		"en": "Customize and share the coupon claim list page",
+		"en": "Coupon List Custom Share",
 		"zh-tw": "優惠券領取列表頁自定義分享"
 	},
 	"f65o5b6": {
@@ -16496,17 +16496,17 @@
 	},
 	"k7koml7": {
 		"zh-cn": "请输入文章标题",
-		"en": "Please enter the title of the article",
+		"en": "Enter Article Title",
 		"zh-tw": "請輸入文章標題"
 	},
 	"x4089x7": {
 		"zh-cn": "请选择文章分类",
-		"en": "Please select the article category",
+		"en": "Select Category",
 		"zh-tw": "請選擇文章分類"
 	},
 	"dbe6dp4": {
 		"zh-cn": "文章内容",
-		"en": "The content of the article",
+		"en": "Article Content",
 		"zh-tw": "文章內容"
 	},
 	"k7ouh67": {
@@ -16531,7 +16531,7 @@
 	},
 	"e7za4e4": {
 		"zh-cn": "添加文章",
-		"en": "Add an article",
+		"en": "Add Article",
 		"zh-tw": "添加文章"
 	},
 	"syatfva": {
@@ -16591,22 +16591,22 @@
 	},
 	"aji9v04": {
 		"zh-cn": "作者名称",
-		"en": "Author's Name",
+		"en": "Author Name",
 		"zh-tw": "作者名稱"
 	},
 	"ajixac4": {
 		"zh-cn": "作者头像",
-		"en": "Author's Profile Picture",
+		"en": "Author Avatar",
 		"zh-tw": "作者頭像"
 	},
 	"h4xfws6": {
 		"zh-cn": "文章类目选择",
-		"en": "Article category selection",
+		"en": "Category Selection",
 		"zh-tw": "文章類目選擇"
 	},
 	"bcrrey4": {
 		"zh-cn": "地区选择",
-		"en": "Regional selection",
+		"en": "Region Selection",
 		"zh-tw": "地區選擇"
 	},
 	"nf05iy7": {
@@ -16616,12 +16616,12 @@
 	},
 	"aodz5a4": {
 		"zh-cn": "分享图片",
-		"en": "Share pictures",
+		"en": "Share Image",
 		"zh-tw": "分享圖片"
 	},
 	"gmrqer4": {
 		"zh-cn": "编辑软文",
-		"en": "Edit soft articles",
+		"en": "Edit Seeding Article",
 		"zh-tw": "編輯軟文"
 	},
 	"arews74": {
@@ -17896,22 +17896,22 @@
 	},
 	"gc7k305": {
 		"zh-cn": "收款账户名",
-		"en": "Receiving account name",
+		"en": "Receiving Account Name",
 		"zh-tw": "收款賬戶名"
 	},
 	"85ndwf6": {
 		"zh-cn": "收款银行名称",
-		"en": "Name of the receiving bank",
+		"en": "Receiving Bank Name",
 		"zh-tw": "收款銀行名稱"
 	},
 	"bd44185": {
 		"zh-cn": "订单总金额",
-		"en": "Total order amount",
+		"en": "Total Order Amount",
 		"zh-tw": "訂單總金額"
 	},
 	"bzsoeh4": {
 		"zh-cn": "审核意见",
-		"en": "Review opinion",
+		"en": "Review Comments",
 		"zh-tw": "審覈意見"
 	},
 	"bztktx4": {
@@ -19846,37 +19846,37 @@
 	},
 	"k4l1": {
 		"zh-cn": "日",
-		"en": "day",
+		"en": "Sun",
 		"zh-tw": "日"
 	},
 	"feo1": {
 		"zh-cn": "一",
-		"en": "one",
+		"en": "Mon",
 		"zh-tw": "一"
 	},
 	"fik1": {
 		"zh-cn": "二",
-		"en": "two",
+		"en": "Tue",
 		"zh-tw": "二"
 	},
 	"fex1": {
 		"zh-cn": "三",
-		"en": "three",
+		"en": "Wed",
 		"zh-tw": "三"
 	},
 	"h5n1": {
 		"zh-cn": "四",
-		"en": "four",
+		"en": "Thu",
 		"zh-tw": "四"
 	},
 	"fis1": {
 		"zh-cn": "五",
-		"en": "five",
+		"en": "Fri",
 		"zh-tw": "五"
 	},
 	"g311": {
 		"zh-cn": "六",
-		"en": "six",
+		"en": "Sat",
 		"zh-tw": "六"
 	},
 	"ac12w54": {
@@ -20776,7 +20776,7 @@
 	},
 	"abxtvl4": {
 		"zh-cn": "会员名称",
-		"en": "Member name",
+		"en": "Member Name",
 		"zh-tw": "會員名稱"
 	},
 	"ayl7k94": {
@@ -22031,7 +22031,7 @@
 	},
 	"er0oao5": {
 		"zh-cn": "添加白名单",
-		"en": "Add a whitelist",
+		"en": "Add to Whitelist",
 		"zh-tw": "添加白名單"
 	},
 	"mz4wq95": {
@@ -22336,7 +22336,7 @@
 	},
 	"yiijys6": {
 		"zh-cn": "注册协议标题",
-		"en": "Title of the registration agreement",
+		"en": "Registration Agreement Title",
 		"zh-tw": "註冊協議標題"
 	},
 	"e2uztv4": {
@@ -25966,7 +25966,7 @@
 	},
 	"gbmmvk4": {
 		"zh-cn": "线下转帐",
-		"en": "Offline transfer",
+		"en": "Offline Transfer",
 		"zh-tw": "線下轉帳"
 	},
 	"u5n0uj8": {
@@ -25976,12 +25976,12 @@
 	},
 	"f9ffrw5": {
 		"zh-cn": "导入白名单",
-		"en": "Import the whitelist",
+		"en": "Import Whitelist",
 		"zh-tw": "導入白名單"
 	},
 	"jxgueo5": {
 		"zh-cn": "清空白名单",
-		"en": "Clear the blank list",
+		"en": "Clear Whitelist",
 		"zh-tw": "清空白名單"
 	},
 	"mmdbuq7": {
@@ -28151,7 +28151,7 @@
 	},
 	"ilyosg4": {
 		"zh-cn": "退款单号",
-		"en": "Refund order number",
+		"en": "Refund Order No.",
 		"zh-tw": "退款單號"
 	},
 	"q9ln8x6": {
@@ -28341,7 +28341,7 @@
 	},
 	"agpp984": {
 		"zh-cn": "保存配置",
-		"en": "Save the configuration",
+		"en": "Save Configuration",
 		"zh-tw": "保存配置"
 	},
 	"l79p2": {
@@ -28896,7 +28896,7 @@
 	},
 	"im5pgu4": {
 		"zh-cn": "退款类型",
-		"en": "Refund type",
+		"en": "Refund Type",
 		"zh-tw": "退款類型"
 	},
 	"8qprpi5": {
@@ -32501,7 +32501,7 @@
 	},
 	"cu1eaj4": {
 		"zh-cn": "抽奖统计",
-		"en": "Lottery draw statistics",
+		"en": "Lottery Statistics",
 		"zh-tw": "抽獎統計"
 	},
 	"18cyotf": {
@@ -32516,7 +32516,7 @@
 	},
 	"gio2qt4": {
 		"zh-cn": "结算配置",
-		"en": "Settlement configuration",
+		"en": "Settlement Configuration",
 		"zh-tw": "結算配置"
 	},
 	"s0j2wi7": {
@@ -32526,12 +32526,12 @@
 	},
 	"ijplgx4": {
 		"zh-cn": "进店规则",
-		"en": "Store entry rules",
+		"en": "Store Entry Rules",
 		"zh-tw": "進店規則"
 	},
 	"7qlpfx5": {
 		"zh-cn": "选择供应商",
-		"en": "Select a supplier",
+		"en": "Select Supplier",
 		"zh-tw": "選擇供應商"
 	},
 	"vsetgi6": {
@@ -32541,7 +32541,7 @@
 	},
 	"gidap24": {
 		"zh-cn": "结算单号",
-		"en": "Settlement number",
+		"en": "Settlement Statement Number",
 		"zh-tw": "結算單號"
 	},
 	"wriojj8": {
@@ -32556,12 +32556,12 @@
 	},
 	"cx45rh5": {
 		"zh-cn": "运费（总）",
-		"en": "Freight (Total)",
+		"en": "Total Shipping Fee",
 		"zh-tw": "運費（總）"
 	},
 	"im23vh4": {
 		"zh-cn": "退款数量",
-		"en": "Refund quantity",
+		"en": "Number of Refunds",
 		"zh-tw": "退款數量"
 	},
 	"im58s54": {
@@ -32581,7 +32581,7 @@
 	},
 	"frs75g4": {
 		"zh-cn": "确认时间",
-		"en": "Confirm the time",
+		"en": "Confirmation Time",
 		"zh-tw": "確認時間"
 	},
 	"i50kg24": {
@@ -32606,17 +32606,17 @@
 	},
 	"qp8b186": {
 		"zh-cn": "结算周期配置",
-		"en": "Settlement cycle configuration",
+		"en": "Settlement Cycle Configuration",
 		"zh-tw": "結算週期配置"
 	},
 	"s08l7s7": {
 		"zh-cn": "供应商结算周期",
-		"en": "Supplier settlement cycle",
+		"en": "Supplier Settlement Cycle",
 		"zh-tw": "供應商結算週期"
 	},
 	"vhi6cp7": {
 		"zh-cn": "添加供应商配置",
-		"en": "Add supplier configuration",
+		"en": "Add Supplier Configuration",
 		"zh-tw": "添加供應商配置"
 	},
 	"vlt1iw5": {
@@ -32631,7 +32631,7 @@
 	},
 	"757dukj": {
 		"zh-cn": "结算说明：结算周期的T+1天生成结算单",
-		"en": "Settlement statement: The settlement statement will be generated on T+1 day of the settlement cycle",
+		"en": "Settlement Description: The settlement statement is generated on T+1 day of the cycle.",
 		"zh-tw": "結算說明：結算週期的T+1天生成結算單"
 	},
 	"5036tf9": {
@@ -32701,7 +32701,7 @@
 	},
 	"q9dc9iq": {
 		"zh-cn": "兜底策略（店铺失效、导购离职、关闭LBS时落地场景）",
-		"en": "Bottom-line strategy (scenarios for implementation when the store fails, sales assistants leave, or LBS is closed)",
+		"en": "Bottom-line strategy (applies when a store is invalid, the shopping assistant leaves, or LBS is disabled).",
 		"zh-tw": "兜底策略（店鋪失效、導購離職、關閉LBS時落地場景）"
 	},
 	"nxumj3": {
@@ -32711,7 +32711,7 @@
 	},
 	"c5vmb3": {
 		"zh-cn": "介绍页",
-		"en": "Introduction page",
+		"en": "Introduction Page",
 		"zh-tw": "介紹頁"
 	},
 	"t4d0nr6": {
@@ -32775,7 +32775,7 @@
 		"zh-tw": "若有優惠券限領 1 張，券包組合含 2 張，按優惠券規則領取 1 張"
 	},
 	"dd4ni4": {
-		"zh-cn": " 取消 ",
+		"zh-cn": "取消",
 		"en": "Cancel",
 		"zh-tw": "取消"
 	},
@@ -32791,7 +32791,7 @@
 	},
 	"ez163": {
 		"zh-cn": " 否 ",
-		"en": "no",
+		"en": "No",
 		"zh-tw": "否"
 	},
 	"b5rlyx5": {
@@ -32835,7 +32835,7 @@
 		"zh-tw": "添加貨架"
 	},
 	"miwv34": {
-		"zh-cn": " 重置 ",
+		"zh-cn": "重置",
 		"en": "Reset",
 		"zh-tw": "重置"
 	},
@@ -32850,8 +32850,8 @@
 		"zh-tw": "() =>\n$notify.success({\nmessage: '複製成功'\n})"
 	},
 	"d3trih8": {
-		"zh-cn": " 复制文章链接 ",
-		"en": "Copy the article link",
+		"zh-cn": "复制文章链接",
+		"en": "Copy Article Link",
 		"zh-tw": "複製文章鏈接"
 	},
 	"fljs34": {
@@ -32875,8 +32875,8 @@
 		"zh-tw": "選擇圖片"
 	},
 	"xaf4i96": {
-		"zh-cn": " 编辑内容 ",
-		"en": "Edit content",
+		"zh-cn": "编辑内容",
+		"en": "Edit Content",
 		"zh-tw": "編輯內容"
 	},
 	"mwj79c6": {
@@ -32915,8 +32915,8 @@
 		"zh-tw": "跳轉到歷史消息列表"
 	},
 	"trb40t6": {
-		"zh-cn": " 添加分组 ",
-		"en": "Add groups",
+		"zh-cn": "添加分组",
+		"en": "Add Group",
 		"zh-tw": "添加分組"
 	},
 	"j171z4": {
@@ -33040,8 +33040,8 @@
 		"zh-tw": "已回覆"
 	},
 	"dv61mv5": {
-		"zh-cn": " 未回复 ",
-		"en": "No reply",
+		"zh-cn": "未回复",
+		"en": "Unreplied",
 		"zh-tw": "未回覆"
 	},
 	"79u2xj7": {
@@ -33070,7 +33070,7 @@
 		"zh-tw": "導入員工"
 	},
 	"efepu4": {
-		"zh-cn": " 导出 ",
+		"zh-cn": "导出",
 		"en": "Export",
 		"zh-tw": "導出"
 	},
@@ -33110,8 +33110,8 @@
 		"zh-tw": "下載碼"
 	},
 	"j66ck06": {
-		"zh-cn": " 复制链接 ",
-		"en": "Copy the link",
+		"zh-cn": "复制链接",
+		"en": "Copy Link",
 		"zh-tw": "複製鏈接"
 	},
 	"fhh3r4": {
@@ -33135,8 +33135,8 @@
 		"zh-tw": "折"
 	},
 	"m1m0m4": {
-		"zh-cn": " 返回 ",
-		"en": "Return",
+		"zh-cn": "返回",
+		"en": "Back",
 		"zh-tw": "返回"
 	},
 	"ogr3hk6": {
@@ -33200,7 +33200,7 @@
 		"zh-tw": "調整上級"
 	},
 	"d6c1s4": {
-		"zh-cn": " 全部 ",
+		"zh-cn": "全部",
 		"en": "All",
 		"zh-tw": "全部"
 	},
@@ -33385,8 +33385,8 @@
 		"zh-tw": "積分"
 	},
 	"51yl7c6": {
-		"zh-cn": " 支付成功 ",
-		"en": "Payment successful",
+		"zh-cn": "支付成功",
+		"en": "Payment Successful",
 		"zh-tw": "支付成功"
 	},
 	"dx7srx5": {
@@ -33415,13 +33415,13 @@
 		"zh-tw": "退款處理中"
 	},
 	"nvk9cj6": {
-		"zh-cn": " 退款成功 ",
-		"en": "Refund successful",
+		"zh-cn": "退款成功",
+		"en": "Refund Successful",
 		"zh-tw": "退款成功"
 	},
 	"nujfqm6": {
-		"zh-cn": " 退款失败 ",
-		"en": "Refund failed",
+		"zh-cn": "退款失败",
+		"en": "Refund Failure",
 		"zh-tw": "退款失敗"
 	},
 	"lcr0v48": {
@@ -33531,7 +33531,7 @@
 	},
 	"3ptilm6": {
 		"zh-cn": " 订单号: ",
-		"en": "Order Number",
+		"en": "Transaction Order No.",
 		"zh-tw": "訂單號:"
 	},
 	"i3bhp47": {
@@ -33570,8 +33570,8 @@
 		"zh-tw": "退款單狀態:"
 	},
 	"dvxqf35": {
-		"zh-cn": " 未审核 ",
-		"en": "Unreviewed",
+		"zh-cn": "未审核",
+		"en": "Pending Review",
 		"zh-tw": "未審覈"
 	},
 	"568wpv9": {
@@ -33606,12 +33606,12 @@
 	},
 	"dfvq84": {
 		"zh-cn": "售后",
-		"en": "AFTERSALES",
+		"en": "After-sales",
 		"zh-tw": "售後"
 	},
 	"dfkzl4": {
-		"zh-cn": " 售前 ",
-		"en": "Pre-sale",
+		"zh-cn": "售前",
+		"en": "Pre-sales",
 		"zh-tw": "售前"
 	},
 	"ffonx4": {
@@ -33630,8 +33630,8 @@
 		"zh-tw": "不退運費"
 	},
 	"j96bqv5": {
-		"zh-cn": " 退运费 ",
-		"en": "Refund of shipping fee",
+		"zh-cn": "退运费",
+		"en": "Refund Shipping Fee",
 		"zh-tw": "退運費"
 	},
 	"4fl1yd8": {
@@ -33650,8 +33650,8 @@
 		"zh-tw": "退款渠道:"
 	},
 	"8sulti5": {
-		"zh-cn": "线下退款 ",
-		"en": "Offline refund",
+		"zh-cn": "线下退款",
+		"en": "Offline Refund",
 		"zh-tw": "線下退款"
 	},
 	"c5sbt35": {
@@ -33710,8 +33710,8 @@
 		"zh-tw": "處理中"
 	},
 	"cpr1l85": {
-		"zh-cn": " 已处理 ",
-		"en": "Dealt with",
+		"zh-cn": "已处理",
+		"en": "Processed",
 		"zh-tw": "已處理"
 	},
 	"cz744j5": {
@@ -33800,8 +33800,8 @@
 		"zh-tw": "商家處理中"
 	},
 	"erkyc4": {
-		"zh-cn": " 已处理",
-		"en": "Dealt with",
+		"zh-cn": "已处理",
+		"en": "Processed",
 		"zh-tw": "已處理"
 	},
 	"f2jvh4": {
@@ -34000,7 +34000,7 @@
 		"zh-tw": "移除"
 	},
 	"gr6m3": {
-		"zh-cn": " 导出",
+		"zh-cn": "导出",
 		"en": "Export",
 		"zh-tw": "導出"
 	},
@@ -34670,18 +34670,18 @@
 		"zh-tw": "上不封頂(若勾選，則按照最後一條規則成比例優惠遞減，如最後一條設置了滿200減20，則默認爲滿400減40，滿800減80，以此類推。)"
 	},
 	"3jtao07": {
-		"zh-cn": " 添加白名单 ",
-		"en": "Add a whitelist",
+		"zh-cn": "添加白名单",
+		"en": "Add to Whitelist",
 		"zh-tw": "添加白名單"
 	},
 	"jeiyhw7": {
-		"zh-cn": " 导入白名单 ",
-		"en": "Import the whitelist",
+		"zh-cn": "导入白名单",
+		"en": "Import Whitelist",
 		"zh-tw": "導入白名單"
 	},
 	"m1ig5s7": {
-		"zh-cn": " 清空白名单 ",
-		"en": "Clear the blank list",
+		"zh-cn": "清空白名单",
+		"en": "Clear Whitelist",
 		"zh-tw": "清空白名單"
 	},
 	"900w9c8": {
@@ -34920,13 +34920,13 @@
 		"zh-tw": "如果設置爲固定金額，金額就是設置的固定金額。否則按照 【計算類型】計算"
 	},
 	"u06msj6": {
-		"zh-cn": " 添加软文 ",
-		"en": "Add soft articles",
+		"zh-cn": "添加软文",
+		"en": "Add Seeding Article",
 		"zh-tw": "添加軟文"
 	},
 	"givl1z6": {
 		"zh-cn": " AI创作 ",
-		"en": "AI creation",
+		"en": "AI Generation",
 		"zh-tw": "AI創作"
 	},
 	"17u7wk7": {
@@ -34990,7 +34990,7 @@
 		"zh-tw": "確定調整"
 	},
 	"fiqa3": {
-		"zh-cn": " 取消",
+		"zh-cn": "取消",
 		"en": "Cancel",
 		"zh-tw": "取消"
 	},
@@ -35050,8 +35050,8 @@
 		"zh-tw": "生效，有效天數"
 	},
 	"ftpz3": {
-		"zh-cn": " 天 ",
-		"en": "day",
+		"zh-cn": "天",
+		"en": "Day",
 		"zh-tw": "天"
 	},
 	"taw6qf8": {
@@ -35105,8 +35105,8 @@
 		"zh-tw": "指定門店適用"
 	},
 	"n6bub56": {
-		"zh-cn": " 选择门店 ",
-		"en": "Select a store",
+		"zh-cn": "选择门店",
+		"en": "Select a Store",
 		"zh-tw": "選擇門店"
 	},
 	"qgq7c78": {
@@ -35180,8 +35180,8 @@
 		"zh-tw": "+ 點擊搜索店鋪"
 	},
 	"k59ok58": {
-		"zh-cn": " 添加售后地址 ",
-		"en": "Add after-sales address",
+		"zh-cn": "添加售后地址",
+		"en": "Add After-sales Address",
 		"zh-tw": "添加售後地址"
 	},
 	"et7om4": {
@@ -35190,8 +35190,8 @@
 		"zh-tw": "已提交"
 	},
 	"g5tni4": {
-		"zh-cn": " 未提交",
-		"en": "Not submitted",
+		"zh-cn": "未提交",
+		"en": "Not Submitted",
 		"zh-tw": "未提交"
 	},
 	"u81zd56": {
@@ -35220,18 +35220,18 @@
 		"zh-tw": "自營"
 	},
 	"tt95h46": {
-		"zh-cn": " 添加店铺 ",
-		"en": "Add a store",
+		"zh-cn": "添加店铺",
+		"en": "Add Shop",
 		"zh-tw": "添加店鋪"
 	},
 	"ubnwyc6": {
-		"zh-cn": " 导入店铺 ",
-		"en": "Import the store",
+		"zh-cn": "导入店铺",
+		"en": "Import Shops",
 		"zh-tw": "導入店鋪"
 	},
 	"a2kz26c": {
-		"zh-cn": " 设置店铺默认可见范围 ",
-		"en": "Set the default visible range of the store",
+		"zh-cn": "设置店铺默认可见范围",
+		"en": "Default Shop Visibility",
 		"zh-tw": "設置店鋪默認可見範圍"
 	},
 	"2itprab": {
@@ -35240,13 +35240,13 @@
 		"zh-tw": "新增默認虛擬店信息"
 	},
 	"pd2nh5b": {
-		"zh-cn": " 编辑默认虚拟店信息 ",
-		"en": "Edit the default virtual store information",
+		"zh-cn": "编辑默认虚拟店信息",
+		"en": "Edit Virtual Store Info",
 		"zh-tw": "編輯默認虛擬店信息"
 	},
 	"ltzl586": {
-		"zh-cn": " 店铺装修 ",
-		"en": "Shop decoration",
+		"zh-cn": "店铺装修",
+		"en": "Decoration",
 		"zh-tw": "店鋪裝修"
 	},
 	"eh5114": {
@@ -35255,33 +35255,33 @@
 		"zh-tw": "客服"
 	},
 	"9rlfm47": {
-		"zh-cn": " 下载店铺码 ",
-		"en": "Download the store code",
+		"zh-cn": "下载店铺码",
+		"en": "Shop QR Code",
 		"zh-tw": "下載店鋪碼"
 	},
 	"y3aazx8": {
-		"zh-cn": " 复制店铺链接 ",
-		"en": "Copy the store link",
+		"zh-cn": "复制店铺链接",
+		"en": "Copy Shop Link",
 		"zh-tw": "複製店鋪鏈接"
 	},
 	"snwp438": {
-		"zh-cn": " 微信支付配置 ",
-		"en": "Wechat Pay configuration",
+		"zh-cn": "微信支付配置",
+		"en": "WeChat Pay",
 		"zh-tw": "微信支付配置"
 	},
 	"f626tx7": {
-		"zh-cn": " 支付宝配置 ",
-		"en": "Alipay configuration",
+		"zh-cn": "支付宝配置",
+		"en": "Alipay",
 		"zh-tw": "支付寶配置"
 	},
 	"8uv84ja": {
-		"zh-cn": " 银联商务支付配置 ",
-		"en": "Unionpay Business payment configuration",
+		"zh-cn": "银联商务支付配置",
+		"en": "UnionPay Business Payment",
 		"zh-tw": "銀聯商務支付配置"
 	},
 	"mlnaq38": {
-		"zh-cn": " 店铺范围配置 ",
-		"en": "Store scope configuration",
+		"zh-cn": "店铺范围配置",
+		"en": "Shop Scope",
 		"zh-tw": "店鋪範圍配置"
 	},
 	"7hn61p8": {
@@ -35375,13 +35375,13 @@
 		"zh-tw": "刪除"
 	},
 	"i6ns3": {
-		"zh-cn": " 月 ",
-		"en": "month",
+		"zh-cn": "月",
+		"en": "Month",
 		"zh-tw": "月"
 	},
 	"f0m03": {
-		"zh-cn": " 周 ",
-		"en": "weeks",
+		"zh-cn": "周",
+		"en": "Week",
 		"zh-tw": "周"
 	},
 	"1d6sh77": {
@@ -35480,8 +35480,8 @@
 		"zh-tw": "未結算手續費總額"
 	},
 	"k7ehtk5": {
-		"zh-cn": "支付成功 ",
-		"en": "Payment successful",
+		"zh-cn": "支付成功",
+		"en": "Payment Successful",
 		"zh-tw": "支付成功"
 	},
 	"7e6ett8": {
@@ -35590,8 +35590,8 @@
 		"zh-tw": "商家H5確認入駐協議後"
 	},
 	"c2p8uo5": {
-		"zh-cn": " 复制链接",
-		"en": "Copy the link",
+		"zh-cn": "复制链接",
+		"en": "Copy Link",
 		"zh-tw": "複製鏈接"
 	},
 	"417q756": {
@@ -35625,8 +35625,8 @@
 		"zh-tw": "同步至此店鋪"
 	},
 	"jj2rp39": {
-		"zh-cn": " 添加供应商配置 ",
-		"en": "Add supplier configuration",
+		"zh-cn": "添加供应商配置",
+		"en": "Add Supplier Configuration",
 		"zh-tw": "添加供應商配置"
 	},
 	"lmbw6g6": {
@@ -35920,8 +35920,8 @@
 		"zh-tw": "日期選擇"
 	},
 	"bzs8mu6": {
-		"zh-cn": " 地区选择 ",
-		"en": "Regional selection",
+		"zh-cn": "地区选择",
+		"en": "Region Selection",
 		"zh-tw": "地區選擇"
 	},
 	"s08euf7": {
@@ -36125,8 +36125,8 @@
 		"zh-tw": "每年的"
 	},
 	"hixk2": {
-		"zh-cn": "月 ",
-		"en": "month",
+		"zh-cn": "月",
+		"en": "Month",
 		"zh-tw": "月"
 	},
 	"gv2wb4": {
@@ -36365,8 +36365,8 @@
 		"zh-tw": "退款"
 	},
 	"cxsu9f5": {
-		"zh-cn": " 待开票 ",
-		"en": "Pending invoice",
+		"zh-cn": "待开票",
+		"en": "Pending Invoicing",
 		"zh-tw": "待開票"
 	},
 	"3hga7r6": {
@@ -36400,8 +36400,8 @@
 		"zh-tw": "優惠"
 	},
 	"dl1zp45": {
-		"zh-cn": " 支付成功",
-		"en": "Payment successful",
+		"zh-cn": "支付成功",
+		"en": "Payment Successful",
 		"zh-tw": "支付成功"
 	},
 	"eqhbg4": {
@@ -36545,8 +36545,8 @@
 		"zh-tw": "下方所有設置將生效。"
 	},
 	"fs2j8a6": {
-		"zh-cn": " 保存栏目 ",
-		"en": "Save column",
+		"zh-cn": "保存栏目",
+		"en": "Save Column",
 		"zh-tw": "保存欄目"
 	},
 	"3pfzrj8": {
@@ -36590,8 +36590,8 @@
 		"zh-tw": "新建角標"
 	},
 	"tu5aki6": {
-		"zh-cn": " 添加文章 ",
-		"en": "Add an article",
+		"zh-cn": "添加文章",
+		"en": "Add Article",
 		"zh-tw": "添加文章"
 	},
 	"fpvuu4": {
@@ -38160,8 +38160,8 @@
 		"zh-tw": "添加權益"
 	},
 	"idl2": {
-		"zh-cn": " 天",
-		"en": "day",
+		"zh-cn": "天",
+		"en": "Day",
 		"zh-tw": "天"
 	},
 	"cqrdis5": {
@@ -38230,8 +38230,8 @@
 		"zh-tw": "上傳視頻"
 	},
 	"oiujgf6": {
-		"zh-cn": " 上传图片 ",
-		"en": "Upload pictures",
+		"zh-cn": "上传图片",
+		"en": "Upload Image",
 		"zh-tw": "上傳圖片"
 	},
 	"itoyb4": {
@@ -38260,8 +38260,8 @@
 		"zh-tw": "買家承擔"
 	},
 	"flzmak6": {
-		"zh-cn": " 保存配置 ",
-		"en": "Save the configuration",
+		"zh-cn": "保存配置",
+		"en": "Save Configuration",
 		"zh-tw": "保存配置"
 	},
 	"2gd3hn7": {
@@ -38390,13 +38390,13 @@
 		"zh-tw": "失敗"
 	},
 	"nyaifq6": {
-		"zh-cn": " 线下退款 ",
-		"en": "Offline refund",
+		"zh-cn": "线下退款",
+		"en": "Offline Refund",
 		"zh-tw": "線下退款"
 	},
 	"5g9bpi6": {
-		"zh-cn": " 原路返回 ",
-		"en": "Return by the same route",
+		"zh-cn": "原路返回",
+		"en": "Refund to Original Payment Method",
 		"zh-tw": "原路返回"
 	},
 	"ntg3u06": {
@@ -38540,8 +38540,8 @@
 		"zh-tw": "暫停"
 	},
 	"8q4cqb5": {
-		"zh-cn": "退款成功 ",
-		"en": "Refund successful",
+		"zh-cn": "退款成功",
+		"en": "Refund Successful",
 		"zh-tw": "退款成功"
 	},
 	"aveuqz5": {
@@ -39075,8 +39075,8 @@
 		"zh-tw": "限時特惠"
 	},
 	"vctlwh5": {
-		"zh-cn": "上传图片 ",
-		"en": "Upload pictures",
+		"zh-cn": "上传图片",
+		"en": "Upload Image",
 		"zh-tw": "上傳圖片"
 	},
 	"m20w84": {
@@ -39125,8 +39125,8 @@
 		"zh-tw": "只能上傳jpg/png文件，且不超過2M （建議尺寸：160px * 230px）"
 	},
 	"trz6r66": {
-		"zh-cn": " 添加图片 ",
-		"en": "Add pictures",
+		"zh-cn": "添加图片",
+		"en": "Add Image",
 		"zh-tw": "添加圖片"
 	},
 	"tzwhr46": {
@@ -39231,7 +39231,7 @@
 	},
 	"chpsi44": {
 		"zh-cn": "开票申请",
-		"en": "Application for invoicing",
+		"en": "Invoice Application",
 		"zh-tw": "開票申請"
 	},
 	"b32ens4": {
@@ -39241,17 +39241,17 @@
 	},
 	"j7udk74": {
 		"zh-cn": "销方信息",
-		"en": "Seller information",
+		"en": "Seller Information",
 		"zh-tw": "銷方信息"
 	},
 	"chqhep4": {
 		"zh-cn": "开票税率",
-		"en": "Invoicing tax rate",
+		"en": "Invoice Tax Rate",
 		"zh-tw": "開票稅率"
 	},
 	"y2bulh5": {
 		"zh-cn": "专票确认书",
-		"en": "Special Ticket Confirmation Letter",
+		"en": "Special Invoice Confirmation Letter",
 		"zh-tw": "專票確認書"
 	},
 	"fq2nm44": {
@@ -39411,7 +39411,7 @@
 	},
 	"eouqto5": {
 		"zh-cn": "添加新配置",
-		"en": "Add new configuration",
+		"en": "Add New Configuration",
 		"zh-tw": "添加新配置"
 	},
 	"2loov66": {
@@ -39666,32 +39666,32 @@
 	},
 	"ei0g53": {
 		"zh-cn": "开票中",
-		"en": "Invoicing in progress",
+		"en": "Invoicing in Progress",
 		"zh-tw": "開票中"
 	},
 	"chm7zr4": {
 		"zh-cn": "开票成功",
-		"en": "Invoice issuance successful",
+		"en": "Invoicing Successful",
 		"zh-tw": "開票成功"
 	},
 	"chl18c4": {
 		"zh-cn": "开票失败",
-		"en": "Failed invoicing",
+		"en": "Invoicing Failed",
 		"zh-tw": "開票失敗"
 	},
 	"edcxu3": {
 		"zh-cn": "已红冲",
-		"en": "\"Already red Chong",
+		"en": "Reversed",
 		"zh-tw": "已紅衝"
 	},
 	"eilsr46": {
 		"zh-cn": "线上百望开票",
-		"en": "The line is over 100. Please issue the invoice",
+		"en": "Online Invoicing (Baiwang)",
 		"zh-tw": "線上百望開票"
 	},
 	"gbejro4": {
 		"zh-cn": "线下开票",
-		"en": "Offline invoicing",
+		"en": "Offline Invoicing",
 		"zh-tw": "線下開票"
 	},
 	"a6cxum4": {
@@ -39731,22 +39731,22 @@
 	},
 	"w14tjo5": {
 		"zh-cn": "开票方名称",
-		"en": "Name of the invoicing party",
+		"en": "Invoicing Party Name",
 		"zh-tw": "開票方名稱"
 	},
 	"w1b2re5": {
 		"zh-cn": "开票方税号",
-		"en": "Tax number of the invoicing party",
+		"en": "Invoicing Party Tax ID",
 		"zh-tw": "開票方稅號"
 	},
 	"w1ak495": {
 		"zh-cn": "开票方电话",
-		"en": "The invoicing party's phone number",
+		"en": "Invoicing Party Phone",
 		"zh-tw": "開票方電話"
 	},
 	"ei0k23": {
 		"zh-cn": "开票人",
-		"en": "Invoice issuer",
+		"en": "Invoice Drawer",
 		"zh-tw": "開票人"
 	},
 	"fcctu3": {
@@ -39761,12 +39761,12 @@
 	},
 	"w155wh5": {
 		"zh-cn": "开票方地址",
-		"en": "The address of the invoice issuer",
+		"en": "Invoicing Party Address",
 		"zh-tw": "開票方地址"
 	},
 	"e7zi4j4": {
 		"zh-cn": "添加时间",
-		"en": "Add time",
+		"en": "Addition Time",
 		"zh-tw": "添加時間"
 	},
 	"w1fxuv5": {
@@ -39821,72 +39821,72 @@
 	},
 	"mazclx9": {
 		"zh-cn": "企业专用发票确认书",
-		"en": "Confirmation of Enterprise Special Invoice",
+		"en": "Enterprise Special Invoice Confirmation",
 		"zh-tw": "企業專用發票確認書"
 	},
 	"chom1n4": {
 		"zh-cn": "开票渠道",
-		"en": "Invoicing channel",
+		"en": "Invoicing Channel",
 		"zh-tw": "開票渠道"
 	},
 	"w1bibl5": {
 		"zh-cn": "开票方类型",
-		"en": "Type of invoice issuer",
+		"en": "Invoicing Party Type",
 		"zh-tw": "開票方類型"
 	},
 	"pyfb66": {
 		"zh-cn": "开票申请方式",
-		"en": "Application method for invoicing",
+		"en": "Invoice Application Method",
 		"zh-tw": "開票申請方式"
 	},
 	"ioydai8": {
 		"zh-cn": "结算页可申请开票",
-		"en": "An invoice can be applied for on the settlement page",
+		"en": "Invoice Application Available on Settlement Page",
 		"zh-tw": "結算頁可申請開票"
 	},
 	"s2guwja": {
 		"zh-cn": "已支付订单可申请开票",
-		"en": "Paid orders can apply for invoicing",
+		"en": "Invoice Application Available for Paid Orders",
 		"zh-tw": "已支付訂單可申請開票"
 	},
 	"q0hlk86": {
 		"zh-cn": "运费是否开票",
-		"en": "Will the freight be invoiced",
+		"en": "Is Shipping Fee Invoicable",
 		"zh-tw": "運費是否開票"
 	},
 	"py4gw36": {
 		"zh-cn": "运费支持开票",
-		"en": "Freight charges are supported by invoicing",
+		"en": "Shipping Fee Invoicing Supported",
 		"zh-tw": "運費支持開票"
 	},
 	"3wxyzi7": {
 		"zh-cn": "运费不支持开票",
-		"en": "The freight does not support invoicing",
+		"en": "Shipping Fee Invoicing Not Supported",
 		"zh-tw": "運費不支持開票"
 	},
 	"p99yac6": {
 		"zh-cn": "运费开票名称",
-		"en": "Invoice name for freight charges",
+		"en": "Shipping Fee Line Item Name on Invoice",
 		"zh-tw": "運費開票名稱"
 	},
 	"byujvbt": {
 		"zh-cn": "为空时默认运费开票名称，如果填写名称按填写名称展示在发票上",
-		"en": "When it is empty, the default freight invoicing name is provided. If a name is filled in, it will be displayed on the invoice according to the filled name",
+		"en": "Default name is used if left blank; otherwise, the entered name is displayed on the invoice.",
 		"zh-tw": "爲空時默認運費開票名稱，如果填寫名稱按填寫名稱展示在發票上"
 	},
 	"iq9z6q4": {
 		"zh-cn": "运费税率",
-		"en": "Freight rate",
+		"en": "Tax Rate for Shipping Fee",
 		"zh-tw": "運費稅率"
 	},
 	"chr7a24": {
 		"zh-cn": "开票维度",
-		"en": "Invoicing dimension",
+		"en": "Invoicing Dimension",
 		"zh-tw": "開票維度"
 	},
 	"kzvisc5": {
 		"zh-cn": "按订单开票",
-		"en": "Issue invoices according to orders",
+		"en": "Invoicing by Order",
 		"zh-tw": "按訂單開票"
 	},
 	"ehhjx45": {
@@ -39906,37 +39906,37 @@
 	},
 	"bukolr6": {
 		"zh-cn": "专用发票展示",
-		"en": "Special invoice display",
+		"en": "Special Invoice Display",
 		"zh-tw": "專用發票展示"
 	},
 	"3jl85ib": {
 		"zh-cn": "企业抬头可选择专用发票",
-		"en": "Enterprises can choose special invoices for their business names",
+		"en": "Enterprises can select Special Invoices.",
 		"zh-tw": "企業擡頭可選擇專用發票"
 	},
 	"kzo6zuv": {
 		"zh-cn": "企业抬头不可以选择专用发票（前端此选项不展示，默认为普通发票）",
-		"en": "The enterprise name cannot be selected as a special invoice (this option is not displayed on the front end and defaults to a regular invoice).",
+		"en": "Enterprises cannot select Special Invoices (this option is hidden on the frontend, defaults to Ordinary Invoice).",
 		"zh-tw": "企業擡頭不可以選擇專用發票（前端此選項不展示，默認爲普通發票）"
 	},
 	"91glj16": {
 		"zh-cn": "申请开票节点",
-		"en": "Apply for the invoicing node",
+		"en": "Invoice Application Point",
 		"zh-tw": "申請開票節點"
 	},
 	"i948lv7": {
 		"zh-cn": "订单过了售后期",
-		"en": "The order has passed the late sale period",
+		"en": "Order Beyond After-sales Period",
 		"zh-tw": "訂單過了售後期"
 	},
 	"5vrxcq6": {
 		"zh-cn": "订单确认收货",
-		"en": "Order confirmation and receipt",
+		"en": "Order Receipt Confirmed",
 		"zh-tw": "訂單確認收貨"
 	},
 	"b714d46": {
 		"zh-cn": "是否启用开票",
-		"en": "Whether to enable invoicing",
+		"en": "Invoicing Enabled",
 		"zh-tw": "是否啓用開票"
 	},
 	"pyrm26": {
@@ -39946,12 +39946,12 @@
 	},
 	"chp4kz4": {
 		"zh-cn": "开票状态",
-		"en": "Invoice Status",
+		"en": "Invoicing Status",
 		"zh-tw": "開票狀態"
 	},
 	"ac4xwf4": {
 		"zh-cn": "会员编号",
-		"en": "Membership number",
+		"en": "Member ID",
 		"zh-tw": "會員編號"
 	},
 	"ac05e54": {
@@ -39971,12 +39971,12 @@
 	},
 	"ctp5dk4": {
 		"zh-cn": "抬头类型",
-		"en": "Head type",
+		"en": "Title Type",
 		"zh-tw": "擡頭類型"
 	},
 	"b2u9kv4": {
 		"zh-cn": "发票抬头",
-		"en": "Invoice title",
+		"en": "Invoice Title",
 		"zh-tw": "發票擡頭"
 	},
 	"chqqqg4": {
@@ -40061,12 +40061,12 @@
 	},
 	"chuq8k4": {
 		"zh-cn": "开票金额",
-		"en": "Invoice amount",
+		"en": "Invoice Amount",
 		"zh-tw": "開票金額"
 	},
 	"pzs0v6": {
 		"zh-cn": "开票申请流水",
-		"en": "Invoice application flow",
+		"en": "Invoice Application Reference No.",
 		"zh-tw": "開票申請流水"
 	},
 	"5lywg87": {
@@ -40076,7 +40076,7 @@
 	},
 	"b2ynaf4": {
 		"zh-cn": "发票类型",
-		"en": "Invoice type",
+		"en": "Invoice Type",
 		"zh-tw": "發票類型"
 	},
 	"b2x14y4": {
@@ -40761,7 +40761,7 @@
 	},
 	"hq9snq4": {
 		"zh-cn": "规则配置",
-		"en": "Rule configuration",
+		"en": "Rule Configuration",
 		"zh-tw": "規則配置"
 	},
 	"a5gsvwp": {
@@ -40791,7 +40791,7 @@
 	},
 	"th98enl": {
 		"zh-cn": "从上到下权重由大到小，拖拽可进行优先级排序",
-		"en": "From top to bottom, the weights are from large to small. Dragging can be used for priority sorting",
+		"en": "Drag to sort by priority (top to bottom, high to low)",
 		"zh-tw": "從上到下權重由大到小，拖拽可進行優先級排序"
 	},
 	"x1pwp0a": {
@@ -41271,7 +41271,7 @@
 	},
 	"k5roy3": {
 		"zh-cn": "虚拟店",
-		"en": "",
+		"en": "Virtual Store",
 		"zh-tw": ""
 	},
 	"5rsvyt6": {
@@ -41925,13 +41925,13 @@
 		"zh-tw": ""
 	},
 	"4hldev6": {
-		"zh-cn": " 商品导出 ",
-		"en": "",
+		"zh-cn": "商品导出",
+		"en": "Product Export",
 		"zh-tw": ""
 	},
 	"i9x3tc6": {
 		"zh-cn": "积分商品导出",
-		"en": "",
+		"en": "Points Products",
 		"zh-tw": ""
 	},
 	"ffgvi64": {
