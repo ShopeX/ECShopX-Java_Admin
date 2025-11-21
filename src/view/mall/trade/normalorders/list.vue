@@ -1,22 +1,8 @@
 <!--
-+----------------------------------------------------------------------
-| ECShopX open source E-commerce
-| ECShopX 开源商城系统 
-+----------------------------------------------------------------------
-| Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
-+----------------------------------------------------------------------
-| Corporate Website:  https://www.shopex.cn 
-+----------------------------------------------------------------------
-| Licensed under the Apache License, Version 2.0
-| http://www.apache.org/licenses/LICENSE-2.0
-+----------------------------------------------------------------------
-| The removal of shopeX copyright information without authorization is prohibited.
-| 未经授权不可去除shopeX商派相关版权
-+----------------------------------------------------------------------
-| Author: shopeX Team <mkt@shopex.cn>
-| Contact: 400-821-3106
-+----------------------------------------------------------------------
+  Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
+  See LICENSE file for license details.
 -->
+
 <template>
   <SpRouterView>
     <SpPage>
@@ -484,7 +470,7 @@
               {{ scope.row.self_delivery_operator_name }}
             </template>
           </el-table-column> -->
-  <!-- 
+  <!--
           <el-table-column label="配送费">
             <template slot-scope="scope">
               {{ scope.row.self_delivery_operator_name && scope.row.self_delivery_fee / 100 + '元' }}
@@ -664,7 +650,6 @@ import {
   ORDER_B2C_STATUS,
   IN_PURCHASE_STATUS,
   ORDER_TYPE,
-  ORDER_TYPE_STANDARD,
   ROLE_LIST,
   INVOICE_STATUS,
   ORDER_CATEGORY,
@@ -1615,7 +1600,7 @@ export default {
             receipt_type != 'ziti' &&
             cancel_status != 'WAIT_PROCESS' //待退款不展示发货按钮
             // 打开了聚水潭不显示
-            && !this.jstErpSetting?.is_open 
+            && !this.jstErpSetting?.is_open
             // && this.login_type == 'supplier'
           ) {
             actionBtns.push({ name: '发货', key: 'deliverGoods' })

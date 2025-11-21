@@ -1,21 +1,7 @@
-// +----------------------------------------------------------------------
-// | ECShopX open source E-commerce
-// | ECShopX 开源商城系统
-// +----------------------------------------------------------------------
-// | Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
-// +----------------------------------------------------------------------
-// | Corporate Website:  https://www.shopex.cn
-// +----------------------------------------------------------------------
-// | Licensed under the Apache License, Version 2.0
-// | http://www.apache.org/licenses/LICENSE-2.0
-// +----------------------------------------------------------------------
-// | The removal of shopeX copyright information without authorization is prohibited.
-// | 未经授权不可去除shopeX商派相关版权
-// +----------------------------------------------------------------------
-// | Author: shopeX Team <mkt@shopex.cn>
-// | Contact: 400-821-3106
-// +----------------------------------------------------------------------
-
+/**
+ * Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
+ * See LICENSE file for license details.
+ */
 export const ICON_MAP = {
   'tachometer-alt': 'gaikuang',
   'shopping-bag': 'shangpin',
@@ -363,14 +349,6 @@ export const FORM_COMP = {
   CHECKBOX: 5,
   MOBILE: 6,
   IMAGE: 7
-}
-
-export const SYSTEM_CONFIG = {
-  platform: { name: 'Powered By ShopeX', theme: '#CB060F' },
-  standard: { name: '新零售云店', theme: '#FF9D00' },
-  b2c: { name: '官方商城', theme: '#157FE3' },
-  in_purchase: { name: '商派Onex内购', theme: '#EC442E' },
-  shuyun: { name: '数云官方商城', theme: '#157FE3' }
 }
 
 export const LINK_PATH = {

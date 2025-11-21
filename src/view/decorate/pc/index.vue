@@ -1,22 +1,8 @@
 <!--
-+----------------------------------------------------------------------
-| ECShopX open source E-commerce
-| ECShopX 开源商城系统 
-+----------------------------------------------------------------------
-| Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
-+----------------------------------------------------------------------
-| Corporate Website:  https://www.shopex.cn 
-+----------------------------------------------------------------------
-| Licensed under the Apache License, Version 2.0
-| http://www.apache.org/licenses/LICENSE-2.0
-+----------------------------------------------------------------------
-| The removal of shopeX copyright information without authorization is prohibited.
-| 未经授权不可去除shopeX商派相关版权
-+----------------------------------------------------------------------
-| Author: shopeX Team <mkt@shopex.cn>
-| Contact: 400-821-3106
-+----------------------------------------------------------------------
+  Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
+  See LICENSE file for license details.
 -->
+
 <style lang="scss" src="./index.scss"></style>
 <template>
   <div class="page-decorate-pc">
@@ -63,7 +49,6 @@ import Vue from 'vue'
 import draggable from 'vuedraggable'
 import { cloneDeep } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
-import { SYSTEM_CONFIG } from '@/consts'
 import store from '@/store'
 import { hex2rgb } from '@/utils'
 import CompPanel from '@/view/decorate/attr_panel'
@@ -74,7 +59,6 @@ import InjectDomOperations from './injectDomOperate'
 
 export default {
   async beforeRouteLeave(to, from, next) {
-    this.resetDecorateTheme()
     next()
   },
   components: {
@@ -262,14 +246,6 @@ export default {
         { ...cloneDeep(example), uuid: uuidv4() }
       )
     },
-    resetDecorateTheme() {
-      const { theme } = SYSTEM_CONFIG[store.getters.versionMode]
-      const red = parseInt(theme.replace('#', '').slice(0, 2), 16)
-      const green = parseInt(theme.replace('#', '').slice(2, 4), 16)
-      const blue = parseInt(theme.replace('#', '').slice(4, 6), 16)
-      document.body.style.setProperty('--primary', theme)
-      document.body.style.setProperty('--themeColorRgb', [red, green, blue].join(','))
-    },
     getComponentAttr(item, pick) {
       const { wgtName, config, example } = this.widgets.find(wgt => {
         return wgt.config.name.toLowerCase() == item.name.toLowerCase()
@@ -300,7 +276,6 @@ export default {
       this.$router.go(-1)
     },
     onClose() {
-      this.resetDecorateTheme()
       this.$emit('close')
     }
   }

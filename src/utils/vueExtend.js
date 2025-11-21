@@ -1,21 +1,7 @@
-// +----------------------------------------------------------------------
-// | ECShopX open source E-commerce
-// | ECShopX 开源商城系统
-// +----------------------------------------------------------------------
-// | Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
-// +----------------------------------------------------------------------
-// | Corporate Website:  https://www.shopex.cn
-// +----------------------------------------------------------------------
-// | Licensed under the Apache License, Version 2.0
-// | http://www.apache.org/licenses/LICENSE-2.0
-// +----------------------------------------------------------------------
-// | The removal of shopeX copyright information without authorization is prohibited.
-// | 未经授权不可去除shopeX商派相关版权
-// +----------------------------------------------------------------------
-// | Author: shopeX Team <mkt@shopex.cn>
-// | Contact: 400-821-3106
-// +----------------------------------------------------------------------
-
+/**
+ * Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
+ * See LICENSE file for license details.
+ */
 import Vue from 'vue'
 import {
   VERSION_STANDARD,
@@ -30,7 +16,6 @@ import {
   getUrlPathByLoginType
 } from '@/utils'
 import CommonUtil from '@/common/js/util'
-import { SYSTEM_CONFIG } from '@/consts'
 import store from '@/store'
 // import moment from 'moment'
 // import district from '@/common/district.json'
@@ -259,7 +244,6 @@ Vue.prototype.VERSION_PLATFORM = VERSION_PLATFORM
 Vue.prototype.VERSION_B2C = VERSION_B2C
 Vue.prototype.VERSION_IN_PURCHASE = VERSION_IN_PURCHASE
 Vue.prototype.VERSION_SHUYUN = VERSION_SHUYUN
-Vue.prototype.VUE_APP_SYSTEM_NAME = SYSTEM_CONFIG[store.getters.versionMode].name
 Vue.prototype.VUE_APP_CHUZHI = process.env.VUE_APP_CHUZHI == 'true'
 
 Vue.prototype.IS_ADMIN = IS_ADMIN
@@ -267,7 +251,7 @@ Vue.prototype.IS_DISTRIBUTOR = IS_DISTRIBUTOR
 Vue.prototype.IS_SUPPLIER = IS_SUPPLIER
 Vue.prototype.IS_MERCHANT = IS_MERCHANT
 
-Vue.prototype.path_prefixes = process.env.VUE_APP_PREFIXES
+Vue.prototype.path_prefixes = ''
 Vue.prototype.BASE_API =
   process.env.VUE_APP_BASE_API.indexOf('http') !== -1
     ? process.env.VUE_APP_BASE_API
@@ -300,5 +284,3 @@ Vue.prototype.VUE_APP_LOCAL_DELIVERY_DIRVER = process.env.VUE_APP_LOCAL_DELIVERY
 Vue.prototype.companyBrand = '商派ECShopX'
 Vue.prototype.companyBrandImg = process.env.PRODUCT_MODEL === 'standard' ? 'onex' : 'ecshopx'
 Vue.prototype.$EventBus = new Vue()
-// 动态改变页面的title
-document.title = Vue.prototype.VUE_APP_SYSTEM_NAME

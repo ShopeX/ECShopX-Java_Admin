@@ -1,22 +1,8 @@
 <!--
-+----------------------------------------------------------------------
-| ECShopX open source E-commerce
-| ECShopX 开源商城系统 
-+----------------------------------------------------------------------
-| Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
-+----------------------------------------------------------------------
-| Corporate Website:  https://www.shopex.cn 
-+----------------------------------------------------------------------
-| Licensed under the Apache License, Version 2.0
-| http://www.apache.org/licenses/LICENSE-2.0
-+----------------------------------------------------------------------
-| The removal of shopeX copyright information without authorization is prohibited.
-| 未经授权不可去除shopeX商派相关版权
-+----------------------------------------------------------------------
-| Author: shopeX Team <mkt@shopex.cn>
-| Contact: 400-821-3106
-+----------------------------------------------------------------------
+  Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
+  See LICENSE file for license details.
 -->
+
 <template>
   <div class="flex h-[50px] items-center justify-between bg-white">
     <div class="flex items-center gap-2">
@@ -34,23 +20,19 @@
     <div class="flex items-center gap-2 px-3">
       <!-- <SpIcon class="p-2" button radius name="translate" :size="16" @click="handleSystemInfo" /> -->
 
-      <SpLanguage />
+      <SpLanguage>
+        <span class="text-[13px] ml-1">{{ currentLang }}</span>
+      </SpLanguage>
 
-      <SpIcon class="p-2" button radius name="setting-two" :size="16" @click="handleSystemInfo" />
-
-      <SpIcon
-        v-if="IS_DISTRIBUTOR()"
-        button
-        radius
-        name="shop"
-        :size="16"
-        @click="handleShopList"
-      />
-      <!-- <SpIcon name="briefcase-business" :size="20" /> -->
+      <div class="text-[#B3B3B3] text-[13px] mx-2">|</div>
 
       <el-dropdown @command="handleCommand">
-        <div class="h-[44px] w-[44px] hover:bg-gray-100 rounded-full" style="padding: 6px">
-          <el-avatar :size="32" :src="accountAvatar" />
+        <div
+          class="h-[36px] hover:bg-gray-100 rounded-full flex items-center justify-center"
+          style="padding: 6px"
+        >
+          <el-avatar :size="24" :src="accountAvatar" />
+          <span class="text-[13px] ml-1">{{ accountInfo.username }}</span>
         </div>
         <el-dropdown-menu slot="dropdown" style="width: 200px">
           <el-dropdown-item command="user-center">
@@ -74,19 +56,22 @@
         </el-dropdown-menu>
       </el-dropdown>
 
-      <!-- <GlobalSearch :menus="accessStore.accessMenus" />
+      <div v-if="IS_DISTRIBUTOR()" class="text-[#B3B3B3] text-[13px] mx-2">|</div>
 
-      <ExIcon type="button" name="Settings" :size="20" />
+      <SpIcon
+        v-if="IS_DISTRIBUTOR()"
+        button
+        radius
+        name="shop"
+        :size="16"
+        @click="handleShopList"
+      />
 
-      <ExIcon fill="black" type="button" name="Moon" :size="20" />
+      <div class="text-[#B3B3B3] text-[13px] mx-2">|</div>
 
-      <ExIcon type="button" name="Sun" :size="20" />
-
-      <ExIcon type="button" name="Codesandbox" :size="20" />
-
-      <ExIcon type="button" name="Languages" :size="20" />
-
-      <ExIcon type="button" name="Bell" :size="20" /> -->
+      <SpIcon class="p-2" button radius name="info" :size="16" @click="handleSystemInfo">
+        <span class="text-[13px] ml-1">系统信息</span>
+      </SpIcon>
     </div>
   </div>
 </template>
@@ -95,7 +80,9 @@
 import moment from 'moment'
 import { getBasePath, IS_DISTRIBUTOR } from '@/utils'
 import DEFAULT_USER from '@/assets/images/default-user.png'
+import i18n from '@/i18n'
 import UserInfo from './components/user-info.vue'
+import SYSTEM_CONFIG from '@/config'
 import ChangePassword from './components/change-password.vue'
 import config from '../../../package.json'
 
@@ -103,7 +90,8 @@ export default {
   name: 'LayoutHeader',
   data() {
     return {
-      systemInfo: []
+      systemInfo: [],
+      currentLang: ''
     }
   },
   computed: {
@@ -128,8 +116,11 @@ export default {
       { label: 'REDIS版本', value: res.redis_version },
       // { label: 'API域名', value: res.app_url },
       { label: '存储驱动', value: res.disk_driver },
-      { label: 'Lumen框架', value: res.lumen_version }
+      { label: 'Lumen框架', value: res.lumen_version },
+      { label: '产品名称', value: SYSTEM_CONFIG.productName }
     ]
+
+    this.currentLang = i18n[this.$store.state.system.lang]
   },
   methods: {
     async handleCommand(command) {
@@ -162,25 +153,21 @@ export default {
           }
         })
       } else if (command === 'password') {
-        if (this.accountInfo.logintype === 'admin') {
-          window.location.href = 'https://account.shopex.cn/account/security'
-        } else {
-          await this.$dialog.open({
-            title: '修改密码',
-            content: <ChangePassword ref='changePasswordForm' />,
-            size: 'mini',
-            confirmBefore: async () => {
-              try {
-                await this.$refs.changePasswordForm.onSubmit()
-                setTimeout(async () => {
-                  this.handleLogout()
-                }, 1000)
-              } catch (error) {
-                throw new Error(error)
-              }
+        await this.$dialog.open({
+          title: '修改密码',
+          content: <ChangePassword ref='changePasswordForm' />,
+          size: 'mini',
+          confirmBefore: async () => {
+            try {
+              await this.$refs.changePasswordForm.onSubmit()
+              setTimeout(async () => {
+                this.handleLogout()
+              }, 1000)
+            } catch (error) {
+              throw new Error(error)
             }
-          })
-        }
+          }
+        })
       }
     },
     async handleLogout() {

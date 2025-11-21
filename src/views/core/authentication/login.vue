@@ -1,43 +1,30 @@
 <!--
-+----------------------------------------------------------------------
-| ECShopX open source E-commerce
-| ECShopX 开源商城系统 
-+----------------------------------------------------------------------
-| Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
-+----------------------------------------------------------------------
-| Corporate Website:  https://www.shopex.cn 
-+----------------------------------------------------------------------
-| Licensed under the Apache License, Version 2.0
-| http://www.apache.org/licenses/LICENSE-2.0
-+----------------------------------------------------------------------
-| The removal of shopeX copyright information without authorization is prohibited.
-| 未经授权不可去除shopeX商派相关版权
-+----------------------------------------------------------------------
-| Author: shopeX Team <mkt@shopex.cn>
-| Contact: 400-821-3106
-+----------------------------------------------------------------------
+  Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
+  See LICENSE file for license details.
 -->
+
 <template>
-  <div class="bg-white h-full px-10 py-10 relative flex flex-col justify-center">
-    <!-- form: {{ form }} -->
+  <div class="page-login bg-white relative flex flex-col justify-center">
     <div>
-      <div class="text-3xl font-bold mb-3">{{ systemTitle }}</div>
-      <div class="text-sm text-muted-foreground">请输入您的帐户信息以开始管理您的项目</div>
+      <img src="/images/logo.png" alt="logo" width="220" />
+      <!-- If you remove or alter Shopex brand identifiers, you must obtain a branding removal license from Shopex.  Contact us at:  http://www.shopex.cn to purchase a branding removal license.   -->
+      <div class="text-[28px] font-helvca mt-8 text-[#333] ">请登录</div>
     </div>
 
-    <div class="mt-12">
+    <div class="mt-8">
       <LoginForm ref="formRef" />
     </div>
 
-    <div class="mt-16">
-      <el-button type="primary" class="w-full h-[40px]" :loading="loading" @click="handleLogin">
+    <div class="mt-8 text-right">
+      <el-button
+        round
+        class="h-[50px] !bg-black !text-white"
+        :loading="loading"
+        @click="handleLogin"
+      >
         登录
       </el-button>
     </div>
-
-    <!-- <div class="absolute -bottom-0.5 left-0 w-full text-center text-sm text-muted-foreground">
-      <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank">{{ recoderNumber }}</a>
-    </div> -->
   </div>
 </template>
 
@@ -49,6 +36,26 @@ import { getSystemTitle } from '@/utils'
 const [Form, FormApi] = useForm({
   formItems: [
     {
+      label: '用户名',
+      component: 'Input',
+      componentProps: {
+        placeholder: '请输入用户名'
+      },
+      fieldName: 'account',
+      rules: [{ required: true, message: '请输入用户名' }]
+    },
+    {
+      label: '密码',
+      component: 'Input',
+      componentProps: {
+        type: 'password',
+        placeholder: '密码'
+      },
+      fieldName: 'pwd',
+      rules: [{ required: true, message: '请输入密码' }]
+    },
+    {
+      label: '角色',
       component: 'Select',
       componentProps: {
         placeholder: '请输入用户名',
@@ -65,27 +72,11 @@ const [Form, FormApi] = useForm({
       },
       fieldName: 'loginType',
       value: 'admin'
-    },
-    {
-      component: 'Input',
-      componentProps: {
-        placeholder: '请输入用户名'
-      },
-      fieldName: 'account',
-      rules: [{ required: true, message: '请输入用户名' }]
-    },
-    {
-      component: 'Input',
-      componentProps: {
-        type: 'password',
-        placeholder: '密码'
-      },
-      fieldName: 'pwd',
-      rules: [{ required: true, message: '请输入密码' }]
     }
   ],
-  labelWidth: '0',
-  showDefaultActions: false
+  hideFieldRequiredMark: true,
+  showDefaultActions: false,
+  labelInline: true
 })
 
 export default {
@@ -113,6 +104,7 @@ export default {
   },
   methods: {
     async handleLogin() {
+      await this.formApi.validate()
       const formData = this.formApi.getFieldsValue()
       this.loading = true
       try {
@@ -161,4 +153,24 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .page-login {
+    ::v-deep .el-button {
+      padding-left: 30px;
+      padding-right: 30px;
+      border-radius: 50px;
+      font-size: 18px;
+    }
+    ::v-deep .el-input {
+      border-radius: 0;
+      border: 1px solid #333;
+      input {
+        border: none;
+        border-radius: none;
+      }
+    }
+    .font-helvca {
+      font-family: helvitca;
+    }
+  }
+</style>

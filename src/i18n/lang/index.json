@@ -96,27 +96,27 @@
 	},
 	"p9f0o48": {
 		"zh-cn": "官方商城管理中心",
-		"en": "Official Mall Management Center",
+		"en": "Management Center",
 		"zh-tw": "官方商城管理中心"
 	},
 	"bijagy6": {
 		"zh-cn": "店铺管理中心",
-		"en": "Store Management Center",
+		"en": "Management Center",
 		"zh-tw": "店鋪管理中心"
 	},
 	"acypws6": {
 		"zh-cn": "商户管理中心",
-		"en": "Merchant Management Center",
+		"en": "Management Center",
 		"zh-tw": "商戶管理中心"
 	},
 	"rkla147": {
 		"zh-cn": "供应商管理中心",
-		"en": "Supplier Management Center",
+		"en": "Management Center",
 		"zh-tw": "供應商管理中心"
 	},
 	"19g3q06": {
 		"zh-cn": "平台管理中心",
-		"en": "Platform Management Center",
+		"en": "Management Center",
 		"zh-tw": "平臺管理中心"
 	},
 	"dvs62": {
@@ -126,12 +126,12 @@
 	},
 	"zfetzz6": {
 		"zh-cn": "云店管理中心",
-		"en": "Cloud Store Management Center",
+		"en": "Management Center",
 		"zh-tw": "雲店管理中心"
 	},
 	"7g9epv6": {
 		"zh-cn": "内购管理中心",
-		"en": "Internal Purchase Management Center",
+		"en": "Management Center",
 		"zh-tw": "內購管理中心"
 	},
 	"hoo12": {
@@ -41901,6 +41901,16 @@
 	},
 	"ihi3fxa": {
 		"zh-cn": "长度不超过20个字符",
+		"en": "The length should not exceed 20 characters",
+		"zh-tw": "長度不超過20個字符"
+	},
+	"l2pgx3": {
+		"zh-cn": "请登录",
+		"en": "Welcome, Please Log in",
+		"zh-tw": "請登錄"
+	},
+	"i5bxls4": {
+		"zh-cn": "请登录1",
 		"en": "",
 		"zh-tw": ""
 	},
@@ -41936,6 +41946,11 @@
 	},
 	"ffgvi64": {
 		"zh-cn": "直播管理",
+		"en": "",
+		"zh-tw": ""
+	},
+	"11nehc5": {
+		"zh-cn": "B2C多店",
 		"en": "",
 		"zh-tw": ""
 	}

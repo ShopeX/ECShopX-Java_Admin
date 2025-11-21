@@ -1,26 +1,19 @@
-// +----------------------------------------------------------------------
-// | ECShopX open source E-commerce
-// | ECShopX 开源商城系统
-// +----------------------------------------------------------------------
-// | Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
-// +----------------------------------------------------------------------
-// | Corporate Website:  https://www.shopex.cn
-// +----------------------------------------------------------------------
-// | Licensed under the Apache License, Version 2.0
-// | http://www.apache.org/licenses/LICENSE-2.0
-// +----------------------------------------------------------------------
-// | The removal of shopeX copyright information without authorization is prohibited.
-// | 未经授权不可去除shopeX商派相关版权
-// +----------------------------------------------------------------------
-// | Author: shopeX Team <mkt@shopex.cn>
-// | Contact: 400-821-3106
-// +----------------------------------------------------------------------
-
+/**
+ * Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
+ * See LICENSE file for license details.
+ */
 import { useNProgress } from '@/composables'
 import store from '@/store'
 import { generateAccess } from './access'
 import { accessRoutes, routes as coreRoutes } from './routes'
-import { IS_ADMIN, IS_DISTRIBUTOR, IS_MERCHANT, IS_SUPPLIER, traverseTreeValues } from '@/utils'
+import {
+  IS_ADMIN,
+  IS_DISTRIBUTOR,
+  IS_MERCHANT,
+  IS_SUPPLIER,
+  traverseTreeValues,
+  unmountGlobalLoading
+} from '@/utils'
 import { actions } from '@/utils/micr-app'
 import { langMap } from '@/i18n/index'
 
@@ -36,6 +29,7 @@ function setupCommonGuard(router) {
 
   router.afterEach((to, from, next) => {
     stopProgress()
+    unmountGlobalLoading()
   })
 }
 

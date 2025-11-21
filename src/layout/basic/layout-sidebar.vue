@@ -1,35 +1,21 @@
 <!--
-+----------------------------------------------------------------------
-| ECShopX open source E-commerce
-| ECShopX 开源商城系统 
-+----------------------------------------------------------------------
-| Copyright (c) 2003-2025 ShopeX,Inc.All rights reserved.
-+----------------------------------------------------------------------
-| Corporate Website:  https://www.shopex.cn 
-+----------------------------------------------------------------------
-| Licensed under the Apache License, Version 2.0
-| http://www.apache.org/licenses/LICENSE-2.0
-+----------------------------------------------------------------------
-| The removal of shopeX copyright information without authorization is prohibited.
-| 未经授权不可去除shopeX商派相关版权
-+----------------------------------------------------------------------
-| Author: shopeX Team <mkt@shopex.cn>
-| Contact: 400-821-3106
-+----------------------------------------------------------------------
+  Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
+  See LICENSE file for license details.
 -->
+
 <template>
   <div class="flex h-full">
-    <div class="w-[70px] bg-[#353439] h-screen overflow-auto">
-      <div class="flex items-center mt-2">
+    <div class="w-[100px] bg-[#fff] h-screen overflow-auto no-scrollbar">
+      <div class="flex items-center mt-2 px-2">
         <SpImage
-          class="w-[56px] bg-white mx-auto rounded-full"
-          :src="$store.state.system?.logo"
-          height="56"
+          class="bg-white mx-auto"
+          :src="$store.state.system?.logo || '/images/logo.png'"
+          height="38"
           fit="contain"
         />
       </div>
 
-      <ul class="main-menu-list mt-2">
+      <ul class="main-menu-list mt-2 mb-8">
         <li
           v-for="item in mainMenus"
           :key="item.alias_name"
@@ -38,20 +24,29 @@
           @click="handleMainMenuClick(item)"
         >
           <!-- {{ computedMenuIcon(item) }} -->
-          <SpIcon class="menu-icon" :name="computedMenuIcon(item)" :size="16" fill="#fff" />
-          <span class="text-sm mt-1 text-white text-center">{{ item.name }}</span>
+          <SpIcon
+            class="menu-icon"
+            :name="computedMenuIcon(item)"
+            :size="18"
+            :fill="activeMainMenu === item.alias_name ? computedPrimaryColor : '#333'"
+          />
+          <span
+            class="text-sm mt-1"
+            :style="{ color: activeMainMenu === item.alias_name ? computedPrimaryColor : '#333' }"
+            >{{ item.name }}</span
+          >
         </li>
         <!-- <li @click="handleMainMenuClick({ alias_name: 'license' })" class="text-center text-gray-500 text-sm mt-2 mb-2 cursor-pointer">License</li> -->
       </ul>
     </div>
 
     <div
-      class="sub-menu-list w-[160px] border-border border-l border-r h-screen overflow-auto"
+      class="sub-menu-list w-[170px] border-border border-l border-r h-screen overflow-auto no-scrollbar"
       v-if="subMenus.length > 0"
     >
       <!-- activeSubIndex: {{ activeSubIndex }} -->
-      <div class="h-[50px] pl-2">
-        <div class="light flex h-full items-center text-xl px-3 text-[#333]">
+      <div class="h-[50px] pl-[18px]">
+        <div class="light flex h-full items-center text-xl text-[#333]">
           <span>{{ systemTitle }}</span>
         </div>
       </div>
@@ -95,6 +90,7 @@
 
 <script>
 import { getBasePath, getSystemTitle } from '@/utils'
+import Config from '@/config'
 
 export default {
   name: 'LayoutSidebar',
@@ -121,6 +117,9 @@ export default {
     },
     activeSubIndex() {
       return this.$route.matched[1]?.meta?.aliasName
+    },
+    computedPrimaryColor() {
+      return Config.themeConfig.primaryColor
     }
   },
   watch: {
@@ -135,25 +134,26 @@ export default {
     this.mainMenus = this.$store.state.user.accessMenus || []
     const [mainRoute] = this.$route.matched
     this.subMenus =
-      this.mainMenus.find(item => item.alias_name === mainRoute?.meta?.aliasName)?.children || []
+      this.mainMenus.find((item) => item.alias_name === mainRoute?.meta?.aliasName)?.children || []
   },
   methods: {
     toNotFound() {
       const basePath = getBasePath()
       if (!this.$route.path.includes('not-found')) {
-        this.$router.push({ path: basePath ? `/${basePath}/not-found` : '/not-found' })?.catch(err => {
-          console.log('err', err)
-        })
+        this.$router
+          .push({ path: basePath ? `/${basePath}/not-found` : '/not-found' })
+          ?.catch((err) => {
+            console.log('err', err)
+          })
       }
     },
     computedMenuIcon(item) {
       const allRoutes = this.$router.getRoutes()
-      const route = allRoutes.find(route => route.meta?.aliasName === item.alias_name)
-
+      const route = allRoutes.find((route) => route.meta?.aliasName === item.alias_name)
       return route?.meta?.icon || ''
     },
     resolveChildren(children) {
-      return children && children.length > 0 && children.some(child => child.is_menu)
+      return children && children.length > 0 && children.some((child) => child.is_menu)
     },
     handleMainMenuClick(item) {
       if (item.alias_name == this.$route.matched?.[0]?.meta?.aliasName) {
@@ -161,7 +161,7 @@ export default {
       }
       this.subMenus = item?.children || []
       // 获取第一个子路由
-      const firstChild = _submenu => {
+      const firstChild = (_submenu) => {
         for (const item of _submenu) {
           if (item.children) {
             const result = firstChild(item.children)
@@ -181,18 +181,16 @@ export default {
       }
 
       const allRoutes = this.$router.getRoutes()
-      const route = allRoutes.find(route => route.meta?.permissions?.includes(permission))
+      const route = allRoutes.find((route) => route.meta?.permissions?.includes(permission))
       if (route) {
         this.$router.push({ path: route.path })
-      } else if (item.alias_name == 'license') {
-        this.$router.push({ path: '/license' })
       } else {
         this.toNotFound()
       }
     },
     handleSubMenuClick(item) {
       const allRoutes = this.$router.getRoutes()
-      const route = allRoutes.find(route => route.meta?.permissions?.includes(item.permission))
+      const route = allRoutes.find((route) => route.meta?.permissions?.includes(item.permission))
       console.log('handleSubMenuClick:', route)
 
       if (route) {
@@ -216,14 +214,15 @@ export default {
       background: rgba(255, 255, 255, 0.2);
       border-radius: 6px;
       .menu-icon {
-        transform: scale(1.2);
+        transform: scale(1.1);
         transition: all 0.25s ease;
       }
     }
     &--active {
-      color: hsl(var(--primary-foreground)) !important;
-      background: var(--primary) !important;
       border-radius: 6px;
+      span {
+        color: var(--primary) !important;
+      }
     }
   }
 }
