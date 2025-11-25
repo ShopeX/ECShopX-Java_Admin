@@ -62,7 +62,8 @@
     const langMap = {
         'en': (globalThis && globalThis.lang && globalThis.lang.en) ? globalThis.lang.en : globalThis._getJSONKey('en', langJSON),
 'zhtw': (globalThis && globalThis.lang && globalThis.lang.zhtw) ? globalThis.lang.zhtw : globalThis._getJSONKey('zh-tw', langJSON),
-'zhcn': (globalThis && globalThis.lang && globalThis.lang.zhcn) ? globalThis.lang.zhcn : globalThis._getJSONKey('zh-cn', langJSON)
+'zhcn': (globalThis && globalThis.lang && globalThis.lang.zhcn) ? globalThis.lang.zhcn : globalThis._getJSONKey('zh-cn', langJSON),
+'ar': (globalThis && globalThis.lang && globalThis.lang.ar) ? globalThis.lang.ar : globalThis._getJSONKey('ar', langJSON),
     };
     globalThis.langMap = langMap;
     // 存储语言是否存在
