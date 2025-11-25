@@ -416,6 +416,17 @@ const routes = [
         ]
       },
       {
+        name: `systemConfigWebPrivacyStatement`,
+        path: 'system-config/web-privacy-statement',
+        meta: {
+          aliasName: 'webPrivacyStatement',
+          icon: 'icon-products',
+          title: 'web隐私声明',
+          permissions: ['setting.systemsetting.webPrivacyStatement']
+        },
+        component: () => import('@/view/base/setting/webPrivacyStatement')
+      },
+      {
         name: `systemConfigExternalWxapp`,
         path: 'system-config/external-wxapp',
         meta: {
@@ -642,7 +653,7 @@ const routes = [
           permissions: ['setting.systemsetting.damoCrm']
         },
         component: () => import('@/view/base/setting/damoCrm/index')
-      }
+      },
     ]
   }
 ]
