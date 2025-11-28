@@ -53,7 +53,7 @@ class RequestClient {
         zhcn: 'zh-CN',
         en: 'en-CN',
         zhtw: 'zh-TW',
-        ar: 'ar'
+        ar: 'ar-SA'
       }
       if (lang) {
         if (config.data) {
