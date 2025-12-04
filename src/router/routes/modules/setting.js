@@ -568,7 +568,7 @@ const routes = [
           title: '地图服务',
           permissions: ['setting.systemsetting.mapsetting']
         },
-        component: () => import('@/view/base/setting/mapsetting')
+        component: () => import('@/views/settings/map-setting')
       },
       {
         name: `ERP`,
@@ -631,7 +631,7 @@ const routes = [
           permissions: ['setting.systemsetting.damoCrm']
         },
         component: () => import('@/view/base/setting/damoCrm/index')
-      },
+      }
     ]
   }
 ]
