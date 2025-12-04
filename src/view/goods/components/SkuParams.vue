@@ -56,8 +56,8 @@
                 <div class="popover-edit">
                   <el-input v-model="sku.custom_attribute_value" @change="onInputSkuChange" />
                 </div>
-                <el-button slot="reference" type="text">
-                  <i class="iconfont icon-edit1" />
+                <el-button slot="reference" type="text" class="inline-flex items-center p-0 ml-1 align-middle">
+                  <SpIcon name="edit-two" :size="16" />
                 </el-button>
               </el-popover>
             </span>
