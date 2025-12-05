@@ -13,7 +13,7 @@ export const langMap = {
   zhcn: 'zh-CN',
   en: 'en-CN',
   zhtw: 'zh-TW',
-  ar: 'ar'
+  ar: 'ar-SA'
 }
 
 // 同时支持 CommonJS 导出，供 Tailwind 插件使用
