@@ -43,6 +43,7 @@
           v-model="formData.distributor_id"
           clearable
           placeholder="请选择"
+          :queryParams="{ is_valid: true }"
         />
       </SpFilterFormItem>
       <SpFilterFormItem prop="keywords" label="商品名称:">
@@ -440,7 +441,7 @@ export default {
         }) */}
 
         // 获取店铺列表中第一个店铺
-        const { list, total_count } = await this.$api.marketing.getDistributorList({ page: 1, pageSize: 10 })
+        const { list, total_count } = await this.$api.marketing.getDistributorList({ page: 1, pageSize: 10, is_valid: true })
         if(list.length > 0) {
           this.formData.distributor_id = list[0].distributor_id
           if (this.$refs.selectShop) {
