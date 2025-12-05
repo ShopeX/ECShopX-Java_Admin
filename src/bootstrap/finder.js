@@ -17,7 +17,7 @@ function install(Vue) {
             zhcn: 'zh-CN',
             en: 'en-CN',
             zhtw: 'zh-TW',
-            ar: 'ar'
+            ar: 'ar-SA'
           }
 
           let params = {
