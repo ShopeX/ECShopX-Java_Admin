@@ -6,7 +6,7 @@
 <template>
   <div class="bg-white relative flex flex-col justify-center">
     <div>
-      <img src="/images/logo.png" alt="logo" width="220" />
+      <img src="/images/logo.png" alt="logo" width="300" />
       <div class="text-[14px] mt-2 ml-2 text-[#BЗBЗB3]">商户端</div>
       <div class="text-[28px] font-helvca mt-8 ml-2 text-[#333]">请登录</div>
     </div>
