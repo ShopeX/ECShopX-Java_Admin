@@ -44,16 +44,6 @@
                       查看
                     </router-link>
                   </el-button>
-                  <el-button type="text">
-                    <router-link
-                      :to="{
-                        path: matchRoutePath('info'),
-                        query: { cardId: scope.row.card_id, onlyShow: true }
-                      }"
-                    >
-                      详情
-                    </router-link>
-                  </el-button>
                    <el-button
                     v-if="
                       scope.row.edit_btn == 'Y' &&
