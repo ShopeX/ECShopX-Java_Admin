@@ -30,8 +30,9 @@
         </div>
       </el-col>
     </el-row>
-    <div>
+    <div class="flex gap-3">
       <el-button type="primary" @click="handleGoodsDialogShow" :disabled="disabled"> 选择商品 </el-button>
+      <slot name="selectGoodsButton"></slot>
     </div>
     <el-dialog title="选择sku" :visible.sync="dialogVisible" width="50%">
       <el-table ref="skuTable" v-loading="loading" :data="skus" @selection-change="handleSkuChange">
