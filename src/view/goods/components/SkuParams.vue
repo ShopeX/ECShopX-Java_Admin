@@ -288,7 +288,7 @@
           <el-input v-model="scope.row.price" type="number" min="0" size="mini" />
         </template>
       </el-table-column>
-      <el-table-column prop="cost_price" label="成本价">
+      <el-table-column prop="cost_price" label="成本价" :render-header="$store.getters.login_type != 'admin' ? renderRequire : undefined">
         <template slot-scope="scope">
           <el-input
             v-model="scope.row.cost_price"
