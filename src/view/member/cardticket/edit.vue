@@ -1032,12 +1032,10 @@ export default {
                   this.$message({
                     message: '更新成功',
                     type: 'success',
-                    duration: 2 * 1000,
-                    onClose() {
-                      that.refresh()
-                      that.$router.go(-1)
-                    }
+                    duration: 2 * 1000
                   })
+                  this.refresh()
+                  this.$router.go(-1)
                 } else {
                   this.$message.error('更新优惠券失败!')
                   this.submitDisabled = false
@@ -1055,11 +1053,9 @@ export default {
                     message: '添加成功',
                     type: 'success',
                     duration: 2 * 1000,
-                    onClose() {
-                      that.refresh()
-                      that.$router.go(-1)
-                    }
                   })
+                  this.refresh()
+                  this.$router.go(-1)
                 } else {
                   this.$message.error('添加优惠券失败!')
                   this.submitDisabled = false
