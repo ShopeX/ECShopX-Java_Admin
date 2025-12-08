@@ -474,6 +474,8 @@ export default {
                 type: 'success'
               })
               this.fetchList()
+            }).catch(error => {
+              console.error(error)
             })
           }
           done()
