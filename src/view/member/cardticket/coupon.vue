@@ -14,7 +14,7 @@
       />
 
       <div class="action-container" v-if="!dmcrmSetting.is_open">
-        <el-button type="primary" icon="iconfont icon-xinzengcaozuo-01" @click="addCoupon">
+        <el-button type="primary" @click="addCoupon">
           创建优惠券
         </el-button>
       </div>

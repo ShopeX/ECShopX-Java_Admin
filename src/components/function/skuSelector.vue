@@ -24,7 +24,9 @@
               </template>
             </div>
           </div>
-          <div class="goods-remove iconfont icon-trash-alt" @click="handleSkuRemove(index)" />
+          <div class="goods-remove" @click="handleSkuRemove(index)">
+            <i class="el-icon-delete"></i>
+          </div>
         </div>
       </el-col>
     </el-row>
