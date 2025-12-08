@@ -469,7 +469,11 @@ export default {
         beforeClose: (action, instance, done) => {
           if (action === 'confirm') {
             removeCard({ card_id: id }).then(res => {
-              this.tableList.splice(index, 1)
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              })
+              this.fetchList()
             })
           }
           done()
@@ -492,6 +496,7 @@ export default {
               type: 'success',
               duration: 5 * 1000
             })
+            this.fetchList()
           })
         })
         .catch(() => {
