@@ -52,7 +52,7 @@
                 />
                 {{ form.condition_type == 'quantity' ? '件' : '元' }}，送赠品&nbsp;&nbsp;<i
                   v-if="key != 0"
-                  class="iconfont icon-trash-alt"
+                  class="el-icon-delete"
                   @click="delRules(key)"
                 />
               </span>
@@ -92,7 +92,7 @@
                   <el-table-column label="操作" width="50">
                     <template slot-scope="scope">
                       <i
-                        class="iconfont icon-trash-alt"
+                        class="el-icon-delete"
                         @click="deleteGiftRow(scope.$index, key)"
                       />
                     </template>
@@ -124,7 +124,7 @@
               />
               件，送赠品&nbsp;&nbsp;<i
               v-if="key != 0"
-              class="iconfont icon-trash-alt"
+              class="el-icon-delete"
               @click="delRules(key)"
             />
             </span>
@@ -318,7 +318,7 @@
         <el-table-column prop="address" label="地址" show-overflow-tooltip />
         <el-table-column label="操作" width="50">
           <template slot-scope="scope">
-            <i class="iconfont icon-trash-alt" @click="deleteStoreRow(scope.$index, form.items)" />
+            <i class="el-icon-delete" @click="deleteStoreRow(scope.$index, form.items)" />
           </template>
         </el-table-column>
       </el-table>
