@@ -472,9 +472,9 @@ export default {
       let path
       if (this.IS_DISTRIBUTOR()) {
         if (this.VERSION_STANDARD()) {
-          path = '/shopadmin/products/product-import?file_type=employee_purchase_activity_items'
-        } else {
           path = '/shopadmin/products/store-product-manage/physicalupload?file_type=employee_purchase_activity_items'
+        } else {
+          path = '/shopadmin/products/product-manage/product-import?file_type=employee_purchase_activity_items'
         }
       } else {
         path =
