@@ -50383,272 +50383,272 @@
 	},
 	"afqdmq4": {
 		"zh-cn": "供应商端",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Supplier End",
+		"zh-tw": "供應商端",
+		"ar": "نهاية المورد"
 	},
 	"mf7s03": {
 		"zh-cn": "门店端",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Store End",
+		"zh-tw": "門店端",
+		"ar": "نهاية المتجر"
 	},
 	"cz0wu3": {
 		"zh-cn": "商户端",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Merchant End",
+		"zh-tw": "商戶端",
+		"ar": "نهاية التاجر"
 	},
 	"mydcfhe": {
 		"zh-cn": "腾讯位置服务Key获取路径：",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Tencent Location Service Key Acquisition Path:",
+		"zh-tw": "騰訊位置服務Key獲取路徑：",
+		"ar": "مسار الحصول على مفتاح خدمة موقع Tencent:"
 	},
 	"29ee119": {
 		"zh-cn": "腾讯位置服务控制台",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Tencent Location Service Console",
+		"zh-tw": "騰訊位置服務控制台",
+		"ar": "لوحة تحكم خدمة موقع Tencent"
 	},
 	"jm4k04q": {
 		"zh-cn": "，进入【应用管理】--【我的应用】--【创建应用】。",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": ", go to [Application Management] -- [My Applications] -- [Create Application].",
+		"zh-tw": "，進入【應用管理】--【我的應用】--【創建應用】。",
+		"ar": "، انتقل إلى [إدارة التطبيقات] -- [تطبيقاتي] -- [إنشاء تطبيق]."
 	},
 	"3a2tzj5": {
 		"zh-cn": "地图Key",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Map Key",
+		"zh-tw": "地圖Key",
+		"ar": "مفتاح الخريطة"
 	},
 	"pl598yu": {
 		"zh-cn": "Key不填写或填写错误将导致该功能无法使用，请确保填写正确。",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "If the Key is not filled in or filled incorrectly, this function will be unavailable. Please ensure it is filled correctly.",
+		"zh-tw": "Key不填寫或填寫錯誤將導致該功能無法使用，請確保填寫正確。",
+		"ar": "إذا لم يتم ملء المفتاح أو تم ملؤه بشكل خاطئ، فلن تكون هذه الوظيفة متاحة. يرجى التأكد من ملئه بشكل صحيح."
 	},
 	"yk2i1ja": {
 		"zh-cn": "积分商城运费抵扣比率",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Points Mall Shipping Fee Deduction Ratio",
+		"zh-tw": "積分商城運費抵扣比率",
+		"ar": "نسبة خصم رسوم الشحن في متجر النقاط"
 	},
 	"cw27wg6": {
 		"zh-cn": "腾讯地图配置",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Tencent Map Configuration",
+		"zh-tw": "騰訊地圖配置",
+		"ar": "إعدادات خريطة Tencent"
 	},
 	"2un09d5": {
 		"zh-cn": "地图服务1",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Map Service 1",
+		"zh-tw": "地圖服務1",
+		"ar": "خدمة الخريطة 1"
 	},
 	"f84rcjg": {
 		"zh-cn": " 腾讯位置服务Key获取路径： ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": " Tencent Location Service Key Acquisition Path: ",
+		"zh-tw": " 騰訊位置服務Key獲取路徑： ",
+		"ar": " مسار الحصول على مفتاح خدمة موقع Tencent: "
 	},
 	"qna8kbb": {
 		"zh-cn": " 腾讯位置服务控制台 ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": " Tencent Location Service Console ",
+		"zh-tw": " 騰訊位置服務控制台 ",
+		"ar": " لوحة تحكم خدمة موقع Tencent "
 	},
 	"wk13jws": {
 		"zh-cn": " ，进入【应用管理】--【我的应用】--【创建应用】。 ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": " , go to [Application Management] -- [My Applications] -- [Create Application]. ",
+		"zh-tw": " ，進入【應用管理】--【我的應用】--【創建應用】。 ",
+		"ar": " ، انتقل إلى [إدارة التطبيقات] -- [تطبيقاتي] -- [إنشاء تطبيق]. "
 	},
 	"d16hpw4": {
 		"zh-cn": "批量退款",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Batch Refund",
+		"zh-tw": "批量退款",
+		"ar": "استرداد مجمع"
 	},
 	"b3178q4": {
 		"zh-cn": "发票订单",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Invoice Order",
+		"zh-tw": "發票訂單",
+		"ar": "طلب الفاتورة"
 	},
 	"by61a44": {
 		"zh-cn": "导出数据",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Export Data",
+		"zh-tw": "導出數據",
+		"ar": "تصدير البيانات"
 	},
 	"cvk58t4": {
 		"zh-cn": "指定日期",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Specified Date",
+		"zh-tw": "指定日期",
+		"ar": "التاريخ المحدد"
 	},
 	"s6g292c": {
 		"zh-cn": "活动期内，每个积分升值为",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "During the activity period, each point is worth",
+		"zh-tw": "活動期內，每個積分升值為",
+		"ar": "خلال فترة النشاط، كل نقطة تساوي"
 	},
 	"ft91": {
 		"zh-cn": "倍",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "times",
+		"zh-tw": "倍",
+		"ar": "مرات"
 	},
 	"l1deedg": {
 		"zh-cn": "活动期内，每个客户每天最多可使用",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "During the activity period, each customer can use up to",
+		"zh-tw": "活動期內，每個客戶每天最多可使用",
+		"ar": "خلال فترة النشاط، يمكن لكل عميل استخدام ما يصل إلى"
 	},
 	"w8kimia": {
 		"zh-cn": "积分用于积分升值活动",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Points for Point Appreciation Activity",
+		"zh-tw": "積分用於積分升值活動",
+		"ar": "نقاط لنشاط زيادة قيمة النقاط"
 	},
 	"32w19g1m": {
 		"zh-cn": "活动期内，每个客户每天升值后积分 = 每日积分 × 升值倍数，积分抵扣订单金额=（升值后积分+普通积分）× 抵扣比例",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "During the activity period, each customer's daily points after appreciation = Daily Points × Appreciation Multiplier, Points Deducted from Order Amount = (Points After Appreciation + Regular Points) × Deduction Ratio",
+		"zh-tw": "活動期內，每個客戶每天升值後積分 = 每日積分 × 升值倍數，積分抵扣訂單金額=（升值後積分+普通積分）× 抵扣比例",
+		"ar": "خلال فترة النشاط، نقاط كل عميل اليومية بعد التقدير = النقاط اليومية × مضاعف التقدير، النقاط المخصومة من مبلغ الطلب = (النقاط بعد التقدير + النقاط العادية) × نسبة الخصم"
 	},
 	"twwpzhh": {
 		"zh-cn": "活动期内，到账积分为获得基础积分的",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "During the activity period, credited points are",
+		"zh-tw": "活動期內，到賬積分為獲得基礎積分的",
+		"ar": "خلال فترة النشاط، النقاط المضافة هي"
 	},
 	"e6832": {
 		"zh-cn": "倍数",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Multiplier",
+		"zh-tw": "倍數",
+		"ar": "مضاعف"
 	},
 	"b5tpwe5": {
 		"zh-cn": "订单金额满",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Order amount reaches",
+		"zh-tw": "訂單金額滿",
+		"ar": "مبلغ الطلب يصل إلى"
 	},
 	"fcj2vqf": {
 		"zh-cn": "元时，可享受该活动（不含运费）",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "yuan, you can enjoy this activity (excluding shipping fees)",
+		"zh-tw": "元時，可享受該活動（不含運費）",
+		"ar": "يوان، يمكنك الاستمتاع بهذا النشاط (باستثناء رسوم الشحن)"
 	},
 	"oavc1b5": {
 		"zh-cn": "全店铺适用",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Applicable to all stores",
+		"zh-tw": "全店鋪適用",
+		"ar": "ينطبق على جميع المتاجر"
 	},
 	"pjh1l09": {
 		"zh-cn": "解锁更新菜单URL",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Unlock Update Menu URL",
+		"zh-tw": "解鎖更新菜單URL",
+		"ar": "إلغاء قفل رابط قائمة التحديث"
 	},
 	"k2c5136": {
 		"zh-cn": "下载版本配置",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Download Version Configuration",
+		"zh-tw": "下載版本配置",
+		"ar": "إعدادات إصدار التنزيل"
 	},
 	"gmpnxw4": {
 		"zh-cn": "编辑菜单",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Edit Menu",
+		"zh-tw": "編輯菜單",
+		"ar": "تحرير القائمة"
 	},
 	"11plnr5": {
 		"zh-cn": "API权限",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "API Permissions",
+		"zh-tw": "API權限",
+		"ar": "أذونات API"
 	},
 	"1rwtq4": {
 		"zh-cn": "< 返回",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "< Back",
+		"zh-tw": "< 返回",
+		"ar": "< رجوع"
 	},
 	"8ok1846": {
 		"zh-cn": "会员访客量:",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Member Visitors:",
+		"zh-tw": "會員訪客量:",
+		"ar": "زوار الأعضاء:"
 	},
 	"r3xwjo6": {
 		"zh-cn": "游客访问量:",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Tourist Visits:",
+		"zh-tw": "遊客訪問量:",
+		"ar": "زيارات السياح:"
 	},
 	"ka592d5": {
 		"zh-cn": "支付人数:",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Number of Payers:",
+		"zh-tw": "支付人數:",
+		"ar": "عدد الدافعين:"
 	},
 	"k9gytm5": {
 		"zh-cn": "支付单数:",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Number of Payment Orders:",
+		"zh-tw": "支付單數:",
+		"ar": "عدد طلبات الدفع:"
 	},
 	"k7oryj5": {
 		"zh-cn": "支付总价:",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Total Payment Amount:",
+		"zh-tw": "支付總價:",
+		"ar": "إجمالي مبلغ الدفع:"
 	},
 	"ifxttp4": {
 		"zh-cn": "转化率:",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Conversion Rate:",
+		"zh-tw": "轉化率:",
+		"ar": "معدل التحويل:"
 	},
 	"nkm962b": {
 		"zh-cn": "未付款订单将在指定时间",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Unpaid orders will be",
+		"zh-tw": "未付款訂單將在指定時間",
+		"ar": "الطلبات غير المدفوعة ستكون"
 	},
 	"99cpjqe": {
 		"zh-cn": "订单商品签收后，且在订单创建",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "After the order items are signed for, and within",
+		"zh-tw": "訂單商品簽收後，且在訂單創建",
+		"ar": "بعد استلام عناصر الطلب، وخلال"
 	},
 	"q436uea": {
 		"zh-cn": "(月)内支持申请开票",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "(month) after order creation, invoice application is supported",
+		"zh-tw": "(月)內支持申請開票",
+		"ar": "(شهر) بعد إنشاء الطلب، يتم دعم طلب الفاتورة"
 	},
 	"4kvryc8": {
 		"zh-cn": "导购参数保留时长",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Shopping Guide Parameter Retention Duration",
+		"zh-tw": "導購參數保留時長",
+		"ar": "مدة الاحتفاظ بمعامل دليل التسوق"
 	},
 	"3bkzc05": {
 		"zh-cn": "×24小时",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "×24 hours",
+		"zh-tw": "×24小時",
+		"ar": "×24 ساعة"
 	},
 	"jld2pve": {
 		"zh-cn": "获取地图设置失败，请刷新重试",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
+		"en": "Failed to get map settings, please refresh and try again",
+		"zh-tw": "獲取地圖設置失敗，請刷新重試",
+		"ar": "فشل في الحصول على إعدادات الخريطة، يرجى التحديث والمحاولة مرة أخرى"
 	}
 }
