@@ -459,29 +459,29 @@
             </template>
           </el-table-column>
 
-          <!-- <el-table-column label="配送状态">
+          <el-table-column label="配送状态">
             <template slot-scope="scope">
               {{ getDistributionStatus(scope.row) }}
             </template>
-          </el-table-column> -->
+          </el-table-column>
 
-          <!-- <el-table-column label="配送员">
+          <el-table-column label="配送员">
             <template slot-scope="scope">
               {{ scope.row.self_delivery_operator_name }}
             </template>
-          </el-table-column> -->
-  <!--
+          </el-table-column>
+  
           <el-table-column label="配送费">
             <template slot-scope="scope">
               {{ scope.row.self_delivery_operator_name && scope.row.self_delivery_fee / 100 + '元' }}
             </template>
-          </el-table-column> -->
-  <!--
+          </el-table-column>
+  
           <el-table-column label="配送员电话">
             <template slot-scope="scope">
               {{ scope.row.self_delivery_operator_mobile }}
             </template>
-          </el-table-column> -->
+          </el-table-column>
           <el-table-column type="selection" width="55" fixed="left" />
           <!-- <el-table-column prop="source_name" label="来源"></el-table-column> -->
           <el-table-column label="操作" fixed="left">
