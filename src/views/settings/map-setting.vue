@@ -68,7 +68,7 @@ export default {
               <el-input
                 v-model={value}
                 type={this.showPassword ? 'text' : 'password'}
-                autocomplete='new-password'
+                autocomplete='off'
                 on-input={onInput}
               >
                 <div
