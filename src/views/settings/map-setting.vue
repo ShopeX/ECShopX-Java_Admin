@@ -56,7 +56,10 @@ export default {
           component: 'input',
           formItemClass: 'w-1/2',
           rules: [{ required: true, message: '请输入', trigger: 'blur' }],
-          tip: 'Key不填写或填写错误将导致该功能无法使用，请确保填写正确。'
+          tip: 'Key不填写或填写错误将导致该功能无法使用，请确保填写正确。',
+          componentProps: {
+            autocomplete: 'off'
+          }
         },
         {
           fieldName: 'app_secret',
@@ -68,7 +71,7 @@ export default {
               <el-input
                 v-model={value}
                 type={this.showPassword ? 'text' : 'password'}
-                autocomplete='off'
+                autocomplete='new-password'
                 on-input={onInput}
               >
                 <div
