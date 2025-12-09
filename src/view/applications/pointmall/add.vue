@@ -1534,7 +1534,18 @@ export default {
         }
       })
       if (arr.length > 0) {
-        let n = arr.findIndex(item => JSON.parse(item.is_image))
+        let n = arr.findIndex(item => {
+          // 确保 is_image 存在且不为空
+          if (!item.is_image || item.is_image.trim() === '') {
+            return false
+          }
+          try {
+            const parsed = JSON.parse(item.is_image)
+            return !!parsed
+          } catch (e) {
+            return false
+          }
+        })
         if (n != -1) {
           let obj = { ...arr[n] }
           let imgs = []

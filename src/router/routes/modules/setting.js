@@ -416,6 +416,17 @@ const routes = [
         ]
       },
       {
+        name: `systemConfigWebPrivacyStatement`,
+        path: 'system-config/web-privacy-statement',
+        meta: {
+          aliasName: 'webPrivacyStatement',
+          icon: 'icon-products',
+          title: 'web隐私声明',
+          permissions: ['setting.systemsetting.webPrivacyStatement']
+        },
+        component: () => import('@/view/base/setting/webPrivacyStatement')
+      },
+      {
         name: `systemConfigExternalWxapp`,
         path: 'system-config/external-wxapp',
         meta: {
@@ -557,7 +568,7 @@ const routes = [
           title: '地图服务',
           permissions: ['setting.systemsetting.mapsetting']
         },
-        component: () => import('@/view/base/setting/mapsetting')
+        component: () => import('@/views/settings/map-setting')
       },
       {
         name: `ERP`,

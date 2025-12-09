@@ -15,7 +15,6 @@
           <li>栏目名称</li>
           <li>栏目排序</li>
           <li>复制链接</li>
-          <li>创建时间</li>
           <li>操作</li>
         </ul>
       </div>
@@ -40,15 +39,11 @@
             </li>
             <li v-clipboard:copy="data.link" v-clipboard:success="onCopy">
               <input v-model="data.link" class="copy-link" type="text">
-              <i class="iconfont icon-copy" /> 复制栏目链接
+              <i class="el-icon-copy-document" /> 复制栏目链接
             </li>
-            <li v-if="data.created">
-              {{ data.created | datetime }}
-            </li>
-            <li v-else />
             <li>
               <span class="remove-category" @click="deleteCategory(node, data)">
-                <i class="iconfont icon-trash-alt" />
+                <i class="el-icon-delete" />
               </span>
             </li>
           </ul>
