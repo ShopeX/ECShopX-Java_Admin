@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.0.1...v4.1.0) (2025-12-09)
+
+
+### Bug Fixes
+
+* **7484:** valid Store ([ce6f095](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/ce6f0953088c21e91ca4d5c56128538859b3f9cc))
+* **7512:** delete App - Points Mall ([216a78a](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/216a78aa9078c26d64a556f13e170162ed27cbb8))
+* ar-dropdown-ui ([07518dc](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/07518dca82db63b577ff266478bcc8f0f009c564))
+* article\&icon ([d757dcd](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/d757dcdb90d3e3f1740600d0551ffd194ff5b627))
+* autocomplete ([f8a4ed8](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/f8a4ed871233a83f99ef546f43877935c89312bb))
+* content\&icon ([3a72650](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/3a726509b009e5ca22fef6b873b2bf7eb21b2e27))
+* coupon detail ([7022913](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/7022913b8e5426e1f8f9b893df50bbedddcf2b86))
+* delete coupoon ([01d6990](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/01d6990700a68bc5a1c4ead565024c59753b3c71))
+* delete user-version ([74186cf](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/74186cf995936fb228403bd5cf4bf50f5365dcd4))
+* delivery ([075a2c5](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/075a2c5e011be9dcacfc48551af7cdeb403c901d))
+* distributorself ([abb5968](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/abb596850e1e8b03dd480889a2131066fd841058))
+* **ECX-7468:** sku ([b4e35e9](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/b4e35e9941863e281b2ae17349b3fe024521a032))
+* **ECX-7520:** switch ([dea0038](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/dea00388b93cbbd52c29034d1aff3871df17f7fd))
+* **ECX-7536:** cost_price is required ([7eeedb9](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/7eeedb9f1661df6a5fc49f7a4c55392ccae5fca3))
+* **ECX-7537:** coupon delete tips ([3aba4eb](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/3aba4eb4a6048e0ceb8f009571a3dc8abba25f46))
+* **ECX-7538:** coupon Mannage ([ad0d43a](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/ad0d43a6bee173988a1c29447ce2b35c1fd4bf0f))
+* **Fixbug:** fixbug ([6436ad1](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/6436ad1a16310195b06ae3b28b4d439eec5549c2))
+* global Multilingual Attribute Settings ([95663bc](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/95663bc8a40fc2ca46bd66c24acbbcc8c4e659c5))
+* goback ([1c78d54](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/1c78d54c607e6a85ccda0c6a52d770f7acddcf4b))
+* i18n ([337516d](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/337516dc7881e4f2875acfd02d378a2f34877766))
+* i18n-style ([1cd3fdf](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/1cd3fdf4742dd1d9d6bf3ae70c83ebbde33a85fb))
+* icon ([9155afa](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/9155afad7e0030645e611ab1a515fb941c88d177))
+* language ([ecc0651](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/ecc0651d667c0ddd8533deee84d174cc0076fd57))
+* loginPage ([16ca70b](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/16ca70ba79fac11cea6e4d1da198d52e9194c18d))
+* map-setting ([f0803f1](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/f0803f1a031bb021e3da9c72a9ca9b69be96ecee))
+* **package:** update package ([182f3b8](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/182f3b8abdb1ecd2e7830d814f2478d2f466880b))
+* scoped ([e2f060b](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/e2f060ba98403118bd56fba3420358ddcfd726c8))
+* **scope:** update dockerfile ([cdf19a1](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/cdf19a18237f59f983d833fa6385b5712acd7384))
+* skuSelector btnslot ([cbcf4e8](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/cbcf4e833e6bc2d92952b0876d9cc5296dadeb55))
+* template reset ([22276ae](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/22276aeb1e848c271d04a6dbbf09cd8ca311daf5))
+* translate ([e7989ee](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/e7989ee21d09a3b23ad8b707cf0f57d190b782ed))
+* utils ([2e064de](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/2e064de67d95174d0ad8dada43c9b616de3dd4a8))
+* webpack-auto-i18n-plugin version ([a495f4c](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/a495f4c471105d5bc3c2f350ddf5bd12c35c8b04))
+
 ### [4.0.1](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.0.0...v4.0.1) (2025-12-02)
 
 ## [4.0.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v3.26.0...v4.0.0) (2025-11-18)
