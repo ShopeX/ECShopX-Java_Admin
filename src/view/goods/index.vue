@@ -148,6 +148,7 @@ export default {
         brief: '',
         isPrescriptionApproved:false,
         templatesId: '',
+        templatesName: '',
         brandId: '',
         itemUnit: '',
         sort: 1,
@@ -265,7 +266,16 @@ export default {
           required: true,
           disabled,
           message: '请选择运费模板',
-          display: 'inline'
+          display: 'inline',
+          isShow: () => !this.routerParams?.isSupplierGoods
+        },
+        {
+          label: '运费模板',
+          key: 'templatesName',
+          type: 'input',
+          disabled: true,
+          display: 'inline',
+          isShow: () => this.routerParams?.isSupplierGoods
         },
         {
           label: '品牌',
@@ -1004,6 +1014,7 @@ export default {
         item_name,
         brief,
         templates_id,
+        templates_name,
         brand_id,
         item_unit,
         sort,
@@ -1090,6 +1101,7 @@ export default {
       this.form.supplier_id = supplier_id
       this.form.brief = brief
       this.form.templatesId = templates_id.toString()
+      this.form.templatesName = templates_name
       this.form.brandId = brand_id + ''
       this.form.itemUnit = item_unit
       this.form.sort = sort
