@@ -317,34 +317,11 @@ export default {
             key: 'aftersales_bn',
             width: 200,
             render: (h, { row }) => {
-              const linkPath =
-                (`${this.$store.getters.login_type}` == 'distributor' &&
-                  '/shopadmin/order/aftersaleslist/detail') ||
-                (`${this.$store.getters.login_type}` == 'supplier' &&
-                  '/supplier/order/aftersaleslist/detail') ||
-                (`${this.$store.getters.login_type}` == 'merchant' &&
-                  '/merchant/order/aftersaleslist/detail') ||
-                '/order/aftersales/aftersaleslist/detail'
               return h('div', [
                 h('div', { class: 'order-num' }, [
                   h(
-                    'el-button',
-                    {
-                      props: { type: 'text' },
-                      on: {
-                        click: () => {
-                          const routeData = this.$router.resolve({
-                            path: linkPath,
-                            query: { aftersales_bn: row.aftersales_bn }
-                          })
-                          window.open(routeData.href, '_blank')
-                          // this.$router.push({
-                          //   path: linkPath,
-                          //   query: { aftersales_bn: row.aftersales_bn }
-                          // })
-                        }
-                      }
-                    },
+                    'span',
+                    {},
                     row.aftersales_bn
                   ),
                   h(
@@ -392,30 +369,10 @@ export default {
             key: 'order_id',
             minWidth: 180,
             render: (h, { row }) => {
-              const linkPath =
-                (`${this.$store.getters.login_type}` == 'distributor' &&
-                  '/shopadmin/order/tradenormalorders/detail') ||
-                (`${this.$store.getters.login_type}` == 'supplier' &&
-                  '/supplier/order/tradenormalorders/detail') ||
-                (`${this.$store.getters.login_type}` == 'merchant' &&
-                  '/merchant/order/tradenormalorders/detail') ||
-                '/order/entitytrade/tradenormalorders/detail'
-
               return h('div', { class: 'order-num' }, [
                 h(
-                  'el-button',
-                  {
-                    props: { type: 'text' },
-                    on: {
-                      click: () => {
-                        const routeData = this.$router.resolve({
-                          path: linkPath,
-                          query: { orderId: row.order_id }
-                        })
-                        window.open(routeData.href, '_blank')
-                      }
-                    }
-                  },
+                  'span',
+                  {},
                   row.order_id
                 ),
                 h(
@@ -528,22 +485,7 @@ export default {
                     : '/shopadmin/member/member/memberlist/detail'
 
                 return h('div', { class: 'order-num' }, [
-                  h(
-                    'el-button',
-                    {
-                      props: { type: 'text' },
-                      on: {
-                        click: () => {
-                          const routeData = this.$router.resolve({
-                            path: linkPath,
-                            query: { user_id: row.user_id }
-                          })
-                          window.open(routeData.href, '_blank')
-                        }
-                      }
-                    },
-                    row.mobile
-                  )
+                  h('span', {}, row.mobile)
                 ])
               }
               return h('span', {}, row.mobile)
