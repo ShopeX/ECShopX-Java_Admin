@@ -425,7 +425,8 @@
             />
             <el-table-column label="供应状态" width="120">
               <template slot-scope="scope">
-                {{ scope.row.is_market == '1' ? '可售' : '不可售' }}
+                <span v-if="scope.row.item_holder == 'distributor' && !scope.row.supplier_name"></span>
+                <span v-else>{{ scope.row.is_market == '1' ? '可售' : '不可售' }}</span>
               </template>
             </el-table-column>
 
