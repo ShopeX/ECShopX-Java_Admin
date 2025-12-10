@@ -1035,7 +1035,6 @@ export default {
         item_main_cat_id,
         is_show_specimg,
         is_market,
-        spec_images,
         spec_items,
         mode,
         tdk_content,
@@ -1174,6 +1173,12 @@ export default {
           package_type
         }
         this.resolveSkuParams(goods_spec, spec_items)
+        let spec_images = []
+        spec_items.forEach(item => {
+          item.item_spec.forEach(item => {
+            spec_images.push(item)
+          })
+        })
         this.$refs['skuParams'].onSkuChange({ spec_images, spec_items, restParams })
       } else {
         this.resolveSkuParams(goods_spec)
@@ -1189,7 +1194,7 @@ export default {
         this.form.mode = 'component'
         this.form.content = intro
       } else {
-        this.form.intro = isString(intro) ? intro : intro.toString()
+        this.form.intro = isString(intro) ? intro : intro?.toString()
       }
     },
     // 递归管理分类
