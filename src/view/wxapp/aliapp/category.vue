@@ -816,17 +816,21 @@ $txt-placeholder: #f5f5f7;
                       :src="item.img ? item.img : 'https://fakeimg.pl/50x50'"
                       alt=""
                     >
-                    <div v-else class="iconfont icon-images" />
+                    <div v-else>
+                      <i class="el-icon-pictures"></i>
+                    </div>
                   </div>
                   <el-input v-model="item.name" placeholder="名称" />
                   <div
                     v-if="form.name === 'fresh'"
-                    class="bind-btn iconfont icon-link"
+                    class="bind-btn"
                     @click="showCategory(fidx)"
                   >
+                    <i class="el-icon-link"></i>
                     {{ item.category_name ? item.category_name : '绑定分类' }}
                   </div>
-                  <div class="bind-btn iconfont icon-link" @click="openPageDialog(fidx)">
+                  <div class="bind-btn" @click="openPageDialog(fidx)">
+                    <i class="el-icon-link"></i>
                     {{ item.page_name ? item.page_name : '绑定自定义页面' }}
                   </div>
                   <el-checkbox v-model="item.hot"> 热推 </el-checkbox>
@@ -843,16 +847,16 @@ $txt-placeholder: #f5f5f7;
                             :src="sitem.img ? sitem.img : 'https://fakeimg.pl/50x50'"
                             alt=""
                           >
-                          <div v-else class="iconfont icon-images" />
+                          <div v-else>
+                            <i class="el-icon-pictures"></i>
+                          </div>
                         </div>
                         <el-input v-model="sitem.name" placeholder="名称" />
                         <div
                           class="bind-btn"
-                          :class="{
-                            ' iconfont icon-link': !sitem.main_category_id && !sitem.category_id
-                          }"
                           @click="showCategory(fidx, sidx)"
                         >
+                          <i class="el-icon-link" v-if="!sitem.main_category_id && !sitem.category_id"></i>
                           {{ sitem.main_category_id ? '管理分类：' : ''
                           }}{{ sitem.category_id ? '商品分类：' : ''
                           }}{{ sitem.category_name ? sitem.category_name : '绑定分类' }}
@@ -877,17 +881,16 @@ $txt-placeholder: #f5f5f7;
                                   :src="litem.img ? litem.img : 'https://fakeimg.pl/50x50'"
                                   alt=""
                                 >
-                                <div v-else class="iconfont icon-images" />
+                                <div v-else>
+                                  <i class="el-icon-pictures"></i>
+                                </div>
                               </div>
                               <el-input v-model="litem.name" placeholder="名称" />
                               <div
                                 class="bind-btn"
-                                :class="{
-                                  'iconfont icon-link':
-                                    !litem.main_category_id && !litem.category_id
-                                }"
                                 @click="showCategory(fidx, sidx, lidx)"
                               >
+                                <i class="el-icon-link" v-if="!litem.main_category_id && !litem.category_id"></i>
                                 {{ litem.main_category_id ? '管理分类：' : ''
                                 }}{{ litem.category_id ? '商品分类：' : ''
                                 }}{{ litem.category_name ? litem.category_name : '绑定分类' }}

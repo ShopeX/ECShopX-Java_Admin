@@ -293,7 +293,7 @@ export default {
         )}
         {max > 1 && value.length < max && (
           <div class="image-item placeholder" on-click={this.handleSelectImage}>
-            <i class="iconfont icon-camera" />
+            <i class="el-icon-camera" />
             <div class="add-text">图片({`${value.length}/${max}`})</div>
           </div>
         )}
@@ -301,7 +301,7 @@ export default {
         {max == 1 && !isEmpty(value) && this._renderImage(value)}
         {max == 1 && isEmpty(value) && (
           <div class="image-item placeholder" on-click={this.handleSelectImage}>
-            <i class="iconfont icon-camera" />
+            <i class="el-icon-camera" />
             <div class="add-text">添加图片</div>
           </div>
         )}

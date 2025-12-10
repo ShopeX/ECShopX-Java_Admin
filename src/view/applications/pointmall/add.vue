@@ -170,9 +170,9 @@
                             >
                               <img :src="wximageurl + item">
                               <div class="goodspic-mask" :class="picsCurrent == index ? 'on' : ''">
-                                <!-- <div class="iconfont icon-trash-alt" /> -->
+                                <!-- <div class="el-icon-delete" /> -->
                                 <SpIcon name="delete" @click="removePicsImg(index)" />
-                                <!-- <div class="iconfont icon-arrows-alt" /> -->
+                                <!-- <div class="el-icon-rank" /> -->
                               </div>
                             </li>
                           </draggable>
@@ -830,7 +830,7 @@
           <template v-if="mode === 'richText'">
             <SpRichText ref="editor" v-model="form.intro" class="rich-text-editor" />
             <!-- <span class="tpl_item img" style="" @click="addImgPreview">
-              <i class="iconfont icon-image" />图片
+              <i class="el-icon-picture" />图片
             </span> -->
           </template>
           <template v-else>
@@ -943,7 +943,7 @@ export default {
         animation: 300,
         forceFallback: false,
         scroll: true,
-        handle: '.icon-arrows-alt',
+        handle: '.el-icon-rank',
         draggable: '.goodspic'
       },
       form: {
