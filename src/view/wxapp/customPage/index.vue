@@ -268,7 +268,7 @@ export default {
     openDialog(detail = null) {
       this.page_dialog = true
       if (detail) {
-        this.pageForm = detail
+        this.pageForm = JSON.parse(JSON.stringify(detail))
         if (detail.is_open == 1) {
           this.pageForm.is_open = true
         }
