@@ -1006,6 +1006,10 @@ export default {
       const { itemId } = this.$route.params
       const { is_new, supplier, islist } = this.$route.query
       this.routerParams = this.$route.query || {}
+      // 将 isSupplierGoods 从字符串转换为布尔值
+      if (this.routerParams.isSupplierGoods !== undefined) {
+        this.routerParams.isSupplierGoods = this.routerParams.isSupplierGoods === 'true' || this.routerParams.isSupplierGoods === true
+      }
 
       const {
         item_id,
@@ -1251,14 +1255,14 @@ export default {
         status: 1
       })
       if (list.length > 0) {
-        this.formList[5].options = list.map(item => {
+        const index = this.formList.findIndex(item => item.key == 'templatesId')
+        this.formList[index].options = list.map(item => {
           return {
             value: item.template_id,
             title: item.name
           }
         })
 
-        console.log('this.formList[5]:', this.formList[5])
       } else {
         this.$message.error('请先添加运费模板')
       }
@@ -1271,7 +1275,9 @@ export default {
         attribute_type: 'brand'
         // attribute_name: searchVal
       })
-      this.formList[6].options = list.map(({ attribute_id, attribute_name }) => {
+      console.log('-----------', this.formList)
+      const index = this.formList.findIndex(item => item.key == 'brandId')
+      this.formList[index].options = list.map(({ attribute_id, attribute_name }) => {
         return {
           value: attribute_id,
           title: attribute_name
