@@ -1559,10 +1559,16 @@ export default {
       }
     },
     editItemsAction(index, row, isNew) {
-      // 编辑商品弹框
-      this.show_rebate_sideBar = false
-      this.show_sideBar = false
-      this.show_itemStore = false
+      // // 编辑商品弹框
+      // this.show_rebate_sideBar = false
+      // this.show_sideBar = false
+      // this.show_itemStore = false
+      this.$router.push({
+        path: `${this.$route.path}/editor/${row.item_id}`,
+        query: {
+          detail: true
+        }
+      })
     },
     saveRebateConf() {
       var rebateConf = []
