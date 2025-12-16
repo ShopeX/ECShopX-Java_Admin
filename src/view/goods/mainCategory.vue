@@ -83,15 +83,14 @@
                 店铺商品
               </router-link>
             </el-button>
-            <el-button
+            <!-- <el-button
               v-if="scope.row.category_level == 3"
               type="text"
               @click="onLinkGoodsParams(scope.row)"
             >
               关联参数
-            </el-button>
+            </el-button> -->
             <el-button
-              v-if="scope.row.category_level == 3"
               type="text"
               @click="onLinkGoodsSku(scope.row)"
             >
