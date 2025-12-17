@@ -14,6 +14,7 @@
     }"
     :model="formData"
     :label-width="labelWidth"
+    :label-position="labelPosition"
   >
     <div ref="wrapperRef" :class="{ flex: formType === 'searchForm' }">
       <div :class="{
@@ -85,6 +86,11 @@ export default {
     FormField
   },
   props: {
+    labelPosition: {
+      type: String,
+      default: 'right',
+    },
+
     colon: {
       type: Boolean,
       default: false
@@ -300,7 +306,7 @@ export default {
 .sp-form-plus {
   ::v-deep .el-select {
     display: block;
-  }
+  } 
   &--inline {
     .sp-form-plus__wrapper {
       display: grid;
