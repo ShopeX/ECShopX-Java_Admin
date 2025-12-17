@@ -735,3 +735,11 @@ export function kjlBindItem(params) {
     params
   })
 }
+
+export function kjlUnBindItem(params) {
+  return fetch({
+    url: '/kujiale/designer-works/unbind-item',
+    method: 'delete',
+    params
+  })
+}
