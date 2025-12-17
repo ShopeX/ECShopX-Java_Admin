@@ -101,9 +101,9 @@ export default {
   data() {
     return {
       searchParams: {
-        item_name: '', // 商品标题
+        keywords: '', // 商品标题
         item_bn: '', // SKU编码
-        plan_id: '', // 方案ID
+        design_id: '', // 方案ID
         plan_name: '', // 方案名称
         approve_status: '', // 商品状态
         main_cat_id: '' // 管理分类
@@ -123,7 +123,7 @@ export default {
             clearable: true,
             size: 'medium'
           },
-          fieldName: 'item_name',
+          fieldName: 'keywords',
           label: '商品标题'
         },
         {
@@ -141,7 +141,7 @@ export default {
             placeholder: '请输入方案ID',
             clearable: true
           },
-          fieldName: 'plan_id',
+          fieldName: 'design_id',
           label: '方案ID'
         },
         {
@@ -150,7 +150,7 @@ export default {
             placeholder: '请输入方案名称',
             clearable: true
           },
-          fieldName: 'plan_name',
+          fieldName: 'design_name',
           label: '方案名称'
         },
         {
@@ -218,7 +218,7 @@ export default {
           },
           {
             name: '商品标题',
-            key: 'item_name',
+            key: 'keywords',
             minWidth: 200,
             showOverflowTooltip: true
           },
@@ -343,10 +343,10 @@ export default {
     },
     handleReset() {
       this.searchParams = {
-        item_name: '',
+        keywords: '',
         item_bn: '',
-        plan_id: '',
-        plan_name: '',
+        design_id: '',
+        design_name: '',
         approve_status: '',
         main_cat_id: ''
       }
