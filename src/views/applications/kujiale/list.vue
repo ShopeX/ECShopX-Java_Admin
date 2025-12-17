@@ -27,6 +27,7 @@
         ref="finder"
         :setting="finderSetting"
         :row-key="getRowKey"
+        row-actions-fixed-align="left"
         url="/kujiale/designer-works/items"
         fixed-row-action
         :hooks="{
@@ -209,6 +210,7 @@ export default {
   },
   methods: {
     initFinderSetting() {
+      const vm = this
       this.finderSetting = createSetting({
         columns: [
           {
@@ -316,6 +318,16 @@ export default {
             key: 'category_name',
             minWidth: 150,
             showOverflowTooltip: true
+          }
+        ],
+        actions: [
+          {
+            name: '解绑',
+            type: 'button',
+            buttonType: 'text',
+            action: {
+              handler: ([row]) => vm.handleUnbind(row),
+            }
           }
         ]
       })
@@ -429,19 +441,34 @@ export default {
       this.relItems = []
       this.selectedSkus = []
       this.confirmLoading = false
+    },
+    // 解绑商品和方案
+    async handleUnbind(row) {
+      this.$confirm('确定要解绑该商品与方案的关联吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(async () => {
+        try {
+          await this.$api.goods.kjlUnBindItem({
+            design_id: row.design.design_id,
+            item_id: row.item_id
+          })
+        this.$message.success('解绑成功')
+        this.$refs.finder.refresh(true)
+        } catch (error) {
+          this.$message.error(error.message || '解绑失败')
+        }
+      })
+      .catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
     }
   }
 }
 </script>
-
-<style scoped lang="scss">
-// .action-container {
-//   margin-bottom: 16px;
-//   .el-button {
-//     margin-right: 10px;
-//   }
-// }
-
 .dialog-section {
   .section-header {
     display: flex;
