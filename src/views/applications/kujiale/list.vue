@@ -469,6 +469,7 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
 .dialog-section {
   .section-header {
     display: flex;
