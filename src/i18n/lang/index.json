@@ -52156,5 +52156,113 @@
 		"en": "",
 		"zh-tw": "",
 		"ar": ""
+	},
+	"o6thb1l9": {
+		"zh-cn": "\n    <div class='flex items-center'>\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n      <span class=\"mx-2\">-</span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n    </div>\n  ",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"c404aplm": {
+		"zh-cn": "<div class=\"flex items-center\">\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n      <span class=\"mx-2\">-</span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n    </div>",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"vtuwvdl9": {
+		"zh-cn": "\n    <div class='flex items-center'>\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n      <span class=\"mx-2\">至</span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n    </div>\n  ",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"8g7vjtlm": {
+		"zh-cn": "<div class=\"flex items-center\">\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n      <span class=\"mx-2\">至</span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n    </div>",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"59vi88gk": {
+		"zh-cn": "\n    <div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" type=\"primary\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>\n    <div v-if=\"selectedGoods.length > 0\" class=\"selected-goods\">\n      <el-tag\n        v-for=\"(good, idx) in selectedGoods\"\n        :key=\"idx\"\n        closable\n        @close=\"removeGood(idx)\"\n        style=\"margin-right: 8px; margin-bottom: 8px;\"\n      >\n        {{ good.item_name }}\n      </el-tag>\n    </div>\n  ",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"7fptocgt": {
+		"zh-cn": "<div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" type=\"primary\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>\n    <div v-if=\"selectedGoods.length > 0\" class=\"selected-goods\">\n      <el-tag\n        v-for=\"(good, idx) in selectedGoods\"\n        :key=\"idx\"\n        closable\n        @close=\"removeGood(idx)\"\n        style=\"margin-right: 8px; margin-bottom: 8px;\"\n      >\n        {{ good.item_name }}\n      </el-tag>\n    </div>",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"7bndb487": {
+		"zh-cn": "\n    <div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" type=\"primary\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>\n    </div>\n  ",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"v58s1o86": {
+		"zh-cn": "<div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" type=\"primary\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>\n    </div>",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"ccu6p67w": {
+		"zh-cn": "\n    <div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" type=\"primary\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>\n  ",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"z8t92i7u": {
+		"zh-cn": "<div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" type=\"primary\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"rplmw06": {
+		"zh-cn": "圈选客户数:",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"quba4h6": {
+		"zh-cn": "选择人群标签",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"i0odpa7": {
+		"zh-cn": "分群标签名称：",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"ev6j0n6": {
+		"zh-cn": "暂无选中标签",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"unhlm25": {
+		"zh-cn": "人群说明：",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"mcrscs5": {
+		"zh-cn": "批量打标签",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"d26ogx8": {
+		"zh-cn": "获取标签分类失败",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"tf3pgr6": {
+		"zh-cn": "添加标签成功",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
 	}
 }

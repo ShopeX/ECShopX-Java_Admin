@@ -19,6 +19,7 @@
       <div :class="{
         'sp-form-plus__wrapper': formType === 'searchForm',
         'sp-form-plus__wrapper-inline': inline,
+        'sp-form-plus__wrapper-flex': inline && hasFormItemClass,
         'flex-1': true
       }">
         <FormField
@@ -161,6 +162,10 @@ export default {
             'justify-content': 'flex-start',
             'margin-bottom': '22px'
           }
+    },
+    // 检查是否有表单项使用了 formItemClass
+    hasFormItemClass() {
+      return this.formItems.some(item => item.formItemClass)
     }
   },
   watch: {
@@ -305,6 +310,15 @@ export default {
     .sp-form-plus__wrapper {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 8px;
+      .form-field {
+        margin-bottom: 0;
+      }
+    }
+    // 当有 formItemClass 时，使用 flex 布局
+    .sp-form-plus__wrapper-flex {
+      display: flex;
+      flex-wrap: wrap;
       gap: 8px;
       .form-field {
         margin-bottom: 0;

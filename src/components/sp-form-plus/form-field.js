@@ -221,6 +221,7 @@ export default {
           <el-date-picker
             style='width: 100%'
             type={this.componentProps.type}
+            size={this.size}
             startPlaceholder='开始日期/结束时间'
             default-time={['00:00:00', '23:59:59']}
             // endPlaceholder="结束日期"
