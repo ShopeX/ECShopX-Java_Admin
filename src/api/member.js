@@ -502,3 +502,37 @@ export function exportEmployees(params) {
     params
   })
 }
+
+// 创建标签组
+export function createTagGroup(query) {
+  return fetch({
+    url: '/member/tag-group',
+    method: 'post',
+    params: query
+  })
+}
+
+export function updateTagGroup(id, params) {
+  return fetch({
+    url: `/member/tag-group/${id}`,
+    method: 'put',
+    params
+  })
+}
+
+// 删除标签组
+export function deleteTagGroup(id) {
+  return fetch({
+    url: `/member/tag-group/${id}`,
+    method: 'delete'
+  })
+}
+
+// 获取标签组
+export function getTagGroupList(query) {
+  return fetch({
+    url: '/member/tag-group',
+    method: 'get',
+    params: query
+  })
+}
