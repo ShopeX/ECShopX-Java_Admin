@@ -16,33 +16,103 @@
     </div>
     <div class="decorate-bd">
       <div class="left-container">
-        <draggable
-          class="wgts-view"
-          :chosen-class="'wgts-chosen'"
-          :list="widgets"
-          :group="{
-            name: 'easyview',
-            pull: 'clone',
-            put: false
-          }"
-          :sort="false"
-          :clone="cloneDefaultField"
-        >
-          <div
-            v-for="(wgt, index) in widgets"
-            :key="`wgt-item__${index}`"
-            class="wgt-item"
-            :data-name="wgt.name"
-          >
-            <div :class="['wgt-icon', wgt.wgtIcon]" />
-            <div class="wgt-name">
-              {{ wgt.wgtName }}
-            </div>
-            <div class="wgt-placeholder">
-              <div class="placholder-txt">放置区域</div>
-            </div>
+        <div class="wgts-categories">
+          <!-- 通用挂件 -->
+          <div v-if="widgetCategories.general.length > 0" class="wgt-category">
+            <div class="category-title">通用挂件</div>
+            <draggable
+              class="wgts-view"
+              :chosen-class="'wgts-chosen'"
+              :list="widgetCategories.general"
+              :group="{
+                name: 'easyview',
+                pull: 'clone',
+                put: false
+              }"
+              :sort="false"
+              :clone="cloneDefaultField"
+            >
+              <div
+                v-for="(wgt, index) in widgetCategories.general"
+                :key="`wgt-general__${index}`"
+                class="wgt-item"
+                :data-name="wgt.name"
+              >
+                <div :class="['wgt-icon', wgt.wgtIcon]" />
+                <div class="wgt-name">
+                  {{ wgt.wgtName }}
+                </div>
+                <div class="wgt-placeholder">
+                  <div class="placholder-txt">放置区域</div>
+                </div>
+              </div>
+            </draggable>
           </div>
-        </draggable>
+
+          <!-- 功能挂件 -->
+          <div v-if="widgetCategories.functional.length > 0" class="wgt-category">
+            <div class="category-title">功能挂件</div>
+            <draggable
+              class="wgts-view"
+              :chosen-class="'wgts-chosen'"
+              :list="widgetCategories.functional"
+              :group="{
+                name: 'easyview',
+                pull: 'clone',
+                put: false
+              }"
+              :sort="false"
+              :clone="cloneDefaultField"
+            >
+              <div
+                v-for="(wgt, index) in widgetCategories.functional"
+                :key="`wgt-functional__${index}`"
+                class="wgt-item"
+                :data-name="wgt.name"
+              >
+                <div :class="['wgt-icon', wgt.wgtIcon]" />
+                <div class="wgt-name">
+                  {{ wgt.wgtName }}
+                </div>
+                <div class="wgt-placeholder">
+                  <div class="placholder-txt">放置区域</div>
+                </div>
+              </div>
+            </draggable>
+          </div>
+
+          <!-- 专用挂件 -->
+          <div v-if="widgetCategories.dedicated.length > 0" class="wgt-category">
+            <div class="category-title">专用挂件</div>
+            <draggable
+              class="wgts-view"
+              :chosen-class="'wgts-chosen'"
+              :list="widgetCategories.dedicated"
+              :group="{
+                name: 'easyview',
+                pull: 'clone',
+                put: false
+              }"
+              :sort="false"
+              :clone="cloneDefaultField"
+            >
+              <div
+                v-for="(wgt, index) in widgetCategories.dedicated"
+                :key="`wgt-dedicated__${index}`"
+                class="wgt-item"
+                :data-name="wgt.name"
+              >
+                <div :class="['wgt-icon', wgt.wgtIcon]" />
+                <div class="wgt-name">
+                  {{ wgt.wgtName }}
+                </div>
+                <div class="wgt-placeholder">
+                  <div class="placholder-txt">放置区域</div>
+                </div>
+              </div>
+            </draggable>
+          </div>
+        </div>
       </div>
       <div class="center-container">
         <!-- {{ contentComps }} -->
@@ -161,6 +231,36 @@ export default {
       } else {
         return false
       }
+    },
+    widgetCategories() {
+      // 通用挂件：轮播、热区图、视频、楼层图片、文字轮播
+      const generalNames = ['Slider', 'ImgHotzone', 'Film', 'FloorImg', 'Marquees']
+      // 功能挂件：店铺、橱窗、优惠券、图片导航
+      const functionalNames = ['Store', 'Showcase', 'Coupon', 'Navigation']
+      // 专用挂件：订单导航
+      const dedicatedNames = ['OrderNavigation']
+
+      const categories = {
+        general: [],
+        functional: [],
+        dedicated: []
+      }
+
+      this.widgets.forEach((wgt) => {
+        const name = wgt.name
+        if (generalNames.includes(name)) {
+          categories.general.push(wgt)
+        } else if (functionalNames.includes(name)) {
+          categories.functional.push(wgt)
+        } else if (dedicatedNames.includes(name)) {
+          categories.dedicated.push(wgt)
+        } else {
+          // 未分类的组件默认放到通用挂件
+          categories.general.push(wgt)
+        }
+      })
+
+      return categories
     }
   },
   created() {

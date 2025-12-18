@@ -33,10 +33,33 @@
   .left-container {
     background: #fff;
     width: 240px;
+    overflow-y: auto;
+
+    .wgts-categories {
+      padding: 12px 0;
+    }
+
+    .wgt-category {
+      margin-bottom: 16px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .category-title {
+        padding: 10px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #333;
+        background: #f5f5f5;
+        border-bottom: 1px solid #e5e5e5;
+      }
+    }
 
     .wgts-view {
       display: flex;
       flex-wrap: wrap;
+      padding: 8px 0;
     }
 
     .wgt-item {
