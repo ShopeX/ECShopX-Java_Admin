@@ -1,7 +1,7 @@
 <template>
   <SpPage>
     <SpFormPlus v-model="params" form-type="searchForm" :form-items="filterFormItems" @submit="onSearch"
-      @reset="onReset" :inline="true" label-position="left" label-width="70px" formItemClass= 'w-2/3'/>
+      @reset="onReset" :inline="true" label-position="left" label-width="70px"/>
 
     <div class="action-container mt-5">
       <el-button type="primary" @click="addRoleLabels"> 添加角色 </el-button>
@@ -10,12 +10,12 @@
     <div class="flex gap-4 mt-4 h-[calc(100vh-200px)]" v-loading="loading">
       <div class="role-table-container flex flex-col w-[290px]">
         <el-table border :data="rolesList" @row-click="selectRole" :row-class-name="tableRowClassName"
-          height="calc(100vh - 300px)" class="w-full cursor-pointer ">
-          <el-table-column prop="role_name" label="角色名称" width="290px">
+          height="calc(100vh - 300px)" class="w-full cursor-pointer custom-table-header">
+          <el-table-column prop="role_name" label="角色名称" width="290px" class="py-1">
             <template #default="{ row }">
               <div class="flex justify-between items-center w-full pr-5">
                 <!--角色名和删除在水平方向上均匀分布，垂直居中对齐，第一个在起点，最后一个在终点，中间等间距-->
-                <span :class="['role-name', activeRoleId === row.role_id ? 'font-semibold' : '']">
+                <span :class="['role-name', activeRoleId === row.role_id ? 'text-purple-600' : '']">
                   {{ row.role_name }}
                 </span>
                 <el-button type="text" @click.stop="deleteSpecificRole(row)" class="hover:underline">
@@ -35,9 +35,9 @@
 
       <div class="flex flex-col flex-1">
         <div
-          class="bg-[#F0F2F5] py-0.5 px-1.5 border border-[#ebeef5] pl-2.5 rounded-t flex justify-between items-center">
+          class="bg-[#F0F2F5] py-2 px-1.5 border border-[#ebeef5] pl-2.5 rounded-t flex justify-between items-center">
           <span>{{ activeRole ? activeRole.role_name + ' - 角色权限' : '角色权限' }}</span>
-          <el-button type="text" @click="savePermissions" :loading="saveLoading" class="!mr-1">
+          <el-button type="primary" @click="savePermissions" :loading="saveLoading" class="!mr-1">
             保存
           </el-button>
         </div>
@@ -164,6 +164,7 @@ export default {
 
       filterFormItems: [
         {
+          formItemClass: 'w-1/3',
           label: '角色名称',
           fieldName: 'role_name',
           component: 'input',
@@ -585,10 +586,10 @@ export default {
 }
 
 .role-table-container ::v-deep .el-table__row:hover>td {
-  @apply bg-[#f5f7fa];
+  @apply !bg-[color-mix(in_srgb,_white_90%,_var(--primary))];
 }
 
-.role-table-container ::v-deep .el-table__row.current-row>td {
-  @apply bg-[#f5f7fa];
+.custom-table-header :deep(.el-table__header .cell) {
+  @apply py-1.5;
 }
 </style>
