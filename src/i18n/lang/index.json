@@ -51059,12 +51059,6 @@
 		"zh-tw": "",
 		"ar": ""
 	},
-	"1wjcwt6": {
-		"zh-cn": "客户购买记录",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
 	"j4p50gb": {
 		"zh-cn": "人群需同时满足以下特征",
 		"en": "",
@@ -51073,84 +51067,6 @@
 	},
 	"e5g792a": {
 		"zh-cn": "请从左侧选择人群特征",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"wmguqw5": {
-		"zh-cn": "预估人数:",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"e5bb2": {
-		"zh-cn": "估算",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"2sg6qi9c": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">用户当前的会员等级</div>\n      <el-checkbox-group v-model=\"selectedLevels\">\n        <el-checkbox\n          v-for=\"level in memberLevels\"\n          :key=\"level.value\"\n          :label=\"level.value\"\n        >\n          {{ level.label }}\n        </el-checkbox>\n      </el-checkbox-group>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"aufxu24": {
-		"zh-cn": "免费等级",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"fk7qzb4": {
-		"zh-cn": "白银会员",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"j9a87q4": {
-		"zh-cn": "钻石会员",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"kmmzt74": {
-		"zh-cn": "黄金会员",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"srgr6ugz": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <el-select v-model=\"timeType\" size=\"small\" style=\"width: 120px; margin-bottom: 10px;\">\n        <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n        <el-option label=\"相对时间\" value=\"relative\"></el-option>\n      </el-select>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"请选择日期\"\n        end-placeholder=\"请选择日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        style=\"width: 100%;\"\n        @change=\"handleChange\"\n      />\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"etu3qiho": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">用户当前可用积分数量</div>\n      <el-select v-model=\"operator\" size=\"small\" style=\"width: 100px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个</span>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"uo1c37rb": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">选定时间内,满足单笔订单金额范围的客户</div>\n      <div style=\"margin-bottom: 10px;\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"9v6ta8rb": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">选定时间内,满足累计订单金额范围的客户</div>\n      <div style=\"margin-bottom: 10px;\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"37ar5mk5": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">选定时间内,购买选择商品的客户</div>\n      <div style=\"margin-bottom: 10px;\">\n        <span style=\"margin-right: 10px;\">商品</span>\n        <el-button size=\"small\" @click=\"selectGoods\">选择商品</el-button>\n        <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n          已选择{{ selectedGoods.length }}件商品\n        </span>\n      </div>\n      <div v-if=\"selectedGoods.length > 0\" class=\"selected-goods\">\n        <el-tag\n          v-for=\"(good, idx) in selectedGoods\"\n          :key=\"idx\"\n          closable\n          @close=\"removeGood(idx)\"\n          style=\"margin-right: 8px; margin-bottom: 8px;\"\n        >\n          {{ good.item_name }}\n        </el-tag>\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"p5hmxqa7": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">选定时间内，在店铺无下单行为的客户</div>\n      <div>\n        <span style=\"margin-right: 10px;\">最近</span>\n        <el-input-number\n          v-model=\"days\"\n          :min=\"1\"\n          :max=\"720\"\n          size=\"small\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin-left: 10px;\">天</span>\n      </div>\n    </div>\n  ",
 		"en": "",
 		"zh-tw": "",
 		"ar": ""
@@ -51191,44 +51107,8 @@
 		"zh-tw": "",
 		"ar": ""
 	},
-	"kv2f7u7": {
-		"zh-cn": "是否授权手机号",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"dbv63q6": {
-		"zh-cn": "是否是分销员",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
 	"aidnug4": {
 		"zh-cn": "储值余额",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"pnfaa65": {
-		"zh-cn": "持有权益卡",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"a3yb1h5": {
-		"zh-cn": "有效权益卡",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"xx1j0p5": {
-		"zh-cn": "店铺有购买",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"xwvesg5": {
-		"zh-cn": "店铺无购买",
 		"en": "",
 		"zh-tw": "",
 		"ar": ""
@@ -51269,686 +51149,8 @@
 		"zh-tw": "",
 		"ar": ""
 	},
-	"423fq29f": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">用户当前的会员等级</div>\n      <el-checkbox-group v-model=\"selectedLevels\">\n        <el-checkbox\n          v-for=\"level in memberLevels\"\n          :key=\"level.value\"\n          :label=\"level.value\"\n        >\n          {{ level.label }}\n        </el-checkbox>\n      </el-checkbox-group>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"3l2juah8": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <el-select v-model=\"timeType\" size=\"small\" style=\"width: 120px; margin-bottom: 10px;\">\n        <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n        <el-option label=\"相对时间\" value=\"relative\"></el-option>\n      </el-select>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"请选择日期\"\n        end-placeholder=\"请选择日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        style=\"width: 100%;\"\n        @change=\"handleChange\"\n      />\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"w5phamhw": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">用户当前可用积分数量</div>\n      <el-select v-model=\"operator\" size=\"small\" style=\"width: 100px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个</span>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"rf7k8ps1": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">选定时间内,满足单笔订单金额范围的客户</div>\n      <div style=\"margin-bottom: 10px;\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"ohxbccs1": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">选定时间内,满足累计订单金额范围的客户</div>\n      <div style=\"margin-bottom: 10px;\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"h0f2jmkh": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">选定时间内,购买选择商品的客户</div>\n      <div style=\"margin-bottom: 10px;\">\n        <span style=\"margin-right: 10px;\">商品</span>\n        <el-button size=\"small\" @click=\"selectGoods\">选择商品</el-button>\n        <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n          已选择{{ selectedGoods.length }}件商品\n        </span>\n      </div>\n      <div v-if=\"selectedGoods.length > 0\" class=\"selected-goods\">\n        <el-tag\n          v-for=\"(good, idx) in selectedGoods\"\n          :key=\"idx\"\n          closable\n          @close=\"removeGood(idx)\"\n          style=\"margin-right: 8px; margin-bottom: 8px;\"\n        >\n          {{ good.item_name }}\n        </el-tag>\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"caxhziac": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">选定时间内，在店铺无下单行为的客户</div>\n      <div>\n        <span style=\"margin-right: 10px;\">最近</span>\n        <el-input-number\n          v-model=\"days\"\n          :min=\"1\"\n          :max=\"720\"\n          size=\"small\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin-left: 10px;\">天</span>\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"xc7tq5e4": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">选定时间内,在店铺有下单行为的客户</div>\n      <div>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"uk6vvee4": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">选定时间内，在店铺无下单行为的客户</div>\n      <div>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"n83569ed": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">选定时间内,在店铺有下单行为的客户</div>\n      <div>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"4vyn54ed": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">选定时间内，在店铺无下单行为的客户</div>\n      <div>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"xwqte85": {
-		"zh-cn": "店铺有下单",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"xwkp5z5": {
-		"zh-cn": "店铺无下单",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
 	"avb5xn4": {
 		"zh-cn": "全部展开",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"p77p9pgo": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\"></div>\n      <el-select v-model=\"timeType\" size=\"small\" style=\"width: 120px; margin-bottom: 10px;\">\n        <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n        <el-option label=\"相对时间\" value=\"relative\"></el-option>\n      </el-select>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"请选择日期\"\n        end-placeholder=\"请选择日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        style=\"width: 100%;\"\n        @change=\"handleChange\"\n      />\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"bmibq2f": {
-		"zh-cn": "生日（生日在选定时间内的客户）",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"p0637pgx": {
-		"zh-cn": "<div>\n      <div class=\"form-description\"></div>\n      <el-select v-model=\"timeType\" size=\"small\" style=\"width: 120px; margin-bottom: 10px;\">\n        <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n        <el-option label=\"相对时间\" value=\"relative\"></el-option>\n      </el-select>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"请选择日期\"\n        end-placeholder=\"请选择日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        style=\"width: 100%;\"\n        @change=\"handleChange\"\n      />\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"g7n5wgfh": {
-		"zh-cn": "\n    <div>\n      <el-select v-model=\"timeType\" size=\"small\" style=\"width: 120px; margin-bottom: 10px;\">\n        <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n        <el-option label=\"相对时间\" value=\"relative\"></el-option>\n      </el-select>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"请选择日期\"\n        end-placeholder=\"请选择日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        style=\"width: 100%;\"\n        @change=\"handleChange\"\n      />\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"m2o7pqfp": {
-		"zh-cn": "<div>\n      <el-select v-model=\"timeType\" size=\"small\" style=\"width: 120px; margin-bottom: 10px;\">\n        <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n        <el-option label=\"相对时间\" value=\"relative\"></el-option>\n      </el-select>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"请选择日期\"\n        end-placeholder=\"请选择日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        style=\"width: 100%;\"\n        @change=\"handleChange\"\n      />\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"6mqgxviv": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class='flex'>\n        <el-select v-model=\"timeType\" size=\"small\" style=\"width: 120px; margin-bottom: 10px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 100%;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"y7etlvj6": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class=\"flex\">\n        <el-select v-model=\"timeType\" size=\"small\" style=\"width: 120px; margin-bottom: 10px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 100%;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"y1qqt6ib": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class='flex'>\n        <el-select v-model=\"timeType\" size=\"small\" style=\"width: 120px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"3xp12im": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class=\"flex\">\n        <el-select v-model=\"timeType\" size=\"small\" style=\"width: 120px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"xmg1d4ic": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class='flex'>\n        <el-select v-model=\"timeType\" size=\"medium\" style=\"width: 120px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"lqd4xcin": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class=\"flex\">\n        <el-select v-model=\"timeType\" size=\"medium\" style=\"width: 120px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"rjf9wvhy": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class='flex'>\n        <el-select v-model=\"timeType\" style=\"width: 120px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"qhlc9ji9": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class=\"flex\">\n        <el-select v-model=\"timeType\" style=\"width: 120px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"nkjwadih": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class='flex'>\n        <el-select v-model=\"timeType\" style=\"width: 120px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 300px; margin-left: 10px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"3a5vqjis": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class=\"flex\">\n        <el-select v-model=\"timeType\" style=\"width: 120px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 300px; margin-left: 10px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"y7xwi2ih": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class='flex'>\n        <el-select v-model=\"timeType\" style=\"width: 120px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px; margin-left: 10px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"chcjcmis": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class=\"flex\">\n        <el-select v-model=\"timeType\" style=\"width: 120px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px; margin-left: 10px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"8tb2i5ih": {
-		"zh-cn": "\n    <div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class='flex'>\n        <el-select v-model=\"timeType\" style=\"width: 150px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px; margin-left: 10px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"41x2vhis": {
-		"zh-cn": "<div>\n      <div class=\"form-description\">生日在选定时间内的客户</div>\n      <div class=\"flex\">\n        <el-select v-model=\"timeType\" style=\"width: 150px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px; margin-left: 10px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"o7ilft9": {
-		"zh-cn": "用户当前的会员等级",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"b32wyjb": {
-		"zh-cn": "生日在选定时间内的客户",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"tp9rs8a": {
-		"zh-cn": "用户当前可用积分数量",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"ytjfnij": {
-		"zh-cn": "选定时间内,满足单笔订单金额范围的客户",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"4tui5rj": {
-		"zh-cn": "选定时间内,满足累计订单金额范围的客户",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"txl5hhf": {
-		"zh-cn": "选定时间内,购买选择商品的客户",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"cfnjozh": {
-		"zh-cn": "选定时间内,在店铺有下单行为的客户",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"lwkc7qh": {
-		"zh-cn": "选定时间内,在店铺无下单行为的客户",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"v3iwnhgz": {
-		"zh-cn": "\n    <div>\n      <div class='flex'>\n        <el-select v-model=\"timeType\" style=\"width: 150px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px; margin-left: 10px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"d4lkulh9": {
-		"zh-cn": "<div>\n      <div class=\"flex\">\n        <el-select v-model=\"timeType\" style=\"width: 150px;\">\n          <el-option label=\"固定时间\" value=\"fixed\"></el-option>\n          <el-option label=\"相对时间\" value=\"relative\"></el-option>\n        </el-select>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"请选择日期\"\n          end-placeholder=\"请选择日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px; margin-left: 10px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"lz0kxg7": {
-		"zh-cn": "\n    <div>\n      <el-select v-model=\"operator\" size=\"small\" style=\"width: 100px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个</span>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"odm5w9ge": {
-		"zh-cn": "<div>\n      <el-select v-model=\"operator\" size=\"small\" style=\"width: 100px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个</span>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"m6gsrpcg": {
-		"zh-cn": "\n    <div>\n      <div>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"qym6ufco": {
-		"zh-cn": "<div>\n      <div>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"nbbsyab1": {
-		"zh-cn": "\n    <div>\n      <span style=\"margin-right: 10px;\">下单时间:</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        size=\"small\"\n        style=\"width: 300px;\"\n        @change=\"handleChange\"\n      />\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"q8le9qb7": {
-		"zh-cn": "<div>\n      <span style=\"margin-right: 10px;\">下单时间:</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        size=\"small\"\n        style=\"width: 300px;\"\n        @change=\"handleChange\"\n      />\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"mnuruspl": {
-		"zh-cn": "\n    <div>\n      <div style=\"margin-bottom: 10px;\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"5rutn8ij": {
-		"zh-cn": "\n    <div>\n      <div style=\"margin-bottom: 10px;\">\n        <span style=\"margin-right: 10px;\">商品</span>\n        <el-button size=\"small\" @click=\"selectGoods\">选择商品</el-button>\n        <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n          已选择{{ selectedGoods.length }}件商品\n        </span>\n      </div>\n      <div v-if=\"selectedGoods.length > 0\" class=\"selected-goods\">\n        <el-tag\n          v-for=\"(good, idx) in selectedGoods\"\n          :key=\"idx\"\n          closable\n          @close=\"removeGood(idx)\"\n          style=\"margin-right: 8px; margin-bottom: 8px;\"\n        >\n          {{ good.item_name }}\n        </el-tag>\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"764cp6qa": {
-		"zh-cn": "<div>\n      <div style=\"margin-bottom: 10px;\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"vs1e0yiu": {
-		"zh-cn": "<div>\n      <div style=\"margin-bottom: 10px;\">\n        <span style=\"margin-right: 10px;\">商品</span>\n        <el-button size=\"small\" @click=\"selectGoods\">选择商品</el-button>\n        <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n          已选择{{ selectedGoods.length }}件商品\n        </span>\n      </div>\n      <div v-if=\"selectedGoods.length > 0\" class=\"selected-goods\">\n        <el-tag\n          v-for=\"(good, idx) in selectedGoods\"\n          :key=\"idx\"\n          closable\n          @close=\"removeGood(idx)\"\n          style=\"margin-right: 8px; margin-bottom: 8px;\"\n        >\n          {{ good.item_name }}\n        </el-tag>\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"1mxwotmf": {
-		"zh-cn": "\n    <div>\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px;\"\n      />\n      <span style=\"margin: 0 10px;\">元</span>\n      <span>至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px; margin-left: 10px;\"\n      />\n      <span style=\"margin-left: 10px;\">元</span>\n    </div>\n    <div>\n      <span style=\"margin-right: 10px;\">下单时间:</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        size=\"small\"\n        style=\"width: 300px;\"\n        @change=\"handleChange\"\n      />\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"k9dk1tn2": {
-		"zh-cn": "<div>\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px;\"\n      />\n      <span style=\"margin: 0 10px;\">元</span>\n      <span>至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px; margin-left: 10px;\"\n      />\n      <span style=\"margin-left: 10px;\">元</span>\n    </div>\n    <div>\n      <span style=\"margin-right: 10px;\">下单时间:</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        size=\"small\"\n        style=\"width: 300px;\"\n        @change=\"handleChange\"\n      />\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"dfr5arg5": {
-		"zh-cn": "\n    <div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>\n    <div v-if=\"selectedGoods.length > 0\" class=\"selected-goods\">\n      <el-tag\n        v-for=\"(good, idx) in selectedGoods\"\n        :key=\"idx\"\n        closable\n        @close=\"removeGood(idx)\"\n        style=\"margin-right: 8px; margin-bottom: 8px;\"\n      >\n        {{ good.item_name }}\n      </el-tag>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"32j7zrge": {
-		"zh-cn": "<div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>\n    <div v-if=\"selectedGoods.length > 0\" class=\"selected-goods\">\n      <el-tag\n        v-for=\"(good, idx) in selectedGoods\"\n        :key=\"idx\"\n        closable\n        @close=\"removeGood(idx)\"\n        style=\"margin-right: 8px; margin-bottom: 8px;\"\n      >\n        {{ good.item_name }}\n      </el-tag>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"6spkbhgk": {
-		"zh-cn": "\n    <div class='flex'>\n      <el-select v-model=\"operator\" size=\"small\" style=\"width: 100px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个</span>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"nwzm79gr": {
-		"zh-cn": "<div class=\"flex\">\n      <el-select v-model=\"operator\" size=\"small\" style=\"width: 100px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个</span>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"evt5h4gk": {
-		"zh-cn": "\n    <div class='flex'>\n      <el-select v-model=\"operator\" size=\"small\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个</span>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"dd09i8gr": {
-		"zh-cn": "<div class=\"flex\">\n      <el-select v-model=\"operator\" size=\"small\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个</span>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"a54onwfm": {
-		"zh-cn": "\n    <div class='flex'>\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个</span>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"71x8lafs": {
-		"zh-cn": "<div class=\"flex\">\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个</span>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"a9637hk0": {
-		"zh-cn": "\n    <div class='flex'>\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 - </span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 </span>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"6c38cnkc": {
-		"zh-cn": "<div class=\"flex\">\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 - </span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 </span>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"he7spgkd": {
-		"zh-cn": "\n    <div class='flex align-center'>\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 - </span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 </span>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"7bmnmylk": {
-		"zh-cn": "\n    <div>\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px;\"\n      />\n      <span style=\"margin: 0 10px;\">元</span>\n      <span>至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px; margin-left: 10px;\"\n      />\n      <span style=\"margin-left: 10px;\">元</span>\n    </div>\n    <div>\n      <span style=\"margin-right: 10px;\">下单时间:</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        size=\"small\"\n        style=\"width: 300px;\"\n      />\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"6h7c8ikp": {
-		"zh-cn": "<div class=\"flex align-center\">\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 - </span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 </span>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"jvl63em6": {
-		"zh-cn": "<div>\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px;\"\n      />\n      <span style=\"margin: 0 10px;\">元</span>\n      <span>至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px; margin-left: 10px;\"\n      />\n      <span style=\"margin-left: 10px;\">元</span>\n    </div>\n    <div>\n      <span style=\"margin-right: 10px;\">下单时间:</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        size=\"small\"\n        style=\"width: 300px;\"\n      />\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"fd2dptkd": {
-		"zh-cn": "\n    <div class='flex items-center'>\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 - </span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 </span>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"wtp8b1kp": {
-		"zh-cn": "<div class=\"flex items-center\">\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 - </span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 </span>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"co22efl8": {
-		"zh-cn": "\n    <div class='flex items-center'>\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个</span>\n      <span class=\"mx-2\">-</span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 </span>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"his6cxll": {
-		"zh-cn": "<div class=\"flex items-center\">\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个</span>\n      <span class=\"mx-2\">-</span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">个 </span>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"xrq4alnv": {
-		"zh-cn": "\n    <div class='flex items-center'>\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px;\"\n      />\n      <span style=\"margin: 0 10px;\">元</span>\n      <span>至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px; margin-left: 10px;\"\n      />\n      <span style=\"margin-left: 10px;\">元</span>\n    </div>\n    <div class='flex items-center'>\n      <span style=\"margin-right: 10px;\">下单时间:</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        size=\"small\"\n        style=\"width: 300px;\"\n        @change=\"handleChange\"\n      />\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"jql7whoi": {
-		"zh-cn": "<div class=\"flex items-center\">\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px;\"\n      />\n      <span style=\"margin: 0 10px;\">元</span>\n      <span>至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px; margin-left: 10px;\"\n      />\n      <span style=\"margin-left: 10px;\">元</span>\n    </div>\n    <div class=\"flex items-center\">\n      <span style=\"margin-right: 10px;\">下单时间:</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        size=\"small\"\n        style=\"width: 300px;\"\n        @change=\"handleChange\"\n      />\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"z962ssq8": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div class='flex items-center'>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"ayazyqqx": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div class=\"flex items-center\">\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"2nmko8qd": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div class='flex items-center mt-2'>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"np3zosr2": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          size=\"small\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div class=\"flex items-center mt-2\">\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          size=\"small\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"h6b383og": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div class='flex items-center mt-2'>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"z4e9hhp2": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div class=\"flex items-center mt-2\">\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 300px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"a8jdysog": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div class='flex items-center mt-2'>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"xx77eip2": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 120px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 120px; margin-left: 10px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div class=\"flex items-center mt-2\">\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"tcaphinx": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div class='flex items-center mt-2'>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"41z9vmoj": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span style=\"margin-left: 10px;\">元</span>\n      </div>\n      <div class=\"flex items-center mt-2\">\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"gud9mdnj": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class='flex items-center mt-2'>\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"bu4ywfo5": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span style=\"margin: 0 10px;\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class=\"flex items-center mt-2\">\n        <span style=\"margin-right: 10px;\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"biv7mmt": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class='flex items-center mt-2'>\n        <span class=\"mr-2\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"w54z4nf": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class=\"flex items-center mt-2\">\n        <span class=\"mr-2\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"pukfgfmt": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class='flex items-center mt-2'>\n        <span class=\"mr-1\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"alwhrjnf": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class=\"flex items-center mt-2\">\n        <span class=\"mr-1\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"rotvcfnx": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <span class=\"mr-1\">单笔金额:</span>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class='flex items-center mt-2'>\n        <span class=\"mr-1\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"leroafok": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <span class=\"mr-1\">单笔金额:</span>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class=\"flex items-center mt-2\">\n        <span class=\"mr-1\">下单时间:</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"mkh7oxnx": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <span class=\"mr-1\">单笔金额:</span>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class='flex items-center mt-2'>\n        <span class=\"mr-1\">下单时间：</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"fnluxjok": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <span class=\"mr-1\">单笔金额:</span>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span>至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class=\"flex items-center mt-2\">\n        <span class=\"mr-1\">下单时间：</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"g29h3koa": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <span class=\"mr-1\">单笔金额:</span>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span class=\"mx-2\">至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class='flex items-center mt-2'>\n        <span class=\"mr-1\">下单时间：</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"764mq8ox": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <span class=\"mr-1\">单笔金额:</span>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span class=\"mx-2\">至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class=\"flex items-center mt-2\">\n        <span class=\"mr-1\">下单时间：</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"k8i5dcoa": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <span class=\"mr-1\">单笔金额：</span>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span class=\"mx-2\">至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class='flex items-center mt-2'>\n        <span class=\"mr-1\">下单时间：</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"csun68ox": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <span class=\"mr-1\">单笔金额：</span>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span class=\"mx-2\">至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class=\"flex items-center mt-2\">\n        <span class=\"mr-1\">下单时间：</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n          @change=\"handleChange\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"vvo1zhl5": {
-		"zh-cn": "\n    <div>\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px;\"\n      />\n      <span style=\"margin: 0 10px;\">元</span>\n      <span>至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px; margin-left: 10px;\"\n      />\n      <span style=\"margin-left: 10px;\">元</span>\n    </div>\n    <div>\n      <span class=\"mr-1\">下单时间：</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        size=\"small\"\n        style=\"width: 300px;\"\n      />\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"4pmwtflr": {
-		"zh-cn": "<div>\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px;\"\n      />\n      <span style=\"margin: 0 10px;\">元</span>\n      <span>至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px; margin-left: 10px;\"\n      />\n      <span style=\"margin-left: 10px;\">元</span>\n    </div>\n    <div>\n      <span class=\"mr-1\">下单时间：</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        size=\"small\"\n        style=\"width: 300px;\"\n      />\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"xiada4kt": {
-		"zh-cn": "\n    <div>\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px;\"\n      />\n      <span class=\"mx-2\">元</span>\n      <span class=\"mx-2\">至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px; margin-left: 10px;\"\n      />\n      <span class=\"mx-2\">元</span>\n    </div>\n    <div>\n      <span class=\"mr-1\">下单时间：</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        size=\"small\"\n        style=\"width: 300px;\"\n      />\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"94h078lf": {
-		"zh-cn": "<div>\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px;\"\n      />\n      <span class=\"mx-2\">元</span>\n      <span class=\"mx-2\">至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        size=\"small\"\n        style=\"width: 120px; margin-left: 10px;\"\n      />\n      <span class=\"mx-2\">元</span>\n    </div>\n    <div>\n      <span class=\"mr-1\">下单时间：</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        size=\"small\"\n        style=\"width: 300px;\"\n      />\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"u4qnd6je": {
-		"zh-cn": "\n    <div>\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span class=\"mx-2\">元</span>\n      <span class=\"mx-2\">至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span class=\"mx-2\">元</span>\n    </div>\n    <div class='flex items-center mt-2'>\n      <span class=\"mr-1\">下单时间：</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        style=\"width: 400px;\"\n      />\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"efomj4jx": {
-		"zh-cn": "<div>\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span class=\"mx-2\">元</span>\n      <span class=\"mx-2\">至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span class=\"mx-2\">元</span>\n    </div>\n    <div class=\"flex items-center mt-2\">\n      <span class=\"mr-1\">下单时间：</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        style=\"width: 400px;\"\n      />\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"k29boujz": {
-		"zh-cn": "\n    <div class='flex items-center'>\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span class=\"mx-2\">元</span>\n      <span class=\"mx-2\">至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span class=\"mx-2\">元</span>\n    </div>\n    <div class='flex items-center'>\n      <span class=\"mr-1\">下单时间：</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        style=\"width: 400px;\"\n      />\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"ir19ecki": {
-		"zh-cn": "<div class=\"flex items-center\">\n      <el-input-number\n        v-model=\"minAmount\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span class=\"mx-2\">元</span>\n      <span class=\"mx-2\">至</span>\n      <el-input-number\n        v-model=\"maxAmount\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span class=\"mx-2\">元</span>\n    </div>\n    <div class=\"flex items-center\">\n      <span class=\"mr-1\">下单时间：</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        style=\"width: 400px;\"\n      />\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"lw1ijpm4": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span class=\"mx-2\">至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class='flex items-center'>\n        <span class=\"mr-1\">下单时间：</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"1tp1j3mp": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span class=\"mx-2\">至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class=\"flex items-center\">\n        <span class=\"mr-1\">下单时间：</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"45pmizar": {
-		"zh-cn": "\n    <div class='flex items-center'>\n      <span class=\"mr-1\">下单时间：</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        style=\"width: 400px;\"\n        @change=\"handleChange\"\n      />\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"7g0mvnaw": {
-		"zh-cn": "<div class=\"flex items-center\">\n      <span class=\"mr-1\">下单时间：</span>\n      <el-date-picker\n        v-model=\"dateRange\"\n        type=\"daterange\"\n        range-separator=\"至\"\n        start-placeholder=\"开始日期\"\n        end-placeholder=\"结束日期\"\n        format=\"yyyy-MM-dd\"\n        value-format=\"yyyy-MM-dd\"\n        style=\"width: 400px;\"\n        @change=\"handleChange\"\n      />\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"4y99j5m9": {
-		"zh-cn": "\n    <div>\n      <div class='flex items-center'>\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span class=\"mx-2\">至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class='flex items-center mt-2'>\n        <span class=\"mr-1\">下单时间：</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n        />\n      </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"m20xu7mu": {
-		"zh-cn": "<div>\n      <div class=\"flex items-center\">\n        <el-input-number\n          v-model=\"minAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n        <span class=\"mx-2\">至</span>\n        <el-input-number\n          v-model=\"maxAmount\"\n          :min=\"0\"\n          style=\"width: 150px;\"\n        />\n        <span class=\"mx-2\">元</span>\n      </div>\n      <div class=\"flex items-center mt-2\">\n        <span class=\"mr-1\">下单时间：</span>\n        <el-date-picker\n          v-model=\"dateRange\"\n          type=\"daterange\"\n          range-separator=\"至\"\n          start-placeholder=\"开始日期\"\n          end-placeholder=\"结束日期\"\n          format=\"yyyy-MM-dd\"\n          value-format=\"yyyy-MM-dd\"\n          style=\"width: 400px;\"\n        />\n      </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"qixhjy5": {
-		"zh-cn": "库家乐列表",
 		"en": "",
 		"zh-tw": "",
 		"ar": ""
@@ -52001,12 +51203,6 @@
 		"zh-tw": "",
 		"ar": ""
 	},
-	"9d6s1bb": {
-		"zh-cn": "选品关联方案功能待实现",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
 	"s5uxrs6": {
 		"zh-cn": "选品关联方案",
 		"en": "",
@@ -52025,12 +51221,6 @@
 		"zh-tw": "",
 		"ar": ""
 	},
-	"wx29ibi": {
-		"zh-cn": "可输入方案名称或下拉选择多个方案查询",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
 	"paejjd": {
 		"zh-cn": "2、选择酷家乐案例关联商品",
 		"en": "",
@@ -52039,12 +51229,6 @@
 	},
 	"blztz58": {
 		"zh-cn": "选择关联案例商品",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"y68841q": {
-		"zh-cn": "暂未选择商品，请点击\"选择关联案例商品\"按钮选择商品",
 		"en": "",
 		"zh-tw": "",
 		"ar": ""
@@ -52157,66 +51341,6 @@
 		"zh-tw": "",
 		"ar": ""
 	},
-	"o6thb1l9": {
-		"zh-cn": "\n    <div class='flex items-center'>\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n      <span class=\"mx-2\">-</span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"c404aplm": {
-		"zh-cn": "<div class=\"flex items-center\">\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n      <span class=\"mx-2\">-</span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"vtuwvdl9": {
-		"zh-cn": "\n    <div class='flex items-center'>\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n      <span class=\"mx-2\">至</span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"8g7vjtlm": {
-		"zh-cn": "<div class=\"flex items-center\">\n      <el-select v-model=\"operator\" style=\"width: 150px; margin-right: 10px;\">\n        <el-option label=\"大于\" value=\"gt\"></el-option>\n        <el-option label=\"等于\" value=\"eq\"></el-option>\n        <el-option label=\"小于\" value=\"lt\"></el-option>\n        <el-option label=\"大于等于\" value=\"gte\"></el-option>\n        <el-option label=\"小于等于\" value=\"lte\"></el-option>\n      </el-select>\n      <el-input-number\n        v-model=\"value\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n      <span class=\"mx-2\">至</span>\n      <el-input-number\n        v-model=\"maxValue\"\n        :min=\"0\"\n        style=\"width: 150px;\"\n      />\n      <span style=\"margin-left: 10px;\">积分</span>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"59vi88gk": {
-		"zh-cn": "\n    <div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" type=\"primary\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>\n    <div v-if=\"selectedGoods.length > 0\" class=\"selected-goods\">\n      <el-tag\n        v-for=\"(good, idx) in selectedGoods\"\n        :key=\"idx\"\n        closable\n        @close=\"removeGood(idx)\"\n        style=\"margin-right: 8px; margin-bottom: 8px;\"\n      >\n        {{ good.item_name }}\n      </el-tag>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"7fptocgt": {
-		"zh-cn": "<div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" type=\"primary\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>\n    <div v-if=\"selectedGoods.length > 0\" class=\"selected-goods\">\n      <el-tag\n        v-for=\"(good, idx) in selectedGoods\"\n        :key=\"idx\"\n        closable\n        @close=\"removeGood(idx)\"\n        style=\"margin-right: 8px; margin-bottom: 8px;\"\n      >\n        {{ good.item_name }}\n      </el-tag>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"7bndb487": {
-		"zh-cn": "\n    <div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" type=\"primary\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"v58s1o86": {
-		"zh-cn": "<div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" type=\"primary\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"ccu6p67w": {
-		"zh-cn": "\n    <div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" type=\"primary\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>\n  ",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
-	"z8t92i7u": {
-		"zh-cn": "<div>\n      <span style=\"margin-right: 10px;\">商品</span>\n      <el-button size=\"small\" type=\"primary\" @click=\"selectGoods\">选择商品</el-button>\n      <span v-if=\"selectedGoods.length > 0\" style=\"margin-left: 10px;\">\n        已选择{{ selectedGoods.length }}件商品\n      </span>\n    </div>",
-		"en": "",
-		"zh-tw": "",
-		"ar": ""
-	},
 	"rplmw06": {
 		"zh-cn": "圈选客户数:",
 		"en": "",
@@ -52261,6 +51385,72 @@
 	},
 	"tf3pgr6": {
 		"zh-cn": "添加标签成功",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"3lk4qq6": {
+		"zh-cn": "订单时间范围",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"a8dsd15": {
+		"zh-cn": "商城有下单",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"a8jwla5": {
+		"zh-cn": "商城无下单",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"abwzak4": {
+		"zh-cn": "会员信息",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"elfsg3": {
+		"zh-cn": "总条件",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"uly1166": {
+		"zh-cn": "无需额外配置",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"ut65o15": {
+		"zh-cn": "人群描述：",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"n2fdyk7": {
+		"zh-cn": "请输入人群描述",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"scnfel6": {
+		"zh-cn": "选择客户特征",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"cn5oeja": {
+		"zh-cn": "请从左侧选择客户特征",
+		"en": "",
+		"zh-tw": "",
+		"ar": ""
+	},
+	"j0v6qu4": {
+		"zh-cn": "金额区间",
 		"en": "",
 		"zh-tw": "",
 		"ar": ""
