@@ -120,7 +120,13 @@
         <div class="weapp-template">
           <Header v-if="headerVisible" :value="headerData" @change="handleClickHeader" />
           <div class="weapp-body" :style="weappBodyStyle">
-            <draggable :list="contentComps" group="easyview" class="components-design-wrap">
+            <draggable 
+              :list="contentComps" 
+              group="easyview" 
+              class="components-design-wrap"
+              :move="onDragMove"
+              @add="onDragAdd"
+            >
               <div
                 v-for="(wgt, index) in contentComps"
                 :key="`wgt-render-item__${index}`"
@@ -236,7 +242,7 @@ export default {
       // 通用挂件：轮播、热区图、视频、楼层图片、文字轮播
       const generalNames = ['Slider', 'ImgHotzone', 'Film', 'FloorImg', 'Marquees']
       // 功能挂件：店铺、橱窗、优惠券、图片导航
-      const functionalNames = ['Store', 'Showcase', 'Coupon', 'Navigation']
+      const functionalNames = ['Store', 'Showcase', 'Coupon', 'Navigation','StoreAlphabet']
       // 专用挂件：订单导航
       const dedicatedNames = ['OrderNavigation']
 
@@ -246,6 +252,7 @@ export default {
         dedicated: []
       }
 
+      // 显示所有挂件，不进行过滤
       this.widgets.forEach((wgt) => {
         const name = wgt.name
         if (generalNames.includes(name)) {
@@ -316,6 +323,14 @@ export default {
     cloneDefaultField(e) {
       const { wgtName, wgtDesc, config } = e
       const { setting, name } = JSON.parse(JSON.stringify(config))
+      
+      // 检查是否可以添加（在克隆时检查）
+      if (!this.canAddWgt(name)) {
+        this.$message.error('店铺字母列表挂件与其他挂件互斥，无法同时添加')
+        // 返回 null 或抛出错误来阻止克隆
+        return null
+      }
+      
       const compData = {
         name,
         wgtName,
@@ -413,6 +428,11 @@ export default {
     },
     onMoveDownComp(index) {},
     onCopyComp(index, wgt) {
+      // 检查互斥逻辑（wgt.name 是 config.name，即 storeAlphabet）
+      if (!this.canAddWgt(wgt.name)) {
+        this.$message.error('店铺字母列表挂件与其他挂件互斥，无法同时添加')
+        return
+      }
       this.contentComps.splice(index + 1, 0, cloneDeep(wgt))
     },
     onDeleteComp(index) {
@@ -422,6 +442,78 @@ export default {
         }, 20)
       }
       this.contentComps.splice(index, 1)
+    },
+    // 拖拽移动时的处理（在拖拽过程中检查，返回 false 可以阻止拖拽）
+    onDragMove(evt) {
+      // 如果是从左侧拖拽到右侧（添加新挂件）
+      // evt.relatedContext.list === this.contentComps 表示要添加到右侧列表
+      if (evt.relatedContext && evt.relatedContext.list === this.contentComps) {
+        const draggedWgt = evt.draggedContext.element
+        
+        // 从左侧拖拽时，draggedWgt 可能是组件对象（name 是组件名如 StoreAlphabet）
+        // 也可能是克隆后的数据（name 是 config.name 如 storeAlphabet）
+        let configName = draggedWgt.name
+        
+        // 如果是组件对象，需要转换为 config.name
+        if (draggedWgt.config) {
+          // 已经是克隆后的数据，直接使用 name
+          configName = draggedWgt.name
+        } else {
+          // 是组件对象，需要查找对应的 config.name
+          const wgt = this.widgets.find(w => w.name === draggedWgt.name)
+          configName = wgt?.config?.name || draggedWgt.name
+        }
+        
+        // 检查是否可以添加
+        if (!this.canAddWgt(configName)) {
+          this.$message.error('店铺字母列表挂件与其他挂件互斥，无法同时添加')
+          return false // 阻止拖拽
+        }
+      }
+      return true // 允许拖拽
+    },
+    // 拖拽添加挂件时的处理（备用检查，防止 move 事件未触发）
+    onDragAdd(evt) {
+      const addedWgt = evt.added.element
+      // addedWgt.name 是 config.name，即 storeAlphabet
+      if (!this.canAddWgt(addedWgt.name)) {
+        // 如果不允许添加，移除刚添加的挂件
+        this.$nextTick(() => {
+          const index = this.contentComps.findIndex(comp => comp === addedWgt)
+          if (index !== -1) {
+            this.contentComps.splice(index, 1)
+          }
+        })
+        this.$message.error('店铺字母列表挂件与其他挂件互斥，无法同时添加')
+      }
+    },
+    // 检查是否可以添加挂件（互斥逻辑）
+    canAddWgt(wgtName) {
+      const storeAlphabetConfigName = 'storeAlphabet'
+      const storeAlphabetComponentName = 'StoreAlphabet'
+      
+      // 判断是否要添加店铺字母列表（可能是组件名或配置名）
+      const isAddingStoreAlphabet = wgtName === storeAlphabetConfigName || wgtName === storeAlphabetComponentName
+      
+      // 检查当前已有的挂件（contentComps 中使用的是 config.name）
+      const hasStoreAlphabet = this.contentComps.some(
+        comp => comp.name === storeAlphabetConfigName
+      )
+      const hasOtherWgts = this.contentComps.some(
+        comp => comp.name !== storeAlphabetConfigName
+      )
+      
+      // 如果要添加店铺字母列表，但已有其他挂件，则不允许
+      if (isAddingStoreAlphabet && hasOtherWgts) {
+        return false
+      }
+      
+      // 如果要添加其他挂件，但已有店铺字母列表，则不允许
+      if (!isAddingStoreAlphabet && hasStoreAlphabet) {
+        return false
+      }
+      
+      return true
     },
     async onSaveTemplate() {
       // console.log('onSaveTemplate:', JSON.stringify(data))

@@ -33,10 +33,12 @@
   .left-container {
     background: #fff;
     width: 240px;
+    height: calc(100vh - 60px);
     overflow-y: auto;
-
-    .wgts-categories {
-      padding: 12px 0;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+    &::-webkit-scrollbar {
+      display: none; /* Chrome Safari */
     }
 
     .wgt-category {
@@ -251,6 +253,7 @@
     min-height: 750px;
 
     .sortable-ghost {
+
       // display: none;
       .wgt-icon,
       .wgt-name {

@@ -9,8 +9,8 @@ export default {
       key: 'animation',
       component: 'radiobutton',
       options: [
+        { name: '纵向排列', label: 'horizontal' },
         { name: '横向排列', label: 'vertical' },
-        { name: '纵向排列', label: 'horizontal' }
       ],
       tips: '横向排列:高度固定，宽度自适应, 超出屏幕滑动',
       value: 'horizontal'

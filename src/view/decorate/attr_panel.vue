@@ -145,7 +145,7 @@ export default {
             <div class='cell-label'>{item.label}</div>
             <div class='cell-value'>
               <div class='cell-value-content'>{renderComp(item)}</div>
-              {item.tip && <div class='cell-value-tip' domPropsInnerHTML={item.tip} />}
+              {(item.tip || item.tips) && <div class='cell-value-tip' domPropsInnerHTML={item.tip || item.tips} />}
             </div>
           </div>
         ))}
