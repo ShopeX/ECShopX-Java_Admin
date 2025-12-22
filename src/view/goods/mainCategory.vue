@@ -76,7 +76,7 @@
             <el-button v-if="VERSION_PLATFORM()" type="text">
               <router-link
                 :to="{
-                  path: '/entity/goods/goodsaudit',
+                  path: '/products/product-manage/merchant-products',
                   query: { main_cat_id: scope.row.category_id }
                 }"
               >
@@ -234,7 +234,7 @@ export default {
   },
   mounted() {
     this.init()
-    this.classification()
+    // this.classification()
   },
   methods: {
     async classification() {

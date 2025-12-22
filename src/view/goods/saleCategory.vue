@@ -191,7 +191,7 @@ export default {
   mounted() {
     this.init()
     this.fetchWechatList()
-    this.classification()
+    // this.classification()
   },
   methods: {
     async classification() {
@@ -206,7 +206,7 @@ export default {
       list.forEach(element => {
         ;(element.title = element.page_name), (element.value = element.id)
       })
-      // this.categoryFormList[4].options = list
+      this.categoryFormList[4].options = list
     },
     async init() {
       const list = await this.getCategory()
