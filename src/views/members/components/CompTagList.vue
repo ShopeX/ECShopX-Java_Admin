@@ -36,8 +36,8 @@
       <el-tag
         :effect="item.selected ? 'light' : 'plain'"
         :size="tagSize"
-        :color="item.tag_color"
-        :style="{ color: item.font_color }"
+        :color="noBackground ? '' : item.tag_color"
+        :style="{ color: noBackground ? '' : item.font_color }"
       >
         {{ item.tag_name }}
       </el-tag>
@@ -63,6 +63,10 @@ export default {
     tagSize: {
       type: String,
       default: 'medium'
+    },
+    noBackground: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

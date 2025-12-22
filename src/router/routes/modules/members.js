@@ -81,25 +81,25 @@ const routes = [
           title: '客户标签',
           permissions: ['member.tagsmanage.customerTags']
         },
-        component: () => import('@/views/members/customer-tags/list')
+        component: () => import('@/views/members/customer_tags')
       },
-      // {
-      //   name: 'tagsManageCrowdMarking',
-      //   path: 'tags-manage/crowd-marking',
-      //   meta: {
-      //     aliasName: 'crowdMarking',
-      //     icon: 'pay-circle',
-      //     title: '人群打标',
-      //     permissions: ['member.tagsmanage.crowdMarking']
-      //   },
-      //   component: () => import('@/views/members/crowd-marking/list'),
-      //    children: [
-      //     {
-      //       path: 'editor',
-      //       component: () => import('@/views/members/crowd-marking/editor')
-      //     }
-      //   ]
-      // },
+      {
+        name: 'tagsManageCrowdMarking',
+        path: 'tags-manage/crowd-marking',
+        meta: {
+          aliasName: 'crowdMarking',
+          icon: 'pay-circle',
+          title: '人群打标',
+          permissions: ['member.tagsmanage.crowdMarking']
+        },
+        component: () => import('@/views/members/crowd_marking'),
+         children: [
+          {
+            path: 'editor',
+            component: () => import('@/views/members/crowd_marking_editor')
+          }
+        ]
+      },
       {
         name: 'paymentRecords',
         path: 'member-benefit/payment-records',
@@ -171,7 +171,7 @@ const routes = [
           permissions: ['member.membersetting.manageinfomation']
         },
         component: () => import('@/view/member/register')
-        // component: () => import('@/view/members/register-member')
+        // component: () => import('@/view/members/register_member')
       },
       {
         name: 'logoutSetting',
@@ -182,7 +182,7 @@ const routes = [
           title: '注销配置',
           permissions: ['member.membersetting.closeAccount']
         },
-        component: () => import('@/views/members/logout-member')
+        component: () => import('@/views/members/logout_member')
       },
       {
         name: 'trustLogin',

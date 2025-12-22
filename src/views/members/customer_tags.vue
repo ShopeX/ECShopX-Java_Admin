@@ -49,8 +49,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import { createSetting } from '@shopex-ui/finder'
-import CompTagList from '../components/comp-taglist'
-import CompAddTag from '../components/comp-addtag'
+import CompTagList from './components/CompTagList'
+import CompAddTag from './components/CompAddTag'
 
 export default {
   components: {
@@ -136,7 +136,7 @@ export default {
                   'list': row.tags || [],
                 },
                 on: {
-                  'add-tag': (value) => vm.handleTagSelect(row, value)
+                  'add-tag': (value) => vm.handleAddTags(row, value)
                 }
               })
             }
@@ -284,7 +284,7 @@ export default {
         console.log(error)
       }
     },
-    async handleTagSelect(row, value) {
+    async handleAddTags(row, value) {
       try {
         const params = {
           group_id: row.group_id,
