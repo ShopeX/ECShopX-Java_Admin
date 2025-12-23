@@ -25,10 +25,9 @@ export default {
     onCompChange() {
       this.$emit('input', this.compValue)
     },
-
-    _renderSelect({ key, options }) {
+    _renderSelect({ key, options, onchange = () => {} }) {
       return (
-        <el-select v-model={this.value[key]} size='small'>
+        <el-select v-model={this.value[key]} size='mini' onChange={(e) => onchange(e, this)}>
           {options.map((op) => (
             <el-option label={op.label} value={op.value} />
           ))}

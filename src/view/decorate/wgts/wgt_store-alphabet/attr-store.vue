@@ -49,7 +49,6 @@ export default {
         }
       })
       if (data) {
-        console.log(data, 'data')
         this.localValue = data.map(
           ({
             distributor_id,

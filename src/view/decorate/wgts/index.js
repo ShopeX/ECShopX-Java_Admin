@@ -25,6 +25,9 @@ import WgtHeading from './wgt_heading'
 import WgtFullSlider from './wgt_fullSlider'
 import wgtOrderNavigation from './wgt_orderNavigation'
 import WgtStoreAlphabet from './wgt_store-alphabet'
+import WgtShop from './wgt_shop'
+import WgtClassify from './wgt_classify'
+import WgtShelves from './wgt_shelves'
 // 首页装修
 let SCENE_1001 = {
   WgtSlider,
@@ -43,7 +46,10 @@ let SCENE_1001 = {
   WgtImageNavigation,
   WgtFullSlider,
   wgtOrderNavigation,
-  WgtStoreAlphabet
+  WgtStoreAlphabet,
+  WgtShop,
+  WgtClassify,
+  WgtShelves
 }
 
 if (VERSION_PLATFORM()) {
@@ -80,7 +86,10 @@ const SCENE_1003 = {
   WgtImageNavigation,
   WgtStore,
   WgtNearbyShop,
-  WgtStoreAlphabet
+  WgtStoreAlphabet,
+  WgtShop,
+  WgtClassify,
+  WgtShelves
 }
 
 // 自定义页面装修

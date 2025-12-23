@@ -242,7 +242,7 @@ export default {
       // 通用挂件：轮播、热区图、视频、楼层图片、文字轮播
       const generalNames = ['Slider', 'ImgHotzone', 'Film', 'FloorImg', 'Marquees']
       // 功能挂件：店铺、橱窗、优惠券、图片导航
-      const functionalNames = ['Store', 'Showcase', 'Coupon', 'Navigation','StoreAlphabet']
+      const functionalNames = ['Store', 'Showcase', 'Coupon', 'Navigation','StoreAlphabet', 'Shop']
       // 专用挂件：订单导航
       const dedicatedNames = ['OrderNavigation']
 
