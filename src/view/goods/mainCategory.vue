@@ -51,7 +51,6 @@
               :width="48"
               :height="48"
             />
-            <span>{{ scope.row.category_name }}</span>
           </div>
         </template>
         </el-table-column>
