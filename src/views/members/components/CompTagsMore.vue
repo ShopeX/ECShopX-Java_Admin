@@ -123,9 +123,12 @@ export default {
     initSelectedTags() {
       // 初始化已选标签
       this.selectedTagMap = {}
-      if (this.selectedTags.length > 0) {
+      if (this.selectedTags && this.selectedTags.length > 0) {
         this.selectedTags.forEach(tag => {
           const groupId = tag.group_id
+          if (!this.selectedTagMap[groupId]) {
+            this.$set(this.selectedTagMap, groupId, [])
+          }
           this.selectedTagMap[groupId].push(tag)
         })
       }
