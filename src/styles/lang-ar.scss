@@ -324,8 +324,8 @@ html[dir='rtl'] {
   // 菜单图标镜像
   // Element UI 默认的子菜单箭头图标
   .el-submenu__icon-arrow {
-    right: 20px !important;
-    left: auto !important;
+    left: 20px !important;
+    right: auto !important;
   }
   
   // 处理自定义菜单图标（如 icon-xiala）

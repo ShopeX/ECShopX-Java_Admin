@@ -325,7 +325,7 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="120px">
+          <el-table-column fixed="left" label="操作" width="120px">
             <template slot-scope="scope">
               <!-- 平台端 来源店铺非平台则隐藏 -->
               <el-button v-if="!adminDisabled" type="text" @click="removeActivityItem(scope.row)">

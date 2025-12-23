@@ -130,7 +130,7 @@
             <span v-if="scope.row.handle_status == 'fail'">处理失败</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="150" fixed="right">
+        <el-table-column label="操作" min-width="150" fixed="left">
           <template slot-scope="scope">
             <a href=" " @click.prevent="handleDown(scope.row)">下载</a>
           </template>
