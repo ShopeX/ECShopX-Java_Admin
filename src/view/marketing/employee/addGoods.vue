@@ -77,11 +77,11 @@
               clearable
             />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="cat_id" label="销售分类:">
+          <SpFilterFormItem prop="category" label="销售分类:">
             <el-cascader
-              v-model="queryForm.cat_id"
+              v-model="queryForm.category"
               :options="salesCategoryList"
-              :props="{ checkStrictly: true, label: 'category_name', value: 'category_id' }"
+              :props="{ checkStrictly: true, label: 'category_name', value: 'category_id', emitPath: false }"
               clearable
             />
           </SpFilterFormItem>
@@ -428,7 +428,7 @@ export default {
       ],
       queryForm: {
         main_cat_id: [],
-        cat_id: [],
+        category: '',
         item_name: '',
         item_bn: ''
       },
