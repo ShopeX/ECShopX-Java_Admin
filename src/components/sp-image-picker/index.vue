@@ -57,7 +57,7 @@
     align-items: center;
     justify-content: center;
   }
-  .icon-camera {
+  .el-icon-camera {
     font-size: 24px;
     color: #d9d9d9;
     line-height: initial;

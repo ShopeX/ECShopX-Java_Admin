@@ -92,7 +92,7 @@
   margin: 0 10px 10px 0;
   overflow: hidden;
   position: relative;
-  .icon-camera {
+  .el-icon-camera {
     font-size: 28px;
     color: #ccc;
     position: absolute;
