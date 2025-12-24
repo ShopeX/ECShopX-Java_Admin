@@ -1784,9 +1784,6 @@ export default {
         ...this.params,
         distributor_id: this.shopId
       }
-      if (params.category.length > 0) {
-        params.category = params.category[params.category.length - 1]
-      }
       // const { list, total_count, warning_store } = await this.$api.goods.getItemsList(params)
       const { list, total_count, warning_store } = await this.$api.marketing.getDistributorItems(
         params
