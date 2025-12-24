@@ -1,13 +1,13 @@
 <template>
-    <div class="seckill-goods" :style="containerStyle">
+    <div class="seckill-goods" :style="customStyle">
         <!-- 头部区域 -->
         <div class="seckill-header">
             <div class="seckill-header-left">
                 <div class="header-title">
                     <img v-if="value.titleText && value.titleText.type === 'image' && value.titleText.image"
                         :src="value.titleText.image" class="header-image" alt="">
-                    <span v-if="value.titleText && value.titleText.text" class="header-text">
-                        {{ value.titleText?.text || '限时秒杀' }}
+                    <span v-if="value.titleText&& value.titleText.type === 'text' && value.titleText.text" class="header-text">
+                        {{ value.titleText?.text }}
                     </span>
                 </div>
                 <!-- 倒计时器 -->
@@ -48,8 +48,8 @@
             </div>
             <!-- 查看更多 -->
             <div v-if="value.moreBtn && value.moreBtn.show" class="header-more"
-                :style="{ color: value.moreBtn.color || '#FFFFFF' }">
-                查看更多>
+                :style="{ color: value.moreBtn.colo }">
+                查看更多<el-icon class="el-icon-arrow-right" />
             </div>
         </div>
 
@@ -104,30 +104,6 @@ export default {
             countdownInfo: null,
             countdownTimer: null,
             seckillIcon: seckillIcon
-        }
-    },
-    computed: {
-        containerStyle() {
-            const bg = this.value.innerBackground || {}
-            let style = {
-                ...this.customStyle
-            }
-
-            if (bg.type === 'solid') {
-                style.backgroundColor = bg.color || '#FF6B9D'
-            } else if (bg.type === 'gradient') {
-                style.backgroundImage = `linear-gradient(to right, ${bg.startColor || '#FF6B9D'}, ${bg.endColor || '#FF8C42'})`
-            } else if (bg.type === 'image' && bg.image) {
-                style.backgroundImage = `url(${bg.image})`
-                style.backgroundSize = 'cover'
-                style.backgroundPosition = 'center'
-                style.backgroundRepeat = 'no-repeat'
-            } else {
-                // 默认渐变背景（粉色到橙色）
-                style.backgroundImage = 'linear-gradient(to right, #FF6B9D, #FF8C42)'
-            }
-
-            return style
         }
     },
     mounted() {

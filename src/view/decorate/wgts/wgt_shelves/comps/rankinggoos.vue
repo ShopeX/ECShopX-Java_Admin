@@ -1,13 +1,13 @@
 <template>
-    <div class="ranking-goods" :style="containerStyle">
+    <div class="ranking-goods" :style="customStyle">
         <!-- 头部区域 -->
         <div class="ranking-header">
             <div class="ranking-header-left">
                 <div class="header-title">
                     <img v-if="value.titleText && value.titleText.type === 'image' && value.titleText.image"
                         :src="value.titleText.image" class="header-image" alt="">
-                    <span v-if="value.titleText && value.titleText.text" class="header-text"
-                        :style="{ color: value.titleColor }">
+                    <span v-if="value.titleText && value.titleText.type === 'text' && value.titleText.text"
+                        class="header-text" :style="{ color: value.titleColor }">
                         {{ value.titleText?.text }}
                     </span>
                 </div>
@@ -42,14 +42,15 @@
                 <div class="goods-info">
                     <div class="goods-name-wrapper">
                         <!-- 标签 -->
-                        <div class="goods-tags" v-if="getPromotionTags(item).length > 0">
-                            <span v-for="(tag, tagIndex) in getPromotionTags(item)" :key="tagIndex" class="goods-tag"
-                                :class="tag.class">
-                                {{ tag.text }}
-                            </span>
-                        </div>
+
                         <!-- 商品名称 -->
-                        <div class="goods-name">{{ item.item_name || item.itemName || '商品名称最多...' }}</div>
+                        <div class="goods-name">
+                            <el-image v-if="item?.member_preference?.marketing_id" :src="memberPreferenceIcon"
+                                class="goods-tag-icon" alt="" />
+                            <el-image v-if="item?.promotion_activity?.find(ele => ele.tag_type == 'limited_time_sale')"
+                                :src="activitySeckill" class="goods-tag-limit-icon" alt="" />
+                            {{ item.item_name || item.itemNam }}
+                        </div>
                     </div>
 
                     <!-- 价格 -->
@@ -65,6 +66,8 @@
 
 <script>
 import fireIcon from '@/assets/imgs/wgt/fire.png'
+import activitySeckill from '@/assets/imgs/wgt/activity_seckill.png'
+import memberPreferenceIcon from "@/assets/imgs/wgt/member_preference.png"
 export default {
     name: 'RankingGoods',
     props: {
@@ -81,30 +84,11 @@ export default {
             default: () => ({})
         }
     },
-    computed: {
-        containerStyle() {
-            const bg = this.value.innerBackground || {}
-            let style = {
-                ...this.customStyle
-            }
-
-            if (bg.type === 'solid') {
-                style.backgroundColor = bg.color
-            } else if (bg.type === 'gradient') {
-                style.backgroundImage = `linear-gradient(to bottom, ${bg.startColor}, ${bg.endColor})`
-            } else if (bg.type === 'image' && bg.image) {
-                style.backgroundImage = `url(${bg.image})`
-                style.backgroundSize = 'cover'
-                style.backgroundPosition = 'center'
-                style.backgroundRepeat = 'no-repeat'
-            }
-
-            return style
-        }
-    },
     data() {
         return {
-            fireIcon: fireIcon
+            fireIcon: fireIcon,
+            activitySeckill,
+            memberPreferenceIcon
         }
     },
     methods: {
@@ -115,55 +99,6 @@ export default {
             // 价格通常以分为单位，需要除以100
             return (numPrice / 100).toFixed(2)
         },
-        // 获取促销标签
-        getPromotionTags(item) {
-            const tags = []
-
-            // 检查 feature_activity_tag
-            if (item.feature_activity_tag) {
-                const tagText = item.feature_activity_tag
-                if (tagText.includes('优先购') || tagText.includes('优先')) {
-                    tags.push({
-                        text: '优先购',
-                        class: 'tag-priority'
-                    })
-                } else if (tagText.includes('秒杀')) {
-                    tags.push({
-                        text: '秒杀',
-                        class: 'tag-seckill'
-                    })
-                } else if (tagText) {
-                    tags.push({
-                        text: tagText,
-                        class: 'tag-default'
-                    })
-                }
-            }
-
-            // 检查 promotion_activity（如果存在）
-            if (item.promotion_activity && Array.isArray(item.promotion_activity)) {
-                item.promotion_activity.forEach(act => {
-                    if (act.tag_name) {
-                        let tagClass = 'tag-default'
-                        if (act.tag_name.includes('优先购') || act.tag_name.includes('优先')) {
-                            tagClass = 'tag-priority'
-                        } else if (act.tag_name.includes('秒杀')) {
-                            tagClass = 'tag-seckill'
-                        }
-                        // 避免重复添加
-                        const exists = tags.find(t => t.text === act.tag_name)
-                        if (!exists) {
-                            tags.push({
-                                text: act.tag_name,
-                                class: tagClass
-                            })
-                        }
-                    }
-                })
-            }
-
-            return tags
-        }
     }
 }
 </script>
@@ -341,6 +276,8 @@ export default {
             margin-bottom: 6px;
             overflow: hidden;
             background: #F5F5F5;
+            border: 1px solid rgba(203, 152, 0, 0.25);
+            box-sizing: border-box;
 
             .goods-image {
                 width: 100%;
@@ -386,36 +323,22 @@ export default {
             .goods-name-wrapper {
                 width: 100%;
                 margin-bottom: 4px;
+                display: flex;
+                align-items: start;
 
-                .goods-tags {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 4px;
-                    margin-bottom: 4px;
+                .goods-tag-icon {
+                    width: 31px;
+                    height: 13px;
+                    object-fit: cover;
+                    vertical-align: middle;
+                }
 
-                    .goods-tag {
-                        padding: 2px 6px;
-                        border-radius: 2px;
-                        font-family: PingFang SC, PingFang SC;
-                        font-weight: 500;
-                        font-size: 10px;
-                        white-space: nowrap;
+                .goods-tag-limit-icon {
+                    width: 23px;
+                    height: 13px;
+                    object-fit: cover;
+                    vertical-align: middle;
 
-                        &.tag-priority {
-                            background-color: #E5E5E5;
-                            color: #666666;
-                        }
-
-                        &.tag-seckill {
-                            background-color: #D4003B;
-                            color: #FFFFFF;
-                        }
-
-                        &.tag-default {
-                            background-color: #F5F5F5;
-                            color: #666666;
-                        }
-                    }
                 }
 
                 .goods-name {

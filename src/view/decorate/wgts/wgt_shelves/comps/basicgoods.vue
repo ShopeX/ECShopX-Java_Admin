@@ -5,13 +5,13 @@
             <div class="header-title">
                 <img v-if="value.titleText && value.titleText.type === 'image' && value.titleText.image"
                     :src="value.titleText.image" class="header-image" alt="">
-                <span v-if="value.titleText && value.titleText.text" :style="{ color: value.titleColor }"
-                    class="header-text">
+                <span v-if="value.titleText && value.titleText.type === 'text' && value.titleText.text"
+                    :style="{ color: value.titleColor }" class="header-text">
                     {{ value.titleText?.text }}
                 </span>
             </div>
             <div v-if="value.moreBtn && value.moreBtn.show" class="header-more" :style="{ color: value.moreBtn.color }">
-                查看更多>
+                查看更多<el-icon class="el-icon-arrow-right" />
             </div>
         </div>
 

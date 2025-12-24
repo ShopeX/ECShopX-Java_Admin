@@ -63,6 +63,7 @@ export default {
           id: v == 'price' ? '0,0' : '',
           info: null
         })
+        self.$set(self.value, 'limitedTime', false)
         if (v == 'seckill') {
           self.$set(self.value, 'titleText', {
             type: 'image',
@@ -114,7 +115,7 @@ export default {
       component: 'switch',
       value: false,
       isShow: function () {
-        return this.value.animation == 'horizontal' 
+        return this.value.animation == 'horizontal' && ['sales', 'price', 'items', 'main_category', 'category'].includes(this.value.dataType)
       }
     }, {
       label: '限时特惠数据',

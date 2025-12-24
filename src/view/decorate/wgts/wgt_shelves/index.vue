@@ -5,9 +5,11 @@
         <div class="wgt-shelves-content flex gap-6"> 
         <BasicGoods v-if="['sales', 'price', 'items', 'main_category', 'category'].includes(value.dataType)"
             :value="value" :goods-list="list" :custom-style="innerStyle" />
-        <SeckillGoods v-if="value.dataType === 'seckill'"
+        <SeckillGoods v-if="['seckill', 'promotion'].includes(value.dataType)"
             :value="value" :goods-list="list" :custom-style="innerStyle" />
         <RankingGoods v-if="value.dataType === 'category_ranking'"
+            :value="value" :goods-list="list" :custom-style="innerStyle" />
+        <GroupGoods v-if="value.dataType === 'group'"
             :value="value" :goods-list="list" :custom-style="innerStyle" />
         <SeckillRight v-if="value.limitedTime&&['sales', 'price', 'items', 'main_category', 'category'].includes(value.dataType)" :value="value" :goods-list="seckillList" />
     </div>
@@ -21,9 +23,12 @@ import BasicGoods from './comps/basicgoods.vue'
 import SeckillGoods from './comps/seckillgoods.vue'
 import SeckillRight from './comps/seckillright.vue'
 import RankingGoods from './comps/rankinggoos.vue'
+import GroupGoods from './comps/groupgoods.vue'
 import saledata from './mock/saledata.json'
 import seckilldata from './mock/skill.json'
 import rankingata from './mock/ranking.json'
+import promotiondata from './mock/promotion.json'
+import groupdata from './mock/group.json'
 export default {
     name: 'Shelves',
     wgtName: '货架',
@@ -39,6 +44,7 @@ export default {
         SeckillGoods,
         SeckillRight,
         RankingGoods,
+        GroupGoods,
     },
     data() {
         return {
@@ -58,6 +64,10 @@ export default {
                     this.getSeckillGoodsList()
                 } else if (newVal === 'category_ranking') {
                     this.getRankingGoodsList()
+                } else if (newVal === 'promotion') {
+                    this.getPromotionGoodsList()
+                } else if (newVal === 'group') {
+                    this.getGroupGoodsList()
                 }
             },
             immediate: true,
@@ -72,6 +82,10 @@ export default {
                     this.getSeckillGoodsList()
                 } else if (this.value.dataType === 'category_ranking') {
                     this.getRankingGoodsList()
+                }else if(this.value.dataType === 'promotion') {
+                    this.getPromotionGoodsList()
+                } else if(this.value.dataType === 'group') {
+                    this.getGroupGoodsList()
                 }
             },
             deep: true
@@ -251,6 +265,61 @@ export default {
             //     this.list = res?.data?.data || []
             // } catch (error) {
             //     console.error('获取榜单商品列表失败:', error)
+            //     this.list = []
+            // }
+        },
+        async getPromotionGoodsList() {
+            const dataType = this.value.dataType
+
+            // // 检查是否有 data 参数
+            // if (!this.hasDataParam()) {
+            //     // 没有 data 参数，清空列表
+            //     this.list = []
+            //     return
+            // }
+
+            let params = {
+                data_type: dataType,
+                data_value: this.value.data?.id || '',
+                data_count: this.value.dataCount,
+                distributor_id: this.value.data?.distributor_id || '',
+                pages_template_id: this.$route.query.id,
+            }
+
+            // 模拟数据 TODO: 删除
+            console.log(promotiondata.data.items.list, 'promotiondata')
+            this.list = promotiondata.data.items.list.slice(0, this.value.dataCount)
+
+            // 实际接口调用示例（注释掉）
+            // try {
+            //     const res = await this.$api.template.getShelvesGoods(params)
+            //     this.list = res?.data?.data || []
+            // } catch (error) {
+            //     console.error('获取活动集合页商品列表失败:', error)
+            //     this.list = []
+            // }
+        },
+        async getGroupGoodsList() {
+            const dataType = this.value.dataType
+
+            let params = {
+                data_type: dataType,
+                data_value: this.value.data?.id || '',
+                data_count: this.value.dataCount,
+                distributor_id: this.value.data?.distributor_id || '',
+                pages_template_id: this.$route.query.id,
+            }
+
+            // 模拟数据 TODO: 删除
+            console.log(groupdata.data, 'groupdata')
+            this.list = groupdata.data.slice(0, this.value.dataCount)
+
+            // 实际接口调用示例（注释掉）
+            // try {
+            //     const res = await this.$api.template.getShelvesGoods(params)
+            //     this.list = res?.data?.data || []
+            // } catch (error) {
+            //     console.error('获取拼团商品列表失败:', error)
             //     this.list = []
             // }
         }
