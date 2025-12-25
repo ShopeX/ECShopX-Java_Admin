@@ -20,7 +20,10 @@
             <div v-for="(item, index) in topGoods" :key="`top-${index}`"
                 :class="`basic-goods-item basic-goods-item-${index + 1}`">
                 <!-- TOP标签 -->
-                <div class="top-badge" v-if="index < 3 && value.dataType === 'sales'">TOP.{{ index + 1 }}</div>
+                <div v-if="value.dataType === 'sales'" class="top-badge">
+                    <span v-if="index < 3" class="top-badge-text">TOP.</span>
+                    <span class="top-badge-text">{{ index + 1 }}</span>
+                </div>
 
                 <!-- 商品图片 -->
                 <div class="goods-img-wrapper">
@@ -162,7 +165,7 @@ export default {
             top: 0px;
             left: 0px;
             z-index: 2;
-            padding: 2px 3px;
+            padding: 0px 3px;
             border-radius: 4px 0px 4px 0px;
             border-width: 1px;
             border-style: solid;
@@ -172,29 +175,41 @@ export default {
             text-align: center;
             font-style: normal;
             text-transform: none;
+            height: 14px;
+            line-height: 14px;
+            box-sizing: border-box;
         }
+
+        &.basic-goods-item {
+            .top-badge {
+                background: #efefef;
+                border: 1px solid hsla(0, 0%, 60%, .25);
+                color: #999999;
+            }
+        }
+
 
         &.basic-goods-item-1 {
             .top-badge {
-                border-color: rgba(203, 152, 0, 0.25);
-                background: rgba(203, 152, 0, 0.15);
-                color: #CB9800;
+                background: #f6efd8;
+                border: 1px solid rgba(203, 152, 0, .25);
+                color: #cb9800;
             }
         }
 
         &.basic-goods-item-2 {
             .top-badge {
-                border-color: rgba(87, 107, 149, 0.25);
-                background: rgba(87, 107, 149, 0.15);
-                color: #576B95;
+                background: #e6e9ef;
+                border: 1px solid rgba(87, 107, 149, .25);
+                color: #576b95;
             }
         }
 
         &.basic-goods-item-3 {
             .top-badge {
-                border-color: rgba(222, 127, 72, 0.5);
-                background: rgba(222, 127, 72, 0.25);
-                color: #DE7F48;
+                background: #ffe5d7;
+                border: 1px solid rgba(222, 127, 72, .25);
+                color: #de7f48;
             }
         }
 
