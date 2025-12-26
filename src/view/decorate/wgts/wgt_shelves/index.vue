@@ -2,17 +2,25 @@
 
 <template>
     <div class="wgt-shelves" :style="outerStyle">
-        <div class="wgt-shelves-content flex gap-6"> 
-        <BasicGoods v-if="['sales', 'price', 'items', 'main_category', 'category'].includes(value.dataType)"
-            :value="value" :goods-list="list" :custom-style="innerStyle" />
-        <SeckillGoods v-if="['seckill', 'promotion'].includes(value.dataType)"
-            :value="value" :goods-list="list" :custom-style="innerStyle" />
-        <RankingGoods v-if="value.dataType === 'category_ranking'"
-            :value="value" :goods-list="list" :custom-style="innerStyle" />
-        <GroupGoods v-if="value.dataType === 'group'"
-            :value="value" :goods-list="list" :custom-style="innerStyle" />
-        <SeckillRight v-if="value.limitedTime&&['sales', 'price', 'items', 'main_category', 'category'].includes(value.dataType)" :value="value" :goods-list="seckillList" />
-    </div>
+        <div class="wgt-shelves-content flex gap-6" v-if="value.animation == 'horizontal'">
+            <BasicGoods v-if="['sales', 'price', 'items', 'main_category', 'category'].includes(value.dataType)"
+                :value="value" :goods-list="list" :custom-style="innerStyle" />
+            <SeckillGoods v-if="['seckill', 'promotion'].includes(value.dataType)" :value="value" :goods-list="list"
+                :custom-style="innerStyle" />
+            <RankingGoods v-if="value.dataType === 'category_ranking'" :value="value" :goods-list="list"
+                :custom-style="innerStyle" />
+            <GroupGoods v-if="value.dataType === 'group'" :value="value" :goods-list="list"
+                :custom-style="innerStyle" />
+            <SeckillRight
+                v-if="value.limitedTime && ['sales', 'price', 'items', 'main_category', 'category'].includes(value.dataType)"
+                :value="value" :goods-list="seckillList" />
+        </div>
+        <!-- 纵向排列 -->
+        <div class="wgt-shelves-content" v-if="value.animation == 'vertical'">
+            <RowGoods v-if="value.goodsSort === 'one'" :value="value" :goods-list="list" :custom-style="innerStyle" />
+            <ColumnGoods v-if="value.goodsSort === 'two'" :value="value" :goods-list="list" :custom-style="innerStyle" />
+            <GridGoods v-if="value.goodsSort === 'three'" :value="value" :goods-list="list" :custom-style="innerStyle" />
+        </div>
     </div>
 </template>
 
@@ -24,6 +32,9 @@ import SeckillGoods from './comps/seckillgoods.vue'
 import SeckillRight from './comps/seckillright.vue'
 import RankingGoods from './comps/rankinggoos.vue'
 import GroupGoods from './comps/groupgoods.vue'
+import RowGoods from './comps/rowgoods.vue'
+import ColumnGoods from './comps/columngoods.vue'
+import GridGoods from './comps/gridgoods.vue'
 import saledata from './mock/saledata.json'
 import seckilldata from './mock/skill.json'
 import rankingata from './mock/ranking.json'
@@ -45,6 +56,9 @@ export default {
         SeckillRight,
         RankingGoods,
         GroupGoods,
+        RowGoods,
+        ColumnGoods,
+        GridGoods,
     },
     data() {
         return {
@@ -82,9 +96,9 @@ export default {
                     this.getSeckillGoodsList()
                 } else if (this.value.dataType === 'category_ranking') {
                     this.getRankingGoodsList()
-                }else if(this.value.dataType === 'promotion') {
+                } else if (this.value.dataType === 'promotion') {
                     this.getPromotionGoodsList()
-                } else if(this.value.dataType === 'group') {
+                } else if (this.value.dataType === 'group') {
                     this.getGroupGoodsList()
                 }
             },
@@ -160,7 +174,7 @@ export default {
                     params.data_value = this.value?.data.id.split(',')
                     break;
             }
-            
+
             // 模拟数据 TODO: 删除
             this.list = saledata.data.slice(0, this.value.dataCount)
 
@@ -196,7 +210,7 @@ export default {
             }
             // 模拟数据 TODO: 删除
             this.seckillList = seckilldata.data
-            console.log(this.seckillList, 'seckillList',seckilldata.data)
+            console.log(this.seckillList, 'seckillList', seckilldata.data)
             // 实际接口调用示例（注释掉）
             // try {
             //     const res = await this.$api.template.getShelvesGoods(params)
@@ -224,7 +238,7 @@ export default {
                 distributor_id: this.value.data?.distributor_id || '',
                 pages_template_id: this.$route.query.id,
             }
-            
+
             // 模拟数据 TODO: 删除
             this.list = seckilldata.data.slice(0, this.value.dataCount)
 
@@ -255,7 +269,7 @@ export default {
                 distributor_id: this.value.data?.distributor_id || '',
                 pages_template_id: this.$route.query.id,
             }
-            
+
             // 模拟数据 TODO: 删除
             this.list = rankingata.data.list.slice(0, this.value.dataCount)
 

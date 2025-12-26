@@ -305,6 +305,312 @@
             ]
         },
         {
+            "default_item_id": "61",
+            "regionauth_id": "15",
+            "item_type": "normal",
+            "item_category_main": [
+                {
+                    "category_id": "340",
+                    "category_name": "\u5973\u5b50\u4e13\u533a",
+                    "category_level": "1",
+                    "parent_id": "0"
+                },
+                {
+                    "category_id": "341",
+                    "category_name": "\u5916\u5957",
+                    "category_level": "2",
+                    "parent_id": "340"
+                },
+                {
+                    "category_id": "342",
+                    "category_name": "\u4f11\u95f2\u5916\u5957",
+                    "category_level": "3",
+                    "parent_id": "341"
+                }
+            ],
+            "item_name": "\u4e4c77\u6e05\u51b7\u611f\u6302\u8116\u65e0\u8896\u540a\u5e26\u88d9\u5973\u6536\u8170\u663e\u7626\u4f18\u96c5\u6c14\u8d28\u957f\u6b3e\u9732\u80a9\u5ea6\u5047\u8fde\u8863\u88d9",
+            "keywords": "\u4e4c77\u6e05\u51b7\u611f\u6302\u8116\u65e0\u8896\u540a\u5e26\u88d9\u5973\u6536\u8170\u663e\u7626\u4f18\u96c5\u6c14\u8d28\u957f\u6b3e\u9732\u80a9\u5ea6\u5047\u8fde\u8863\u88d9\/\u4f5b\u7f57\u5546\u6d3e-\u5546\u57ce(\u65b0)001\/\u5973\u5b50\u4e13\u533a\/\u5916\u5957\/\u4f11\u95f2\u5916\u5957",
+            "brief": "",
+            "distributor_id": 3592,
+            "distributor_valid": "true",
+            "distributor_status": 1,
+            "distributor_category_id": "27",
+            "goods_bn": "FVWH5032_X12150589462770",
+            "brand_id": "9",
+            "goods_brand": "\u4f5b\u7f57\u5546\u6d3e-\u5546\u57ce(\u65b0)001",
+            "sort": 1,
+            "is_gift": 0,
+            "item_total_store": 96,
+            "item_total_sales": 38,
+            "item_category_info": [
+                {
+                    "category_id": "417",
+                    "category_name": "\u56fd\u9645\u540d\u54c1",
+                    "category_level": "1",
+                    "parent_id": "0"
+                },
+                {
+                    "category_id": "418",
+                    "category_name": "\u56fd\u9645\u540d\u54c1",
+                    "category_level": "2",
+                    "parent_id": "417"
+                },
+                {
+                    "category_id": "419",
+                    "category_name": "\u7537\u88c5",
+                    "category_level": "3",
+                    "parent_id": "418"
+                },
+                {
+                    "category_id": "61",
+                    "category_name": "\u5168\u90e8\u54c1\u724c",
+                    "category_level": "1",
+                    "parent_id": "0"
+                },
+                {
+                    "category_id": "279",
+                    "category_name": "nike",
+                    "category_level": "2",
+                    "parent_id": "61"
+                },
+                {
+                    "category_id": "377",
+                    "category_name": "\u6d4b\u8bd5",
+                    "category_level": "1",
+                    "parent_id": "0"
+                },
+                {
+                    "category_id": "401",
+                    "category_name": "Anson\u4e8c\u7ea7",
+                    "category_level": "2",
+                    "parent_id": "377"
+                },
+                {
+                    "category_id": "400",
+                    "category_name": "Anson\u4e00\u7ea7",
+                    "category_level": "1",
+                    "parent_id": "0"
+                },
+                {
+                    "category_id": "402",
+                    "category_name": "Anson\u4e8c\u7ea7\u6d4b\u8bd5",
+                    "category_level": "2",
+                    "parent_id": "400"
+                },
+                {
+                    "category_id": "417",
+                    "category_name": "\u56fd\u9645\u540d\u54c1",
+                    "category_level": "1",
+                    "parent_id": "0"
+                },
+                {
+                    "category_id": "418",
+                    "category_name": "\u56fd\u9645\u540d\u54c1",
+                    "category_level": "2",
+                    "parent_id": "417"
+                },
+                {
+                    "category_id": "434",
+                    "category_name": "\u5973\u88c5",
+                    "category_level": "3",
+                    "parent_id": "418"
+                }
+            ],
+            "pics": [
+                "https:\/\/aiopro-uat.oss-cn-shanghai.aliyuncs.com\/aiopro-uat\/image\/1\/2025\/05\/28\/item\/0a93a851c6f3efbb2d0aadd365b39bdb20250528145232174841507908119844029791309908.png"
+            ],
+            "item_params": [],
+            "nospec": 0,
+            "item_spec": [
+                {
+                    "spec_id": "2",
+                    "spec_name": "\u989c\u8272",
+                    "spec_value_id": "12",
+                    "spec_value_name": "\u7c89\u82721"
+                },
+                {
+                    "spec_id": "3",
+                    "spec_name": "\u5c3a\u7801",
+                    "spec_value_id": "13",
+                    "spec_value_name": "M1"
+                },
+                {
+                    "item_id": "61",
+                    "spec_id": "2",
+                    "spec_value_id": "12",
+                    "spec_name": "\u989c\u8272",
+                    "spec_custom_value_name": null,
+                    "spec_value_name": "\u7c89\u82721",
+                    "item_image_url": [],
+                    "spec_image_url": null
+                },
+                {
+                    "item_id": "61",
+                    "spec_id": "3",
+                    "spec_value_id": "13",
+                    "spec_name": "\u5c3a\u7801",
+                    "spec_custom_value_name": null,
+                    "spec_value_name": "M1",
+                    "item_image_url": [],
+                    "spec_image_url": null
+                }
+            ],
+            "spec_items": [
+                {
+                    "item_id": "61",
+                    "item_bn": "FVWH5032_X16150589477301",
+                    "item_spec": [
+                        {
+                            "spec_id": "2",
+                            "spec_name": "\u989c\u8272",
+                            "spec_value_id": "12",
+                            "spec_custom_value_name": null,
+                            "spec_value_name": "\u7c89\u82721"
+                        },
+                        {
+                            "spec_id": "3",
+                            "spec_name": "\u5c3a\u7801",
+                            "spec_value_id": "13",
+                            "spec_custom_value_name": null,
+                            "spec_value_name": "M1"
+                        }
+                    ],
+                    "barcode": "",
+                    "price": "300",
+                    "market_price": "300",
+                    "approve_status": "onsale",
+                    "store": "96",
+                    "sales": "38",
+                    "discount_rate": null
+                }
+            ],
+            "audit_status": "approved",
+            "store": 96,
+            "sales": 38,
+            "price": "300",
+            "market_price": "300",
+            "discount_rate": 34,
+            "tags": [],
+            "regions_id": "",
+            "type": 0,
+            "rebate": null,
+            "rebate_type": null,
+            "main_img": "https:\/\/aiopro-uat.oss-cn-shanghai.aliyuncs.com\/aiopro-uat\/image\/1\/2025\/05\/28\/item\/0a93a851c6f3efbb2d0aadd365b39bdb20250528145232174841507908119844029791309908.png",
+            "promotion_start_time": "1748415134",
+            "promotion_end_time": "1848395580",
+            "is_show": 1,
+            "item_id": "61",
+            "goods_id": "61",
+            "distributor_info": {
+                "distributor_id": "3592",
+                "is_distributor": "1",
+                "company_id": "1",
+                "mobile": "13600000000",
+                "address": "\u9f99\u9633\u5927\u9053111\u53f7",
+                "name": "LA TING",
+                "auto_sync_goods": "0",
+                "logo": "https:\/\/aiopro-uat.oss-cn-shanghai.aliyuncs.com\/aiopro-uat\/image\/1\/2025\/06\/20\/a6ea8e22753f65269d0f3bc94a81c0611750400273494.9nwc3-cvf9o.jpg",
+                "contract_phone": "",
+                "banner": "https:\/\/aiopro-uat.oss-cn-shanghai.aliyuncs.com\/aiopro-uat\/image\/1\/2025\/05\/28\/8561d9dc80c696e3385f144a9d5c799b1748411774999.1748411734206.jpg",
+                "contact": "wh",
+                "is_valid": "true",
+                "lng": "116.416334",
+                "lat": "39.928359",
+                "province": "\u6e56\u5317\u7701",
+                "city": "\u6b66\u6c49\u5e02",
+                "hour": "-",
+                "area": "\u6c49\u9633\u533a",
+                "regions_id": [
+                    "420000",
+                    "420100",
+                    "420105"
+                ],
+                "is_domestic": "1",
+                "is_direct_store": "1",
+                "child_count": "0",
+                "shop_id": "0",
+                "is_default": "0",
+                "is_audit_goods": "0",
+                "is_ziti": "0",
+                "is_delivery": "1",
+                "regions": [
+                    "\u6e56\u5317\u7701",
+                    "\u6b66\u6c49\u5e02",
+                    "\u6c49\u9633\u533a"
+                ],
+                "review_status": "0",
+                "source_from": "1",
+                "dealer_id": "0",
+                "split_ledger_info": null,
+                "created": "1745930641",
+                "updated": "1754382698",
+                "shop_code": "FVWH5032",
+                "distributor_self": "0",
+                "wechat_work_department_id": "0",
+                "regionauth_id": "15",
+                "is_open": "false",
+                "rate": null,
+                "is_dada": "0",
+                "business": null,
+                "dada_shop_create": "0",
+                "introduce": "",
+                "merchant_id": "0",
+                "distribution_type": "0",
+                "is_require_subdistrict": "0",
+                "is_require_building": "0",
+                "delivery_distance": "0",
+                "offline_aftersales": "0",
+                "offline_aftersales_self": "0",
+                "offline_aftersales_distributor_id": null,
+                "offline_aftersales_other": "0",
+                "house_number": "",
+                "is_self_delivery": "0",
+                "is_open_salesman": "0",
+                "bspay_split_ledger_info": null,
+                "shansong_shop_create": "0",
+                "shansong_store_id": null,
+                "freight_time": "2",
+                "is_refund_freight": "0",
+                "wdt_shop_no": "",
+                "wdt_shop_id": "0",
+                "jst_shop_id": "0",
+                "kuaizhen_store_id": "0",
+                "open_divided": "0",
+                "category_id": "27",
+                "status": "1",
+                "unit_number": "H32",
+                "business_mode": "catering",
+                "opening_date": "1747843200",
+                "closing_date": "1782748800",
+                "priority": "10",
+                "is_display": "1",
+                "related_shop_id": "0",
+                "first_letter": "L",
+                "tag_name": "\u6807\u7b7e\u6807\u7b7e\u6807\u6807\u7b7e\u6807\u7b7e\u6807\u6807\u7b7e\u6807\u7b7e\u6807\u6807\u7b7e\u6807\u7b7e\u6807",
+                "tag_start_time": "1748793600",
+                "tag_end_time": "1751271594",
+                "ship_template_id": "63"
+            },
+            "type_labels": [],
+            "item_spec_desc": "\u989c\u8272:\u7c89\u82721,\u5c3a\u7801:M1",
+            "seckill_discount_rate": "8800",
+            "activity_price": 100,
+            "seckill_start_time": "1766073600",
+            "promotion_activity": [
+                {
+                    "promotion_id": "46",
+                    "tag_type": "single_group",
+                    "activity_price": "8800",
+                    "start_time": "1766073600",
+                    "end_time": "1767196799",
+                    "item_id": "61",
+                    "item_store": 1,
+                    "tag_name": "\u9650\u65f6\uff01",
+                    "person_num": 2
+                }
+            ]
+        },
+        {
             "default_item_id": "1113",
             "regionauth_id": "15",
             "item_type": "normal",
@@ -996,312 +1302,6 @@
                     "end_time": "1766764799",
                     "item_id": "1107",
                     "item_store": 1
-                }
-            ]
-        },
-        {
-            "default_item_id": "61",
-            "regionauth_id": "15",
-            "item_type": "normal",
-            "item_category_main": [
-                {
-                    "category_id": "340",
-                    "category_name": "\u5973\u5b50\u4e13\u533a",
-                    "category_level": "1",
-                    "parent_id": "0"
-                },
-                {
-                    "category_id": "341",
-                    "category_name": "\u5916\u5957",
-                    "category_level": "2",
-                    "parent_id": "340"
-                },
-                {
-                    "category_id": "342",
-                    "category_name": "\u4f11\u95f2\u5916\u5957",
-                    "category_level": "3",
-                    "parent_id": "341"
-                }
-            ],
-            "item_name": "\u4e4c77\u6e05\u51b7\u611f\u6302\u8116\u65e0\u8896\u540a\u5e26\u88d9\u5973\u6536\u8170\u663e\u7626\u4f18\u96c5\u6c14\u8d28\u957f\u6b3e\u9732\u80a9\u5ea6\u5047\u8fde\u8863\u88d9",
-            "keywords": "\u4e4c77\u6e05\u51b7\u611f\u6302\u8116\u65e0\u8896\u540a\u5e26\u88d9\u5973\u6536\u8170\u663e\u7626\u4f18\u96c5\u6c14\u8d28\u957f\u6b3e\u9732\u80a9\u5ea6\u5047\u8fde\u8863\u88d9\/\u4f5b\u7f57\u5546\u6d3e-\u5546\u57ce(\u65b0)001\/\u5973\u5b50\u4e13\u533a\/\u5916\u5957\/\u4f11\u95f2\u5916\u5957",
-            "brief": "",
-            "distributor_id": 3592,
-            "distributor_valid": "true",
-            "distributor_status": 1,
-            "distributor_category_id": "27",
-            "goods_bn": "FVWH5032_X12150589462770",
-            "brand_id": "9",
-            "goods_brand": "\u4f5b\u7f57\u5546\u6d3e-\u5546\u57ce(\u65b0)001",
-            "sort": 1,
-            "is_gift": 0,
-            "item_total_store": 96,
-            "item_total_sales": 38,
-            "item_category_info": [
-                {
-                    "category_id": "417",
-                    "category_name": "\u56fd\u9645\u540d\u54c1",
-                    "category_level": "1",
-                    "parent_id": "0"
-                },
-                {
-                    "category_id": "418",
-                    "category_name": "\u56fd\u9645\u540d\u54c1",
-                    "category_level": "2",
-                    "parent_id": "417"
-                },
-                {
-                    "category_id": "419",
-                    "category_name": "\u7537\u88c5",
-                    "category_level": "3",
-                    "parent_id": "418"
-                },
-                {
-                    "category_id": "61",
-                    "category_name": "\u5168\u90e8\u54c1\u724c",
-                    "category_level": "1",
-                    "parent_id": "0"
-                },
-                {
-                    "category_id": "279",
-                    "category_name": "nike",
-                    "category_level": "2",
-                    "parent_id": "61"
-                },
-                {
-                    "category_id": "377",
-                    "category_name": "\u6d4b\u8bd5",
-                    "category_level": "1",
-                    "parent_id": "0"
-                },
-                {
-                    "category_id": "401",
-                    "category_name": "Anson\u4e8c\u7ea7",
-                    "category_level": "2",
-                    "parent_id": "377"
-                },
-                {
-                    "category_id": "400",
-                    "category_name": "Anson\u4e00\u7ea7",
-                    "category_level": "1",
-                    "parent_id": "0"
-                },
-                {
-                    "category_id": "402",
-                    "category_name": "Anson\u4e8c\u7ea7\u6d4b\u8bd5",
-                    "category_level": "2",
-                    "parent_id": "400"
-                },
-                {
-                    "category_id": "417",
-                    "category_name": "\u56fd\u9645\u540d\u54c1",
-                    "category_level": "1",
-                    "parent_id": "0"
-                },
-                {
-                    "category_id": "418",
-                    "category_name": "\u56fd\u9645\u540d\u54c1",
-                    "category_level": "2",
-                    "parent_id": "417"
-                },
-                {
-                    "category_id": "434",
-                    "category_name": "\u5973\u88c5",
-                    "category_level": "3",
-                    "parent_id": "418"
-                }
-            ],
-            "pics": [
-                "https:\/\/aiopro-uat.oss-cn-shanghai.aliyuncs.com\/aiopro-uat\/image\/1\/2025\/05\/28\/item\/0a93a851c6f3efbb2d0aadd365b39bdb20250528145232174841507908119844029791309908.png"
-            ],
-            "item_params": [],
-            "nospec": 0,
-            "item_spec": [
-                {
-                    "spec_id": "2",
-                    "spec_name": "\u989c\u8272",
-                    "spec_value_id": "12",
-                    "spec_value_name": "\u7c89\u82721"
-                },
-                {
-                    "spec_id": "3",
-                    "spec_name": "\u5c3a\u7801",
-                    "spec_value_id": "13",
-                    "spec_value_name": "M1"
-                },
-                {
-                    "item_id": "61",
-                    "spec_id": "2",
-                    "spec_value_id": "12",
-                    "spec_name": "\u989c\u8272",
-                    "spec_custom_value_name": null,
-                    "spec_value_name": "\u7c89\u82721",
-                    "item_image_url": [],
-                    "spec_image_url": null
-                },
-                {
-                    "item_id": "61",
-                    "spec_id": "3",
-                    "spec_value_id": "13",
-                    "spec_name": "\u5c3a\u7801",
-                    "spec_custom_value_name": null,
-                    "spec_value_name": "M1",
-                    "item_image_url": [],
-                    "spec_image_url": null
-                }
-            ],
-            "spec_items": [
-                {
-                    "item_id": "61",
-                    "item_bn": "FVWH5032_X16150589477301",
-                    "item_spec": [
-                        {
-                            "spec_id": "2",
-                            "spec_name": "\u989c\u8272",
-                            "spec_value_id": "12",
-                            "spec_custom_value_name": null,
-                            "spec_value_name": "\u7c89\u82721"
-                        },
-                        {
-                            "spec_id": "3",
-                            "spec_name": "\u5c3a\u7801",
-                            "spec_value_id": "13",
-                            "spec_custom_value_name": null,
-                            "spec_value_name": "M1"
-                        }
-                    ],
-                    "barcode": "",
-                    "price": "300",
-                    "market_price": "300",
-                    "approve_status": "onsale",
-                    "store": "96",
-                    "sales": "38",
-                    "discount_rate": null
-                }
-            ],
-            "audit_status": "approved",
-            "store": 96,
-            "sales": 38,
-            "price": "300",
-            "market_price": "300",
-            "discount_rate": 34,
-            "tags": [],
-            "regions_id": "",
-            "type": 0,
-            "rebate": null,
-            "rebate_type": null,
-            "main_img": "https:\/\/aiopro-uat.oss-cn-shanghai.aliyuncs.com\/aiopro-uat\/image\/1\/2025\/05\/28\/item\/0a93a851c6f3efbb2d0aadd365b39bdb20250528145232174841507908119844029791309908.png",
-            "promotion_start_time": "1748415134",
-            "promotion_end_time": "1848395580",
-            "is_show": 1,
-            "item_id": "61",
-            "goods_id": "61",
-            "distributor_info": {
-                "distributor_id": "3592",
-                "is_distributor": "1",
-                "company_id": "1",
-                "mobile": "13600000000",
-                "address": "\u9f99\u9633\u5927\u9053111\u53f7",
-                "name": "LA TING",
-                "auto_sync_goods": "0",
-                "logo": "https:\/\/aiopro-uat.oss-cn-shanghai.aliyuncs.com\/aiopro-uat\/image\/1\/2025\/06\/20\/a6ea8e22753f65269d0f3bc94a81c0611750400273494.9nwc3-cvf9o.jpg",
-                "contract_phone": "",
-                "banner": "https:\/\/aiopro-uat.oss-cn-shanghai.aliyuncs.com\/aiopro-uat\/image\/1\/2025\/05\/28\/8561d9dc80c696e3385f144a9d5c799b1748411774999.1748411734206.jpg",
-                "contact": "wh",
-                "is_valid": "true",
-                "lng": "116.416334",
-                "lat": "39.928359",
-                "province": "\u6e56\u5317\u7701",
-                "city": "\u6b66\u6c49\u5e02",
-                "hour": "-",
-                "area": "\u6c49\u9633\u533a",
-                "regions_id": [
-                    "420000",
-                    "420100",
-                    "420105"
-                ],
-                "is_domestic": "1",
-                "is_direct_store": "1",
-                "child_count": "0",
-                "shop_id": "0",
-                "is_default": "0",
-                "is_audit_goods": "0",
-                "is_ziti": "0",
-                "is_delivery": "1",
-                "regions": [
-                    "\u6e56\u5317\u7701",
-                    "\u6b66\u6c49\u5e02",
-                    "\u6c49\u9633\u533a"
-                ],
-                "review_status": "0",
-                "source_from": "1",
-                "dealer_id": "0",
-                "split_ledger_info": null,
-                "created": "1745930641",
-                "updated": "1754382698",
-                "shop_code": "FVWH5032",
-                "distributor_self": "0",
-                "wechat_work_department_id": "0",
-                "regionauth_id": "15",
-                "is_open": "false",
-                "rate": null,
-                "is_dada": "0",
-                "business": null,
-                "dada_shop_create": "0",
-                "introduce": "",
-                "merchant_id": "0",
-                "distribution_type": "0",
-                "is_require_subdistrict": "0",
-                "is_require_building": "0",
-                "delivery_distance": "0",
-                "offline_aftersales": "0",
-                "offline_aftersales_self": "0",
-                "offline_aftersales_distributor_id": null,
-                "offline_aftersales_other": "0",
-                "house_number": "",
-                "is_self_delivery": "0",
-                "is_open_salesman": "0",
-                "bspay_split_ledger_info": null,
-                "shansong_shop_create": "0",
-                "shansong_store_id": null,
-                "freight_time": "2",
-                "is_refund_freight": "0",
-                "wdt_shop_no": "",
-                "wdt_shop_id": "0",
-                "jst_shop_id": "0",
-                "kuaizhen_store_id": "0",
-                "open_divided": "0",
-                "category_id": "27",
-                "status": "1",
-                "unit_number": "H32",
-                "business_mode": "catering",
-                "opening_date": "1747843200",
-                "closing_date": "1782748800",
-                "priority": "10",
-                "is_display": "1",
-                "related_shop_id": "0",
-                "first_letter": "L",
-                "tag_name": "\u6807\u7b7e\u6807\u7b7e\u6807\u6807\u7b7e\u6807\u7b7e\u6807\u6807\u7b7e\u6807\u7b7e\u6807\u6807\u7b7e\u6807\u7b7e\u6807",
-                "tag_start_time": "1748793600",
-                "tag_end_time": "1751271594",
-                "ship_template_id": "63"
-            },
-            "type_labels": [],
-            "item_spec_desc": "\u989c\u8272:\u7c89\u82721,\u5c3a\u7801:M1",
-            "seckill_discount_rate": "8800",
-            "activity_price": 100,
-            "seckill_start_time": "1766073600",
-            "promotion_activity": [
-                {
-                    "promotion_id": "46",
-                    "tag_type": "single_group",
-                    "activity_price": "8800",
-                    "start_time": "1766073600",
-                    "end_time": "1767196799",
-                    "item_id": "61",
-                    "item_store": 1,
-                    "tag_name": "\u9650\u65f6\uff01",
-                    "person_num": 2
                 }
             ]
         }
