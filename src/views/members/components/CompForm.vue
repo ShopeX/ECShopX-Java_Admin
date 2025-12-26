@@ -1,5 +1,6 @@
 <script>
 import { h } from 'vue'
+import dayjs from 'dayjs'
 
 export default {
   name: 'CompForm',
@@ -23,7 +24,7 @@ export default {
   watch: {
     dateRange: {
       handler(val) {
-        this.$emit('update', this.index, { ...this.item, value: val || [] })
+        this.$emit('update', this.index, { ...this.item, value: Array.isArray(val) ? val.map(timestamp => dayjs.unix(timestamp).valueOf()) : [] })
       },
       immediate: false
     },
@@ -83,7 +84,7 @@ export default {
     syncValue(val) {
       const type = this.conditionType
       if (type === 'timeRange') {
-        this.dateRange = (val && Array.isArray(val)) ? val : []
+        this.dateRange = Array.isArray(val) ? val.map(timestamp => dayjs.unix(timestamp).valueOf()) : []
       } else if (type === 'number_rang') {
         if (val && typeof val === 'object') {
           this.minValue = val.min || 0
