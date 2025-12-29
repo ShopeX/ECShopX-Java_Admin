@@ -413,40 +413,55 @@ export default {
             }
           },
           {
-            name: '退款金额（¥）',
+            name: '退款商品金额（¥）',
             key: 'refund_fee',
-            width: 120,
+            width: 160,
             align: 'center'
           },
           {
-            name: '退款运费（¥）',
-            key: 'freight',
-            width: 120,
-            align: 'center',
-            render: (h, { row }) => h('span', {}, row.freight / 100)
-          },
-          {
-            name: '退款抵扣积分（¥）',
+            name: '退款抵扣积分',
             key: 'refund_point',
             width: 160,
             align: 'center'
           },
           {
-            name: '实退金额（¥）',
-            key: 'refunded_fee',
-            width: 120,
+            name: '退款运费金额（¥）',
+            key: 'freight',
+            width: 150,
             align: 'center',
             render: (h, { row }) => {
+              if (row.freight_type == 'point') return null
+              return h('span', {}, (row.freight / 100).toFixed(2))
+            },
+          },
+          {
+            name: '退款运费（积分）',
+            key: 'freight',
+            width: 160,
+            align: 'center',
+            render: (h, { row }) => {
+              if (row.freight_type == 'cash') return null
+              return h('span', {}, row.freight)
+            },
+          },
+          {
+            name: '实退金额（¥）',
+            key: 'refunded_fee',
+            width: 150,
+            align: 'center',
+            render: (h, { row }) => {
+              if (row.freight_type == 'point') return null
               const amount = row.refunded_fee || 0
               return h('span', {}, `${(amount / 100).toFixed(2)}`)
             }
           },
           {
-            name: '实退积分（¥）',
+            name: '实退积分',
             key: 'refunded_point',
             width: 120,
             align: 'center',
             render: (h, { row }) => {
+              if (row.freight_type == 'cash') return null
               const points = row.refunded_point || 0
               return h('span', {}, `${points}`)
             }

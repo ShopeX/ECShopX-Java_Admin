@@ -181,6 +181,7 @@
 <script>
 import CompForm from './components/CompForm'
 import CompTagsMore from './components/CompTagsMore'
+import dayjs from 'dayjs'
 
 export default {
   inject: ['refresh'],
@@ -397,7 +398,7 @@ export default {
           if (item.condition_type && item.value !== null && item.value !== undefined) {
             if (item.condition_type === 'timeRange') {
               if (Array.isArray(item.value)) {
-                valueArr = item.value
+                valueArr = item.value.map(timestamp => dayjs.unix(timestamp).valueOf())
               }
             } else if (item.condition_type === 'number_rang') {
               if (typeof item.value === 'object' && item.value !== null) {
@@ -441,9 +442,8 @@ export default {
                 const conditionType = categoryTotalCondition.condition_type
                 
                 if (conditionType === 'timeRange') {
-                  // 时间范围：传递数组
                   if (Array.isArray(categoryTotalCondition.value)) {
-                    valueArr = categoryTotalCondition.value
+                    valueArr = categoryTotalCondition.value.map(timestamp => dayjs.unix(timestamp).valueOf())
                   }
                 } else if (conditionType === 'number_rang') {
                   // 金额区间：传递数组 [最小值, 最大值]
@@ -540,7 +540,7 @@ export default {
                 if (totalConditionData && totalConditionData.params) {
                   const params = totalConditionData.params
                   if (tc.condition_type === 'timeRange') {
-                    value = Array.isArray(params) ? params : []
+                    value = Array.isArray(params) ? params.map(timestamp => dayjs.unix(timestamp).valueOf()) : []
                   } else if (tc.condition_type === 'number_rang') {
                     value = Array.isArray(params) && params.length >= 2 
                       ? { min: params[0], max: params[1] }
@@ -582,7 +582,7 @@ export default {
                 if (subItem.params) {
                   const params = subItem.params
                   if (formItem.condition_type === 'timeRange') {
-                    formItem.value = Array.isArray(params) ? params : []
+                    formItem.value = Array.isArray(params) ? params.map(timestamp => dayjs.unix(timestamp).valueOf()) : []
                   } else if (formItem.condition_type === 'number_rang') {
                     formItem.value = Array.isArray(params) && params.length >= 2
                       ? { min: params[0], max: params[1] }
