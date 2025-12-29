@@ -54,13 +54,13 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="3" class="col-3 content-right"> 应退总金额: </el-col>
-        <el-col :span="20"> ￥{{ aftersalesInfo.refund_fee / 100 }} </el-col>
+        <el-col :span="3" class="col-3 content-right"> 应退商品金额: </el-col>
+        <el-col :span="20"> ￥{{ (aftersalesInfo.refund_fee / 100).toFixed(2) }} </el-col>
       </el-row>
       <el-row>
-        <el-col :span="3" class="col-3 content-right"> 应退总积分: </el-col>
+        <el-col :span="3" class="col-3 content-right"> 应退商品积分: </el-col>
         <el-col :span="20">
-          {{ aftersalesInfo.refund_point }}
+          {{ aftersalesInfo.refund_point || 0 }}
         </el-col>
       </el-row>
       <el-row>
@@ -70,9 +70,15 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="3" class="col-3 content-right"> 退款运费: </el-col>
+        <el-col :span="3" class="col-3 content-right"> 退款运费金额（¥）: </el-col>
         <el-col :span="20">
-          ￥{{ aftersalesInfo.freight > 0 ? aftersalesInfo.freight / 100 : '0' }}
+          {{ aftersalesInfo.freight_type == 'cash' ? (aftersalesInfo.freight / 100).toFixed(2) : 0 }}
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="3" class="col-3 content-right"> 退款运费（积分）: </el-col>
+        <el-col :span="20">
+          {{ aftersalesInfo.freight_type == 'point' ? aftersalesInfo.freight : 0 }}
         </el-col>
       </el-row>
       <el-row v-if="IS_SUPPLIER()">
@@ -171,12 +177,12 @@
               </template>
             </el-table-column>
             <el-table-column prop="num" label="申请数量" width="100" />
-            <el-table-column label="应退总金额(元)" width="130">
+            <el-table-column label="应退商品金额(元)" width="150">
               <template slot-scope="scope">
                 <span>￥{{ scope.row.refund_fee / 100 }}</span>
               </template>
             </el-table-column>
-            <el-table-column label="应退总积分" v-if="!IS_SUPPLIER()" width="120">
+            <el-table-column label="应退商品积分" v-if="!IS_SUPPLIER()" width="120">
               <template slot-scope="scope">
                 <span>{{ scope.row.refund_point }}</span>
               </template>
@@ -191,7 +197,7 @@
                 {{ scope.row.refund_info?.refunded_fee && (scope.row.refund_info?.refunded_fee / 100 ) }}
               </template>
             </el-table-column>
-            <el-table-column label="实退总积分" width="100">
+            <el-table-column label="实退积分" width="100">
               <template slot-scope="scope">
                 <span>{{ scope.row.refund_info?.refund_point }}</span>
               </template>
@@ -756,7 +762,7 @@ h3.title {
   color: #ff5000;
 }
 .col-3 {
-  width: 120px;
+  width: 150px;
   margin-right: 10px;
 }
 .detail-info {

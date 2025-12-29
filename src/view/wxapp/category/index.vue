@@ -362,7 +362,7 @@ $txt-placeholder: #f5f5f7;
       right: 0;
       top: 0;
     }
-    .icon-times {
+    .el-icon-close {
       display: inline-block;
       width: 15px;
       height: 15px;
@@ -797,7 +797,7 @@ $txt-placeholder: #f5f5f7;
                   >
                     <span v-if="editableSeries === item.name" slot="label">
                       <el-input v-model="item.title" size="mini" class="series-name-input" />
-                      <i class="iconfont icon-times" @click="removeTab(item.name)" />
+                      <i class="el-icon-close" @click="removeTab(item.name)" />
                     </span>
                   </el-tab-pane>
                 </el-tabs>

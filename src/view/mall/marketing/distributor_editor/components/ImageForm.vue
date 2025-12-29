@@ -15,10 +15,10 @@
   img {
     width: 100%;
   }
-}
-.icon-camera {
-  font-size: 40px;
-  color: #d7d7d7;
+  .el-icon-camera {
+    font-size: 40px;
+    color: #d7d7d7;
+  }
 }
 .form-item-tip {
   font-size: 13px;

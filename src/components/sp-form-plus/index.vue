@@ -14,6 +14,7 @@
     }"
     :model="formData"
     :label-width="labelWidth"
+    :label-position="labelPosition"
   >
     <div ref="wrapperRef" :class="{ flex: formType === 'searchForm' }">
       <div :class="{
@@ -86,6 +87,11 @@ export default {
     FormField
   },
   props: {
+    labelPosition: {
+      type: String,
+      default: 'right',
+    },
+
     colon: {
       type: Boolean,
       default: false

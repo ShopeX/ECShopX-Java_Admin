@@ -37,7 +37,7 @@ const routes = [
           title: '系统角色',
           permissions: ['setting.staff.platformstaffroles']
         },
-        component: () => import('@/view/base/account/normalroles')
+        component: () => import('@/views/settings/role-admin')
       },
       {
         name: `systemAccountStoreAccount`,
@@ -556,7 +556,7 @@ const routes = [
           title: 'oms配置',
           permissions: ['setting.omssetting']
         },
-        component: () => import('@/view/base/account/normalroles') //后期修复
+        component: () => import('@/views/settings/role-admin') //后期修复
       },
 
       {

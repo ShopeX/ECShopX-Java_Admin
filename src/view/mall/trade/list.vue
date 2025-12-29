@@ -170,7 +170,7 @@
                 {{ scope.row.timeStart | datetime('YYYY-MM-DD HH:mm:ss') }}
               </template>
             </el-table-column>
-            <el-table-column label="订单信息">
+            <el-table-column label="订单信息" width="200">
               <template slot-scope="scope">
                 <div class="order-num">
                   <el-tooltip effect="dark" content="联系方式" placement="top-start">
