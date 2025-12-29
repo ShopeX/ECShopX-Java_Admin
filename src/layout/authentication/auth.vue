@@ -18,9 +18,9 @@
 
       <AuthForm />
 
-      <!-- <div class="mt-8">
+      <div class="mt-8">
         <LicenseLogo />
-      </div> -->
+      </div>
     </div>
     <!-- 登录 -->
   </div>

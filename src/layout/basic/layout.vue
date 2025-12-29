@@ -43,8 +43,8 @@
           <div id="design-view" v-else class="relative h-full" />
         </el-main>
 
-        <el-footer class="flex justify-center items-center gap-2" height="20px">
-          <!-- <LicenseLogo /> -->
+        <el-footer class="flex justify-center items-center gap-2" height="50px">
+          <LicenseLogo />
         </el-footer>
       </el-container>
     </el-container>
