@@ -132,9 +132,7 @@
         >
           <template slot="tableTop">
             <div class="action-container">
-              <export-tip @exportHandle="exportData">
-                <el-button type="primary" plain> 导出 </el-button>
-              </export-tip>
+              <el-button @click="exportData" type="primary" plain> 导出 </el-button>
               <el-button v-if="showAftersale" type="primary" plain @click="aftersalesRemindAction">
                 售后提醒内容
               </el-button>

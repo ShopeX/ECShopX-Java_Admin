@@ -1082,11 +1082,12 @@ export default {
         this.$message.error('退款金额必填！')
         return false
       }
-      if (this.aftersalesInfo.freight_type == 'cash' && params.freight > this.aftersalesInfo.freight / 100) {
-        this.$message.error('退款运费不能大于订单运费！')
-        return false
-      } else if (this.aftersalesInfo.freight_type == 'point' && params.freight > this.aftersalesInfo.freight) {
-        this.$message.error('退款运费（积分）不能大于订单运费（积分）！')
+      if (params.freight > this.aftersalesInfo.freight) {
+        if (this.aftersalesInfo.freight_type == 'point') {
+          this.$message.error('退款运费（积分）不能大于订单运费（积分）！')
+        } else {
+          this.$message.error('退款运费不能大于订单运费！')
+        }
         return false
       }
       refundCheck(params).then((response) => {
