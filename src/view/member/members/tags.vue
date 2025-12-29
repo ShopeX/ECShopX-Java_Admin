@@ -112,7 +112,7 @@
           <div class="operating-icons">
             <i class="el-icon-edit-outline" @click="editAction(scope.$index, scope.row)" />
             <i
-              class="mark el-icon-delete-solid"
+              class="mark el-icon-delete-solid ml-2"
               @click="deleteAction(scope.$index, scope.row)"
             />
             <!-- <i class="iconfont" @click="addAction(scope.row)" v-if="scope.row.tag_status == 'self'"
