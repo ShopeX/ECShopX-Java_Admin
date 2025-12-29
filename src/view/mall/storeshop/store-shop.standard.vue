@@ -193,12 +193,12 @@ export default {
       activeTab: 'first',
       selectItems: [],
       itemSkuDialog: false,
-      editPrice:null,
-      editRow:{},
+      editPrice: null,
+      editRow: {},
       itemSkuForm: {
         itemName: '',
         itemId: '',
-        is_total_store:false
+        is_total_store: false
       },
       loading: false,
       itemSkuFormList: [
@@ -250,7 +250,7 @@ export default {
                   // 'disabled': this.IS_ADMIN() && row.is_market == '0'
                 },
                 on: {
-                  change: async e => {
+                  change: async (e) => {
                     await this.$api.marketing.updateDistributorItem({
                       distributor_id: this.formData.distributor_id,
                       goods_id: row.goods_id,
@@ -293,7 +293,7 @@ export default {
                   disabled: this.IS_ADMIN() && this.VERSION_STANDARD() && row.supplier_id != '0'
                 },
                 on: {
-                  change: async e => {
+                  change: async (e) => {
                     await this.$api.marketing.updateDistributorItem({
                       distributor_id: this.formData.distributor_id,
                       goods_id: row.goods_id,
@@ -315,7 +315,7 @@ export default {
             width: 120,
             key: 'approve_status',
             formatter: (value, row, col) => {
-              return this.statusOption.find(item => item.value === value)?.title
+              return this.statusOption.find((item) => item.value === value)?.title
             }
           },
           {
@@ -348,31 +348,31 @@ export default {
               <div>
                 {row.price}
                 {this.IS_ADMIN() && this.VERSION_STANDARD() && row.supplier_id == '0' && (
-                      <el-popover
-                        placement="top"
-                        trigger="hover"
-                        on-show={() => this.editPrice = row.price}
+                  <el-popover
+                    placement='top'
+                    trigger='hover'
+                    on-show={() => (this.editPrice = row.price)}
+                  >
+                    <div class='popover-edit flex'>
+                      <el-input
+                        v-model={this.editPrice}
+                        class='edit-input'
+                        placeholder='请输入价格'
+                      />
+                      <el-button
+                        type='primary'
+                        size='mini'
+                        class='ml-1'
+                        on-click={this.onModifyItemPrice.bind(this, row)}
                       >
-                        <div class="popover-edit flex">
-                          <el-input
-                            v-model={this.editPrice}
-                            class="edit-input"
-                            placeholder="请输入价格"
-                          />
-                          <el-button
-                            type="primary"
-                            size="mini"
-                            class="ml-1"
-                            on-click={this.onModifyItemPrice.bind(this, row)}
-                          >
-                            确定
-                          </el-button>
-                        </div>
-                        <el-button slot="reference" type="text">
-                          <i class="el-icon-edit" />
-                        </el-button>
-                      </el-popover>
-                    )}
+                        确定
+                      </el-button>
+                    </div>
+                    <el-button slot='reference' type='text'>
+                      <i class='el-icon-edit' />
+                    </el-button>
+                  </el-popover>
+                )}
               </div>
             )
           },
@@ -400,8 +400,8 @@ export default {
             width: 120,
             key: 'tagList',
             render: (h, scope) => (
-              <div style="white-space: normal;">
-                {scope.row.tagList?.map(item => (
+              <div style='white-space: normal;'>
+                {scope.row.tagList?.map((item) => (
                   <span
                     style={{
                       color: item.font_color,
@@ -436,13 +436,19 @@ export default {
     },
     async getDefaultDistributor() {
       if (!this.formData.distributor_id) {
-        {/* const { distributor_id, name } = await this.$api.marketing.getDistributorInfo({
+        {
+          /* const { distributor_id, name } = await this.$api.marketing.getDistributorInfo({
           distributor_id: 0
-        }) */}
+        }) */
+        }
 
         // 获取店铺列表中第一个店铺
-        const { list, total_count } = await this.$api.marketing.getDistributorList({ page: 1, pageSize: 10, is_valid: true })
-        if(list.length > 0) {
+        const { list, total_count } = await this.$api.marketing.getDistributorList({
+          page: 1,
+          pageSize: 10,
+          is_valid: true
+        })
+        if (list.length > 0) {
           this.formData.distributor_id = list[0].distributor_id
           if (this.$refs.selectShop) {
             this.$refs.selectShop.selectValue = list[0].name
@@ -462,7 +468,7 @@ export default {
       return params
     },
     afterSearch({ data }) {
-      data.data.list.forEach(item => {
+      data.data.list.forEach((item) => {
         item.price = item.price / 100
       })
       return data
@@ -489,7 +495,7 @@ export default {
       const { distributor_id } = this.formData
       await this.$api.marketing.deleteDistributorItems({
         distributor_id,
-        item_ids: this.selectItems.map(item => item.goods_id)
+        item_ids: this.selectItems.map((item) => item.goods_id)
       })
       this.$message.success('商品删除成功')
       this.$refs.finder.refresh(true)
@@ -502,15 +508,15 @@ export default {
       const zip = new JSZip()
       const requests = []
       const { distributor_id } = this.formData
-      this.selectItems.forEach(item => {
+      this.selectItems.forEach((item) => {
         const url = `${this.BASE_API}/goods/distributionGoodsWxaCodeStream?item_id=${item.itemId}&distributor_id=${distributor_id}`
         requests.push(getFileBlob(url))
       })
-      Promise.all(requests).then(res => {
+      Promise.all(requests).then((res) => {
         res.forEach((file, index) => {
           zip.file(`${this.selectItems[index].itemName}.png`, file, { binary: true }) // 逐个添加文件
         })
-        zip.generateAsync({ type: 'blob' }).then(content => {
+        zip.generateAsync({ type: 'blob' }).then((content) => {
           FileSaver.saveAs(content, '店铺的商品小程序码(批量).zip') // 利用file-saver保存文件
         })
       })
@@ -519,7 +525,7 @@ export default {
     async handleExport() {
       const exportParams = {
         ...this.formData,
-        goods_ids: this.selectItems.map(item => item.goods_id)
+        goods_ids: this.selectItems.map((item) => item.goods_id)
       }
       const { status } = await this.$api.marketing.exportDistributorItems(exportParams)
       if (status) {
@@ -527,7 +533,7 @@ export default {
         this.$export_open('distributor_items')
       }
     },
-    async onModifyItemPrice(row){
+    async onModifyItemPrice(row) {
       await this.$api.marketing.updateDistributorItem({
         distributor_id: row.distributor_id,
         item_id: row.item_id,
@@ -561,18 +567,18 @@ export default {
       } else if (command == '3' || command == '4') {
         this.loading = true
         let remainItems = []
-        if(this.IS_ADMIN() && this.VERSION_STANDARD()){
+        if (this.IS_ADMIN() && this.VERSION_STANDARD()) {
           //云店需要过滤供应商商品的
-          remainItems = this.selectItems.filter(item=>item.supplier_id == '0')
+          remainItems = this.selectItems.filter((item) => item.supplier_id == '0')
         }
-        if(!remainItems.length){
+        if (!remainItems.length) {
           this.$refs.finder.refresh(true)
           return
         }
         try {
           await this.$api.marketing.updateDistributorItem({
             distributor_id: this.formData.distributor_id,
-            goods_id: JSON.stringify(remainItems.map(item => item.goods_id)),
+            goods_id: JSON.stringify(remainItems.map((item) => item.goods_id)),
             is_total_store: command == '3'
           })
           this.$message.success('操作成功')

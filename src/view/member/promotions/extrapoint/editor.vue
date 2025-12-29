@@ -171,10 +171,7 @@
               <el-table-column prop="address" label="地址" show-overflow-tooltip />
               <el-table-column label="操作" width="50">
                 <template slot-scope="scope">
-                  <i
-                    class="el-icon-delete"
-                    @click="deleteStoreRow(scope.$index, form.items)"
-                  />
+                  <i class="el-icon-delete" @click="deleteStoreRow(scope.$index, form.items)" />
                 </template>
               </el-table-column>
             </el-table>

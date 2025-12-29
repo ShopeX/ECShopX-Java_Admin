@@ -133,7 +133,7 @@ export default {
         this.newsStatus = true
         this.localpicStatus = false
         this.localvideoStatus = false
-        getMaterialStats().then(res => {
+        getMaterialStats().then((res) => {
           this.stats = res.data.data
         })
       } else if (this.activeName == 'video') {

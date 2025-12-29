@@ -87,7 +87,7 @@ export default {
     }
   },
   mounted() {
-    getSettingWxShops().then(res => {
+    getSettingWxShops().then((res) => {
       this.form.logo = res.data.data.logo
       this.pic = this.wximageurl + res.data.data.logo
       this.form.intro = res.data.data.intro
@@ -114,7 +114,7 @@ export default {
         background: this.form.background
       }
       console.log(params)
-      putSettingWxShops(params).then(response => {
+      putSettingWxShops(params).then((response) => {
         if (response.data.data) {
           this.$message({
             message: '保存配置信息成功！',

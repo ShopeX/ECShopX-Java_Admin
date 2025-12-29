@@ -116,11 +116,11 @@ export default {
                   <span>{row.rel_distributor_name || ''}</span>
                   {/* {!row.rel_distributor_name && ( */}
                   <el-button
-                    slot="reference"
-                    type="text"
+                    slot='reference'
+                    type='text'
                     onClick={this.onSelectStore.bind(this, row)}
                   >
-                    <i class="el-icon-edit" />
+                    <i class='el-icon-edit' />
                   </el-button>
                   {/* )} */}
                 </div>

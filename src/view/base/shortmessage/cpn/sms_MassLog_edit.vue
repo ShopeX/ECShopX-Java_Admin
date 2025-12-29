@@ -203,7 +203,7 @@ export default {
     },
     submitForm(formName) {
       const { type, id } = this.info
-      this.$refs[formName].validate(async valid => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
             if (type == 'edit') {
@@ -253,11 +253,11 @@ export default {
     },
     // 获取短信签名下拉列表
     getSmsList() {
-      getSmsSignatureList({ params: { status: '1' } }).then(res => {
+      getSmsSignatureList({ params: { status: '1' } }).then((res) => {
         this.sign_options = res.data.data.list
       })
 
-      getSmsTemplateList({ params: { status: '1', template_type: '2' } }).then(res => {
+      getSmsTemplateList({ params: { status: '1', template_type: '2' } }).then((res) => {
         this.template_options = res.data.data.list
       })
     },

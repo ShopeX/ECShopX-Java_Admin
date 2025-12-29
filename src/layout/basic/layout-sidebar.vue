@@ -107,7 +107,7 @@ export default {
     systemTitle() {
       // 如果有选中的一级菜单，返回该菜单的title
       if (this.activeMainMenu) {
-        const activeMenu = this.mainMenus.find(item => item.alias_name === this.activeMainMenu)
+        const activeMenu = this.mainMenus.find((item) => item.alias_name === this.activeMainMenu)
         if (activeMenu) {
           return activeMenu.name
         }

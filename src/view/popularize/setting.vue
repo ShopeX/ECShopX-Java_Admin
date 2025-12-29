@@ -188,7 +188,7 @@
                   v-if="form.qrcode_bg_img"
                   :src="wximageurl + form.qrcode_bg_img"
                   class="avatar"
-                >
+                />
                 <i v-else class="el-icon-plus avatar-uploader-icon" />
               </div>
             </div>
@@ -209,7 +209,7 @@
             <el-form-item label="小店图片">
               <div>
                 <div class="upload-box" @click="handleImgChange">
-                  <img v-if="form.banner_img" :src="wximageurl + form.banner_img" class="avatar">
+                  <img v-if="form.banner_img" :src="wximageurl + form.banner_img" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon" />
                 </div>
               </div>
@@ -260,7 +260,7 @@
                         v-if="form.applets_share_img"
                         :src="wximageurl + form.applets_share_img"
                         class="avatar"
-                      >
+                      />
                       <i v-else class="el-icon-plus avatar-uploader-icon" />
                     </div>
                     <div class="frm-tips upload-box inline">建议尺寸5:4</div>
@@ -273,7 +273,7 @@
                         v-if="form.h5_share_img"
                         :src="wximageurl + form.h5_share_img"
                         class="avatar"
-                      >
+                      />
                       <i v-else class="el-icon-plus avatar-uploader-icon" />
                     </div>
                     <div class="frm-tips upload-box inline">建议尺寸1:1</div>
@@ -444,7 +444,7 @@ export default {
   },
   mounted() {
     // this.getFormworkList()
-    getPopularizeSetting().then(res => {
+    getPopularizeSetting().then((res) => {
       this.form = { ...this.form, ...res.data.data }
       this.form.goods = this.form.goods ? this.form.goods : 'all'
       this.form.share_title = this.form.share_title ? this.form.share_title : '这家小店不一般！'
@@ -465,7 +465,7 @@ export default {
         }
       }
     }),
-      listVipGrade().then(response => {
+      listVipGrade().then((response) => {
         if (response != undefined && response.data.data && response.data.data.length > 0) {
           this.vipGradeList = response.data.data
         }
@@ -587,7 +587,7 @@ export default {
     },
     linkTo() {
       let link = ''
-      getWeappId().then(res => {
+      getWeappId().then((res) => {
         var data = res.data.data.weappid
         var tempName = res.data.data.tempName
         if (data) {
@@ -674,14 +674,14 @@ export default {
         // }
       }
 
-      setPopularizeSetting(this.form).then(res => {
+      setPopularizeSetting(this.form).then((res) => {
         this.$message({ message: '保存成功', type: 'success' })
       })
     },
     // 自定义页面模板列表
     getFormworkList() {
       this.loading = true
-      getCustomPageList(this.params).then(response => {
+      getCustomPageList(this.params).then((response) => {
         this.FormworkList = response.data.data.list
         this.total_count = response.data.data.total_count
         this.loading = false

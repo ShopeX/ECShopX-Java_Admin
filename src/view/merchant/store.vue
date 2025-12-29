@@ -610,7 +610,7 @@ export default {
     this.distributor_self = distributor_type === 'distributor_self' ? 1 : 0
     // 当distributor_self为1时，移除地理位置表单项的validator
     if (distributor_type === 'distributor_self') {
-      const addressItem = this.formList.find(item => item.key === 'address')
+      const addressItem = this.formList.find((item) => item.key === 'address')
       if (addressItem && addressItem.validator) {
         delete addressItem.validator
       }

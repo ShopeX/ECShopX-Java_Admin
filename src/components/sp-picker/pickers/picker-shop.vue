@@ -124,7 +124,7 @@ export default {
       const regionLabels = []
       const getRegionLabel = (district, i) => {
         if (this.formData.region[i]) {
-          const fd = district.find(item => item.value == this.formData.region[i])
+          const fd = district.find((item) => item.value == this.formData.region[i])
           regionLabels.push(fd.label)
           if (fd.children) {
             getRegionLabel(fd.children, ++i)
@@ -150,7 +150,7 @@ export default {
     afterSearch(response) {
       const { list } = response.data.data
       if (this.value.data) {
-        const selectRows = list.filter(item => this.value.data.includes(item.distributor_id))
+        const selectRows = list.filter((item) => this.value.data.includes(item.distributor_id))
         const { finderTable } = this.$refs.finder.$refs
         setTimeout(() => {
           finderTable.$refs.finderTable.setSelection(selectRows)

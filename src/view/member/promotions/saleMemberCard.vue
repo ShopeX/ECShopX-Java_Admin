@@ -33,7 +33,7 @@
           <div class="frm-tips">引导用户授权手机号注册，类似新用户专享广告图片</div>
           <div>
             <div class="upload-box" @click="handleImgChange">
-              <img v-if="form.ad_pic" :src="wximageurl + form.ad_pic" class="avatar" width="200">
+              <img v-if="form.ad_pic" :src="wximageurl + form.ad_pic" class="avatar" width="200" />
               <i v-else class="el-icon-plus avatar-uploader-icon" />
             </div>
           </div>
@@ -136,7 +136,7 @@ export default {
     },
     save() {
       this.form.promotions_value.membercard = this.membercards
-      saveRegisterPromotions(this.form).then(res => {
+      saveRegisterPromotions(this.form).then((res) => {
         this.$message({
           message: '保存成功',
           type: 'success',

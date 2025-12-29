@@ -259,7 +259,7 @@ export default {
     },
     submitForm(formName) {
       const { type, id } = this.$route.query
-      this.$refs[formName].validate(async valid => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
             if (type == 'edit') {

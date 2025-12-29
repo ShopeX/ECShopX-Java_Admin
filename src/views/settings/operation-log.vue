@@ -5,13 +5,7 @@
 
 <template>
   <SpPage class="">
-    <SpFinder
-      ref="finder"
-      url="/company/operatorlogs"
-      no-selection
-      :setting="setting"
-      border
-    />
+    <SpFinder ref="finder" url="/company/operatorlogs" no-selection :setting="setting" border />
   </SpPage>
 </template>
 
@@ -48,11 +42,11 @@ export default {
       }
     }
   },
-  
+
   mounted() {
     this.getOperatorsList()
   },
-  
+
   methods: {
     async getOperatorsList() {
       try {

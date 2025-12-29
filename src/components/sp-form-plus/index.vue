@@ -17,12 +17,14 @@
     :label-position="labelPosition"
   >
     <div ref="wrapperRef" :class="{ flex: formType === 'searchForm' }">
-      <div :class="{
-        'sp-form-plus__wrapper': formType === 'searchForm',
-        'sp-form-plus__wrapper-inline': inline,
-        'sp-form-plus__wrapper-flex': inline && hasFormItemClass,
-        'flex-1': true
-      }">
+      <div
+        :class="{
+          'sp-form-plus__wrapper': formType === 'searchForm',
+          'sp-form-plus__wrapper-inline': inline,
+          'sp-form-plus__wrapper-flex': inline && hasFormItemClass,
+          'flex-1': true
+        }"
+      >
         <FormField
           v-for="item in formItems"
           :key="item.fieldName"
@@ -43,14 +45,22 @@
         />
       </div>
       <div v-if="showDefaultActions">
-        <div class="sp-form-plus__actions items-center justify-end" :style="actionsStyle" v-if="formType !== 'searchForm'">
+        <div
+          class="sp-form-plus__actions items-center justify-end"
+          :style="actionsStyle"
+          v-if="formType !== 'searchForm'"
+        >
           <div class="sp-form-plus__actions-btns">
             <el-button type="primary" :loading="submitLoading" @click="handleSubmit">
               <span class="ml-1">保存</span>
             </el-button>
           </div>
         </div>
-        <div class="sp-form-plus__actions ml-1 mt-1 flex-col items-end" :style="actionsStyle" v-else>
+        <div
+          class="sp-form-plus__actions ml-1 mt-1 flex-col items-end"
+          :style="actionsStyle"
+          v-else
+        >
           <div class="sp-form-plus__actions-btns">
             <el-button type="primary" @click="handleSubmit">
               <div class="flex items-center">
@@ -89,7 +99,7 @@ export default {
   props: {
     labelPosition: {
       type: String,
-      default: 'right',
+      default: 'right'
     },
 
     colon: {
@@ -147,7 +157,9 @@ export default {
       .filter((item) => item.component !== 'group')
       .forEach((item) => {
         formData[item.fieldName] =
-          typeof item.value === 'undefined' ? (this.value && this.value[item.fieldName] || '') : item.value
+          typeof item.value === 'undefined'
+            ? (this.value && this.value[item.fieldName]) || ''
+            : item.value
       })
     return {
       formData,
@@ -171,7 +183,7 @@ export default {
     },
     // 检查是否有表单项使用了 formItemClass
     hasFormItemClass() {
-      return this.formItems.some(item => item.formItemClass)
+      return this.formItems.some((item) => item.formItemClass)
     }
   },
   watch: {
@@ -271,7 +283,7 @@ export default {
         }
 
         const formFields = Array.from(wrapper.querySelectorAll('.form-field'))
-        
+
         if (formFields.length === 0) {
           this.showExtend = false
           return
@@ -281,7 +293,7 @@ export default {
         // 这是最准确的方法，适用于所有布局方式（grid、flex等）
         const rowPositions = new Set()
         const wrapperRect = wrapper.getBoundingClientRect()
-        
+
         formFields.forEach((field) => {
           const fieldRect = field.getBoundingClientRect()
           const relativeTop = Math.round(fieldRect.top - wrapperRect.top)
@@ -339,7 +351,7 @@ export default {
     box-sizing: content-box;
     padding: 16px 16px 16px;
     overflow: hidden;
-    
+
     &.sp-form-plus--collapsed {
       .sp-form-plus__wrapper {
         max-height: 85px;

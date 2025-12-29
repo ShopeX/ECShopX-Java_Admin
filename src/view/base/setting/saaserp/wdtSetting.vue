@@ -64,7 +64,7 @@ export default {
       this.loading = false
     },
     onSubmit() {
-      this.$refs.form.validate(valid => {
+      this.$refs.form.validate((valid) => {
         if (valid) {
           this.lock = true
           setWdtErpSetting(this.form)

@@ -212,61 +212,61 @@
       </el-form>
     </div>
     <SideBar :visible.sync="showElementList" title="选择表单元素" width="40">
-        <el-row class="content-bottom-padded" :gutter="20">
-          <el-col :span="6">
-            <el-select
-              v-model="params.form_element"
-              placeholder="请选择表单元素"
-              style="width: 100%"
-              clearable
-              @change="searchData"
-            >
-              <el-option
-                v-for="(item, key) in formElement"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value"
-              />
-            </el-select>
-          </el-col>
-          <el-col :span="6">
-            <el-input v-model="params.field_title" placeholder="标题" style="width: 100%">
-              <el-button slot="append" icon="el-icon-search" @click="searchData" />
-            </el-input>
-          </el-col>
-        </el-row>
-        <el-table
-          ref="multipleTable"
-          v-loading="loading"
-          :data="ItemsList"
-          tooltip-effect="dark"
-          style="width: 100%"
-          :row-key="getRowKeys"
-          :select-on-indeterminate="false"
-          @select="handleSelectChange"
-          @select-all="handleSelectAll"
-        >
-          <el-table-column type="selection" :reserve-selection="true" width="50" />
-          <el-table-column prop="id" label="ID" width="40" />
-          <el-table-column prop="field_title" label="标题" width="150" />
-          <el-table-column prop="form_element" label="元素" width="80" />
-          <el-table-column label="选择项">
-            <template slot-scope="scope">
-              <span v-for="(item, index) in scope.row.options" :key="index"> {{ item.value }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div v-if="total_count > params.pageSize" class="tr">
-          <el-pagination
-            layout="prev, pager, next"
-            :total="total_count"
-            :page-size="params.pageSize"
-            @current-change="handleCurrentChange"
-          />
-        </div>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="saveStoreAction">确 定</el-button>
-        </span>
+      <el-row class="content-bottom-padded" :gutter="20">
+        <el-col :span="6">
+          <el-select
+            v-model="params.form_element"
+            placeholder="请选择表单元素"
+            style="width: 100%"
+            clearable
+            @change="searchData"
+          >
+            <el-option
+              v-for="(item, key) in formElement"
+              :key="item.value"
+              :label="item.name"
+              :value="item.value"
+            />
+          </el-select>
+        </el-col>
+        <el-col :span="6">
+          <el-input v-model="params.field_title" placeholder="标题" style="width: 100%">
+            <el-button slot="append" icon="el-icon-search" @click="searchData" />
+          </el-input>
+        </el-col>
+      </el-row>
+      <el-table
+        ref="multipleTable"
+        v-loading="loading"
+        :data="ItemsList"
+        tooltip-effect="dark"
+        style="width: 100%"
+        :row-key="getRowKeys"
+        :select-on-indeterminate="false"
+        @select="handleSelectChange"
+        @select-all="handleSelectAll"
+      >
+        <el-table-column type="selection" :reserve-selection="true" width="50" />
+        <el-table-column prop="id" label="ID" width="40" />
+        <el-table-column prop="field_title" label="标题" width="150" />
+        <el-table-column prop="form_element" label="元素" width="80" />
+        <el-table-column label="选择项">
+          <template slot-scope="scope">
+            <span v-for="(item, index) in scope.row.options" :key="index"> {{ item.value }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div v-if="total_count > params.pageSize" class="tr">
+        <el-pagination
+          layout="prev, pager, next"
+          :total="total_count"
+          :page-size="params.pageSize"
+          @current-change="handleCurrentChange"
+        />
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="saveStoreAction">确 定</el-button>
+      </span>
     </SideBar>
   </div>
 </template>
@@ -338,7 +338,7 @@ export default {
   },
   mounted() {
     if (this.$route.query.id) {
-      getTemplateInfo(this.$route.query.id).then(res => {
+      getTemplateInfo(this.$route.query.id).then((res) => {
         this.form = res.data.data
         if (this.form.tem_type === 'basic_entry') {
           this.keyIndexIsShow = true
@@ -351,11 +351,11 @@ export default {
   methods: {
     getDataList() {
       this.loading = true
-      getSettingList(this.params).then(response => {
+      getSettingList(this.params).then((response) => {
         this.ItemsList = response.data.data.list
         this.$refs.multipleTable.clearSelection()
-        this.selectdata.forEach(item => {
-          let checked = this.ItemsList.find(n => n.id === item.id)
+        this.selectdata.forEach((item) => {
+          let checked = this.ItemsList.find((n) => n.id === item.id)
           if (checked) {
             this.$refs.multipleTable.toggleRowSelection(item)
           }
@@ -366,7 +366,7 @@ export default {
     },
     submitAction() {
       const that = this
-      this.$refs['form'].validate(valid => {
+      this.$refs['form'].validate((valid) => {
         if (valid) {
           if (this.form.tem_type == 'basic_entry' && this.form.key_index.length <= 0) {
             this.$message({
@@ -380,7 +380,7 @@ export default {
           postparams.key_index = JSON.stringify(postparams.key_index)
           postparams.content = JSON.stringify(postparams.content)
           if (this.form.id) {
-            updateTemplate(postparams).then(res => {
+            updateTemplate(postparams).then((res) => {
               if (res.data.data) {
                 this.$message({
                   message: '更新成功',
@@ -395,7 +395,7 @@ export default {
             })
           } else {
             saveTemplate(postparams)
-              .then(res => {
+              .then((res) => {
                 if (res.data.data) {
                   this.$message({
                     message: '添加成功',
@@ -408,7 +408,7 @@ export default {
                   })
                 }
               })
-              .catch(error => {
+              .catch((error) => {
                 this.$message({
                   type: 'error',
                   message: '保存出错'
@@ -449,7 +449,7 @@ export default {
         return false
       }
       if (this.form.key_index.length > 0) {
-        let inChecked = this.form.key_index.findIndex(n => val.id === n.id)
+        let inChecked = this.form.key_index.findIndex((n) => val.id === n.id)
         if (inChecked !== -1) {
           this.form.key_index.splice(inChecked, 1)
         } else if (val.key_index) {
@@ -507,7 +507,7 @@ export default {
       let index = this.formcontentindex
       this.showElementList = false
       let newselectrows = JSON.parse(JSON.stringify(this.form.content[index].formdata))
-      newselectrows.forEach(item => {
+      newselectrows.forEach((item) => {
         item.is_required = false
       })
       this.form.content[index].formdata = newselectrows
@@ -516,15 +516,15 @@ export default {
       let index = this.formcontentindex
       if (val.length > 0) {
         this.form.content[index].formdata = []
-        val.forEach(item => {
-          let inChecked = this.form.content[index].formdata.findIndex(n => item.id === n.id)
+        val.forEach((item) => {
+          let inChecked = this.form.content[index].formdata.findIndex((n) => item.id === n.id)
           if (inChecked === -1) {
             this.form.content[index].formdata.push(item)
           }
         })
       } else {
         this.ItemsList.forEach((item, index) => {
-          let inChecked = this.form.content[index].formdata.findIndex(n => item.id === n.id)
+          let inChecked = this.form.content[index].formdata.findIndex((n) => item.id === n.id)
           if (inChecked !== -1) {
             this.form.content[index].formdata.splice(inChecked, 1)
           }
@@ -533,7 +533,7 @@ export default {
     },
     handleSelectChange(val, row) {
       let index = this.formcontentindex
-      let inChecked = this.form.content[index].formdata.findIndex(item => row.id === item.id)
+      let inChecked = this.form.content[index].formdata.findIndex((item) => row.id === item.id)
       if (inChecked !== -1) {
         this.form.content[index].formdata.splice(inChecked, 1)
       } else {

@@ -168,7 +168,7 @@
                               @mouseenter="picsEnter(index)"
                               @mouseleave="picsLeave"
                             >
-                              <img :src="wximageurl + item">
+                              <img :src="wximageurl + item" />
                               <div class="goodspic-mask" :class="picsCurrent == index ? 'on' : ''">
                                 <!-- <div class="el-icon-delete" /> -->
                                 <SpIcon name="delete" @click="removePicsImg(index)" />
@@ -1116,13 +1116,13 @@ export default {
         if (!_self.form.nospec) {
           _self.generateSpec(categoryInfoDetail.goods_spec)
           _self.specImages = itemsDetailData.spec_images
-          itemsDetailData.spec_items.forEach(item => {
-            item.item_spec.forEach(child => {
-              let checkedIndex = _self.skus.findIndex(n => child.spec_id === n.sku_id)
+          itemsDetailData.spec_items.forEach((item) => {
+            item.item_spec.forEach((child) => {
+              let checkedIndex = _self.skus.findIndex((n) => child.spec_id === n.sku_id)
               let isin
               if (checkedIndex > -1) {
                 isin = _self.skus[checkedIndex].checked_sku.findIndex(
-                  k => child.spec_value_id === k
+                  (k) => child.spec_value_id === k
                 )
               }
               if (isin === -1) {
@@ -1131,7 +1131,7 @@ export default {
             })
           })
 
-          itemsDetailData.spec_items.forEach(item => {
+          itemsDetailData.spec_items.forEach((item) => {
             let sku = Object.assign({}, item)
             sku.market_price = item.market_price / 100
             sku.cost_price = item.cost_price / 100
@@ -1139,7 +1139,7 @@ export default {
             sku.item_bn = _self.is_new ? '' : item.item_bn
             let itemId = []
             let specs = []
-            item.item_spec.forEach(sub => {
+            item.item_spec.forEach((sub) => {
               specs.push({
                 spec_id: sub.spec_id,
                 spec_value_id: sub.spec_value_id,
@@ -1180,7 +1180,7 @@ export default {
     getOrigincountry() {
       let where = { page: 1, pageSize: 99999 }
       if (this.form.type === 1) {
-        getOrigincountry(where).then(res => {
+        getOrigincountry(where).then((res) => {
           this.origincountry = res.data.data.list
         })
       }
@@ -1192,16 +1192,16 @@ export default {
       this.form.item_address_city = this.select_regions_value[1]
     },
     fetchMainCate() {
-      getCategory({ is_main_category: true }).then(res => {
+      getCategory({ is_main_category: true }).then((res) => {
         let list = []
-        res.data.data.forEach(item => {
+        res.data.data.forEach((item) => {
           let obj = {
             label: item.category_name,
             value: item.category_id,
             children: []
           }
           if (item.children.length > 0) {
-            item.children.forEach(child => {
+            item.children.forEach((child) => {
               let childObj = {
                 label: child.category_name,
                 value: child.category_id,
@@ -1209,7 +1209,7 @@ export default {
               }
               obj.children.push(childObj)
               if (child.children.length > 0) {
-                child.children.forEach(sub => {
+                child.children.forEach((sub) => {
                   let subObj = {
                     label: sub.category_name,
                     value: sub.category_id
@@ -1226,7 +1226,7 @@ export default {
       })
     },
     handleCategoryChange(val) {
-      getCategoryInfo(val[val.length - 1]).then(res => {
+      getCategoryInfo(val[val.length - 1]).then((res) => {
         let detail = res.data.data
         this.generateParams(detail.goods_params)
         this.generateSpec(detail.goods_spec)
@@ -1235,13 +1235,13 @@ export default {
     generateParams(data) {
       let params = []
       let formParams = []
-      data.forEach(item => {
+      data.forEach((item) => {
         let key = {
           value: item.attribute_id,
           label: item.attribute_name,
           children: []
         }
-        item.attribute_values.list.forEach(child => {
+        item.attribute_values.list.forEach((child) => {
           let val = {
             value: child.attribute_value_id,
             label: child.attribute_value
@@ -1249,7 +1249,7 @@ export default {
           key.children.push(val)
         })
         params.push(key)
-        let selected = this.form.item_params.find(n => item.attribute_id === n.attribute_id)
+        let selected = this.form.item_params.find((n) => item.attribute_id === n.attribute_id)
         formParams.push({
           attribute_id: item.attribute_id,
           attribute_value_id: selected ? selected.attribute_value_id : '',
@@ -1260,8 +1260,8 @@ export default {
       this.form.item_params = formParams
     },
     handleSkuName(val, id) {
-      this.specItems.forEach(item => {
-        item.forEach(child => {
+      this.specItems.forEach((item) => {
+        item.forEach((child) => {
           if (child.sku_id.indexOf(id) !== -1) {
             child.item_spec[0].spec_custom_value_name = val
             store.dispatch('setSku', child)
@@ -1272,9 +1272,9 @@ export default {
     },
     generateSpec(data) {
       let skus = []
-      data.forEach(item => {
+      data.forEach((item) => {
         let specs = []
-        item.attribute_values.list.forEach(spec => {
+        item.attribute_values.list.forEach((spec) => {
           if (!spec.custom_attribute_value) {
             Object.assign(spec, { custom_attribute_value: spec.attribute_value })
           }
@@ -1349,7 +1349,7 @@ export default {
       this.form.spec_items = JSON.stringify(formSkuItem)
       if (this.form.item_id && !this.is_new) {
         updateItems(this.form.item_id, this.form)
-          .then(response => {
+          .then((response) => {
             this.$message({
               message: '更新成功',
               type: 'success',
@@ -1362,12 +1362,12 @@ export default {
               }
             })
           })
-          .catch(error => {
+          .catch((error) => {
             this.submitLoading = false
           })
       } else {
         createItems(this.form)
-          .then(response => {
+          .then((response) => {
             this.$message({
               message: '添加成功',
               type: 'success',
@@ -1380,7 +1380,7 @@ export default {
               }
             })
           })
-          .catch(error => {
+          .catch((error) => {
             this.submitLoading = false
           })
       }
@@ -1402,16 +1402,16 @@ export default {
     pickThumb: function (arr) {
       if (arr.length != 0) {
         this.thumbDialog = false
-        
+
         // 直接将图片插入到富文本内容中
         let imgHtml = ''
-        arr.forEach(data => {
+        arr.forEach((data) => {
           if (data && data.url !== '') {
             const imageUrl = this.wximageurl + data.url
             imgHtml += `<img src="${imageUrl}" style="max-width: 100%; height: auto; display: block; margin: 10px 0;" />`
           }
         })
-        
+
         if (imgHtml) {
           // 将图片HTML追加到现有内容中
           this.form.intro = this.form.intro + imgHtml
@@ -1454,7 +1454,7 @@ export default {
           return false
         } else {
           if (data.length != 0) {
-            data.forEach(data => {
+            data.forEach((data) => {
               if (data && data.url !== '') {
                 this.form.pics.push(data.url)
                 this.picsOldLen = this.form.pics.length
@@ -1468,7 +1468,7 @@ export default {
           return false
         }
         if (data.length > 0) {
-          data.forEach(data => {
+          data.forEach((data) => {
             if (data && data.url !== '') {
               this.specImages[this.currentSku].item_image_url.push(data.url)
             }
@@ -1487,7 +1487,7 @@ export default {
         }
       }
       let list = [...this.specItems[this.currentPage - 1]]
-      list.forEach(item => {
+      list.forEach((item) => {
         Object.assign(item, newObj)
       })
       store.dispatch('setPage', list)
@@ -1528,13 +1528,13 @@ export default {
     updateSku() {
       let arr = []
       let skus = []
-      this.skus.forEach(item => {
+      this.skus.forEach((item) => {
         if (item.checked_sku.length > 0) {
           arr.push(item)
         }
       })
       if (arr.length > 0) {
-        let n = arr.findIndex(item => {
+        let n = arr.findIndex((item) => {
           // 确保 is_image 存在且不为空
           if (!item.is_image || item.is_image.trim() === '') {
             return false
@@ -1550,8 +1550,8 @@ export default {
           let obj = { ...arr[n] }
           let imgs = []
           let addedImg = this.specImages
-          obj.checked_sku.forEach(item => {
-            let added = addedImg.find(n => n.spec_value_id === item)
+          obj.checked_sku.forEach((item) => {
+            let added = addedImg.find((n) => n.spec_value_id === item)
             let img = {
               spec_value_id: item,
               item_spec: this.getSkuName(item, obj.sku_value),
@@ -1563,11 +1563,11 @@ export default {
           arr.splice(n, 1)
           arr.unshift(obj)
         }
-        arr.forEach(item => {
+        arr.forEach((item) => {
           let skuGroup = []
           if (item.checked_sku.length > 0) {
-            item.checked_sku.forEach(checked => {
-              let issue = item.sku_value.find(sku => sku.attribute_value_id === checked)
+            item.checked_sku.forEach((checked) => {
+              let issue = item.sku_value.find((sku) => sku.attribute_value_id === checked)
               if (issue) {
                 let obj = {
                   spec_id: item.sku_id,
@@ -1587,7 +1587,7 @@ export default {
         //   return false
         // }
         let skuList = []
-        allSku.forEach(item => {
+        allSku.forEach((item) => {
           let obj = {
             is_default: false,
             sku_id: this.generateSkuids(item),
@@ -1607,8 +1607,8 @@ export default {
           skuList.push(obj)
         })
         if (this.editingSkus.length > 0) {
-          this.editingSkus.forEach(item => {
-            let in_item = skuList.find(n => item.sku_id === n.sku_id)
+          this.editingSkus.forEach((item) => {
+            let in_item = skuList.find((n) => item.sku_id === n.sku_id)
             if (!in_item) {
               store.dispatch('removeSku', item)
             }
@@ -1626,17 +1626,17 @@ export default {
           list.push(childs)
         }
         if (this.editingSkus.length > 0) {
-          list.forEach(item => {
-            item.forEach(child => {
-              let in_sku = this.editingSkus.find(editor => editor.sku_id === child.sku_id)
+          list.forEach((item) => {
+            item.forEach((child) => {
+              let in_sku = this.editingSkus.find((editor) => editor.sku_id === child.sku_id)
               if (in_sku) {
                 Object.assign(child, in_sku)
               }
             })
           })
         }
-        list.forEach(item => {
-          item.forEach(child => {
+        list.forEach((item) => {
+          item.forEach((child) => {
             store.dispatch('setSku', child)
           })
         })
@@ -1646,7 +1646,7 @@ export default {
       }
     },
     getSkuName(id, skus) {
-      let sku = skus.find(item => id === item.attribute_value_id)
+      let sku = skus.find((item) => id === item.attribute_value_id)
       if (sku) {
         return sku.attribute_value
       }
@@ -1654,7 +1654,7 @@ export default {
     generateSkuids(data) {
       if (data.length) {
         let skuIds = []
-        data.forEach(child => {
+        data.forEach((child) => {
           skuIds.push(child.spec_value_id)
         })
         return skuIds.join('_')
@@ -1716,7 +1716,7 @@ export default {
         attribute_type: 'brand',
         attribute_name: searchVal,
         attribute_ids: isInit ? this.form.brand_id : ''
-      }).then(res => {
+      }).then((res) => {
         for (let item of res.data.data.list) {
           list.push({ attribute_name: item.attribute_name, attribute_id: item.attribute_id })
         }
@@ -1725,7 +1725,7 @@ export default {
     },
     init() {
       this.getBrandList('', true)
-      getShippingTemplatesList(this.templatesListParams).then(response => {
+      getShippingTemplatesList(this.templatesListParams).then((response) => {
         if (response.data.data.list.length > 0) {
           for (var i in response.data.data.list) {
             this.templatesList.push({
@@ -1742,7 +1742,7 @@ export default {
         }
       })
 
-      getCategory({ is_show: false }).then(response => {
+      getCategory({ is_show: false }).then((response) => {
         this.categoryList = transformTree(response.data.data, {
           id: 'category_id',
           label: 'category_name',
@@ -1767,7 +1767,7 @@ export default {
       for (let i = 0; i < params.length; i++) {
         if (params[i].children && params[i].children.length > 0) {
           const children = params[i].children
-          const isHave = children.findIndex(item => item.value == e)
+          const isHave = children.findIndex((item) => item.value == e)
           if (isHave !== -1) {
             this.form.item_params[i].attribute_value_name = children[isHave].label
             break
@@ -1783,7 +1783,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .then(res => {
+        .then((res) => {
           store.dispatch('clearSkus')
           next()
         })

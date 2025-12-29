@@ -27,40 +27,34 @@ export default {
           component: 'input',
           componentProps: {
             placeholder: '请输入appKey',
-            clearable: true,
+            clearable: true
           },
           fieldName: 'app_key',
           formItemClass: 'w-2/4',
           label: 'appKey',
-          rules: [
-            { required: true, message: '请输入appKey', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入appKey', trigger: 'blur' }]
         },
         {
           component: 'input',
           componentProps: {
             placeholder: '请输入appSecret',
-            clearable: true,
+            clearable: true
           },
           fieldName: 'app_secret',
           formItemClass: 'w-2/4',
           label: 'appSecret',
-          rules: [
-            { required: true, message: '请输入appSecret', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入appSecret', trigger: 'blur' }]
         },
         {
           component: 'input',
           componentProps: {
             placeholder: '请输入企业标识',
-            clearable: true,
+            clearable: true
           },
           fieldName: 'ent_sign',
           formItemClass: 'w-2/4',
           label: '企业标识',
-          rules: [
-            { required: true, message: '请输入企业标识', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入企业标识', trigger: 'blur' }]
         },
         {
           fieldName: 'is_open',

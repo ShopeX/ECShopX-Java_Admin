@@ -19,7 +19,7 @@
               <p class="frm-tips">点击图片可更换，图片大小不能超过 2MB（建议尺寸：750px*1334px）</p>
               <div>
                 <div class="upload-box" @click="handleImgChange">
-                  <img v-if="ad_pic" :src="wximageurl + ad_pic" class="avatar">
+                  <img v-if="ad_pic" :src="wximageurl + ad_pic" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon" />
                 </div>
               </div>
@@ -118,7 +118,6 @@
   <el-checkbox label="app" :key="2" name="crossborder_show1">APP</el-checkbox>
   </el-checkbox-group>
   </el-form-item> -->
-
         </el-form>
       </div>
 
@@ -228,7 +227,7 @@ export default {
     // 获取信息
     getInfo() {
       this.loading = true
-      getOpenScreenADSet(this.params).then(res => {
+      getOpenScreenADSet(this.params).then((res) => {
         if (res.data.data.length !== 0) {
           this.form.ad_material = res.data.data.ad_material
           this.form.is_enable = res.data.data.is_enable
@@ -290,7 +289,7 @@ export default {
       } else {
         this.form.app = this.is_app.join(',')
       }
-      saveOpenScreenADSet(this.form).then(res => {
+      saveOpenScreenADSet(this.form).then((res) => {
         this.$message({ type: 'success', message: '操作成功' })
         this.getInfo()
       })
