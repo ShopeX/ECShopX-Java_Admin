@@ -518,7 +518,7 @@ const routes = [
           title: '配送员业绩',
           permissions: ['setting.delivery.companydata_deliverystaffstatistics']
         },
-        component: () => import('@/view/mall/datacube/companydata/delivery')
+        component: () => import('@/views/settings/delivery-performance')
       },
       {
         name: `deliverySettingDadaAccount`,
@@ -534,7 +534,7 @@ const routes = [
       {
         name: 'systemInfoOperatorLogs',
         path: 'system-info/operator-logs',
-        component: () => import('@/view/base/setting/companys/logs'),
+        component: () => import('@/views/settings/operation-log'),
         meta: {
           aliasName: 'operatLorogs',
           icon: 'icon-products',
