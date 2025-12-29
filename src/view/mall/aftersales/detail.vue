@@ -423,7 +423,7 @@
             >
               <!-- <el-row v-if="'point' != orderInfo.pay_type"> -->
               <el-row>
-                <el-col :span="3" class="col-3 content-right"> 退款金额: </el-col>
+                <el-col :span="3" class="col-3 content-right"> 退款商品金额: </el-col>
                 <el-col :span="8">
                   <el-input
                     v-model="refund_fee"
@@ -438,13 +438,13 @@
                 </el-col>
               </el-row>
               <el-row>
-                <el-col :span="3" class="col-3 content-right"> 退款积分: </el-col>
+                <el-col :span="3" class="col-3 content-right"> 退款商品积分: </el-col>
                 <el-col :span="8">
                   <el-input v-model="refund_point" type="number" min="0" :max="orderInfo.point" :disabled="aftersalesInfo.progress == 8" />
                 </el-col>
               </el-row>
-              <el-row>
-                <el-col :span="3" class="col-3 content-right"> 退款运费: </el-col>
+              <el-row v-if="aftersalesInfo.freight_type == 'cash'">
+                <el-col :span="3" class="col-3 content-right"> 退款运费金额（¥）: </el-col>
                 <el-col :span="8">
                   <el-input
                     v-model="freight"
@@ -452,6 +452,12 @@
                     min="0"
                     :max="orderInfo.freight_fee / 100"
                   />
+                </el-col>
+              </el-row>
+              <el-row v-if="aftersalesInfo.freight_type == 'point'">
+                <el-col :span="3" class="col-3 content-right"> 退款运费（积分）: </el-col>
+                <el-col :span="8">
+                  <el-input v-model="freight" type="number" min="0" :max="aftersalesInfo.freight" />
                 </el-col>
               </el-row>
             </template>
@@ -937,7 +943,7 @@ export default {
         // this.tradeInfo = data.tradeInfo
         this.refund_fee = data.refund_fee / 100
         this.refund_point = data.refund_point
-        this.freight = data.freight / 100
+        this.freight = data.freight_type == 'cash' ? data.freight / 100 : data.freight
         // this.refund_point = this.orderInfo.items[0].point
         // if(data.refundInfo) {
         //   this.refundInfo = data.refundInfo
@@ -1004,7 +1010,7 @@ export default {
         params['refund_fee'] = accMul(this.refund_fee, 100)
         //parseInt(this.refund_fee * 100)
         params['refund_point'] = this.refund_point
-        params['freight'] = accMul(this.freight, 100)
+        params['freight'] = this.aftersalesInfo.freight_type == 'cash' ? accMul(this.freight, 100) : this.freight
         //售后地址
         console.log(this.aftersalesInfo.aftersales_type)
         if (
@@ -1066,7 +1072,7 @@ export default {
         refunds_memo: this.refuse_reason,
         refund_fee: accMul(this.refund_fee, 100),
         refund_point: this.refund_point,
-        freight: accMul(this.freight, 100)
+        freight: this.aftersalesInfo.freight_type == 'cash' ? accMul(this.freight, 100) : this.freight
       }
       if (params.check_refund == '0' && !params.refunds_memo) {
         this.$message.error('拒绝原因必填！')
@@ -1074,6 +1080,13 @@ export default {
       }
       if (params.check_refund == '1' && isNaN(params.refund_fee)) {
         this.$message.error('退款金额必填！')
+        return false
+      }
+      if (this.aftersalesInfo.freight_type == 'cash' && params.freight > this.aftersalesInfo.freight / 100) {
+        this.$message.error('退款运费不能大于订单运费！')
+        return false
+      } else if (this.aftersalesInfo.freight_type == 'point' && params.freight > this.aftersalesInfo.freight) {
+        this.$message.error('退款运费（积分）不能大于订单运费（积分）！')
         return false
       }
       refundCheck(params).then((response) => {
