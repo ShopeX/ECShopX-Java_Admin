@@ -26,7 +26,7 @@ const routes = [
           title: '会员列表',
           permissions: ['member.memberlmana.memberlist']
         },
-        component: () => import('@/view/member/members/list'),
+        component: () => import('@/views/members/member_list'),
         children: [
           {
             path: 'detail/:user_id?',
@@ -142,7 +142,7 @@ const routes = [
           title: '群发短信',
           permissions: ['member.membertouch.smssend']
         },
-        component: () => import('@/view/member/members/list'),
+        component: () => import('@/views/members/member_list'),
         children: [
           {
             path: 'detail/:user_id?',
@@ -267,7 +267,7 @@ const routes = [
           title: '群发优惠券',
           permissions: ['member.memberlmana.member-send-coupons']
         },
-        component: () => import('@/view/member/members/list'),
+        component: () => import('@/views/members/member_list'),
         children: [
           {
             path: 'detail',
@@ -284,7 +284,7 @@ const routes = [
           title: '群发短信',
           permissions: ['member.memberlmana.member-send-sms']
         },
-        component: () => import('@/view/member/members/list')
+        component: () => import('@/views/members/member_list')
       },
       {
         name: 'label',
