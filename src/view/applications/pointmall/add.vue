@@ -194,13 +194,6 @@
                         <p>2. 拖动图片进行可排序</p>
                       </div>
                     </div>
-                    <imgPicker
-                      :dialog-visible="picsDialog"
-                      :sc-status="isGetPics"
-                      :is-most="multiple"
-                      @chooseImg="pickPics"
-                      @closeImgDialog="closePicsDialog"
-                    />
                   </el-form-item>
                 </el-col>
                 <el-col :xs="24">
@@ -840,13 +833,6 @@
               @change="handleContent"
             />
           </template>
-          <imgPicker
-            :dialog-visible="thumbDialog"
-            :sc-status="isGetThumb"
-            :is-most="true"
-            @chooseImg="pickThumb"
-            @closeImgDialog="closeThumbDialog"
-          />
         </el-card>
       </template>
     </el-form>
@@ -862,7 +848,6 @@ import { getItemsDetail, createItems, updateItems } from '@/api/pointsmall'
 import { getGoodsAttr, getCategory, getCategoryInfo } from '@/api/goods'
 import { getShippingTemplatesList } from '@/api/shipping'
 import { uploadMaterial } from '@/api/wechat'
-import imgPicker from '@/components/imageselect'
 import videoPicker from '@/components/videoselect'
 import richTextEditor from '@/components/function/richTextEditor'
 import imgBox from '@/components/element/imgBox'
@@ -872,7 +857,6 @@ import { transformTree } from '@/utils'
 
 export default {
   components: {
-    imgPicker,
     videoPicker,
     Treeselect,
     draggable,
@@ -901,8 +885,6 @@ export default {
         goods_type: true
       },
       is_new: false,
-      isGetImage: false,
-      imgDialog: false,
       isGetVideo: false,
       statusOption: [
         {
@@ -1011,10 +993,6 @@ export default {
       },
       dialogVisible: false,
       dialogImageUrl: '',
-      thumbDialog: false,
-      isGetThumb: false,
-      isGetPics: false,
-      picsDialog: false,
       picsCurrent: -1,
       picsOldLen: 0,
       currentSku: -1,
@@ -1395,40 +1373,60 @@ export default {
       this.currentPage = val
     },
     // 详情中的上传图片
-    addImgPreview: function () {
-      this.thumbDialog = true
-      this.isGetThumb = true
-    },
-    pickThumb: function (arr) {
-      if (arr.length != 0) {
-        this.thumbDialog = false
-        
-        // 直接将图片插入到富文本内容中
-        let imgHtml = ''
-        arr.forEach(data => {
-          if (data && data.url !== '') {
-            const imageUrl = this.wximageurl + data.url
-            imgHtml += `<img src="${imageUrl}" style="max-width: 100%; height: auto; display: block; margin: 10px 0;" />`
-          }
+    async addImgPreview() {
+      try {
+        const { data } = await this.$picker.image({
+          multiple: true,
+          num: 20 // 最多选择20张图片
         })
         
-        if (imgHtml) {
-          // 将图片HTML追加到现有内容中
-          this.form.intro = this.form.intro + imgHtml
-          this.$message.success('图片插入成功')
+        if (data && data.length > 0) {
+          // 直接将图片插入到富文本内容中
+          let imgHtml = ''
+          data.forEach(item => {
+            const imgUrl = (item && item.url) || item || ''
+            if (imgUrl) {
+              // 如果包含 wximageurl，则提取相对路径
+              let finalUrl = imgUrl
+              if (this.wximageurl && imgUrl.indexOf(this.wximageurl) === 0) {
+                finalUrl = imgUrl.replace(this.wximageurl, '')
+              }
+              const imageUrl = this.wximageurl + finalUrl
+              imgHtml += `<img src="${imageUrl}" style="max-width: 100%; height: auto; display: block; margin: 10px 0;" />`
+            }
+          })
+          
+          if (imgHtml) {
+            // 将图片HTML追加到现有内容中
+            this.form.intro = this.form.intro + imgHtml
+            this.$message.success('图片插入成功')
+          }
         }
+      } catch (error) {
+        // 用户取消选择时不处理错误
+        console.log('图片选择已取消')
       }
     },
-    closeThumbDialog: function () {
-      this.thumbDialog = false
-    },
     //品牌LOGO
-    handleImgChange() {
-      this.imgDialog = true
-      this.isGetImage = true
-    },
-    closeImgDialog() {
-      this.imgDialog = false
+    async handleImgChange() {
+      try {
+        const { data } = await this.$picker.image()
+        
+        // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
+        const imgUrl = (data && data.url) || data || ''
+        
+        if (imgUrl) {
+          // 如果包含 wximageurl，则提取相对路径
+          if (this.wximageurl && imgUrl.indexOf(this.wximageurl) === 0) {
+            // 这里需要根据实际使用的字段来设置，目前没有看到具体使用的地方
+            // 如果需要设置品牌LOGO，可以在这里添加相应的逻辑
+            console.log('品牌LOGO图片:', imgUrl.replace(this.wximageurl, ''))
+          }
+        }
+      } catch (error) {
+        // 用户取消选择时不处理错误
+        console.log('图片选择已取消')
+      }
     },
     //视频
     pickVideo(data) {
@@ -1436,47 +1434,72 @@ export default {
       this.form.videos_url = data.url
     },
     //上传商品图（9张）
-    handlePicsChange: function () {
-      this.picsDialog = true
-      this.isGetPics = true
-      this.multiple = true
-    },
-    handleSkuImg(index) {
-      this.currentSku = index
-      this.picsDialog = true
-      this.isGetPics = true
-      this.multiple = true
-    },
-    pickPics(data) {
-      if (this.currentSku === -1) {
-        if (this.picsOldLen + data.length >= 10) {
+    async handlePicsChange() {
+      try {
+        const remaining = 9 - this.picsOldLen
+        if (remaining <= 0) {
           this.$message.error('最多上传9张图片!')
-          return false
-        } else {
-          if (data.length != 0) {
-            data.forEach(data => {
-              if (data && data.url !== '') {
-                this.form.pics.push(data.url)
-                this.picsOldLen = this.form.pics.length
+          return
+        }
+        
+        const { data } = await this.$picker.image({
+          multiple: true,
+          num: remaining
+        })
+        
+        if (data && data.length > 0) {
+          data.forEach(item => {
+            const imgUrl = (item && item.url) || item || ''
+            if (imgUrl) {
+              // 如果包含 wximageurl，则提取相对路径
+              let finalUrl = imgUrl
+              if (this.wximageurl && imgUrl.indexOf(this.wximageurl) === 0) {
+                finalUrl = imgUrl.replace(this.wximageurl, '')
               }
-            })
-          }
+              this.form.pics.push(finalUrl)
+              this.picsOldLen = this.form.pics.length
+            }
+          })
         }
-      } else {
-        if (this.specImages[this.currentSku].item_image_url.length + data.length > 5) {
+      } catch (error) {
+        // 用户取消选择时不处理错误
+        console.log('图片选择已取消')
+      }
+    },
+    async handleSkuImg(index) {
+      try {
+        this.currentSku = index
+        const remaining = 5 - this.specImages[index].item_image_url.length
+        if (remaining <= 0) {
           this.$message.error('最多添加5张图片!')
-          return false
+          this.currentSku = -1
+          return
         }
-        if (data.length > 0) {
-          data.forEach(data => {
-            if (data && data.url !== '') {
-              this.specImages[this.currentSku].item_image_url.push(data.url)
+        
+        const { data } = await this.$picker.image({
+          multiple: true,
+          num: remaining
+        })
+        
+        if (data && data.length > 0) {
+          data.forEach(item => {
+            const imgUrl = (item && item.url) || item || ''
+            if (imgUrl) {
+              // 如果包含 wximageurl，则提取相对路径
+              let finalUrl = imgUrl
+              if (this.wximageurl && imgUrl.indexOf(this.wximageurl) === 0) {
+                finalUrl = imgUrl.replace(this.wximageurl, '')
+              }
+              this.specImages[index].item_image_url.push(finalUrl)
             }
           })
         }
         this.currentSku = -1
+      } catch (error) {
+        // 用户取消选择时不处理错误
+        this.currentSku = -1
+        console.log('图片选择已取消')
       }
-      this.picsDialog = false
     },
     fillSku() {
       let obj = { ...this.bulkFilling[0] }
@@ -1508,9 +1531,6 @@ export default {
           }
         }
       })
-    },
-    closePicsDialog() {
-      this.picsDialog = false
     },
     picsEnter(index) {
       this.picsCurrent = index

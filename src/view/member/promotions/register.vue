@@ -37,12 +37,6 @@
               <i v-else class="el-icon-plus avatar-uploader-icon" />
             </div>
           </div>
-          <imgPicker
-            :dialog-visible="imgDialog"
-            :sc-status="isGetImage"
-            @chooseImg="pickImg"
-            @closeImgDialog="closeImgDialog"
-          />
         </el-form-item>
         <el-form-item label="注册引导跳转路径">
           <div class="uploader-setting">
@@ -287,21 +281,17 @@
   </div>
 </template>
 <script>
-import imgPicker from '@/components/imageselect'
 import { getItemsList } from '@/api/goods'
 import { getCardList, getEffectiveCardList } from '@/api/cardticket'
 import { saveRegisterPromotions, getRegisterPromotions } from '@/api/promotions'
 import linkSetter from '@/components/template_links' // 添加导航连接
 export default {
   components: {
-    imgPicker,
     linkSetter
   },
   props: ['activeName'],
   data() {
     return {
-      isGetImage: false,
-      imgDialog: false,
       total_count: 0,
       goodsList: [],
       params: {
@@ -360,16 +350,25 @@ export default {
     this.getGoodsList()
   },
   methods: {
-    handleImgChange() {
-      this.imgDialog = true
-      this.isGetImage = true
-    },
-    pickImg(data) {
-      this.form.ad_pic = data.url
-      this.imgDialog = false
-    },
-    closeImgDialog() {
-      this.imgDialog = false
+    async handleImgChange() {
+      try {
+        const { data } = await this.$picker.image({
+          data: this.form.ad_pic ? { url: this.form.ad_pic } : undefined
+        })
+        
+        // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
+        const imgUrl = (data && data.url) || data || ''
+        if (imgUrl) {
+          // 如果包含 wximageurl，则提取相对路径
+          if (this.wximageurl && imgUrl.indexOf(this.wximageurl) === 0) {
+            this.form.ad_pic = imgUrl.replace(this.wximageurl, '')
+          } else {
+            this.form.ad_pic = imgUrl
+          }
+        }
+      } catch (error) {
+        console.log('图片选择已取消')
+      }
     },
     //选择商品分页
     handlePagesChange(val) {

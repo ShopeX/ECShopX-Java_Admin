@@ -13,12 +13,6 @@
         <div>
           <imgBox :img-url="wximageurl + form.pics" @click="handleImgChange" />
         </div>
-        <imgPicker
-          :dialog-visible="imgDialog"
-          :sc-status="isGetImage"
-          @chooseImg="pickImg"
-          @closeImgDialog="closeImgDialog"
-        />
       </el-form-item>
       <el-form-item label="拼团商品">
         <el-row :gutter="20">
@@ -216,13 +210,11 @@ import { uploadMaterial } from '../../../api/wechat'
 import { getItemsList } from '../../../api/goods'
 import { getDefaultCurrency } from '../../../api/company'
 import { createGroupActivity, updateGroupActivity, getGroupsInfo } from '../../../api/promotions'
-import imgPicker from '../../../components/imageselect'
 import imgBox from '@/components/element/imgBox'
 
 export default {
   inject: ['refresh'],
   components: {
-    imgPicker,
     imgBox
   },
   data() {
@@ -285,8 +277,6 @@ export default {
         ],
         share_desc: [{ required: true, message: '请输入分享描述' }]
       },
-      imgDialog: false,
-      isGetImage: false,
       currency: {},
       cursymbol: '￥',
       goodsTypeTitle: '服务类商品'
@@ -443,18 +433,28 @@ export default {
       })
     },
     //活动封面
-    handleImgChange() {
-      this.imgDialog = true
-      this.isGetImage = true
-    },
-    pickImg(data) {
-      console.log(data.url)
-      this.form.pics = data.url
-      console.log(this.form.pics)
-      this.imgDialog = false
-    },
-    closeImgDialog() {
-      this.imgDialog = false
+    async handleImgChange() {
+      try {
+        const { data } = await this.$picker.image({
+          data: this.form.pics ? { url: this.form.pics } : undefined
+        })
+        
+        // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
+        const imgUrl = (data && data.url) || data || ''
+        
+        if (imgUrl) {
+          // 如果包含 wximageurl，则提取相对路径
+          // form.pics 存储的是相对路径（显示时使用 wximageurl + form.pics）
+          if (this.wximageurl && imgUrl.indexOf(this.wximageurl) === 0) {
+            this.form.pics = imgUrl.replace(this.wximageurl, '')
+          } else {
+            this.form.pics = imgUrl
+          }
+        }
+      } catch (error) {
+        // 用户取消选择时不处理错误
+        console.log('图片选择已取消')
+      }
     },
     changeGoods(type) {
       switch (type) {

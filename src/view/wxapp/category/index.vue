@@ -1020,20 +1020,12 @@ $txt-placeholder: #f5f5f7;
           <el-button type="primary" @click="confirmPageDialog"> 确 定 </el-button>
         </div>
       </el-dialog>
-      <imgPicker
-        :dialog-visible="imgsVisible"
-        :sc-status="isGetImage"
-        @chooseImg="pickImg"
-        @closeImgDialog="closeimgsVisible"
-      />
     </div>
   </transition>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-// 组件
-import imgPicker from '@/components/imageselect'
 // 第三方组件
 import draggable from 'vuedraggable'
 // api
@@ -1042,7 +1034,6 @@ import { savePageParams, getParamByTempName, getCustomPageList } from '@/api/wxa
 import { isArray } from '@/utils'
 export default {
   components: {
-    imgPicker,
     // 第三方组件
     draggable
   },
@@ -1115,9 +1106,6 @@ export default {
         animation: 150,
         scroll: true
       },
-      // 图片选择器
-      isGetImage: false,
-      imgsVisible: false,
       // 分类选择器
       curCateType: 'goodsCate',
       categoryLoading: false,
@@ -1364,39 +1352,35 @@ export default {
       this.form.name = type
     },
     // 图片选择器绑定事件
-    showImgs(fidx, sidx, lidx) {
-      this.imgsVisible = true
-      this.isGetImage = true
-      this.currentFidx = fidx
+    async showImgs(fidx, sidx, lidx) {
+      // 获取当前图片URL（如果存在）
+      let currentImgUrl = ''
       if (lidx !== undefined) {
-        this.currentSidx = sidx
-        this.currentLidx = lidx
+        currentImgUrl = this.editableData[fidx].children[sidx].children[lidx] && this.editableData[fidx].children[sidx].children[lidx].img || ''
+      } else if (sidx !== undefined) {
+        currentImgUrl = this.editableData[fidx].children[sidx] && this.editableData[fidx].children[sidx].img || ''
+      } else {
+        currentImgUrl = this.editableData[fidx] && this.editableData[fidx].img || ''
       }
-      if (sidx !== undefined && lidx === undefined) {
-        this.currentSidx = sidx
-        this.currentLidx = ''
+
+      try {
+        const { data } = await this.$picker.image({
+          data: currentImgUrl ? { url: currentImgUrl } : undefined
+        })
+        
+        const imgUrl = (data && data.url) || data || ''
+        
+        // 根据层级更新对应的图片
+        if (lidx !== undefined) {
+          this.editableData[fidx].children[sidx].children[lidx].img = imgUrl
+        } else if (sidx !== undefined) {
+          this.editableData[fidx].children[sidx].img = imgUrl
+        } else {
+          this.editableData[fidx].img = imgUrl
+        }
+      } catch (error) {
+        console.log('图片选择已取消')
       }
-      if (sidx === undefined && lidx === undefined) {
-        this.currentSidx = ''
-        this.currentLidx = ''
-      }
-    },
-    pickImg(data) {
-      if (this.currentLidx !== '') {
-        this.editableData[this.currentFidx].children[this.currentSidx].children[
-          this.currentLidx
-        ].img = data.url
-      }
-      if (this.currentSidx !== '' && this.currentLidx === '') {
-        this.editableData[this.currentFidx].children[this.currentSidx].img = data.url
-      }
-      if (this.currentSidx === '' && this.currentLidx === '') {
-        this.editableData[this.currentFidx].img = data.url
-      }
-      this.imgsVisible = false
-    },
-    closeimgsVisible() {
-      this.imgsVisible = false
     },
     // 递归
     recursive(list, id) {
