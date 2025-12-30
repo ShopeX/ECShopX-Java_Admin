@@ -151,7 +151,6 @@ export default {
               h('el-button', {
                   props: {
                     type: 'text',
-                    size: 'small'
                   },
                   on: {
                     click: () => vm.handleEdit(row)
@@ -160,7 +159,6 @@ export default {
                 h('el-button', {
                   props: {
                     type: 'text',
-                    size: 'small',
                     style: 'color: #F56C6C;'
                   },
                   on: {
