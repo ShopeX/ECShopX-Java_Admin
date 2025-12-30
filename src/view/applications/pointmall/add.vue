@@ -827,11 +827,9 @@
             </span> -->
           </template>
           <template v-else>
-            <richTextEditor
-              :data="content"
-              :control="['film', 'slider', 'heading', 'writing']"
-              @change="handleContent"
-            />
+            <SpIphone>
+              <SpDecorate ref="decorateRef" v-model="content" scene='1002' />
+            </SpIphone>
           </template>
         </el-card>
       </template>
@@ -856,6 +854,13 @@ import { getOrigincountry } from '@/api/crossborder'
 import { transformTree } from '@/utils'
 
 export default {
+  beforeRouteLeave(to, from, next) {
+    if (this.$refs['decorateRef'].dialogVisible) {
+      this.$refs['decorateRef'].resetDecorateTheme()
+      this.$refs['decorateRef'].onClose()
+    }
+    next()
+  },
   components: {
     videoPicker,
     Treeselect,
