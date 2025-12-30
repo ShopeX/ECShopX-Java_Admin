@@ -74,7 +74,7 @@
   <template>
     <SpPage>
       <SpRouterView>
-        <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onSearch">
+        <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onReset">
           <SpFilterFormItem prop="mobile" label="手机号:">
             <el-input v-model="params.mobile" placeholder="请输入手机号" />
           </SpFilterFormItem>
@@ -105,8 +105,8 @@
               />
             </el-select>
           </SpFilterFormItem>
-          <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="inviter_mobile" label="推荐人:">
-            <el-input v-model="params.inviter_mobile" placeholder="请输入推荐人手机号" />
+          <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="reg_salesperson" label="注册导购:">
+            <el-input v-model="params.reg_salesperson" placeholder="输入导购手机号" />
           </SpFilterFormItem>
           <SpFilterFormItem prop="tag_id" label="标签:">
             <el-select v-model="params.tag_id" clearable placeholder="请选择">
@@ -146,14 +146,6 @@
               <el-option label="无记录" value="false" />
             </el-select>
           </SpFilterFormItem>
-          <!-- <SpFilterFormItem prop="salesman_mobile" label="导购手机:" v-if="$store.getters.login_type != 'distributor' && !isMicorMall">
-            <shop-select
-              distributors
-              :performInit="performInit"
-              @update="storeHandle"
-              @init="init"
-            ></shop-select>
-          </SpFilterFormItem> -->
           <SpFilterFormItem prop="role" label="角色:">
             <el-select v-model="params.role" placeholder="请选择" clearable>
               <el-option
@@ -164,14 +156,39 @@
               />
             </el-select>
           </SpFilterFormItem>
+          <SpFilterFormItem prop="reg_distributor" label="注册店铺:">
+            <SpSelectShop v-model="params.reg_distributor" clearable placeholder="请选择" />
+          </SpFilterFormItem>
+          <SpFilterFormItem prop="store_name" label="归属店铺:">
+            <SpSelectShop v-model="params.store_name" clearable placeholder="请选择" />
+          </SpFilterFormItem>
+          <SpFilterFormItem prop="employee_number" label="归属导购:">
+            <el-input v-model="params.employee_number" placeholder="输入导购手机号" />
+          </SpFilterFormItem>
+          <SpFilterFormItem prop="birthday" label="生日:">
+            <el-date-picker
+              v-model="birthday"
+              unlink-panels
+              type="daterange"
+              align="right"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              prefix-icon="null"
+              :picker-options="pickerOptions"
+              @change="birthdayChange"
+            />
+          </SpFilterFormItem>
         </SpFilterForm>
   
         <div class="action-container">
-          <el-button type="primary" @click="batchActionDialog('rel_tag')"> 打标签 </el-button>
+          <el-button type="primary" @click="showTagDialog = true"> 打标签 </el-button>
           <el-button
             v-if="!VERSION_IN_PURCHASE()"
             type="primary"
-            @click="batchActionDialog('give_coupon')"
+            @click="showCouponTagDialog = true"
           >
             赠送优惠券
           </el-button>
@@ -200,198 +217,27 @@
           >
             会员等级设置
           </el-button>
+          <el-button type="primary" @click="batchActionDialog('change_shop')">
+            更换店铺
+          </el-button>
           <el-button type="primary" @click="exportData"> 导出 </el-button>
         </div>
   
-        <el-table
-          v-loading="loading"
-          border
-          :data="memberData"
+        <SpFinder
+          ref="finder"
+          :setting="finderSetting"
           :row-key="getRowKeys"
+          url="/members"
+          reserve-selection
+          fixed-row-action
+          row-actions-width="180px"
+          row-actions-fixed-align="left"
+          :hooks="{
+            beforeSearch: beforeSearch,
+            afterQuery: afterQuery
+          }"
           @selection-change="handleSelectionChange"
-        >
-          <el-table-column type="selection" align="center" label="全选" />
-          <el-table-column v-if="VERSION_SHUYUN()" prop="userid" label="平台账号" width="100" />
-          <el-table-column prop="mobile" label="手机号" width="160">
-            <template slot-scope="scope">
-              {{ scope.row.mobile }}
-              <el-tooltip
-                v-if="$store.getters.login_type != 'distributor' &&
-                  datapass_block == 0 &&
-                  !VERSION_SHUYUN() && !dmcrmIsOpen"
-                class="item"
-                effect="dark"
-                content="修改手机号"
-                placement="top-start"
-              >
-                <el-button
-                  class="el-icon-edit"
-                  type="text"
-                  size="mini"
-                  @click="editMobile(scope.row)"
-                />
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column prop="username" label="昵称" width="140" />
-  
-          <el-table-column v-if="!VERSION_IN_PURCHASE()" prop="sex" label="性别" width="70">
-            <template slot-scope="scope">
-              <span v-if="scope.row.sex == '2'">女</span>
-              <span v-else-if="scope.row.sex == '1'">男</span>
-              <span v-else-if="scope.row.sex == '0'">未知</span>
-              <span v-else>{{ scope.row.sex }}</span>
-            </template>
-          </el-table-column>
-  
-          <el-table-column v-if="!VERSION_IN_PURCHASE()" prop="is_chief" label="是否团长" width="80">
-            <template slot-scope="scope">
-              <el-switch
-                v-model="scope.row.is_chief"
-                disabled
-                active-value="1"
-                inactive-value="0"
-                active-color="#ff4949"
-                inactive-color="#ccc"
-                @change="switchChief(scope.$index, scope.row)"
-              />
-            </template>
-          </el-table-column>
-          <!-- <el-table-column
-            prop="is_chief"
-            label="是否团长"
-            width="100"
-          >
-            <template slot-scope="scope">
-              <span v-if="scope.row.is_chief == '1'">是</span>
-              <span v-else>否</span>
-            </template>
-          </el-table-column> -->
-  
-          <el-table-column v-if="!VERSION_IN_PURCHASE()" prop="grade_id" label="会员等级" width="140">
-            <template slot-scope="scope">
-              <!-- <span v-if="scope.row.grade_id == '1'">女</span>
-              <span v-else>{{ scope.row.grade_id }}</span> -->
-              <span>{{ showGrade(scope.row.grade_id, scope.row.vip_grade) }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column v-if="!VERSION_IN_PURCHASE()" prop="inviter" label="推荐人" width="130" />
-          <el-table-column prop="disabled" label="禁用" width="80">
-            <template slot-scope="scope">
-              <el-switch
-                v-model="scope.row.disabled"
-                active-value="1"
-                inactive-value="0"
-                active-color="#ff4949"
-                inactive-color="#ccc"
-                @change="acitonDisabled(scope.$index, scope.row)"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="会员标签" width="130">
-            <template slot-scope="scope">
-              <template v-if="scope.row.tagList.length > 0">
-                <el-tag
-                  v-for="tag in scope.row.tagList"
-                  :key="tag.tag_id"
-                  size="mini"
-                  closable
-                  effect="dark"
-                  :color="tag.tag_color"
-                  :style="'color:' + tag.font_color"
-                  @close="relTagDelEvent(tag.tag_id, scope.row.user_id)"
-                >
-                  {{ tag.tag_name }}
-                </el-tag>
-              </template>
-              <template v-else>
-                <span class="muted">暂无会员标签</span>
-              </template>
-            </template>
-          </el-table-column>
-          <el-table-column v-if="false" prop="user_card_code" label="会员卡编号" width="130" />
-  
-          <el-table-column v-if="false" prop="created" label="注册日期" width="120">
-            <template slot-scope="scope">
-              <el-tooltip placement="top">
-                <div slot="content">
-                  注册时间<br>{{ scope.row.created | datetime('YYYY-MM-DD HH:mm:ss') }}
-                </div>
-                <span>{{ scope.row.created | datetime }}</span>
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column label="用户名" width="130">
-            <template slot-scope="scope">
-              <span v-if="scope.row.name">{{ scope.row.name }}</span>
-              <span v-else class="muted">暂无用户名</span>
-              <el-tooltip class="item" effect="dark" content="编辑用户名" placement="top-start">
-                <el-button
-                  class="el-icon-edit"
-                  type="text"
-                  size="mini"
-                  @click="isEdit(scope.row, 'name')"
-                />
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column label="备注" width="130">
-            <template slot-scope="scope">
-              <span v-if="scope.row.remarks">{{ scope.row.remarks }}</span>
-              <span v-else class="muted">暂无备注</span>
-              <el-tooltip class="item" effect="dark" content="编辑备注" placement="top-start">
-                <el-button
-                  class="el-icon-edit"
-                  type="text"
-                  size="mini"
-                  @click="isEdit(scope.row, 'remarks')"
-                />
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" width="250">
-            <template slot-scope="scope">
-              <el-button type="text" @click="getDetail(scope.row.user_id)"> 详情 </el-button>
-              <el-button
-                v-if="
-                  $store.getters.login_type != 'distributor' &&
-                  datapass_block == 0 &&
-                  !VERSION_SHUYUN()
-                "
-                type="text"
-                @click="infoUpdate(scope.row)"
-              >
-                基础信息
-              </el-button>
-              <el-button
-                v-if="
-                  $store.getters.login_type != 'distributor' &&
-                  !VERSION_IN_PURCHASE() &&
-                  !VERSION_SHUYUN()
-                "
-                type="text"
-                @click="gradeUpdate(scope.row)"
-              >
-                会员等级
-              </el-button>
-              <el-button icon="edit" type="text" @click="editSuperior(scope.row)">
-                调整上级
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div class="content-center content-top-padded c-pagination">
-          <el-pagination
-            background
-            layout="total, sizes, prev, pager, next, jumper"
-            :current-page.sync="page.pageIndex"
-            :page-sizes="[10, 20, 50]"
-            :total="page.total"
-            :page-size="page.pageSize"
-            @current-change="handleCurrentChange"
-            @size-change="handleSizeChange"
-          />
-        </div>
+        />
   
         <el-dialog title="会员下载" :visible.sync="downloadView" :close-on-click-modal="false">
           <template v-if="downloadUrl">
@@ -740,7 +586,7 @@
               <el-form-item label-width="100px" label="新手机号">
                 <el-input v-model="form.newMobile" placeholder="手机号" />
               </el-form-item>
-              <el-form-item class="content-center">
+              <el-form-item class="content-center ml-[30px]">
                 <el-button type="primary" @click="onEditMobileSubmit"> 确定添加 </el-button>
               </el-form-item>
             </el-form>
@@ -770,7 +616,7 @@
               <el-form-item label-width="100px" :label="remarksForm.label">
                 <el-input v-model="remarksForm.input" :placeholder="remarksForm.placeholder" />
               </el-form-item>
-              <el-form-item class="content-center">
+              <el-form-item class="content-center ml-[50px]">
                 <el-button type="primary" @click="editRemarks()"> 确定 </el-button>
               </el-form-item>
             </el-form>
@@ -835,6 +681,21 @@
             @smsMassLogEditHandler="switchAliyunsmsDialog"
           />
         </template>
+  
+        <!-- 选择优惠券和标签弹框 -->
+        <CompCouponTagSelector
+          :visible.sync="showCouponTagDialog"
+          :selected-coupons="selectedCoupons"
+          :selected-tags="selectedCouponTags"
+          @confirm="handleCouponTagConfirm"
+        />
+  
+        <!-- 批量打标签弹框 -->
+        <CompTagsMore
+          :visible.sync="showTagDialog"
+          :selected-tags="selectedTags"
+          @confirm="handleTagConfirm"
+        />
       </SpRouterView>
     </SpPage>
   </template>
@@ -844,47 +705,31 @@
   import aliyunsmsDialog from '@/view/base/shortmessage/cpn/sms_MassLog_edit.vue'
   import { mapGetters } from 'vuex'
   import {
-    getMembers,
-    memberSmsSend,
-    usersRelTagsDel,
-    tagSearchUser,
     updateMemberMobile,
     getMemberOperateLog,
     memberExport,
-    updateMemberInfo,
-    setSindusersalespersonrel,
     updateMemberGrade,
-    batchupdateMemberGrade,
-    batchOperating,
     getMemberRegisterSetting,
     updateMemberBasicInfo,
-    setCheif
-  } from '../../../api/member'
-  import { getaliSmsStatus } from '@/api/sms'
-  
-  import {
-    addPromoter,
-    getPopularizeList,
-    editPopularizeRemove,
-    editPopularizeGrade,
-    editPopularizeDisabled,
-    getPromoterGradeConfig,
-    updatePromoterShop
-  } from '../../../api/promotions'
-  
-  import { getSalesmanList, setMemberSalesman, getDistributorEasyList } from '../../../api/marketing'
-  import { getEffectiveCardList } from '../../../api/cardticket'
-  import { giveCoupons } from '../../../api/promotions'
-  import { listVipGrade, batchReceiveMemberCard } from '../../../api/cardticket'
+    setCheif,
+    batchOperating,
+    updateMemberInfo
+  } from '@/api/member'
+  import { getSalesmanList } from '@/api/marketing'
+  import { getEffectiveCardList } from '@/api/cardticket'
   import shopSelect from '@/components/shopSelect'
-  import { forEach } from 'jszip'
   import { ROLE_LIST } from '@/consts'
+  import { finderSetting } from './config/member_list_schema'
+  import CompCouponTagSelector from '@/views/members/components/CompCouponTagSelector.vue'
+  import CompTagsMore from '@/views/members/components/CompTagsMore.vue'
   
   export default {
     components: {
       shopSelect,
       exportTip,
-      aliyunsmsDialog
+      aliyunsmsDialog,
+      CompCouponTagSelector,
+      CompTagsMore
     },
     data() {
       return {
@@ -912,7 +757,6 @@
         loading: false,
         mobile: '',
         total_count: 0,
-        memberData: [],
         vipGradeDelay: {
           vip_grade_id: '',
           add_day: 0,
@@ -967,17 +811,18 @@
           user_id: '',
           newMobile: ''
         },
-        page: {
-          pageIndex: 1,
-          pageSize: 20,
-          total: 0
-        },
         params: {
           vip_grade: '',
           tag_id: '',
           mobile: '',
           have_consume: '',
-          role: ''
+          role: '',
+          reg_distributor: '',
+          store_name: '',
+          employee_number: '',
+          birthday_start: '',
+          birthday_end: '',
+          reg_salesperson: ''
         },
         operateLog: [],
         currentShop: '',
@@ -1002,6 +847,7 @@
         distributorShopList: [],
         performInit: false,
         created: '',
+        birthday: '',
         pickerOptions: {
           shortcuts: [
             {
@@ -1063,14 +909,23 @@
         datapass_block: 1,
         gradeList: [], // 普通会员等级列表
         vipGrade: [], // 付费会员等级列表
-        dmcrmIsOpen:false
+        dmcrmIsOpen:false,
+        changeStoreId: '',
+        showCouponTagDialog: false,
+        selectedCoupons: [],
+        selectedCouponTags: [],
+        showTagDialog: false,
+        selectedTags: []
       }
     },
     computed: {
-      ...mapGetters(['isMicorMall', 'login_type'])
+      ...mapGetters(['isMicorMall', 'login_type']),
+      finderSetting() {
+        return finderSetting(this)
+      }
     },
     mounted() {
-      const { salesman_mobile, wechat_nickname, mobile, orderRecords, grade_id, currentPage } =
+      const { salesman_mobile, wechat_nickname, mobile, orderRecords, grade_id } =
         this.$route.query
   
       this.params.salesman_mobile = salesman_mobile
@@ -1086,13 +941,9 @@
       if (grade_id) {
         this.params.grade_id = grade_id
       }
-      if (currentPage) {
-        this.page.pageIndex = Number(currentPage)
-      }
       this.getMembers()
       this.getAllTagLists()
       this.getGradeList()
-      // this.getVipList()
       this.getShopsList()
       getMemberRegisterSetting().then((response) => {
         delete response.data.data.content_agreement
@@ -1157,7 +1008,7 @@
       infoUpdateSubmit() {
         updateMemberBasicInfo(this.basicInfo).then((res) => {
           this.$message({ type: 'success', message: '修改成功' })
-          this.getMembers()
+          this.$refs.finder.refresh()
           this.dialogIsShow = false
         })
       },
@@ -1172,7 +1023,7 @@
         if (this.is_batch === false) {
           updateMemberGrade(this.gradeForm).then((res) => {
             this.$message({ type: 'success', message: '修改成功' })
-            this.getMembers()
+            this.$refs.finder.refresh()
             this.dialogIsShow = false
           })
         } else {
@@ -1192,7 +1043,7 @@
         updateMemberInfo({ ...params }).then((res) => {
           this.$message({ type: 'success', message: '更新成功' })
           this.isEditRemarks = false
-          this.getMembers()
+          this.$refs.finder.refresh()
         })
       },
       isEdit(row, val) {
@@ -1255,12 +1106,10 @@
       },
       handleCurrentChange(pageIndex) {
         this.page.pageIndex = pageIndex
-        this.getMembers()
       },
       // 调整每页显示条数
       handleSizeChange(pageSize) {
         this.page.pageSize = pageSize
-        this.getMembers()
       },
   
       getParams() {
@@ -1278,29 +1127,58 @@
       },
       onReset() {
         this.created = ''
-        this.params.time_start_begin = ''
-        this.params.time_start_end = ''
-        this.onSearch()
+        this.birthday = ''
+        this.params = {
+          vip_grade: '',
+          tag_id: '',
+          mobile: '',
+          have_consume: '',
+          role: '',
+          reg_distributor: '',
+          store_name: '',
+          employee_number: '',
+          birthday_start: '',
+          birthday_end: '',
+          reg_salesperson: ''
+        }
+        this.$refs.finder.refresh(true)
       },
       onSearch() {
-        this.page.pageIndex = 1
-        this.$nextTick(() => {
-          this.getMembers()
-        })
+        this.$refs.finder.refresh(true)
       },
       async getMembers() {
-        this.loading = true
-        const { pageIndex: page, pageSize } = this.page
         let params = {
-          page,
-          pageSize,
+          page: 1,
+          pageSize: 20
+        }
+        const { datapass_block } = await this.$api.member.getMembers(params)
+        this.datapass_block = datapass_block
+      },
+      beforeSearch(params) {
+        const finderParams = {
+          page: params.page,
+          pageSize: 20,
           ...this.params
         }
-        const { list, total_count, datapass_block } = await this.$api.member.getMembers(params)
-        this.memberData = list
-        this.datapass_block = datapass_block
-        this.page.total = total_count
-        this.loading = false
+        // // 处理日期范围
+        // if (this.created && this.created.length === 2) {
+        //   finderParams.time_start_begin = this.dateStrToTimeStamp(this.created[0] + ' 00:00:00')
+        //   finderParams.time_start_end = this.dateStrToTimeStamp(this.created[1] + ' 23:59:59')
+        // }
+        // if (this.birthday && this.birthday.length === 2) {
+        //   finderParams.birthday_start = this.dateStrToTimeStamp(this.birthday[0] + ' 00:00:00')
+        //   finderParams.birthday_end = this.dateStrToTimeStamp(this.birthday[1] + ' 23:59:59')
+        // }
+        return finderParams
+      },
+      async afterQuery(response) {
+        // 处理 API 返回的数据
+        const data = response.data.data || response.data
+        const { list, total_count } = data
+        return {
+          list: list || [],
+          count: total_count || 0
+        }
       },
       async getGradeList() {
         const gradeList = await this.$api.membercard.getGradeList()
@@ -1334,10 +1212,6 @@
         const { list } = await this.$api.member.getTagList(params)
         this.tag.list = list
       },
-      // async getVipList () {
-      //   const res = await this.$api.cardticket.listVipGrade()
-      //   this.vipGrade = res
-      // },
       async getShopsList() {
         const { list } = await this.$api.shop.getWxShopsList({
           page: 1,
@@ -1366,8 +1240,7 @@
             user_id: userid,
             mobile: this.params.mobile,
             orderRecords: this.params.have_consume,
-            grade_id: this.params.grade_id,
-            currentPage: this.page.pageIndex
+            grade_id: this.params.grade_id
           }
         })
       },
@@ -1523,7 +1396,7 @@
               })
               this.clearParams()
               this.getGradeList()
-              this.getMembers()
+              this.$refs.finder.refresh()
             }
           })
         } else {
@@ -1542,10 +1415,9 @@
                     message: res.data.data.msg
                   })
                   this.getGradeList()
-                  this.getMembers()
+                  this.$refs.finder.refresh()
                 }
                 this.params.tag_ids = []
-                this.params.couponsids = []
                 this.params.couponsids = []
                 this.params.user_id = []
               })
@@ -1556,7 +1428,6 @@
                 message: '已取消'
               })
               this.params.tag_ids = []
-              this.params.couponsids = []
               this.params.couponsids = []
               this.params.user_id = []
             })
@@ -1590,7 +1461,7 @@
                   type: 'success',
                   message: '修改手机号成功'
                 })
-                this.getMembers()
+                this.$refs.finder.refresh()
                 this.editMobileDialog = false
               })
             }
@@ -1610,34 +1481,15 @@
         param && param.shop_id
         this.currentDistributor = param.shop_id
         this.currentShop = ''
-        this.currentPage = 1
-        this.getMembers()
-      },
-  
-      init() {
-        this.params.mobile = ''
-        this.params.have_consume = ''
-        this.params.vip_grade = ''
-        this.params.grade_id = ''
-        this.params.tag_id = ''
-        this.params.inviter_mobile = ''
-        this.created = ''
-        this.params.remarks = ''
-        this.params.username = ''
-        this.params.salesman_mobile = ''
-        this.currentShop = ''
-        this.getMembers()
+        this.$refs.finder.refresh(true)
       },
       shopHandle(val) {
         this.performInit = true
         this.currentStore = ''
         this.currentShop = val
-        this.currentPage = 1
-        this.getMembers()
+        this.$refs.finder.refresh(true)
       },
-  
       exportData() {
-        this.currentPage = 1
         memberExport(this.params).then((response) => {
           if (response.data.data.status) {
             this.$message({
@@ -1668,6 +1520,15 @@
           this.params.time_start_end = ''
         }
       },
+      birthdayChange(val) {
+        if (val && val.length > 0) {
+          this.params.birthday_start = val[0]
+          this.params.birthday_end = val[1]
+        } else {
+          this.params.birthday_start = ''
+          this.params.birthday_end = ''
+        }
+      },
       dateStrToTimeStamp(str) {
         return Date.parse(new Date(str)) / 1000
       },
@@ -1684,19 +1545,19 @@
           }).then(() => {
             let params = {
               user_id: row.user_id,
-              disabled: row.disabled
+              disabled: row.disabled == 1 ? 0 : 1
             }
             updateMemberInfo(params).then((res) => {
-              this.getMembers()
+              this.$refs.finder.refresh()
             })
           })
         } else {
           let params = {
             user_id: row.user_id,
-            disabled: row.disabled
+            disabled: row.disabled == 1 ? 0 : 1
           }
           updateMemberInfo(params).then((res) => {
-            this.getMembers()
+            this.$refs.finder.refresh()
           })
         }
       },
@@ -1714,12 +1575,12 @@
               distributor_ids: [this.$store.getters.shopId]
             }
             setCheif(params).then((res) => {
-              this.getMembers()
+              this.$refs.finder.refresh()
             })
           })
         } else {
           this.$message({ type: 'error', message: '取消团长，请联系管理员' })
-          this.getMembers()
+          this.$refs.finder.refresh()
           // let params = {
           //   'user_id': row.user_id,
           //   'distributor_ids': [this.$store.getters.shopId]
@@ -1736,7 +1597,7 @@
           user_id: userId
         })
         this.$message({ type: 'success', message: '修改成功' })
-        this.getMembers()
+        this.$refs.finder.refresh()
       },
       changeStaffCouponsPage(currentPage) {
         this.staffCoupons.page.currentPage = currentPage
@@ -1782,13 +1643,16 @@
         this.paramsModal.mobile = this.identifierModal
         this.getPopularizeListModalFun(this.paramsModal)
       },
-      getPopularizeListModalFun(filter) {
+      async getPopularizeListModalFun(filter) {
         this.modalLoading = true
-        getPopularizeList(filter).then((res) => {
-          this.modalList = res.data.data.list
-          this.modal_total_count = Number(res.data.data.total_count)
+        try {
+          const { list, total_count } = await this.$api.promotions.getPopularizeList(filter)
+          this.modalList = list
+          this.modal_total_count = Number(total_count)
           this.modalLoading = false
-        })
+        } catch (error) {
+          console.error(error)
+        }
       },
       handleCurrentChangeUpLV(val) {
         console.log('handleCurrentChangeUpChange')
@@ -1796,32 +1660,42 @@
           this.currentRow = val.user_id
         }
       },
-      editPopularizeRemoveFun() {
-        editPopularizeRemove({ user_id: this.row.user_id, new_user_id: this.currentRow }).then(
-          (res) => {
-            this.message = '上下级'
-            this.loading = false
-            this.$message({
-              message: '调整' + this.message + '成功',
-              type: 'success',
-              duration: 5 * 1000
-            })
-            this.fetchList()
-          }
-        )
+      async editPopularizeRemoveFun() {
+        try {
+          await this.$api.promotions.editPopularizeRemove({ user_id: this.row.user_id, new_user_id: this.currentRow })
+          this.$message({
+            message: '调整上下级成功',
+            type: 'success',
+            duration: 5 * 1000
+          })
+          this.$refs.finder.refresh()
+          this.loading = false
+        } catch (error) {
+          console.error(error)
+        }
       },
       handleModalPage(page_num) {
         this.paramsModal.page = page_num
         this.getPopularizeListModalFun(this.paramsModal)
       },
   
-      batchActionDialog(actiontype) {
+      async batchActionDialog(actiontype) {
         this.params.action_type = actiontype
   
         if (actiontype == 'send_sms' && this.aliyunsms_status) {
           // 展示阿里短信的
           this.switchAliyunsmsDialog(true)
           console.log(this.user_id)
+          return
+        }
+  
+        if (actiontype == 'change_shop') {
+          const { data } = await this.$picker.shop({
+            queryParams: {
+              is_valid: true
+            }
+          })
+          this.changeStoreId = data[0].distributor_id
           return
         }
   
@@ -1835,9 +1709,6 @@
             if (isInArr != -1) this.tag.tags.splice(index, 1)
           })
           this.tag.dialog = true
-        } else if (actiontype == 'give_coupon') {
-          this.getCoupons()
-          this.dialogTitle = '赠送优惠券'
         } else if (actiontype == 'send_sms') {
           this.sms_content = ''
           this.dialogTitle = '群发短信'
@@ -1858,6 +1729,52 @@
       /* ali短信 相关 */
       switchAliyunsmsDialog(val = false) {
         this.aliyunsmsDialogVisible = val
+      },
+      handleCouponTagConfirm(data) {
+        // 处理选择优惠券和标签的确认
+        const couponIds = data.couponIds || []
+        const tagIds = data.tagIds || []
+        
+        // 设置优惠券ID
+        this.params.couponsids = couponIds
+        this.params.action_type = 'give_coupon'
+        
+        // 如果有标签，也设置标签ID
+        if (tagIds && tagIds.length > 0) {
+          this.params.tag_ids = tagIds
+        }
+        
+        // 保存选中的数据用于回显
+        this.selectedCoupons = data.coupons || []
+        this.selectedCouponTags = data.tags || []
+        
+        // 调用批量操作
+        this.batchAction('是否给全部会员赠送优惠券?')
+      },
+      handleTagConfirm(tags) {
+        // 处理标签确认
+        this.params.action_type = 'rel_tag'
+        this.params.tag_ids = []
+        this.params.user_id = []
+        
+        // 将选中的标签转换为 tag_ids 数组
+        tags.forEach((tag) => {
+          this.params.tag_ids.push(tag.tag_id)
+        })
+        
+        if (this.params.tag_ids.length <= 0) {
+          this.$message({
+            type: 'error',
+            message: '没有选中标签'
+          })
+          return
+        }
+        
+        // // 保存选中的标签用于回显
+        // this.selectedTags = tags
+        
+        // 调用批量操作
+        this.batchAction('是否给全部会员打标签?')
       }
     }
   }
