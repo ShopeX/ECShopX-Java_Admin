@@ -190,7 +190,7 @@
             type="primary"
             @click="showCouponTagDialog = true"
           >
-            赠送优惠券
+            发放优惠券
           </el-button>
           <el-button
             v-if="$store.getters.login_type != 'distributor'"
