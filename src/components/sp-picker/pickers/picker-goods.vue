@@ -268,6 +268,9 @@ export default {
         ...this.formData,
         category: category[category.length - 1]
       }
+      if (this.IS_SUPPLIER()) {
+        params.operate_source = 'supplier'
+      }
       return params
     },
     afterSearch(response) {
