@@ -117,11 +117,11 @@
             :props="{ value: 'category_id', label: 'category_name', checkStrictly: true }"
           />
         </SpFilterFormItem>
-        <SpFilterFormItem prop="cat_id" label="销售分类:">
+        <SpFilterFormItem prop="category" label="销售分类:">
           <el-cascader
-            v-model="params.cat_id"
+            v-model="params.category"
             :options="categoryList"
-            :props="{ checkStrictly: true, label: 'category_name', value: 'category_id' }"
+            :props="{ checkStrictly: true, label: 'category_name', value: 'category_id', emitPath: false }"
             clearable
           />
         </SpFilterFormItem>
@@ -990,7 +990,7 @@ export default {
         operator_name: '',
         is_can_sale: '',
         supplier_name: '',
-        cat_id: '',
+        category: '',
         item_holder: '',
         is_gift: ''
       },
@@ -1321,7 +1321,7 @@ export default {
       }
       const { status } = await this.$api.goods.exportGoodsCode({
         ...exportParams,
-        source: 'item',
+        item_source: 'item',
         export_type: exportType
       })
       if (status) {
@@ -1783,9 +1783,6 @@ export default {
         pageSize,
         ...this.params,
         distributor_id: this.shopId
-      }
-      if (params.category.length > 0) {
-        params.category = params.category[params.category.length - 1]
       }
       // const { list, total_count, warning_store } = await this.$api.goods.getItemsList(params)
       const { list, total_count, warning_store } = await this.$api.marketing.getDistributorItems(

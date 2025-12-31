@@ -153,7 +153,7 @@
                 <el-tooltip effect="dark" content="店铺名" placement="top-start">
                   <i class="el-icon-office-building" />
                 </el-tooltip>
-                {{ scope.row.distributor_name }}
+                {{ scope.row?.sale_salesman_distributor_info?.name }}
               </div>
               <div class="order-time">
                 <el-tooltip effect="dark" content="下单时间" placement="top-start">
