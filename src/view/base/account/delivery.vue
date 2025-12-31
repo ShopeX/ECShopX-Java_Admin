@@ -546,7 +546,11 @@ export default {
       }
     },
     async addDistributoreAction() {
-      const { data } = await this.$picker.shop()
+      const { data } = await this.$picker.shop({
+        queryParams: {
+          is_valid: true
+        }
+      })
       let arrObj = [...this.relDistributors, ...data]
 
       for (let i = 0; i < arrObj.length; i++) {
