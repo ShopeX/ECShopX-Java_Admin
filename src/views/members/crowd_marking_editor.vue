@@ -398,7 +398,7 @@ export default {
           if (item.condition_type && item.value !== null && item.value !== undefined) {
             if (item.condition_type === 'timeRange') {
               if (Array.isArray(item.value)) {
-                valueArr = item.value.map(timestamp => dayjs.unix(timestamp).valueOf())
+                valueArr = item.value.map(timestamp => dayjs(timestamp).unix())
               }
             } else if (item.condition_type === 'number_rang') {
               if (typeof item.value === 'object' && item.value !== null) {
@@ -443,7 +443,7 @@ export default {
                 
                 if (conditionType === 'timeRange') {
                   if (Array.isArray(categoryTotalCondition.value)) {
-                    valueArr = categoryTotalCondition.value.map(timestamp => dayjs.unix(timestamp).valueOf())
+                    valueArr = categoryTotalCondition.value.map(timestamp => dayjs(timestamp).unix())
                   }
                 } else if (conditionType === 'number_rang') {
                   // 金额区间：传递数组 [最小值, 最大值]
