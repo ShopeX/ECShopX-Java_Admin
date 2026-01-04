@@ -1691,12 +1691,27 @@
   
         if (actiontype == 'change_shop') {
           const { data } = await this.$picker.shop({
+            multiple: false, // 单选
             queryParams: {
               is_valid: true
             }
           })
           this.changeStoreId = data[0].distributor_id
-          return
+          try {
+            await this.$api.member.setRegDistributor({
+              user_id: this.user_id,
+              distributor_id: data[0].distributor_id
+            })
+            this.$message({
+              type: 'success',
+              message: '更换店铺成功'
+            })
+            this.$refs.finder.refresh()
+            return
+          } catch (error) {
+            console.error(error)
+            return
+          }
         }
   
         this.dialogIsShow = true

@@ -287,8 +287,8 @@ export default {
         const params = {
           group_id: row.group_id,
           tag_name: value,
-          tag_color: '#ff1939',
-          font_color: '#ffffff'
+          tag_color: '',
+          font_color: ''
         }
         await this.$api.member.saveTag(params)
         this.$message({
