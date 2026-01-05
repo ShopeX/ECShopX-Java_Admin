@@ -23,10 +23,10 @@
                     </el-button>
 
                     <div v-if="isPasteMode" class="hover:cursor-pointer text-gray-400">
-                        <div>Ctrl+v 粘贴图片</div>
+                        <div>使用 Ctrl + V 或 <kbd>⌘</kbd> + V</div>
                     </div>
                     <div v-else class="hover:cursor-pointer ml-3 text-gray-400">
-                        拖拽或单击后粘贴图片，单张20MB以内
+                        拖拽或单击后粘贴图片，单张5MB以内
                     </div>
                 </div>
 

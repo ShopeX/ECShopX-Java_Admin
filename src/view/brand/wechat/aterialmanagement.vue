@@ -6,9 +6,10 @@
 <template>
   <SpPage>
     <div v-if="$route.path.indexOf('editor') === -1">
-      <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+      <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
         <el-tab-pane label="本地图片" name="local">
-          <localimages-list :active-name="activeName" :get-status="localpicStatus" />
+          <!--localimages-list :active-name="activeName" :get-status="localpicStatus" /-->
+          <picker-image :page-size="24":active-name="activeName" :get-status="localpicStatus" :columns="8"/>
         </el-tab-pane>
 
         <!-- <el-tab-pane
@@ -87,7 +88,8 @@
 import videoList from './video/list.vue'
 import imagesList from './images/list.vue'
 import newsList from './artical/list.vue'
-import localimagesList from './localimages/list.vue'
+//import localimagesList from './localimages/list.vue'
+import pickerImage from '@/components/sp-picker/pickers/picker-image.vue'
 import localvideosList from './localvideos/list.vue'
 import { getWechatMaterial, getMaterialStats } from '../../../api/wechat'
 export default {
@@ -95,7 +97,8 @@ export default {
     imagesList,
     newsList,
     videoList,
-    localimagesList,
+    //localimagesList,
+    pickerImage,
     localvideosList
   },
   data() {
