@@ -85,13 +85,13 @@
 </template>
 
 <script>
-import videoList from './video/list.vue'
-import imagesList from './images/list.vue'
-import newsList from './artical/list.vue'
+import videoList from '@/view/brand/wechat/video/list.vue'
+import imagesList from '@/view/brand/wechat/images/list.vue'
+import newsList from '@/view/brand/wechat/artical/list.vue'
 //import localimagesList from './localimages/list.vue'
 import pickerImage from '@/components/sp-picker/pickers/picker-image.vue'
-import localvideosList from './localvideos/list.vue'
-import { getWechatMaterial, getMaterialStats } from '../../../api/wechat'
+import localvideosList from '@/view/brand/wechat/localvideos/list.vue'
+import { getWechatMaterial, getMaterialStats } from '../../api/wechat'
 export default {
   components: {
     imagesList,
