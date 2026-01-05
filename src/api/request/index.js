@@ -21,8 +21,10 @@ async function refreshToken() {
   try {
     const oldToken = store.getters.token
     // 调用刷新token的接口
-    const response = await requestClient.post('/auth/refresh', {
-      refresh_token: oldToken
+    const response = await requestClient.get('/token/refresh', {}, {
+      params: {
+        refresh_token: oldToken
+      }
     })
     // 更新store中的token
     store.commit('user/setToken', { token: response.token })
