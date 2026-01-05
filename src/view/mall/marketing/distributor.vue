@@ -103,7 +103,7 @@
         <SpFilterFormItem prop="distributor_id" label="店铺号:">
           <el-input v-model="params.shop_code" placeholder="店铺号" />
         </SpFilterFormItem>
-        <SpFilterFormItem prop="open_divided" label="开启白名单:">
+        <SpFilterFormItem prop="open_divided" label="开启白名单:" v-if="VERSION_STANDARD()">
           <el-select v-model="params.open_divided" placeholder="是否开启">
             <el-option
               v-for="(item, index) in isOpenList"
