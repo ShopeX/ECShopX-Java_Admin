@@ -206,6 +206,7 @@ export default {
       return (
         <div class='el-date-picker__wrapper'>
           <el-date-picker
+            size={this.size || 'small'}
             type='date'
             value={this.modelValue}
             {...props}
@@ -220,6 +221,7 @@ export default {
         <div class='el-datetime-picker__wrapper'>
           <el-date-picker
             style='width: 100%'
+            size={this.size || 'small'}
             type={this.componentProps.type}
             startPlaceholder='开始日期/结束时间'
             default-time={['00:00:00', '23:59:59']}

@@ -432,9 +432,7 @@ export default {
               duration: 2 * 1000,
               onClose() {
                 that.refresh()
-                that.$router.push({
-                  path: '/marketing/member/extrapoint'
-                })
+                that.$router.go(-1)
               }
             })
           } else {
@@ -452,9 +450,7 @@ export default {
               duration: 2 * 1000,
               onClose() {
                 that.refresh()
-                that.$router.push({
-                  path: '/marketing/member/extrapoint'
-                })
+                that.$router.go(-2)
               }
             })
           } else {

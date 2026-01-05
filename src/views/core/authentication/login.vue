@@ -129,6 +129,8 @@ export default {
           setTimeout(() => {
             if (accessMenus.length == 1 && accessMenus[0].url == '/activelicense') {
               window.location.href = '/activelicense'
+            } else if (accessMenus.length == 1 && accessMenus[0].url == '/login') {
+              window.location.href = '/login'
             } else {
               window.location.href = '/'
             }

@@ -267,7 +267,7 @@
                 {{ scope.row.self_delivery_operator_name }}
               </template>
             </el-table-column>
-            <el-table-column prop="mobile" label="业务员">
+            <!-- <el-table-column prop="mobile" label="业务员">
               <template slot-scope="scope">
                 {{ scope.row.salesman_mobile }}
                 <el-tooltip
@@ -283,7 +283,7 @@
                   />
                 </el-tooltip>
               </template>
-            </el-table-column>
+            </el-table-column> -->
 
             <el-table-column
               v-if="$store.getters.login_type != 'merchant' && !VERSION_IN_PURCHASE()"

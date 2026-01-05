@@ -24,7 +24,7 @@
       </div>
     </el-card> -->
     <el-card header="基础信息" shadow="naver">
-      <el-form-item label="活动封面">
+      <!-- <el-form-item label="活动封面">
         <div class="frm-tips">只能上传jpg/png文件，且不超过2M （建议尺寸：400px * 450px）</div>
         <div>
           <imgBox :img-url="wximageurl + form.ad_pic" inline @click="handleImgChange" />
@@ -35,7 +35,7 @@
           @chooseImg="pickImg"
           @closeImgDialog="closeImgDialog"
         />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item
         label="活动名称"
         prop="activity_name"
@@ -564,7 +564,7 @@ export default {
           distributor_id: response.distributor_id,
           status: response.status,
           items: '',
-          ad_pic: response.ad_pic,
+          // ad_pic: response.ad_pic,
           item_type: response.item_type,
           use_bound: response.use_bound,
           item_category: response.item_category,

@@ -134,13 +134,6 @@
               建议尺寸:750*750，文件格式为：png、jpeg、bmp、 jpg大小不超
               2M，小程序卡片分享与报名活动列表取详情第一张图展示
             </div>
-            <imgPicker
-              :dialog-visible="activityPicsDialog"
-              :sc-status="isGetActivityImage"
-              :is-most="true"
-              @chooseImg="chooseActivityImg"
-              @closeImgDialog="closeImgDialog"
-            />
           </el-col>
         </el-form-item>
       </el-card>
@@ -410,7 +403,6 @@ import {
   regActivityUpdate,
   getTemplateList
 } from '@/api/selfhelpform'
-import imgPicker from '@/components/imageselect'
 import imgBox from '@/components/element/imgBox'
 import district from '@/common/district.json'
 import { listVipGrade } from '@/api/cardticket'
@@ -423,7 +415,6 @@ import draggable from 'vuedraggable'
 
 export default {
   components: {
-    imgPicker,
     imgBox,
     richTextEditor,
     EnterpriseDialog,
@@ -477,8 +468,6 @@ export default {
         is_valid: 1
       },
       temp_options: [],
-      activityPicsDialog: false,
-      isGetActivityImage: false,
       vipGrade: [],
       memberGrade: [],
       mode: 'richText',
@@ -732,22 +721,30 @@ export default {
         this.loading = false
       })
     },
-    chooseActivityImg(data) {
-      if (data.length > 0) {
-        data.forEach((data) => {
-          if (data && data.url !== '') {
-            this.picsList.push(data.url)
-          }
+    async handleActivityPicsChange() {
+      try {
+        const { data } = await this.$picker.image({
+          multiple: true,
+          num: 20 // 最多选择20张图片
         })
+        
+        if (data && data.length > 0) {
+          data.forEach(item => {
+            const imgUrl = (item && item.url) || item || ''
+            if (imgUrl) {
+              // 如果包含 wximageurl，则提取相对路径
+              let finalUrl = imgUrl
+              if (this.wximageurl && imgUrl.indexOf(this.wximageurl) === 0) {
+                finalUrl = imgUrl.replace(this.wximageurl, '')
+              }
+              this.picsList.push(finalUrl)
+            }
+          })
+        }
+      } catch (error) {
+        // 用户取消选择时不处理错误
+        console.log('图片选择已取消')
       }
-      this.activityPicsDialog = false
-    },
-    closeImgDialog() {
-      this.activityPicsDialog = false
-    },
-    handleActivityPicsChange() {
-      this.activityPicsDialog = true
-      this.isGetActivityImage = true
     },
     pickThumb: function (arr) {
       if (arr.length != 0) {

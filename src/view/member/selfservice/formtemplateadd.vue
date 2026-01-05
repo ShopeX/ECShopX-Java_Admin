@@ -184,12 +184,6 @@
             <div class="frm-tips">
               只能上传jpg/png文件，且不超过2M （建议尺寸：640px，高度自适应）
             </div>
-            <imgPicker
-              :dialog-visible="imgDialog"
-              :sc-status="isGetImage"
-              @chooseImg="pickImg"
-              @closeImgDialog="closeImgDialog"
-            />
           </el-col>
         </el-form-item>
         <el-form-item
@@ -280,14 +274,12 @@ import {
   getSettingList
 } from '../../../api/selfhelpform'
 import SideBar from '@/components/element/sideBar'
-import imgPicker from '@/components/imageselect'
 import imgBox from '@/components/element/imgBox'
 
 export default {
   inject: ['refresh'],
   components: {
     SideBar,
-    imgPicker,
     imgBox
   },
   data() {
@@ -331,9 +323,7 @@ export default {
       ],
       templateRadio: '',
       formcontentindex: 0,
-      selectdata: [],
-      imgDialog: false,
-      isGetImage: false
+      selectdata: []
     }
   },
   mounted() {
@@ -551,16 +541,28 @@ export default {
     delCard(index) {
       this.form.content.splice(index, 1)
     },
-    handleImgBChange() {
-      this.imgDialog = true
-      this.isGetImage = true
-    },
-    pickImg(data) {
-      this.form.header_bg_pic = data.url
-      this.imgDialog = false
-    },
-    closeImgDialog() {
-      this.imgDialog = false
+    async handleImgBChange() {
+      try {
+        const { data } = await this.$picker.image({
+          data: this.form.header_bg_pic ? { url: this.form.header_bg_pic } : undefined
+        })
+        
+        // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
+        const imgUrl = (data && data.url) || data || ''
+        
+        if (imgUrl) {
+          // 如果包含 wximageurl，则提取相对路径
+          // form.header_bg_pic 存储的是相对路径（显示时使用 wximageurl + form.header_bg_pic）
+          if (this.wximageurl && imgUrl.indexOf(this.wximageurl) === 0) {
+            this.form.header_bg_pic = imgUrl.replace(this.wximageurl, '')
+          } else {
+            this.form.header_bg_pic = imgUrl
+          }
+        }
+      } catch (error) {
+        // 用户取消选择时不处理错误
+        console.log('图片选择已取消')
+      }
     }
   }
 }
