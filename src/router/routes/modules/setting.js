@@ -433,11 +433,11 @@ const routes = [
           title: '外链小程序',
           permissions: ['setting.systemsetting.extminilink']
         },
-        component: () => import('@/view/base/wxa/extMiniLink'),
+        component: () => import('@/views/settings/systemConfig/external-app'),
         children: [
           {
             path: 'editor',
-            component: () => import('@/view/base/wxa/extMiniLinkDetail'),
+            component: () => import('@/views/settings/systemConfig/extMiniLinkDetail'),
             meta: {
               title: '外部小程序配置-页面路径',
               hidden: true
@@ -454,11 +454,11 @@ const routes = [
           title: '配送设置',
           permissions: ['setting.delivery.logistics']
         },
-        component: () => import('@/view/mall/trade/logistics/index'),
+        component: () => import('@/views/settings/deliverySettings/logistics/index'),
         children: [
           {
             path: 'editor/:id?',
-            component: () => import('@/view/mall/trade/logistics/add-ziti'),
+            component: () => import('@/views/settings/deliverySettings/logistics/add-ziti'),
             meta: {
               title: '编辑自提点',
               hidden: true
@@ -496,7 +496,7 @@ const routes = [
           title: '物流查询配置',
           permissions: ['setting.delivery.kdniao']
         },
-        component: () => import('@/view/base/setting/kdniao')
+        component: () => import('@/views/settings/deliverySettings/logistics-inquiry')
       },
       {
         name: `deliverySettingDistributionManagement`,
@@ -507,7 +507,7 @@ const routes = [
           title: '配送员管理',
           permissions: ['setting.delivery.setting_staffself_deliverystaff']
         },
-        component: () => import('@/view/base/account/delivery')
+        component: () => import('@/views/settings/deliverySettings/delivery-management')
       },
       {
         name: `deliverySettingDeliverPersonPerformance`,
@@ -518,7 +518,7 @@ const routes = [
           title: '配送员业绩',
           permissions: ['setting.delivery.companydata_deliverystaffstatistics']
         },
-        component: () => import('@/views/settings/delivery-performance')
+        component: () => import('@/views/settings/deliverySettings/delivery-performance')
       },
       {
         name: `deliverySettingDadaAccount`,
@@ -529,12 +529,12 @@ const routes = [
           title: '达达账户',
           permissions: ['setting.delivery.dada']
         },
-        component: () => import('@/view/mall/distribution/account')
+        component: () => import('@/views/settings/deliverySettings/dada-account')
       },
       {
         name: 'systemInfoOperatorLogs',
         path: 'system-info/operator-logs',
-        component: () => import('@/views/settings/operation-log'),
+        component: () => import('@/views/settings/systemInfo/operation-log'),
         meta: {
           aliasName: 'operatLorogs',
           icon: 'icon-products',

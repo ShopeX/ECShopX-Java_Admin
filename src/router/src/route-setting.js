@@ -32,11 +32,11 @@ export default {
     {
       path: 'delivery/logistics',
       name: `物流公司`,
-      component: () => import('@/view/mall/trade/logistics/index'),
+      component: () => import('@/views/settings/deliverySettings/logistics/index'),
       children: [
         {
           path: 'addziti/:id?',
-          component: () => import('@/view/mall/trade/logistics/add-ziti'),
+          component: () => import('@/views/settings/deliverySettings/logistics/add-ziti'),
           beforeEnter: ({ params, meta }, from, next) => {
             meta.title = params.id ? '编辑自提点' : '新增自提点'
             next()
@@ -68,7 +68,7 @@ export default {
     {
       path: 'delivery/selfdeliverystaff',
       name: `账号管理-店铺配送员`,
-      component: () => import('@/view/base/account/delivery')
+      component: () => import('@/views/settings/deliverySettings/delivery-management')
     },
     {
       path: 'delivery/deliverystaffstatistics',
