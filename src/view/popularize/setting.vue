@@ -632,17 +632,17 @@ export default {
         const { data: result } = await this.$picker.image({
           data: currentImgUrl ? { url: currentImgUrl } : undefined
         })
-        
+
         // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
         const imgUrl = (result && result.url) || result || ''
-        
+
         if (imgUrl) {
           // 如果包含 wximageurl，则提取相对路径
           let finalUrl = imgUrl
           if (this.wximageurl && imgUrl.indexOf(this.wximageurl) === 0) {
             finalUrl = imgUrl.replace(this.wximageurl, '')
           }
-          
+
           // 根据不同的图片类型设置对应的字段
           switch (data) {
             case 'web':

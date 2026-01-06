@@ -46,7 +46,7 @@
         <el-input v-model="formData.keywords" placeholder="请输入页面名称" />
       </SpFilterFormItem>
       <SpFilterFormItem prop="is_open">
-        <el-select  v-model="formData.is_open" clearable placeholder="是否启用">
+        <el-select v-model="formData.is_open" clearable placeholder="是否启用">
           <el-option value="1" label="是" />
           <el-option value="0" label="否" />
         </el-select>

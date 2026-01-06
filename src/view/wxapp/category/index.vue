@@ -1352,20 +1352,25 @@ export default {
       // 获取当前图片URL（如果存在）
       let currentImgUrl = ''
       if (lidx !== undefined) {
-        currentImgUrl = this.editableData[fidx].children[sidx].children[lidx] && this.editableData[fidx].children[sidx].children[lidx].img || ''
+        currentImgUrl =
+          (this.editableData[fidx].children[sidx].children[lidx] &&
+            this.editableData[fidx].children[sidx].children[lidx].img) ||
+          ''
       } else if (sidx !== undefined) {
-        currentImgUrl = this.editableData[fidx].children[sidx] && this.editableData[fidx].children[sidx].img || ''
+        currentImgUrl =
+          (this.editableData[fidx].children[sidx] && this.editableData[fidx].children[sidx].img) ||
+          ''
       } else {
-        currentImgUrl = this.editableData[fidx] && this.editableData[fidx].img || ''
+        currentImgUrl = (this.editableData[fidx] && this.editableData[fidx].img) || ''
       }
 
       try {
         const { data } = await this.$picker.image({
           data: currentImgUrl ? { url: currentImgUrl } : undefined
         })
-        
+
         const imgUrl = (data && data.url) || data || ''
-        
+
         // 根据层级更新对应的图片
         if (lidx !== undefined) {
           this.editableData[fidx].children[sidx].children[lidx].img = imgUrl

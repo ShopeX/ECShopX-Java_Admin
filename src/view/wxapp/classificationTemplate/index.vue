@@ -311,12 +311,14 @@ export default {
     async handleImgChange() {
       try {
         const { data } = await this.$picker.image({
-          data: this.pageForm.page_share_imageUrl ? { url: this.pageForm.page_share_imageUrl } : undefined
+          data: this.pageForm.page_share_imageUrl
+            ? { url: this.pageForm.page_share_imageUrl }
+            : undefined
         })
-        
+
         // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
         const imgUrl = (data && data.url) || data || ''
-        
+
         if (imgUrl) {
           // 如果包含 wximageurl，则提取相对路径
           // pageForm.page_share_imageUrl 存储的是相对路径（显示时使用 wximageurl + pageForm.page_share_imageUrl）

@@ -16,15 +16,15 @@
         <el-button type="primary" icon="plus" @click="showEditModal('')"> 新增 </el-button>
       </div>
 
-      <SpFinder 
-        ref="finder" 
-        url="/wxexternalconfig/list" 
-        no-selection 
+      <SpFinder
+        ref="finder"
+        url="/wxexternalconfig/list"
+        no-selection
         :setting="setting"
         :hooks="{ beforeSearch: beforeSearch }"
-        border 
+        border
       />
-      
+
       <el-dialog
         class="modal"
         width="30%"
@@ -113,23 +113,23 @@ export default {
       //SpFinder的配置
       setting: {
         columns: [
-          { 
-            name: '创建日期', 
+          {
+            name: '创建日期',
             key: 'created_at',
             width: 220
           },
-          { 
-            name: '小程序APPID', 
+          {
+            name: '小程序APPID',
             key: 'app_id',
             width: 250
           },
-          { 
-            name: '小程序名称', 
+          {
+            name: '小程序名称',
             key: 'app_name',
             width: 272
           },
-          { 
-            name: '描述', 
+          {
+            name: '描述',
             key: 'app_desc',
             width: 300
           },
@@ -139,36 +139,48 @@ export default {
             width: 230,
             render: (h, { row }) => {
               return h('div', [
-                h('el-button', {
-                  props: {
-                    type: 'text'
+                h(
+                  'el-button',
+                  {
+                    props: {
+                      type: 'text'
+                    },
+                    style: {
+                      marginRight: '10px'
+                    },
+                    on: {
+                      click: () => this.showEditModal(row)
+                    }
                   },
-                  style: {
-                    marginRight: '10px'
+                  '编辑'
+                ),
+                h(
+                  'el-button',
+                  {
+                    props: {
+                      type: 'text'
+                    },
+                    style: {
+                      marginRight: '10px'
+                    },
+                    on: {
+                      click: () => this.jumpDetail(row)
+                    }
                   },
-                  on: {
-                    click: () => this.showEditModal(row)
-                  }
-                }, '编辑'),
-                h('el-button', {
-                  props: {
-                    type: 'text'
+                  '页面路径'
+                ),
+                h(
+                  'el-button',
+                  {
+                    props: {
+                      type: 'text'
+                    },
+                    on: {
+                      click: () => this.removeCurrent(row)
+                    }
                   },
-                  style: {
-                    marginRight: '10px'
-                  },
-                  on: {
-                    click: () => this.jumpDetail(row)
-                  }
-                }, '页面路径'),
-                h('el-button', {
-                  props: {
-                    type: 'text'
-                  },
-                  on: {
-                    click: () => this.removeCurrent(row)
-                  }
-                }, '删除')
+                  '删除'
+                )
               ])
             }
           }
@@ -184,7 +196,7 @@ export default {
       }
       return searchParams
     },
-    
+
     onSearch() {
       this.$nextTick(() => {
         if (this.$refs.finder) {
@@ -192,7 +204,7 @@ export default {
         }
       })
     },
-    
+
     // 显示modal事件
     showEditModal(info = {}) {
       if (info && info.wx_external_config_id) {
@@ -213,7 +225,7 @@ export default {
       }
       this.showModal = true
     },
-    
+
     // 关闭modal事件
     closeModal() {
       this.editInfo = {
@@ -226,16 +238,16 @@ export default {
       }
       this.showModal = false
     },
-    
+
     // 新增&编辑小程序配置
     async editWxConfig() {
       if (this.isHttping) return false
       this.isHttping = true
-      
+
       try {
         const params = { ...this.editInfo }
         let apiAction = params.wx_external_config_id ? updateWxLinkSetting : createWxLinkSetting
-        
+
         await apiAction(params)
         this.closeModal()
         if (this.$refs.finder) {
@@ -250,7 +262,7 @@ export default {
       }
       this.isHttping = false
     },
-    
+
     // 跳转详情
     jumpDetail(info) {
       const path = this.matchRoutePath('editor')
@@ -261,7 +273,7 @@ export default {
         }
       })
     },
-    
+
     // 删除当前设置
     async removeCurrent(info) {
       try {
@@ -269,14 +281,14 @@ export default {
           confirmButtonText: '确定',
           cancelButtonText: '取消'
         })
-        
+
         await removeWxLinkSetting({ id: info.wx_external_config_id })
-        
+
         this.$message({
           message: '删除成功',
           type: 'success'
         })
-        
+
         if (this.$refs.finder) {
           this.$refs.finder.refresh()
         }

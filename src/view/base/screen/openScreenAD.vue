@@ -198,10 +198,10 @@ export default {
         const { data } = await this.$picker.image({
           data: this.ad_pic ? { url: this.ad_pic } : undefined
         })
-        
+
         // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
         const imgUrl = (data && data.url) || data || ''
-        
+
         if (imgUrl) {
           // 如果包含 wximageurl，则提取相对路径
           // ad_pic 存储的是相对路径（显示时使用 wximageurl + ad_pic）

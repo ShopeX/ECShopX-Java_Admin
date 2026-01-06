@@ -727,9 +727,9 @@ export default {
           multiple: true,
           num: 20 // 最多选择20张图片
         })
-        
+
         if (data && data.length > 0) {
-          data.forEach(item => {
+          data.forEach((item) => {
             const imgUrl = (item && item.url) || item || ''
             if (imgUrl) {
               // 如果包含 wximageurl，则提取相对路径

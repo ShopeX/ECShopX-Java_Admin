@@ -60,80 +60,98 @@
         </div>
       </div>
 
-            <div class="w-80 border-l border-gray-200 p-6 overflow-y-auto">
-                <h3 class="mb-6">图片信息</h3>
-                <div>
-                    <label class="text-sm mb-2 block">文件名</label>
-                    <div class="text-sm bg-gray-100 border border-gray-200 rounded px-3 py-2 mb-5">
-                        {{ currentImage.image_name }}
-                    </div>
-                </div>
-
-                <div>
-                    <label class="text-sm mb-2 block">替换文本</label>
-                    <div class="flex items-center mb-5">
-                        <el-input v-model="formData.newImageName" type="text" placeholder="请输入新的文件名" :maxlength="50"
-                            size="small" class="text-sm flex-1" />
-                        <div class="ml-2 text-sm bg-gray-100 px-3 py-1.5 rounded border text-center">
-                            {{ fileExtension }}
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="text-sm mb-2 block">详细信息</label>
-                    <span>
-                        {{ getImageType(imageFileInfo.type) }} / {{ imageFileInfo.width }} × {{ imageFileInfo.height
-                        }} / {{ formatFileSize(imageFileInfo.size) }}
-                    </span>
-                </div>
-
-                <div class="mt-6 pt-6 border-t border-gray-200">
-                    <div class="flex items-center mb-4">
-                        <el-checkbox v-model="lockAspectRatio" :disabled="aspectRatio !== 'free'"
-                            @change="handleLockAspectRatioChange">
-                            锁定纵横比
-                        </el-checkbox>
-                    </div>
-
-                    <div class="space-y-3">
-                        <div>
-                            <label class="text-sm mb-1 block">宽度 (px)</label>
-                            <el-input v-model="inputWidth" type="number" min="1" :max="maxWidth" size="small"
-                                @change="handleWidthChange">
-                            </el-input>
-                        </div>
-
-                        <div>
-                            <label class="text-sm mb-1 block">高度 (px)</label>
-                            <el-input v-model="inputHeight" type="number" min="1" :max="maxHeight" size="small"
-                                @change="handleHeightChange">
-                            </el-input>
-                        </div>
-
-                        <div v-if="cropCoordinates">
-                            <label class="text-sm mb-1 block">X坐标</label>
-                            <div class="flex space-x-2">
-                                <el-input :value="currentX" type="number" readonly size="small"
-                                    class="flex-1">
-                                </el-input>
-                            </div>
-                        </div>
-
-                        <div v-if="cropCoordinates">
-                            <label class="text-sm mb-1 block">Y坐标</label>
-                            <div class="flex space-x-2">
-                                <el-input :value="currentY" type="number" readonly size="small"
-                                    class="flex-1">
-                                </el-input>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+      <div class="w-80 border-l border-gray-200 p-6 overflow-y-auto">
+        <h3 class="mb-6">图片信息</h3>
+        <div>
+          <label class="text-sm mb-2 block">文件名</label>
+          <div class="text-sm bg-gray-100 border border-gray-200 rounded px-3 py-2 mb-5">
+            {{ currentImage.image_name }}
+          </div>
         </div>
-    </el-dialog>
+
+        <div>
+          <label class="text-sm mb-2 block">替换文本</label>
+          <div class="flex items-center mb-5">
+            <el-input
+              v-model="formData.newImageName"
+              type="text"
+              placeholder="请输入新的文件名"
+              :maxlength="50"
+              size="small"
+              class="text-sm flex-1"
+            />
+            <div class="ml-2 text-sm bg-gray-100 px-3 py-1.5 rounded border text-center">
+              {{ fileExtension }}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-sm mb-2 block">详细信息</label>
+          <span>
+            {{ getImageType(imageFileInfo.type) }} / {{ imageFileInfo.width }} ×
+            {{ imageFileInfo.height }} / {{ formatFileSize(imageFileInfo.size) }}
+          </span>
+        </div>
+
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <div class="flex items-center mb-4">
+            <el-checkbox
+              v-model="lockAspectRatio"
+              :disabled="aspectRatio !== 'free'"
+              @change="handleLockAspectRatioChange"
+            >
+              锁定纵横比
+            </el-checkbox>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <label class="text-sm mb-1 block">宽度 (px)</label>
+              <el-input
+                v-model="inputWidth"
+                type="number"
+                min="1"
+                :max="maxWidth"
+                size="small"
+                @change="handleWidthChange"
+              >
+              </el-input>
+            </div>
+
+            <div>
+              <label class="text-sm mb-1 block">高度 (px)</label>
+              <el-input
+                v-model="inputHeight"
+                type="number"
+                min="1"
+                :max="maxHeight"
+                size="small"
+                @change="handleHeightChange"
+              >
+              </el-input>
+            </div>
+
+            <div v-if="cropCoordinates">
+              <label class="text-sm mb-1 block">X坐标</label>
+              <div class="flex space-x-2">
+                <el-input :value="currentX" type="number" readonly size="small" class="flex-1">
+                </el-input>
+              </div>
+            </div>
+
+            <div v-if="cropCoordinates">
+              <label class="text-sm mb-1 block">Y坐标</label>
+              <div class="flex space-x-2">
+                <el-input :value="currentY" type="number" readonly size="small" class="flex-1">
+                </el-input>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </el-dialog>
 </template>
 
 <script>
@@ -156,474 +174,488 @@ export default {
       currentIndex: 0,
       currentImage: null,
 
-            aspectRatio: 'free',
-            cropCoordinates: null,
-            cropDimensions: {
-                width: 0,
-                height: 0
-            },
-            stencilProps: {
-                aspectRatio: NaN,
-                movable: true,
-                scalable: true
-            },
-            formData: {
-                newImageName: '',
-            },
-            cropper: null,//裁剪器实例引用
-            imageFileInfo: null,
-            lockAspectRatio: false,
-            inputWidth: 0,
-            inputHeight: 0,
-            maxWidth: 0,
-            maxHeight: 0,
-            originalImageSize: { width: 0, height: 0 },
-            originalAspectRatio: 0,
-            currentX: 0,
-            currentY: 0,
-            currentWidth: 0,
-            currentHeight: 0,
-            currentAspectRatio: 0,
-            rafId: null,
-            isUpdating: false,
-            lastCoordinates: null
-        }
+      aspectRatio: 'free',
+      cropCoordinates: null,
+      cropDimensions: {
+        width: 0,
+        height: 0
+      },
+      stencilProps: {
+        aspectRatio: NaN,
+        movable: true,
+        scalable: true
+      },
+      formData: {
+        newImageName: ''
+      },
+      cropper: null, //裁剪器实例引用
+      imageFileInfo: null,
+      lockAspectRatio: false,
+      inputWidth: 0,
+      inputHeight: 0,
+      maxWidth: 0,
+      maxHeight: 0,
+      originalImageSize: { width: 0, height: 0 },
+      originalAspectRatio: 0,
+      currentX: 0,
+      currentY: 0,
+      currentWidth: 0,
+      currentHeight: 0,
+      currentAspectRatio: 0,
+      rafId: null,
+      isUpdating: false,
+      lastCoordinates: null
+    }
+  },
+  computed: {
+    aspectRatioValue() {
+      switch (this.aspectRatio) {
+        case '1:1':
+          return 1
+        case '4:3':
+          return 4 / 3
+        case '16:9':
+          return 16 / 9
+        case 'free':
+          return NaN
+        default:
+          return NaN
+      }
     },
-    computed: {
-        aspectRatioValue() {
-            switch (this.aspectRatio) {
-                case '1:1': return 1
-                case '4:3': return 4/3
-                case '16:9': return 16/9
-                case 'free': return NaN
-                default: return NaN
-            }
-        },
-        fileExtension() {
-            if (!this.currentImage || !this.currentImage.image_name) return ''
-            const name = this.currentImage.image_name
-            const lastDotIndex = name.lastIndexOf('.')
-            return lastDotIndex === -1 ? '' : name.substring(lastDotIndex)
-        }
+    fileExtension() {
+      if (!this.currentImage || !this.currentImage.image_name) return ''
+      const name = this.currentImage.image_name
+      const lastDotIndex = name.lastIndexOf('.')
+      return lastDotIndex === -1 ? '' : name.substring(lastDotIndex)
+    }
+  },
+  watch: {
+    currentImage() {
+      if (this.imageFileInfo) {
+        this.maxWidth = this.imageFileInfo.width
+        this.maxHeight = this.imageFileInfo.height
+      }
     },
-    watch: {
-        currentImage() {
-            if (this.imageFileInfo) {
-                this.maxWidth = this.imageFileInfo.width
-                this.maxHeight = this.imageFileInfo.height
-            }
-        },
-        dialogVisible(newVal) {
-            if (!newVal) {
-                //如果对话框关闭了，停止高频更新
-                this.stopHighFreqUpdate()
-            }
-        }
-    },
-    beforeDestroy() {
+    dialogVisible(newVal) {
+      if (!newVal) {
+        //如果对话框关闭了，停止高频更新
         this.stopHighFreqUpdate()
+      }
+    }
+  },
+  beforeDestroy() {
+    this.stopHighFreqUpdate()
+  },
+  methods: {
+    updateCoordinatesDisplay(coords) {
+      this.currentX = Math.round(coords.left)
+      this.currentY = Math.round(coords.top)
+      this.currentWidth = Math.round(coords.width)
+      this.currentHeight = Math.round(coords.height)
+      this.inputWidth = this.currentWidth
+      this.inputHeight = this.currentHeight
     },
-    methods: {
-        updateCoordinatesDisplay(coords) {
-            this.currentX = Math.round(coords.left)
-            this.currentY = Math.round(coords.top)
-            this.currentWidth = Math.round(coords.width)
-            this.currentHeight = Math.round(coords.height)
-            this.inputWidth = this.currentWidth
-            this.inputHeight = this.currentHeight
-        },
-        getFullImageCoordinates() {
-            return {
-                left: 0,
-                top: 0,
-                width: this.originalImageSize.width,
-                height: this.originalImageSize.height
+    getFullImageCoordinates() {
+      return {
+        left: 0,
+        top: 0,
+        width: this.originalImageSize.width,
+        height: this.originalImageSize.height
+      }
+    },
+
+    initImageDisplayData() {
+      this.updateCoordinatesDisplay(this.getFullImageCoordinates())
+      this.cropDimensions.width = this.currentWidth
+      this.cropDimensions.height = this.currentHeight
+    },
+
+    getCurrentCoordinates() {
+      return this.cropper.coordinates
+    },
+
+    startHighFreqUpdate() {
+      this.isUpdating = true
+      //定义重复执行的函数
+      const updateFrame = () => {
+        if (!this.isUpdating || !this.cropper) return
+
+        const coords = this.getCurrentCoordinates()
+
+        if (coords) {
+          const newX = Math.round(coords.left)
+          const newY = Math.round(coords.top)
+          const newWidth = Math.round(coords.width)
+          const newHeight = Math.round(coords.height)
+
+          if (
+            !this.lastCoordinates ||
+            newX !== this.currentX ||
+            newY !== this.currentY ||
+            newWidth !== this.currentWidth ||
+            newHeight !== this.currentHeight
+          ) {
+            this.updateCoordinatesDisplay(coords)
+
+            this.lastCoordinates = {
+              left: newX,
+              top: newY,
+              width: newWidth,
+              height: newHeight
             }
-        },
-        
-        initImageDisplayData() {
-            this.updateCoordinatesDisplay(this.getFullImageCoordinates())
-            this.cropDimensions.width = this.currentWidth
-            this.cropDimensions.height = this.currentHeight
-        },
-        
-        getCurrentCoordinates() {
-            return this.cropper.coordinates 
-        },
-        
-        startHighFreqUpdate() {
-            this.isUpdating = true
-            //定义重复执行的函数
-            const updateFrame = () => {
-                if (!this.isUpdating || !this.cropper) return
-                
-                const coords = this.getCurrentCoordinates()
-                
-                if (coords) {
-                    const newX = Math.round(coords.left)
-                    const newY = Math.round(coords.top)
-                    const newWidth = Math.round(coords.width)
-                    const newHeight = Math.round(coords.height)
-                    
-                    if (!this.lastCoordinates || 
-                        newX !== this.currentX || 
-                        newY !== this.currentY ||
-                        newWidth !== this.currentWidth ||
-                        newHeight !== this.currentHeight) {
-                        
-                        this.updateCoordinatesDisplay(coords)
-                        
-                        this.lastCoordinates = {
-                            left: newX,
-                            top: newY,
-                            width: newWidth,
-                            height: newHeight
-                        }
-                    }
-                }
-                //请求下一帧继续执行
-                this.rafId = requestAnimationFrame(updateFrame)
+          }
+        }
+        //请求下一帧继续执行
+        this.rafId = requestAnimationFrame(updateFrame)
+      }
+      //开始第一次执行
+      this.rafId = requestAnimationFrame(updateFrame)
+    },
+
+    stopHighFreqUpdate() {
+      this.isUpdating = false
+      if (this.rafId) {
+        cancelAnimationFrame(this.rafId)
+        this.rafId = null
+      }
+    },
+
+    onCropChange(data) {
+      if (data.coordinates) {
+        this.cropCoordinates = data.coordinates
+        this.lastCoordinates = data.coordinates
+
+        this.cropDimensions.width = Math.round(data.coordinates.width)
+        this.cropDimensions.height = Math.round(data.coordinates.height)
+        this.updateCoordinatesDisplay(data.coordinates)
+
+        if (!this.isUpdating) {
+          this.startHighFreqUpdate()
+        }
+      }
+    },
+
+    async showDialog(data) {
+      this.dialogVisible = true
+      this.imageList = data.imageList
+      this.currentIndex = data.currentIndex
+      this.currentImage = this.imageList[this.currentIndex]
+      if (this.currentImage) {
+        this.imageSrc = this.currentImage.url
+        const name = this.currentImage.image_name
+        const lastDotIndex = name.lastIndexOf('.')
+        this.formData.newImageName = lastDotIndex === -1 ? name : name.substring(0, lastDotIndex)
+        await this.createCurrentImageFile()
+      }
+      this.$nextTick(() => {
+        this.cropper = this.$refs.cropperRef
+        if (this.cropper) {
+          const fullCoords = this.getFullImageCoordinates()
+          this.cropper.setCoordinates(fullCoords)
+
+          this.initImageDisplayData()
+          this.startHighFreqUpdate()
+        }
+      })
+    },
+    async createCurrentImageFile() {
+      const response = await fetch(this.currentImage.url)
+      const blob = await response.blob()
+      const file = new File([blob], this.currentImage.image_name, { type: blob.type })
+      return new Promise((resolve) => {
+        const reader = new FileReader()
+        reader.onload = (event) => {
+          const img = new Image()
+          img.onload = () => {
+            this.imageFileInfo = {
+              file: file,
+              width: img.width,
+              height: img.height,
+              size: file.size,
+              type: file.type,
+              name: file.name
             }
-            //开始第一次执行
-            this.rafId = requestAnimationFrame(updateFrame)
-        },
-        
-        stopHighFreqUpdate() {
-            this.isUpdating = false
-            if (this.rafId) {
-                cancelAnimationFrame(this.rafId)
-                this.rafId = null
+            this.originalImageSize = {
+              width: img.width,
+              height: img.height
             }
-        },
-        
-        onCropChange(data) {
-            if (data.coordinates) {
-                this.cropCoordinates = data.coordinates
-                this.lastCoordinates = data.coordinates
-                
-                this.cropDimensions.width = Math.round(data.coordinates.width)
-                this.cropDimensions.height = Math.round(data.coordinates.height)
-                this.updateCoordinatesDisplay(data.coordinates)
-                
-                if (!this.isUpdating) {
-                    this.startHighFreqUpdate()
-                }
-            }
-        },
-        
-        async showDialog(data) {
-            this.dialogVisible = true
-            this.imageList = data.imageList
-            this.currentIndex = data.currentIndex
-            this.currentImage = this.imageList[this.currentIndex]
-            if (this.currentImage) {
-                this.imageSrc = this.currentImage.url
-                const name = this.currentImage.image_name
-                const lastDotIndex = name.lastIndexOf('.')
-                this.formData.newImageName = lastDotIndex === -1 ? name : name.substring(0, lastDotIndex)
-                await this.createCurrentImageFile()
-            }
-            this.$nextTick(() => {
-                this.cropper = this.$refs.cropperRef
-                if (this.cropper) {
-                    const fullCoords = this.getFullImageCoordinates()
-                    this.cropper.setCoordinates(fullCoords)
-                      
-                    this.initImageDisplayData()
-                    this.startHighFreqUpdate()
-                }
-            })
-        },
-        async createCurrentImageFile() {
-            const response = await fetch(this.currentImage.url)
-            const blob = await response.blob()
-            const file = new File([blob], this.currentImage.image_name, { type: blob.type })
-            return new Promise((resolve) => {
-                const reader = new FileReader()
-                reader.onload = (event) => {
-                    const img = new Image()
-                    img.onload = () => {
-                        this.imageFileInfo = {
-                            file: file,
-                            width: img.width,
-                            height: img.height,
-                            size: file.size,
-                            type: file.type,
-                            name: file.name
-                        }
-                        this.originalImageSize = {
-                            width: img.width,
-                            height: img.height
-                        }
-                        this.originalAspectRatio = img.width / img.height
-                        this.maxWidth = img.width
-                        this.maxHeight = img.height
-                        resolve()
-                    } 
-                    img.src = event.target.result
-                }
-                reader.readAsDataURL(blob)
-            })
-        },
-        goToImage(index) {
-            if (index < 0 || index >= this.imageList.length) return
+            this.originalAspectRatio = img.width / img.height
+            this.maxWidth = img.width
+            this.maxHeight = img.height
+            resolve()
+          }
+          img.src = event.target.result
+        }
+        reader.readAsDataURL(blob)
+      })
+    },
+    goToImage(index) {
+      if (index < 0 || index >= this.imageList.length) return
 
-            this.stopHighFreqUpdate()
-            this.currentIndex = index
-            this.currentImage = this.imageList[index]
-            this.imageSrc = this.currentImage.url
-            const name = this.currentImage.image_name
-            const lastDotIndex = name.lastIndexOf('.')
-            this.formData.newImageName = lastDotIndex === -1 ? name : name.substring(0, lastDotIndex)
+      this.stopHighFreqUpdate()
+      this.currentIndex = index
+      this.currentImage = this.imageList[index]
+      this.imageSrc = this.currentImage.url
+      const name = this.currentImage.image_name
+      const lastDotIndex = name.lastIndexOf('.')
+      this.formData.newImageName = lastDotIndex === -1 ? name : name.substring(0, lastDotIndex)
 
-            this.aspectRatio = 'free' 
-            this.lockAspectRatio = false 
-            this.stencilProps.aspectRatio = NaN 
-            this.cropCoordinates = null
-            this.lastCoordinates = null
+      this.aspectRatio = 'free'
+      this.lockAspectRatio = false
+      this.stencilProps.aspectRatio = NaN
+      this.cropCoordinates = null
+      this.lastCoordinates = null
 
-            this.createCurrentImageFile()
+      this.createCurrentImageFile()
 
-            this.$nextTick(() => {
-                this.cropper = this.$refs.cropperRef
-                if (this.cropper) {
-                    this.cropper.reset()
-                    const fullCoords = this.getFullImageCoordinates()
-                    this.cropper.setCoordinates(fullCoords)
-                    this.cropCoordinates = fullCoords
-                    this.lastCoordinates = fullCoords
+      this.$nextTick(() => {
+        this.cropper = this.$refs.cropperRef
+        if (this.cropper) {
+          this.cropper.reset()
+          const fullCoords = this.getFullImageCoordinates()
+          this.cropper.setCoordinates(fullCoords)
+          this.cropCoordinates = fullCoords
+          this.lastCoordinates = fullCoords
 
-                    this.updateStencilAspectRatio()
+          this.updateStencilAspectRatio()
 
-                    this.initImageDisplayData()
-                    this.startHighFreqUpdate()
-                }
-            })
-        },
-        //公共方法
-        updateStencilAspectRatio() {
-                if (this.aspectRatio === 'free') {
-                    this.stencilProps.aspectRatio = this.lockAspectRatio ? this.originalAspectRatio : NaN
-                } else {
-                    this.stencilProps.aspectRatio = this.aspectRatioValue
-                }
-            },
-      
-        handleAspectRatioChange() {
-            if (this.aspectRatio !== 'free') {
-                this.lockAspectRatio = true
-            } else {
-                this.lockAspectRatio = false
-            }
-            this.updateStencilAspectRatio()
-            
-            if (this.cropper) {
-                this.cropper.reset()
-            }
-        },
-        
-        handleLockAspectRatioChange() {
-            //只处理自由模式
-            if (this.aspectRatio !== 'free') return
-            this.updateStencilAspectRatio()
-            
-            if (this.cropper) {
-                this.cropper.reset()
-            }
-        },
+          this.initImageDisplayData()
+          this.startHighFreqUpdate()
+        }
+      })
+    },
+    //公共方法
+    updateStencilAspectRatio() {
+      if (this.aspectRatio === 'free') {
+        this.stencilProps.aspectRatio = this.lockAspectRatio ? this.originalAspectRatio : NaN
+      } else {
+        this.stencilProps.aspectRatio = this.aspectRatioValue
+      }
+    },
 
-        handleWidthChange(value) {
-            if (!value || value <= 0 || !this.cropCoordinates) return
+    handleAspectRatioChange() {
+      if (this.aspectRatio !== 'free') {
+        this.lockAspectRatio = true
+      } else {
+        this.lockAspectRatio = false
+      }
+      this.updateStencilAspectRatio()
 
-            let newWidth = parseInt(value)
-            if (newWidth < 1) {
-                newWidth = 1
-            }
-            if (newWidth > this.maxWidth) {
-                newWidth = this.maxWidth
-            }
-            let newHeight = this.inputHeight
-            //按比例计算高度
-            if (this.aspectRatio !== 'free' && this.aspectRatioValue) {
-                newHeight = Math.round(newWidth / this.aspectRatioValue)
-            } else if (this.aspectRatio === 'free' && this.lockAspectRatio && this.originalAspectRatio > 0) {
-                newHeight = Math.round(newWidth / this.originalAspectRatio) 
-            }
+      if (this.cropper) {
+        this.cropper.reset()
+      }
+    },
 
-            if (newHeight > this.maxHeight) {
-                newHeight = this.maxHeight
-                if (this.aspectRatio === 'free' && this.lockAspectRatio && this.originalAspectRatio > 0) {
-                    newWidth = Math.round(newHeight * this.originalAspectRatio)
-                }
-            }
+    handleLockAspectRatioChange() {
+      //只处理自由模式
+      if (this.aspectRatio !== 'free') return
+      this.updateStencilAspectRatio()
 
-            this.inputHeight = newHeight
-            this.updateCropDimensions(newWidth, newHeight)
-        },
+      if (this.cropper) {
+        this.cropper.reset()
+      }
+    },
 
-        handleHeightChange(value) {
-            if (!value || value <= 0 || !this.cropCoordinates) return
+    handleWidthChange(value) {
+      if (!value || value <= 0 || !this.cropCoordinates) return
 
-            let newHeight = parseInt(value)
-            if (newHeight < 1) {
-                newHeight = 1
-            }
-            if (newHeight > this.maxHeight) {
-                newHeight = this.maxHeight
-            }
+      let newWidth = parseInt(value)
+      if (newWidth < 1) {
+        newWidth = 1
+      }
+      if (newWidth > this.maxWidth) {
+        newWidth = this.maxWidth
+      }
+      let newHeight = this.inputHeight
+      //按比例计算高度
+      if (this.aspectRatio !== 'free' && this.aspectRatioValue) {
+        newHeight = Math.round(newWidth / this.aspectRatioValue)
+      } else if (
+        this.aspectRatio === 'free' &&
+        this.lockAspectRatio &&
+        this.originalAspectRatio > 0
+      ) {
+        newHeight = Math.round(newWidth / this.originalAspectRatio)
+      }
 
-            let newWidth = this.inputWidth
+      if (newHeight > this.maxHeight) {
+        newHeight = this.maxHeight
+        if (this.aspectRatio === 'free' && this.lockAspectRatio && this.originalAspectRatio > 0) {
+          newWidth = Math.round(newHeight * this.originalAspectRatio)
+        }
+      }
 
-            if (this.aspectRatio !== 'free' && this.aspectRatioValue) {
-                newWidth = Math.round(newHeight * this.aspectRatioValue)
-            } else if (this.aspectRatio === 'free' && this.lockAspectRatio && this.originalAspectRatio > 0) {
-                newWidth = Math.round(newHeight * this.originalAspectRatio)
-            }
+      this.inputHeight = newHeight
+      this.updateCropDimensions(newWidth, newHeight)
+    },
 
-            if (newWidth > this.maxWidth) {
-                newWidth = this.maxWidth
-                if (this.aspectRatio === 'free' && this.lockAspectRatio && this.originalAspectRatio > 0) {
-                    newHeight = Math.round(newWidth / this.originalAspectRatio)
-                }
-            }
+    handleHeightChange(value) {
+      if (!value || value <= 0 || !this.cropCoordinates) return
 
-            this.inputWidth = newWidth
-            this.updateCropDimensions(newWidth, newHeight)
-        },
+      let newHeight = parseInt(value)
+      if (newHeight < 1) {
+        newHeight = 1
+      }
+      if (newHeight > this.maxHeight) {
+        newHeight = this.maxHeight
+      }
 
-        updateCropDimensions(width, height) {
-            let safeWidth = Math.round(width)  
-            let safeHeight = Math.round(height)
-            this.inputWidth = safeWidth
-            this.inputHeight = safeHeight
-            this.cropDimensions.width = safeWidth
-            this.cropDimensions.height = safeHeight
-            const currentX = this.cropCoordinates.left
-            const currentY = this.cropCoordinates.top
-            const maxAllowableX = this.maxWidth - safeWidth
-            let newX = currentX
-            if (currentX > maxAllowableX) {
-                newX = maxAllowableX
-            }
-            const maxAllowableY = this.maxHeight - safeHeight
-            let newY = currentY
-            if (currentY > maxAllowableY) {
-                newY = maxAllowableY
-            }
-            if (newX < 0) {
-                newX = 0
-            }
-            if (newY < 0) {
-                newY = 0
-            }
-            const newCoordinates = {
-                left: newX,
-                top: newY,
-                width: safeWidth,
-                height: safeHeight
-            }
-            this.cropper.setCoordinates(newCoordinates)
-        },
+      let newWidth = this.inputWidth
 
-        resetCropper() {
-            if (this.cropper) {
-                this.aspectRatio = 'free'
-                this.stencilProps.aspectRatio = NaN
-                this.lockAspectRatio = false
-                this.cropper.reset()
+      if (this.aspectRatio !== 'free' && this.aspectRatioValue) {
+        newWidth = Math.round(newHeight * this.aspectRatioValue)
+      } else if (
+        this.aspectRatio === 'free' &&
+        this.lockAspectRatio &&
+        this.originalAspectRatio > 0
+      ) {
+        newWidth = Math.round(newHeight * this.originalAspectRatio)
+      }
 
-                this.$nextTick(() => {
-                    const fullCoords = this.getFullImageCoordinates()
-                    this.cropper.setCoordinates(fullCoords)
-                })
-            }
-        },
+      if (newWidth > this.maxWidth) {
+        newWidth = this.maxWidth
+        if (this.aspectRatio === 'free' && this.lockAspectRatio && this.originalAspectRatio > 0) {
+          newHeight = Math.round(newWidth / this.originalAspectRatio)
+        }
+      }
 
-        formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes'
-            
-            const k = 1024
-            const sizes = ['Bytes', 'KB', 'MB', 'GB']
-            let size = bytes
-            let index = 0
-            
-            //一直除以1024，直到找到合适的单位
-            while (size >= k && index < sizes.length - 1) {
-                size = size / k
-                index++
-            }
+      this.inputWidth = newWidth
+      this.updateCropDimensions(newWidth, newHeight)
+    },
 
-            return size.toFixed(1) + ' ' + sizes[index]
-        },
+    updateCropDimensions(width, height) {
+      let safeWidth = Math.round(width)
+      let safeHeight = Math.round(height)
+      this.inputWidth = safeWidth
+      this.inputHeight = safeHeight
+      this.cropDimensions.width = safeWidth
+      this.cropDimensions.height = safeHeight
+      const currentX = this.cropCoordinates.left
+      const currentY = this.cropCoordinates.top
+      const maxAllowableX = this.maxWidth - safeWidth
+      let newX = currentX
+      if (currentX > maxAllowableX) {
+        newX = maxAllowableX
+      }
+      const maxAllowableY = this.maxHeight - safeHeight
+      let newY = currentY
+      if (currentY > maxAllowableY) {
+        newY = maxAllowableY
+      }
+      if (newX < 0) {
+        newX = 0
+      }
+      if (newY < 0) {
+        newY = 0
+      }
+      const newCoordinates = {
+        left: newX,
+        top: newY,
+        width: safeWidth,
+        height: safeHeight
+      }
+      this.cropper.setCoordinates(newCoordinates)
+    },
 
-        getImageType(mimeType) {
-            if (!mimeType) return '-'
-            const typeMap = {
-                'image/jpeg': 'JPEG',
-                'image/png': 'PNG',
-                'image/gif': 'GIF',
-                'image/webp': 'WebP',
-                'image/svg+xml': 'SVG',
-                'image/bmp': 'BMP'
-            }
-            return typeMap[mimeType] 
-        },
+    resetCropper() {
+      if (this.cropper) {
+        this.aspectRatio = 'free'
+        this.stencilProps.aspectRatio = NaN
+        this.lockAspectRatio = false
+        this.cropper.reset()
 
-        handleClose() {
-            this.stopHighFreqUpdate()
-            this.dialogVisible = false
-            this.$emit('close')
-        },
+        this.$nextTick(() => {
+          const fullCoords = this.getFullImageCoordinates()
+          this.cropper.setCoordinates(fullCoords)
+        })
+      }
+    },
 
-        async handleSave() {
-            this.stopHighFreqUpdate()
-            if (this.cropper && this.cropCoordinates) {
-                this.uploading = true
-                try {
-                    const cropResult = this.cropper.getResult({
-                        width: this.cropDimensions.width,
-                        height: this.cropDimensions.height
-                    })
+    formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes'
 
-                    const canvas = cropResult.canvas
-                    const blob = await new Promise(resolve => {
-                        canvas.toBlob(resolve, 'image/jpeg')
-                    })
-                    const fileName = `${this.formData.newImageName}${this.fileExtension}`
-                    const file = new File([blob], fileName, { type: 'image/jpeg' })
+      const k = 1024
+      const sizes = ['Bytes', 'KB', 'MB', 'GB']
+      let size = bytes
+      let index = 0
+
+      //一直除以1024，直到找到合适的单位
+      while (size >= k && index < sizes.length - 1) {
+        size = size / k
+        index++
+      }
+
+      return size.toFixed(1) + ' ' + sizes[index]
+    },
+
+    getImageType(mimeType) {
+      if (!mimeType) return '-'
+      const typeMap = {
+        'image/jpeg': 'JPEG',
+        'image/png': 'PNG',
+        'image/gif': 'GIF',
+        'image/webp': 'WebP',
+        'image/svg+xml': 'SVG',
+        'image/bmp': 'BMP'
+      }
+      return typeMap[mimeType]
+    },
+
+    handleClose() {
+      this.stopHighFreqUpdate()
+      this.dialogVisible = false
+      this.$emit('close')
+    },
+
+    async handleSave() {
+      this.stopHighFreqUpdate()
+      if (this.cropper && this.cropCoordinates) {
+        this.uploading = true
+        try {
+          const cropResult = this.cropper.getResult({
+            width: this.cropDimensions.width,
+            height: this.cropDimensions.height
+          })
+
+          const canvas = cropResult.canvas
+          const blob = await new Promise((resolve) => {
+            canvas.toBlob(resolve, 'image/jpeg')
+          })
+          const fileName = `${this.formData.newImageName}${this.fileExtension}`
+          const file = new File([blob], fileName, { type: 'image/jpeg' })
 
           const uploadUtil = new UploadUtil()
           const qiniuResult = await uploadUtil.uploadImg(file, file.name)
 
-                    const uploadParams = {
-                        image_cat_id: this.currentImage.image_cat_id,
-                        image_name: fileName,
-                        image_url: qiniuResult.key,
-                        image_type: 'image/jpeg',
-                        storage: 'image'
-                    }
+          const uploadParams = {
+            image_cat_id: this.currentImage.image_cat_id,
+            image_name: fileName,
+            image_url: qiniuResult.key,
+            image_type: 'image/jpeg',
+            storage: 'image'
+          }
 
           const dbResult = await this.$api.qiniu.uploadQiniuPic(uploadParams)
 
-                    this.$emit('save-complete', {
-                        imageId: this.currentImage.image_id,
-                        newImageName: fileName,
-                        qiniuData: qiniuResult,
-                        dbResult: dbResult,
-                        cropData: {
-                            coordinates: this.cropCoordinates,
-                            dimensions: this.cropDimensions
-                        }
-                    })
-                    this.handleClose()
-                } catch (error) {
-                    this.$message.error('保存失败: ' + error.message)
-                } finally {
-                    this.uploading = false
-                }
+          this.$emit('save-complete', {
+            imageId: this.currentImage.image_id,
+            newImageName: fileName,
+            qiniuData: qiniuResult,
+            dbResult: dbResult,
+            cropData: {
+              coordinates: this.cropCoordinates,
+              dimensions: this.cropDimensions
             }
+          })
+          this.handleClose()
+        } catch (error) {
+          this.$message.error('保存失败: ' + error.message)
+        } finally {
+          this.uploading = false
         }
+      }
     }
+  }
 }
 </script>
 

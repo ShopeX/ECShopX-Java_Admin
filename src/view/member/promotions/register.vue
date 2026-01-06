@@ -355,7 +355,7 @@ export default {
         const { data } = await this.$picker.image({
           data: this.form.ad_pic ? { url: this.form.ad_pic } : undefined
         })
-        
+
         // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
         const imgUrl = (data && data.url) || data || ''
         if (imgUrl) {

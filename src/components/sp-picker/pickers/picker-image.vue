@@ -11,7 +11,7 @@
     .lf-container {
       width: 220px;
       background: #f5f5f5;
-      height:555px;
+      height: 555px;
       margin-right: 8px;
       padding: 8px;
       overflow: auto;
@@ -161,7 +161,7 @@
 }
 </style>
 <template>
-  <div  v-loading="loading" class="picker-image">
+  <div v-loading="loading" class="picker-image">
     <div class="p-3 flex justify-between">
       <div class="flex items-center gap-3">
         <SpImageUploader
@@ -230,8 +230,10 @@
       <SpCropper ref="spCropperRef" @save-complete="handleCropComplete" />
 
       <div class="flex-1">
-        <div class="grid gap-2 p-2 min-h-[300px] w-full" 
-        :style="{ gridTemplateColumns: `repeat(${columns || 6}, minmax(100px, 1fr))` }">
+        <div
+          class="grid gap-2 p-2 min-h-[300px] w-full"
+          :style="{ gridTemplateColumns: `repeat(${columns || 6}, minmax(100px, 1fr))` }"
+        >
           <div
             v-for="(item, index) in list"
             :key="`image-item-wrap__${index}`"
@@ -242,14 +244,35 @@
               class="image-item relative group"
               :style="{ color: '#fff', backgroundImage: `url('${item.url}')` }"
             >
-              <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <div class="w-6 h-6 rounded-full bg-black/40 hover:bg-black/40 flex items-center justify-center cursor-pointer duration-200">
-                  <close-small theme="outline" size="16" fill="white" @click.stop="removeItem(item, index)"/>
+              <div
+                class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+              >
+                <div
+                  class="w-6 h-6 rounded-full bg-black/40 hover:bg-black/40 flex items-center justify-center cursor-pointer duration-200"
+                >
+                  <close-small
+                    theme="outline"
+                    size="16"
+                    fill="white"
+                    @click.stop="removeItem(item, index)"
+                  />
                 </div>
               </div>
-              <div class="absolute bottom-0 right-0 left-0 bg-black/40 flex justify-between items-center px-2 py-1">
-                <copy-link theme="outline" size="20" fill="white" @click.stop="handleCopy(item.url)"/>
-                <file-editing theme="outline" size="20" fill="white" @click.stop="handleEditImage(item)"/>
+              <div
+                class="absolute bottom-0 right-0 left-0 bg-black/40 flex justify-between items-center px-2 py-1"
+              >
+                <copy-link
+                  theme="outline"
+                  size="20"
+                  fill="white"
+                  @click.stop="handleCopy(item.url)"
+                />
+                <file-editing
+                  theme="outline"
+                  size="20"
+                  fill="white"
+                  @click.stop="handleEditImage(item)"
+                />
               </div>
             </div>
             <div class="image-title-wrap" :title="item.image_name">
@@ -340,7 +363,7 @@ import BasePicker from './base'
 import PageMixin from '../mixins/page'
 import SpCropper from '@/components/sp-cropper/SpCropper'
 import SpImageUploader from '@/components/sp-image-uploader/SpImageUploader'
-import { CopyLink, FileEditing, CloseSmall } from '@icon-park/vue';
+import { CopyLink, FileEditing, CloseSmall } from '@icon-park/vue'
 import { deleteImage } from '@/api/qiniu'
 
 export default {
@@ -476,7 +499,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          deleteImage({ image_id: item.image_id }).then(response => {
+          deleteImage({ image_id: item.image_id }).then((response) => {
             this.refresh(true)
             this.$message({
               message: '删除成功',
@@ -492,7 +515,7 @@ export default {
           })
         })
     },
-    
+
     handleEditImage(item) {
       if (this.$refs.spCropperRef) {
         this.$refs.spCropperRef.showDialog({

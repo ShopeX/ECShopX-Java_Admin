@@ -828,7 +828,7 @@
           </template>
           <template v-else>
             <SpIphone>
-              <SpDecorate ref="decorateRef" v-model="content" scene='1002' />
+              <SpDecorate ref="decorateRef" v-model="content" scene="1002" />
             </SpIphone>
           </template>
         </el-card>
@@ -1384,11 +1384,11 @@ export default {
           multiple: true,
           num: 20 // 最多选择20张图片
         })
-        
+
         if (data && data.length > 0) {
           // 直接将图片插入到富文本内容中
           let imgHtml = ''
-          data.forEach(item => {
+          data.forEach((item) => {
             const imgUrl = (item && item.url) || item || ''
             if (imgUrl) {
               // 如果包含 wximageurl，则提取相对路径
@@ -1400,7 +1400,7 @@ export default {
               imgHtml += `<img src="${imageUrl}" style="max-width: 100%; height: auto; display: block; margin: 10px 0;" />`
             }
           })
-          
+
           if (imgHtml) {
             // 将图片HTML追加到现有内容中
             this.form.intro = this.form.intro + imgHtml
@@ -1416,10 +1416,10 @@ export default {
     async handleImgChange() {
       try {
         const { data } = await this.$picker.image()
-        
+
         // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
         const imgUrl = (data && data.url) || data || ''
-        
+
         if (imgUrl) {
           // 如果包含 wximageurl，则提取相对路径
           if (this.wximageurl && imgUrl.indexOf(this.wximageurl) === 0) {
@@ -1446,14 +1446,14 @@ export default {
           this.$message.error('最多上传9张图片!')
           return
         }
-        
+
         const { data } = await this.$picker.image({
           multiple: true,
           num: remaining
         })
-        
+
         if (data && data.length > 0) {
-          data.forEach(item => {
+          data.forEach((item) => {
             const imgUrl = (item && item.url) || item || ''
             if (imgUrl) {
               // 如果包含 wximageurl，则提取相对路径
@@ -1480,14 +1480,14 @@ export default {
           this.currentSku = -1
           return
         }
-        
+
         const { data } = await this.$picker.image({
           multiple: true,
           num: remaining
         })
-        
+
         if (data && data.length > 0) {
-          data.forEach(item => {
+          data.forEach((item) => {
             const imgUrl = (item && item.url) || item || ''
             if (imgUrl) {
               // 如果包含 wximageurl，则提取相对路径
