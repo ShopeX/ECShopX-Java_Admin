@@ -568,3 +568,11 @@ export function getSegmentRuleDetail(id) {
     method: 'get'
   })
 }
+// 会员更换店铺
+export function setRegDistributor(params) {
+  return fetch({
+    url: '/member/regDistributor',
+    method: 'put',
+    params
+  })
+}
