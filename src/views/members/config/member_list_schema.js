@@ -141,7 +141,7 @@ export const finderSetting = (vm) =>   createSetting({
       }
     },
     {name: '注册店铺', key: 'name', width: 130, render: (h, { row }) => {
-      return h('span', row.reg_distributor)
+      return h('span', row.reg_distributor_name)
     }},
     {name: '注册导购', key: 'name', width: 130, render: (h, { row }) => {
       return h('span', row.reg_salesperson)
