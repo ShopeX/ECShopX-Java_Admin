@@ -168,7 +168,7 @@ export default {
       this.visible = true
     },
     fnPass(formName) {
-      this.$refs[formName].validate(async valid => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           const result = await setSmsConfig(this.form)
           this.$message.success('成功')

@@ -70,7 +70,7 @@ export default {
     }
   },
   mounted() {
-    getSettingWxShops().then(res => {
+    getSettingWxShops().then((res) => {
       this.form.logo = res.data.data.logo
       this.pic = this.wximageurl + res.data.data.logo
       this.form.intro = res.data.data.intro
@@ -97,7 +97,7 @@ export default {
         background: this.form.background
       }
       console.log(params)
-      putSettingWxShops(params).then(response => {
+      putSettingWxShops(params).then((response) => {
         if (response.data.data) {
           this.$message({
             message: '保存配置信息成功！',
@@ -145,17 +145,17 @@ export default {
         const { data } = await this.$picker.image({
           data: currentImgUrl ? { url: currentImgUrl } : undefined
         })
-        
+
         // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
         const imgUrl = (data && data.url) || data || ''
-        
+
         if (imgUrl) {
           // 如果包含 wximageurl，则提取相对路径
           let finalUrl = imgUrl
           if (this.wximageurl && imgUrl.indexOf(this.wximageurl) === 0) {
             finalUrl = imgUrl.replace(this.wximageurl, '')
           }
-          
+
           // 根据不同的类型设置对应的字段
           if (type === 'logo') {
             this.form.logo = finalUrl

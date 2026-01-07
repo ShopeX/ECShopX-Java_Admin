@@ -15,7 +15,7 @@
     "eslint:comment": "使用EsLint检查并自动修复src目录下所有扩展名为.js和.jsx",
     "eslint": "eslint --ext .js,.jsx --ignore-path .eslintignore --fix src",
     "prettier:comment": "自动格式化当前目录下的所有文件",
-    "prettier": "prettier --write 'src/**/*.{js,jsx}'",
+    "prettier": "prettier --write \"src/**/*.{js,jsx,vue}\"",
     "commit:comment": "引导设置规范化的提交信息",
     "commit": "git-cz",
     "husky": "npx husky install",

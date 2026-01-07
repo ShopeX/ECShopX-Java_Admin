@@ -33,7 +33,7 @@
           <div class="frm-tips">引导用户授权手机号注册，类似新用户专享广告图片</div>
           <div>
             <div class="upload-box" @click="handleImgChange">
-              <img v-if="form.ad_pic" :src="wximageurl + form.ad_pic" class="avatar" width="200">
+              <img v-if="form.ad_pic" :src="wximageurl + form.ad_pic" class="avatar" width="200" />
               <i v-else class="el-icon-plus avatar-uploader-icon" />
             </div>
           </div>
@@ -355,7 +355,7 @@ export default {
         const { data } = await this.$picker.image({
           data: this.form.ad_pic ? { url: this.form.ad_pic } : undefined
         })
-        
+
         // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
         const imgUrl = (data && data.url) || data || ''
         if (imgUrl) {
@@ -374,7 +374,7 @@ export default {
     handlePagesChange(val) {
       this.params.page = val
       this.form.promotions_value.itemsList = []
-      this.goodsList.forEach(row => {
+      this.goodsList.forEach((row) => {
         //如果选中
         let index = this.form.promotions_value.items.indexOf(row.key)
         if (index != -1) {
@@ -384,9 +384,9 @@ export default {
       this.getGoodsList()
     },
     getGoodsList() {
-      getItemsList(this.params).then(response => {
+      getItemsList(this.params).then((response) => {
         let list = []
-        response.data.data.list.forEach(row => {
+        response.data.data.list.forEach((row) => {
           let index = -1
           if (this.form.promotions_value && this.form.promotions_value.items) {
             index = this.form.promotions_value.items.indexOf(row.itemId)
@@ -524,7 +524,7 @@ export default {
         page_no: current,
         page_size: this.coupons.page.pageSize,
         card_type: this.card_type
-      }).then(res => {
+      }).then((res) => {
         var data = res.data.data.list
         if (isStaff) {
           for (var i = 0; i < data.length; i++) {
@@ -575,14 +575,14 @@ export default {
       }
       this.form.promotions_value.staff_coupons = staffCouponArr
 
-      this.goodsList.forEach(row => {
+      this.goodsList.forEach((row) => {
         let index = this.form.promotions_value.items.indexOf(row.key)
         //如果选中
         if (index !== -1) {
           this.form.promotions_value.itemsList.push(row)
         }
       })
-      saveRegisterPromotions(this.form).then(res => {
+      saveRegisterPromotions(this.form).then((res) => {
         this.$message({
           message: '保存成功',
           type: 'success',
@@ -592,7 +592,7 @@ export default {
     },
     getRegisterData() {
       var params = { register_type: 'general' }
-      getRegisterPromotions(params).then(response => {
+      getRegisterPromotions(params).then((response) => {
         this.form.ad_pic = response.data.data.ad_pic
         this.form.id = response.data.data.id
         this.form.is_open = response.data.data.is_open

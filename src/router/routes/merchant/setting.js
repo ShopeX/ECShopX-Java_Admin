@@ -30,7 +30,7 @@ const routes = [
       {
         name: `deliverySettingDistributionManagement`,
         path: 'delivery-setting/deliver-person-management',
-        component: () => import('@/view/base/account/delivery'),
+        component: () => import('@/views/settings/deliverySettings/delivery-management'),
         meta: {
           aliasName: 'merchant_setting_staff_selfdeliverystaff',
           icon: 'icon-delivery',

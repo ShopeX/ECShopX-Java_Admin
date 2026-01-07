@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(async valid => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           const amount = {
             amount: Number(this.numberValidateForm.money)

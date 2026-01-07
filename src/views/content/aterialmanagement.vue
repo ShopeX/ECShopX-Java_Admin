@@ -9,7 +9,12 @@
       <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
         <el-tab-pane label="本地图片" name="local">
           <!--localimages-list :active-name="activeName" :get-status="localpicStatus" /-->
-          <picker-image :page-size="24":active-name="activeName" :get-status="localpicStatus" :columns="8"/>
+          <picker-image
+            :page-size="24"
+            :active-name="activeName"
+            :get-status="localpicStatus"
+            :columns="8"
+          />
         </el-tab-pane>
 
         <!-- <el-tab-pane
@@ -136,7 +141,7 @@ export default {
         this.newsStatus = true
         this.localpicStatus = false
         this.localvideoStatus = false
-        getMaterialStats().then(res => {
+        getMaterialStats().then((res) => {
           this.stats = res.data.data
         })
       } else if (this.activeName == 'video') {

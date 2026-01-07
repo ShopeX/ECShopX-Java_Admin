@@ -31,7 +31,7 @@
             </el-button>
             <el-popover v-if="appID" placement="top" width="200" trigger="click">
               <div>
-                <img class="page-code" :src="appCodeUrl">
+                <img class="page-code" :src="appCodeUrl" />
                 <div class="page-btns">
                   <el-button
                     type="primary"
@@ -104,7 +104,7 @@
                 v-if="pageForm.page_share_imageUrl"
                 :src="wximageurl + pageForm.page_share_imageUrl"
                 class="avatar"
-              >
+              />
               <i v-else class="el-icon-plus avatar-uploader-icon" />
             </div>
           </el-form-item>
@@ -198,7 +198,7 @@ export default {
         page,
         id
       }
-      getPageCode(params).then(response => {
+      getPageCode(params).then((response) => {
         this.appCodeUrl = response.data.data.base64Image
       })
     },
@@ -224,8 +224,8 @@ export default {
       this.fetchPageList()
     },
     delPage(id) {
-      this.$confirm('确认删除当前页面吗？').then(_ => {
-        delCustomPage(id).then(res => {
+      this.$confirm('确认删除当前页面吗？').then((_) => {
+        delCustomPage(id).then((res) => {
           this.$message({ type: 'success', message: '操作成功！' })
           this.fetchPageList()
         })
@@ -273,7 +273,7 @@ export default {
         template_name: this.template_name
       }
       if (this.dialogTitle == '编辑页面') {
-        editCustomPage(id, params).then(res => {
+        editCustomPage(id, params).then((res) => {
           this.page_dialog = false
           this.fetchPageList()
           this.$message({
@@ -283,7 +283,7 @@ export default {
         })
       }
       if (this.dialogTitle == '新增页面') {
-        createCustomPage(params).then(res => {
+        createCustomPage(params).then((res) => {
           this.page_dialog = false
           this.fetchPageList()
           this.$message({
@@ -296,7 +296,7 @@ export default {
     fetchPageList() {
       this.loading = true
       Object.assign(this.params, { template_name: this.template_name })
-      getCustomPageList(this.params).then(response => {
+      getCustomPageList(this.params).then((response) => {
         if (response.data.data.list) {
           this.list = response.data.data.list
           this.total_count = response.data.data.total_count
@@ -311,12 +311,14 @@ export default {
     async handleImgChange() {
       try {
         const { data } = await this.$picker.image({
-          data: this.pageForm.page_share_imageUrl ? { url: this.pageForm.page_share_imageUrl } : undefined
+          data: this.pageForm.page_share_imageUrl
+            ? { url: this.pageForm.page_share_imageUrl }
+            : undefined
         })
-        
+
         // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
         const imgUrl = (data && data.url) || data || ''
-        
+
         if (imgUrl) {
           // 如果包含 wximageurl，则提取相对路径
           // pageForm.page_share_imageUrl 存储的是相对路径（显示时使用 wximageurl + pageForm.page_share_imageUrl）

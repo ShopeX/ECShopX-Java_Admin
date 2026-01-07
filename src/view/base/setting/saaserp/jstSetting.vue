@@ -28,7 +28,7 @@
       </el-form-item>
       <el-form-item label="店铺编号">
         <el-input v-model="form.shop_id" style="width: 300px" />
-        <br>
+        <br />
       </el-form-item>
       <el-form-item v-if="form.oauth_url" label="accessToken">
         <el-button v-if="form.access_token" type="flex" @click="handleBind"> 更新授权 </el-button>
@@ -65,7 +65,7 @@ export default {
       this.getConfig()
     },
     getConfig() {
-      this.$api.third.getJstErpSetting().then(response => {
+      this.$api.third.getJstErpSetting().then((response) => {
         this.form = response
       })
     },
@@ -73,14 +73,14 @@ export default {
       this.loading = true
       this.$api.third
         .setJstErpSetting(this.form)
-        .then(response => {
+        .then((response) => {
           this.$message({
             type: 'success',
             message: '保存成功'
           })
           this.loading = false
         })
-        .catch(error => {
+        .catch((error) => {
           this.loading = false
         })
     },

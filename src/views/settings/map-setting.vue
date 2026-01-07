@@ -76,7 +76,7 @@ export default {
               >
                 <div
                   slot='suffix'
-                  class="h-full w-[25px] flex items-center justify-center"
+                  class='h-full w-[25px] flex items-center justify-center'
                   on-click={() => {
                     this.showPassword = !this.showPassword
                   }}

@@ -83,12 +83,12 @@ export default {
   },
   methods: {
     getInfo() {
-      getPrinterInfo(this.query).then(response => {
+      getPrinterInfo(this.query).then((response) => {
         this.form = response.data.data
       })
     },
     onSubmit() {
-      savePrinter(this.form).then(response => {
+      savePrinter(this.form).then((response) => {
         this.$message({ message: '保存成功', type: 'success' })
         this.getInfo()
       })

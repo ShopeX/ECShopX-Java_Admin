@@ -42,7 +42,7 @@
         <el-input v-model="formData.shop_code" placeholder="请输入店铺号" />
       </SpFilterFormItem>
       <SpFilterFormItem prop="is_valid">
-        <el-select  v-model="formData.is_valid" clearable placeholder="状态">
+        <el-select v-model="formData.is_valid" clearable placeholder="状态">
           <el-option value="true" label="启用" />
           <el-option value="false" label="禁用" />
           <el-option value="delete" label="废弃" />
@@ -116,9 +116,20 @@ export default {
           visible: this.VERSION_PLATFORM()
         },
         { name: '店铺号', key: 'shop_code' },
-        { name: '状态', key: 'is_valid', width: 100, formatter: (value, row, col) => {
-          return value == 'true' ? '启用' : value == 'false'? '禁用' :value == 'delete' ? '废弃' : ''
-        } },
+        {
+          name: '状态',
+          key: 'is_valid',
+          width: 100,
+          formatter: (value, row, col) => {
+            return value == 'true'
+              ? '启用'
+              : value == 'false'
+              ? '禁用'
+              : value == 'delete'
+              ? '废弃'
+              : ''
+          }
+        },
         { name: '店铺地址', key: 'store_address' }
       ]
       return createSetting({
@@ -135,7 +146,7 @@ export default {
       const regionLabels = []
       const getRegionLabel = (district, i) => {
         if (this.formData.region[i]) {
-          const fd = district.find(item => item.value == this.formData.region[i])
+          const fd = district.find((item) => item.value == this.formData.region[i])
           regionLabels.push(fd.label)
           if (fd.children) {
             getRegionLabel(fd.children, ++i)
@@ -162,7 +173,7 @@ export default {
     afterSearch(response) {
       const { list } = response.data.data
       if (this.value.data) {
-        const selectRows = list.filter(item => this.value.data.includes(item.distributor_id))
+        const selectRows = list.filter((item) => this.value.data.includes(item.distributor_id))
         const { finderTable } = this.$refs.finder.$refs
         setTimeout(() => {
           finderTable.$refs.finderTable.setSelection(selectRows)

@@ -189,9 +189,7 @@ export default {
       this.getTemplateDetial()
     }
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     regsiterWgts() {
       // const { scene = '1001' } = this.$route.query
@@ -201,9 +199,7 @@ export default {
         Vue.component(wgts[index].name, wgts[index])
       })
     },
-    resetDecorateTheme() {
-
-    },
+    resetDecorateTheme() {},
     getComponentAttr(item) {
       const { wgtName, config } = this.widgets.find((wgt) => {
         return wgt.name?.toLowerCase() == item.name?.toLowerCase()

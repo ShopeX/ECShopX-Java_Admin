@@ -68,10 +68,7 @@
             </div>
             <div>
               <span class="txt">等级编码</span
-              ><el-input
-                v-model="item.dm_grade_code"
-                placeholder="请输入内容"
-              />
+              ><el-input v-model="item.dm_grade_code" placeholder="请输入内容" />
             </div>
             <div v-if="!VERSION_SHUYUN()" class="clearfix">
               <span class="txt f_l">升级条件</span>
@@ -249,26 +246,6 @@ export default {
     this.getGradeList()
   },
   methods: {
-    /**
-     * 清理空白 HTML 内容
-     * 如果内容只包含空白标签（如 <br>、<div></div>、<p></p> 等），则返回空字符串
-     */
-    cleanEmptyHtml(html) {
-      if (!html || typeof html !== 'string') {
-        return ''
-      }
-      // 移除所有 HTML 标签和 HTML 实体，获取纯文本内容
-      const textContent = html
-        .replace(/<[^>]*>/g, '')
-        .replace(/&nbsp;/g, ' ')
-        .replace(/&amp;/g, '&')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&quot;/g, '"')
-        .trim()
-      // 如果去除标签和空白后没有实际内容，返回空字符串；否则返回原始 html
-      return textContent ? html : ''
-    },
     pickHanle(packageId) {
       this.packageId = packageId
       this.visible = true
@@ -286,14 +263,8 @@ export default {
       if (result) {
         return
       }
-      // 清理 description 字段，将只包含空白标签的内容转换为空字符串
-      const cleanedData = this.levelData.map((item) => {
-        const cleanedItem = { ...item }
-        cleanedItem.description = this.cleanEmptyHtml(cleanedItem.description)
-        return cleanedItem
-      })
-      console.log(cleanedData)
-      this.params.grade_info = JSON.stringify(cleanedData)
+      console.log(this.levelData)
+      this.params.grade_info = JSON.stringify(this.levelData)
 
       updateGrade(this.params).then((res) => {
         if (res.data.data.status) {
@@ -433,7 +404,10 @@ export default {
             isflag = true
             this.$message({ message: '请输入会员折扣', type: 'error' })
             break
-          } else if (!discountReg.test(this.levelData[i].privileges.discount) && this.VERSION_SHUYUN()) {
+          } else if (
+            !discountReg.test(this.levelData[i].privileges.discount) &&
+            this.VERSION_SHUYUN()
+          ) {
             // isflag = true
             // this.$message({
             //   message: '会员折扣为大于0小于等于10的数字，精确到小数点后1位',
@@ -486,8 +460,6 @@ export default {
                 result[i]['privileges'].discount = 10
               }
               result[i].grade_background = result[i].grade_background || ''
-              // 清理 description 字段，将只包含空白标签的内容转换为空字符串
-              result[i].description = this.cleanEmptyHtml(result[i].description)
               result[i].discount_checked = true
             }
             this.levelData = result

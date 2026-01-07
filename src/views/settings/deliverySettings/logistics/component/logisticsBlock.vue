@@ -6,7 +6,7 @@
 <template>
   <div class="block">
     <div class="image">
-      <img :src="info.logo">
+      <img :src="info.logo" />
     </div>
     <div class="info">
       <div class="name">
@@ -30,12 +30,12 @@ export default {
     setEnable() {
       console.log('setEnable', this.info)
       if (this.info.is_enable) {
-        createCompanyLogistics(this.info).then(response => {
+        createCompanyLogistics(this.info).then((response) => {
           this.$message.success(`${this.info.corp_name}已开启`)
           // this.$emit("refreshList");
         })
       } else {
-        deleteCompanyLogistics(this.info.corp_id).then(response => {
+        deleteCompanyLogistics(this.info.corp_id).then((response) => {
           // this.getLogisticsListData();
           // this.$emit("refreshList");
         })

@@ -128,7 +128,7 @@
                           <p>
                             优惠金额：{{ scope.row.curFeeSymbol }}{{ item.discount_fee / 100 }} 元
                           </p>
-                          <hr>
+                          <hr />
                         </div>
                       </div>
                       <div slot="reference" class="name-wrapper">
@@ -440,7 +440,7 @@ export default {
       this.onSearch()
     },
     getDistributionType({ receipt_type }) {
-      const fd = DISTRIBUTION_TYPE.find(item => item.value == receipt_type)
+      const fd = DISTRIBUTION_TYPE.find((item) => item.value == receipt_type)
       if (fd) {
         return fd.title
       }
