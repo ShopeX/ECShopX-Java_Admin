@@ -160,7 +160,7 @@ export default {
     {
       path: 'systemsetting/jstSetting',
       name: '聚水潭ERP',
-      component: () => import('@/view/base/setting/saaserp/jstSetting')
+      component: () => import('@/views/settings/systemConfig/jstSetting')
     },
     {
       path: 'systemsetting/assetpayment',
@@ -313,12 +313,12 @@ export default {
     {
       path: 'systemsetting/wdtSetting',
       name: `旺店通`,
-      component: () => import('@/view/base/setting/saaserp/wdtSetting')
+      component: () => import('@/views/settings/systemConfig/wdtSetting')
     },
     {
       path: 'systemsetting/jstSetting',
       name: '聚水潭',
-      component: () => import('@/view/base/setting/saaserp/jstSetting')
+      component: () => import('@/views/settings/systemConfig/jstSetting')
     },
     {
       path: 'systemsetting/certificate',
@@ -338,7 +338,7 @@ export default {
     {
       path: 'systemsetting/approve',
       name: '脱敏数据申请',
-      component: () => import('@/view/base/encrypt/authAdmin.vue')
+      component: () => import('@/views/settings/systemConfig/encrypt/authAdmin.vue')
     },
     {
       path: 'systemsetting/apply',
@@ -400,7 +400,7 @@ export default {
     {
       path: 'systeminfo/operatorlogs',
       name: `操作日志`,
-      component: () => import('@/view/base/setting/companys/logs')
+      component: () => import('@/views/settings/systemInfo/operation-log')
     },
     {
       path: 'omsqueuelog',

@@ -313,7 +313,7 @@ const routes = [
           title: '公众号授权',
           permissions: ['setting.systemsetting.brand']
         },
-        component: () => import('@/view/brand/wechat/open')
+        component: () => import('@/views/settings/systemConfig/official-account-auth')
       },
       {
         name: `systemConfigWxappCustomerService`,
@@ -324,7 +324,7 @@ const routes = [
           title: '小程序客服',
           permissions: ['setting.systemsetting.wxappchat']
         },
-        component: () => import('@/view/base/setting/im/wxappchat')
+        component: () => import('@/views/settings/systemConfig/wxapp-customer-service')
       },
       {
         name: `systemConfigOneChat`,
@@ -335,7 +335,7 @@ const routes = [
           title: '一洽客服',
           permissions: ['setting.systemsetting.EChat']
         },
-        component: () => import('@/view/base/setting/im/echat')
+        component: () => import('@/views/settings/systemConfig/echat')
       },
       {
         name: `systemConfigMeiChat`,
@@ -346,7 +346,7 @@ const routes = [
           title: '美洽客服',
           permissions: ['setting.systemsetting.meiqia']
         },
-        component: () => import('@/view/site/meiqia')
+        component: () => import('@/views/settings/systemConfig/meiqia')
       },
       {
         name: `systemConfigWangDianTong`,
@@ -357,7 +357,7 @@ const routes = [
           title: '旺店通',
           permissions: ['setting.systemsetting.wdtSetting']
         },
-        component: () => import('@/view/base/setting/saaserp/wdtSetting')
+        component: () => import('@/views/settings/systemConfig/wdtSetting')
       },
       {
         name: `systemConfigJuShuiTan`,
@@ -368,7 +368,7 @@ const routes = [
           title: '聚水潭',
           permissions: ['setting.systemsetting.jstSetting']
         },
-        component: () => import('@/view/base/setting/saaserp/jstSetting')
+        component: () => import('@/views/settings/systemConfig/jstSetting')
       },
       {
         name: `systemConfigDomainSetting`,
@@ -379,7 +379,7 @@ const routes = [
           title: '域名设置',
           permissions: ['setting.systemsetting.domain_setting']
         },
-        component: () => import('@/view/base/setting/companys/domain')
+        component: () => import('@/views/settings/systemConfig/domain')
       },
       {
         name: `systemConfigPrivacyApply`,
@@ -390,7 +390,7 @@ const routes = [
           title: '脱敏数据申请',
           permissions: ['setting.systemsetting.approveDataPass']
         },
-        component: () => import('@/view/base/encrypt/authAdmin.vue')
+        component: () => import('@/views/settings/systemConfig/encrypt/authAdmin.vue')
       },
       {
         name: `systemConfigPrivacyApproval`,
@@ -401,11 +401,11 @@ const routes = [
           title: '脱敏申请审批',
           permissions: ['setting.systemsetting.applyDataPass']
         },
-        component: () => import('@/view/base/setting/authorityapproval'),
+        component: () => import('@/views/settings/systemConfig/authorityapproval'),
         children: [
           {
             path: 'approve/:id?',
-            component: () => import('@/view/base/setting/authorityapproval/approve'),
+            component: () => import('@/views/settings/systemConfig/authorityapproval/approve'),
             meta: {
               title: '脱敏申请审批详情',
               hidden: true
@@ -577,7 +577,7 @@ const routes = [
           title: '商派ERP',
           permissions: ['setting.systemsetting.certificate']
         },
-        component: () => import('@/view/base/setting/certificate/index')
+        component: () => import('@/views/settings/systemConfig/ShangPai-erp')
       },
       {
         name: `shopmenus`,
@@ -628,7 +628,7 @@ const routes = [
           title: '达摩CRM',
           permissions: ['setting.systemsetting.damoCrm']
         },
-        component: () => import('@/view/base/setting/damoCrm/index')
+        component: () => import('@/views/settings/systemConfig/damoCrm/index')
       }
     ]
   }

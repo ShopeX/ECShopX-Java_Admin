@@ -36,7 +36,7 @@ const routes = [
           title: '脱敏数据申请',
           permissions: ['setting.datapass']
         },
-        component: () => import('@/view/base/encrypt/authAdmin.vue')
+        component: () => import('@/views/settings/systemConfig/encrypt/authAdmin.vue')
       },
       {
         name: `systemConfigSupplierRegister`,

@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { getECahtSetting, saveEChatSetting } from '../../../../api/im'
+import { getECahtSetting, saveEChatSetting } from '../../../api/im'
 
 export default {
   data() {

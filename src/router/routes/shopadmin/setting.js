@@ -71,7 +71,7 @@ const routes = [
           title: '脱敏数据申请',
           permissions: ['shopsetting.datapass.applyDataPass']
         },
-        component: () => import('@/view/base/encrypt/authAdmin.vue')
+        component: () => import('@/views/settings/systemConfig/encrypt/authAdmin.vue')
       }
     ]
   }
