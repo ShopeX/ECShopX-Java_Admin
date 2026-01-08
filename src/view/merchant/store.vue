@@ -722,7 +722,7 @@ export default {
       const { distributor_id } = this.$route.query
       if (distributor_id || this.IS_DISTRIBUTOR()) {
         const res = await this.$api.marketing.getDistributorInfo({ distributor_id })
-        const [startTime, endTime] = res.hour?.split('-')
+        const [startTime, endTime] = res.hour?.split('-') || []
 
         // 退货点区号、手机号
         // 退货点营业时间段
@@ -732,11 +732,11 @@ export default {
           offline_mobile = ''
         if (isObject(res.offline_aftersales_address)) {
           const { hours, mobile } = res.offline_aftersales_address
-          let [t1, t2] = hours?.split('-')
+          let [t1, t2] = hours?.split('-') || []
           offline_startTime = t1
           offline_endTime = t2
           if (mobile.indexOf('-') > -1) {
-            let [code, m] = res.offline_aftersales_address.mobile?.split('-')
+            let [code, m] = res.offline_aftersales_address.mobile?.split('-') || []
             offline_areaCode = code
             offline_mobile = m
           } else {
