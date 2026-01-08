@@ -128,7 +128,7 @@ const routes = [
           title: '开票配置',
           permissions: ['setting.systemsetting.invoinceConfiguration']
         },
-        component: () => import('@/view/financial/invoice/baiSetting')
+        component: () => import('@/views/settings/systemConfig/invoiceConfiguration/baiSetting')
       },
       {
         name: `systemConfigPaymentConfiguration`,
@@ -236,7 +236,7 @@ const routes = [
           title: '小票打印',
           permissions: ['setting.systemsetting.Yilianyun']
         },
-        component: () => import('@/view/base/setting/yilianyun/index')
+        component: () => import('@/views/settings/systemConfig/yilianyun/index')
       },
       {
         name: `systemConfigUgcAuditConfiguration`,
@@ -247,7 +247,7 @@ const routes = [
           title: 'UGC审核配置',
           permissions: ['setting.systemsetting.ugctpos']
         },
-        component: () => import('@/view/member/ugc/ugcTPOS')
+        component: () => import('@/views/settings/systemConfig/ugcTPOS')
       },
       {
         name: `systemConfigWxappManagement`,

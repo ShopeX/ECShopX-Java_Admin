@@ -5,26 +5,10 @@
 
 <template>
   <SpPage>
-    <SpFilterForm :model="params" size="small" @onSearch="onSearch" @onReset="onSearch">
-      <SpFilterFormItem prop="username" label="配送员姓名:">
-        <el-input v-model="params.username" placeholder="请输入配送员姓名" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="mobile" label="配送员手机号:">
-        <el-input v-model="params.mobile" placeholder="请输入配送员手机号" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="payment_method" label="配送结算方式:">
-        <el-select v-model="params.payment_method" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </SpFilterFormItem>
-    </SpFilterForm>
+    <SpFormPlus v-model="params" form-type="searchForm" :form-items="formItems" @submit="onSearch" @reset="onSearch"
+      :inline="true" />
 
-    <div class="action-container">
+    <div class="action-container mt-5">
       <el-button type="primary" @click="addDeliveryman">添加配送员</el-button>
     </div>
 
@@ -69,8 +53,6 @@ export default {
   components: {
     DistributorSelect
   },
-  mixins: [],
-  props: {},
   data() {
     return {
       deliveryman: false,
@@ -89,6 +71,48 @@ export default {
         mobile: '',
         payment_method: ''
       },
+
+      formItems: [
+        {
+          fieldName: 'username',
+          label: '配送员姓名',
+          component: 'input',
+          componentProps: {
+            placeholder: '请输入配送员姓名',
+            size: 'default'
+          },
+          formItemClass: 'first-item-left'
+        },
+        {
+          fieldName: 'mobile',
+          label: '配送员手机号',
+          component: 'input',
+          componentProps: {
+            placeholder: '请输入配送员手机号',
+            size: 'default'
+          }
+        },
+        {
+          fieldName: 'payment_method',
+          label: '配送结算方式',
+          component: 'select',
+          componentProps: {
+            placeholder: '请选择',
+            size: 'small',
+            options: [
+              {
+                value: 'order',
+                label: '按单笔订单'
+              },
+              {
+                value: 'amount',
+                label: '按订单金额比例'
+              }
+            ]
+          }
+        }
+      ],
+
       options: [
         {
           value: 'order',
@@ -435,8 +459,6 @@ export default {
       ]
     }
   },
-  computed: {},
-  watch: {},
   mounted() {
     if (IS_DISTRIBUTOR() || IS_MERCHANT()) {
       this.addForm.staff_type = 'distributor'
@@ -623,19 +645,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.flex-box {
-  display: flex;
-  align-items: center;
-  span {
-    margin-left: 10px;
-  }
-}
-</style>
-<style lang="scss">
-.form-item__label {
-  width: 100px;
-  font-size: 14px;
-  color: #333;
-}
-</style>

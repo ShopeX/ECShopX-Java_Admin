@@ -5,37 +5,14 @@
 
 <template>
   <SpPage>
-    <SpFilterForm class="sp-filter-form" :model="params" @onSearch="onSearch" @onReset="onSearch">
-      <SpFilterFormItem prop="time" label="时间筛选:" size="max">
-        <el-date-picker
-          v-model="params.time"
-          type="datetimerange"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :default-time="['00:00:00', '23:59:59']"
-          value-format="timestamp"
-        />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="delivery_staff_name" label="配送员姓名:">
-        <el-input v-model="params.delivery_staff_name" placeholder="请输入配送员姓名" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="delivery_staff_mobile" label="手机号:">
-        <el-input v-model="params.delivery_staff_mobile" placeholder="手机号" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="distributor_id" label="所属店铺:">
-        <SpSelectShop v-model="params.distributor_id" clearable placeholder="请选择" />
-      </SpFilterFormItem>
-      <!-- <SpFilterFormItem prop="merchant_id" label="所属商家:">
-        <el-select v-model="params.merchant_id" filterable placeholder="请选择">
-          <el-option
-            v-for="item in belongingMerchant"
-            :key="item.id"
-            :label="item.merchant_name"
-            :value="item.id"
-          />
-        </el-select>
-      </SpFilterFormItem> -->
-    </SpFilterForm>
+    <SpFormPlus
+      v-model="params"
+      form-type="searchForm"
+      :form-items="formItems"
+      @submit="onSearch"
+      @reset="onSearch"
+      :inline="true"
+    />
 
     <SpFinder
       ref="finder"
@@ -62,6 +39,63 @@ export default {
         distributor_id: '',
         merchant_id: ''
       },
+      formItems: [
+        {
+          fieldName: 'time',
+          label: '时间筛选',
+          component: 'datetimepicker',
+          componentProps: {
+            type: 'datetimerange',
+            startPlaceholder: '开始日期',
+            endPlaceholder: '结束日期',
+            defaultTime: ['00:00:00', '23:59:59'],
+            valueFormat: 'timestamp',
+            size: 'default'
+          },
+          formItemClass: 'w-300'
+        },
+        {
+          fieldName: 'delivery_staff_name',
+          label: '配送员姓名',
+          component: 'input',
+          componentProps: {
+            placeholder: '请输入配送员姓名',
+            size: 'default'
+          },
+          formItemClass: 'w-300'
+        },
+        {
+          fieldName: 'delivery_staff_mobile',
+          label: '手机号',
+          component: 'input',
+          componentProps: {
+            placeholder: '手机号',
+            size: 'default'
+          },
+          formItemClass: 'w-200'
+        },
+        {
+          fieldName: 'distributor_id',
+          label: '所属店铺',
+          component: (context) => {
+            const { value, props, onInput, h } = context
+            return h('SpSelectShop', {
+              props: {
+                value,
+                clearable: true,
+                placeholder: '请选择',
+                size: 'small',
+                ...props
+              },
+              on: {
+                input: onInput
+              }
+            })
+          },
+          componentProps: {},
+          formItemClass: 'w-200'
+        }
+      ],
       setting: {
         columns: [
           { name: '配送员编号', key: 'staff_no', width: 110 },
@@ -225,10 +259,8 @@ export default {
 </script>
 
 <style scoped>
-.sp-filter-form {
-  margin-bottom: 10px;
-}
 ::v-deep .sp-finder .el-button--primary {
-  @apply mb-3 !px-4 !py-2.5;
+  @apply mt-3 mb-3 !px-4 !py-2.5;
 }
+
 </style>

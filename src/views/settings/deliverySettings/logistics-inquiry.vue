@@ -12,93 +12,47 @@
         :label="item.name"
         :name="item.activeName"
       >
-        <el-form v-if="activeName == 'kdniao'" ref="form" label-width="100px">
-          <el-form-item label="EBusinessID">
-            <el-input v-model="kdniao_form.config.EBusinessID" style="width: 300px" />
-          </el-form-item>
-          <el-form-item label="AppKey">
-            <el-input v-model="kdniao_form.config.appkey" style="width: 300px" />
-          </el-form-item>
-          <!--  <el-form-item label="扣量方式选择">
-          <el-input v-model="kdniao_form.config.request_type" style="width:300px"></el-input>
-        </el-form-item> -->
-          <el-form-item label="扣量方式选择">
-            <el-radio-group v-model="kdniao_form.config.request_type">
-              <el-radio label="1002"> 免费版 </el-radio>
-              <el-radio label="8001"> 增值版（按单） </el-radio>
-              <el-radio label="8002"> 增值版（按次） </el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="是否启用">
-            <el-switch
-              v-model="kdniao_form.config.is_open"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-            />
-          </el-form-item>
-          <el-form-item label="功能说明">
-            <el-link
-              type="primary"
-              href="http://www.kdniao.com/product-track1"
-              :underline="false"
-              target="_blank"
-            >
-              快递鸟快递物流跟踪
-            </el-link>
-          </el-form-item>
+        <div v-if="activeName == 'kdniao'" class="tab-form-container">
+          <SpFormPlus
+            v-model="kdniao_form.config"
+            :form-items="kdniaoFormItems"
+            form-type="form"
+            @submit="onSubmit"
+            :show-default-actions="false"
+            label-width="100px"
+          />
           <div class="section-footer with-border content-center">
             <el-button v-loading="loading" type="primary" @click="onSubmit"> 保存 </el-button>
           </div>
-        </el-form>
-        <el-form v-if="activeName == 'kuaidi100'" ref="form" label-width="100px">
-          <el-form-item label="Key">
-            <el-input v-model="form.config.app_key" style="width: 300px" />
-          </el-form-item>
-          <el-form-item label="Customer">
-            <el-input v-model="form.config.app_secret" style="width: 300px" />
-          </el-form-item>
-          <el-form-item label="是否启用">
-            <el-switch
-              v-model="form.config.is_open"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-            />
-          </el-form-item>
-          <el-form-item label="功能说明">
-            <el-link
-              type="primary"
-              href="https://api.kuaidi100.com/product/query/"
-              :underline="false"
-              target="_blank"
-            >
-              快递100实时快递查询
-            </el-link>
-          </el-form-item>
+        </div>
+
+        <div v-if="activeName == 'kuaidi100'" class="tab-form-container">
+          <SpFormPlus
+            v-model="form.config"
+            :form-items="kuaidi100FormItems"
+            form-type="form"
+            @submit="onSubmit"
+            :show-default-actions="false"
+            label-width="100px"
+          />
           <div class="section-footer with-border content-center">
             <el-button v-loading="loading" type="primary" @click="onSubmit"> 保存 </el-button>
           </div>
-        </el-form>
-        <el-form v-if="activeName == 'sfbsp'" ref="form" label-width="100px">
-          <el-form-item label="接入地址">
-            <el-input v-model="sfbsp_form.config.url" style="width: 300px" />
-          </el-form-item>
-          <el-form-item label="接入编码">
-            <el-input v-model="sfbsp_form.config.accesscode" style="width: 300px" />
-          </el-form-item>
-          <el-form-item label="Checkword">
-            <el-input v-model="sfbsp_form.config.checkword" style="width: 300px" />
-          </el-form-item>
-          <el-form-item label="是否启用">
-            <el-switch
-              v-model="sfbsp_form.config.is_open"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-            />
-          </el-form-item>
+        </div>
+
+        <div v-if="activeName == 'sfbsp'" class="tab-form-container">
+          <SpFormPlus
+            v-model="sfbsp_form.config"
+            :form-items="sfbspFormItems"
+            form-type="form"
+            @submit="onSubmit"
+            :show-default-actions="false"
+            label-width="100px"
+          />
           <div class="section-footer with-border content-center">
             <el-button v-loading="loading" type="primary" @click="onSubmit"> 保存 </el-button>
           </div>
-        </el-form>
+        </div>
       </el-tab-pane>
     </el-tabs>
   </SpPage>
@@ -144,6 +98,137 @@ export default {
         { name: '快递鸟', activeName: 'kdniao' },
         { name: '快递100', activeName: 'kuaidi100' },
         { name: '顺丰BSP', activeName: 'sfbsp' }
+      ],
+      kdniaoFormItems: [
+        {
+          fieldName: 'EBusinessID',
+          label: 'EBusinessID',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' }
+          }
+        },
+        {
+          fieldName: 'appkey',
+          label: 'AppKey',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' }
+          }
+        },
+        {
+          fieldName: 'request_type',
+          label: '扣量方式选择',
+          component: 'radio',
+          componentProps: {
+            options: [
+              { label: '免费版', value: '1002' },
+              { label: '增值版（按单）', value: '8001' },
+              { label: '增值版（按次）', value: '8002' }
+            ]
+          }
+        },
+        {
+          fieldName: 'is_open',
+          label: '是否启用',
+          component: 'switch',
+          componentProps: {
+            activeColor: '#13ce66',
+            inactiveColor: '#ff4949'
+          }
+        },
+        {
+          fieldName: 'description',
+          label: '功能说明',
+          component: (context) => {
+            const { h } = context
+            return h('el-link', {
+              props: {
+                type: 'primary',
+                href: 'http://www.kdniao.com/product-track1',
+                underline: false,
+                target: '_blank'
+              }
+            }, '快递鸟快递物流跟踪')
+          }
+        }
+      ],
+      kuaidi100FormItems: [
+        {
+          fieldName: 'app_key',
+          label: 'Key',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' }
+          }
+        },
+        {
+          fieldName: 'app_secret',
+          label: 'Customer',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' }
+          }
+        },
+        {
+          fieldName: 'is_open',
+          label: '是否启用',
+          component: 'switch',
+          componentProps: {
+            activeColor: '#13ce66',
+            inactiveColor: '#ff4949'
+          }
+        },
+        {
+          fieldName: 'description',
+          label: '功能说明',
+          component: (context) => {
+            const { h } = context
+            return h('el-link', {
+              props: {
+                type: 'primary',
+                href: 'https://api.kuaidi100.com/product/query/',
+                underline: false,
+                target: '_blank'
+              }
+            }, '快递100实时快递查询')
+          }
+        }
+      ],
+      sfbspFormItems: [
+        {
+          fieldName: 'url',
+          label: '接入地址',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' }
+          }
+        },
+        {
+          fieldName: 'accesscode',
+          label: '接入编码',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' }
+          }
+        },
+        {
+          fieldName: 'checkword',
+          label: 'Checkword',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' }
+          }
+        },
+        {
+          fieldName: 'is_open',
+          label: '是否启用',
+          component: 'switch',
+          componentProps: {
+            activeColor: '#13ce66',
+            inactiveColor: '#ff4949'
+          }
+        }
       ]
     }
   },
@@ -155,23 +240,19 @@ export default {
       this.getConfig()
     },
     getConfig() {
-      let query = {}
       if (this.activeName === 'kdniao') {
-        query = { kuaidi_type: 'kdniao' }
-        getKdniaoSetting(query).then((response) => {
-          this.kdniao_form.config = response.data.data
-          const request_type = this.kdniao_form.config.request_type
-            ? this.kdniao_form.config.request_type
-            : '8001'
+        getKdniaoSetting({ kuaidi_type: 'kdniao' }).then((response) => {
+          const data = response.data.data
+          this.kdniao_form.config = data
+          const request_type = data.request_type || '8001'
           this.$set(this.kdniao_form.config, 'request_type', request_type)
         })
       } else if (this.activeName === 'kuaidi100') {
-        query = { kuaidi_type: 'kuaidi100' }
-        getKdniaoSetting(query).then((response) => {
+        getKdniaoSetting({ kuaidi_type: 'kuaidi100' }).then((response) => {
           this.form.config = response.data.data
         })
       } else if (this.activeName === 'sfbsp') {
-        getSfbspSetting(query).then((response) => {
+        getSfbspSetting({}).then((response) => {
           const data = response.data.data
           if (!Array.isArray(data)) {
             if (data.is_open == 'true') {
@@ -186,38 +267,27 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      let query = {}
-      if (this.activeName === 'sfbsp') {
-        query = this.sfbsp_form
-        seSfbspSetting(query)
-          .then((response) => {
-            this.$message({
-              type: 'success',
-              message: '保存成功'
-            })
-            this.loading = false
-          })
-          .catch((error) => {
-            this.loading = false
-          })
-      } else {
-        if (this.activeName === 'kdniao') {
-          query = this.kdniao_form
-        } else {
-          query = this.form
-        }
-        setKdniaoSetting(query)
-          .then((response) => {
-            this.$message({
-              type: 'success',
-              message: '保存成功'
-            })
-            this.loading = false
-          })
-          .catch((error) => {
-            this.loading = false
-          })
+      const queryMap = {
+        kdniao: this.kdniao_form,
+        kuaidi100: this.form,
+        sfbsp: this.sfbsp_form
       }
+      const apiMap = {
+        sfbsp: seSfbspSetting,
+        kdniao: setKdniaoSetting,
+        kuaidi100: setKdniaoSetting
+      }
+
+      const query = queryMap[this.activeName]
+      const api = apiMap[this.activeName]
+
+      api(query)
+        .then(() => {
+          this.$message({ type: 'success', message: '保存成功' })
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }
@@ -227,6 +297,18 @@ export default {
   margin-bottom: 10px;
   .frm-tips {
     color: #ff0000;
+  }
+}
+
+.tab-form-container {
+  @apply min-h-[300px] pt-5;
+  
+  :deep(.sp-form-plus) {
+    @apply min-h-[300px];
+    
+    .sp-form-plus__wrapper {
+      @apply min-h-[250px];
+    }
   }
 }
 </style>

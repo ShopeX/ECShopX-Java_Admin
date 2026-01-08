@@ -33,11 +33,11 @@ export default (vm) => {
   return createSetting({
     columns: [
       { name: '创建时间', key: 'create_time', width: 200, formatter: formatDate },
-      { name: '申请开通时间', key: 'ex', width: 600 },
+      { name: '申请开通时间', key: 'ex', width: 580 },
       { name: '申请理由', key: 'reason', width: 130 },
       { name: '审批状态', key: 'status', width: 100, formatter: formatterStatus },
       { name: '审批时间', key: 'approve_time', formatter: formatDate },
-      { name: '审批备注', key: 'remarks', width: 300 }
+      { name: '审批备注', key: 'remarks', width: 150 }
     ]
   })
 }

@@ -155,7 +155,7 @@ export default {
     {
       path: 'systemsetting/wdtSetting',
       name: `旺店通ERP`,
-      component: () => import('@/view/base/setting/saaserp/wdtSetting')
+      component: () => import('@/views/settings/systemConfig/wdtSetting')
     },
     {
       path: 'systemsetting/jstSetting',
@@ -251,12 +251,12 @@ export default {
     {
       path: 'systemsetting/Yilianyun',
       name: `小票打印`,
-      component: () => import('@/view/base/setting/yilianyun/index')
+      component: () => import('@/views/settings/systemConfig/yilianyun/index')
     },
     {
       path: 'systemsetting/ugctpos',
       name: `UGC审核配置`,
-      component: () => import('@/view/member/ugc/ugcTPOS')
+      component: () => import('@/views/settings/systemConfig/ugcTPOS')
     },
     {
       path: 'systemsetting/wxaindex',
