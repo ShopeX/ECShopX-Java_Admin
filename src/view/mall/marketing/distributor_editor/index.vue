@@ -282,9 +282,9 @@ export default {
       const { distributor_id } = this.$route.query
       if (distributor_id || IS_DISTRIBUTOR()) {
         const res = await this.$api.marketing.getDistributorInfo({ distributor_id })
-        const [startTime, endTime] = res.hour.split('-')
+        const [startTime, endTime] = res.hour?.split('-')
         const [offline_startTime, offline_endTime] = res.offline_aftersales_address.hours
-          ? res.offline_aftersales_address.hours.split('-')
+          ? res.offline_aftersales_address.hours?.split('-')
           : ['', '']
         let area_code = ''
         let mobile = ''
@@ -293,7 +293,7 @@ export default {
           res.offline_aftersales_address.mobile.indexOf('-') > -1
         ) {
           ;[area_code, mobile] = res.offline_aftersales_address.mobile
-            ? res.offline_aftersales_address.mobile.split('-')
+            ? res.offline_aftersales_address.mobile?.split('-')
             : ['', '']
         } else {
           mobile = res.offline_aftersales_address.mobile
@@ -319,8 +319,8 @@ export default {
           distributor_self: res.distributor_self,
           logo: res.logo,
           banner: res.banner,
-          lng: res.lng,
-          lat: res.lat,
+          lng: res.lng || 116.397128,
+          lat: res.lat || 39.916527,
           regions_id: res.regions_id,
           address: res.address,
           is_dada: res.is_dada,
