@@ -6,31 +6,15 @@
 <template>
   <SpRouterView>
     <SpPage>
-      <SpFilterForm :model="queryParams" @onSearch="onSearch" @onReset="onSearch">
-        <SpFilterFormItem prop="status" label="审批状态:">
-          <el-select v-model="queryParams.status" placeholder="请选择审批状态">
-            <el-option
-              v-for="(item, index) in approveStatusList"
-              :key="index"
-              :label="item.name"
-              :value="item.value"
-            />
-          </el-select>
-        </SpFilterFormItem>
-        <SpFilterFormItem prop="login_name" label="账户名称:">
-          <el-input v-model="queryParams.login_name" placeholder="请输入账户名称" />
-        </SpFilterFormItem>
-        <SpFilterFormItem prop="queryTime" label="申请日期:">
-          <el-date-picker
-            v-model="queryParams.queryTime"
-            type="daterange"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-          />
-        </SpFilterFormItem>
-      </SpFilterForm>
+      <SpFormPlus
+        v-model="queryParams"
+        form-type="searchForm"
+        :form-items="formItems"
+        @submit="onSearch"
+        @reset="onSearch"
+        :inline="true"
+        class="search-form-spacing"
+      />
       <SpFinder
         ref="finder"
         url="/datapass"
@@ -130,6 +114,59 @@ export default {
       })
     }
   },
+  computed: {
+    formItems() {
+      return [
+        {
+          fieldName: 'status',
+          label: '审批状态',
+          component: 'select',
+          componentProps: {
+            placeholder: '请选择审批状态',
+            options: this.approveStatusList.map(item => ({
+              label: item.name,
+              value: item.value
+            }))
+          }
+        },
+        {
+          fieldName: 'login_name',
+          label: '账户名称',
+          component: 'input',
+          componentProps: {
+            placeholder: '请输入账户名称'
+          }
+        },
+        {
+          fieldName: 'queryTime',
+          label: '申请日期',
+          component: (context) => {
+            const { value, props, onInput, h } = context
+            return h('el-date-picker', {
+              props: {
+                value,
+                type: 'daterange',
+                format: 'yyyy-MM-dd',
+                valueFormat: 'yyyy-MM-dd',
+                startPlaceholder: '开始',
+                endPlaceholder: '结束',
+                size: 'small',
+                ...props
+              },
+              style: {
+                width: '70%'
+              },
+              on: {
+                input: onInput
+              }
+            })
+          },
+          componentProps: {},
+          formItemClass: 'flex-1'
+        }
+      ]
+    }
+  },
   methods: {
     beforeSearch(params) {
       let _params = {
@@ -152,4 +189,8 @@ export default {
   }
 }
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.search-form-spacing {
+  margin-bottom: 15px;
+}
+</style>
