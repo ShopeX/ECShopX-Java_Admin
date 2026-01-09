@@ -170,7 +170,7 @@
           :current-category="selectCatgory"
         />
 
-        <el-button @click="onAddGroup"> 添加分组 </el-button>
+        <el-button @click="onAddGroup" class="h-[calc(1em+16px)]"> 添加分组 </el-button>
         <el-button :disabled="disabledBtn" @click="onMoveGroup"> 移组 </el-button>
         <!-- <el-button :disabled="disabledDeleteGroup" @click="onDeleteImageGroup">
           删除分组
@@ -397,8 +397,35 @@ export default {
   },
   data() {
     let { multiple = true, data } = this.value || {}
+    //如果父组件指定了 multiple，使用指定值；否则使用默认值 true（多选）
+    if (this.value && this.value.multiple !== undefined) {
+      multiple = this.value.multiple
+    }
+    // 如果传入的是对象格式（不是数组），需要转换
+    if (data && typeof data === 'object' && !Array.isArray(data) && 'url' in data) {
+      //没有明确指定 multiple，自动推断为单选模式
+      if (this.value.multiple === undefined) {
+        multiple = false
+        data = data.url || null
+      } 
+      //已经明确指定了 multiple，按指定模式转换数据格式
+      else {
+        if (multiple) {
+          //多选模式：对象转数组
+          data = data.url ? [{ url: data.url }] : []
+        } else {
+          //单选模式：提取 url 字符串
+          data = data.url || null
+        }
+      }
+    }
     if (typeof data === 'string') {
-      data = multiple ? [data] : data //多选转为数组，单选保持字符串
+      //如果字符串为空，视为未选择
+      if (data.trim() === '') {
+        data = multiple ? [] : null
+      } else {
+        data = multiple ? [data] : data //多选转为数组，单选保持字符串
+      }
     } else if (!data) {
       data = multiple ? [] : null
     }
@@ -450,6 +477,65 @@ export default {
         img: '',
         size: 1,
         autoCrop: true
+      }
+    }
+  },
+  watch: {
+    value: {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        if (!val) return   
+        // 首先同步 multiple 状态（无论 data 是否存在）
+        if (val.multiple !== undefined) {
+          this.multiple = val.multiple
+        } 
+        // 同步 value.data 到 selected
+        if (val.data !== undefined) {
+          let { multiple = true, data } = val     
+          // 如果明确指定了 multiple，使用指定的值
+          if (val.multiple !== undefined) {
+            multiple = val.multiple
+            this.multiple = val.multiple
+          }
+          
+          if (data && typeof data === 'object' && !Array.isArray(data) && 'url' in data) {
+            // 只有当 multiple 未明确指定（使用默认值）时才自动设置为单选
+            if (val.multiple === undefined) {
+              multiple = false
+              this.multiple = false
+              // 提取 url 字符串，如果 url 为空字符串或 undefined 则视为未选择
+              data = data.url || null
+            } else {
+              // 如果明确指定了 multiple，保持原值，但需要转换对象格式
+              if (multiple) {
+                // 多选模式：将对象转换为数组格式
+                data = data.url ? [{ url: data.url }] : []
+              } else {
+                // 单选模式：提取 url 字符串
+                data = data.url || null
+              }
+            }
+          }
+          
+          if (typeof data === 'string') {
+            // 如果字符串为空，视为未选择
+            if (data.trim() === '') {
+              data = multiple ? [] : null
+            } else {
+              data = multiple ? [data] : data
+            }
+          } else if (!data) {
+            data = multiple ? [] : null
+          }
+          // 确保 selected 与 value.data 同步
+          this.selected = data
+        } else {
+          // 如果 data 未定义，但明确指定了 multiple，也要同步 multiple 状态
+          if (val.multiple !== undefined) {
+            this.multiple = val.multiple
+          }
+        }
       }
     }
   },
@@ -533,26 +619,52 @@ export default {
 
     isActive({ image_id, url }) {
       if (this.multiple) {
-        return isArray(this.selected) ? this.selected.findIndex((item) => item.url == url) : false
-      } else {
-        // return this.selected ? this.selected.image_id == image_id : false
-        if (this.selected) {
-          const handleRegExp = (str) => {
-            const regExp = /^(http|https):\/\/(.*)/g
-            const [p1, p2, p3] = regExp.exec(str)
-            return p3
-          }
-          if (isObject(this.selected)) {
-            if (this.selected.url) {
-              return handleRegExp(this.selected.url) == handleRegExp(url)
+        if (!isArray(this.selected) || this.selected.length === 0) {
+          return -1
+        }
+        // 支持对象数组 {image_id, url} 或字符串数组 [url1, url2, ...]
+        return this.selected.findIndex((item) => {
+          if (typeof item === 'string') {
+            // 如果字符串为空或无效，不匹配
+            if (!item || item.trim() === '') {
+              return false
             }
-            return false
-          } else {
-            return handleRegExp(this.selected) == handleRegExp(url)
+            // 如果是字符串，直接比较 URL
+            const handleRegExp = (str) => {
+              const regExp = /^(http|https):\/\/(.*)/g
+              const match = regExp.exec(str)
+              return match ? match[2] : str
+            }
+            return handleRegExp(item) === handleRegExp(url)
+          } else if (isObject(item)) {
+            // 如果是对象，比较 URL
+            return item.url === url || item.image_id === image_id
           }
-        } else {
+          return false
+        })
+      } else {
+        // 单选模式
+        if (!this.selected) {
           return false
         }
+        const handleRegExp = (str) => {
+          const regExp = /^(http|https):\/\/(.*)/g
+          const match = regExp.exec(str)
+          return match ? match[2] : str
+        }
+        if (isObject(this.selected)) {
+          if (this.selected.url) {
+            return handleRegExp(this.selected.url) === handleRegExp(url)
+          }
+          return false
+        } else if (typeof this.selected === 'string') {
+          // 如果字符串为空或无效，不匹配
+          if (!this.selected || this.selected.trim() === '') {
+            return false
+          }
+          return handleRegExp(this.selected) === handleRegExp(url)
+        }
+        return false
       }
     },
     onAddGroup() {
@@ -649,7 +761,170 @@ export default {
       }
       const { list, total_count } = await this.$api.picker.getImageList(params)
       this.list = list
+      // 如果 selected 中有字符串格式的 URL，尝试转换为对象格式
+      const found = this.normalizeSelected(list)
+      // 如果当前页面找不到选中的图片，且是第一次加载（第一页），搜索其他页面
+      if (!found && page_no === 1 && this.selected) {
+        if (!this.multiple) {
+          // 单选模式
+          if (typeof this.selected === 'string') {
+            // 字符串格式，搜索单个图片
+            this.findSelectedImageInPages(total_count, page_size)
+          } else if (isObject(this.selected) && this.selected.url) {
+            // 对象格式，搜索单个图片
+            this.findSelectedImageInPages(total_count, page_size, this.selected.url)
+          }
+        } else if (this.multiple && isArray(this.selected) && this.selected.length > 0) {
+          // 多选模式，搜索第一个未找到的图片
+          const firstNotFound = this.selected.find(item => {
+            if (typeof item === 'string') {
+              return true
+            } else if (isObject(item) && item.url) {
+              // 检查对象是否在当前页面
+              return !list.find(img => img.image_id === item.image_id || img.url === item.url)
+            }
+            return false
+          })
+          if (firstNotFound) {
+            const searchUrl = typeof firstNotFound === 'string' ? firstNotFound : firstNotFound.url
+            if (searchUrl) {
+              this.findSelectedImageInPages(total_count, page_size, searchUrl)
+            }
+          }
+        }
+      }
       return { count: total_count }
+    },
+    // 规范化 selected 数据格式，将字符串 URL 转换为对象格式，返回 true 表示在当前页面找到了选中的图片，反之未找到
+    normalizeSelected(list) {
+      if (!this.selected || (isArray(this.selected) && this.selected.length === 0)) {
+        return true // 没有选中项，视为已处理
+      }
+      const handleRegExp = (str) => {
+        const regExp = /^(http|https):\/\/(.*)/g
+        const match = regExp.exec(str)
+        return match ? match[2] : str
+      }
+      if (this.multiple && isArray(this.selected)) {
+        let allFound = true
+        // 遍历 selected，如果是字符串，尝试在 list 中找到对应的对象
+        this.selected = this.selected.map((item) => {
+          if (typeof item === 'string') {
+            // 在 list 中查找匹配的图片
+            const matched = list.find((img) => {
+              const itemPath = handleRegExp(item)
+              const imgPath = handleRegExp(img.url)
+              return itemPath === imgPath
+            })
+            if (matched) {
+              return {
+                image_id: matched.image_id,
+                url: matched.url
+              }
+            }
+            // 如果找不到匹配的，保持字符串格式（可能在其他页面）
+            allFound = false
+            return item
+          }
+          // 已经是对象格式，检查是否在当前页面
+          const matched = list.find((img) => {
+            return item.image_id === img.image_id || item.url === img.url
+          })
+          if (!matched) {
+            allFound = false
+          }
+          return item
+        })
+        return allFound
+      } else if (!this.multiple && typeof this.selected === 'string') {
+        // 单选模式，字符串格式
+        const matched = list.find((img) => {
+          const selectedPath = handleRegExp(this.selected)
+          const imgPath = handleRegExp(img.url)
+          return selectedPath === imgPath
+        })
+        if (matched) {
+          this.selected = {
+            image_id: matched.image_id,
+            url: matched.url
+          }
+          return true
+        }
+        return false
+      } else if (!this.multiple && isObject(this.selected)) {
+        // 单选模式，对象格式
+        const matched = list.find((img) => {
+          return this.selected.image_id === img.image_id || this.selected.url === img.url
+        })
+        return !!matched
+      }
+      return true
+    },
+    // 在所有页面中查找选中的图片
+    async findSelectedImageInPages(totalCount, pageSize, targetUrl) {
+      const handleRegExp = (str) => {
+        const regExp = /^(http|https):\/\/(.*)/g
+        const match = regExp.exec(str)
+        return match ? match[2] : str
+      }
+      const searchUrl = targetUrl || (typeof this.selected === 'string' ? this.selected : null)
+      if (!searchUrl) {
+        return
+      }
+      const selectedPath = handleRegExp(searchUrl)
+      const totalPages = Math.ceil(totalCount / pageSize)
+      
+      // 从第二页开始搜索（第一页已经搜索过了）
+      for (let page = 2; page <= totalPages; page++) {
+        try {
+          let params = {
+            type: 'image',
+            page: page,
+            pageSize: pageSize
+          }
+          if (this.selectCatgory != '-1') {
+            params = {
+              ...params,
+              image_cat_id: this.selectCatgory
+            }
+          }
+          const { list } = await this.$api.picker.getImageList(params)
+          const matched = list.find((img) => {
+            const imgPath = handleRegExp(img.url)
+            return imgPath === selectedPath
+          })
+          if (matched) {
+            // 找到匹配的图片，跳转到该页面
+            if (!this.multiple) {
+              // 单选模式
+              this.selected = {
+                image_id: matched.image_id,
+                url: matched.url
+              }
+            } else {
+              // 多选模式，更新对应的项
+              const index = this.selected.findIndex(item => {
+                if (typeof item === 'string') {
+                  return handleRegExp(item) === selectedPath
+                } else if (isObject(item) && item.url) {
+                  return handleRegExp(item.url) === selectedPath
+                }
+                return false
+              })
+              if (index > -1) {
+                this.$set(this.selected, index, {
+                  image_id: matched.image_id,
+                  url: matched.url
+                })
+              }
+            }
+            await this.goPage(page)
+            return
+          }
+        } catch (error) {
+          break
+        }
+      }
     },
     async getImageAllCatgory() {
       const { list } = await this.$api.picker.getImageAllCatgory({ image_cat_id: 0 })
@@ -674,13 +949,26 @@ export default {
         url
       }
       if (this.multiple) {
-        const fdx = this.selected.findIndex((s) => s.image_id == item.image_id)
+        // 支持字符串和对象两种格式的查找
+        const fdx = this.selected.findIndex((s) => {
+          if (typeof s === 'string') {
+            const handleRegExp = (str) => {
+              const regExp = /^(http|https):\/\/(.*)/g
+              const match = regExp.exec(str)
+              return match ? match[2] : str
+            }
+            return handleRegExp(s) === handleRegExp(url)
+          } else if (isObject(s)) {
+            return s.image_id == image_id || s.url === url
+          }
+          return false
+        })
         if (fdx > -1) {
           this.selected.splice(fdx, 1)
         } else {
           // 默认最多可选20
           const maxSelect = 20
-          if (this.selected.length < maxSelect) {
+          if (this.selected.length < maxSelect) {  
             this.selected.push(_item)
           } else {
             this.$message.error(`最多选择${maxSelect}张图片`)
@@ -688,7 +976,15 @@ export default {
           }
         }
       } else {
-        this.selected = _item
+        // 单选模式，检查当前点击的图片是否已经被选中
+        const isAlreadySelected = this.isActive(item)
+        if (isAlreadySelected) {
+          // 如果已经选中，点击后取消选中
+          this.selected = null
+        } else {
+          // 如果未选中，点击后选中这张图片
+          this.selected = _item
+        }
       }
       this.updateVal(this.selected)
     },
@@ -699,6 +995,7 @@ export default {
     handleCancelAll() {
       const { multiple } = this
       this.selected = multiple ? [] : null
+      this.updateVal(this.selected)
     }
     /*handleCropperAction(action) {
       switch (action) {
