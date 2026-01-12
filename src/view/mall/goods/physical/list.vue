@@ -712,7 +712,7 @@ export default {
                   value: 'category_id',
                   label: 'category_name',
                   multiple: true,
-                  checkStrictly: true,
+                  // checkStrictly: true,
                   children: 'children'
                 }
               }}
