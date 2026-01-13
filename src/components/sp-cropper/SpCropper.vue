@@ -65,7 +65,7 @@
         <div>
           <label class="text-sm mb-2 block">文件名</label>
           <div class="text-sm bg-gray-100 border border-gray-200 rounded px-3 py-2 mb-5">
-            {{ currentImage.image_name }}
+            {{ currentImage?.image_name }}
           </div>
         </div>
 
@@ -89,8 +89,8 @@
         <div>
           <label class="text-sm mb-2 block">详细信息</label>
           <span>
-            {{ getImageType(imageFileInfo.type) }} / {{ imageFileInfo.width }} ×
-            {{ imageFileInfo.height }} / {{ formatFileSize(imageFileInfo.size) }}
+            {{ getImageType(imageFileInfo?.type) }} / {{ imageFileInfo?.width }} ×
+            {{ imageFileInfo?.height }} / {{ formatFileSize(imageFileInfo?.size) }}
           </span>
         </div>
 
@@ -223,7 +223,7 @@ export default {
       }
     },
     fileExtension() {
-      if (!this.currentImage || !this.currentImage.image_name) return ''
+      if (!this.currentImage || !this.currentImage?.image_name) return ''
       const name = this.currentImage.image_name
       const lastDotIndex = name.lastIndexOf('.')
       return lastDotIndex === -1 ? '' : name.substring(lastDotIndex)
@@ -342,7 +342,7 @@ export default {
       this.currentImage = this.imageList[this.currentIndex]
       if (this.currentImage) {
         this.imageSrc = this.currentImage.url
-        const name = this.currentImage.image_name
+        const name = this.currentImage?.image_name
         const lastDotIndex = name.lastIndexOf('.')
         this.formData.newImageName = lastDotIndex === -1 ? name : name.substring(0, lastDotIndex)
         await this.createCurrentImageFile()
@@ -361,7 +361,7 @@ export default {
     async createCurrentImageFile() {
       const response = await fetch(this.currentImage.url)
       const blob = await response.blob()
-      const file = new File([blob], this.currentImage.image_name, { type: blob.type })
+      const file = new File([blob], this.currentImage?.image_name, { type: blob.type })
       return new Promise((resolve) => {
         const reader = new FileReader()
         reader.onload = (event) => {
@@ -396,7 +396,7 @@ export default {
       this.currentIndex = index
       this.currentImage = this.imageList[index]
       this.imageSrc = this.currentImage.url
-      const name = this.currentImage.image_name
+      const name = this.currentImage?.image_name
       const lastDotIndex = name.lastIndexOf('.')
       this.formData.newImageName = lastDotIndex === -1 ? name : name.substring(0, lastDotIndex)
 
@@ -572,6 +572,7 @@ export default {
     },
 
     formatFileSize(bytes) {
+      if (!bytes) return ''
       if (bytes === 0) return '0 Bytes'
 
       const k = 1024
@@ -628,7 +629,7 @@ export default {
           const qiniuResult = await uploadUtil.uploadImg(file, file.name)
 
           const uploadParams = {
-            image_cat_id: this.currentImage.image_cat_id,
+            image_cat_id: this.currentImage?.image_cat_id,
             image_name: fileName,
             image_url: qiniuResult.key,
             image_type: 'image/jpeg',
@@ -638,7 +639,7 @@ export default {
           const dbResult = await this.$api.qiniu.uploadQiniuPic(uploadParams)
 
           this.$emit('save-complete', {
-            imageId: this.currentImage.image_id,
+            imageId: this.currentImage?.image_id,
             newImageName: fileName,
             qiniuData: qiniuResult,
             dbResult: dbResult,

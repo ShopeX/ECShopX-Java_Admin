@@ -14,30 +14,29 @@
     >
     </el-upload>
 
+    <el-button v-if="!isPasteMode" type="normal" @click.stop="selectImage" class="h-[calc(1em+16px)] !border-2 !border-solid !border-purple-700 !mr-2 !flex !items-center !justify-center"> 选择 </el-button>
     <div
-      class="w-[300px] h-[calc(1em+16px)] border rounded flex items-center justify-center cursor-pointer"
+      class="w-[300px] h-[calc(1em+16px)] border-2 border-solid border-purple-700 rounded flex items-center justify-center cursor-pointer py-1 px-1 ml-2 hover:bg-purple-50 transition-colors"
       :class="[
         isPasteMode
-          ? 'border-dashed border-purple-700 color-gray py-1 px-1'
-          : 'border-dashed border-gray-300 py-1 px-1'
+          ? 'color-gray'
+          : ''
       ]"
       @drop.prevent="handleDrop"
       @dragover.prevent
       @click="togglePasteMode"
     >
-      <div class="flex flex-col items-center justify-center">
+      
         <div class="flex items-center justify-center">
-          <el-button v-if="!isPasteMode" type="text" @click.stop="selectImage"> 选择 </el-button>
-
           <div v-if="isPasteMode" class="hover:cursor-pointer text-gray-400">
             <div>使用 Ctrl + V 或 <kbd>⌘</kbd> + V</div>
           </div>
-          <div v-else class="hover:cursor-pointer ml-3 text-gray-400">
-            拖拽或单击后粘贴图片，单张5MB以内
+          <div v-else class="hover:cursor-pointer text-gray-400">
+            拖拽或点击后粘贴图片（仅支持单张图片）
           </div>
         </div>
       </div>
-    </div>
+    
   </div>
 </template>
 
@@ -203,10 +202,10 @@ export default {
         this.$message.error('上传图片只能是 JPG 或者 PNG 格式!')
         return false
       }
-      if (!isLt5M) {
+      /*if (!isLt5M) {
         this.$message.error('上传图片大小不能超过 5MB!')
         return false
-      }
+      }*/
       if (this.localpostData) {
         this.localpostData.fname = file.name
       }

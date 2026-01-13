@@ -1648,7 +1648,7 @@ export default {
       }
       const { status } = await this.$api.goods.exportGoodsCode({
         ...exportParams,
-        item_source: 'item',
+        item_source: 'supplier',
         export_type: exportType
       })
       if (status) {

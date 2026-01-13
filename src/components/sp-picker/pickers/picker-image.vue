@@ -170,7 +170,7 @@
           :current-category="selectCatgory"
         />
 
-        <el-button @click="onAddGroup"> 添加分组 </el-button>
+        <el-button @click="onAddGroup" class="h-[calc(1em+16px)]"> 添加分组 </el-button>
         <el-button :disabled="disabledBtn" @click="onMoveGroup"> 移组 </el-button>
         <!-- <el-button :disabled="disabledDeleteGroup" @click="onDeleteImageGroup">
           删除分组
@@ -390,15 +390,38 @@ export default {
       type: Number,
       default: 6
     },
-    pageSize: {
-      type: Number,
-      default: 18
-    }
   },
   data() {
-    let { multiple = true, data } = this.value || {}
+    let { multiple = false, data } = this.value || {}
+    //如果父组件指定了 multiple，使用指定值；否则使用默认值 true（多选）
+    if (this.value && this.value.multiple !== undefined) {
+      multiple = this.value.multiple
+    }
+    // 如果传入的是对象格式（不是数组），需要转换
+    if (data && typeof data === 'object' && !Array.isArray(data) && 'url' in data) {
+      //没有明确指定 multiple，自动推断为单选模式
+      if (this.value.multiple === undefined) {
+        multiple = false
+        data = data.url || null
+      } 
+      //已经明确指定了 multiple，按指定模式转换数据格式
+      else {
+        if (multiple) {
+          //多选模式：对象转数组
+          data = data.url ? [{ url: data.url }] : []
+        } else {
+          //单选模式：提取 url 字符串
+          data = data.url || null
+        }
+      }
+    }
     if (typeof data === 'string') {
-      data = multiple ? [data] : data //多选转为数组，单选保持字符串
+      //如果字符串为空，视为未选择
+      if (data.trim() === '') {
+        data = multiple ? [] : null
+      } else {
+        data = multiple ? [data] : data //多选转为数组，单选保持字符串
+      }
     } else if (!data) {
       data = multiple ? [] : null
     }
@@ -450,6 +473,65 @@ export default {
         img: '',
         size: 1,
         autoCrop: true
+      }
+    }
+  },
+  watch: {
+    value: {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        if (!val) return   
+        // 首先同步 multiple 状态（无论 data 是否存在）
+        if (val.multiple !== undefined) {
+          this.multiple = val.multiple
+        } 
+        // 同步 value.data 到 selected
+        if (val.data !== undefined) {
+          let { multiple = true, data } = val     
+          // 如果明确指定了 multiple，使用指定的值
+          if (val.multiple !== undefined) {
+            multiple = val.multiple
+            this.multiple = val.multiple
+          }
+          
+          if (data && typeof data === 'object' && !Array.isArray(data) && 'url' in data) {
+            // 只有当 multiple 未明确指定（使用默认值）时才自动设置为单选
+            if (val.multiple === undefined) {
+              multiple = false
+              this.multiple = false
+              // 提取 url 字符串，如果 url 为空字符串或 undefined 则视为未选择
+              data = data.url || null
+            } else {
+              // 如果明确指定了 multiple，保持原值，但需要转换对象格式
+              if (multiple) {
+                // 多选模式：将对象转换为数组格式
+                data = data.url ? [{ url: data.url }] : []
+              } else {
+                // 单选模式：提取 url 字符串
+                data = data.url || null
+              }
+            }
+          }
+          
+          if (typeof data === 'string') {
+            // 如果字符串为空，视为未选择
+            if (data.trim() === '') {
+              data = multiple ? [] : null
+            } else {
+              data = multiple ? [data] : data
+            }
+          } else if (!data) {
+            data = multiple ? [] : null
+          }
+          // 确保 selected 与 value.data 同步
+          this.selected = data
+        } else {
+          // 如果 data 未定义，但明确指定了 multiple，也要同步 multiple 状态
+          if (val.multiple !== undefined) {
+            this.multiple = val.multiple
+          }
+        }
       }
     }
   },
@@ -517,11 +599,16 @@ export default {
     },
 
     handleEditImage(item) {
-      if (this.$refs.spCropperRef) {
+      if (this.$refs.spCropperRef && item) {
+        const currentIndex = this.list.findIndex((img) => img.image_id === item.image_id)
+        if (currentIndex === -1) {
+          this.$message.warning('无法找到对应的图片')
+          return
+        }
         this.$refs.spCropperRef.showDialog({
           image: item,
           imageList: this.list,
-          currentIndex: this.list.findIndex((img) => img.image_id === item.image_id)
+          currentIndex: currentIndex
         })
       }
     },
@@ -674,13 +761,26 @@ export default {
         url
       }
       if (this.multiple) {
-        const fdx = this.selected.findIndex((s) => s.image_id == item.image_id)
+        // 支持字符串和对象两种格式的查找
+        const fdx = this.selected.findIndex((s) => {
+          if (typeof s === 'string') {
+            const handleRegExp = (str) => {
+              const regExp = /^(http|https):\/\/(.*)/g
+              const match = regExp.exec(str)
+              return match ? match[2] : str
+            }
+            return handleRegExp(s) === handleRegExp(url)
+          } else if (isObject(s)) {
+            return s.image_id == image_id || s.url === url
+          }
+          return false
+        })
         if (fdx > -1) {
           this.selected.splice(fdx, 1)
         } else {
           // 默认最多可选20
           const maxSelect = 20
-          if (this.selected.length < maxSelect) {
+          if (this.selected.length < maxSelect) {  
             this.selected.push(_item)
           } else {
             this.$message.error(`最多选择${maxSelect}张图片`)
@@ -688,7 +788,15 @@ export default {
           }
         }
       } else {
-        this.selected = _item
+        // 单选模式，检查当前点击的图片是否已经被选中
+        const isAlreadySelected = this.isActive(item)
+        if (isAlreadySelected) {
+          // 如果已经选中，点击后取消选中
+          this.selected = null
+        } else {
+          // 如果未选中，点击后选中这张图片
+          this.selected = _item
+        }
       }
       this.updateVal(this.selected)
     },
@@ -699,6 +807,7 @@ export default {
     handleCancelAll() {
       const { multiple } = this
       this.selected = multiple ? [] : null
+      this.updateVal(this.selected)
     }
     /*handleCropperAction(action) {
       switch (action) {

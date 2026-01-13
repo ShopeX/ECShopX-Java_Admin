@@ -58,6 +58,7 @@ export default {
           rules: [{ required: true, message: '请输入', trigger: 'blur' }],
           tip: 'Key不填写或填写错误将导致该功能无法使用，请确保填写正确。',
           componentProps: {
+            type: 'text',
             autocomplete: 'off'
           }
         },
