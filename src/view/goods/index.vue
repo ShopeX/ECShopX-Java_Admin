@@ -1215,9 +1215,9 @@ export default {
       }
     },
     // 递归管理分类
-    deepMainCategory({ category_id, category_name, children }, mainCategory) {
+    deepMainCategory({ category_id, category_name, children = [] }, mainCategory) {
       mainCategory.push(category_id)
-      if (children.length > 0) {
+      if (children?.length > 0) {
         this.deepMainCategory(children[0], mainCategory)
       }
     },

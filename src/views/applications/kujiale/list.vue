@@ -220,7 +220,7 @@ export default {
           },
           {
             name: '商品标题',
-            key: 'keywords',
+            key: 'item_name',
             minWidth: 200,
             showOverflowTooltip: true
           },
@@ -248,30 +248,30 @@ export default {
           },
           {
             name: '标签',
-            key: 'tags',
             width: 150,
-            render: (h, { row }) => {
-              const tags = row.tags || []
-              if (tags.length === 0) {
-                return h('span', '-')
-              }
-              return h(
-                'div',
-                tags.map((tag, index) => {
-                  return h('el-tag', {
-                    key: index,
-                    props: {
-                      size: 'small',
-                      style: { marginRight: '5px', marginBottom: '5px' }
-                    }
-                  }, tag)
-                })
-              )
-            }
+            key: 'tagList',
+            render: (h, { row }) => (
+              <div style='white-space: normal;'>
+                {row.tagList?.map((item) => (
+                  <span
+                    style={{
+                      color: item.font_color,
+                      'background-color': item.tag_color,
+                      'font-size': '12px',
+                      padding: '2px 5px',
+                      'border-radius': '2px',
+                      margin: '0 8px 8px 0'
+                    }}
+                  >
+                    {item.tag_name}
+                  </span>
+                ))}
+              </div>
+            )
           },
           {
             name: '库存',
-            key: 'store',
+            key: 'stock',
             width: 100,
             formatterType: 'number'
           },
@@ -279,19 +279,25 @@ export default {
             name: '销售价',
             key: 'price',
             width: 100,
-            formatterType: 'price'
+            formatter: (value, row, col) => {
+              return (value / 100).toFixed(2)
+            },
           },
           {
             name: '市场价',
-            key: 'mktprice',
+            key: 'market_price',
             width: 100,
-            formatterType: 'price'
+            formatter: (value, row, col) => {
+              return (value / 100).toFixed(2)
+            },
           },
           {
             name: '成本价',
-            key: 'cost',
+            key: 'cost_price',
             width: 100,
-            formatterType: 'price'
+            formatter: (value, row, col) => {
+              return (value / 100).toFixed(2)
+            },
           },
           {
             name: '商品状态',
@@ -302,7 +308,7 @@ export default {
                 onsale: { text: '前台可销售', type: 'success' },
                 instock: { text: '不可销售', type: 'info' },
                 only_show: { text: '前台仅展示', type: 'info' },
-                offline_sale: { text: '前台不展示', type: 'warning' },
+                offline_sale: { text: '前台不展示', type: 'warning' }
               }
               const status = statusMap[row.approve_status] || { text: '-', type: 'info' }
               return h('el-tag', {
@@ -315,7 +321,7 @@ export default {
           },
           {
             name: '销售分类',
-            key: 'category_name',
+            key: 'itemCatName',
             minWidth: 150,
             showOverflowTooltip: true
           }

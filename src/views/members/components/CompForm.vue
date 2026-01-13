@@ -1,6 +1,7 @@
 <script>
 import { h } from 'vue'
 import dayjs from 'dayjs'
+import { PICKER_DATE_OPTIONS } from '@/consts'
 
 export default {
   name: 'CompForm',
@@ -23,38 +24,47 @@ export default {
   },
   watch: {
     dateRange: {
-      handler(val) {
-        this.$emit('update', this.index, { ...this.item, value: Array.isArray(val) ? val.map(timestamp => dayjs.unix(timestamp).valueOf()) : [] })
+      handler(val, oldVal) {
+        if (JSON.stringify(val) === JSON.stringify(oldVal)) return
+        this.$emit('update', this.index, { ...this.item, value: Array.isArray(val) ? val : [] })
       },
       immediate: false
     },
-    minValue(val) {
+    minValue(val, oldVal) {
+      if (val === oldVal) return
       this.$emit('update', this.index, {
         ...this.item,
         value: { min: val, max: this.maxValue }
       })
     },
-    maxValue(val) {
+    maxValue(val, oldVal) {
+      if (val === oldVal) return
       this.$emit('update', this.index, {
         ...this.item,
         value: { min: this.minValue, max: val }
       })
     },
     selectedGoods: {
-      handler(val) {
+      handler(val, oldVal) {
+        if (JSON.stringify(val) === JSON.stringify(oldVal)) return
         this.$emit('update', this.index, { ...this.item, value: val })
       },
       deep: true
     },
-    checkoutValues(val) {
-      console.log(val, '-1--')
-      this.$emit('update', this.index, { ...this.item, value: val })
+    checkoutValues: {
+      handler(val, oldVal) {
+        if (JSON.stringify(val) === JSON.stringify(oldVal)) return
+        this.$emit('update', this.index, { ...this.item, value: val })
+      },
+      deep: true
     },
-    radioValue(val) {
+    radioValue(val, oldVal) {
+      if (val === oldVal) return
       this.$emit('update', this.index, { ...this.item, value: val })
     },
     'item.value': {
-      handler(val) {
+      handler(val, oldVal) {
+        if (JSON.stringify(val) === JSON.stringify(oldVal)) return
         this.syncValue(val)
       },
       immediate: true,
@@ -84,18 +94,37 @@ export default {
     syncValue(val) {
       const type = this.conditionType
       if (type === 'timeRange') {
-        this.dateRange = Array.isArray(val) ? val.map(timestamp => dayjs.unix(timestamp).valueOf()) : []
+        const newDateRange = Array.isArray(val) ? val.map(timestamp => {
+          return timestamp < 1000000000000 ? dayjs.unix(timestamp / 1000).valueOf() : timestamp
+        }) : []
+        if (JSON.stringify(this.dateRange) !== JSON.stringify(newDateRange)) {
+          this.dateRange = newDateRange
+        }
       } else if (type === 'number_rang') {
         if (val && typeof val === 'object') {
-          this.minValue = val.min || 0
-          this.maxValue = val.max || 0
+          const newMin = val.min || 0
+          const newMax = val.max || 0
+          if (this.minValue != newMin) {
+            this.minValue = newMin
+          }
+          if (this.maxValue != newMax) {
+            this.maxValue = newMax
+          }
         }
       } else if (type === 'number_items') {
-        this.selectedGoods = (val && Array.isArray(val)) ? val : []
+        const newSelectedGoods = (val && Array.isArray(val)) ? val : []
+        if (JSON.stringify(this.selectedGoods) !== JSON.stringify(newSelectedGoods)) {
+          this.selectedGoods = newSelectedGoods
+        }
       } else if (type === 'mapping') {
-        this.checkoutValues = (val && Array.isArray(val)) ? val : []
+        const newCheckoutValues = (val && Array.isArray(val)) ? val : []
+        if (JSON.stringify(this.checkoutValues) !== JSON.stringify(newCheckoutValues)) {
+          this.checkoutValues = newCheckoutValues
+        }
       } else if (type === 'radio') {
-        this.radioValue = val
+        if (this.radioValue !== val) {
+          this.radioValue = val
+        }
       }
     },
     // 渲染时间范围选择器
@@ -104,14 +133,16 @@ export default {
         h('el-date-picker', {
           props: {
             value: this.dateRange,
-            type: 'daterange',
+            type: 'datetimerange',
             rangeSeparator: '至',
             startPlaceholder: '开始日期',
             endPlaceholder: '结束日期',
             format: 'yyyy-MM-dd HH:mm:ss',
             valueFormat: 'timestamp',
             clearable: true,
-            disabled: this.disabled
+            disabled: this.disabled,
+            defaultTime: ['00:00:00', '23:59:59'],
+            pickerOptions: PICKER_DATE_OPTIONS
           },
           on: {
             input: (val) => {
