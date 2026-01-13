@@ -65,5 +65,4 @@ export default {
 .el-row {
   margin-bottom: 10px;
 }
-
 </style>

@@ -23,9 +23,7 @@
             :show-default-actions="false"
           />
           <div class="mx-auto mt-[50px]">
-            <el-button type="primary" @click="submitForm">
-              确定充值
-            </el-button>
+            <el-button type="primary" @click="submitForm"> 确定充值 </el-button>
           </div>
         </div>
       </div>
@@ -140,4 +138,3 @@ export default {
   }
 }
 </style>
-

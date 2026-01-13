@@ -24,12 +24,7 @@
       :show-default-actions="false"
     />
     <div class="footer-container">
-      <el-button
-        type="primary"
-        @click="onSubmit"
-      >
-        保存
-      </el-button>
+      <el-button type="primary" @click="onSubmit"> 保存 </el-button>
     </div>
   </SpPage>
 </template>
@@ -54,7 +49,7 @@ export default {
   computed: {
     formItems() {
       const vm = this
-      
+
       const validateLink = (rule, value, callback) => {
         const { channel, wxapp, h5, app, aliapp, pc } = vm.form
         if (channel == 'multi') {

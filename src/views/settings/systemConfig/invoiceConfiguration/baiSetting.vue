@@ -50,9 +50,7 @@ export default {
           componentProps: {
             placeholder: '请输入用户名'
           },
-          rules: [
-            { required: true, message: '请输入用户名', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
         },
         {
           fieldName: 'password',
@@ -63,9 +61,7 @@ export default {
             placeholder: '请输入密码',
             type: 'password'
           },
-          rules: [
-            { required: true, message: '请输入密码', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入密码', trigger: 'blur' }]
         },
         {
           fieldName: 'appKey',
@@ -75,9 +71,7 @@ export default {
           componentProps: {
             placeholder: '请输入appKey'
           },
-          rules: [
-            { required: true, message: '请输入appKey', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入appKey', trigger: 'blur' }]
         },
         {
           fieldName: 'appSecret',
@@ -87,9 +81,7 @@ export default {
           componentProps: {
             placeholder: '请输入appSecret'
           },
-          rules: [
-            { required: true, message: '请输入appSecret', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入appSecret', trigger: 'blur' }]
         },
         {
           fieldName: 'orgAuthCode',
@@ -99,9 +91,7 @@ export default {
           componentProps: {
             placeholder: '请输入用户盐值'
           },
-          rules: [
-            { required: true, message: '请输入用户盐值', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入用户盐值', trigger: 'blur' }]
         },
         {
           fieldName: 'taxNo',
@@ -111,9 +101,7 @@ export default {
           componentProps: {
             placeholder: '请输入机构税号'
           },
-          rules: [
-            { required: true, message: '请输入机构税号', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入机构税号', trigger: 'blur' }]
         }
       ]
     }

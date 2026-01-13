@@ -69,9 +69,7 @@
           结束时间：{{ form.end_time }}
         </el-col>
         <el-col :span="24" style="text-align: left">
-          <el-button type="primary" style="margin-top: 20px"  @click="submit">
-            提 交
-          </el-button>
+          <el-button type="primary" style="margin-top: 20px" @click="submit"> 提 交 </el-button>
         </el-col>
         <!-- <div style="text-align: right; width: 80%"> -->
 

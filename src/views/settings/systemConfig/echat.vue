@@ -81,8 +81,7 @@ export default {
         await saveEChatSetting(this.form)
         this.$message({ message: '保存成功', type: 'success' })
         this.getInfo()
-      } catch (error) {
-      }
+      } catch (error) {}
     }
   }
 }

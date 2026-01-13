@@ -13,9 +13,8 @@
       no-selection
       :show-tool-bar="false"
     />
-   
+
     <el-button v-loading="loading" type="primary" @click="onSubmit"> 保存 </el-button>
-    
   </SpPage>
 </template>
 <script>
@@ -174,4 +173,3 @@ export default {
   }
 }
 </script>
-

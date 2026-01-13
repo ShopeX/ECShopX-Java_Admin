@@ -41,7 +41,7 @@ export default {
         merchant_id: ''
       },
       formItems: [
-      {
+        {
           fieldName: 'time',
           label: '时间筛选',
           component: 'datetimepicker',
@@ -56,7 +56,7 @@ export default {
             clearable: true
           }
         },
-        
+
         {
           fieldName: 'delivery_staff_name',
           label: '配送员姓名',
@@ -90,16 +90,15 @@ export default {
                 size: 'small',
                 ...props
               },
-              
+
               on: {
                 input: onInput
               }
             })
           },
           componentProps: {},
-          formItemClass: 'w-1/3',
-        }  
-
+          formItemClass: 'w-1/3'
+        }
       ],
       setting: {
         columns: [
@@ -273,6 +272,4 @@ export default {
 ::v-deep .sp-finder .el-button--primary {
   @apply mt-3 mb-3 !px-4 !py-2.5;
 }
-
-
 </style>

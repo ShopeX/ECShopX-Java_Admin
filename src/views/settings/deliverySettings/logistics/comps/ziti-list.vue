@@ -12,7 +12,6 @@
   background-color: #e6f0ff;
   font-size: 12px;
 }
-
 </style>
 <template>
   <div class="ziti-list">

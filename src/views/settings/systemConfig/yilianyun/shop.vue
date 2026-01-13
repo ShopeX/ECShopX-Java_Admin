@@ -43,7 +43,11 @@
               </el-button>
             </el-form-item>
             <el-form-item label="打印机终端号">
-              <el-input v-model="form.app_terminal" style="width: 300px" placeholder="打印机终端号" />
+              <el-input
+                v-model="form.app_terminal"
+                style="width: 300px"
+                placeholder="打印机终端号"
+              />
               <div class="frm-tips">见打印机底部</div>
             </el-form-item>
             <el-form-item label="打印机秘钥">
@@ -100,7 +104,7 @@ export default {
       editVisible: false,
       editTitle: '',
       relDistributors: [],
-      
+
       setting: {
         columns: [
           {
@@ -235,21 +239,23 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        deletePrinter(row.id)
-          .then((response) => {
-            this.$message({ message: '删除成功', type: 'success' })
-            this.editVisible = false
-            if (this.$refs.finder) {
-              this.$refs.finder.refresh()
-            }
-          })
-          .catch((error) => {
-            this.$message({ message: '删除失败', type: 'error' })
-          })
-      }).catch(() => {
-        //用户点击取消
       })
+        .then(() => {
+          deletePrinter(row.id)
+            .then((response) => {
+              this.$message({ message: '删除成功', type: 'success' })
+              this.editVisible = false
+              if (this.$refs.finder) {
+                this.$refs.finder.refresh()
+              }
+            })
+            .catch((error) => {
+              this.$message({ message: '删除失败', type: 'error' })
+            })
+        })
+        .catch(() => {
+          //用户点击取消
+        })
     },
     submitAction() {
       this.form.distributor_id = 0
@@ -302,12 +308,8 @@ export default {
 }
 </script>
 
-
-
 <style scoped>
-
 ::v-deep .sp-finder .el-button--primary {
   @apply mt-[-15px] mb-5 !px-4 !py-2.5;
 }
-
 </style>

@@ -141,34 +141,38 @@ export default {
           fieldName: 'sign_id',
           label: '签名',
           component: ({ h, value, onInput }) => {
-            return h('el-select', {
-              props: {
-                value: value,
-                filterable: true,
-                'reserve-keyword': true,
-                placeholder: '输入签名名称搜索'
-              },
-              style: { width: '95%' },
-              directives: [
-                {
-                  name: 'scroll',
-                  value: () => this.pagesSmsSignatureQuery.nextPage()
-                }
-              ],
-              on: {
-                input: onInput
-              }
-            }, [
-              this.SmsSignatureList.map((item) =>
-                h('el-option', {
-                  key: `signa-item__${item.id}`,
-                  props: {
-                    label: item.sign_name,
-                    value: item.id
+            return h(
+              'el-select',
+              {
+                props: {
+                  value: value,
+                  filterable: true,
+                  'reserve-keyword': true,
+                  placeholder: '输入签名名称搜索'
+                },
+                style: { width: '95%' },
+                directives: [
+                  {
+                    name: 'scroll',
+                    value: () => this.pagesSmsSignatureQuery.nextPage()
                   }
-                })
-              )
-            ])
+                ],
+                on: {
+                  input: onInput
+                }
+              },
+              [
+                this.SmsSignatureList.map((item) =>
+                  h('el-option', {
+                    key: `signa-item__${item.id}`,
+                    props: {
+                      label: item.sign_name,
+                      value: item.id
+                    }
+                  })
+                )
+              ]
+            )
           },
           rules: [requiredRules('签名', 'change')]
         },
@@ -176,35 +180,39 @@ export default {
           fieldName: 'template_id',
           label: '模板',
           component: ({ h, value, onInput }) => {
-            return h('el-select', {
-              props: {
-                value: value,
-                filterable: true,
-                remote: true,
-                'reserve-keyword': true,
-                placeholder: '输入模板名称搜索'
-              },
-              style: { width: '95%' },
-              directives: [
-                {
-                  name: 'scroll',
-                  value: () => this.pagesSmsTemplateQuery.nextPage()
-                }
-              ],
-              on: {
-                input: onInput
-              }
-            }, [
-              this.SmsTemplateList.map((item) =>
-                h('el-option', {
-                  key: `template-item__${item.id}`,
-                  props: {
-                    label: item.template_name,
-                    value: item.id
+            return h(
+              'el-select',
+              {
+                props: {
+                  value: value,
+                  filterable: true,
+                  remote: true,
+                  'reserve-keyword': true,
+                  placeholder: '输入模板名称搜索'
+                },
+                style: { width: '95%' },
+                directives: [
+                  {
+                    name: 'scroll',
+                    value: () => this.pagesSmsTemplateQuery.nextPage()
                   }
-                })
-              )
-            ])
+                ],
+                on: {
+                  input: onInput
+                }
+              },
+              [
+                this.SmsTemplateList.map((item) =>
+                  h('el-option', {
+                    key: `template-item__${item.id}`,
+                    props: {
+                      label: item.template_name,
+                      value: item.id
+                    }
+                  })
+                )
+              ]
+            )
           },
           rules: [requiredRules('模板', 'change')]
         }

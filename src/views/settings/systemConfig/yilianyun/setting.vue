@@ -79,12 +79,16 @@ export default {
           },
           tip: () => {
             return this.$createElement('div', { class: 'frm-tips' }, [
-              this.$createElement('a', {
-                attrs: {
-                  href: 'http://dev.10ss.net/admin/listapp',
-                  target: '_blank'
-                }
-              }, '应用列表地址，点击进入应用，进行查询')
+              this.$createElement(
+                'a',
+                {
+                  attrs: {
+                    href: 'http://dev.10ss.net/admin/listapp',
+                    target: '_blank'
+                  }
+                },
+                '应用列表地址，点击进入应用，进行查询'
+              )
             ])
           }
         },
@@ -98,12 +102,16 @@ export default {
           },
           tip: () => {
             return this.$createElement('div', { class: 'frm-tips' }, [
-              this.$createElement('a', {
-                attrs: {
-                  href: 'http://dev.10ss.net/admin/listapp',
-                  target: '_blank'
-                }
-              }, '应用列表地址，点击进入应用，进行查询')
+              this.$createElement(
+                'a',
+                {
+                  attrs: {
+                    href: 'http://dev.10ss.net/admin/listapp',
+                    target: '_blank'
+                  }
+                },
+                '应用列表地址，点击进入应用，进行查询'
+              )
             ])
           }
         },
@@ -117,12 +125,16 @@ export default {
           },
           tip: () => {
             return this.$createElement('div', { class: 'frm-tips' }, [
-              this.$createElement('a', {
-                attrs: {
-                  href: 'http://dev.10ss.net/admin/listapp',
-                  target: '_blank'
-                }
-              }, '应用列表地址，点击进入应用，进行查询')
+              this.$createElement(
+                'a',
+                {
+                  attrs: {
+                    href: 'http://dev.10ss.net/admin/listapp',
+                    target: '_blank'
+                  }
+                },
+                '应用列表地址，点击进入应用，进行查询'
+              )
             ])
           }
         }
@@ -144,8 +156,7 @@ export default {
         await savePrinter(this.form)
         this.$message({ message: '保存成功', type: 'success' })
         this.getInfo()
-      } catch (error) {
-      }
+      } catch (error) {}
     }
   }
 }

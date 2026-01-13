@@ -356,18 +356,17 @@ export default {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      
+
       .form-field {
         margin-bottom: 0;
-      
-        &[class*="w-1/3"] {
+
+        &[class*='w-1/3'] {
           flex: 0 0 300px !important;
           max-width: 300px !important;
           width: 300px !important;
         }
 
-      
-        &[class*="w-2/3"],
+        &[class*='w-2/3'],
         &.form-field--date-picker {
           flex: 0 0 608px !important; // 300px * 2 + 8px gap
           max-width: 608px !important;

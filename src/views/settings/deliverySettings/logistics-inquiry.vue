@@ -142,14 +142,18 @@ export default {
           label: '功能说明',
           component: (context) => {
             const { h } = context
-            return h('el-link', {
-              props: {
-                type: 'primary',
-                href: 'http://www.kdniao.com/product-track1',
-                underline: false,
-                target: '_blank'
-              }
-            }, '快递鸟快递物流跟踪')
+            return h(
+              'el-link',
+              {
+                props: {
+                  type: 'primary',
+                  href: 'http://www.kdniao.com/product-track1',
+                  underline: false,
+                  target: '_blank'
+                }
+              },
+              '快递鸟快递物流跟踪'
+            )
           }
         }
       ],
@@ -184,14 +188,18 @@ export default {
           label: '功能说明',
           component: (context) => {
             const { h } = context
-            return h('el-link', {
-              props: {
-                type: 'primary',
-                href: 'https://api.kuaidi100.com/product/query/',
-                underline: false,
-                target: '_blank'
-              }
-            }, '快递100实时快递查询')
+            return h(
+              'el-link',
+              {
+                props: {
+                  type: 'primary',
+                  href: 'https://api.kuaidi100.com/product/query/',
+                  underline: false,
+                  target: '_blank'
+                }
+              },
+              '快递100实时快递查询'
+            )
           }
         }
       ],
@@ -302,10 +310,10 @@ export default {
 
 .tab-form-container {
   @apply min-h-[300px] pt-5;
-  
+
   :deep(.sp-form-plus) {
     @apply min-h-[300px];
-    
+
     .sp-form-plus__wrapper {
       @apply min-h-[250px];
     }

@@ -68,11 +68,23 @@ export default {
           tip: () => {
             return this.$createElement('div', [
               this.$createElement('p', '已开启：'),
-              this.$createElement('p', '1. 从小程序分享出去的 太阳码和小程序链接 带店铺参，其他消费者通过此链接或者太阳码进入商城会切换成参数对应的店铺，同时本地缓存也会切换成参数对应的新店铺。'),
-              this.$createElement('p', '2. 顾客通过「管理后台-店铺-店铺商品」生成的商品二维码或其他带店铺参数的二维码进入商城时，其所在店铺将切换为二维码所带参数对应的店铺，同时本地缓存也会切换成参数对应的新店铺。'),
+              this.$createElement(
+                'p',
+                '1. 从小程序分享出去的 太阳码和小程序链接 带店铺参，其他消费者通过此链接或者太阳码进入商城会切换成参数对应的店铺，同时本地缓存也会切换成参数对应的新店铺。'
+              ),
+              this.$createElement(
+                'p',
+                '2. 顾客通过「管理后台-店铺-店铺商品」生成的商品二维码或其他带店铺参数的二维码进入商城时，其所在店铺将切换为二维码所带参数对应的店铺，同时本地缓存也会切换成参数对应的新店铺。'
+              ),
               this.$createElement('p', '已关闭：'),
-              this.$createElement('p', '1. 从小程序分享出去的 太阳码和小程序链接 不带店铺参，其他消费者通过此链接或者太阳码进入商城不会切换成参数对应的店铺，本地缓存也不会切换成参数对应的新店铺，即按照商城原本的进店逻辑进入店铺。'),
-              this.$createElement('p', '2. 顾客通过「管理后台-店铺-店铺商品」生成的商品二维码或其他带店铺参数的二维码进入商城时，其所在店铺将切换为二维码所带参数对应的店铺，同时本地缓存也会切换成参数对应的新店铺。')
+              this.$createElement(
+                'p',
+                '1. 从小程序分享出去的 太阳码和小程序链接 不带店铺参，其他消费者通过此链接或者太阳码进入商城不会切换成参数对应的店铺，本地缓存也不会切换成参数对应的新店铺，即按照商城原本的进店逻辑进入店铺。'
+              ),
+              this.$createElement(
+                'p',
+                '2. 顾客通过「管理后台-店铺-店铺商品」生成的商品二维码或其他带店铺参数的二维码进入商城时，其所在店铺将切换为二维码所带参数对应的店铺，同时本地缓存也会切换成参数对应的新店铺。'
+              )
             ])
           },
           componentProps: {
@@ -355,16 +367,20 @@ export default {
           fieldName: '__button_save',
           label: '',
           component: ({ h }) => {
-            return h('el-button', {
-              props: {
-                type: 'primary'
-              },
-              on: {
-                click: () => {
-                  this.primarySetting('button')
+            return h(
+              'el-button',
+              {
+                props: {
+                  type: 'primary'
+                },
+                on: {
+                  click: () => {
+                    this.primarySetting('button')
+                  }
                 }
-              }
-            }, '保存')
+              },
+              '保存'
+            )
           },
           isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry
         },

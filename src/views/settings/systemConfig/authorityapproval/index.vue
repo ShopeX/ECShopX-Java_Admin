@@ -125,7 +125,7 @@ export default {
           formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请选择审批状态',
-            options: this.approveStatusList.map(item => ({
+            options: this.approveStatusList.map((item) => ({
               label: item.name,
               value: item.value
             }))

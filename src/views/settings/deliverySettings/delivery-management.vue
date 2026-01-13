@@ -5,8 +5,15 @@
 
 <template>
   <SpPage>
-    <SpFormPlus v-model="params" form-type="searchForm" :form-items="formItems" @submit="onSearch" @reset="onSearch"
-      :inline="true" label-width="103px"/>
+    <SpFormPlus
+      v-model="params"
+      form-type="searchForm"
+      :form-items="formItems"
+      @submit="onSearch"
+      @reset="onSearch"
+      :inline="true"
+      label-width="103px"
+    />
 
     <div class="action-container mt-5">
       <el-button type="primary" @click="addDeliveryman">添加配送员</el-button>
