@@ -47,9 +47,10 @@ async function bootstrap() {
 
     // 处理所有已存在的 el-form
     const processExistingForms = () => {
-      const isRTL = document.documentElement.getAttribute('dir') === 'rtl' ||
-                    document.documentElement.getAttribute('lang') === 'ar-SA'
-      
+      const isRTL =
+        document.documentElement.getAttribute('dir') === 'rtl' ||
+        document.documentElement.getAttribute('lang') === 'ar-SA'
+
       if (isRTL) {
         const forms = document.querySelectorAll('.el-form')
         forms.forEach(setFormLabelPosition)
@@ -63,14 +64,16 @@ async function bootstrap() {
 
     // 使用 MutationObserver 监听 DOM 变化
     const observer = new MutationObserver((mutations) => {
-      const isRTL = document.documentElement.getAttribute('dir') === 'rtl' ||
-                    document.documentElement.getAttribute('lang') === 'ar-SA'
-      
+      const isRTL =
+        document.documentElement.getAttribute('dir') === 'rtl' ||
+        document.documentElement.getAttribute('lang') === 'ar-SA'
+
       if (!isRTL) return
 
       mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
-          if (node.nodeType === 1) { // Element node
+          if (node.nodeType === 1) {
+            // Element node
             // 检查是否是 el-form
             if (node.classList && node.classList.contains('el-form')) {
               Vue.nextTick(() => {

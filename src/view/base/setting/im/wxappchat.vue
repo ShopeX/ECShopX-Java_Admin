@@ -10,7 +10,7 @@
 
       <div class="info">
         <div class="text">
-          <img :src="normal" class="img">
+          <img :src="normal" class="img" />
           <div>
             为丰富小程序的服务能力，提高服务质量，微信为小程序提供客服消息能力，以便小程序用户可以方便快捷地与小程序服务提供方进行沟通。
           </div>
@@ -31,7 +31,7 @@
             >-客服菜单</span
           >，进行客服添加绑定操作
 
-          <img :src="wechat" class="img">
+          <img :src="wechat" class="img" />
         </div>
       </div>
     </div>

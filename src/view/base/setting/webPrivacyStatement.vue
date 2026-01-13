@@ -24,7 +24,7 @@ const [Form, FormApi] = useForm({
         return (
           <SpRichText
             value={value}
-            onChange={val => {
+            onChange={(val) => {
               onInput(val)
             }}
           />
@@ -39,7 +39,7 @@ const [Form, FormApi] = useForm({
         return (
           <SpRichText
             value={value}
-            onChange={val => {
+            onChange={(val) => {
               onInput(val)
             }}
           />
@@ -105,4 +105,3 @@ export default {
 </script>
 
 <style scoped lang="scss"></style>
-

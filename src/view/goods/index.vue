@@ -146,7 +146,7 @@ export default {
         mainCategory: [],
         itemName: '',
         brief: '',
-        isPrescriptionApproved:false,
+        isPrescriptionApproved: false,
         templatesId: '',
         templatesName: '',
         brandId: '',
@@ -184,7 +184,7 @@ export default {
           tax_rate_code: '',
           buy_limit_area: ['all'],
           package_type: 'sku', // 后端要求单规格传sku/spu
-          delivery_time:"",
+          delivery_time: '',
           start_num: 0 //起订量
         },
         skuParams: {
@@ -618,20 +618,20 @@ export default {
             <div>
               {/* diabled */}
               {false ? (
-                <div class="goods-img-list">
-                  {value[key].map(item => (
+                <div class='goods-img-list'>
+                  {value[key].map((item) => (
                     <el-image
-                      class="img-content"
+                      class='img-content'
                       src={item?.url || item}
-                      fit="cover"
-                      style="width:80px;height:80px"
+                      fit='cover'
+                      style='width:80px;height:80px'
                     />
                   ))}
                 </div>
               ) : (
                 <div>
                   <SpImagePicker v-model={value[key]} drag max={9} />
-                  <div class="image-checkbox-container">
+                  <div class='image-checkbox-container'>
                     <el-checkbox-group v-model={value['picsQrcode']}>
                       {value[key].map((pic, index) => (
                         <el-checkbox label={index}></el-checkbox>
@@ -721,7 +721,7 @@ export default {
               (
                 <SpecParams
                   v-model={value[key]}
-                  ref="specParams"
+                  ref='specParams'
                   is-show-point={this.isShowPoint}
                   isMedicine={this.form.is_medicine == '1'}
                   medicinePrescription={this.medicinePrescription}
@@ -755,7 +755,7 @@ export default {
             return (
               <SkuParams
                 v-model={value[key]}
-                ref="skuParams"
+                ref='skuParams'
                 isSupplierGoods={this.routerParams.isSupplierGoods}
                 medicinePrescription={this.medicinePrescription}
                 isPrescriptionApproved={this.isPrescriptionApproved}
@@ -777,8 +777,8 @@ export default {
               const price = specItems.find(({ price }) => !!price)
               const max_num = specItems.find(({ max_num }) => !!max_num)
 
-              const isSkusUnChecked = skus?.some(item=>!item.checkedSku.length)
-              if(isSkusUnChecked){
+              const isSkusUnChecked = skus?.some((item) => !item.checkedSku.length)
+              if (isSkusUnChecked) {
                 callback('请勾选规格项')
               }
 
@@ -850,7 +850,7 @@ export default {
           component: ({ key }, value) => {
             return (
               <SpIphone>
-                <SpDecorate ref="decorateRef" v-model={value[key]} scene={'1002'} />
+                <SpDecorate ref='decorateRef' v-model={value[key]} scene={'1002'} />
               </SpIphone>
               /* <richTextEditor
                 data={value[key]}
@@ -950,7 +950,7 @@ export default {
       this.loading = true
       const category = await this.$api.goods.getCategory({ is_main_category: true })
       function _deepCategory(cate, temp) {
-        cate.forEach(item => {
+        cate.forEach((item) => {
           const _temp = {
             label: item.category_name,
             value: item.category_id
@@ -974,7 +974,7 @@ export default {
       }
 
       //供应商商品销售分类非必填
-      const salesCategoryIndex = this.formList.findIndex(item => item.key == 'salesCategory')
+      const salesCategoryIndex = this.formList.findIndex((item) => item.key == 'salesCategory')
       if (salesCategoryIndex != -1) {
         this.formList[salesCategoryIndex].required = !(
           this.IS_SUPPLIER() || this.routerParams?.isSupplierGoods
@@ -985,7 +985,7 @@ export default {
     async getSaleCategory() {
       const res = await this.$api.goods.getCategory({ is_show: false })
       function _deepCategory(cate, temp) {
-        cate.forEach(item => {
+        cate.forEach((item) => {
           const _temp = {
             label: item.category_name,
             value: item.category_id
@@ -1002,14 +1002,13 @@ export default {
       this.saleCategoryList = saleCategoryList
     },
     async fetchDetail() {
-
-
       const { itemId } = this.$route.params
       const { is_new, supplier, islist } = this.$route.query
       this.routerParams = this.$route.query || {}
       // 将 isSupplierGoods 从字符串转换为布尔值
       if (this.routerParams.isSupplierGoods !== undefined) {
-        this.routerParams.isSupplierGoods = this.routerParams.isSupplierGoods === 'true' || this.routerParams.isSupplierGoods === true
+        this.routerParams.isSupplierGoods =
+          this.routerParams.isSupplierGoods === 'true' || this.routerParams.isSupplierGoods === true
       }
 
       const {
@@ -1127,7 +1126,7 @@ export default {
       this.form.pics = pics
 
       //处方药
-      if(medicine_data?.audit_status == 2){
+      if (medicine_data?.audit_status == 2) {
         //审核成功
         this.isPrescriptionApproved = true
       }
@@ -1191,8 +1190,8 @@ export default {
         }
         this.resolveSkuParams(goods_spec, spec_items)
         let spec_images = []
-        spec_items.forEach(item => {
-          item.item_spec.forEach(item => {
+        spec_items.forEach((item) => {
+          item.item_spec.forEach((item) => {
             spec_images.push(item)
           })
         })
@@ -1215,9 +1214,9 @@ export default {
       }
     },
     // 递归管理分类
-    deepMainCategory({ category_id, category_name, children }, mainCategory) {
+    deepMainCategory({ category_id, category_name, children = [] }, mainCategory) {
       mainCategory.push(category_id)
-      if (children.length > 0) {
+      if (children?.length > 0) {
         this.deepMainCategory(children[0], mainCategory)
       }
     },
@@ -1243,7 +1242,7 @@ export default {
       }
 
       let list = []
-      value.forEach(v => {
+      value.forEach((v) => {
         list.push(findPathById(saleCategoryList, v))
       })
       return list
@@ -1256,14 +1255,13 @@ export default {
         status: 1
       })
       if (list.length > 0) {
-        const index = this.formList.findIndex(item => item.key == 'templatesId')
-        this.formList[index].options = list.map(item => {
+        const index = this.formList.findIndex((item) => item.key == 'templatesId')
+        this.formList[index].options = list.map((item) => {
           return {
             value: item.template_id,
             title: item.name
           }
         })
-
       } else {
         this.$message.error('请先添加运费模板')
       }
@@ -1277,7 +1275,7 @@ export default {
         // attribute_name: searchVal
       })
       console.log('-----------', this.formList)
-      const index = this.formList.findIndex(item => item.key == 'brandId')
+      const index = this.formList.findIndex((item) => item.key == 'brandId')
       this.formList[index].options = list.map(({ attribute_id, attribute_name }) => {
         return {
           value: attribute_id,
@@ -1293,7 +1291,7 @@ export default {
         value: 'all',
         label: '全部'
       }
-      const data_n = res.map(v => {
+      const data_n = res.map((v) => {
         const children = []
         return { ...v, children }
       })
@@ -1309,7 +1307,7 @@ export default {
     resolveParamsData(goodsParams, value = []) {
       this.form.paramsData = goodsParams.map(
         ({ attribute_id, attribute_name, attribute_values: { list } }, index) => {
-          const fd = value.find(item => item.attribute_id == attribute_id) || {}
+          const fd = value.find((item) => item.attribute_id == attribute_id) || {}
           return {
             id: attribute_id,
             label: attribute_name,
@@ -1346,7 +1344,7 @@ export default {
                 checkedSku.push(attribute_value_id)
               }
               const { spec_custom_value_name } =
-                tempItemSpecs.find(item => item.spec_value_id == attribute_value_id) || {}
+                tempItemSpecs.find((item) => item.spec_value_id == attribute_value_id) || {}
               return {
                 attribute_value_id,
                 attribute_value,
@@ -1379,11 +1377,11 @@ export default {
         this.form.mainCategory[this.form.mainCategory.length - 1]
       )
       let paprms = {}
-      goods_params.forEach(item11 => {
+      goods_params.forEach((item11) => {
         if (item11.attribute_id == item.id) {
           console.log('item11ffff:', item11)
           if (item11.attribute_values.total_count > 0) {
-            item11?.attribute_values?.list.forEach(item2 => {
+            item11?.attribute_values?.list.forEach((item2) => {
               if (item2.attribute_value == item.attr_id) {
                 paprms = item2
               }
@@ -1478,7 +1476,8 @@ export default {
         }
       }
       // 销售分类
-      const _salesCategory = salesCategory?.map((item) => item?.[item?.length ? item.length - 1 : 0]) || []
+      const _salesCategory =
+        salesCategory?.map((item) => item?.[item?.length ? item.length - 1 : 0]) || []
       let _picsQrcode = []
       pics.forEach((pic, index) => {
         _picsQrcode.push(picsQrcode.includes(index))
@@ -1553,31 +1552,33 @@ export default {
             )
           ),
           spec_items: JSON.stringify(
-            specItems?.filter(el => el.spec_name)?.map((item, index) => {
-              const { sku_id, is_default, price, cost_price, market_price } = item
-              const skuIds = sku_id.split('_')
-              return {
-                ...item,
-                item_bn: is_new == 'true' ? '' : item.item_bn,
-                is_default: itemId ? index == 0 : is_default,
-                item_spec: skuIds.map(id => {
-                  let resItemSpec = {}
-                  skus.forEach((s) => {
-                    s.skuValue?.forEach(
-                      ({ attribute_value_id, attribute_value, custom_attribute_value }) => {
-                        if (attribute_value_id == id) {
-                          resItemSpec['spec_id'] = s.skuId
-                          resItemSpec['spec_value_id'] = attribute_value_id
-                          resItemSpec['spec_value_name'] = attribute_value
-                          resItemSpec['spec_custom_value_name'] = custom_attribute_value
+            specItems
+              ?.filter((el) => el.spec_name)
+              ?.map((item, index) => {
+                const { sku_id, is_default, price, cost_price, market_price } = item
+                const skuIds = sku_id.split('_')
+                return {
+                  ...item,
+                  item_bn: is_new == 'true' ? '' : item.item_bn,
+                  is_default: itemId ? index == 0 : is_default,
+                  item_spec: skuIds.map((id) => {
+                    let resItemSpec = {}
+                    skus.forEach((s) => {
+                      s.skuValue?.forEach(
+                        ({ attribute_value_id, attribute_value, custom_attribute_value }) => {
+                          if (attribute_value_id == id) {
+                            resItemSpec['spec_id'] = s.skuId
+                            resItemSpec['spec_value_id'] = attribute_value_id
+                            resItemSpec['spec_value_name'] = attribute_value
+                            resItemSpec['spec_custom_value_name'] = custom_attribute_value
+                          }
                         }
-                      }
-                    )
+                      )
+                    })
+                    return resItemSpec
                   })
-                  return resItemSpec
-                })
-              }
-            })
+                }
+              })
           )
         }
       } else {

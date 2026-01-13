@@ -6,9 +6,15 @@
 <template>
   <SpPage>
     <div v-if="$route.path.indexOf('editor') === -1">
-      <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+      <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
         <el-tab-pane label="本地图片" name="local">
-          <localimages-list :active-name="activeName" :get-status="localpicStatus" />
+          <!--localimages-list :active-name="activeName" :get-status="localpicStatus" /-->
+          <picker-image
+            :page-size="24"
+            :active-name="activeName"
+            :get-status="localpicStatus"
+            :columns="8"
+          />
         </el-tab-pane>
 
         <!-- <el-tab-pane
@@ -84,18 +90,20 @@
 </template>
 
 <script>
-import videoList from './video/list.vue'
-import imagesList from './images/list.vue'
-import newsList from './artical/list.vue'
-import localimagesList from './localimages/list.vue'
-import localvideosList from './localvideos/list.vue'
-import { getWechatMaterial, getMaterialStats } from '../../../api/wechat'
+import videoList from '@/view/brand/wechat/video/list.vue'
+import imagesList from '@/view/brand/wechat/images/list.vue'
+import newsList from '@/view/brand/wechat/artical/list.vue'
+//import localimagesList from './localimages/list.vue'
+import pickerImage from '@/components/sp-picker/pickers/picker-image.vue'
+import localvideosList from '@/view/brand/wechat/localvideos/list.vue'
+import { getWechatMaterial, getMaterialStats } from '../../api/wechat'
 export default {
   components: {
     imagesList,
     newsList,
     videoList,
-    localimagesList,
+    //localimagesList,
+    pickerImage,
     localvideosList
   },
   data() {
@@ -133,7 +141,7 @@ export default {
         this.newsStatus = true
         this.localpicStatus = false
         this.localvideoStatus = false
-        getMaterialStats().then(res => {
+        getMaterialStats().then((res) => {
           this.stats = res.data.data
         })
       } else if (this.activeName == 'video') {

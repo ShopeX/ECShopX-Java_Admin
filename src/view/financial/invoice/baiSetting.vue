@@ -5,7 +5,13 @@
 
 <template>
   <SpPage>
-    <SpForm v-model="form" :reset-btn="false" submit-btn-text="保存配置" :form-list="formList" @onSubmit="onSaveConfig" />
+    <SpForm
+      v-model="form"
+      :reset-btn="false"
+      submit-btn-text="保存配置"
+      :form-list="formList"
+      @onSubmit="onSaveConfig"
+    />
   </SpPage>
 </template>
 
@@ -45,7 +51,7 @@ export default {
       console.log(this.form)
       api.financial
         .setBaiInvoiceSetting({
-          ...this.form,
+          ...this.form
         })
         .then((res) => {
           this.$message.success('发送成功')

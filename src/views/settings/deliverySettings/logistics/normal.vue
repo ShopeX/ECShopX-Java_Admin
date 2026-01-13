@@ -86,7 +86,7 @@ export default {
     getList: function () {
       getLogisticsList({
         ...this.form
-      }).then(res => {
+      }).then((res) => {
         const {
           data: {
             data: { list }
