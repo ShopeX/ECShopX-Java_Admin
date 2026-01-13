@@ -4,8 +4,8 @@
 -->
 
 <template>
-  <SpPage>
-    <SpRouterView>
+  <SpRouterView>
+    <SpPage>
       <SpPlatformTip h5 app pc alipay />
       <SpPlatformTip
         class="damo-crm-tip"
@@ -248,8 +248,7 @@
           <el-button type="primary" @click.native="sendoutAction"> 确定 </el-button>
         </div>
       </el-dialog>
-    </SpRouterView>
-
+    </SpPage>
     <SpDialog
       ref="editDialogRef"
       v-model="editDialog"
@@ -259,7 +258,7 @@
       :form-list="editFormList"
       @onSubmit="onEditSubmit"
     />
-  </SpPage>
+  </SpRouterView>
 </template>
 
 <script>
