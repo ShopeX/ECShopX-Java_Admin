@@ -2,25 +2,15 @@
   Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
   See LICENSE file for license details.
 -->
-
-<style lang="scss" scoped>
-.isolate-contanier {
-}
-
-.isolate-set {
-  cursor: pointer;
-  color: #409eff;
-  margin-left: 10px;
-}
-
-.isolate-clear {
-  padding: 4px;
-  margin-left: 10px;
-}
-</style>
 <template>
   <SpPage>
-    <SpForm v-model="form" size="min" :form-list="formList" :submit="false" />
+    <SpFormPlus
+      v-model="form"
+      :form-items="formItems"
+      form-type="form"
+      label-width="160px"
+      :show-default-actions="false"
+    />
   </SpPage>
 </template>
 
@@ -58,105 +48,110 @@ export default {
         stores_isolate: false,
         stores_isolate_template: '',
         stores_isolate_type: 1
-      },
-      formList: [
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(['isMicorMall']),
+    formItems() {
+      return [
         {
-          label: '通用设置',
-          type: 'group'
+          fieldName: '__group_title_1',
+          component: 'group',
+          label: '通用设置'
         },
         {
+          fieldName: 'distributor_param_status',
           label: '分享带门店参数',
-          key: 'distributor_param_status',
-          type: 'switch',
-          isShow: VERSION_STANDARD(),
-          tip: `<div><p>
-              已开启：
-            </p>
-            <p>
-              1. 从小程序分享出去的 太阳码和小程序链接
-              带店铺参，其他消费者通过此链接或者太阳码进入商城会切换成参数对应的店铺，同时本地缓存也会切换成参数对应的新店铺。
-            </p>
-            <p>
-              2.
-              顾客通过「管理后台-店铺-店铺商品」生成的商品二维码或其他带店铺参数的二维码进入商城时，其所在店铺将切换为二维码所带参数对应的店铺，同时本地缓存也会切换成参数对应的新店铺。
-            </p>
-            <p>
-              已关闭：
-            </p>
-            <p>
-              1. 从小程序分享出去的 太阳码和小程序链接
-              不带店铺参，其他消费者通过此链接或者太阳码进入商城不会切换成参数对应的店铺，本地缓存也不会切换成参数对应的新店铺，即按照商城原本的进店逻辑进入店铺。
-            </p>
-            <p>
-              2.
-              顾客通过「管理后台-店铺-店铺商品」生成的商品二维码或其他带店铺参数的二维码进入商城时，其所在店铺将切换为二维码所带参数对应的店铺，同时本地缓存也会切换成参数对应的新店铺。
-            </p></div>`,
-          onChange: async (e) => {
-            const { distributor_param_status } = this.form
-            await this.$api.system.saveShareParams({
-              distributor_param_status
-            })
+          component: 'switch',
+          isShow: () => VERSION_STANDARD(),
+          tip: () => {
+            return this.$createElement('div', [
+              this.$createElement('p', '已开启：'),
+              this.$createElement('p', '1. 从小程序分享出去的 太阳码和小程序链接 带店铺参，其他消费者通过此链接或者太阳码进入商城会切换成参数对应的店铺，同时本地缓存也会切换成参数对应的新店铺。'),
+              this.$createElement('p', '2. 顾客通过「管理后台-店铺-店铺商品」生成的商品二维码或其他带店铺参数的二维码进入商城时，其所在店铺将切换为二维码所带参数对应的店铺，同时本地缓存也会切换成参数对应的新店铺。'),
+              this.$createElement('p', '已关闭：'),
+              this.$createElement('p', '1. 从小程序分享出去的 太阳码和小程序链接 不带店铺参，其他消费者通过此链接或者太阳码进入商城不会切换成参数对应的店铺，本地缓存也不会切换成参数对应的新店铺，即按照商城原本的进店逻辑进入店铺。'),
+              this.$createElement('p', '2. 顾客通过「管理后台-店铺-店铺商品」生成的商品二维码或其他带店铺参数的二维码进入商城时，其所在店铺将切换为二维码所带参数对应的店铺，同时本地缓存也会切换成参数对应的新店铺。')
+            ])
+          },
+          componentProps: {
+            onChange: async (e) => {
+              const { distributor_param_status } = this.form
+              await this.$api.system.saveShareParams({
+                distributor_param_status
+              })
+            }
           }
         },
         {
+          fieldName: 'rate_status',
           label: '评论设置',
-          key: 'rate_status',
-          type: 'switch',
-          // isShow: !VERSION_IN_PURCHASE(),
-          onChange: async (e) => {
-            const { rate_status } = this.form
-            await this.$api.company.setRateSetting({
-              rate_status
-            })
+          component: 'switch',
+          componentProps: {
+            onChange: async (e) => {
+              const { rate_status } = this.form
+              await this.$api.company.setRateSetting({
+                rate_status
+              })
+            }
           }
         },
         {
+          fieldName: 'pickupcode_status',
           label: '提货码设置',
-          key: 'pickupcode_status',
-          type: 'switch',
-          isShow: !this.VERSION_SHUYUN() && !this.VERSION_B2C() && !this.isMicorMall,
-          onChange: async (e) => {
-            const { pickupcode_status } = this.form
-            await this.$api.company.setPickupcodeSetting({
-              pickupcode_status
-            })
+          component: 'switch',
+          isShow: () => !this.VERSION_SHUYUN() && !this.VERSION_B2C() && !this.isMicorMall,
+          componentProps: {
+            onChange: async (e) => {
+              const { pickupcode_status } = this.form
+              await this.$api.company.setPickupcodeSetting({
+                pickupcode_status
+              })
+            }
           }
         },
         {
+          fieldName: 'whitelist_status',
           label: '会员白名单',
-          key: 'whitelist_status',
-          type: 'switch',
-          onChange: async (e) => {
-            const { whitelist_status } = this.form
-            await this.$api.company.setWhitelistSetting({
-              whitelist_status
-            })
+          component: 'switch',
+          componentProps: {
+            onChange: async (e) => {
+              const { whitelist_status } = this.form
+              await this.$api.company.setWhitelistSetting({
+                whitelist_status
+              })
+            }
           }
         },
         {
+          fieldName: 'check_gift_store',
           label: '赠品设置',
-          key: 'check_gift_store',
-          type: 'switch',
+          component: 'switch',
           tip: '赠品缺货是否能继续下单',
-          isShow: !VERSION_IN_PURCHASE(),
-          onChange: async (e) => {
-            const { check_gift_store } = this.form
-            await this.$api.company.setGiftSetting({
-              check_gift_store
-            })
+          isShow: () => !VERSION_IN_PURCHASE(),
+          componentProps: {
+            onChange: async (e) => {
+              const { check_gift_store } = this.form
+              await this.$api.company.setGiftSetting({
+                check_gift_store
+              })
+            }
           }
         },
         {
+          fieldName: 'ziti_send_oms',
           label: '推单设置',
-          key: 'ziti_send_oms',
-          type: 'switch',
+          component: 'switch',
           tip: '自提订单推oms',
-          isShow: !this.VERSION_SHUYUN() && !VERSION_IN_PURCHASE(),
-          onChange: async (e) => {
-            const { ziti_send_oms } = this.form
-            await this.$api.company.setSendOmsSetting({
-              ziti_send_oms
-            })
+          isShow: () => !this.VERSION_SHUYUN() && !VERSION_IN_PURCHASE(),
+          componentProps: {
+            onChange: async (e) => {
+              const { ziti_send_oms } = this.form
+              await this.$api.company.setSendOmsSetting({
+                ziti_send_oms
+              })
+            }
           }
         },
         // {
@@ -231,176 +226,204 @@ export default {
         //   )
         // },
         {
+          fieldName: 'repeat_cancel',
           label: '取消订单设置',
-          key: 'repeat_cancel',
-          type: 'switch',
+          component: 'switch',
           tip: '拒绝后是否能再次发起申请',
-          onChange: async (e) => {
-            const { repeat_cancel } = this.form
-            await this.$api.company.setRepeatCancelSetting({
-              repeat_cancel
-            })
-          }
-        },
-        {
-          label: '商品库存',
-          key: 'item_store_status',
-          type: 'switch',
-          tip: '商品详情页是否显示库存',
-          onChange: async (e) => {
-            const { item_store_status } = this.form
-            await this.$api.company.setItemStoreSetting({
-              item_store_status
-            })
-          }
-        },
-        {
-          label: '商品销量显示',
-          key: 'item_sales_status',
-          type: 'switch',
-          onChange: async (e) => {
-            const { item_sales_status } = this.form
-            await this.$api.company.setItemSalesSetting({
-              item_sales_status
-            })
-          }
-        },
-        {
-          label: '发票设置',
-          key: 'invoice_status',
-          type: 'switch',
-          tip: '结算页是否显示发票',
-          isShow: !VERSION_IN_PURCHASE(),
-          onChange: async (e) => {
-            const { invoice_status } = this.form
-            await this.$api.company.setInvoiceStatus({
-              invoice_status
-            })
-          }
-        },
-        {
-          label: '店务设置',
-          key: 'dianwu_show_status',
-          type: 'switch',
-          tip: '移动端会员中心是否展示店务端入口',
-          // isShow: !VERSION_IN_PURCHASE(),
-          onChange: async (e) => {
-            const { dianwu_show_status } = this.form
-            await this.$api.company.setDianwuShowStatus({
-              dianwu_show_status
-            })
-          }
-        },
-        {
-          label: '医药行业',
-          key: 'is_pharma_industry',
-          type: 'switch',
-          tip: '用于开启医药行业商品与处方药业务',
-          // isShow: !VERSION_IN_PURCHASE(),
-          onChange: this.primarySetting
-        },
-        {
-          label: '第三方处方系统',
-          key: 'use_third_party_system',
-          type: 'switch',
-          isShow: () => this.form.is_pharma_industry,
-          onChange: this.primarySetting
-        },
-        {
-          label: '',
-          key: 'use_third_party_system_value',
-          type: 'radio',
-          isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry,
-          options: [
-            {
-              label: 'kuaizhen580',
-              name: '580处方业务集成'
+          componentProps: {
+            onChange: async (e) => {
+              const { repeat_cancel } = this.form
+              await this.$api.company.setRepeatCancelSetting({
+                repeat_cancel
+              })
             }
-          ],
-          // isShow: !VERSION_IN_PURCHASE(),
-          onChange: async (e) => {
-            const { dianwu_show_status } = this.form
-            await this.$api.company.setDianwuShowStatus({
-              dianwu_show_status
-            })
           }
         },
         {
-          label: 'clientId',
-          key: 'clientId',
-          type: 'input',
-          isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry
+          fieldName: 'item_store_status',
+          label: '商品库存',
+          component: 'switch',
+          tip: '商品详情页是否显示库存',
+          componentProps: {
+            onChange: async (e) => {
+              const { item_store_status } = this.form
+              await this.$api.company.setItemStoreSetting({
+                item_store_status
+              })
+            }
+          }
         },
         {
-          label: 'clientSecret',
-          key: 'clientSecret',
-          type: 'input',
-          isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry
+          fieldName: 'item_sales_status',
+          label: '商品销量显示',
+          component: 'switch',
+          componentProps: {
+            onChange: async (e) => {
+              const { item_sales_status } = this.form
+              await this.$api.company.setItemSalesSetting({
+                item_sales_status
+              })
+            }
+          }
         },
         {
-          label: '门店ID',
-          key: 'storeId',
-          type: 'input',
-          isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry
+          fieldName: 'invoice_status',
+          label: '发票设置',
+          component: 'switch',
+          tip: '结算页是否显示发票',
+          isShow: () => !VERSION_IN_PURCHASE(),
+          componentProps: {
+            onChange: async (e) => {
+              const { invoice_status } = this.form
+              await this.$api.company.setInvoiceStatus({
+                invoice_status
+              })
+            }
+          }
         },
         {
+          fieldName: 'dianwu_show_status',
+          label: '店务设置',
+          component: 'switch',
+          tip: '移动端会员中心是否展示店务端入口',
+          componentProps: {
+            onChange: async (e) => {
+              const { dianwu_show_status } = this.form
+              await this.$api.company.setDianwuShowStatus({
+                dianwu_show_status
+              })
+            }
+          }
+        },
+        {
+          fieldName: 'is_pharma_industry',
+          label: '医药行业',
+          component: 'switch',
+          tip: '用于开启医药行业商品与处方药业务',
+          componentProps: {
+            onChange: this.primarySetting
+          }
+        },
+        {
+          fieldName: 'use_third_party_system',
+          label: '第三方处方系统',
+          component: 'switch',
+          isShow: () => this.form.is_pharma_industry,
+          componentProps: {
+            onChange: this.primarySetting
+          }
+        },
+        {
+          fieldName: 'use_third_party_system_value',
           label: '',
-          component: () => (
-            <elButton type='primary' onClick={() => this.primarySetting('button')}>
-              保存
-            </elButton>
-          ),
+          component: 'radio',
+          isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry,
+          componentProps: {
+            options: [
+              {
+                label: '580处方业务集成',
+                value: 'kuaizhen580'
+              }
+            ],
+            onChange: async (e) => {
+              const { dianwu_show_status } = this.form
+              await this.$api.company.setDianwuShowStatus({
+                dianwu_show_status
+              })
+            }
+          }
+        },
+        {
+          fieldName: 'clientId',
+          label: 'clientId',
+          component: 'input',
           isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry
         },
         {
-          label: '商品价格展示',
-          type: 'group'
+          fieldName: 'clientSecret',
+          label: 'clientSecret',
+          component: 'input',
+          isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry
         },
         {
+          fieldName: 'storeId',
+          label: '门店ID',
+          component: 'input',
+          isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry
+        },
+        {
+          fieldName: '__button_save',
+          label: '',
+          component: ({ h }) => {
+            return h('el-button', {
+              props: {
+                type: 'primary'
+              },
+              on: {
+                click: () => {
+                  this.primarySetting('button')
+                }
+              }
+            }, '保存')
+          },
+          isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry
+        },
+        {
+          fieldName: '__group_title_2',
+          component: 'group',
+          label: '商品价格展示'
+        },
+        {
+          fieldName: 'item_page',
           label: '商品列表/商详页',
-          key: 'item_page',
-          type: 'checkbox',
-          options: VERSION_IN_PURCHASE()
-            ? [
-                { label: 0, name: '销售价', disabled: true },
-                { label: 1, name: '原价' }
-              ]
-            : [
-                { label: 0, name: '销售价', disabled: true },
-                { label: 1, name: '原价' },
-                { label: 2, name: '会员等级价' },
-                { label: 3, name: '付费会员价' }
-              ],
-          onChange: async (e) => {
-            this.saveItemPriceSetting()
+          component: 'checkbox',
+          componentProps: {
+            options: VERSION_IN_PURCHASE()
+              ? [
+                  { label: '销售价', value: 0, disabled: true },
+                  { label: '原价', value: 1 }
+                ]
+              : [
+                  { label: '销售价', value: 0, disabled: true },
+                  { label: '原价', value: 1 },
+                  { label: '会员等级价', value: 2 },
+                  { label: '付费会员价', value: 3 }
+                ],
+            onChange: async (e) => {
+              this.saveItemPriceSetting()
+            }
           }
         },
         {
+          fieldName: 'cart_page',
           label: '购物车',
-          key: 'cart_page',
-          type: 'checkbox',
-          options: VERSION_IN_PURCHASE()
-            ? [{ label: 1, name: '原价' }]
-            : [
-                { label: 0, name: '销售价/会员等级价/付费会员价', disabled: true },
-                { label: 1, name: '原价' }
-              ],
-          onChange: async (e) => {
-            this.saveItemPriceSetting()
+          component: 'checkbox',
+          componentProps: {
+            options: VERSION_IN_PURCHASE()
+              ? [{ label: '原价', value: 1 }]
+              : [
+                  { label: '销售价/会员等级价/付费会员价', value: 0, disabled: true },
+                  { label: '原价', value: 1 }
+                ],
+            onChange: async (e) => {
+              this.saveItemPriceSetting()
+            }
           }
         },
         {
+          fieldName: 'order_page',
           label: '订单详情',
-          key: 'order_page',
-          type: 'checkbox',
-          options: VERSION_IN_PURCHASE()
-            ? [{ label: 1, name: '原价' }]
-            : [
-                { label: 0, name: '销售价/会员等级价/付费会员价', disabled: true },
-                { label: 1, name: '原价' }
-              ],
-          onChange: async (e) => {
-            this.saveItemPriceSetting()
+          component: 'checkbox',
+          componentProps: {
+            options: VERSION_IN_PURCHASE()
+              ? [{ label: '原价', value: 1 }]
+              : [
+                  { label: '销售价/会员等级价/付费会员价', value: 0, disabled: true },
+                  { label: '原价', value: 1 }
+                ],
+            onChange: async (e) => {
+              this.saveItemPriceSetting()
+            }
           }
         }
       ]
@@ -408,9 +431,6 @@ export default {
   },
   created() {
     this.fetch()
-  },
-  computed: {
-    ...mapGetters(['isMicorMall'])
   },
   methods: {
     async fetch() {

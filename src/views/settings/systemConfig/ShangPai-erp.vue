@@ -6,25 +6,16 @@
 <template>
   <SpPage>
     <div class="cer-box">
-      <el-form :model="creInfo" label-width="150px">
-        <el-row>
-          <el-col :span="4" class="col-right"> Shopex通行证书 </el-col>
-        </el-row>
-        <el-form-item label="通行证账号：">
-          <el-input v-model="creInfo.cert_id" type="text" readonly />
-        </el-form-item>
-        <el-row>
-          <el-col :span="4" class="col-right"> Shopex证书 </el-col>
-        </el-row>
-        <el-form-item label="当前证书节点号：">
-          <el-input v-model="creInfo.node_id" type="text" readonly />
-        </el-form-item>
-        <el-form-item label="当前证书节点号：">
-          <el-input v-model.number="creInfo.shopex_uid" readonly />
-        </el-form-item>
-      </el-form>
-      <el-row>
-        <el-col :span="4" :offset="3">
+      <SpFormPlus
+        ref="form"
+        v-model="creInfo"
+        :form-items="formItems"
+        form-type="form"
+        label-width="150px"
+        :show-default-actions="false"
+      />
+      <el-row class="mb-10">
+        <el-col :span="4">
           <el-button type="primary" @click="deleteCer"> 删除证书 </el-button>
         </el-col>
       </el-row>
@@ -32,7 +23,7 @@
     <div class="cer-box">
       <el-row>
         <el-col :span="4" class="col-right"> 电商ERP关系绑定 </el-col>
-        <el-col :span="4" :offset="1">
+        <el-col :span="4">
           <el-button type="primary" @click="bindRelation"> 申请绑定 </el-button>
         </el-col>
         <el-col :span="4">
@@ -77,6 +68,46 @@ export default {
       lookUrl: ''
     }
   },
+  computed: {
+    formItems() {
+      return [
+        {
+          fieldName: '__group_title',
+          component: 'group',
+          label: 'Shopex通行证书'
+        },
+        {
+          fieldName: 'cert_id',
+          label: '通行证账号：',
+          component: 'input',
+          componentProps: {
+            readonly: true
+          }
+        },
+        {
+          fieldName: '__group_title2',
+          component: 'group',
+          label: 'Shopex证书'
+        },
+        {
+          fieldName: 'node_id',
+          label: '当前证书节点号：',
+          component: 'input',
+          componentProps: {
+            readonly: true
+          }
+        },
+        {
+          fieldName: 'shopex_uid',
+          label: '当前证书节点号：',
+          component: 'input',
+          componentProps: {
+            readonly: true
+          }
+        }
+      ]
+    }
+  },
   mounted() {
     this.getCerInfo()
   },
@@ -111,11 +142,8 @@ export default {
             })
           })
         })
-        .catche(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消'
-          })
+        .catch(() => {
+          //用户取消删除操作
         })
     },
     bindRelation() {
@@ -133,22 +161,3 @@ export default {
   }
 }
 </script>
-<style>
-.el-row {
-  margin-bottom: 20px;
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-.cer-box .el-input__inner {
-  border: 0;
-  box-shadow: none;
-}
-</style>
-<style>
-.cer-box {
-  border: 1px solid #f1f1f1;
-  padding: 30px;
-  margin-bottom: 20px;
-}
-</style>

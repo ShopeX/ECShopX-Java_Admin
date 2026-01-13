@@ -6,37 +6,17 @@
 <template>
   <SpPage>
     <SpPlatformTip v-if="!VERSION_SHUYUN()" h5 app alipay />
-    <el-tabs v-model="activeName" type="card">
-      <el-tab-pane
-        v-for="(item, index) in tabList"
-        :key="index"
-        :label="item.name"
-        :name="item.activeName"
-      >
-        <template>
-          <el-form ref="form" label-width="130px">
-            <el-form-item label="开启一洽客服">
-              <el-switch
-                v-model="form.is_open"
-                active-value="true"
-                inactive-value="false"
-                inactive-color="#ccc"
-                active-text="开启"
-                inactive-text="关闭"
-                active-color="#13ce66"
-              />
-            </el-form-item>
-            <el-form-item label="一洽客服链接地址">
-              <el-input v-model="form.echat_url" style="width: 300px" placeholder="请输入内容" />
-            </el-form-item>
-
-            <div class="section-footer with-border content-center">
-              <el-button type="primary" @click="onSubmit"> 一洽客服保存 </el-button>
-            </div>
-          </el-form>
-        </template>
-      </el-tab-pane>
-    </el-tabs>
+    <SpFormPlus
+      ref="form"
+      v-model="form"
+      :form-items="formItems"
+      form-type="form"
+      label-width="130px"
+      :show-default-actions="false"
+    />
+    <div class="section-footer with-border content-center">
+      <el-button type="primary" @click="onSubmit"> 一洽客服保存 </el-button>
+    </div>
   </SpPage>
 </template>
 
@@ -50,9 +30,40 @@ export default {
       form: {
         is_open: '',
         echat_url: ''
-      },
-      activeName: 'first',
-      tabList: [{ name: '客服配置', activeName: 'first' }]
+      }
+    }
+  },
+  computed: {
+    formItems() {
+      return [
+        {
+          fieldName: '__group_echat',
+          component: 'group',
+          label: '客服配置'
+        },
+        {
+          fieldName: 'is_open',
+          label: '开启一洽客服',
+          component: 'switch',
+          componentProps: {
+            'active-value': 'true',
+            'inactive-value': 'false',
+            'inactive-color': '#ccc',
+            'active-text': '开启',
+            'inactive-text': '关闭',
+            'active-color': '#13ce66'
+          }
+        },
+        {
+          fieldName: 'echat_url',
+          label: '一洽客服链接地址',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' },
+            placeholder: '请输入内容'
+          }
+        }
+      ]
     }
   },
   mounted() {
@@ -64,15 +75,15 @@ export default {
         this.form = response.data.data
       })
     },
-    onSubmit() {
-      saveEChatSetting(this.form)
-        .then((response) => {
-          this.$message({ message: '保存成功', type: 'success' })
-          this.getInfo()
-        })
-        .catch()
+    async onSubmit() {
+      try {
+        await this.$refs.form.validate()
+        await saveEChatSetting(this.form)
+        this.$message({ message: '保存成功', type: 'success' })
+        this.getInfo()
+      } catch (error) {
+      }
     }
   }
 }
 </script>
-<style lang="scss" scoped></style>

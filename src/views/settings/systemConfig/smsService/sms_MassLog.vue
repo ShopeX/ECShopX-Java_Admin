@@ -32,10 +32,10 @@
 </template>
 
 <script>
-import setting_ from '../finder-setting/sms_MassLog'
+import setting_ from '../../../../view/base/shortmessage/finder-setting/sms_MassLog'
 import { deleteTaskSms } from '@/api/sms'
 import smsMassLogEdit from './sms_MassLog_edit.vue'
-import Template from '../../../wxapp/template.vue'
+import Template from '../../../../view/wxapp/template.vue'
 
 export default {
   components: {

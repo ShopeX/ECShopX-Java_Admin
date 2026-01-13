@@ -36,7 +36,6 @@
           <div class="btn">
             <el-button
               v-if="item.itemList.length < 3"
-              size="small"
               type="primary"
               @click="fnAddSms(item.id, item.scene_name)"
             >
@@ -78,46 +77,17 @@
     </div>
     <!-- 添加短信 -->
     <el-dialog title="添加短信" :visible="visible" width="30%" :before-close="handleClose">
-      <el-form ref="form" :model="form" :rules="rules" label-width="60px">
-        <el-form-item label="签名" prop="sign_id">
-          <el-select
-            v-model="form.sign_id"
-            v-scroll="() => pagesSmsSignatureQuery.nextPage()"
-            filterable
-            reserve-keyword
-            placeholder="输入签名名称搜索"
-            style="width: 95%"
-          >
-            <el-option
-              v-for="item in SmsSignatureList"
-              :key="`signa-item__${item.id}`"
-              :label="item.sign_name"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="模板" prop="template_id">
-          <el-select
-            v-model="form.template_id"
-            v-scroll="() => pagesSmsTemplateQuery.nextPage()"
-            filterable
-            remote
-            reserve-keyword
-            placeholder="输入模板名称搜索"
-            style="width: 95%"
-          >
-            <el-option
-              v-for="item in SmsTemplateList"
-              :key="`template-item__${item.id}`"
-              :label="item.template_name"
-              :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
-      </el-form>
+      <SpFormPlus
+        ref="form"
+        v-model="form"
+        :form-items="formItems"
+        :show-default-actions="false"
+        form-type="form"
+        label-width="60px"
+      />
       <span slot="footer" class="dialog-footer">
         <el-button @click="handleClose">取 消</el-button>
-        <el-button type="primary" @click="fnPass('form')">确 定</el-button>
+        <el-button type="primary" @click="fnPass">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -125,6 +95,7 @@
 
 <script>
 import tips from '@/components/tips'
+import SpFormPlus from '@/components/sp-form-plus'
 import { requiredRules } from '@/utils/validate'
 import Pages from '@/utils/pages'
 import {
@@ -138,7 +109,8 @@ import {
 
 export default {
   components: {
-    tips
+    tips,
+    SpFormPlus
   },
   data() {
     return {
@@ -159,11 +131,84 @@ export default {
       SmsSignatureList: [], //短信签名
       SmsTemplateList: [], //短信模板
       activeScene_name: '',
-      rules: {
-        sign_id: [requiredRules('签名', 'change')],
-        template_id: [requiredRules('模板', 'change')]
-      },
       templateList: []
+    }
+  },
+  computed: {
+    formItems() {
+      return [
+        {
+          fieldName: 'sign_id',
+          label: '签名',
+          component: ({ h, value, onInput }) => {
+            return h('el-select', {
+              props: {
+                value: value,
+                filterable: true,
+                'reserve-keyword': true,
+                placeholder: '输入签名名称搜索'
+              },
+              style: { width: '95%' },
+              directives: [
+                {
+                  name: 'scroll',
+                  value: () => this.pagesSmsSignatureQuery.nextPage()
+                }
+              ],
+              on: {
+                input: onInput
+              }
+            }, [
+              this.SmsSignatureList.map((item) =>
+                h('el-option', {
+                  key: `signa-item__${item.id}`,
+                  props: {
+                    label: item.sign_name,
+                    value: item.id
+                  }
+                })
+              )
+            ])
+          },
+          rules: [requiredRules('签名', 'change')]
+        },
+        {
+          fieldName: 'template_id',
+          label: '模板',
+          component: ({ h, value, onInput }) => {
+            return h('el-select', {
+              props: {
+                value: value,
+                filterable: true,
+                remote: true,
+                'reserve-keyword': true,
+                placeholder: '输入模板名称搜索'
+              },
+              style: { width: '95%' },
+              directives: [
+                {
+                  name: 'scroll',
+                  value: () => this.pagesSmsTemplateQuery.nextPage()
+                }
+              ],
+              on: {
+                input: onInput
+              }
+            }, [
+              this.SmsTemplateList.map((item) =>
+                h('el-option', {
+                  key: `template-item__${item.id}`,
+                  props: {
+                    label: item.template_name,
+                    value: item.id
+                  }
+                })
+              )
+            ])
+          },
+          rules: [requiredRules('模板', 'change')]
+        }
+      ]
     }
   },
   created() {
@@ -221,20 +266,23 @@ export default {
       this.pagesSmsSignatureQuery.setTotal(total_count)
       this.SmsSignatureList = this.SmsSignatureList.concat(list)
     },
-    fnPass(formName) {
-      this.$refs[formName].validate(async (valid) => {
-        if (valid) {
-          await addSceneItem(this.form)
-          this.$message.success('添加成功')
-          this.activeScene_name = ''
-          this.handleClose()
-          this.getScenarioList()
-        }
-      })
+    async fnPass() {
+      try {
+        await this.$refs.form.validate()
+        await addSceneItem(this.form)
+        this.$message.success('添加成功')
+        this.activeScene_name = ''
+        this.handleClose()
+        this.getScenarioList()
+      } catch (error) {
+        // 验证失败，不处理
+      }
     },
     handleClose() {
       this.visible = false
-      this.$refs['form'].resetFields()
+      if (this.$refs.form) {
+        this.$refs.form.resetFields()
+      }
     },
     // 停用/启用/删除
     fnDisablingSms(id, flag, scene_name) {

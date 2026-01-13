@@ -5,35 +5,117 @@
 
 <template>
   <SpPage>
-    <SpForm
+    <SpFormPlus
+      ref="form"
       v-model="form"
-      :reset-btn="false"
-      submit-btn-text="保存配置"
-      :form-list="formList"
-      @onSubmit="onSaveConfig"
+      :form-items="formItems"
+      form-type="form"
+      label-width="100px"
+      :show-default-actions="false"
     />
+    <div class="section-footer with-border content-center">
+      <el-button type="primary" @click="onSaveConfig">保存配置</el-button>
+    </div>
   </SpPage>
 </template>
 
 <script>
-import { formSchema } from './baiSettingSchema'
-import { generatorParams } from '@/utils/schemaHelper'
 import api from '@/api'
 export default {
   data() {
     return {
       form: {
-        ...generatorParams(formSchema(this))
-      },
-      confirmDialogShow: false,
-      confirmForm: {
-        email: ''
+        username: '',
+        password: '',
+        appKey: '',
+        appSecret: '',
+        orgAuthCode: '',
+        taxNo: ''
       }
     }
   },
   computed: {
-    formList() {
-      return formSchema(this)
+    formItems() {
+      return [
+        {
+          fieldName: '__group_title',
+          component: 'group',
+          label: '百望云发票'
+        },
+        {
+          fieldName: 'username',
+          label: '用户名',
+          component: 'input',
+          formItemClass: 'w-1/3',
+          componentProps: {
+            placeholder: '请输入用户名'
+          },
+          rules: [
+            { required: true, message: '请输入用户名', trigger: 'blur' }
+          ]
+        },
+        {
+          fieldName: 'password',
+          label: '密码',
+          component: 'input',
+          formItemClass: 'w-1/3',
+          componentProps: {
+            placeholder: '请输入密码',
+            type: 'password'
+          },
+          rules: [
+            { required: true, message: '请输入密码', trigger: 'blur' }
+          ]
+        },
+        {
+          fieldName: 'appKey',
+          label: 'appKey',
+          component: 'input',
+          formItemClass: 'w-1/3',
+          componentProps: {
+            placeholder: '请输入appKey'
+          },
+          rules: [
+            { required: true, message: '请输入appKey', trigger: 'blur' }
+          ]
+        },
+        {
+          fieldName: 'appSecret',
+          label: 'appSecret',
+          component: 'input',
+          formItemClass: 'w-1/3',
+          componentProps: {
+            placeholder: '请输入appSecret'
+          },
+          rules: [
+            { required: true, message: '请输入appSecret', trigger: 'blur' }
+          ]
+        },
+        {
+          fieldName: 'orgAuthCode',
+          label: '用户盐值',
+          component: 'input',
+          formItemClass: 'w-1/3',
+          componentProps: {
+            placeholder: '请输入用户盐值'
+          },
+          rules: [
+            { required: true, message: '请输入用户盐值', trigger: 'blur' }
+          ]
+        },
+        {
+          fieldName: 'taxNo',
+          label: '机构税号',
+          component: 'input',
+          formItemClass: 'w-1/3',
+          componentProps: {
+            placeholder: '请输入机构税号'
+          },
+          rules: [
+            { required: true, message: '请输入机构税号', trigger: 'blur' }
+          ]
+        }
+      ]
     }
   },
   mounted() {
@@ -43,20 +125,25 @@ export default {
     getDeatl() {
       api.financial.getBaiInvoiceSetting(this.id).then((res) => {
         this.form = {
-          ...generatorParams(formSchema(this), res)
+          username: res.username || '',
+          password: res.password || '',
+          appKey: res.appKey || '',
+          appSecret: res.appSecret || '',
+          orgAuthCode: res.orgAuthCode || '',
+          taxNo: res.taxNo || ''
         }
       })
     },
-    onSaveConfig() {
-      console.log(this.form)
-      api.financial
-        .setBaiInvoiceSetting({
+    async onSaveConfig() {
+      try {
+        await this.$refs.form.validate()
+        await api.financial.setBaiInvoiceSetting({
           ...this.form
         })
-        .then((res) => {
-          this.$message.success('发送成功')
-          this.confirmDialogShow = false
-        })
+        this.$message.success('保存成功')
+      } catch (error) {
+        //验证失败
+      }
     }
   }
 }

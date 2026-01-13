@@ -13,6 +13,7 @@
         @submit="onSearch"
         @reset="onSearch"
         :inline="true"
+        label-width="95px"
       />
 
       <div class="action-container mt-5">

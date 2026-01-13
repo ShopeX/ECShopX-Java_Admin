@@ -14,6 +14,7 @@
         @reset="onSearch"
         :inline="true"
         class="search-form-spacing"
+        label-width="95px"
       />
       <SpFinder
         ref="finder"
@@ -121,6 +122,7 @@ export default {
           fieldName: 'status',
           label: '审批状态',
           component: 'select',
+          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请选择审批状态',
             options: this.approveStatusList.map(item => ({
@@ -133,6 +135,7 @@ export default {
           fieldName: 'login_name',
           label: '账户名称',
           component: 'input',
+          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请输入账户名称'
           }
@@ -140,6 +143,7 @@ export default {
         {
           fieldName: 'queryTime',
           label: '申请日期',
+          formItemClass: 'w-2/3',
           component: (context) => {
             const { value, props, onInput, h } = context
             return h('el-date-picker', {
@@ -152,9 +156,6 @@ export default {
                 endPlaceholder: '结束',
                 size: 'small',
                 ...props
-              },
-              style: {
-                width: '70%'
               },
               on: {
                 input: onInput

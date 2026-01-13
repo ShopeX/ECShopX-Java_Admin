@@ -209,6 +209,7 @@ export default {
             size={this.size || 'small'}
             type='date'
             value={this.modelValue}
+            prefix-icon={false}
             {...props}
             on-input={this.handleInput}
           />
@@ -226,9 +227,10 @@ export default {
             startPlaceholder='开始日期/结束时间'
             default-time={['00:00:00', '23:59:59']}
             // endPlaceholder="结束日期"
-            rangeSeparator={`${this.modelValue.length > 1 ? '至' : ''}`}
+            rangeSeparator={`${this.modelValue.length > 1 ? '~' : ''}`}
             value={this.modelValue}
             pickerOptions={PICKER_DATE_OPTIONS}
+            prefix-icon={false}
             onInput={this.handleInput}
           />
         </div>
@@ -330,37 +332,43 @@ export default {
 
     // 获取对应的渲染函数
     const renderComponent = this.getComponentRender()
+    // 判断是否为日期选择器
+    const isDatePicker = this.component === 'datepicker' || this.component === 'datetimepicker'
     // 渲染表单项
-    return h('div', { class: ['form-field', this.formItemClass] }, [
-      h(
-        'el-form-item',
-        {
-          props: {
-            label: this.label || '',
-            labelWidth: this.labelWidth,
-            prop: this.fieldName,
-            rules: this.rules
+    return h(
+      'div',
+      { class: ['form-field', this.formItemClass, { 'form-field--date-picker': isDatePicker }] },
+      [
+        h(
+          'el-form-item',
+          {
+            props: {
+              label: this.label || '',
+              labelWidth: this.labelWidth,
+              prop: this.fieldName,
+              rules: this.rules
+            },
+            directives: [
+              {
+                name: 'show',
+                value: this.isShow ? this.isShow(this.modelValue) : true
+              }
+            ],
+            class: [
+              { 'label-inline': this.labelInline },
+              { 'hide-field-required-mark': this.hideFieldRequiredMark }
+            ]
           },
-          directives: [
-            {
-              name: 'show',
-              value: this.isShow ? this.isShow(this.modelValue) : true
-            }
-          ],
-          class: [
-            { 'label-inline': this.labelInline },
-            { 'hide-field-required-mark': this.hideFieldRequiredMark }
+          [
+            renderComponent(this.componentProps),
+            this.tip
+              ? h('div', { class: 'text-sm text-gray-500 mt-0.5' }, [
+                  isFunction(this.tip) ? this.tip() : this.tip
+                ])
+              : null
           ]
-        },
-        [
-          renderComponent(this.componentProps),
-          this.tip
-            ? h('div', { class: 'text-sm text-gray-500 mt-0.5' }, [
-                isFunction(this.tip) ? this.tip() : this.tip
-              ])
-            : null
-        ]
-      )
-    ])
+        )
+      ]
+    )
   }
 }

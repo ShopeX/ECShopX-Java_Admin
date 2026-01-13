@@ -9,27 +9,24 @@
       <div slot="header" class="clearfix">
         <span>充值</span>
       </div>
-      <div class="content">
-        <div class="account">
-          <p>
-            <span>账户可用余额</span> <span>{{ account }} 元</span>
+      <div class="w-full px-[50px]">
+        <div class="account w-[300px] py-[30px] mr-[100px] box-border">
+          <p class="flex justify-between pb-6">
+            <span>账户可用余额</span> <span class="text-xl leading-5">{{ account }} 元</span>
           </p>
-          <el-form
-            ref="numberValidateForm"
-            :rules="rules"
-            :model="numberValidateForm"
+          <SpFormPlus
+            ref="form"
+            v-model="form"
+            :form-items="formItems"
+            form-type="form"
             label-width="100px"
-            class="demo-ruleForm"
-          >
-            <el-form-item class="item" label="充值金额" prop="money">
-              <el-input v-model="numberValidateForm.money" type="money" autocomplete="off" />
-            </el-form-item>
-            <el-form-item class="formItem">
-              <el-button type="primary" @click="submitForm('numberValidateForm')">
-                确定充值
-              </el-button>
-            </el-form-item>
-          </el-form>
+            :show-default-actions="false"
+          />
+          <div class="mx-auto mt-[50px]">
+            <el-button type="primary" @click="submitForm">
+              确定充值
+            </el-button>
+          </div>
         </div>
       </div>
     </el-card>
@@ -43,41 +40,62 @@ export default {
   data() {
     return {
       account: 1000,
-      numberValidateForm: {
+      form: {
         money: null
-      },
-      rules: {
-        money: [
-          { required: true, message: '充值金额不能为空', trigger: 'blur' },
-          { validator: this.validateMoney, trigger: 'change' }
-        ]
       }
+    }
+  },
+  computed: {
+    formItems() {
+      return [
+        {
+          fieldName: 'money',
+          label: '充值金额',
+          component: ({ value, h, onInput }) => {
+            return h('el-input', {
+              props: {
+                value: value,
+                type: 'text',
+                autocomplete: 'off',
+                size: 'small'
+              },
+              class: 'money-input',
+              on: {
+                input: onInput
+              }
+            })
+          },
+          rules: [
+            { required: true, message: '充值金额不能为空', trigger: 'blur' },
+            { validator: this.validateMoney, trigger: 'change' }
+          ]
+        }
+      ]
     }
   },
   mounted() {
     this.getAccount()
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate(async (valid) => {
-        if (valid) {
-          const amount = {
-            amount: Number(this.numberValidateForm.money)
-          }
-          try {
-            const { data } = await getRechargeURL(amount)
-            window.open(data.data.link)
-            // window.location.href = data.data.link
-            // 清空不会触发验证
-            this.$refs[formName].resetFields()
-          } catch (err) {
-            Message.error('充值失败')
-          }
-        } else {
-          console.log('error submit!!')
-          return false
+    async submitForm() {
+      try {
+        await this.$refs.form.validate()
+        const amount = {
+          amount: Number(this.form.money)
         }
-      })
+        try {
+          const { data } = await getRechargeURL(amount)
+          window.open(data.data.link)
+          // window.location.href = data.data.link
+          // 清空不会触发验证
+          this.form.money = null
+          this.$refs.form.$refs.form.clearValidate()
+        } catch (err) {
+          Message.error('充值失败')
+        }
+      } catch (error) {
+        // 验证失败
+      }
     },
     async getAccount() {
       const result = await get_DD_Account()
@@ -107,65 +125,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.content {
-  width: 100%;
-  padding: 0 50px;
-}
-.account {
-  width: 300px;
-  padding: 30px 0;
-  box-sizing: border-box;
-  margin-right: 100px;
-  p {
-    display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    padding-bottom: 24px;
-    span:nth-child(2) {
-      font-size: 18px;
-      color: #000;
-      line-height: 20px;
-    }
-  }
-
-  .formItem {
-    margin: 0 auto;
-    margin-top: 50px;
-  }
-  .btn {
-    width: 120px;
-    background: #53a3e8;
-    color: #fff;
+::v-deep .account .el-input {
+  position: relative;
+  &::after {
+    content: '元';
+    position: absolute;
+    right: 0.5%;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 3px 10px;
+    height: 30px;
+    line-height: 22px;
+    background-color: rgb(244, 244, 244);
   }
 }
 </style>
 
-<style lang="scss">
-.account {
-  // 输入框
-  .el-input {
-    position: relative;
-    &::after {
-      content: '元';
-      position: absolute;
-      right: 0.5%;
-      top: 8%;
-      padding: 3px 10px;
-      height: 28px;
-      line-height: 30px;
-      background-color: rgb(244, 244, 244);
-    }
-  }
-  .el-input__inner {
-    border-radius: 0px;
-    height: 36px;
-    line-height: 36px;
-    padding: 3px 30px 3px 10px;
-    // input提示框字体样式修改
-    ::placeholder {
-      font-size: 16px;
-      font-weight: 400;
-    }
-  }
-}
-</style>

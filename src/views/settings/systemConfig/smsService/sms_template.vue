@@ -20,8 +20,8 @@
         url="/aliyunsms/template/list"
       >
         <template #tableTop>
-          <div class="mb-2">
-            <el-button size="small" type="primary" @click="addTemplate"> 添加模板 </el-button>
+          <div class="mb-5">
+            <el-button type="primary" @click="addTemplate"> 添加模板 </el-button>
           </div>
         </template>
       </SpFinder>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import setting_ from '../finder-setting/sms_template'
+import setting_ from '../../../../view/base/shortmessage/finder-setting/sms_template'
 import { deleteSmsTemplate } from '@/api/sms'
 export default {
   data() {

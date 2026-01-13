@@ -5,42 +5,17 @@
 
 <template>
   <SpPage>
-    <el-form ref="form" label-width="100px">
-      <!-- <el-form-item label="AppKey">
-      <el-input
-        v-model="form.app_key"
-        style="width: 300px"
-      />
-      <br>
-    </el-form-item>
-    <el-form-item label="AppSecret">
-      <el-input
-        v-model="form.app_secret"
-        style="width: 300px"
-      />
-      <br>
-    </el-form-item> -->
-      <el-form-item label="店铺消息推送">
-        {{ form.shop_callback_url }}
-        <el-tag v-clipboard:copy="form.shop_callback_url" v-clipboard:success="onCopy">
-          点我复制
-        </el-tag>
-      </el-form-item>
-      <el-form-item label="店铺编号">
-        <el-input v-model="form.shop_id" style="width: 300px" />
-        <br />
-      </el-form-item>
-      <el-form-item v-if="form.oauth_url" label="accessToken">
-        <el-button v-if="form.access_token" type="flex" @click="handleBind"> 更新授权 </el-button>
-        <el-button v-else type="flex" @click="handleBind"> 去授权 </el-button>
-      </el-form-item>
-      <el-form-item label="是否启用">
-        <el-switch v-model="form.is_open" active-color="#13ce66" inactive-color="#ff4949" />
-      </el-form-item>
-      <div class="section-footer with-border content-center">
-        <el-button v-loading="loading" type="primary" @click="onSubmit"> 保存 </el-button>
-      </div>
-    </el-form>
+    <SpFormPlus
+      ref="form"
+      v-model="form"
+      form-type="form"
+      :form-items="formItems"
+      label-width="100px"
+      :show-default-actions="false"
+    />
+    <div class="section-footer with-border content-center">
+      <el-button v-loading="loading" type="primary" @click="onSubmit"> 保存 </el-button>
+    </div>
   </SpPage>
 </template>
 <script>
@@ -53,8 +28,92 @@ export default {
         app_secret: '',
         access_token: '',
         shop_id: '',
+        shop_callback_url: '',
+        oauth_url: '',
         is_open: true
       }
+    }
+  },
+  computed: {
+    formItems() {
+      const vm = this
+      return [
+        {
+          fieldName: 'shop_callback_url',
+          label: '店铺消息推送',
+          component: ({ value, h, formData }) => {
+            return h('div', { style: { display: 'flex', alignItems: 'center', gap: '10px' } }, [
+              h('span', value || ''),
+              h(
+                'el-tag',
+                {
+                  style: { cursor: 'pointer' },
+                  on: {
+                    click: () => {
+                      if (value) {
+                        const textarea = document.createElement('textarea')
+                        textarea.value = value
+                        textarea.style.position = 'fixed'
+                        textarea.style.opacity = '0'
+                        document.body.appendChild(textarea)
+                        textarea.select()
+                        try {
+                          const successful = document.execCommand('copy')
+                          if (successful) {
+                            vm.onCopy()
+                          }
+                        } catch (err) {
+                          console.error('复制失败', err)
+                        }
+                        document.body.removeChild(textarea)
+                      }
+                    }
+                  }
+                },
+                '点我复制'
+              )
+            ])
+          }
+        },
+        {
+          fieldName: 'shop_id',
+          label: '店铺编号',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' }
+          }
+        },
+        {
+          fieldName: 'access_token',
+          label: 'accessToken',
+          component: ({ value, h, formData }) => {
+            return h(
+              'el-button',
+              {
+                props: {
+                  type: 'flex'
+                },
+                on: {
+                  click: () => vm.handleBind()
+                }
+              },
+              formData && formData.access_token ? '更新授权' : '去授权'
+            )
+          },
+          isShow: (value) => {
+            return !!(vm.form && vm.form.oauth_url)
+          }
+        },
+        {
+          fieldName: 'is_open',
+          label: '是否启用',
+          component: 'switch',
+          componentProps: {
+            activeColor: '#13ce66',
+            inactiveColor: '#ff4949'
+          }
+        }
+      ]
     }
   },
   mounted() {
@@ -98,11 +157,3 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
-.el-row {
-  margin-bottom: 10px;
-  .frm-tips {
-    color: #ff0000;
-  }
-}
-</style>

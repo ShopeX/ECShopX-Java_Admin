@@ -12,6 +12,7 @@
       @submit="onSearch"
       @reset="onSearch"
       :inline="true"
+      label-width="95px"
     />
 
     <SpFinder
@@ -40,39 +41,41 @@ export default {
         merchant_id: ''
       },
       formItems: [
-        {
+      {
           fieldName: 'time',
           label: '时间筛选',
           component: 'datetimepicker',
+          formItemClass: 'w-2/3',
           componentProps: {
             type: 'datetimerange',
             startPlaceholder: '开始日期',
             endPlaceholder: '结束日期',
             defaultTime: ['00:00:00', '23:59:59'],
             valueFormat: 'timestamp',
-            size: 'default'
-          },
-          formItemClass: 'w-300'
+            size: 'default',
+            clearable: true
+          }
         },
+        
         {
           fieldName: 'delivery_staff_name',
           label: '配送员姓名',
           component: 'input',
+          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请输入配送员姓名',
             size: 'default'
-          },
-          formItemClass: 'w-300'
+          }
         },
         {
           fieldName: 'delivery_staff_mobile',
           label: '手机号',
           component: 'input',
+          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '手机号',
             size: 'default'
-          },
-          formItemClass: 'w-200'
+          }
         },
         {
           fieldName: 'distributor_id',
@@ -87,14 +90,16 @@ export default {
                 size: 'small',
                 ...props
               },
+              
               on: {
                 input: onInput
               }
             })
           },
           componentProps: {},
-          formItemClass: 'w-200'
-        }
+          formItemClass: 'w-1/3',
+        }  
+
       ],
       setting: {
         columns: [
@@ -190,13 +195,14 @@ export default {
             buttonType: 'primary',
             action: {
               handler: async (val) => {
+                const time = this.params.time || []
                 let params = {
                   page: 1,
                   pageSize: 20,
                   type: 'delivery_staffdata',
                   ...this.params,
-                  start: this.params.time.length ? this.params.time[0] / 1000 : '',
-                  end: this.params.time.length ? this.params.time[1] / 1000 : ''
+                  start: time.length >= 2 ? time[0] / 1000 : '',
+                  end: time.length >= 2 ? time[1] / 1000 : ''
                 }
                 let response = await this.$api.trade.datacubeDeliverystaffdataExport(params)
                 if (response.status) {
@@ -227,7 +233,11 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    'params.time'(val) {
+      if (!val) this.params.time = []
+    }
+  },
   mounted() {
     this.getMerchantsList()
   },
@@ -245,11 +255,12 @@ export default {
       this.$refs['finder'].refresh()
     },
     beforeSearch(params) {
+      const time = this.params.time || []
       const _params = {
         ...params,
         ...this.params,
-        start: this.params.time.length ? this.params.time[0] / 1000 : '',
-        end: this.params.time.length ? this.params.time[1] / 1000 : ''
+        start: time.length >= 2 ? time[0] / 1000 : '',
+        end: time.length >= 2 ? time[1] / 1000 : ''
       }
       delete _params.time
       return _params
@@ -262,5 +273,6 @@ export default {
 ::v-deep .sp-finder .el-button--primary {
   @apply mt-3 mb-3 !px-4 !py-2.5;
 }
+
 
 </style>

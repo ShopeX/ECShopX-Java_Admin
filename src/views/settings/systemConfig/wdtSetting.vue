@@ -6,26 +6,17 @@
 <template>
   <SpPage>
     <div v-loading="loading">
-      <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="sid" prop="sid">
-          <el-input v-model="form.sid" style="width: 300px" />
-        </el-form-item>
-        <el-form-item label="appKey" prop="app_key">
-          <el-input v-model="form.app_key" style="width: 300px" />
-        </el-form-item>
-        <el-form-item label="appSecret" prop="app_secret">
-          <el-input v-model="form.app_secret" style="width: 300px" />
-        </el-form-item>
-        <el-form-item label="shopNo" prop="shop_no">
-          <el-input v-model="form.shop_no" style="width: 300px" />
-        </el-form-item>
-        <el-form-item label="是否启用">
-          <el-switch v-model="form.is_open" active-color="#13ce66" inactive-color="#ff4949" />
-        </el-form-item>
-        <div class="section-footer with-border content-center">
-          <el-button v-loading="lock" type="primary" @click="onSubmit"> 保存 </el-button>
-        </div>
-      </el-form>
+      <SpFormPlus
+        ref="form"
+        v-model="form"
+        :form-items="formItems"
+        form-type="form"
+        label-width="100px"
+        :show-default-actions="false"
+      />
+      <div class="section-footer with-border content-center">
+        <el-button v-loading="lock" type="primary" @click="onSubmit"> 保存 </el-button>
+      </div>
     </div>
   </SpPage>
 </template>
@@ -47,6 +38,53 @@ export default {
       }
     }
   },
+  computed: {
+    formItems() {
+      return [
+        {
+          fieldName: 'sid',
+          label: 'sid',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' }
+          }
+        },
+        {
+          fieldName: 'app_key',
+          label: 'appKey',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' }
+          }
+        },
+        {
+          fieldName: 'app_secret',
+          label: 'appSecret',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' }
+          }
+        },
+        {
+          fieldName: 'shop_no',
+          label: 'shopNo',
+          component: 'input',
+          componentProps: {
+            style: { width: '300px' }
+          }
+        },
+        {
+          fieldName: 'is_open',
+          label: '是否启用',
+          component: 'switch',
+          componentProps: {
+            'active-color': '#13ce66',
+            'inactive-color': '#ff4949'
+          }
+        }
+      ]
+    }
+  },
   mounted() {
     this.getConfig()
   },
@@ -63,23 +101,19 @@ export default {
       }
       this.loading = false
     },
-    onSubmit() {
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          this.lock = true
-          setWdtErpSetting(this.form)
-            .then(() => {
-              this.lock = false
-              this.$message({
-                type: 'success',
-                message: '保存成功'
-              })
-            })
-            .catch(() => {
-              this.lock = false
-            })
-        }
-      })
+    async onSubmit() {
+      try {
+        await this.$refs.form.validate()
+        this.lock = true
+        await setWdtErpSetting(this.form)
+        this.lock = false
+        this.$message({
+          type: 'success',
+          message: '保存成功'
+        })
+      } catch (error) {
+        this.lock = false
+      }
     }
   }
 }

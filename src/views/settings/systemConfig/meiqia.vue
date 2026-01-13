@@ -14,22 +14,19 @@
 <template>
   <SpPage>
     <SpPlatformTip v-if="!VERSION_SHUYUN()" h5 app alipay />
-    <SpForm
+    <SpFormPlus
       ref="form"
       v-model="form"
       class="meiqia-config"
-      :form-list="formList"
-      :submit="false"
-      @onSubmit="onSaveConfig"
+      :form-items="formItems"
+      form-type="form"
+      label-width="120px"
+      :show-default-actions="false"
     />
     <div class="footer-container">
       <el-button
         type="primary"
-        @click="
-          () => {
-            this.$refs['form'].handleSubmit()
-          }
-        "
+        @click="onSubmit"
       >
         保存
       </el-button>
@@ -40,19 +37,6 @@
 <script>
 export default {
   data() {
-    const validateLink = (rule, value, callback) => {
-      const { channel, wxapp, h5, app, aliapp, pc } = this.form
-      if (channel == 'multi') {
-        if (wxapp || h5 || app || aliapp || pc) {
-          callback()
-        } else {
-          callback(new Error('至少一项不能为空'))
-        }
-      } else {
-        callback()
-      }
-    }
-
     return {
       form: {
         is_open: false,
@@ -64,94 +48,146 @@ export default {
         aliapp: '',
         pc: '',
         is_distributor_open: false
-      },
-      formList: [
+      }
+    }
+  },
+  computed: {
+    formItems() {
+      const vm = this
+      
+      const validateLink = (rule, value, callback) => {
+        const { channel, wxapp, h5, app, aliapp, pc } = vm.form
+        if (channel == 'multi') {
+          if (wxapp || h5 || app || aliapp || pc) {
+            callback()
+          } else {
+            callback(new Error('至少一项不能为空'))
+          }
+        } else {
+          callback()
+        }
+      }
+
+      const validateCommon = (rule, value, callback) => {
+        const { channel, common } = vm.form
+        if (channel == 'single' && !common) {
+          callback(new Error('客服链接不能为空'))
+        } else {
+          callback()
+        }
+      }
+
+      return [
         {
-          label: '美洽客服',
-          type: 'group'
+          fieldName: '__group_meiqia',
+          component: 'group',
+          label: '美洽客服'
         },
         {
+          fieldName: 'is_open',
           label: '美洽客服',
-          key: 'is_open',
-          type: 'switch'
+          component: 'switch'
         },
         {
           label: '平台客服',
-          type: 'group'
+          fieldName: '__group_platform',
+          component: 'group'
         },
         {
+          fieldName: 'channel',
           label: '平台客服',
-          key: 'channel',
-          type: 'radio',
-          options: [
-            { label: 'single', name: '统一配置' },
-            { label: 'multi', name: '按渠道配置' }
-          ]
-        },
-        {
-          label: '客服链接',
-          key: 'common',
-          type: 'input',
-          tip: '如实际运营中有多个客服人员接待咨询，建议配置为美洽客服组链接，在美洽客服组内添加客服人员坐席。',
-          validator: (rule, value, callback) => {
-            const { channel, common } = this.form
-            if (channel == 'single' && !common) {
-              callback(new Error('客服链接不能为空'))
-            } else {
-              callback()
-            }
-          },
-          isShow: () => {
-            return this.form.channel == 'single'
+          component: 'radio',
+          componentProps: {
+            options: [
+              { label: '统一配置', value: 'single' },
+              { label: '按渠道配置', value: 'multi' }
+            ]
           }
         },
         {
+          fieldName: 'common',
+          label: '客服链接',
+          component: 'input',
+          componentProps: {
+            style: { maxWidth: '600px' },
+            placeholder: '请输入内容'
+          },
+          tip: '如实际运营中有多个客服人员接待咨询，建议配置为美洽客服组链接，在美洽客服组内添加客服人员坐席。',
+          rules: [{ validator: validateCommon }],
+          isShow: () => {
+            return vm.form.channel == 'single'
+          }
+        },
+        {
+          fieldName: 'wxapp',
           label: '微信小程序',
-          key: 'wxapp',
-          type: 'input',
-          validator: validateLink,
-          isShow: () => this.form.channel == 'multi'
+          component: 'input',
+          componentProps: {
+            style: { maxWidth: '600px' },
+            placeholder: '请输入内容'
+          },
+          rules: [{ validator: validateLink }],
+          isShow: () => vm.form.channel == 'multi'
         },
         {
+          fieldName: 'h5',
           label: 'H5商城',
-          key: 'h5',
-          type: 'input',
-          validator: validateLink,
-          isShow: () => this.form.channel == 'multi'
+          component: 'input',
+          componentProps: {
+            style: { maxWidth: '600px' },
+            placeholder: '请输入内容'
+          },
+          rules: [{ validator: validateLink }],
+          isShow: () => vm.form.channel == 'multi'
         },
         {
+          fieldName: 'app',
           label: 'APP商城',
-          key: 'app',
-          type: 'input',
-          validator: validateLink,
-          isShow: () => this.form.channel == 'multi'
+          component: 'input',
+          componentProps: {
+            style: { maxWidth: '600px' },
+            placeholder: '请输入内容'
+          },
+          rules: [{ validator: validateLink }],
+          isShow: () => vm.form.channel == 'multi'
         },
         {
+          fieldName: 'aliapp',
           label: '支付宝小程序',
-          key: 'aliapp',
-          type: 'input',
-          validator: validateLink,
-          isShow: () => this.form.channel == 'multi'
+          component: 'input',
+          componentProps: {
+            style: { maxWidth: '600px' },
+            placeholder: '请输入内容'
+          },
+          rules: [{ validator: validateLink }],
+          isShow: () => vm.form.channel == 'multi'
         },
         {
+          fieldName: 'pc',
           label: 'PC网页版',
-          key: 'pc',
-          type: 'input',
-          validator: validateLink,
-          isShow: () => this.form.channel == 'multi'
+          component: 'input',
+          componentProps: {
+            style: { maxWidth: '600px' },
+            placeholder: '请输入内容'
+          },
+          rules: [{ validator: validateLink }],
+          isShow: () => vm.form.channel == 'multi'
         },
         {
-          label: '店铺客服',
-          type: 'group'
+          fieldName: '__group_distributor',
+          component: 'group',
+          label: '店铺客服'
         },
         {
+          fieldName: 'is_distributor_open',
           label: '店铺独立客服',
-          key: 'is_distributor_open',
-          type: 'radio',
-          options: [
-            { label: true, name: '允许' },
-            { label: false, name: '不允许' }
-          ],
+          component: 'radio',
+          componentProps: {
+            options: [
+              { label: '允许', value: true },
+              { label: '不允许', value: false }
+            ]
+          },
           tip: '允许店铺配置独立客服时，请前往店铺管理中为店铺配置客服链接；如店铺未配置客服链接，则消费者咨询时将由平台客服接待。不允许店铺配置独立客服时，店铺里的消费者咨询将全部由平台客服接待。'
         }
       ]
@@ -177,7 +213,8 @@ export default {
         is_distributor_open
       }
     },
-    async onSaveConfig() {
+    async onSubmit() {
+      await this.$refs.form.validate()
       await this.$api.im.saveMeiqia(this.form)
       this.$message.success('保存成功')
     }

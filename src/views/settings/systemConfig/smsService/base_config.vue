@@ -79,23 +79,22 @@
         width="30%"
         :before-close="handleClose"
       >
-        <el-form ref="form" :model="form" :rules="rules" label-width="140px" class="form">
-          <el-form-item label="AccessKey ID" prop="accesskey_id">
-            <el-input v-model="form.accesskey_id" placeholder="阿里云RAM用户的 AccessKey ID" />
-          </el-form-item>
-          <el-form-item label="Accesskey Secret" prop="accesskey_secret">
-            <el-input
-              v-model="form.accesskey_secret"
-              placeholder="阿里云RAM用户的 Accesskey Secret"
-            />
-          </el-form-item>
+        <SpFormPlus
+          ref="form"
+          v-model="form"
+          :form-items="formItems"
+          :show-default-actions="false"
+          form-type="form"
+          label-width="140px"
+        />
+        <div style="margin-top: 10px">
           <a href="https://help.aliyun.com/document_detail/53045.html" target="_blank"
             >如何获取 AccessKey ID 和 AccessKey Secret。</a
           >
-        </el-form>
+        </div>
         <span slot="footer" class="dialog-footer">
           <el-button @click="handleClose">取 消</el-button>
-          <el-button type="primary" @click="fnPass('form')">确 定</el-button>
+          <el-button type="primary" @click="fnPass">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -104,12 +103,14 @@
 
 <script>
 import tips from '@/components/tips'
+import SpFormPlus from '@/components/sp-form-plus'
 import { getSmsConfig, setSmsConfig, setAlisms } from '@/api/sms'
 import { requiredRules } from '@/utils/validate'
 
 export default {
   components: {
-    tips
+    tips,
+    SpFormPlus
   },
   data() {
     return {
@@ -146,11 +147,31 @@ export default {
         status: '',
         template_num: ''
       },
-      visible: false,
-      rules: {
-        accesskey_id: [requiredRules('Accesskey ID', 'change')],
-        accesskey_secret: [requiredRules('Accesskey secret'), 'change']
-      }
+      visible: false
+    }
+  },
+  computed: {
+    formItems() {
+      return [
+        {
+          fieldName: 'accesskey_id',
+          label: 'AccessKey ID',
+          component: 'input',
+          componentProps: {
+            placeholder: '阿里云RAM用户的 AccessKey ID'
+          },
+          rules: [requiredRules('Accesskey ID', 'change')]
+        },
+        {
+          fieldName: 'accesskey_secret',
+          label: 'Accesskey Secret',
+          component: 'input',
+          componentProps: {
+            placeholder: '阿里云RAM用户的 Accesskey Secret'
+          },
+          rules: [requiredRules('Accesskey secret', 'change')]
+        }
+      ]
     }
   },
   mounted() {
@@ -167,15 +188,16 @@ export default {
     fnEdit() {
       this.visible = true
     },
-    fnPass(formName) {
-      this.$refs[formName].validate(async (valid) => {
-        if (valid) {
-          const result = await setSmsConfig(this.form)
-          this.$message.success('成功')
-          this.handleClose()
-          this.init()
-        }
-      })
+    async fnPass() {
+      try {
+        await this.$refs.form.validate()
+        await setSmsConfig(this.form)
+        this.$message.success('成功')
+        this.handleClose()
+        this.init()
+      } catch (error) {
+        // 验证失败，不处理
+      }
     },
     async fnSwitch(status) {
       let message = '关闭阿里云短信后，商派短信将会自动开启。'

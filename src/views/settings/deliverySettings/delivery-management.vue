@@ -6,7 +6,7 @@
 <template>
   <SpPage>
     <SpFormPlus v-model="params" form-type="searchForm" :form-items="formItems" @submit="onSearch" @reset="onSearch"
-      :inline="true" />
+      :inline="true" label-width="103px"/>
 
     <div class="action-container mt-5">
       <el-button type="primary" @click="addDeliveryman">添加配送员</el-button>
@@ -81,7 +81,7 @@ export default {
             placeholder: '请输入配送员姓名',
             size: 'default'
           },
-          formItemClass: 'first-item-left'
+          formItemClass: 'w-1/3'
         },
         {
           fieldName: 'mobile',
@@ -90,12 +90,14 @@ export default {
           componentProps: {
             placeholder: '请输入配送员手机号',
             size: 'default'
-          }
+          },
+          formItemClass: 'w-1/3'
         },
         {
           fieldName: 'payment_method',
           label: '配送结算方式',
           component: 'select',
+          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请选择',
             size: 'small',

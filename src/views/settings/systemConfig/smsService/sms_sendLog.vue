@@ -17,12 +17,10 @@
           beforeSearch: beforeSearch,
           afterSearch: afterSearch
         }"
-        url="/aliyunsms/sign/list"
+        url="/aliyunsms/record/list"
       >
-        <template #tableTop>
-          <div class="mb-2">
-            <el-button size="small" type="primary" @click="addSignature"> 新增签名 </el-button>
-          </div>
+        <template #task_name>
+          <el-input v-model="task_name" placeholder="请输入任务名称" clearable />
         </template>
       </SpFinder>
     </div>
@@ -31,16 +29,22 @@
 </template>
 
 <script>
-import setting_ from '../finder-setting/sms_signatures'
-import { deleteTheSignature } from '@/api/sms'
+import setting_ from '../../../../view/base/shortmessage/finder-setting/sms_sendLog'
+import { deleteSmsTemplate } from '@/api/sms'
 export default {
   data() {
     return {
+      task_name: '',
       failVisible: false,
       search_options: [
-        { label: '审核中', value: '0' },
-        { label: '审核通过', value: '1' },
-        { label: '审核失败', value: '2' }
+        { label: '发送中', value: '1' },
+        { label: '发送成功', value: '3' },
+        { label: '发送失败', value: '2' }
+      ],
+      smeType_options: [
+        { label: '验证码', value: '0' },
+        { label: '短信通知', value: '1' },
+        { label: '推广短信', value: '2' }
       ]
     }
   },
@@ -49,19 +53,23 @@ export default {
       return setting_(this)
     }
   },
+  mounted() {
+    const { task_name } = this.$route.query
+    console.log(task_name)
+    this.task_name = task_name
+  },
   methods: {
-    addSignature() {
+    addTemplate() {
       this.$router.push({ path: this.matchRoutePath('edit') })
     },
     beforeSearch(params) {
-      return { ...params }
+      return { ...params, task_name: this.task_name }
     },
     afterSearch() {},
-    async deleteSignatureHandle(id) {
-      const result = await deleteTheSignature(id)
+    async deleteTemplateHandle(id) {
+      const result = await deleteSmsTemplate(id)
       this.$message.success('删除成功')
       this.$refs.finder.refresh(true)
-      console.log(result)
     }
   }
 }
