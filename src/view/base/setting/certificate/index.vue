@@ -83,7 +83,7 @@ export default {
   methods: {
     getCerInfo() {
       this.loading = true
-      getCertificate().then(response => {
+      getCertificate().then((response) => {
         this.creInfo = {
           cert_id: response.data.data.cert_id,
           node_id: response.data.data.node_id,
@@ -103,7 +103,7 @@ export default {
         }
       )
         .then(() => {
-          deleteCertificateInfo().then(response => {
+          deleteCertificateInfo().then((response) => {
             this.$message({
               message: '删除成功',
               type: 'success',
@@ -119,13 +119,13 @@ export default {
         })
     },
     bindRelation() {
-      bindRelation().then(response => {
+      bindRelation().then((response) => {
         this.bindUrl = response.data.data.url
         this.dialogBindVisible = true
       })
     },
     lookRelation() {
-      acceptRelation().then(response => {
+      acceptRelation().then((response) => {
         this.lookUrl = response.data.data.url
         this.dialogLookVisible = true
       })

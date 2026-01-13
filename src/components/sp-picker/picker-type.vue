@@ -69,7 +69,7 @@ function resolvePicker(type) {
       return PickerAfterSalesList
     case 'pickerTemplate':
       return PickerTemplate
-      case 'pickerSupplier':
+    case 'pickerSupplier':
       return PickerSupplier
     case 'pickerCompany':
       return PickerCompany

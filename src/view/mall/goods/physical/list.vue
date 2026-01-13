@@ -150,7 +150,6 @@
         <el-dropdown @command="handleImport">
           <el-button type="primary" plain icon="iconfont icon-daorucaozuo-01">
             导入<i class="el-icon-arrow-down el-icon--right" />
-
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item
@@ -713,7 +712,7 @@ export default {
                   value: 'category_id',
                   label: 'category_name',
                   multiple: true,
-                  checkStrictly: true,
+                  // checkStrictly: true,
                   children: 'children'
                 }
               }}
@@ -1855,7 +1854,7 @@ export default {
       }
       const { status } = await this.$api.goods.exportGoodsCode({
         ...exportParams,
-        source: 'item',
+        item_source: 'item',
         export_type: exportType
       })
       if (status) {

@@ -107,7 +107,7 @@ export default {
       this.getConfig()
     },
     getConfig() {
-      getDomainH5Setting().then(response => {
+      getDomainH5Setting().then((response) => {
         this.form = response.data.data
       })
     },
@@ -118,14 +118,14 @@ export default {
         pc_domain: this.form.pc_domain,
         h5_domain: this.form.h5_domain
       })
-        .then(response => {
+        .then((response) => {
           this.$message({
             type: 'success',
             message: '保存成功'
           })
           this.loading = false
         })
-        .catch(error => {
+        .catch((error) => {
           this.loading = false
         })
     }

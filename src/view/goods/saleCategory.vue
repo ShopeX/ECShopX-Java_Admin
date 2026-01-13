@@ -58,7 +58,7 @@
             <el-button type="text" @click="editCategory(scope.row)"> 编辑 </el-button>
             <el-popover v-if="appID" placement="top" width="200" trigger="click">
               <div>
-                <img class="page-code" :src="appCodeUrl">
+                <img class="page-code" :src="appCodeUrl" />
                 <div class="page-btns">
                   <el-button
                     type="primary"
@@ -203,7 +203,7 @@ export default {
       }
       let { list } = await this.$api.wxa.getCustomPageList(params)
       console.log(list, 'src/view/goods/saleCategory.vue-第197行')
-      list.forEach(element => {
+      list.forEach((element) => {
         ;(element.title = element.page_name), (element.value = element.id)
       })
       this.categoryFormList[4].options = list
@@ -214,7 +214,7 @@ export default {
     },
     async fetchWechatList() {
       const { list } = await this.$api.minimanage.gettemplateweapplist()
-      const { authorizer = {} } = list.find(item => item.key_name == 'yykweishop') || {}
+      const { authorizer = {} } = list.find((item) => item.key_name == 'yykweishop') || {}
       const { authorizer_appid } = authorizer
       this.appID = authorizer_appid
     },
@@ -282,7 +282,7 @@ export default {
       const res = await this.$api.goods.getCategory({
         parent_id: pid
       })
-      const list = res.map(item => {
+      const list = res.map((item) => {
         return {
           ...item,
           hasChildren: item.has_children == '1'

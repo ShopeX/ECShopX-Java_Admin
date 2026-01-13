@@ -35,7 +35,7 @@
         indicator-position="none"
         :interval="value.interval"
         @change="
-          e => {
+          (e) => {
             this.currentIndex = e
           }
         "

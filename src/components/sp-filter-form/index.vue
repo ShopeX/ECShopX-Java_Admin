@@ -123,7 +123,7 @@ export default {
     }
   },
   created() {
-    this.$on('sp.filterForm.addField', field => {
+    this.$on('sp.filterForm.addField', (field) => {
       if (field) {
         this.fields.push(field)
       }
@@ -179,7 +179,7 @@ export default {
         console.warn('[Sp Warn][sp-filter-form]model is required for resetFields to work.')
         return
       }
-      this.fields.forEach(field => {
+      this.fields.forEach((field) => {
         field.resetField()
       })
       this.$emit('onReset')

@@ -22,7 +22,7 @@ export default {
     {
       path: 'staff/selfdeliverystaff',
       name: `账号管理-店铺配送员`,
-      component: () => import('@/view/base/account/delivery')
+      component: () => import('@/views/settings/deliverySettings/delivery-management')
     },
     {
       path: 'baseexport',
