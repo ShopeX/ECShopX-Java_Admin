@@ -233,6 +233,7 @@ export default {
                 v-model={value[key]}
                 disabled={this.mainCategoryDisabled}
                 options={this.categoryList}
+                props={{ props: { checkStrictly: true } }}
                 on-change={this.onChangeMainCategory}
               />
             )
@@ -1104,7 +1105,7 @@ export default {
       this.form.item_id = item_id
       this.form.supplier_id = supplier_id
       this.form.brief = brief
-      this.form.templatesId = templates_id.toString()
+      this.form.templatesId = templates_id?.toString() || ''
       this.form.templatesName = templates_name
       this.form.brandId = brand_id + ''
       this.form.itemUnit = item_unit
