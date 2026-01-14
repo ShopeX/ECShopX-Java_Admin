@@ -54,7 +54,7 @@ export default {
         {
           fieldName: 'corp_name',
           label: '物流名称',
-          cellWidth:2,
+          cellWidth: 2,
           component: 'input',
           componentProps: {
             placeholder: '请输入物流公司名称'

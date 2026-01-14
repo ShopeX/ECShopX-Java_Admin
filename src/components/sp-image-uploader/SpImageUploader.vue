@@ -14,29 +14,30 @@
     >
     </el-upload>
 
-    <el-button v-if="!isPasteMode" type="normal" @click.stop="selectImage" class="h-[calc(1em+16px)] !border-2 !border-solid !border-purple-700 !mr-2 !flex !items-center !justify-center"> 选择 </el-button>
+    <el-button
+      v-if="!isPasteMode"
+      type="normal"
+      @click.stop="selectImage"
+      class="h-[calc(1em+16px)] !border-2 !border-solid !border-purple-700 !mr-2 !flex !items-center !justify-center"
+    >
+      选择
+    </el-button>
     <div
       class="w-[300px] h-[calc(1em+16px)] border-2 border-solid border-purple-700 rounded flex items-center justify-center cursor-pointer py-1 px-1 ml-2 hover:bg-purple-50 transition-colors"
-      :class="[
-        isPasteMode
-          ? 'color-gray'
-          : ''
-      ]"
+      :class="[isPasteMode ? 'color-gray' : '']"
       @drop.prevent="handleDrop"
       @dragover.prevent
       @click="togglePasteMode"
     >
-      
-        <div class="flex items-center justify-center">
-          <div v-if="isPasteMode" class="hover:cursor-pointer text-gray-400">
-            <div>使用 Ctrl + V 或 <kbd>⌘</kbd> + V</div>
-          </div>
-          <div v-else class="hover:cursor-pointer text-gray-400">
-            拖拽或点击后粘贴图片（仅支持单张图片）
-          </div>
+      <div class="flex items-center justify-center">
+        <div v-if="isPasteMode" class="hover:cursor-pointer text-gray-400">
+          <div>使用 Ctrl + V 或 <kbd>⌘</kbd> + V</div>
+        </div>
+        <div v-else class="hover:cursor-pointer text-gray-400">
+          拖拽或点击后粘贴图片（仅支持单张图片）
         </div>
       </div>
-    
+    </div>
   </div>
 </template>
 

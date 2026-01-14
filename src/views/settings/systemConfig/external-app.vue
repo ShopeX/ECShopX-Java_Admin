@@ -91,7 +91,7 @@ export default {
           component: 'input',
           componentProps: {
             placeholder: '请输入小程序名称'
-          },
+          }
         }
       ],
       // 规则
