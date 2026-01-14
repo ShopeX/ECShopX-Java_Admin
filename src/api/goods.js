@@ -717,3 +717,37 @@ export function exportCsvData(query) {
     params: query
   })
 }
+
+// 酷家乐获取方案列表
+export function getKjlList(params) {
+  return fetch({
+    url: '/kujiale/designer-works/list',
+    method: 'get',
+    params
+  })
+}
+
+// 酷家乐绑定商品和方案
+export function kjlBindItem(params) {
+  return fetch({
+    url: '/kujiale/designer-works/bind-item',
+    method: 'post',
+    params
+  })
+}
+
+export function kjlUnBindItem(params) {
+  return fetch({
+    url: '/kujiale/designer-works/unbind-item',
+    method: 'delete',
+    params
+  })
+}
+
+// 触发B2B商品拉取
+export function updateBatchGoods() {
+  return fetch({
+    url: '/goods/b2b/sync',
+    method: 'post'
+  })
+}

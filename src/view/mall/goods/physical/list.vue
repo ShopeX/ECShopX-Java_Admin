@@ -114,6 +114,19 @@
             <el-option value="0" label="非处方药" />
           </el-select>
         </SpFilterFormItem>
+        <SpFilterFormItem prop="created_time" label="创建时间:">
+          <el-date-picker
+            v-model="searchParams.created_time"
+            type="datetimerange"
+            value-format="timestamp"
+            style="width: 380px"
+            align="right"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :default-time="['00:00:00', '23:59:59']"
+          />
+        </SpFilterFormItem>
       </SpFilterForm>
 
       <div class="action-container">
@@ -150,7 +163,6 @@
         <el-dropdown @command="handleImport">
           <el-button type="primary" plain icon="iconfont icon-daorucaozuo-01">
             导入<i class="el-icon-arrow-down el-icon--right" />
-
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item
@@ -199,6 +211,9 @@
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+        <el-button size="small" type="primary" @click="updateBatchGoods">
+          拉取商品
+        </el-button>
       </div>
 
       <SpPageUpload />
@@ -592,7 +607,8 @@ export default {
         brand_id: '',
         goods_bn: '',
         operator_name: '',
-        cat_id: ''
+        cat_id: '',
+        created_time: []
       },
       auditStatusMap: {
         1: '未审核',
@@ -713,7 +729,7 @@ export default {
                   value: 'category_id',
                   label: 'category_name',
                   multiple: true,
-                  checkStrictly: true,
+                  // checkStrictly: true,
                   children: 'children'
                 }
               }}
@@ -1359,8 +1375,11 @@ export default {
         item_type: 'normal',
         operate_source: IS_SUPPLIER() ? 'supplier' : 'platform',
         ...this.searchParams,
-        item_source: 'platform'
+        item_source: 'platform',
+        created_time_start: this.searchParams.created_time.length > 0 ? this.searchParams.created_time[0] / 1000 : '',
+        created_time_end: this.searchParams.created_time.length > 0 ? this.searchParams.created_time[1] / 1000 : ''
       }
+      delete params.created_time
       return params
     },
     onSearch() {
@@ -1855,7 +1874,7 @@ export default {
       }
       const { status } = await this.$api.goods.exportGoodsCode({
         ...exportParams,
-        source: 'item',
+        item_source: 'item',
         export_type: exportType
       })
       if (status) {
@@ -1981,6 +2000,12 @@ export default {
             message: '执行失败'
           })
         }
+      })
+    },
+    updateBatchGoods() {
+      this.$api.goods.updateBatchGoods().then((res) => {
+        this.$message.success('已加入执行队列')
+        this.$refs['finder'].refresh()
       })
     }
   }

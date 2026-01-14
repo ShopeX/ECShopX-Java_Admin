@@ -4,7 +4,7 @@
 -->
 
 <template>
-  <div>
+  <SpPage>
     <div class="section section-white content-padded">
       <div class="clearfix heade-box">
         <div class="f_l member-card-box">
@@ -20,7 +20,7 @@
               class="member-header"
               :src="member.wechatUserInfo.headimgurl || member.avatar"
               alt=""
-            >
+            />
             <div class="mobile-txt">
               <span>{{ member.mobile }}</span
               ><img
@@ -33,7 +33,7 @@
                     : ''
                 "
                 class="icon"
-              >
+              />
             </div>
             <div v-if="member.vipgrade && member.vipgrade.is_vip" class="level-txt">
               {{ member.vipgrade.grade_name }}
@@ -92,18 +92,14 @@
           </div>
 
           <!--  -->
-          <div v-if="member.salesperson_info?.employee_number"  class="info-item">
+          <div v-if="member.salesperson_info?.employee_number" class="info-item">
             <span class="txt">绑定导购</span>
-            <span v-if="member.created">{{
-              member.salesperson_info?.employee_number
-            }}</span>
+            <span v-if="member.created">{{ member.salesperson_info?.employee_number }}</span>
             <span v-else>--</span>
           </div>
           <div v-if="member.salesperson_info?.store_name" class="info-item">
             <span class="txt">绑定门店</span>
-            <span v-if="member.created">{{
-              member.salesperson_info?.store_name
-            }}</span>
+            <span v-if="member.created">{{ member.salesperson_info?.store_name }}</span>
             <span v-else>--</span>
           </div>
         </div>
@@ -220,7 +216,7 @@
     <div class="text-center mt-4">
       <el-button type="primary" @click="goBack"> 返回 </el-button>
     </div>
-  </div>
+  </SpPage>
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -258,7 +254,6 @@ export default {
       preMobile: '',
       orderRecords: '',
       grade_id: '',
-      currentPage: 1,
       member: {
         user_id: '',
         company_id: '',
@@ -348,20 +343,17 @@ export default {
     if (this.$route.query.orderRecords) {
       this.orderRecords = this.$route.query.orderRecords
     }
-    if (this.$route.query.currentPage) {
-      this.currentPage = this.$route.query.currentPage
-    }
     this.getMember({ user_id: this.user_id })
     this.getRegisterSetting()
   },
   methods: {
     getMember(filter) {
-      getMember(filter).then(response => {
+      getMember(filter).then((response) => {
         this.member = response.data.data
       })
     },
     getRegisterSetting() {
-      getMemberRegisterSetting().then(response => {
+      getMemberRegisterSetting().then((response) => {
         delete response.data.data.content_agreement
         this.registerSetting = response.data.data.setting
       })

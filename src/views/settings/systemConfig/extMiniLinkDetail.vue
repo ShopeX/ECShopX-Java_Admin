@@ -191,8 +191,8 @@ export default {
     removeCurrent(info) {
       const _self = this
       this.$confirm('删除当前页面路径？')
-        .then(_ => {
-          removeWxLink({ id: info.wx_external_routes_id }).then(response => {
+        .then((_) => {
+          removeWxLink({ id: info.wx_external_routes_id }).then((response) => {
             this.$message({
               message: '删除成功',
               type: 'success',
@@ -208,7 +208,7 @@ export default {
             })
           })
         })
-        .catch(_ => {})
+        .catch((_) => {})
     },
     // 新增&编辑小程序配置
     async editWxConfig() {

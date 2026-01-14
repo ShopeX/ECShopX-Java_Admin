@@ -49,7 +49,7 @@ const routes = [
             'shopsetting.distributor-staff.shopadmin_shopsetting_staff_selfdeliverystaff'
           ]
         },
-        component: () => import('@/view/base/account/delivery')
+        component: () => import('@/views/settings/deliverySettings/delivery-management')
       },
       {
         name: `exportList`,

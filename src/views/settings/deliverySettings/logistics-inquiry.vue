@@ -158,7 +158,7 @@ export default {
       let query = {}
       if (this.activeName === 'kdniao') {
         query = { kuaidi_type: 'kdniao' }
-        getKdniaoSetting(query).then(response => {
+        getKdniaoSetting(query).then((response) => {
           this.kdniao_form.config = response.data.data
           const request_type = this.kdniao_form.config.request_type
             ? this.kdniao_form.config.request_type
@@ -167,11 +167,11 @@ export default {
         })
       } else if (this.activeName === 'kuaidi100') {
         query = { kuaidi_type: 'kuaidi100' }
-        getKdniaoSetting(query).then(response => {
+        getKdniaoSetting(query).then((response) => {
           this.form.config = response.data.data
         })
       } else if (this.activeName === 'sfbsp') {
-        getSfbspSetting(query).then(response => {
+        getSfbspSetting(query).then((response) => {
           const data = response.data.data
           if (!Array.isArray(data)) {
             if (data.is_open == 'true') {
@@ -190,14 +190,14 @@ export default {
       if (this.activeName === 'sfbsp') {
         query = this.sfbsp_form
         seSfbspSetting(query)
-          .then(response => {
+          .then((response) => {
             this.$message({
               type: 'success',
               message: '保存成功'
             })
             this.loading = false
           })
-          .catch(error => {
+          .catch((error) => {
             this.loading = false
           })
       } else {
@@ -207,14 +207,14 @@ export default {
           query = this.form
         }
         setKdniaoSetting(query)
-          .then(response => {
+          .then((response) => {
             this.$message({
               type: 'success',
               message: '保存成功'
             })
             this.loading = false
           })
-          .catch(error => {
+          .catch((error) => {
             this.loading = false
           })
       }

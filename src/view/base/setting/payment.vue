@@ -9,9 +9,9 @@
     <div class="payment-section">
       <h3 class="section-title">境内支付平台</h3>
       <el-collapse v-model="activeDomestic" accordion>
-        <el-collapse-item 
-          v-for="item in domesticPaymentList" 
-          :key="item.name" 
+        <el-collapse-item
+          v-for="item in domesticPaymentList"
+          :key="item.name"
           :name="item.name"
           v-if="item.isShow"
         >
@@ -48,9 +48,9 @@
     <div class="payment-section">
       <h3 class="section-title">境外支付平台</h3>
       <el-collapse v-model="activeInternational" accordion>
-        <el-collapse-item 
-          v-for="item in internationalPaymentList" 
-          :key="item.name" 
+        <el-collapse-item
+          v-for="item in internationalPaymentList"
+          :key="item.name"
           :name="item.name"
           v-if="item.isShow"
         >
@@ -79,8 +79,8 @@
               @submit="handleSubmit(item.name)"
             />
           </div>
-      </el-collapse-item>
-    </el-collapse>
+        </el-collapse-item>
+      </el-collapse>
     </div>
   </SpPage>
 </template>
@@ -119,9 +119,7 @@ const [AccountForm, AccountFormApi] = useForm({
       componentProps: {
         placeholder: '请输入收款人户名'
       },
-      rules: [
-        { required: true, message: '请输入收款人户名', trigger: 'blur' }
-      ]
+      rules: [{ required: true, message: '请输入收款人户名', trigger: 'blur' }]
     },
     {
       fieldName: 'bank_account_no',
@@ -132,9 +130,7 @@ const [AccountForm, AccountFormApi] = useForm({
       componentProps: {
         placeholder: '请输入银行账号'
       },
-      rules: [
-        { required: true, message: '请输入银行账号', trigger: 'blur' }
-      ]
+      rules: [{ required: true, message: '请输入银行账号', trigger: 'blur' }]
     },
     {
       fieldName: 'bank_name',
@@ -145,9 +141,7 @@ const [AccountForm, AccountFormApi] = useForm({
       componentProps: {
         placeholder: '请输入开户银行'
       },
-      rules: [
-        { required: true, message: '请输入开户银行', trigger: 'blur' }
-      ]
+      rules: [{ required: true, message: '请输入开户银行', trigger: 'blur' }]
     },
     {
       fieldName: 'china_ums_no',
@@ -158,9 +152,7 @@ const [AccountForm, AccountFormApi] = useForm({
       componentProps: {
         placeholder: '请输入银联号'
       },
-      rules: [
-        { required: true, message: '请输入银联号', trigger: 'blur' }
-      ]
+      rules: [{ required: true, message: '请输入银联号', trigger: 'blur' }]
     },
     {
       fieldName: 'pic',
@@ -174,9 +166,7 @@ const [AccountForm, AccountFormApi] = useForm({
           console.log('图片选择变化:', value)
         }
       },
-      rules: [
-        { required: true, message: '请上传银行LOGO', trigger: 'change' }
-      ]
+      rules: [{ required: true, message: '请上传银行LOGO', trigger: 'change' }]
     },
     {
       fieldName: 'remark',
@@ -201,9 +191,7 @@ const [AccountForm, AccountFormApi] = useForm({
           { label: '否', value: 'no' }
         ]
       },
-      rules: [
-        { required: true, message: '请选择是否默认', trigger: 'change' }
-      ]
+      rules: [{ required: true, message: '请选择是否默认', trigger: 'change' }]
     }
   ]
 })
@@ -219,7 +207,7 @@ export default {
       activeInternational: 'paypal',
       isHfpay: false,
       loading: false,
-      
+
       // 境内支付平台列表
       domesticPaymentList: [
         {
@@ -263,7 +251,7 @@ export default {
           isShow: true
         }
       ],
-      
+
       // 境外支付平台列表
       internationalPaymentList: [
         {
@@ -275,7 +263,7 @@ export default {
           isShow: true
         }
       ],
-      
+
       // 各支付平台的表单数据
       paymentForms: {
         wxpay: {},
@@ -375,28 +363,34 @@ export default {
     allPaymentList() {
       return [...this.domesticPaymentList, ...this.internationalPaymentList]
     },
-    
+
     // 动态生成表单配置，确保数据回显
-    wxpayFormItems() { // 微信
+    wxpayFormItems() {
+      // 微信
       return this.getWxpayFormItems()
     },
-    alipayFormItems() { // 支付宝
+    alipayFormItems() {
+      // 支付宝
       return this.getAlipayFormItems()
     },
-    chinaumspayFormItems() { // 银联商务
+    chinaumspayFormItems() {
+      // 银联商务
       return this.getChinaumspayFormItems()
     },
-    offlineFormItems() { // 线下转账
+    offlineFormItems() {
+      // 线下转账
       return this.getOfflineFormItems()
     },
-    bspayFormItems() { // 汇付斗拱
+    bspayFormItems() {
+      // 汇付斗拱
       return this.getBspayFormItems()
     },
-    paypalFormItems() { // PayPal
+    paypalFormItems() {
+      // PayPal
       return this.getPaypalFormItems()
-    },
+    }
   },
-  
+
   methods: {
     beforeSearch(params) {
       const _params = {
@@ -420,15 +414,24 @@ export default {
       } catch (error) {
         console.error('获取汇付版本状态失败:', error)
       }
-      
+
       // 加载各支付平台的配置
       await this.loadAllPaymentConfigs()
     },
-    
+
     // 加载所有支付平台配置
     async loadAllPaymentConfigs() {
-      const paymentTypes = ['wxpay', 'alipay', 'hfpay', 'chinaumspay', 'adapay', 'offline_pay', 'bspay', 'paypal']
-      
+      const paymentTypes = [
+        'wxpay',
+        'alipay',
+        'hfpay',
+        'chinaumspay',
+        'adapay',
+        'offline_pay',
+        'bspay',
+        'paypal'
+      ]
+
       for (const payType of paymentTypes) {
         try {
           await this.loadPaymentConfig(payType)
@@ -437,25 +440,25 @@ export default {
         }
       }
     },
-    
+
     // 加载单个支付平台配置
     async loadPaymentConfig(payType) {
       try {
         const data = await this.$api.trade.getPaymentSetting({ pay_type: payType })
         // const data = res.data.data || {}
-        
+
         // 更新表单数据
         this.$set(this.paymentForms, payType, {
           ...data,
           is_open: data.is_open === 'true' || data.is_open === true
         })
-        
+
         // 更新开关状态
-        const paymentItem = this.allPaymentList.find(item => item.name === payType)
+        const paymentItem = this.allPaymentList.find((item) => item.name === payType)
         if (paymentItem) {
           paymentItem.enabled = data.is_open === 'true' || data.is_open === true
         }
-        
+
         // 强制刷新表单数据
         this.$nextTick(() => {
           this.refreshFormData()
@@ -464,7 +467,7 @@ export default {
         console.error(`加载${payType}配置失败:`, error)
       }
     },
-    
+
     // 获取表单配置项
     getFormItems(payType) {
       const formConfigs = {
@@ -475,10 +478,10 @@ export default {
         bspay: this.getBspayFormItems(),
         paypal: this.getPaypalFormItems()
       }
-      
+
       return formConfigs[payType] || []
     },
-    
+
     // 微信支付表单配置
     getWxpayFormItems() {
       const formData = this.paymentForms.wxpay || {}
@@ -501,7 +504,10 @@ export default {
             return (
               <div>
                 <div>适用于【微信浏览器、第三方APP、第三方手机浏览器、微信小程序、PC网站】</div>
-                <div>微信支付分配的公众账号ID（企业号corpid即为此appId）。请到 微信公众平台 → 开发 → 基本配置 → 获取</div>
+                <div>
+                  微信支付分配的公众账号ID（企业号corpid即为此appId）。请到 微信公众平台 → 开发 →
+                  基本配置 → 获取
+                </div>
               </div>
             )
           }
@@ -519,7 +525,9 @@ export default {
             return (
               <div>
                 <div>适用于【第三方APP】</div>
-                <div>微信开放平台审核通过的应用APPID（请登录open.weixin.qq.com查看，注意与公众号的APPID不同）</div>
+                <div>
+                  微信开放平台审核通过的应用APPID（请登录open.weixin.qq.com查看，注意与公众号的APPID不同）
+                </div>
               </div>
             )
           }
@@ -555,7 +563,10 @@ export default {
             return (
               <div>
                 <div>适用于【微信浏览器、第三方APP、第三方手机浏览器、微信小程序、PC网站】</div>
-                <div>请到 微信支付商户平台 → 账户中心 → API安全 → API密钥 中设置32位密钥，并将密钥复粘贴过来</div>
+                <div>
+                  请到 微信支付商户平台 → 账户中心 → API安全 → API密钥
+                  中设置32位密钥，并将密钥复粘贴过来
+                </div>
               </div>
             )
           }
@@ -622,7 +633,7 @@ export default {
         }
       ]
     },
-    
+
     // 支付宝表单配置
     getAlipayFormItems() {
       const formData = this.paymentForms.alipay || {}
@@ -674,13 +685,17 @@ export default {
           component: ({ value, props, onInput, h, formData }) => {
             return h('div', { class: 'custom-field' }, [
               h('span', {}, '您绑定的企业支付宝账号必须开通'),
-              h('a', {
-                attrs: {
-                  href: 'https://b.alipay.com/signing/productDetail.htm?productId=I1011000290000001001',
-                  target: '_blank',
-                  class: 'text-blue-500'
+              h(
+                'a',
+                {
+                  attrs: {
+                    href: 'https://b.alipay.com/signing/productDetail.htm?productId=I1011000290000001001',
+                    target: '_blank',
+                    class: 'text-blue-500'
+                  }
                 },
-              }, '手机网站支付')
+                '手机网站支付'
+              )
             ])
           }
         }
@@ -734,7 +749,7 @@ export default {
               console.log('上传:', file, fileList)
               tthis.paymentForms.chinaumspay.rsa_private = file.raw
             }
-          },
+          }
         },
         {
           fieldName: 'password',
@@ -758,11 +773,11 @@ export default {
               console.log('上传:', file, fileList)
               tthis.paymentForms.chinaumspay.rsa_public = file.raw
             }
-          },
+          }
         }
       ]
     },
-    
+
     // 线下转账表单配置
     getOfflineFormItems() {
       const formData = this.paymentForms.offline_pay || {}
@@ -781,9 +796,7 @@ export default {
             placeholder: '请输入支付方式名称',
             style: 'width: 300px'
           },
-          rules: [
-            { required: true, message: '请输入支付方式名称', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入支付方式名称', trigger: 'blur' }]
         },
         {
           fieldName: 'pay_tips',
@@ -821,21 +834,19 @@ export default {
             style: 'width: 300px'
           },
           tip: `未付款订单将在指定时间 ${formData.auto_cancel_time}（小时）后自动取消`,
-          rules: [
-            { required: true, message: '请输入自动取消时间', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入自动取消时间', trigger: 'blur' }]
         },
         {
           isShow: () => formData.is_open,
           component: ({ value, props, onInput, h, formData }) => {
             return (
               <div>
-                <el-button type="primary" plain onClick={() =>this.addDeliveryman('add')}>
+                <el-button type='primary' plain onClick={() => this.addDeliveryman('add')}>
                   添加收款账户
                 </el-button>
                 <SpFinder
-                  ref="finder"
-                  url=""
+                  ref='finder'
+                  url=''
                   data={this.offlineList}
                   no-selection
                   setting={this.accountsSetting}
@@ -843,14 +854,12 @@ export default {
               </div>
             )
           },
-          rules: [
-            { required: true, message: '请输入商户RSA私钥', trigger: 'blur' }
-          ],
+          rules: [{ required: true, message: '请输入商户RSA私钥', trigger: 'blur' }],
           width: '960px'
         }
       ]
     },
-    
+
     // 汇付斗拱支付表单配置
     getBspayFormItems() {
       const formData = this.paymentForms.bspay || {}
@@ -869,9 +878,7 @@ export default {
             placeholder: '请输入sys_id',
             style: 'width: 300px'
           },
-          rules: [
-            { required: true, message: '请输入sys_id', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入sys_id', trigger: 'blur' }]
         },
         {
           fieldName: 'product_id',
@@ -882,9 +889,7 @@ export default {
             placeholder: '请输入product_id',
             style: 'width: 300px'
           },
-          rules: [
-            { required: true, message: '请输入product_id', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入product_id', trigger: 'blur' }]
         },
         {
           fieldName: 'rsa_merch_private_key',
@@ -895,11 +900,9 @@ export default {
           componentProps: {
             type: 'textarea',
             rows: 5,
-            placeholder: '请输入商户私钥',
+            placeholder: '请输入商户私钥'
           },
-          rules: [
-            { required: true, message: '请输入商户私钥', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入商户私钥', trigger: 'blur' }]
         },
         {
           fieldName: 'rsa_huifu_public_key',
@@ -913,9 +916,7 @@ export default {
             placeholder: '请输入汇付公钥',
             style: 'width: 600px'
           },
-          rules: [
-            { required: true, message: '请输入汇付公钥', trigger: 'blur' }
-          ]
+          rules: [{ required: true, message: '请输入汇付公钥', trigger: 'blur' }]
         },
         {
           fieldName: 'admin_token_no',
@@ -958,9 +959,7 @@ export default {
           component: 'radio',
           value: formData.wxpay_fee_type || 'online',
           componentProps: {
-            options: [
-              { label: '标准费率线上', value: 'online' }
-            ]
+            options: [{ label: '标准费率线上', value: 'online' }]
           }
         },
         {
@@ -999,9 +998,7 @@ export default {
           component: 'radio',
           value: formData.alipay_fee_type || 'online',
           componentProps: {
-            options: [
-              { label: '标准费率线上', value: 'online' }
-            ]
+            options: [{ label: '标准费率线上', value: 'online' }]
           }
         },
         {
@@ -1075,26 +1072,26 @@ export default {
             placeholder: '请输入webhook_id',
             style: 'width: 300px'
           }
-        },
+        }
       ]
     },
-    
+
     // 处理支付平台开关切换
     handleTogglePayment(paymentItem) {
       this.$set(this.paymentForms[paymentItem.name], 'is_open', paymentItem.enabled)
       this.savePaymentConfig(paymentItem.name)
     },
-    
+
     // 强制刷新表单数据
     refreshFormData() {
       this.$forceUpdate()
     },
-    
+
     // 处理表单提交
     async handleSubmit(payType) {
       await this.savePaymentConfig(payType)
     },
-    
+
     // 保存支付配置
     async savePaymentConfig(payType) {
       this.loading = true
@@ -1107,18 +1104,19 @@ export default {
           isUploadFile: true
         }
         // 过滤掉值为 undefined 的参数
-        Object.keys(params).forEach(key => {
+        Object.keys(params).forEach((key) => {
           if (key === 'undefined') {
             delete params[key]
           }
         })
-        if (payType == 'wxpay') { // 微信删除下面参数
+        if (payType == 'wxpay') {
+          // 微信删除下面参数
           delete params.cert_name
           delete params.cert_url
           delete params.cert_key_name
           delete params.cert_key_url
         }
-        
+
         await this.$api.trade.setPaymentSetting(params)
         this.$message.success('保存成功')
       } catch (error) {
@@ -1152,7 +1150,7 @@ export default {
       await this.$dialog.open({
         title: type == 'edit' ? '编辑收款账户' : '添加收款账户',
         size: 'medium',
-        content: <CompAccountForm ref="accountsForm" value={this.accountsForm} />,
+        content: <CompAccountForm ref='accountsForm' value={this.accountsForm} />,
         confirmBefore: async () => {
           try {
             await AccountFormApi.validate()
@@ -1184,13 +1182,13 @@ export default {
   },
   mounted() {
     this.initPaymentData()
-  },
+  }
 }
 </script>
 <style scoped lang="scss">
 .payment-section {
   margin-bottom: 30px;
-  
+
   .section-title {
     font-size: 16px;
     font-weight: 600;
@@ -1206,19 +1204,19 @@ export default {
   flex-direction: column;
   width: 100%;
   border-bottom: 1px solid #f1f2f5;
-  
+
   .payment-info {
     display: flex;
     align-items: center;
     margin: 0px 10px;
-    
+
     .payment-icon {
       width: 110px;
       height: 100%;
       margin-right: 12px;
       border-radius: 4px;
     }
-    
+
     .payment-title {
       min-width: 110px;
       font-size: 16px;
@@ -1226,7 +1224,7 @@ export default {
       margin-left: 13px;
     }
   }
-  
+
   .payment-description {
     font-size: 14px;
     color: #606266;
@@ -1244,7 +1242,7 @@ export default {
 // 折叠面板样式优化
 .el-collapse {
   border: none;
-  
+
   .el-collapse-item {
     margin-bottom: 12px;
     border: 1px solid #e4e7ed;
@@ -1252,32 +1250,32 @@ export default {
     overflow: hidden;
     background: #fff;
     // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    
+
     // &:hover {
     //   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     // }
-    
+
     .el-collapse-item__header {
       padding: 16px 20px;
       background: #fff;
       border-bottom: none;
       font-weight: 500;
-      
+
       &:hover {
         background: #f8f9fa;
       }
-      
+
       .el-collapse-item__arrow {
         margin-right: 8px;
         font-size: 14px;
         color: #909399;
       }
     }
-    
+
     .el-collapse-item__wrap {
       border-bottom: none;
     }
-    
+
     .el-collapse-item__content {
       padding: 0;
     }
@@ -1288,18 +1286,18 @@ export default {
 .sp-form-plus {
   .el-form-item {
     margin-bottom: 20px;
-    
+
     .el-form-item__label {
       font-weight: 500;
       color: #606266;
     }
-    
+
     .el-form-item__content {
       .el-input__inner,
       .el-textarea__inner {
         border-radius: 4px;
         border-color: #dcdfe6;
-        
+
         &:focus {
           border-color: #409eff;
           // box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.2);
@@ -1307,7 +1305,7 @@ export default {
       }
     }
   }
-  
+
   .el-form-item__tip {
     color: #909399;
     font-size: 12px;
@@ -1344,19 +1342,19 @@ export default {
   .payment-item-header {
     .payment-info {
       flex-wrap: wrap;
-      
+
       .payment-title {
         margin-right: 12px;
         margin-bottom: 8px;
       }
     }
-    
+
     .payment-description {
       margin-left: 0;
       margin-top: 8px;
     }
   }
-  
+
   .payment-config-content {
     padding: 0px 16px;
   }

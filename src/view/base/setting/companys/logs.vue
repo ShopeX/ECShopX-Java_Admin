@@ -57,7 +57,7 @@ export default {
     },
     getDataList() {
       this.loading = true
-      getCompanysLogs(this.params).then(response => {
+      getCompanysLogs(this.params).then((response) => {
         this.logsList = response.list
         this.total_count = response.total_count
         this.loading = false

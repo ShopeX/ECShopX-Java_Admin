@@ -6,14 +6,14 @@
 <template>
   <div class="flex h-full">
     <div class="w-[100px] bg-[#fff] h-screen overflow-auto no-scrollbar">
-      <!-- <div class="flex items-center mt-2 px-2">
+      <div class="flex items-center mt-2 px-2">
         <SpImage
           class="bg-white mx-auto"
           :src="$store.state.system?.logo || '/images/logo.png'"
           height="38"
           fit="contain"
         />
-      </div> -->
+      </div>
 
       <ul class="main-menu-list mt-2 mb-8">
         <li
@@ -107,7 +107,7 @@ export default {
     systemTitle() {
       // 如果有选中的一级菜单，返回该菜单的title
       if (this.activeMainMenu) {
-        const activeMenu = this.mainMenus.find(item => item.alias_name === this.activeMainMenu)
+        const activeMenu = this.mainMenus.find((item) => item.alias_name === this.activeMainMenu)
         if (activeMenu) {
           return activeMenu.name
         }

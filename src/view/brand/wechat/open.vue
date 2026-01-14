@@ -46,14 +46,14 @@ export default {
     onSubmit() {
       this.loading = true
       openUserPlatform()
-        .then(response => {
+        .then((response) => {
           this.$message({
             type: 'success',
             message: '开通并绑定成功'
           })
           this.loading = false
         })
-        .catch(error => {
+        .catch((error) => {
           this.loading = false
         })
     }

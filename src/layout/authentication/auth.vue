@@ -18,9 +18,9 @@
 
       <AuthForm />
 
-      <!-- <div class="mt-8">
+      <div class="mt-8">
         <LicenseLogo />
-      </div> -->
+      </div>
     </div>
     <!-- 登录 -->
   </div>
@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       currentLang: '',
-      isYD:process.env.VUE_APP_PLATFORM == 'yd'
+      isYD: process.env.VUE_APP_PLATFORM == 'yd'
     }
   },
   methods: {},

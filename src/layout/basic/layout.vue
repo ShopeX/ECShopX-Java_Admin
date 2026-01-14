@@ -43,8 +43,8 @@
           <div id="design-view" v-else class="relative h-full" />
         </el-main>
 
-        <el-footer class="flex justify-center items-center gap-2" height="20px">
-          <!-- <LicenseLogo /> -->
+        <el-footer class="flex justify-center items-center gap-2" height="50px">
+          <LicenseLogo />
         </el-footer>
       </el-container>
     </el-container>
@@ -85,21 +85,21 @@ export default {
     systemTitle() {
       // 如果有选中的一级菜单，返回该菜单的title
       if (this.activeMainMenu) {
-        const activeMenu = this.mainMenus?.find(item => item.alias_name === this.activeMainMenu)
+        const activeMenu = this.mainMenus?.find((item) => item.alias_name === this.activeMainMenu)
         if (activeMenu) {
           return activeMenu.name
         }
       }
       // 否则返回默认系统标题
       return getSystemTitle()
-    },
+    }
   },
 
   mounted() {
     this.mainMenus = this.$store.state.user.accessMenus || []
     const [mainRoute] = this.$route.matched
     this.subMenus =
-      this.mainMenus.find(item => item.alias_name === mainRoute?.meta?.aliasName)?.children || []
+      this.mainMenus.find((item) => item.alias_name === mainRoute?.meta?.aliasName)?.children || []
     this.getSystemSetting()
     micrApp.init()
   },

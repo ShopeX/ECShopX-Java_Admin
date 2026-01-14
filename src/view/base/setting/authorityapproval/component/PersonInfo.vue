@@ -8,7 +8,7 @@
     <div class="cus-title">详细信息</div>
     <div class="avater-box">
       <div class="flex-avater-box">
-        <img class="avater-img" src="@/assets/img/adapay/authory_avater.png" alt="">
+        <img class="avater-img" src="@/assets/img/adapay/authory_avater.png" alt="" />
         <span class="cus-username">{{ operatorInfo.login_name }}</span>
         <el-tag
           :type="operatorInfo.operator_type === 'staff' ? 'success' : 'warning'"
@@ -23,13 +23,13 @@
         src="@/assets/img/adapay/pass.png"
         style="width: 64px; height: 64px"
         alt=""
-      >
+      />
       <img
         v-if="info.status == '2'"
         src="@/assets/img/adapay/reject.png"
         alt=""
         style="width: 70px; height: 69px"
-      >
+      />
     </div>
     <el-row class="cus-info-box">
       <el-col :span="24">
