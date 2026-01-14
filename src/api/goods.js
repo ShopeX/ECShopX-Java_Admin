@@ -743,3 +743,11 @@ export function kjlUnBindItem(params) {
     params
   })
 }
+
+// 触发B2B商品拉取
+export function updateBatchGoods() {
+  return fetch({
+    url: '/goods/b2b/sync',
+    method: 'post'
+  })
+}
