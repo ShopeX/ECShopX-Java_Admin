@@ -12,7 +12,6 @@
       @submit="onSearch"
       @reset="onSearch"
       :inline="true"
-      label-width="95px"
     />
 
     <SpFinder
@@ -45,7 +44,7 @@ export default {
           fieldName: 'time',
           label: '时间筛选',
           component: 'datetimepicker',
-          formItemClass: 'w-2/3',
+          cellWidth: 2,
           componentProps: {
             type: 'datetimerange',
             startPlaceholder: '开始日期',
@@ -61,7 +60,6 @@ export default {
           fieldName: 'delivery_staff_name',
           label: '配送员姓名',
           component: 'input',
-          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请输入配送员姓名',
             size: 'default'
@@ -71,7 +69,6 @@ export default {
           fieldName: 'delivery_staff_mobile',
           label: '手机号',
           component: 'input',
-          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '手机号',
             size: 'default'
@@ -96,8 +93,7 @@ export default {
               }
             })
           },
-          componentProps: {},
-          formItemClass: 'w-1/3'
+          componentProps: {}
         }
       ],
       setting: {

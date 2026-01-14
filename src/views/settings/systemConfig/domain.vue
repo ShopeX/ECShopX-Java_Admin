@@ -99,7 +99,7 @@ export default {
                   size: 'small'
                 },
                 style: {
-                  width: '200px'
+                  width: '220px'
                 },
                 on: {
                   input: (value) => {

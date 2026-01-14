@@ -7,7 +7,7 @@
     <SpFormPlus
       v-model="form"
       :form-items="formItems"
-      form-type="form"
+      form-type="displayForm"
       label-width="160px"
       :show-default-actions="false"
     />

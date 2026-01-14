@@ -104,7 +104,6 @@ export default {
           label: '客服链接',
           component: 'input',
           componentProps: {
-            style: { maxWidth: '600px' },
             placeholder: '请输入内容'
           },
           tip: '如实际运营中有多个客服人员接待咨询，建议配置为美洽客服组链接，在美洽客服组内添加客服人员坐席。',
@@ -129,7 +128,6 @@ export default {
           label: 'H5商城',
           component: 'input',
           componentProps: {
-            style: { maxWidth: '600px' },
             placeholder: '请输入内容'
           },
           rules: [{ validator: validateLink }],
@@ -140,7 +138,6 @@ export default {
           label: 'APP商城',
           component: 'input',
           componentProps: {
-            style: { maxWidth: '600px' },
             placeholder: '请输入内容'
           },
           rules: [{ validator: validateLink }],
@@ -151,7 +148,6 @@ export default {
           label: '支付宝小程序',
           component: 'input',
           componentProps: {
-            style: { maxWidth: '600px' },
             placeholder: '请输入内容'
           },
           rules: [{ validator: validateLink }],
@@ -162,7 +158,6 @@ export default {
           label: 'PC网页版',
           component: 'input',
           componentProps: {
-            style: { maxWidth: '600px' },
             placeholder: '请输入内容'
           },
           rules: [{ validator: validateLink }],

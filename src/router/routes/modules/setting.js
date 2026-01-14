@@ -117,7 +117,7 @@ const routes = [
           title: '通用设置',
           permissions: ['setting.systemsetting.publicsetting']
         },
-        component: () => import('@/view/base/setting/publicsetting')
+        component: () => import('@/views/settings/systemConfig/publicsetting')
       },
       {
         name: `systemConfigInvoinceConfiguration`,

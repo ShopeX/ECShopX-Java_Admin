@@ -10,7 +10,6 @@
       v-model="form"
       :form-items="formItems"
       form-type="form"
-      label-width="100px"
       :show-default-actions="false"
     />
     <div class="section-footer with-border content-center">
@@ -46,7 +45,6 @@ export default {
           fieldName: 'username',
           label: '用户名',
           component: 'input',
-          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请输入用户名'
           },
@@ -56,7 +54,6 @@ export default {
           fieldName: 'password',
           label: '密码',
           component: 'input',
-          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请输入密码',
             type: 'password'
@@ -67,7 +64,6 @@ export default {
           fieldName: 'appKey',
           label: 'appKey',
           component: 'input',
-          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请输入appKey'
           },
@@ -77,7 +73,6 @@ export default {
           fieldName: 'appSecret',
           label: 'appSecret',
           component: 'input',
-          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请输入appSecret'
           },
@@ -87,7 +82,6 @@ export default {
           fieldName: 'orgAuthCode',
           label: '用户盐值',
           component: 'input',
-          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请输入用户盐值'
           },
@@ -97,7 +91,6 @@ export default {
           fieldName: 'taxNo',
           label: '机构税号',
           component: 'input',
-          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请输入机构税号'
           },

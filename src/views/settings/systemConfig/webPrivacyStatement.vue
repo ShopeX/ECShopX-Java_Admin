@@ -50,6 +50,7 @@ const [Form, FormApi] = useForm({
       value: ''
     }
   ],
+  formType: 'displayForm',
   labelWidth: '150px',
   showDefaultActions: false
 })

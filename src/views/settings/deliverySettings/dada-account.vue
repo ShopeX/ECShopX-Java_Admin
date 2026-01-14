@@ -49,6 +49,7 @@ export default {
         {
           fieldName: 'money',
           label: '充值金额',
+          cellWidth:0.6,
           component: ({ value, h, onInput }) => {
             return h('el-input', {
               props: {

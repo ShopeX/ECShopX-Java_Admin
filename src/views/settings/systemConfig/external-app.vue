@@ -13,7 +13,6 @@
         @submit="onSearch"
         @reset="onSearch"
         :inline="true"
-        label-width="95px"
       />
 
       <div class="action-container mt-5">
@@ -93,7 +92,6 @@ export default {
           componentProps: {
             placeholder: '请输入小程序名称'
           },
-          formItemClass: 'w-300'
         }
       ],
       // 规则

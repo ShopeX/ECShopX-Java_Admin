@@ -54,6 +54,7 @@ export default {
         {
           fieldName: 'corp_name',
           label: '物流名称',
+          cellWidth:2,
           component: 'input',
           componentProps: {
             placeholder: '请输入物流公司名称'
@@ -63,7 +64,6 @@ export default {
           fieldName: 'status',
           label: '物流状态',
           component: 'select',
-          formItemClass: 'status-field-half',
           componentProps: {
             placeholder: '请选择',
             clearable: true,

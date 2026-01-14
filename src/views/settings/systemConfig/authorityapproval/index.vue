@@ -13,8 +13,6 @@
         @submit="onSearch"
         @reset="onSearch"
         :inline="true"
-        class="search-form-spacing"
-        label-width="95px"
       />
       <SpFinder
         ref="finder"
@@ -115,6 +113,11 @@ export default {
       })
     }
   },
+  watch: {
+    'queryParams.queryTime'(val) {
+      if (!val) this.queryParams.queryTime = []
+    }
+  },
   computed: {
     formItems() {
       return [
@@ -122,7 +125,6 @@ export default {
           fieldName: 'status',
           label: '审批状态',
           component: 'select',
-          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请选择审批状态',
             options: this.approveStatusList.map((item) => ({
@@ -135,7 +137,6 @@ export default {
           fieldName: 'login_name',
           label: '账户名称',
           component: 'input',
-          formItemClass: 'w-1/3',
           componentProps: {
             placeholder: '请输入账户名称'
           }
@@ -143,43 +144,29 @@ export default {
         {
           fieldName: 'queryTime',
           label: '申请日期',
-          formItemClass: 'w-2/3',
-          component: (context) => {
-            const { value, props, onInput, h } = context
-            return h('el-date-picker', {
-              props: {
-                value,
-                type: 'daterange',
-                format: 'yyyy-MM-dd',
-                valueFormat: 'yyyy-MM-dd',
-                startPlaceholder: '开始',
-                endPlaceholder: '结束',
-                size: 'small',
-                ...props
-              },
-              on: {
-                input: onInput
-              }
-            })
-          },
-          componentProps: {},
-          formItemClass: 'flex-1'
+          component: 'datetimepicker',
+          cellWidth: 2,
+          componentProps: {
+            type: 'datetimerange',
+            startPlaceholder: '开始日期',
+            endPlaceholder: '结束日期',
+            defaultTime: ['00:00:00', '23:59:59'],
+            valueFormat: 'timestamp',
+            size: 'default',
+            clearable: true
+          }
         }
       ]
     }
   },
   methods: {
     beforeSearch(params) {
-      let _params = {
+      const time = this.queryParams.queryTime || []
+      const _params = {
         ...params,
-        ...this.queryParams
-      }
-      const [startTime, endTime] = this.queryParams.queryTime || []
-      if (startTime) {
-        _params['start_time'] = moment(startTime).unix()
-      }
-      if (endTime) {
-        _params['end_time'] = moment(endTime).unix()
+        ...this.queryParams,
+        start_time: time.length >= 2 ? time[0] / 1000 : '',
+        end_time: time.length >= 2 ? time[1] / 1000 : ''
       }
       delete _params.queryTime
       return _params
@@ -190,8 +177,4 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.search-form-spacing {
-  margin-bottom: 15px;
-}
-</style>
+

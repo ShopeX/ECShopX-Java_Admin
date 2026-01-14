@@ -105,7 +105,7 @@ export default {
           label: 'EBusinessID',
           component: 'input',
           componentProps: {
-            style: { width: '300px' }
+            style: { width: '400px' }
           }
         },
         {
@@ -113,7 +113,7 @@ export default {
           label: 'AppKey',
           component: 'input',
           componentProps: {
-            style: { width: '300px' }
+            style: { width: '400px' }
           }
         },
         {
