@@ -131,7 +131,7 @@
            </div>
            
            <div class="py-1.5 px-4 border-t border-[#e4e7ed] flex items-center bg-white">
-             <span class="pr-2">圈选客户数: {{ estimateCount }} 人</span>
+             <span class="pr-2">客户数: {{ estimateCount }} 人</span>
              <el-button type="primary" size="small" :disabled="!isEditMode" @click="onSearchChange">查询</el-button>
            </div>
          </div>

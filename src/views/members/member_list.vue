@@ -74,7 +74,7 @@
   <template>
     <SpPage>
       <SpRouterView>
-        <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onReset">
+        <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onReset" :label-width="110">
           <SpFilterFormItem prop="mobile" label="手机号:">
             <el-input v-model="params.mobile" placeholder="请输入手机号" />
           </SpFilterFormItem>
@@ -108,17 +108,7 @@
           <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="reg_salesperson" label="注册导购:">
             <el-input v-model="params.reg_salesperson" placeholder="输入导购手机号" />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="tag_id" label="标签:">
-            <el-select v-model="params.tag_id" clearable placeholder="请选择">
-              <el-option
-                v-for="item in tag.list"
-                :key="item.tag_id"
-                :label="item.tag_name"
-                :value="item.tag_id"
-              />
-            </el-select>
-          </SpFilterFormItem>
-          <SpFilterFormItem prop="tag_id" label="注册日期:">
+          <SpFilterFormItem prop="created" label="注册日期:">
             <el-date-picker
               v-model="created"
               unlink-panels
@@ -181,6 +171,29 @@
               @change="birthdayChange"
             />
           </SpFilterFormItem>
+          <SpFilterFormItem prop="tag_id" label="人群打标:">
+            <div class="flex items-center">
+              <el-select
+                ref="crowdTagSelect"
+                v-model="params.tag_id"
+                multiple
+                clearable
+                :multiple-limit="1"
+                collapse-tags
+                placeholder="请选择人群标签"
+                style="width: 100%;"
+                @remove-tag="handleCrowdTagRemove"
+              >
+                <el-option
+                  v-for="tag in selectedCrowdTags"
+                  :key="tag.tag_id"
+                  :label="tag.tag_name"
+                  :value="tag.tag_id"
+                />
+              </el-select>
+              <i class="el-icon-circle-plus text-[16px]"  @click="showCrowdTagDialog = true"></i>
+            </div>
+          </SpFilterFormItem>
         </SpFilterForm>
   
         <div class="action-container">
@@ -188,7 +201,7 @@
           <el-button
             v-if="!VERSION_IN_PURCHASE()"
             type="primary"
-            @click="showCouponTagDialog = true"
+            @click="onSelectCoupon"
           >
             发放优惠券
           </el-button>
@@ -251,84 +264,6 @@
           :before-close="handleCancelLabelsDialog"
           :visible.sync="dialogIsShow"
         >
-          <template v-if="params.action_type == 'give_coupon'">
-            <el-radio-group v-model="card_type" @change="changeStaffCouponsPage(1)">
-              <el-radio-button label="all" value="all"> 全部 </el-radio-button>
-              <el-radio-button label="cash" value="cash"> 满减券 </el-radio-button>
-              <el-radio-button label="discount" value="discount"> 折扣券 </el-radio-button>
-              <el-radio-button v-if="VERSION_STANDARD()" label="new_gift" value="new_gift">
-                兑换券
-              </el-radio-button>
-            </el-radio-group>
-            <ul v-loading="staffCoupons.loading" class="dialog-list clearfix">
-              <template v-for="(item, index) in staffCoupons.list">
-                <li
-                  :key="index"
-                  :class="item.checked ? 'checked' : ''"
-                  @click="selectStaffItems(item)"
-                >
-                  <i v-if="item.checked" class="el-icon-check" /> {{ item.title }}
-                </li>
-              </template>
-            </ul>
-            <div class="content-padded">
-              <el-pagination
-                background
-                layout="prev, pager, next"
-                style="white-space: initial"
-                :current-page="staffCoupons.page.currentPage"
-                :page-size="staffCoupons.page.pageSize"
-                :total="staffCoupons.page.total"
-                @current-change="changeStaffCouponsPage"
-              />
-            </div>
-            <div style="display: none">
-              <template v-for="(item, index) in staffCoupons.temp">
-                <li :key="index">
-                  {{ item.title }}
-                </li>
-              </template>
-            </div>
-            <span slot="footer" class="dialog-footer">
-              <el-button type="primary" @click="submitSelected">确定赠送</el-button>
-            </span>
-          </template>
-  
-          <template v-if="params.action_type == 'rel_tag'">
-            <div class="selected-tags view-flex">
-              <div class="label">已选中标签：</div>
-              <div class="view-flex-item">
-                <el-tag
-                  v-for="(tag, index) in tag.currentTags"
-                  :key="index"
-                  closable
-                  size="small"
-                  :disable-transitions="false"
-                  @close="tagRemove(index)"
-                >
-                  {{ tag.tag_name }}
-                </el-tag>
-              </div>
-            </div>
-            <div>
-              <el-tag
-                v-for="(tag, index) in tag.tags"
-                :key="index"
-                class="tag-item"
-                size="medium"
-                color="#ffffff"
-                :disable-transitions="false"
-                @click.native="tagAdd(tag, index)"
-              >
-                {{ tag.tag_name }}
-              </el-tag>
-            </div>
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="dialogIsShow = false">取 消</el-button>
-              <el-button type="primary" @click="submitMemberTag">确 定</el-button>
-            </span>
-          </template>
-  
           <template v-if="params.action_type == 'send_sms'">
             <el-form>
               <el-form-item class="content-center">
@@ -682,19 +617,17 @@
           />
         </template>
   
-        <!-- 选择优惠券和标签弹框 -->
-        <CompCouponTagSelector
-          :visible.sync="showCouponTagDialog"
-          :selected-coupons="selectedCoupons"
-          :selected-tags="selectedCouponTags"
-          @confirm="handleCouponTagConfirm"
-        />
-  
         <!-- 批量打标签弹框 -->
         <CompTagsMore
           :visible.sync="showTagDialog"
-          :selected-tags="selectedTags"
           @confirm="handleTagConfirm"
+        />
+        
+        <!-- 人群达标标签选择弹框 -->
+        <CompTagsMore
+          :visible.sync="showCrowdTagDialog"
+          :selected-tags="selectedCrowdTags"
+          @confirm="handleCrowdTagConfirm"
         />
       </SpRouterView>
     </SpPage>
@@ -720,7 +653,6 @@
   import shopSelect from '@/components/shopSelect'
   import { ROLE_LIST } from '@/consts'
   import { finderSetting } from './config/member_list_schema'
-  import CompCouponTagSelector from '@/views/members/components/CompCouponTagSelector.vue'
   import CompTagsMore from '@/views/members/components/CompTagsMore.vue'
   
   export default {
@@ -728,7 +660,6 @@
       shopSelect,
       exportTip,
       aliyunsmsDialog,
-      CompCouponTagSelector,
       CompTagsMore
     },
     data() {
@@ -794,17 +725,6 @@
         },
         smsUserData: [],
         sms_content: '',
-        tag: {
-          dialog: false,
-          editUser: [],
-          list: [],
-          form: {
-            tag_ids: [],
-            user_ids: []
-          },
-          currentTags: [],
-          tags: []
-        },
         editMobileDialog: false,
         form: {
           oldMobile: '',
@@ -911,11 +831,20 @@
         vipGrade: [], // 付费会员等级列表
         dmcrmIsOpen:false,
         changeStoreId: '',
-        showCouponTagDialog: false,
         selectedCoupons: [],
-        selectedCouponTags: [],
         showTagDialog: false,
-        selectedTags: []
+        showCrowdTagDialog: false,
+        selectedCrowdTags: [] // 人群达标选中的标签
+      }
+    },
+    watch: {
+      'params.tag_id': {
+        handler(newVal) {
+          this.selectedCrowdTags = this.selectedCrowdTags.filter(tag => 
+            newVal.includes(tag.tag_id)
+          )
+        },
+        deep: true
       }
     },
     computed: {
@@ -1071,20 +1000,6 @@
       getRowKeys(row) {
         return `${row.user_id}${row.shop_id}`
       },
-      submitSelected() {
-        this.staffCoupons.dialog = false
-        this.staffCoupons.checked = this.staffCoupons.temp
-        console.log(this.staffCoupons.checked)
-        let cardIds = []
-        for (var i = 0; i < this.staffCoupons.checked.length; i++) {
-          cardIds.push(this.staffCoupons.checked[i].card_id)
-        }
-        this.staffCoupons.temp = []
-        this.params.couponsids = cardIds
-        console.log(this.params)
-        this.params.action_type = 'give_coupon'
-        this.batchAction('是否给全部会员赠送优惠券?')
-      },
       handleCancelLabelsDialog() {
         this.tag.dialog = false
         this.editMobileDialog = false
@@ -1128,6 +1043,7 @@
       onReset() {
         this.created = ''
         this.birthday = ''
+        this.selectedCrowdTags = []
         this.params = {
           vip_grade: '',
           tag_id: '',
@@ -1139,7 +1055,7 @@
           employee_number: '',
           birthday_start: '',
           birthday_end: '',
-          reg_salesperson: ''
+          reg_salesperson: '',
         }
         this.$refs.finder.refresh(true)
       },
@@ -1158,7 +1074,8 @@
         const finderParams = {
           page: params.page,
           pageSize: 20,
-          ...this.params
+          ...this.params,
+          tag_id: this.params.tag_id.length > 0 ? this.params.tag_id.join(',') : ''
         }
         // // 处理日期范围
         // if (this.created && this.created.length === 2) {
@@ -1344,38 +1261,6 @@
           this.batchAction('是否给全部会员发短信?')
         }
       },
-      addMemberTag() {
-        this.params.action_type = 'rel_tag'
-  
-        this.tag.dialog = true
-      },
-      tagRemove(index) {
-        this.tag.tags.unshift(this.tag.currentTags[index])
-        this.tag.currentTags.splice(index, 1)
-      },
-      tagAdd(item, index) {
-        let isInArr = this.tag.currentTags.findIndex((n) => n.tag_id == item.tag_id)
-        if (isInArr == -1) {
-          this.tag.currentTags.push(item)
-          this.tag.tags.splice(index, 1)
-        }
-      },
-      submitMemberTag() {
-        this.params.tag_ids = []
-        this.params.user_id = []
-        this.tag.currentTags.forEach((item) => {
-          this.params.tag_ids.push(item.tag_id)
-        })
-        if (this.params.tag_ids.length <= 0) {
-          this.$message({
-            type: 'error',
-            message: '没有选中标签'
-          })
-          return
-        }
-        this.dialogIsShow = false
-        this.batchAction('是否给全部会员打标签?')
-      },
       clearParams() {
         this.params.user_id = undefined
         this.params.grade_form = undefined
@@ -1386,6 +1271,7 @@
         if (this.user_id.length > 0) {
           this.params.user_id = this.user_id
           let params = JSON.parse(JSON.stringify(this.params))
+          params.tag_id = params.tag_id.length > 0 ? params.tag_id.join(',') : ''
           console.log(this.params)
           batchOperating(params).then((res) => {
             if (res.data.data.status) {
@@ -1407,6 +1293,7 @@
           })
             .then(() => {
               let params = JSON.parse(JSON.stringify(this.params))
+              params.tag_id = params.tag_id.length > 0 ? params.tag_id.join(',') : ''
               batchOperating(params).then((res) => {
                 if (res.data.data.status) {
                   this.dialogIsShow = false
@@ -1715,16 +1602,7 @@
         }
   
         this.dialogIsShow = true
-        if (actiontype == 'rel_tag') {
-          this.dialogTitle = '为会员打标签'
-          this.tag.currentTags = []
-          this.tag.tags = [...this.tag.list]
-          this.tag.tags.forEach((item, index) => {
-            let isInArr = this.tag.currentTags.findIndex((n) => n.tag_id == item.tag_id)
-            if (isInArr != -1) this.tag.tags.splice(index, 1)
-          })
-          this.tag.dialog = true
-        } else if (actiontype == 'send_sms') {
+        if (actiontype == 'send_sms') {
           this.sms_content = ''
           this.dialogTitle = '群发短信'
         } else if (actiontype == 'vip_delay') {
@@ -1745,27 +1623,6 @@
       switchAliyunsmsDialog(val = false) {
         this.aliyunsmsDialogVisible = val
       },
-      handleCouponTagConfirm(data) {
-        // 处理选择优惠券和标签的确认
-        const couponIds = data.couponIds || []
-        const tagIds = data.tagIds || []
-        
-        // 设置优惠券ID
-        this.params.couponsids = couponIds
-        this.params.action_type = 'give_coupon'
-        
-        // 如果有标签，也设置标签ID
-        if (tagIds && tagIds.length > 0) {
-          this.params.tag_ids = tagIds
-        }
-        
-        // 保存选中的数据用于回显
-        this.selectedCoupons = data.coupons || []
-        this.selectedCouponTags = data.tags || []
-        
-        // 调用批量操作
-        this.batchAction('是否给全部会员赠送优惠券?')
-      },
       handleTagConfirm(tags) {
         // 处理标签确认
         this.params.action_type = 'rel_tag'
@@ -1785,12 +1642,44 @@
           return
         }
         
-        // // 保存选中的标签用于回显
-        // this.selectedTags = tags
-        
         // 调用批量操作
         this.batchAction('是否给全部会员打标签?')
-      }
+      },
+      handleCrowdTagConfirm(tags) {
+        console.log(tags)
+        if (!tags || tags.length == 0) {
+          this.$message({
+            type: 'error',
+            message: '请选择标签'
+          })
+          return
+        }
+        this.selectedCrowdTags = tags
+        // 将选中的标签ID存储到 params 中用于筛选
+        this.params.tag_id = tags.map(tag => tag.tag_id)
+      },
+      handleCrowdTagRemove(tagId) {
+        const index = this.selectedCrowdTags.findIndex(tag => tag.tag_id == tagId)
+        if (index > -1) {
+          this.selectedCrowdTags.splice(index, 1)
+        }
+      },
+      async onSelectCoupon() {
+        const { data } = await this.$picker.coupon({
+          multiple: true,
+          data: this.selectedCoupons.map(item => item.card_id)
+        })
+        if (data && data.length > 0) {
+          this.selectedCoupons = data.map(item => ({
+            card_id: item.card_id,
+            card_type: item.card_type,
+            title: item.title
+          }))
+        }
+        this.params.couponsids = this.selectedCoupons.map(item => item.card_id)
+        this.params.action_type = 'give_coupon'
+        this.batchAction('是否给全部会员赠送优惠券?')
+      },
     }
   }
   </script>
