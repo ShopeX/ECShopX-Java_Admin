@@ -497,6 +497,7 @@ export default {
           {
             name: '导购',
             key: 'salesman_name',
+            visible: this.VERSION_STANDARD(),
             width: 100
           },
           {
