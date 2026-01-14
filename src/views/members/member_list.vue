@@ -181,7 +181,7 @@
               @change="birthdayChange"
             />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="crowd_tag_ids" label="人群达标:" s>
+          <SpFilterFormItem prop="crowd_tag_ids" label="人群打标:">
             <div class="flex items-center">
               <el-select
                 ref="crowdTagSelect"
