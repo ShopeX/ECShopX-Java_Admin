@@ -126,6 +126,11 @@ export default {
     this.$on('sp.filterForm.addField', (field) => {
       if (field) {
         this.fields.push(field)
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.calcRows()
+          }, 100)
+        })
       }
     })
     const _this = this
@@ -138,7 +143,9 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.calcRows()
+      setTimeout(() => {
+        this.calcRows()
+      }, 200)
     })
   },
   destroyed() {
@@ -151,15 +158,16 @@ export default {
     calcRows() {
       // const cols = Math.floor(this.$refs.fiterFormBd.clientWidth / 305)
       let rows = 1
+      let offset = 8
       const fieldsWidth = this.fields.reduce((previous, current) => {
-        const curWidth = previous + current.$el.clientWidth
+        const curWidth = previous + (current.$el.clientWidth + offset)
 
         if (curWidth > this.$refs.fiterFormBd.clientWidth) {
           rows = rows + 1
           previous = 0
         }
         // console.log(`curWidth:`, curWidth, rows)
-        return previous + current.$el.clientWidth
+        return previous + (current.$el.clientWidth + offset)
       }, 0)
       // const rows = Math.ceil(this.fields.length / cols)
       // const rows = fieldsWidth > this.$refs.fiterFormBd.clientWidth * 2
