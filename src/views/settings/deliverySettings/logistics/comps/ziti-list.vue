@@ -196,7 +196,7 @@ export default {
       if (VERSION_PLATFORM() && IS_ADMIN()) {
         params = {
           ...params,
-          distribution_type: 0
+          // distribution_type: 0
         }
       }
       const { data } = await this.$picker.shop(params)

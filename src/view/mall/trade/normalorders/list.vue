@@ -432,7 +432,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="distributor_name" label="来源店铺" />
-          <el-table-column prop="work_userid" label="导购">
+          <el-table-column prop="work_userid" label="导购" v-if="VERSION_STANDARD()">
             <template slot-scope="scope">
               {{ scope.row.salesman_info?.work_userid }}
             </template>
