@@ -108,17 +108,7 @@
           <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="reg_salesperson" label="注册导购:">
             <el-input v-model="params.reg_salesperson" placeholder="输入导购手机号" />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="tag_id" label="标签:">
-            <el-select v-model="params.tag_id" clearable placeholder="请选择">
-              <el-option
-                v-for="item in tag.list"
-                :key="item.tag_id"
-                :label="item.tag_name"
-                :value="item.tag_id"
-              />
-            </el-select>
-          </SpFilterFormItem>
-          <SpFilterFormItem prop="tag_id" label="注册日期:">
+          <SpFilterFormItem prop="created" label="注册日期:">
             <el-date-picker
               v-model="created"
               unlink-panels
@@ -181,11 +171,11 @@
               @change="birthdayChange"
             />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="crowd_tag_ids" label="人群达标:" s>
+          <SpFilterFormItem prop="tag_id" label="人群打标:">
             <div class="flex items-center">
               <el-select
                 ref="crowdTagSelect"
-                v-model="params.crowd_tag_ids"
+                v-model="params.tag_id"
                 multiple
                 clearable
                 :multiple-limit="1"
@@ -274,41 +264,6 @@
           :before-close="handleCancelLabelsDialog"
           :visible.sync="dialogIsShow"
         >
-          <template v-if="params.action_type == 'rel_tag'">
-            <div class="selected-tags view-flex">
-              <div class="label">已选中标签：</div>
-              <div class="view-flex-item">
-                <el-tag
-                  v-for="(tag, index) in tag.currentTags"
-                  :key="index"
-                  closable
-                  size="small"
-                  :disable-transitions="false"
-                  @close="tagRemove(index)"
-                >
-                  {{ tag.tag_name }}
-                </el-tag>
-              </div>
-            </div>
-            <div>
-              <el-tag
-                v-for="(tag, index) in tag.tags"
-                :key="index"
-                class="tag-item"
-                size="medium"
-                color="#ffffff"
-                :disable-transitions="false"
-                @click.native="tagAdd(tag, index)"
-              >
-                {{ tag.tag_name }}
-              </el-tag>
-            </div>
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="dialogIsShow = false">取 消</el-button>
-              <el-button type="primary" @click="submitMemberTag">确 定</el-button>
-            </span>
-          </template>
-  
           <template v-if="params.action_type == 'send_sms'">
             <el-form>
               <el-form-item class="content-center">
@@ -665,7 +620,6 @@
         <!-- 批量打标签弹框 -->
         <CompTagsMore
           :visible.sync="showTagDialog"
-          :selected-tags="selectedTags"
           @confirm="handleTagConfirm"
         />
         
@@ -771,17 +725,6 @@
         },
         smsUserData: [],
         sms_content: '',
-        tag: {
-          dialog: false,
-          editUser: [],
-          list: [],
-          form: {
-            tag_ids: [],
-            user_ids: []
-          },
-          currentTags: [],
-          tags: []
-        },
         editMobileDialog: false,
         form: {
           oldMobile: '',
@@ -799,8 +742,7 @@
           employee_number: '',
           birthday_start: '',
           birthday_end: '',
-          reg_salesperson: '',
-          crowd_tag_ids: [] // 人群达标标签ID数组
+          reg_salesperson: ''
         },
         operateLog: [],
         currentShop: '',
@@ -891,16 +833,13 @@
         changeStoreId: '',
         selectedCoupons: [],
         showTagDialog: false,
-        selectedTags: [],
         showCrowdTagDialog: false,
         selectedCrowdTags: [] // 人群达标选中的标签
       }
     },
     watch: {
-      'params.crowd_tag_ids': {
+      'params.tag_id': {
         handler(newVal) {
-          // 当 params.crowd_tag_ids 变化时，同步更新 selectedCrowdTags
-          // 过滤掉已删除的标签
           this.selectedCrowdTags = this.selectedCrowdTags.filter(tag => 
             newVal.includes(tag.tag_id)
           )
@@ -1117,7 +1056,6 @@
           birthday_start: '',
           birthday_end: '',
           reg_salesperson: '',
-          crowd_tag_ids: []
         }
         this.$refs.finder.refresh(true)
       },
@@ -1136,7 +1074,8 @@
         const finderParams = {
           page: params.page,
           pageSize: 20,
-          ...this.params
+          ...this.params,
+          tag_id: this.params.tag_id.length > 0 ? this.params.tag_id.join(',') : ''
         }
         // // 处理日期范围
         // if (this.created && this.created.length === 2) {
@@ -1322,38 +1261,6 @@
           this.batchAction('是否给全部会员发短信?')
         }
       },
-      addMemberTag() {
-        this.params.action_type = 'rel_tag'
-  
-        this.tag.dialog = true
-      },
-      tagRemove(index) {
-        this.tag.tags.unshift(this.tag.currentTags[index])
-        this.tag.currentTags.splice(index, 1)
-      },
-      tagAdd(item, index) {
-        let isInArr = this.tag.currentTags.findIndex((n) => n.tag_id == item.tag_id)
-        if (isInArr == -1) {
-          this.tag.currentTags.push(item)
-          this.tag.tags.splice(index, 1)
-        }
-      },
-      submitMemberTag() {
-        this.params.tag_ids = []
-        this.params.user_id = []
-        this.tag.currentTags.forEach((item) => {
-          this.params.tag_ids.push(item.tag_id)
-        })
-        if (this.params.tag_ids.length <= 0) {
-          this.$message({
-            type: 'error',
-            message: '没有选中标签'
-          })
-          return
-        }
-        this.dialogIsShow = false
-        this.batchAction('是否给全部会员打标签?')
-      },
       clearParams() {
         this.params.user_id = undefined
         this.params.grade_form = undefined
@@ -1364,6 +1271,7 @@
         if (this.user_id.length > 0) {
           this.params.user_id = this.user_id
           let params = JSON.parse(JSON.stringify(this.params))
+          params.tag_id = params.tag_id.length > 0 ? params.tag_id.join(',') : ''
           console.log(this.params)
           batchOperating(params).then((res) => {
             if (res.data.data.status) {
@@ -1385,6 +1293,7 @@
           })
             .then(() => {
               let params = JSON.parse(JSON.stringify(this.params))
+              params.tag_id = params.tag_id.length > 0 ? params.tag_id.join(',') : ''
               batchOperating(params).then((res) => {
                 if (res.data.data.status) {
                   this.dialogIsShow = false
@@ -1693,16 +1602,7 @@
         }
   
         this.dialogIsShow = true
-        if (actiontype == 'rel_tag') {
-          this.dialogTitle = '为会员打标签'
-          this.tag.currentTags = []
-          this.tag.tags = [...this.tag.list]
-          this.tag.tags.forEach((item, index) => {
-            let isInArr = this.tag.currentTags.findIndex((n) => n.tag_id == item.tag_id)
-            if (isInArr != -1) this.tag.tags.splice(index, 1)
-          })
-          this.tag.dialog = true
-        } else if (actiontype == 'send_sms') {
+        if (actiontype == 'send_sms') {
           this.sms_content = ''
           this.dialogTitle = '群发短信'
         } else if (actiontype == 'vip_delay') {
@@ -1742,21 +1642,24 @@
           return
         }
         
-        // // 保存选中的标签用于回显
-        // this.selectedTags = tags
-        
         // 调用批量操作
         this.batchAction('是否给全部会员打标签?')
       },
       handleCrowdTagConfirm(tags) {
-        console.log('handleCrowdTagConfirm', tags)
-        // 处理人群达标标签确认
-        this.selectedCrowdTags = tags || []
+        console.log(tags)
+        if (!tags || tags.length == 0) {
+          this.$message({
+            type: 'error',
+            message: '请选择标签'
+          })
+          return
+        }
+        this.selectedCrowdTags = tags
         // 将选中的标签ID存储到 params 中用于筛选
-        this.params.crowd_tag_ids = tags.map(tag => tag.tag_id)
+        this.params.tag_id = tags.map(tag => tag.tag_id)
       },
       handleCrowdTagRemove(tagId) {
-        const index = this.selectedCrowdTags.findIndex(tag => tag.tag_id === tagId)
+        const index = this.selectedCrowdTags.findIndex(tag => tag.tag_id == tagId)
         if (index > -1) {
           this.selectedCrowdTags.splice(index, 1)
         }

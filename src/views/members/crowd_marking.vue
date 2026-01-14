@@ -18,7 +18,7 @@
       />
 
       <div class="action-container mt-4">
-        <el-button type="primary" @click="handleCreate"> 创建人群圈选 </el-button>
+        <el-button type="primary" @click="handleCreate"> 创建人群 </el-button>
       </div>
 
       <SpFinder
@@ -57,22 +57,16 @@ export default {
         tag_id: '',
         created: []
       },
-      tagOptions: [
-        { label: '标签1', value: 1 },
-        { label: '标签2', value: 2 },
-        { label: '标签3', value: 3 }
-      ],
       searchFormItems: [
         {
           formItemClass: 'w-1/3',
           component: 'select',
           componentProps: {
-            placeholder: '请选择',
-            clearable: true,
-            options: []
+            placeholder: '请输入',
+            clearable: true
           },
           fieldName: 'tag_id',
-          label: '分群标签'
+          label: '标签名称'
         },
         {
           formItemClass: 'w-2/4',
@@ -99,11 +93,11 @@ export default {
     formList() {
       return [
         {
-          label: '分群标签名称',
+          label: '标签名称',
           key: 'name',
           type: 'input',
           required: true,
-          placeholder: '请输入分群标签名称'
+          placeholder: '请输入标签名称'
         },
         {
           label: '人群说明',
@@ -127,7 +121,6 @@ export default {
   },
   mounted() {
     this.initFinderSetting()
-    this.initSearchFormItems()
   },
   methods: {
     initFinderSetting() {
@@ -135,7 +128,7 @@ export default {
       this.finderSetting = createSetting({
         columns: [
           {
-            name: '分群标签名称',
+            name: '标签名称',
             key: 'rule_name',
             width: 200
           },
@@ -172,13 +165,6 @@ export default {
     },
     getRowKeys(row) {
       return row.rule_id
-    },
-    initSearchFormItems() {
-      // 更新标签选项
-      const tagItem = this.searchFormItems.find(item => item.fieldName === 'tag_id')
-      if (tagItem) {
-        tagItem.componentProps.options = this.tagOptions
-      }
     },
     beforeSearch(params) {
       const finderParams = {
@@ -225,7 +211,7 @@ export default {
       this.$router.push({ path: this.matchRoutePath('editor'), query: { id: row.rule_id } })
     },
     handleDelete(row) {
-      this.$confirm('此操作将永久删除该人群圈选,是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该标签,是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

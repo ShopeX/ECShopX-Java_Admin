@@ -233,7 +233,6 @@ export default {
                 v-model={value[key]}
                 disabled={this.mainCategoryDisabled}
                 options={this.categoryList}
-                props={{ props: { checkStrictly: true } }}
                 on-change={this.onChangeMainCategory}
               />
             )
