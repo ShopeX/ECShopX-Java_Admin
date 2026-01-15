@@ -24,6 +24,7 @@
       <SpFinder
         ref="finder"
         no-selection
+        row-actions-align="left"
         :show-pager="false"
         :data="finderData"
         :setting="setting"
