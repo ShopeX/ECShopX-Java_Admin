@@ -871,7 +871,6 @@
         this.params.grade_id = grade_id
       }
       this.getMembers()
-      this.getAllTagLists()
       this.getGradeList()
       this.getShopsList()
       getMemberRegisterSetting().then((response) => {
@@ -1120,14 +1119,6 @@
         this.gradeList = gradeList
         this.vipGrade = vipGradeList
         this.levelData = _levelData
-      },
-      async getAllTagLists() {
-        const params = {
-          page: 1,
-          page_size: 500
-        }
-        const { list } = await this.$api.member.getTagList(params)
-        this.tag.list = list
       },
       async getShopsList() {
         const { list } = await this.$api.shop.getWxShopsList({
