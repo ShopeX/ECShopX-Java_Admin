@@ -51,7 +51,7 @@
       <el-table-column label="类型" width="150">
         <template slot-scope="props">
           <!-- {{ JSON.parse(props.row.is_image) ? '图片' : '文字' }} -->
-          {{ props.row.is_image == 'true' ? '图片' : '文字' }}
+          {{ (props.row.is_image == 'true' || props.row.is_image == 1) ? '图片' : '文字' }}
         </template>
       </el-table-column>
       <el-table-column prop="attribute_name" label="规格名称" width="200" />

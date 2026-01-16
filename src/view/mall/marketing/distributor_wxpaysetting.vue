@@ -12,7 +12,7 @@
     <SpFormPlus
       ref="formRef"
       v-model="form"
-      :form-items="formItems"
+      :form-items="getFormItems"
       form-type="normalForm"
       label-width="120px"
       :show-default-actions="false"
@@ -48,12 +48,17 @@ export default {
         cert_key_name: '',
         is_open: false
       },
-      formItems: [
+    }
+  },
+  computed: {
+    getFormItems() {
+      const formItems = [
         {
           fieldName: 'app_id',
           label: '公众账号ID',
           component: 'input',
           formItemClass: 'w-3/4',
+          value: this.form.app_id,
           componentProps: {
             placeholder: '请输入公众账号ID',
             style: { width: '300px' }
@@ -66,6 +71,7 @@ export default {
           label: 'APP应用ID',
           component: 'input',
           formItemClass: 'w-3/4',
+          value: this.form.app_app_id,
           componentProps: {
             placeholder: '请输入APP应用ID',
             style: { width: '300px' }
@@ -98,6 +104,7 @@ export default {
           fieldName: 'is_servicer',
           label: '是否特约商户',
           component: 'switch',
+          value: this.form.is_servicer,
           componentProps: {
             activeColor: '#13ce66',
             inactiveColor: '#ff4949'
@@ -109,6 +116,7 @@ export default {
           label: '服务商APPID',
           component: 'input',
           formItemClass: 'w-3/4',
+          value: this.form.servicer_app_id,
           componentProps: {
             placeholder: '请输入服务商APPID',
             style: { width: '300px' }
@@ -119,114 +127,52 @@ export default {
           label: '服务商商户号',
           component: 'input',
           formItemClass: 'w-3/4',
+          value: this.form.servicer_merchant_id,
           componentProps: {
             placeholder: '请输入服务商商户号',
             style: { width: '300px' }
           },
         },
         {
-          fieldName: 'cert',
           label: '商户证书',
-          component: ({ value, onInput, formData }) => {
-            return (
-              <div>
-                {formData.cert_name && (
-                  <span style="margin-right: 10px; color: #606266;">{formData.cert_name}</span>
-                )}
-                <el-upload
-                  action=""
-                  auto-upload={false}
-                  onChange={(file, fileList) => {
-                    if (file && file.raw) {
-                      formData.cert = file.raw
-                      formData.cert_name = file.name
-                      onInput(file.raw)
-                    }
-                  }}
-                >
-                  <el-button size="small" type="primary">
-                    点击上传
-                  </el-button>
-                </el-upload>
-              </div>
-            )
+          component: 'upload',
+          componentProps: {
+            title: this.form.cert_name,
+            buttonSize: '点击上传',
+            size: 'middle',
+            autoUpload: false,
+            multiple: false,
+            onChange: (file, fileList) => {
+              this.$set(this.form, 'cert', file.raw)
+              this.$set(this.form, 'cert_name', file.name)
+            },
           },
-          tip: '微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->证书下载 apiclient_cert.pem',
-          rules: [
-            {
-              required: true,
-              message: '请上传商户证书',
-              trigger: 'change',
-              validator: (rule, value, callback) => {
-                if (!this.form.cert && !this.form.cert_name) {
-                  callback(new Error('请上传商户证书'))
-                } else {
-                  callback()
-                }
-              }
-            }
-          ]
+          tip: '微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->证书下载 apiclient_cert.pem'
         },
         {
-          fieldName: 'cert_key',
-          label: '商户证书密钥',
-          component: ({ value, onInput, formData }) => {
-            return (
-              <div>
-                {formData.cert_key_name && (
-                  <span style="margin-right: 10px; color: #606266;">
-                    {formData.cert_key_name}
-                  </span>
-                )}
-                <el-upload
-                  action=""
-                  auto-upload={false}
-                  onChange={(file, fileList) => {
-                    if (file && file.raw) {
-                      formData.cert_key = file.raw
-                      formData.cert_key_name = file.name
-                      onInput(file.raw)
-                    }
-                  }}
-                >
-                  <el-button size="small" type="primary">
-                    点击上传
-                  </el-button>
-                </el-upload>
-              </div>
-            )
-          },
-          tip: '微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->证书下载 apiclient_key.pem',
-          rules: [
-            {
-              required: true,
-              message: '请上传商户证书密钥',
-              trigger: 'change',
-              validator: (rule, value, callback) => {
-                if (!this.form.cert_key && !this.form.cert_key_name) {
-                  callback(new Error('请上传商户证书密钥'))
-                } else {
-                  callback()
-                }
-              }
+          label: '商户证书秘钥',
+          component: 'upload',
+          componentProps: {
+            title: this.form.cert_key_name,
+            buttonSize: '点击上传',
+            size: 'middle',
+            autoUpload: false,
+            multiple: false,
+            onChange: (file, fileList) => {
+              this.$set(this.form, 'cert_key', file.raw)
+              this.$set(this.form, 'cert_key_name', file.name)
             }
-          ]
+          },
+          tip: '微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->证书下载 apiclient_key.pem'
         }
       ]
+      return formItems
     }
   },
   mounted() {
     this.getConfig()
   },
   methods: {
-    certHandleChange(file, fileList) {
-      this.form.cert = file.raw
-      this.form.cert_name = file.name
-    },
-    keyHandleChange(file, fileList) {
-      this.form.cert_key = file.raw
-      this.form.cert_key_name = file.name
-    },
     async getConfig() {
       const { distributor_id, name } = this.$route.query
       this.name = name
@@ -240,6 +186,7 @@ export default {
       }
     },
     async onSubmit() {
+      const { distributor_id } = this.$route.query
       // 表单校验
       try {
         await this.$refs.formRef.$refs.form.validate()
@@ -248,26 +195,27 @@ export default {
       }
 
       this.loading = true
-      let query = {
-        distributor_id: this.form.distributor_id,
+      let params = {
+        ...this.form,
         isUploadFile: true,
         pay_type: 'wxpay',
-        app_id: this.form.app_id,
-        app_app_id: this.form.app_app_id,
-        merchant_id: this.form.merchant_id,
-        key: this.form.key,
-        is_servicer: this.form.is_servicer,
-        servicer_merchant_id: this.form.servicer_merchant_id,
-        servicer_app_id: this.form.servicer_app_id,
-        is_open: this.form.is_open,
-        cert: this.form.cert,
-        cert_key: this.form.cert_key
+        distributor_id
       }
+      Object.keys(params).forEach((key) => {
+        if (key === 'undefined') {
+          delete params[key]
+        }
+      })
+      delete params.cert_name
+      delete params.cert_url
+      delete params.cert_key_name
+      delete params.cert_key_url
       try {
-        await setPaymentSetting(query)
+        await setPaymentSetting(params)
         this.$message.success('保存成功')
+        this.getConfig()
       } catch (error) {
-        this.$message.error('保存失败')
+        console.log(error)
       } finally {
         this.loading = false
       }

@@ -20,7 +20,7 @@
     <div class="categorize">
       分类样式：
       <el-radio-group v-model="classify">
-        <el-radio :label="true">直接加购</el-radio>
+        <el-radio v-if="VERSION_PLATFORM()" :label="true">直接加购</el-radio>
         <el-radio :label="false">平铺</el-radio>
       </el-radio-group>
     </div>
@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       addCar: true,
-      classify: true
+      classify: this.VERSION_PLATFORM()
     }
   },
   computed: {

@@ -127,8 +127,9 @@ export default {
       try {
         await setPaymentSetting(query)
         this.$message.success('保存成功')
+        this.getConfig()
       } catch (error) {
-        this.$message.error('保存失败')
+        console.log(error)
       } finally {
         this.loading = false
       }

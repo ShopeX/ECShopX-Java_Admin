@@ -700,17 +700,17 @@ export default {
             return !itemId
           }
         },
-        {
-          label: '规格图片',
-          key: 'isShowSpecimg',
-          type: 'switch',
-          disabled,
-          onChange: () => {},
-          isShow: (item, { isSpecs }) => {
-            return isSpecs
-          },
-          tip: '是否在商详页规格选择器显示规格图片'
-        },
+        // {
+        //   label: '规格图片',
+        //   key: 'isShowSpecimg',
+        //   type: 'switch',
+        //   disabled,
+        //   onChange: () => {},
+        //   isShow: (item, { isSpecs }) => {
+        //     return isSpecs
+        //   },
+        //   tip: '是否在商详页规格选择器显示规格图片'
+        // },
         {
           // 单规格组件
           key: 'specParams',

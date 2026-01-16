@@ -75,7 +75,7 @@
               </div>
               <el-button
                 slot="reference"
-                style="width: 45px"
+                style="min-width: 65px"
                 type="text"
                 @click="handleClick(scope.row.category_id)"
               >
