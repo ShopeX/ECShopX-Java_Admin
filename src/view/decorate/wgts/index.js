@@ -28,6 +28,9 @@ import WgtStoreAlphabet from './wgt_store-alphabet'
 import WgtShop from './wgt_shop'
 import WgtClassify from './wgt_classify'
 import WgtShelves from './wgt_shelves'
+import WgtLocationModule from './wgt_locationModule'
+
+
 // 首页装修
 let SCENE_1001 = {
   WgtSlider,
@@ -49,7 +52,8 @@ let SCENE_1001 = {
   WgtStoreAlphabet,
   WgtShop,
   WgtClassify,
-  WgtShelves
+  WgtShelves,
+  WgtLocationModule
 }
 
 if (VERSION_PLATFORM()) {
