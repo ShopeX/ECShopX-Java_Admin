@@ -7,8 +7,16 @@
 
 <script>
 import { isFunction } from '@/utils'
+import CompLayoutSelector from './comps/comp_layout_selector.vue'
+
+// 商品挂件列表
+const GOODS_WIDGETS = ['speedkill', 'group', 'hotranking', 'ranking', 'goods']
+
 export default {
   name: 'AttrPanel',
+  components: {
+    CompLayoutSelector
+  },
   props: {
     info: [Object, Array],
     value: [Object, Number, String, Boolean]
@@ -211,6 +219,20 @@ export default {
         // 在样式列表中的都是样式设置
         return this.styleKeys.includes(item.key)
       })
+    },
+    // 判断是否为商品挂件
+    isGoodsWidget() {
+      const widgetName = this.value?.name || ''
+      return GOODS_WIDGETS.includes(widgetName)
+    },
+    // 布局值
+    layoutValue: {
+      get() {
+        return this.value?.goodsLayout || 'default'
+      },
+      set(val) {
+        this.$set(this.value, 'goodsLayout', val)
+      }
     }
   },
   render(h) {
@@ -287,6 +309,22 @@ export default {
 
     return (
       <div class='attr-panel'>
+        {/* 商品挂件布局选择器 */}
+        {this.isGoodsWidget && (
+          <div class='layout-selector-wrapper'>
+            <div class='layout-selector-label'>商品排列</div>
+            <CompLayoutSelector
+              value={this.layoutValue}
+              on-input={(val) => { this.layoutValue = val }}
+              options={[
+                { label: '默认排列', value: 'default' },
+                { label: '一行一个', value: 'one' },
+                { label: '一行两个', value: 'two' },
+                { label: '一行三个', value: 'three' },
+              ]}
+            />
+          </div>
+        )}
         <el-tabs v-model={this.activeTab} class='attr-panel-tabs'>
           <el-tab-pane label='内容设置' name='content'>
             <div class='attr-panel-content'>

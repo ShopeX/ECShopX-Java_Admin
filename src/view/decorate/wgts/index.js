@@ -27,7 +27,7 @@ import wgtOrderNavigation from './wgt_orderNavigation'
 import WgtStoreAlphabet from './wgt_store-alphabet'
 import WgtShop from './wgt_shop'
 import WgtClassify from './wgt_classify'
-import WgtShelves from './wgt_shelves'
+// import WgtShelves from './wgt_shelves'
 import WgtLocationModule from './wgt_locationModule'
 import WgtSpeedkill from './wgt_speedkill'
 import WgtGroup from './wgt_group'
@@ -57,7 +57,6 @@ let SCENE_1001 = {
   WgtStoreAlphabet,
   WgtShop,
   WgtClassify,
-  WgtShelves,
   WgtLocationModule,
   WgtSpeedkill,
   WgtGroup,
@@ -103,7 +102,7 @@ const SCENE_1003 = {
   WgtStoreAlphabet,
   WgtShop,
   WgtClassify,
-  WgtShelves
+  // WgtShelves
 }
 
 // 自定义页面装修

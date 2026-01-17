@@ -93,7 +93,7 @@ const config = {
         },
     ],
     transformIn: (v) => {
-        const { titleText, titleColor, moreBtn, moreLink, ...rest } = v.base || {}
+        const { titleText, titleColor, moreBtn, moreLink, goodsLayout, ...rest } = v.base || {}
         // 处理 titleText：可能是对象格式 {type, text, image} 或单独的字段
         let hotrankingTitleType = 'text'
         let hotrankingTitleImage = ''
@@ -122,6 +122,7 @@ const config = {
             hotrankingShowMoreBtn: moreBtn?.show !== undefined ? moreBtn.show : (moreBtn !== undefined ? moreBtn : true),
             hotrankingMoreBtnColor: moreBtn?.color || '#000000',
             hotrankingMoreLink: moreLink || {},
+            goodsLayout: goodsLayout,
             tags: {
                 type: v.tagsType || '2',
                 meber_tags: v.meber_tags || [],
@@ -139,6 +140,7 @@ const config = {
                     dataCount: 'dataCount',
                     outerMargin: 'outerMargin',
                     innerPadding: 'innerPadding',
+                    goodsLayout: 'goodsLayout',
                     // 映射标题相关字段 - 转换为对象格式
                     titleText: (v) => {
                         return {

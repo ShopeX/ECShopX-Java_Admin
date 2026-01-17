@@ -1,5 +1,5 @@
 import { pickBy } from '@/utils'
-import AttrDataVue from '../wgt_shelves/attr-data.vue'
+import AttrDataVue from '../../comps/goods-attr/attr-data.vue'
 import CompPickerLinkVue from '../../comps/comp-pickerLink.vue'
 import SpImagePicker from '@/components/sp-image-picker/index.vue'
 import { PLATFORM_PAGE_PICKER_TABS, DEFAULT_PICKER_TABS } from '@/consts'
@@ -144,7 +144,7 @@ const config = {
         },
     ],
     transformIn: (v) => {
-        const { titleText, titleColor, moreBtn, moreLink, ...rest } = v.base || {}
+        const { titleText, titleColor, moreBtn, moreLink, goodsLayout, ...rest } = v.base || {}
         // 处理 titleText：可能是对象格式 {type, text, image} 或单独的字段
         let goodsTitleType = 'text'
         let goodsTitleImage = ''
@@ -173,6 +173,7 @@ const config = {
             goodsShowMoreBtn: moreBtn?.show !== undefined ? moreBtn.show : (moreBtn !== undefined ? moreBtn : true),
             goodsMoreBtnColor: moreBtn?.color || '#000000',
             goodsMoreLink: moreLink || {},
+            goodsLayout: goodsLayout,
             tags: {
                 type: v.tagsType || '2',
                 meber_tags: v.meber_tags || [],
@@ -191,6 +192,7 @@ const config = {
                     dataCount: 'dataCount',
                     outerMargin: 'outerMargin',
                     innerPadding: 'innerPadding',
+                    goodsLayout: 'goodsLayout',
                     // 映射标题相关字段 - 转换为对象格式
                     titleText: (v) => {
                         return {

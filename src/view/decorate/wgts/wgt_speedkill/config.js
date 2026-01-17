@@ -1,5 +1,5 @@
 import { pickBy } from '@/utils'
-import AttrDataVue from '../wgt_shelves/attr-data.vue'
+import AttrDataVue from '../../comps/goods-attr/attr-data.vue'
 import CompPickerLinkVue from '../../comps/comp-pickerLink.vue'
 import SpImagePicker from '@/components/sp-image-picker/index.vue'
 import { PLATFORM_PAGE_PICKER_TABS, DEFAULT_PICKER_TABS } from '@/consts'
@@ -117,7 +117,7 @@ const config = {
         },
     ],
     transformIn: (v) => {
-        const { titleType, titleImage, titleText, titleColor, showMoreBtn, moreBtnColor, moreLink, ...rest } = v.base || {}
+        const { titleType, titleImage, titleText, titleColor, showMoreBtn, moreBtnColor, moreLink, goodsLayout, ...rest } = v.base || {}
         return {
             name: v.name,
             ...rest,
@@ -131,6 +131,7 @@ const config = {
             speedkillShowMoreBtn: showMoreBtn !== undefined ? showMoreBtn : true,
             speedkillMoreBtnColor: moreBtnColor || '#000000',
             speedkillMoreLink: moreLink || {},
+            goodsLayout: goodsLayout,
             tags: {
                 type: v.tagsType || '2',
                 meber_tags: v.meber_tags || [],
@@ -149,6 +150,7 @@ const config = {
                     dataCount: 'dataCount',
                     outerMargin: 'outerMargin',
                     innerPadding: 'innerPadding',
+                    goodsLayout: 'goodsLayout',
                     // 映射标题相关字段
                     titleType: 'speedkillTitleType',
                     titleImage: 'speedkillTitleImage',

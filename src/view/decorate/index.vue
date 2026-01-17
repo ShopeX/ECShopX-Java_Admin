@@ -275,8 +275,8 @@ export default {
       const generalNames = ['Slider', 'ImgHotzone', 'Film', 'FloorImg', 'Marquees']
       // 功能挂件：店铺、橱窗、优惠券、图片导航
       const functionalNames = ['Store', 'Showcase', 'Coupon', 'Navigation','StoreAlphabet', 'Shop']
-      // 商品挂件：货架、秒杀、拼团、热销榜单、品类榜单、商品
-      const goodsNames = ['Shelves', 'Speedkill', 'Group', 'hotranking', 'Ranking', 'goods']
+      // 商品挂件：秒杀、拼团、热销榜单、品类榜单、商品
+      const goodsNames = ['Speedkill', 'Group', 'hotranking', 'Ranking', 'goods']
       // 专用挂件：订单导航
       const dedicatedNames = ['OrderNavigation']
 

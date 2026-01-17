@@ -3,7 +3,10 @@
 <template>
     <div class="wgt-ranking" :style="outerStyle">
         <div class="wgt-ranking-content flex gap-6">
-            <RankingGoods :value="mappedValue" :goods-list="list" :custom-style="innerStyle" />
+            <RankingGoods v-if="goodsLayout === 'default' || !goodsLayout" :value="mappedValue" :goods-list="list" :custom-style="innerStyle" />
+            <RowGoods v-if="goodsLayout === 'one'" :value="mappedValue" :goods-list="list" :custom-style="innerStyle" />
+            <ColumnGoods v-if="goodsLayout === 'two'" :value="mappedValue" :goods-list="list" :custom-style="innerStyle" />
+            <GridGoods v-if="goodsLayout === 'three'" :value="mappedValue" :goods-list="list" :custom-style="innerStyle" />
         </div>
     </div>
 </template>
@@ -11,6 +14,9 @@
 <script>
 import config from './config'
 import RankingGoods from './comps/rankinggoods.vue'
+import RowGoods from '../../comps/goods-layout/rowgoods.vue'
+import ColumnGoods from '../../comps/goods-layout/columngoods.vue'
+import GridGoods from '../../comps/goods-layout/gridgoods.vue'
 import rankingdata from './mock/ranking.json'
 
 export default {
@@ -24,7 +30,10 @@ export default {
         value: [Object, Array]
     },
     components: {
-        RankingGoods
+        RankingGoods,
+        RowGoods,
+        ColumnGoods,
+        GridGoods
     },
     data() {
         return {
@@ -145,6 +154,9 @@ export default {
                 backgroundPosition: bgImage !== 'none' ? 'center' : undefined,
                 backgroundRepeat: bgImage !== 'none' ? 'no-repeat' : undefined,
             }
+        },
+        goodsLayout() {
+            return this.value?.goodsLayout || 'default'
         },
         innerStyle() {
             const { innerPadding = {} } = this.value

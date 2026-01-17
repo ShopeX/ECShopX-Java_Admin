@@ -3,7 +3,10 @@
 <template>
     <div class="wgt-hotranking" :style="outerStyle">
         <div class="wgt-hotranking-content flex gap-6">
-            <HotRankingGoods :value="mappedValue" :goods-list="list" :custom-style="innerStyle" />
+            <HotRankingGoods v-if="goodsLayout === 'default' || !goodsLayout" :value="mappedValue" :goods-list="list" :custom-style="innerStyle" />
+            <RowGoods v-if="goodsLayout === 'one'" :value="mappedValue" :goods-list="list" :custom-style="innerStyle" />
+            <ColumnGoods v-if="goodsLayout === 'two'" :value="mappedValue" :goods-list="list" :custom-style="innerStyle" />
+            <GridGoods v-if="goodsLayout === 'three'" :value="mappedValue" :goods-list="list" :custom-style="innerStyle" />
         </div>
     </div>
 </template>
@@ -11,6 +14,9 @@
 <script>
 import config from './config'
 import HotRankingGoods from './comps/hotrankinggoods.vue'
+import RowGoods from '../../comps/goods-layout/rowgoods.vue'
+import ColumnGoods from '../../comps/goods-layout/columngoods.vue'
+import GridGoods from '../../comps/goods-layout/gridgoods.vue'
 import saledata from './mock/saledata.json'
 
 export default {
@@ -24,7 +30,10 @@ export default {
         value: [Object, Array]
     },
     components: {
-        HotRankingGoods
+        HotRankingGoods,
+        RowGoods,
+        ColumnGoods,
+        GridGoods
     },
     data() {
         return {
@@ -129,6 +138,9 @@ export default {
                 backgroundPosition: bgImage !== 'none' ? 'center' : undefined,
                 backgroundRepeat: bgImage !== 'none' ? 'no-repeat' : undefined,
             }
+        },
+        goodsLayout() {
+            return this.value?.goodsLayout || 'default'
         },
         innerStyle() {
             const { innerPadding = {} } = this.value
