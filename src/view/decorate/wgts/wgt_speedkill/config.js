@@ -125,7 +125,7 @@ const config = {
             // 映射标题相关字段
             speedkillTitleType: titleType || 'text',
             speedkillTitleImage: titleImage || '',
-            speedkillTitleText: titleText || '标题',
+            speedkillTitleText: titleText ,
             speedkillTitleColor: titleColor || '#000000',
             // 映射更多按钮相关字段
             speedkillShowMoreBtn: showMoreBtn !== undefined ? showMoreBtn : true,

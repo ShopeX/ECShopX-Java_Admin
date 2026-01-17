@@ -52,10 +52,10 @@ export default {
         // 获取拼团商品列表
         async getGroupGoodsList() {
             // 检查是否有 data 参数
-            if (!this.hasDataParam()) {
-                this.list = []
-                return
-            }
+            // if (!this.hasDataParam()) {
+            //     this.list = []
+            //     return
+            // }
 
             let params = {
                 data_type: 'group',
@@ -100,7 +100,7 @@ export default {
                 // 映射标题相关字段
                 titleText: {
                     type: groupTitleType || 'text',
-                    text: groupTitleText || '标题',
+                    text: groupTitleText ,
                     image: groupTitleImage || ''
                 },
                 titleColor: groupTitleColor || '',

@@ -100,7 +100,7 @@ export default {
                 // 映射标题相关字段
                 titleText: {
                     type: rankingTitleType || 'text',
-                    text: rankingTitleText || '标题',
+                    text: rankingTitleText ,
                     image: rankingTitleImage || ''
                 },
                 titleColor: rankingTitleColor || '',

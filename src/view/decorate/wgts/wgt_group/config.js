@@ -115,11 +115,11 @@ const config = {
         if (titleText) {
             if (typeof titleText === 'object' && titleText.type) {
                 groupTitleType = titleText.type || 'text'
-                groupTitleText = titleText.text || '标题'
+                groupTitleText = titleText.text 
                 groupTitleImage = titleText.image || ''
             } else {
                 // 兼容旧格式：单独的字段
-                groupTitleText = titleText || '标题'
+                groupTitleText = titleText 
             }
         }
         
@@ -157,7 +157,7 @@ const config = {
                     titleText: (v) => {
                         return {
                             type: v.groupTitleType || 'text',
-                            text: v.groupTitleText || '标题',
+                            text: v.groupTitleText ,
                             image: v.groupTitleImage || ''
                         }
                     },

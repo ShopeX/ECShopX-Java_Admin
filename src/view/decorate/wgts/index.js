@@ -32,6 +32,7 @@ import WgtLocationModule from './wgt_locationModule'
 import WgtSpeedkill from './wgt_speedkill'
 import WgtGroup from './wgt_group'
 import WgtRanking from './wgt_ranking'
+import WgtHotRanking from './wgt_hotranking'
 
 
 // 首页装修
@@ -59,7 +60,8 @@ let SCENE_1001 = {
   WgtLocationModule,
   WgtSpeedkill,
   WgtGroup,
-  WgtRanking
+  WgtRanking,
+  WgtHotRanking
 }
 
 if (VERSION_PLATFORM()) {

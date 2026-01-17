@@ -109,7 +109,6 @@ export default {
     flex: 1;
     min-width: 0;
     box-sizing: border-box;
-    background: #FFF8F5;
     overflow: hidden;
     border-radius: 8px;
 
