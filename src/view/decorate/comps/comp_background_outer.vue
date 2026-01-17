@@ -1,17 +1,27 @@
 <template>
   <div class="comp-background-outer">
-    <div class="background-options">
-      <div class="option-item">
-        <span class="option-label">背景色</span>
-        <div class="color-picker">
-          <el-color-picker v-model="localValue.color" size="small" @change="handleChange" />
+    <div class="background-type-selector">
+      <el-radio-group v-model="backgroundType" size="mini" @change="handleTypeChange">
+        <el-radio-button label="color">背景颜色1</el-radio-button>
+        <el-radio-button label="image">背景图片</el-radio-button>
+      </el-radio-group>
+    </div>
+    <div class="background-content">
+      <div v-if="backgroundType === 'color'" class="color-section">
+        <div class="color-picker-wrapper">
+          <span class="color-code">{{ displayColor }}</span>
+          <el-button type="text" size="mini" class="reset-btn" @click="handleResetColor">重置</el-button>
+          <div class="color-swatch" :style="{ backgroundColor: displayColor }">
+            <el-color-picker 
+              v-model="localValue.color" 
+              size="small" 
+              @change="handleChange"
+            />
+          </div>
         </div>
       </div>
-      <div class="option-item">
-        <span class="option-label">背景图</span>
-        <div class="image-picker">
-          <sp-image-picker v-model="localValue.image" size="small" @onChange="handleChange" />
-        </div>
+      <div v-if="backgroundType === 'image'" class="image-section">
+        <sp-image-picker v-model="localValue.image" size="small" @onChange="handleChange" />
       </div>
     </div>
   </div>
@@ -38,7 +48,16 @@ export default {
   },
   data() {
     return {
-      localValue: this.normalizeValue(this.value)
+      localValue: this.normalizeValue(this.value),
+      backgroundType: this.getInitialType(this.value)
+    }
+  },
+  computed: {
+    defaultColor() {
+      return '#fff'
+    },
+    displayColor() {
+      return this.localValue.color || this.defaultColor
     }
   },
   watch: {
@@ -55,6 +74,26 @@ export default {
     }
   },
   methods: {
+    /**
+     * 获取初始类型（根据值判断是颜色还是图片）
+     * @param {Object} val - 输入值
+     * @returns {String} 'color' 或 'image'
+     */
+    getInitialType(val) {
+      if (!val || typeof val !== 'object') {
+        return 'color'
+      }
+      // 如果有图片，优先显示图片
+      if (val.image && val.image.trim() !== '') {
+        return 'image'
+      }
+      // 如果有颜色，显示颜色
+      if (val.color && val.color.trim() !== '') {
+        return 'color'
+      }
+      // 默认显示颜色
+      return 'color'
+    },
     /**
      * 规范化值，确保所有必需字段存在
      * @param {Object} val - 输入值
@@ -93,6 +132,19 @@ export default {
       return newVal.color !== oldVal.color || newVal.image !== oldVal.image
     },
     /**
+     * 处理类型变化
+     */
+    handleTypeChange(type) {
+      // 类型变化时不需要清空值，只是切换显示
+    },
+    /**
+     * 重置颜色
+     */
+    handleResetColor() {
+      this.localValue.color = this.defaultColor
+      this.handleChange()
+    },
+    /**
      * 处理值变化，触发事件
      */
     handleChange() {
@@ -109,23 +161,109 @@ export default {
 .comp-background-outer {
   margin-bottom: 15px;
 
-  .background-options {
+  .background-type-selector {
+    margin-bottom: 12px;
     display: flex;
-
-    .option-item {
-      margin-right: 20px;
+    justify-content: flex-start;
+    
+    .el-radio-group {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      .option-label {
-        font-size: 10px;
-        color: #606266;
-        margin-bottom: 10px;
+      width: 100%;
+      
+      .el-radio-button {
+        flex: 1;
+        
+        &:first-child {
+          .el-radio-button__inner {
+            border-radius: 4px 0 0 4px;
+            border-right: none;
+          }
+        }
+        
+        &:last-child {
+          .el-radio-button__inner {
+            border-radius: 0 4px 4px 0;
+          }
+        }
+        
+        .el-radio-button__inner {
+          width: 100%;
+          padding: 8px 16px;
+          font-size: 12px;
+          color: #595961;
+          background-color: #fff;
+          border: 1px solid #e0e0e0;
+          transition: all 0.3s;
+          
+          &:hover {
+            color: #155bd4;
+          }
+        }
+        
+        &.is-active {
+          .el-radio-button__inner {
+            color: #fff;
+            background-color: #155bd4;
+            border-color: #155bd4;
+            box-shadow: none;
+          }
+        }
       }
+    }
+  }
 
-      .color-picker {
+  .background-content {
+    .color-section {
+      .color-picker-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        
+        .color-code {
+          font-size: 12px;
+          color: #595961;
+          min-width: 60px;
+        }
+        
+        .reset-btn {
+          padding: 0;
+          font-size: 12px;
+          color: #155bd4;
+          height: auto;
+          line-height: 1;
+          margin-left: auto;
+        }
+        
+        .color-swatch {
+          width: 32px;
+          height: 32px;
+          border: 1px solid #e0e0e0;
+          border-radius: 4px;
+          cursor: pointer;
+          position: relative;
+          flex-shrink: 0;
+          
+          .el-color-picker {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            
+            ::v-deep .el-color-picker__trigger {
+              width: 100%;
+              height: 100%;
+              border: none;
+              padding: 0;
+            }
+          }
+        }
       }
+    }
+    
+    .image-section {
+      width: 100%;
     }
   }
 }

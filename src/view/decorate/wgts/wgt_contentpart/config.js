@@ -1,9 +1,8 @@
 import { pickBy } from '@/utils'
 import NavItem from './nav-item.vue'
 import CompOuter from '../../comps/comp_background_outer.vue'
-import CompStyle from '../../comps/comp_style.vue'
 
-export default {
+const config = {
   name: 'locationModule',
   setting: [
     {
@@ -24,16 +23,6 @@ export default {
     {
       label: '导航栏内边距',
       key: 'navpadded',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={false}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={false}
-          />
-        )
-      },
       value: {
         paddedt: 8,
         paddedb: 10,
@@ -54,16 +43,6 @@ export default {
     {
       label: '导航项区域内边距',
       key: 'navitempadded',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={false}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={false}
-          />
-        )
-      },
       value: {
         paddedt: 0,
         paddedb: 0,
@@ -89,23 +68,11 @@ export default {
     {
       label: '导航项内间距',
       key: 'navitemmargin',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={false}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={false}
-            showTop={false}
-            showBottom={false}
-            showLeft={false}
-            showRight={false}
-            showLR={true}
-          />
-        )
-      },
       value: {
-        paddedlr: 18
+        paddedt: 0,
+        paddedb: 0,
+        paddedl: 18,
+        paddedr: 18
       },
       module: 'navitemstyle'
     },
@@ -260,3 +227,9 @@ export default {
     })
   }
 }
+
+// 自动处理 compStyle 配置（初始化全局处理函数）
+import '../../comps/configsetting'
+export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__) 
+  ? globalThis.__processConfig__(config) 
+  : config

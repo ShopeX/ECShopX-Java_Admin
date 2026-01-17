@@ -1,10 +1,11 @@
 import { pickBy } from '@/utils'
 import AttrHotSetting from './attr-hotsetting'
-import CompStyle from '../../comps/comp_style.vue'
-export default {
+
+const config = {
   name: 'imgHotzone',
   setting: [
     {
+      group: '风格设置',
       label: '展示形式',
       key: 'animation',
       component: 'radiobutton',
@@ -16,6 +17,7 @@ export default {
       value: 'horizontal'
     },
     {
+      group: '风格设置',
       label: '图片高度',
       key: 'imgHeight',
       component: function (h, { key }) {
@@ -44,33 +46,15 @@ export default {
       }
     },
     {
+      group: '风格设置',
       label: '热区设置',
       key: 'data',
       component: function (h, { key }) {
         return <AttrHotSetting v-model={this.value[key]} />
       },
       value: { imgUrl: '', data: [] }
-    },
-    {
-      label: '组件外边距',
-      key: 'outerMargin',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={false}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={false}
-          />
-        )
-      },
-      value: {
-        paddedt: 0,
-        paddedb: 0,
-        paddedl: 0,
-        paddedr: 0
-      }
     }
+    // outerMargin 会自动添加，无需手动写
   ],
   transformIn: (v) => {
     const {
@@ -142,3 +126,9 @@ export default {
     })
   }
 }
+
+// 自动处理 compStyle 配置（初始化全局处理函数）
+import '../../comps/configsetting'
+export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__) 
+  ? globalThis.__processConfig__(config) 
+  : config

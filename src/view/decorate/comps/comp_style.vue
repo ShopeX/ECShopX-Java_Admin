@@ -2,7 +2,6 @@
   <div class="comps_style">
     <!-- 内边距设置 -->
     <div v-if="hasPaddingFields" class="comps_style-item">
-      <div v-show="showLabel" class="im-tt">内边距</div>
       <el-row class="im-bd">
         <template v-for="field in paddingFields">
           <el-col
@@ -11,7 +10,6 @@
             :span="10"
             class="im-bd-pd"
           >
-            <p class="label">{{ field.label }}</p>
             <el-input-number
               v-model="form[field.key]"
               controls-position="right"
@@ -47,25 +45,38 @@
 
     <!-- 背景设置 -->
     <template v-if="showBgsetting">
-      <div class="comps_style-item">
+      <div class="comps_style-item comps_style-bg">
         <div class="im-tt">背景</div>
-        <div class="im-bd el-color-picker-wrap">
-          <el-radio-group v-model="form.bgType" @change="handleChange">
-            <el-radio label="color">颜色背景</el-radio>
-            <el-radio label="pic">图片背景</el-radio>
-          </el-radio-group>
-        </div>
-      </div>
-      <div v-if="form.bgType === 'color'" class="comps_style-item">
-        <div class="im-tt">背景色</div>
-        <div class="im-bd el-color-picker-wrap">
-          <el-color-picker v-model="form.bgColor" size="small" />
-        </div>
-      </div>
-      <div v-if="form.bgType === 'pic'" class="comps_style-item">
-        <div class="im-tt">背景图</div>
-        <div class="im-bd el-color-picker-wrap">
-          <SpImagePicker v-model="form.bgPic" size="small" class="video-link" text="背景图" />
+        <div class="im-bd">
+          <div class="background-type-selector">
+            <el-radio-group v-model="form.bgType" size="mini" @change="handleChange">
+              <el-radio-button label="color">背景颜色</el-radio-button>
+              <el-radio-button label="pic">背景图片</el-radio-button>
+            </el-radio-group>
+          </div>
+          <div class="background-content">
+            <div v-if="form.bgType === 'color'" class="color-section">
+              <div class="color-item">
+                <span class="color-label">背景颜色</span>
+                <div class="color-controls">
+                  <span class="color-code">{{ displayBgColor }}</span>
+                  <div class="color-controls-item">
+                    <el-button type="text" size="mini" class="reset-btn" @click="onResetBgColor">重置</el-button>
+                    <div class="color-swatch" :style="{ backgroundColor: displayBgColor }">
+                      <el-color-picker 
+                        v-model="form.bgColor" 
+                        size="small" 
+                        @change="handleChange"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="form.bgType === 'pic'" class="image-section">
+              <SpImagePicker v-model="form.bgPic" size="small" class="video-link" text="背景图" />
+            </div>
+          </div>
         </div>
       </div>
     </template>
@@ -160,6 +171,14 @@ export default {
     // 是否有组合内边距字段显示
     hasCombinedPaddingFields() {
       return this.showTB || this.showLR
+    },
+    // 默认背景颜色
+    defaultBgColor() {
+      return '#fff'
+    },
+    // 显示背景颜色
+    displayBgColor() {
+      return this.form.bgColor || this.defaultBgColor
     }
   },
   watch: {
@@ -192,8 +211,16 @@ export default {
     },
     // 背景类型改变处理
     handleChange() {
-      this.$set(this.form, 'bgPic', '')
-      this.$set(this.form, 'bgColor', '')
+      if (this.form.bgType === 'color') {
+        this.$set(this.form, 'bgPic', '')
+      } else {
+        this.$set(this.form, 'bgColor', '')
+      }
+    },
+    // 重置背景颜色
+    onResetBgColor() {
+      this.form.bgColor = this.defaultBgColor
+      this.handleChange()
     }
   }
 }
@@ -211,9 +238,9 @@ export default {
     }
 
     .im-tt {
-      width: 50px;
+      width: 80px;
       font-size: 12px;
-      color: rgb(156, 156, 156);
+      color: #595961;
       padding-top: 10px;
       flex-shrink: 0;
     }
@@ -222,6 +249,7 @@ export default {
       flex: 1;
       display: flex;
       flex-wrap: wrap;
+      justify-content: flex-end;
 
       &-pd {
         display: flex;
@@ -247,6 +275,152 @@ export default {
     .el-color-picker-wrap {
       display: flex;
       align-items: center;
+    }
+    
+    &.comps_style-bg {
+      flex-direction: row;
+      align-items: flex-start;
+      margin-left: -80px;
+      
+      .im-bd {
+        width: 100%;
+        flex-direction: column;
+        
+        .background-type-selector {
+          margin-bottom: 10px;
+          width: 100%;
+          .el-radio-group {
+            width: 100%;
+          display: flex;
+          justify-content: flex-end;
+            
+            .el-radio-button {
+              
+              &:first-child {
+                .el-radio-button__inner {
+                  border-radius: 4px 0 0 4px;
+                  border-right: none;
+                }
+              }
+              
+              &:last-child {
+                .el-radio-button__inner {
+                  border-radius: 0 4px 4px 0;
+                }
+              }
+              
+              .el-radio-button__inner {
+                width: 100%;
+                padding: 6px 12px;
+                font-size: 12px;
+                color: #595961;
+                background-color: #fff;
+                border: 1px solid #e0e0e0;
+                transition: all 0.2s;
+                
+                &:hover {
+                  color: #155bd4;
+                  border-color: #155bd4;
+                }
+              }
+              
+              &.is-active {
+                .el-radio-button__inner {
+                  color: #fff;
+                  background-color: #155bd4;
+                  border-color: #155bd4;
+                  box-shadow: none;
+                  font-weight: 500;
+                }
+              }
+            }
+          }
+        }
+        
+        .background-content {
+          margin-left: -80px;
+          
+          .color-section {
+            .color-item {
+              display: flex;
+              align-items: center;
+              
+              .color-label {
+                font-size: 12px;
+                color: #595961;
+                width: 80px;
+                flex-shrink: 0;
+              }
+              
+              .color-controls {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                
+                .color-code {
+                  font-size: 12px;
+                  color: #999;
+                  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+                  min-width: 70px;
+                }
+                
+                .color-controls-item {
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  justify-content: flex-end;
+                  flex: 1;
+                  
+                  .reset-btn {
+                    padding: 0;
+                    font-size: 12px;
+                    height: auto;
+                    line-height: 1.5;
+                  }
+                  
+                  .color-swatch {
+                    width: 56px;
+                    height: 28px;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    position: relative;
+                    flex-shrink: 0;
+                    transition: all 0.2s;
+                    overflow: hidden;
+                    
+                    &:hover {
+                      box-shadow: 0 0 0 2px rgba(21, 91, 212, 0.1);
+                    }
+                    
+                    .el-color-picker {
+                      position: absolute;
+                      top: 0;
+                      left: 0;
+                      width: 100%;
+                      height: 100%;
+                      opacity: 0;
+                      z-index: 1;
+                      
+                      ::v-deep .el-color-picker__trigger {
+                        width: 100%;
+                        height: 100%;
+                        border: none;
+                        padding: 0;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          
+          .image-section {
+            width: 100%;
+          }
+        }
+      }
     }
   }
 }

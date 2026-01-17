@@ -1,10 +1,9 @@
 import { pickBy } from '@/utils'
 import AttrStore from '../wgt_store-alphabet/attr-store'
 import CompBackgroundInner from '../../comps/comp_background_inner.vue'
-import CompStyle from '../../comps/comp_style.vue'
 import CompOuter from '../../comps/comp_background_outer.vue'
 
-export default {
+const config = {
   name: 'shop',
   setting: [
     {
@@ -26,38 +25,8 @@ export default {
       value: [],
     },
     {
-      label: '组件外边距',
-      key: 'outerMargin',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={false}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={false}
-            showLeft={false}
-            showRight={false}
-          />
-        )
-      },
-      value: {
-        paddedt: 10,
-        paddedb: 10
-      }
-    },
-    {
       label: '组件内边距',
       key: 'innerPadding',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={false}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={false}
-          />
-        )
-      },
       value: {
         paddedt: 10,
         paddedb: 10,
@@ -65,6 +34,7 @@ export default {
         paddedr: 10
       }
     },
+    // outerMargin 会自动添加，无需手动写
     {
       label: '组件外背景',
       key: 'outerBackground',
@@ -140,3 +110,9 @@ export default {
     })
   }
 }
+
+// 自动处理 compStyle 配置（初始化全局处理函数）
+import '../../comps/configsetting'
+export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__) 
+  ? globalThis.__processConfig__(config) 
+  : config

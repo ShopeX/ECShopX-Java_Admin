@@ -14,12 +14,18 @@ export default {
   name: 'page',
   setting: [
     {
-      label: '沉浸式页头',
+      group: '风格设置',
+      label: '顶部风格',
       key: 'isImmersive',
-      component: 'switch',
-      value: false
+      component: 'radiobutton',
+      options: [
+        { name: '标准', label: false },
+        { name: '沉浸式', label: true }
+      ],
+      value: false,
     },
     {
+      group: '页头设置',
       label: '页头背景',
       key: 'newNavigateStyle',
       component: function (h, { key }) {
@@ -31,6 +37,7 @@ export default {
       }
     },
     {
+      group: '标题设置',
       label: '页头标题区',
       key: 'titleStyle',
       component: 'radiobutton',
@@ -41,7 +48,8 @@ export default {
       value: '1'
     },
     {
-      label: '',
+      group: '标题设置',
+      label: '标题颜色',
       key: 'titleColor',
       component: 'color',
       value: '#000',
@@ -51,6 +59,7 @@ export default {
       tip: '页面标题文字请在管理后台装修-商城信息中填写。'
     },
     {
+      group: '标题设置',
       label: '',
       key: 'titleBackgroundImage',
       component: function (h, { key }) {
@@ -63,6 +72,7 @@ export default {
       tip: '建议尺寸：340 * 70 像素'
     },
     {
+      group: '风格设置',
       label: '页头功能区',
       key: 'pTitleHotSetting',
       component: function (h, { key }) {
@@ -75,6 +85,7 @@ export default {
       // }
     },
     {
+      group: '风格设置',
       label: '页面背景',
       key: 'newPageBackgroundStyle',
       component: 'radio',

@@ -1,13 +1,13 @@
 import { pickBy } from '@/utils'
 import CompInner from '../../comps/comp_background_inner.vue'; // 组件内背景
-import CompStyle from '../../comps/comp_style.vue';
 import CompOuter from '../../comps/comp_background_outer.vue';
 import CompNavtext from '../../comps/comp_navtext.vue';
 import AttrMorebtnVue from './attr-morebtn.vue';
 import AttrDataVue from './attr-data.vue';
 import CompPickerLinkVue from '../../comps/comp-pickerLink.vue';
 import { PLATFORM_PAGE_PICKER_TABS, DEFAULT_PICKER_TABS } from '@/consts'
-export default {
+
+const config = {
   name: 'shelves',
   setting: [
     {
@@ -196,38 +196,8 @@ export default {
       value: {}
     },
     {
-      label: '组件外边距',
-      key: 'outerMargin',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={false}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={false}
-          />
-        );
-      },
-      value: {
-        paddedt: 12,
-        paddedb: 12,
-        paddedl: 12,
-        paddedr: 12,
-      }
-    },
-    {
       label: '组件内边距',
       key: 'innerPadding',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={false}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={false}
-          />
-        );
-      },
       value: {
         paddedt: 9,
         paddedb: 9,
@@ -235,6 +205,7 @@ export default {
         paddedr: 12,
       }
     },
+    // outerMargin 会自动添加，无需手动写
     {
       label: '组件外背景',
       key: 'outerBackground',

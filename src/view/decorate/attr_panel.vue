@@ -15,7 +15,8 @@ export default {
   },
   data() {
     return {
-      compValue: null
+      compValue: null,
+      activeTab: 'content' // 'content' 或 'style'
     }
   },
   created() {
@@ -44,10 +45,11 @@ export default {
     },
 
     _renderColor({ key, value: initValue }) {
-      // console.log('_renderColor:', this)
+      const displayColor = this.value[key] || initValue || '#000'
       return (
         <div class='el-color-picker-wrap'>
-          <el-color-picker v-model={this.value[key]} size='small' />
+          <span class='color-code'>{displayColor}</span>
+          <div class='color-controls-item'>
           <el-button
             class='button-reset'
             type='text'
@@ -57,6 +59,13 @@ export default {
           >
             重置
           </el-button>
+          <div class='color-swatch' style={{ backgroundColor: displayColor }}>
+            <el-color-picker 
+              v-model={this.value[key]} 
+              size='small'
+            />
+          </div>
+          </div>
         </div>
       )
     },
@@ -102,8 +111,78 @@ export default {
       )
     }
   },
+  computed: {
+    // 样式相关的配置项 key 列表
+    styleKeys() {
+      return [
+        'outerMargin',
+        'innerPadding',
+        'navpadded',
+        'navitempadded',
+        'navitemmargin',
+        'outerBackground',
+        'innerBackground',
+        'navbg',
+        'navitembg',
+        'titleStyle',
+        'titleColor',
+        'titleBackgroundImage',
+        'bgColor',
+        'bgPic',
+        'backgroundImg',
+        'newNavigateStyle',
+        'newPageBackgroundStyle',
+        'limitedTimeBackground',
+        'navitembordercolor',
+        'navitemradius',
+        'navitemheight'
+      ]
+    },
+    // 将配置项按分组组织
+    groupedSettings() {
+      const { setting } = this.info
+      if (!setting || !Array.isArray(setting)) return { content: [], style: [] }
+      
+      const contentGroups = {}
+      const styleGroups = {}
+      
+      setting.forEach(item => {
+        const isStyle = this.styleKeys.includes(item.key)
+        const group = item.group || '其他'
+        const targetGroups = isStyle ? styleGroups : contentGroups
+        
+        if (!targetGroups[group]) {
+          targetGroups[group] = []
+        }
+        targetGroups[group].push(item)
+      })
+      
+      return {
+        content: Object.entries(contentGroups).map(([groupName, items]) => ({ groupName, items })),
+        style: Object.entries(styleGroups).map(([groupName, items]) => ({ groupName, items }))
+      }
+    },
+    // 内容设置（兼容旧版本，如果没有分组）
+    contentSettings() {
+      const { setting } = this.info
+      if (!setting || !Array.isArray(setting)) return []
+      return setting.filter(item => {
+        // 不在样式列表中的都是内容设置
+        return !this.styleKeys.includes(item.key)
+      })
+    },
+    // 样式设置（兼容旧版本，如果没有分组）
+    styleSettings() {
+      const { setting } = this.info
+      if (!setting || !Array.isArray(setting)) return []
+      return setting.filter(item => {
+        // 在样式列表中的都是样式设置
+        return this.styleKeys.includes(item.key)
+      })
+    }
+  },
   render(h) {
-    const { wgtName, setting } = this.info
+    const { wgtName } = this.info
 
     const renderComp = (item) => {
       if (isFunction(item.component)) {
@@ -130,24 +209,64 @@ export default {
       return renderItem[item.component](item)
     }
 
-    return (
-      <div class='attr-panel'>
-        {setting.map((item, index) => (
+    const renderSettings = (settings) => {
+      return settings.map((item, index) => {
+        const hasLabel = item.label && item.label.trim() !== ''
+        // 检查是否包含 SpImagePicker（通过 key 或 component 判断）
+        const hasImagePicker = item.key === 'titleBackgroundImage' || 
+          (typeof item.component === 'function' && item.component.toString().includes('SpImagePicker'))
+        return (
           <div
             class={[
               'attr-panel-cell',
               {
-                'is-show': typeof item.isShow != 'undefined' ? item.isShow.call(this, item) : true
+                'is-show': typeof item.isShow != 'undefined' ? item.isShow.call(this, item) : true,
+                'no-label': !hasLabel,
+                'has-image-picker': hasImagePicker
               }
             ]}
           >
-            <div class='cell-label'>{item.label}</div>
+            {hasLabel && <div class='cell-label'>{item.label}</div>}
             <div class='cell-value'>
               <div class='cell-value-content'>{renderComp(item)}</div>
               {(item.tip || item.tips) && <div class='cell-value-tip' domPropsInnerHTML={item.tip || item.tips} />}
             </div>
           </div>
-        ))}
+        )
+      })
+    }
+
+    const renderGroupedSettings = (groups) => {
+      if (groups.length === 0) return null
+      
+      return groups.map(({ groupName, items }) => (
+        <div class='setting-group' key={groupName}>
+          <div class='setting-group-header'>{groupName}</div>
+          <div class='setting-group-content'>
+            {renderSettings(items)}
+          </div>
+        </div>
+      ))
+    }
+
+    // 检查是否有分组
+    const hasGroups = this.groupedSettings.content.some(g => g.groupName !== '其他') || 
+                     this.groupedSettings.style.some(g => g.groupName !== '其他')
+
+    return (
+      <div class='attr-panel'>
+        <el-tabs v-model={this.activeTab} class='attr-panel-tabs'>
+          <el-tab-pane label='内容设置' name='content'>
+            <div class='attr-panel-content'>
+              {hasGroups ? renderGroupedSettings(this.groupedSettings.content) : renderSettings(this.contentSettings)}
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label='样式设置' name='style'>
+            <div class='attr-panel-content'>
+              {hasGroups ? renderGroupedSettings(this.groupedSettings.style) : renderSettings(this.styleSettings)}
+            </div>
+          </el-tab-pane>
+        </el-tabs>
       </div>
     )
   }
