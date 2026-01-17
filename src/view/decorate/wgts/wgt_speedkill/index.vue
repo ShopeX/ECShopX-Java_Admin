@@ -148,35 +148,27 @@ export default {
             }
         },
         outerStyle() {
-            const { outerMargin = {}, outerBackground } = this.value
-
-            console.log(outerMargin, outerBackground, 'outerMargin')
-            // 处理背景：支持两种格式
-            // 1. CompOuter 格式：color, image
-            // 2. CompStyle 格式：bgType ('color', 'gradient', 'pic')
+            const { outerMargin = {} } = this.value
+            
+            // CompStyle 组件将背景数据直接存储在 outerMargin 中
+            const bgType = outerMargin.bgType
             let bgColor = ''
             let bgImage = 'none'
-
-            const bgType = outerMargin.bgType
-
+            
             // 渐变背景
             if (bgType === 'gradient') {
                 bgImage = `linear-gradient(to bottom, ${outerMargin.startColor || '#ffffff'}, ${outerMargin.endColor || '#ffffff'})`
-            }
+            } 
             // 图片背景
             else if (bgType === 'pic') {
                 bgImage = outerMargin.bgPic ? `url(${outerMargin.bgPic})` : 'none'
                 bgColor = ''
+            } 
+            // 单色背景
+            else if (bgType === 'color' || !bgType) {
+                bgColor = outerMargin.bgColor || ''
             }
-            // CompOuter 格式或单色背景
-            else {
-                bgColor = outerMargin.bgColor || outerMargin.color || ''
-                if (outerMargin.image) {
-                    bgImage = `url(${outerMargin.image})`
-                    bgColor = ''
-                }
-            }
-
+            
             return {
                 paddingTop: (outerMargin.paddedt || 0) + 'px',
                 paddingBottom: (outerMargin.paddedb || 0) + 'px',
@@ -191,30 +183,26 @@ export default {
         },
         innerStyle() {
             const { innerPadding = {} } = this.value
-
-            // 处理背景：支持两种格式
-            // 1. CompInner 格式：type ('solid', 'gradient', 'image')
-            // 2. CompStyle 格式：bgType ('color', 'gradient', 'pic')
+            
+            // CompStyle 组件将背景数据直接存储在 innerPadding 中
+            const bgType = innerPadding.bgType
             let bgColor = ''
             let bgImage = 'none'
-
-                const bgType = innerPadding.bgType || innerPadding.type
-
-                // 渐变背景
-                if (bgType === 'gradient') {
-                    bgImage = `linear-gradient(to bottom, ${innerPadding.startColor || '#ffffff'}, ${innerPadding.endColor || '#ffffff'})`
-                }
-                // 图片背景
-                else if (bgType === 'pic' || bgType === 'image') {
-                    const imageUrl = innerPadding.bgPic || innerPadding.image || ''
-                    bgImage = imageUrl ? `url(${imageUrl})` : 'none'
-                    bgColor = ''
-                }
-                // 单色背景
-                else {
-                    bgColor = innerPadding.bgColor || innerPadding.color || ''
-                }
-
+            
+            // 渐变背景
+            if (bgType === 'gradient') {
+                bgImage = `linear-gradient(to bottom, ${innerPadding.startColor || '#ffffff'}, ${innerPadding.endColor || '#ffffff'})`
+            } 
+            // 图片背景
+            else if (bgType === 'pic') {
+                bgImage = innerPadding.bgPic ? `url(${innerPadding.bgPic})` : 'none'
+                bgColor = ''
+            } 
+            // 单色背景
+            else if (bgType === 'color' || !bgType) {
+                bgColor = innerPadding.bgColor || ''
+            }
+            
             return {
                 paddingLeft: (innerPadding.paddedl || 0) + 'px',
                 paddingRight: (innerPadding.paddedr || 0) + 'px',

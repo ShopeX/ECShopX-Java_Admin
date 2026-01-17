@@ -1,6 +1,4 @@
 import { pickBy } from '@/utils'
-import CompInner from '../../comps/comp_background_inner.vue'
-import CompOuter from '../../comps/comp_background_outer.vue'
 import AttrDataVue from '../wgt_shelves/attr-data.vue'
 import CompPickerLinkVue from '../../comps/comp-pickerLink.vue'
 import SpImagePicker from '@/components/sp-image-picker/index.vue'

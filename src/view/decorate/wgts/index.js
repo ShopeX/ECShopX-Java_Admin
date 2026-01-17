@@ -30,6 +30,7 @@ import WgtClassify from './wgt_classify'
 import WgtShelves from './wgt_shelves'
 import WgtLocationModule from './wgt_locationModule'
 import WgtSpeedkill from './wgt_speedkill'
+import WgtGroup from './wgt_group'
 
 
 // 首页装修
@@ -55,7 +56,8 @@ let SCENE_1001 = {
   WgtClassify,
   WgtShelves,
   WgtLocationModule,
-  WgtSpeedkill
+  WgtSpeedkill,
+  WgtGroup
 }
 
 if (VERSION_PLATFORM()) {
