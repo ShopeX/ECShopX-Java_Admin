@@ -1,20 +1,20 @@
 <template>
   <div class="comp-inner">
     <div v-if="showtype" class="background-type">
-      <el-radio v-model="localShowType" :label="'default'" @change="handleShowTypeChange">
+      <el-radio-button v-model="localShowType" :label="'default'" @change="handleShowTypeChange">
         <span class="type-label">默认</span>
-      </el-radio>
-      <el-radio v-model="localShowType" :label="'custom'" @change="handleShowTypeChange">
+      </el-radio-button>
+      <el-radio-button v-model="localShowType" :label="'custom'" @change="handleShowTypeChange">
         <span class="type-label">自定义</span>
-      </el-radio>
+      </el-radio-button>
     </div>
     <div v-if="localShowType !== 'default'" class="background-type">
-      <el-radio v-model="localType" :label="'text'" @change="handleTypeChange">
+      <el-radio-button v-model="localType" :label="'text'" @change="handleTypeChange">
         <span class="type-label">文字</span>
-      </el-radio>
-      <el-radio v-model="localType" :label="'image'" @change="handleTypeChange">
+      </el-radio-button>
+      <el-radio-button v-model="localType" :label="'image'" @change="handleTypeChange">
         <span class="type-label">图片</span>
-      </el-radio>
+      </el-radio-button>
     </div>
     <div v-if="localShowType !== 'default'" class="color-pickers">
       <template v-if="localType === 'text'">

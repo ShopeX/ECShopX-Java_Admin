@@ -52,6 +52,7 @@
             <el-radio-group v-model="form.bgType" size="mini" @change="handleChange">
               <el-radio-button label="color">背景颜色</el-radio-button>
               <el-radio-button label="pic">背景图片</el-radio-button>
+              <el-radio-button label="gradient">渐变背景</el-radio-button>
             </el-radio-group>
           </div>
           <div class="background-content">
@@ -65,6 +66,40 @@
                     <div class="color-swatch" :style="{ backgroundColor: displayBgColor }">
                       <el-color-picker 
                         v-model="form.bgColor" 
+                        size="small" 
+                        @change="handleChange"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="form.bgType === 'gradient'" class="gradient-section">
+              <div class="gradient-item">
+                <span class="color-label">起始颜色</span>
+                <div class="color-controls">
+                  <span class="color-code">{{ displayStartColor }}</span>
+                  <div class="color-controls-item">
+                    <el-button type="text" size="mini" class="reset-btn" @click="onResetStartColor">重置</el-button>
+                    <div class="color-swatch" :style="{ backgroundColor: displayStartColor }">
+                      <el-color-picker 
+                        v-model="form.startColor" 
+                        size="small" 
+                        @change="handleChange"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="gradient-item">
+                <span class="color-label">结束颜色</span>
+                <div class="color-controls">
+                  <span class="color-code">{{ displayEndColor }}</span>
+                  <div class="color-controls-item">
+                    <el-button type="text" size="mini" class="reset-btn" @click="onResetEndColor">重置</el-button>
+                    <div class="color-swatch" :style="{ backgroundColor: displayEndColor }">
+                      <el-color-picker 
+                        v-model="form.endColor" 
                         size="small" 
                         @change="handleChange"
                       />
@@ -96,7 +131,9 @@ const DEFAULT_FORM = {
   paddedlr: 0,
   bgColor: '',
   bgPic: '',
-  bgType: 'color'
+  bgType: 'color',
+  startColor: '#ffffff',
+  endColor: '#ffffff'
 }
 
 export default {
@@ -179,6 +216,14 @@ export default {
     // 显示背景颜色
     displayBgColor() {
       return this.form.bgColor || this.defaultBgColor
+    },
+    // 显示起始颜色
+    displayStartColor() {
+      return this.form.startColor || '#ffffff'
+    },
+    // 显示结束颜色
+    displayEndColor() {
+      return this.form.endColor || '#ffffff'
     }
   },
   watch: {
@@ -213,13 +258,30 @@ export default {
     handleChange() {
       if (this.form.bgType === 'color') {
         this.$set(this.form, 'bgPic', '')
-      } else {
+        this.$set(this.form, 'startColor', '')
+        this.$set(this.form, 'endColor', '')
+      } else if (this.form.bgType === 'gradient') {
+        this.$set(this.form, 'bgPic', '')
         this.$set(this.form, 'bgColor', '')
+      } else if (this.form.bgType === 'pic') {
+        this.$set(this.form, 'bgColor', '')
+        this.$set(this.form, 'startColor', '')
+        this.$set(this.form, 'endColor', '')
       }
     },
     // 重置背景颜色
     onResetBgColor() {
       this.form.bgColor = this.defaultBgColor
+      this.handleChange()
+    },
+    // 重置起始颜色
+    onResetStartColor() {
+      this.form.startColor = '#ffffff'
+      this.handleChange()
+    },
+    // 重置结束颜色
+    onResetEndColor() {
+      this.form.endColor = '#ffffff'
       this.handleChange()
     }
   }
@@ -340,10 +402,17 @@ export default {
         .background-content {
           margin-left: -80px;
           
-          .color-section {
-            .color-item {
+          .color-section,
+          .gradient-section {
+            .color-item,
+            .gradient-item {
               display: flex;
               align-items: center;
+              margin-bottom: 10px;
+              
+              &:last-child {
+                margin-bottom: 0;
+              }
               
               .color-label {
                 font-size: 12px;

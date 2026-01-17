@@ -203,6 +203,9 @@ export default {
 <style lang="scss" scoped>
 .attr-data {
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 
     .seckill-select {
         width: 100%;

@@ -52,9 +52,7 @@ const config = {
         { label: '按指定商品', value: 'items' },
         { label: '按管理分类', value: 'main_category' },
         { label: '按销售分类', value: 'category' },
-        { label: '按限时特惠活动', value: 'seckill' },
         { label: '按品类热销榜单', value: 'category_ranking' },
-        { label: '按活动集合页-秒杀', value: 'promotion' },
         { label: '按活动集合页-拼团', value: 'group' },
       ],
       value: 'main_category',
@@ -64,13 +62,6 @@ const config = {
           info: null
         })
         self.$set(self.value, 'limitedTime', false)
-        if (v == 'seckill') {
-          self.$set(self.value, 'titleText', {
-            type: 'image',
-            text: '',
-            image: 'https://aiopro-imgcdn.fvo2o.com/aiopro_vshop/fv_wgt-scekill.png'
-          })
-        }
       }
     },
     {
