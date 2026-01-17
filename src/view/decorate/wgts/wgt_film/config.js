@@ -44,7 +44,7 @@ export default {
     {
       label: '视频比例',
       key: 'proportion',
-      component: 'radio',
+      component: 'radiobutton',
       options: proportions,
       value: 0
     }

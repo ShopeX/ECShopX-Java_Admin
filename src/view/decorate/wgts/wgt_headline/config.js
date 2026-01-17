@@ -11,7 +11,7 @@ export default {
     {
       label: '文字位置',
       key: 'float',
-      component: 'radio',
+      component: 'radiobutton',
       options: [
         { name: '居左', label: 'left' },
         { name: '居中', label: 'center' }

@@ -135,20 +135,49 @@ export default {
         'limitedTimeBackground',
         'navitembordercolor',
         'navitemradius',
-        'navitemheight'
+        'navitemheight',
+        'interval',
+        'padded',
+        'rounded',
+        'shape',
+        'dotColor',
+        'itemPadded',
+        'content',
+        'animation',
+        'imgHeight',
+        'imgWidth',
+        'imgUrl',
+        'dot',
+        'dotCover',
+        'dotLocation',
+        'shape',
       ]
     },
     // 将配置项按分组组织
     groupedSettings() {
       const { setting } = this.info
-      if (!setting || !Array.isArray(setting)) return { content: [], style: [] }
+      if (!setting || !Array.isArray(setting)) return { content: [], style: [], contentUngrouped: [], styleUngrouped: [] }
       
       const contentGroups = {}
       const styleGroups = {}
+      const contentUngrouped = []
+      const styleUngrouped = []
       
       setting.forEach(item => {
-        const isStyle = this.styleKeys.includes(item.key)
-        const group = item.group || '其他'
+        // 判断是否为样式设置：1. key 在 styleKeys 中，2. group 为 '样式设置'
+        const isStyle = this.styleKeys.includes(item.key) || item.group === '样式设置'
+        
+        // 如果没有 group，不进行分组，但需要展示
+        if (!item.group || !item.group.trim()) {
+          if (isStyle) {
+            styleUngrouped.push(item)
+          } else {
+            contentUngrouped.push(item)
+          }
+          return
+        }
+        
+        const group = item.group
         const targetGroups = isStyle ? styleGroups : contentGroups
         
         if (!targetGroups[group]) {
@@ -159,7 +188,9 @@ export default {
       
       return {
         content: Object.entries(contentGroups).map(([groupName, items]) => ({ groupName, items })),
-        style: Object.entries(styleGroups).map(([groupName, items]) => ({ groupName, items }))
+        style: Object.entries(styleGroups).map(([groupName, items]) => ({ groupName, items })),
+        contentUngrouped,
+        styleUngrouped
       }
     },
     // 内容设置（兼容旧版本，如果没有分组）
@@ -250,20 +281,24 @@ export default {
     }
 
     // 检查是否有分组
-    const hasGroups = this.groupedSettings.content.some(g => g.groupName !== '其他') || 
-                     this.groupedSettings.style.some(g => g.groupName !== '其他')
+    const hasContentGroups = this.groupedSettings.content.length > 0
+    const hasStyleGroups = this.groupedSettings.style.length > 0
 
     return (
       <div class='attr-panel'>
         <el-tabs v-model={this.activeTab} class='attr-panel-tabs'>
           <el-tab-pane label='内容设置' name='content'>
             <div class='attr-panel-content'>
-              {hasGroups ? renderGroupedSettings(this.groupedSettings.content) : renderSettings(this.contentSettings)}
+              {hasContentGroups && renderGroupedSettings(this.groupedSettings.content)}
+              {this.groupedSettings.contentUngrouped.length > 0 && renderSettings(this.groupedSettings.contentUngrouped)}
+              {!hasContentGroups && this.groupedSettings.contentUngrouped.length === 0 && renderSettings(this.contentSettings)}
             </div>
           </el-tab-pane>
           <el-tab-pane label='样式设置' name='style'>
             <div class='attr-panel-content'>
-              {hasGroups ? renderGroupedSettings(this.groupedSettings.style) : renderSettings(this.styleSettings)}
+              {hasStyleGroups && renderGroupedSettings(this.groupedSettings.style)}
+              {this.groupedSettings.styleUngrouped.length > 0 && renderSettings(this.groupedSettings.styleUngrouped)}
+              {!hasStyleGroups && this.groupedSettings.styleUngrouped.length === 0 && renderSettings(this.styleSettings)}
             </div>
           </el-tab-pane>
         </el-tabs>

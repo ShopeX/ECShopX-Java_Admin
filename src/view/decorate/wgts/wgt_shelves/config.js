@@ -30,7 +30,7 @@ const config = {
     }, {
       label: '商品排列',
       key: 'goodsSort',
-      component: 'radio',
+      component: 'radiobutton',
       options: [
         { name: '一行一个', label: 'one' },
         { name: '一行两个', label: 'two' },

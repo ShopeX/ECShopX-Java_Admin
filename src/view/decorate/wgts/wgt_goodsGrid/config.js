@@ -16,7 +16,7 @@ export default {
     {
       label: '样式',
       key: 'style',
-      component: 'radio',
+      component: 'radiobutton',
       options: [
         { name: '一行两个', label: 'grid' },
         { name: '一行三个', label: 'grids' }

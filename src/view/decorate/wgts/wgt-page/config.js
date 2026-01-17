@@ -88,7 +88,6 @@ export default {
       group: '风格设置',
       label: '页面背景',
       key: 'newPageBackgroundStyle',
-      component: 'radio',
       component: function (h, { key }) {
         return <AttrItem v-model={this.value[key]} />
       },

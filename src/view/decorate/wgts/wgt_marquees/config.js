@@ -15,7 +15,7 @@ export default {
     {
       label: '内容',
       key: 'direction',
-      component: 'radio',
+      component: 'radiobutton',
       options: [
         { name: '软文', label: 'vertical' },
         { name: '文本', label: 'horizontal' }

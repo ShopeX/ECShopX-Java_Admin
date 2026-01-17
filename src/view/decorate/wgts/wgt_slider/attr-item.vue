@@ -4,28 +4,49 @@
 -->
 
 <style lang="scss" scoped>
-.slider-item {
+.slider-item-wrap {
   display: flex;
+  gap: 10px;
+
   .comp-picker-link {
     flex: 1;
   }
 }
+
+.slider-item-tip {
+  text-align: left !important;
+}
+</style>
+<style lang="scss">
+.slider-item-wrap {
+  .sp-image-picker {
+    width: 80px !important;
+
+    .image-item {
+      width: 80px !important;
+      height: 80px !important;
+    }
+
+
+  }
+}
 </style>
 <template>
-  <div>
-    <CompTodoList v-model="localValue" :max="5" @onAddItem="handleClickAdd">
-      <template slot="body" slot-scope="scope">
-        <div class="slider-item">
-          <SpImagePicker v-model="scope.data.imgUrl" size="small" />
-          <CompPickerLink :value="scope.data" @change="e => onChangeLink(e, scope.index)" />
-        </div>
-        <div class="cell-value-tip">建议尺寸:（宽度640px，高度自适应）</div>
+  <CompTodoList v-model="localValue" :max="5" @onAddItem="handleClickAdd">
+    <template slot="header" slot-scope="scope">
+        轮播{{ scope.index + 1 }}
       </template>
-    </CompTodoList>
-    <!-- <el-button class="btn btn-add" size="small" plain @click="handleClickAdd">
+    <template slot="body" slot-scope="scope">
+      <div class="slider-item-wrap">
+        <CompPickerLink :value="scope.data" @change="e => onChangeLink(e, scope.index)" />
+        <SpImagePicker v-model="scope.data.imgUrl" size="small" />
+      </div>
+      <!-- <div class="slider-item-tip">建议尺寸:（宽度640px，高度自适应）</div> -->
+    </template>
+  </CompTodoList>
+  <!-- <el-button class="btn btn-add" size="small" plain @click="handleClickAdd">
       {{ `添加图片(${value.length}/5)` }}
     </el-button> -->
-  </div>
 </template>
 
 <script>

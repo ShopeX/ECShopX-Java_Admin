@@ -32,7 +32,7 @@ export default {
     {
       label: '导航展示',
       key: 'navigation_display',
-      component: 'radio',
+      component: 'radiobutton',
       options: [
         { name: '全部', label: 'all' },
         { name: '商家', label: 'business' },

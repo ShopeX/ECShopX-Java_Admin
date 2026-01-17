@@ -8,10 +8,9 @@ import AttrItem from './attr-item'
 export default {
   name: 'slider',
   setting: [
-    { label: '标题', key: 'title', component: 'input', value: '分享拼单' },
-    { label: '副标题', key: 'subtitle', component: 'input', value: '分享有好礼，拼单更便宜' },
     // { label: '标题颜色', key: 'WordColor', component: 'color', value: '#333333' },
     {
+      group: '内容样式',
       label: '轮播时间',
       key: 'interval',
       component: 'number',
@@ -20,23 +19,42 @@ export default {
       max: 50000,
       step: 1000
     },
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
-    { label: '圆角图片', key: 'rounded', component: 'switch', value: false },
     {
+      group: '内容样式',
+      label: '组件间距', key: 'padded', component: 'radiobutton', value: true, options: [
+        { name: '开启', label: true },
+        { name: '关闭', label: false }
+      ]
+    },
+    {
+      group: '内容样式',
+      label: '图片边角', key: 'rounded', component: 'radiobutton', value: false, options: [
+        { name: '圆角', label: true },
+        { name: '直角', label: false }
+      ]
+    },
+    {
+      group: '指示点设置',
       label: '指示点样式',
       key: 'dot',
-      component: 'radio',
+      component: 'radiobutton',
       options: [
         { name: '点', label: true },
         { name: '数字', label: false }
       ],
       value: true
     },
-    { label: '指示点覆盖', key: 'dotCover', component: 'switch', value: false },
+    { 
+      group: '指示点设置',
+      label: '指示点覆盖', key: 'dotCover', component: 'radiobutton', value: false, options: [
+      { name: '开启', label: true },
+      { name: '关闭', label: false }
+    ] },
     {
+      group: '指示点设置',
       label: '指示点位置',
       key: 'dotLocation',
-      component: 'radio',
+      component: 'radiobutton',
       options: [
         { name: '居左', label: 'left' },
         { name: '居中', label: 'center' },
@@ -45,9 +63,10 @@ export default {
       value: 'right'
     },
     {
+      group: '指示点设置',
       label: '指示点形状',
       key: 'shape',
-      component: 'radio',
+      component: 'radiobutton',
       options: [
         { name: '圆形', label: 'circle' },
         { name: '长方型', label: 'rectangle' }
@@ -55,19 +74,25 @@ export default {
       value: 'circle'
     },
     {
+      group: '指示点设置',
       label: '指示点颜色',
       key: 'dotColor',
-      component: 'radio',
+      component: 'radiobutton',
       options: [
         { name: '深色', label: 'dark' },
         { name: '亮色', label: 'light' }
       ],
       value: 'dark'
     },
-    { label: '轮播项间距', key: 'itemPadded', component: 'switch', value: true },
+    {
+      group: '内容样式',
+      label: '轮播项间距', key: 'itemPadded', component: 'radiobutton', value: true, options: [
+      { name: '开启', label: true },
+      { name: '关闭', label: false }
+    ] },
     // { label: '图片描述', key: 'content', component: 'switch', value: true },
     {
-      label: '轮播项',
+      label: '',
       key: 'data',
       component: function (h, { key }) {
         return <AttrItem v-model={this.value[key]} />
