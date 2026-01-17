@@ -4,28 +4,18 @@
  */
 import { VERSION_PLATFORM } from '@/utils'
 import WgtSlider from './wgt_slider'
-import WgtGoodsGrid from './wgt_goodsGrid'
 import WgtHotZone from './wgt_hotzone'
 import WgtFilm from './wgt_film'
 import WgtCoupon from './wgt_coupon'
-import WgtShowCase from './wgt_showcase'
-import WgtGoodsGridTab from './wgt_goodsGridTab'
-import WgtStore from './wgt_store'
-import WgtSearch from './wgt_search'
-import WgtHeadline from './wgt_headline'
-import WgtHotTopic from './wgt_hotTopic'
-import WgtGoodsScroll from './wgt_goodsScroll'
+import WgtShop from './wgt_shop'
 import WgtMarquees from './wgt_marquees'
-import WgtFloorImg from './wgt_floorImg'
 import WgtNearbyShop from './wgt_nearbyShop'
-import WgtImageNavigation from './wgt_imgNavigation'
 import WgtGoodsCard from './wgt_goodsCard'
 import WgtWriting from './wgt_writing'
 import WgtHeading from './wgt_heading'
 import WgtFullSlider from './wgt_fullSlider'
 import wgtOrderNavigation from './wgt_orderNavigation'
 import WgtStoreAlphabet from './wgt_store-alphabet'
-import WgtShop from './wgt_shop'
 import WgtClassify from './wgt_classify'
 // import WgtShelves from './wgt_shelves'
 import WgtLocationModule from './wgt_locationModule'
@@ -39,23 +29,13 @@ import WgtGoods from './wgt_goods'
 // 首页装修
 let SCENE_1001 = {
   WgtSlider,
-  WgtGoodsGrid,
   WgtHotZone,
   WgtFilm,
   WgtCoupon,
-  WgtShowCase,
-  WgtGoodsGridTab,
-  WgtSearch,
-  WgtHeadline,
-  WgtHotTopic,
-  WgtGoodsScroll,
   WgtMarquees,
-  WgtFloorImg,
-  WgtImageNavigation,
   WgtFullSlider,
   wgtOrderNavigation,
   WgtStoreAlphabet,
-  WgtShop,
   WgtClassify,
   WgtLocationModule,
   WgtSpeedkill,
@@ -68,7 +48,7 @@ let SCENE_1001 = {
 if (VERSION_PLATFORM()) {
   SCENE_1001 = {
     ...SCENE_1001,
-    WgtStore,
+    WgtShop,
     WgtNearbyShop
   }
 }
@@ -77,32 +57,20 @@ if (VERSION_PLATFORM()) {
 const SCENE_1002 = {
   WgtSlider,
   WgtFilm,
-  WgtHeadline,
   WgtHotZone
 }
 
 // 店铺装修
 const SCENE_1003 = {
   WgtSlider,
-  WgtGoodsGrid,
   WgtHotZone,
   WgtFilm,
   WgtCoupon,
-  WgtShowCase,
-  WgtGoodsGridTab,
-  WgtSearch,
-  WgtHeadline,
-  WgtHotTopic,
-  WgtGoodsScroll,
   WgtMarquees,
-  WgtFloorImg,
-  WgtImageNavigation,
-  WgtStore,
+  WgtShop,
   WgtNearbyShop,
   WgtStoreAlphabet,
-  WgtShop,
-  WgtClassify,
-  // WgtShelves
+  WgtClassify
 }
 
 // 自定义页面装修
@@ -122,10 +90,7 @@ const SCENE_1006 = {
   WgtSlider,
   WgtHotZone,
   WgtFilm,
-  WgtCoupon,
-  WgtShowCase,
-  WgtSearch,
-  WgtHeadline
+  WgtCoupon
 }
 
 // 个人中心
@@ -138,10 +103,8 @@ const SCENE_1008 = {
 }
 
 const SCENE_1009 = {
-  WgtSearch,
   WgtSlider,
-  WgtHotZone,
-  WgtGoodsGrid
+  WgtHotZone
 }
 
 export default {

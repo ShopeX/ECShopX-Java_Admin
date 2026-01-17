@@ -63,8 +63,8 @@ import config from './config'
 import gWgts from '../index'
 
 export default {
-    name: 'LocationModule',
-    wgtName: '定位导航',
+    name: 'ContentPart',
+    wgtName: '定位导航1',
     wgtDesc: '',
     wgtIcon: 'wgt-location-module',
     config: config,

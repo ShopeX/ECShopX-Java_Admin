@@ -125,7 +125,8 @@ export default {
                 data: this.value.id,
                 regionauth_id: this.$route.query.regionauth_id
             })
-            this.$emit('input', { id: data[0].collection_id, info: { name: data[0].collection_name, regionauth_id: data[0].regionauth_id } })
+            console.log(data,'data222')
+            this.$emit('input', { id: data[0].seckill_id, info: { name: data[0].collection_name, regionauth_id: data[0].regionauth_id } })
         },
         // 选择指定商品
         async handleSelectGoods() {

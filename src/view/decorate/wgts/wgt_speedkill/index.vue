@@ -92,17 +92,15 @@ export default {
                 pages_template_id: this.$route.query.id,
             }
 
-            // 模拟数据 TODO: 删除
-            this.list = seckilldata.data.slice(0, this.value.dataCount)
 
             // 实际接口调用示例（注释掉）
-            // try {
-            //     const res = await this.$api.template.getShelvesGoods(params)
-            //     this.list = res?.data?.data || []
-            // } catch (error) {
-            //     console.error('获取秒杀商品列表失败:', error)
-            //     this.list = []
-            // }
+            try {
+                const res = await this.$api.template.getShelvesGoods(params)
+                this.list = res?.data?.data || []
+            } catch (error) {
+                console.error('获取秒杀商品列表失败:', error)
+                this.list = []
+            }
         },
         async getPromotionGoodsList() {
             const dataType = this.value.dataType
@@ -116,17 +114,15 @@ export default {
             }
 
             // 模拟数据 TODO: 删除
-            console.log(promotiondata.data.items.list, 'promotiondata')
-            this.list = promotiondata.data.items.list.slice(0, this.value.dataCount)
 
             // 实际接口调用示例（注释掉）
-            // try {
-            //     const res = await this.$api.template.getShelvesGoods(params)
-            //     this.list = res?.data?.data || []
-            // } catch (error) {
-            //     console.error('获取活动集合页商品列表失败:', error)
-            //     this.list = []
-            // }
+            try {
+                const res = await this.$api.template.getShelvesGoods(params)
+                this.list = res?.data?.data || []
+            } catch (error) {
+                console.error('获取活动集合页商品列表失败:', error)
+                this.list = []
+            }
         }
     },
     computed: {

@@ -1,116 +1,59 @@
 import { pickBy } from '@/utils'
 import NavItem from './nav-item.vue'
-import CompOuter from '../../comps/comp_background_outer.vue'
-import CompStyle from '../../comps/comp_style.vue'
 
-export default {
+const config = {
   name: 'locationModule',
   setting: [
     {
       label: '导航可吸顶',
+      group: '内容设置',
       key: 'navSticky',
-      component: 'switch',
-      value: false
+      component: 'radiobutton',
+      options: [
+        { name: '是', label: true},
+        { name: '否', label: false }
+      ],
+      value: true
     },
     {
-      label: '导航栏背景',
-      key: 'navbg',
-      component: function (h, { key }) {
-        return <CompOuter v-model={this.value[key]} />
-      },
-      value: { color: '#ffffff', image: '' },
-      module: 'navstyle'
+      label: '交互类型',
+      group: '内容设置',
+      key: 'animate',
+      component: 'radiobutton',
+      options: [
+        { name: '横向', label: 'horizontal'},
+        { name: '纵向', label: 'vertical' },
+        { name: '分屏', label: 'split' }
+      ],
+      value: 'horizontal'
     },
     {
-      label: '导航栏内边距',
-      key: 'navpadded',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={false}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={false}
-          />
-        )
-      },
-      value: {
-        paddedt: 8,
-        paddedb: 10,
-        paddedl: 0,
-        paddedr: 0
-      },
-      module: 'navstyle'
-    },
-    {
-      label: '导航项区域背景',
-      key: 'navitembg',
-      component: function (h, { key }) {
-        return <CompOuter v-model={this.value[key]} />
-      },
-      value: { color: '', image: '' },
-      module: 'navitemarea'
-    },
-    {
-      label: '导航项区域内边距',
-      key: 'navitempadded',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={false}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={false}
-          />
-        )
-      },
-      value: {
-        paddedt: 0,
-        paddedb: 0,
-        paddedl: 0,
-        paddedr: 0
-      },
-      module: 'navitemarea'
-    },
-    {
-      label: '导航项区域圆角',
+      label: '圆角',
+      group: '导航项区域设置',
       key: 'navitemradius',
       component: 'number',
       value: 0,
       module: 'navitemarea'
     },
     {
-      label: '导航项高度',
+      label: '高度',
+      group: '导航项设置',
       key: 'navitemheight',
       component: 'number',
       value: 40,
-      module: 'navitemstyle'
     },
     {
-      label: '导航项内间距',
+      label: '左右内间距',
+      group: '导航项设置',
       key: 'navitemmargin',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={false}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={false}
-            showTop={false}
-            showBottom={false}
-            showLeft={false}
-            showRight={false}
-            showLR={true}
-          />
-        )
-      },
+      component: 'number',
       value: {
         paddedlr: 18
       },
-      module: 'navitemstyle'
     },
     {
-      label: '导航左滑示意图',
+      label: '导航左滑图片',
+      group: '导航项设置',
       key: 'leftimgUrl',
       component: function (h, { key }) {
         return (
@@ -120,10 +63,10 @@ export default {
         )
       },
       value: '',
-      module: 'navitemstyle'
     },
     {
-      label: '导航右滑示意图',
+      label: '导航右滑图片',
+      group: '导航项设置',
       key: 'rightimgUrl',
       component: function (h, { key }) {
         return (
@@ -133,27 +76,35 @@ export default {
         )
       },
       value: '',
-      module: 'navitemstyle'
     },
     {
-      label: '导航项选中底线',
+      label: '选中底线',
+      group: '导航项设置',
       key: 'navitemborder',
-      component: 'switch',
+      component: 'radiobutton',
+      options: [
+        { name: '是', label: 'true' },
+        { name: '否', label: 'false' }
+      ],
       value: false,
-      module: 'navitemstyle'
     },
     {
       label: '底线颜色',
+      group: '导航项设置',
       key: 'navitembordercolor',
       component: 'color',
       value: '#ffffff',
-      module: 'navitemstyle'
+
+      isShow: function () {
+        return this.value.navitemborder
+      }
     },
     {
       label: '',
+      group: '数据设置',
       key: 'data',
       component: function (h, { key }) {
-        return <NavItem v-model={this.value[key]} animate={this.value.animate}/>
+        return <NavItem v-model={this.value[key]} animate={this.value.animate} />
       },
       value: [],
       module: 'navdata'
@@ -169,10 +120,42 @@ export default {
       no_meber_tags,
       tagsType
     } = v
+    
+    // 将旧的配置格式转换为新格式
+    const { navbg, navpadded, navitembg, navitempadded, ...restBase } = base || {}
+    
+    // 转换 navbg + navpadded 为 outerMargin
+    const outerMargin = base?.outerMargin || (navbg || navpadded ? {
+      paddedt: navpadded?.paddedt || 0,
+      paddedb: navpadded?.paddedb || 0,
+      paddedl: navpadded?.paddedl || 0,
+      paddedr: navpadded?.paddedr || 0,
+      bgType: navbg?.image ? 'pic' : 'color',
+      bgColor: navbg?.color || '#ffffff',
+      bgPic: navbg?.image || '',
+      startColor: '#ffffff',
+      endColor: '#ffffff'
+    } : {})
+    
+    // 转换 navitembg + navitempadded 为 navitemarea
+    const navitemarea = base?.navitemarea || (navitembg || navitempadded ? {
+      paddedt: navitempadded?.paddedt || 0,
+      paddedb: navitempadded?.paddedb || 0,
+      paddedl: navitempadded?.paddedl || 0,
+      paddedr: navitempadded?.paddedr || 0,
+      bgType: navitembg?.image ? 'pic' : 'color',
+      bgColor: navitembg?.color || 'transparent',
+      bgPic: navitembg?.image || '',
+      startColor: '#ffffff',
+      endColor: '#ffffff'
+    } : {})
+    
     return {
       name,
       uuid,
-      ...base,
+      ...restBase,
+      outerMargin,
+      navitemarea,
       tags: {
         type: tagsType || '2',
         meber_tags: meber_tags || [],
@@ -180,7 +163,7 @@ export default {
       },
       data: data.map(({ children, no_meber_tags = [], meber_tags = [], tagsType, configType = 'widget', ...item }) => {
         let _children = children
-        if(configType == 'widget'){
+        if (configType == 'widget') {
           _children = children?.map((ele) => {
             const { transformIn } =
               wgtList.find((wgt) => wgt.name.toLowerCase() == ele.name.toLowerCase())?.config || {}
@@ -203,22 +186,50 @@ export default {
       })
     }
   },
-  transformOut: (v, wgtList,regionauth_id) => {
+  transformOut: (v, wgtList, regionauth_id) => {
     return pickBy(v, {
       name: 'name',
       meber_tags: 'tags.meber_tags',
       no_meber_tags: 'tags.no_meber_tags',
       tagsType: 'tags.type',
       base: (v) => {
+        // 将新的配置结构转换为旧格式以保持兼容
+        const outerMargin = v.outerMargin || {}
+        const navitemarea = v.navitemarea || {}
+        
+        // 转换 outerMargin 为 navbg 和 navpadded
+        const navbg = {
+          color: outerMargin.bgType === 'color' ? (outerMargin.bgColor || '#ffffff') : '',
+          image: outerMargin.bgType === 'pic' ? (outerMargin.bgPic || '') : ''
+        }
+        const navpadded = {
+          paddedt: outerMargin.paddedt || 0,
+          paddedb: outerMargin.paddedb || 0,
+          paddedl: outerMargin.paddedl || 0,
+          paddedr: outerMargin.paddedr || 0
+        }
+        
+        // 转换 navitemarea 为 navitembg 和 navitempadded
+        const navitembg = {
+          color: navitemarea.bgType === 'color' ? (navitemarea.bgColor || 'transparent') : '',
+          image: navitemarea.bgType === 'pic' ? (navitemarea.bgPic || '') : ''
+        }
+        const navitempadded = {
+          paddedt: navitemarea.paddedt || 0,
+          paddedb: navitemarea.paddedb || 0,
+          paddedl: navitemarea.paddedl || 0,
+          paddedr: navitemarea.paddedr || 0
+        }
+        
         return pickBy(v, {
           wgtCustName: 'wgtCustName',
           track: 'track',
           animate: 'animate',
           navSticky: 'navSticky',
-          navbg: 'navbg',
-          navpadded: 'navpadded',
-          navitembg: 'navitembg',
-          navitempadded: 'navitempadded',
+          navbg: () => navbg,
+          navpadded: () => navpadded,
+          navitembg: () => navitembg,
+          navitempadded: () => navitempadded,
           navitemheight: 'navitemheight',
           navitemmargin: 'navitemmargin',
           leftimgUrl: 'leftimgUrl',
@@ -240,7 +251,7 @@ export default {
                     wgtList.find((wgt) => wgt.name.toLowerCase() == ele.name.toLowerCase()).config ||
                     {}
                   if (transformOut) {
-                    return { ...transformOut(ele, wgtList,regionauth_id), wgtName: ele.wgtName }
+                    return { ...transformOut(ele, wgtList, regionauth_id), wgtName: ele.wgtName }
                   }
                   return { ...ele, wgtName: ele.wgtName }
                 })
@@ -260,3 +271,9 @@ export default {
     })
   }
 }
+
+// 自动处理 compStyle 配置（初始化全局处理函数）
+import '../../comps/configsetting'
+export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__)
+  ? globalThis.__processConfig__(config)
+  : config

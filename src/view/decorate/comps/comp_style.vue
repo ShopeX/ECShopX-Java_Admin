@@ -1,7 +1,7 @@
 <template>
   <div class="comps_style">
     <!-- 内边距设置 -->
-    <div v-if="hasPaddingFields" class="comps_style-item">
+    <div class="comps_style-item">
       <el-row class="im-bd">
         <template v-for="field in paddingFields">
           <el-col
@@ -22,7 +22,7 @@
     </div>
 
     <!-- 组合内边距设置 -->
-    <div v-if="hasCombinedPaddingFields" class="comps_style-item">
+    <div class="comps_style-item">
       <el-row class="im-bd">
         <template v-for="field in combinedPaddingFields">
           <el-col
@@ -44,7 +44,6 @@
     </div>
 
     <!-- 背景设置 -->
-    <template v-if="showBgsetting">
       <div class="comps_style-item comps_style-bg">
         <div class="im-tt">背景</div>
         <div class="im-bd">
@@ -114,7 +113,6 @@
           </div>
         </div>
       </div>
-    </template>
   </div>
 </template>
 
@@ -122,7 +120,6 @@
 import { cloneDeep } from 'lodash'
 
 const DEFAULT_FORM = {
-  margined: 0,
   paddedt: 0,
   paddedb: 0,
   paddedl: 0,
@@ -146,10 +143,6 @@ export default {
       type: String,
       default: ''
     },
-    showBgsetting: {
-      type: Boolean,
-      default: true
-    },
     showTop: {
       type: Boolean,
       default: true
@@ -163,10 +156,6 @@ export default {
       default: true
     },
     showRight: {
-      type: Boolean,
-      default: true
-    },
-    showLabel: {
       type: Boolean,
       default: true
     },
@@ -200,14 +189,6 @@ export default {
         { key: 'paddedtb', label: '上下', show: this.showTB },
         { key: 'paddedlr', label: '左右', show: this.showLR }
       ]
-    },
-    // 是否有内边距字段显示
-    hasPaddingFields() {
-      return this.showTop || this.showBottom || this.showLeft || this.showRight
-    },
-    // 是否有组合内边距字段显示
-    hasCombinedPaddingFields() {
-      return this.showTB || this.showLR
     },
     // 默认背景颜色
     defaultBgColor() {

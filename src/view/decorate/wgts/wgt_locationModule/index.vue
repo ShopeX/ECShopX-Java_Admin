@@ -90,17 +90,29 @@ export default {
         },
         // 导航栏外层样式
         navWrapperStyle() {
-            const navbg = this.value.navbg || {}
-            const navpadded = this.value.navpadded || {}
+            const outerMargin = this.value.outerMargin || {}
             const activeItem = this.navItems[this.activeIndex]
             
-            // 根据当前选中项的配置决定背景
-            let backgroundColor = navbg.color || '#ffffff'
-            let backgroundImage = navbg.image ? `url(${navbg.image})` : 'none'
+            // 从 outerMargin 读取背景和内边距（CompStyle 组件的数据结构）
+            const bgType = outerMargin.bgType
+            let backgroundColor = ''
+            let backgroundImage = 'none'
             
+            // 根据 bgType 处理背景
+            if (bgType === 'gradient') {
+                backgroundImage = `linear-gradient(to bottom, ${outerMargin.startColor || ''}, ${outerMargin.endColor || ''})`
+            } else if (bgType === 'pic') {
+                backgroundImage = outerMargin.bgPic ? `url(${outerMargin.bgPic})` : 'none'
+                backgroundColor = ''
+            } else if (bgType === 'color' || !bgType) {
+                backgroundColor = outerMargin.bgColor || '#ffffff'
+            }
+            
+            // 根据当前选中项的配置决定背景（优先级更高）
             if (activeItem) {
                 if (activeItem.navactivebgimg) {
                     backgroundImage = `url(${activeItem.navactivebgimg})`
+                    backgroundColor = ''
                 } else if (activeItem.navactivebg) {
                     backgroundColor = activeItem.navactivebg
                     backgroundImage = 'none'
@@ -108,31 +120,47 @@ export default {
             }
             
             return {
-                backgroundColor,
-                backgroundImage,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                paddingTop: `${navpadded.paddedt || 0}px`,
-                paddingBottom: `${navpadded.paddedb || 0}px`,
-                paddingLeft: `${navpadded.paddedl || 0}px`,
-                paddingRight: `${navpadded.paddedr || 0}px`
+                paddingTop: `${outerMargin.paddedt || 0}px`,
+                paddingBottom: `${outerMargin.paddedb || 0}px`,
+                paddingLeft: `${outerMargin.paddedl || 0}px`,
+                paddingRight: `${outerMargin.paddedr || 0}px`,
+                backgroundColor: backgroundColor || undefined,
+                backgroundImage: backgroundImage !== 'none' ? backgroundImage : undefined,
+                backgroundSize: backgroundImage !== 'none' ? 'cover' : undefined,
+                backgroundPosition: backgroundImage !== 'none' ? 'center' : undefined,
+                backgroundRepeat: backgroundImage !== 'none' ? 'no-repeat' : undefined,
             }
         },
         // 导航项区域样式
         navItemAreaStyle() {
-            const navitembg = this.value.navitembg || {}
-            const navitempadded = this.value.navitempadded || {}
+            const navitemarea = this.value.navitemarea || {}
+            
+            // 从 navitemarea 读取背景和内边距（CompStyle 组件的数据结构）
+            const bgType = navitemarea.bgType
+            let backgroundColor = ''
+            let backgroundImage = 'none'
+            
+            // 根据 bgType 处理背景
+            if (bgType === 'gradient') {
+                backgroundImage = `linear-gradient(to bottom, ${navitemarea.startColor || ''}, ${navitemarea.endColor || ''})`
+            } else if (bgType === 'pic') {
+                backgroundImage = navitemarea.bgPic ? `url(${navitemarea.bgPic})` : 'none'
+                backgroundColor = ''
+            } else if (bgType === 'color' || !bgType) {
+                backgroundColor = navitemarea.bgColor || 'transparent'
+            }
             
             return {
-                backgroundColor: navitembg.color || 'transparent',
-                backgroundImage: navitembg.image ? `url(${navitembg.image})` : 'none',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                borderRadius: `${this.value.navitemradius || 0}px`,
-                paddingTop: `${navitempadded.paddedt || 0}px`,
-                paddingBottom: `${navitempadded.paddedb || 0}px`,
-                paddingLeft: `${navitempadded.paddedl || 0}px`,
-                paddingRight: `${navitempadded.paddedr || 0}px`
+                paddingTop: `${navitemarea.paddedt || 0}px`,
+                paddingBottom: `${navitemarea.paddedb || 0}px`,
+                paddingLeft: `${navitemarea.paddedl || 0}px`,
+                paddingRight: `${navitemarea.paddedr || 0}px`,
+                backgroundColor: backgroundColor || undefined,
+                backgroundImage: backgroundImage !== 'none' ? backgroundImage : undefined,
+                backgroundSize: backgroundImage !== 'none' ? 'cover' : undefined,
+                backgroundPosition: backgroundImage !== 'none' ? 'center' : undefined,
+                backgroundRepeat: backgroundImage !== 'none' ? 'no-repeat' : undefined,
+                borderRadius: `${this.value.navitemradius || 0}px`
             }
         },
         // 导航列表样式
@@ -177,10 +205,15 @@ export default {
             const isActive = this.activeIndex === index
             const navitemmargin = this.value.navitemmargin || {}
             
+            // navitemmargin 可能是数字（旧格式）或对象（新格式）
+            const marginValue = typeof navitemmargin === 'number' 
+                ? navitemmargin 
+                : (navitemmargin.paddedlr || 18)
+            
             return {
                 height: `${this.value.navitemheight || 40}px`,
-                paddingLeft: `${navitemmargin.paddedlr || 18}px`,
-                paddingRight: `${navitemmargin.paddedlr || 18}px`,
+                paddingLeft: `${marginValue}px`,
+                paddingRight: `${marginValue}px`,
                 color: isActive ? (item.navitemactivecolor || '#1A1A1A') : (item.navitemcolor || '#666666'),
                 backgroundColor: isActive ? (item.navitemactivebg || 'transparent') : (item.navitembg || 'transparent'),
                 borderRadius: `${item.navitemradius || 0}px`

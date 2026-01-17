@@ -3,7 +3,7 @@ import NavItem from './nav-item.vue'
 import CompOuter from '../../comps/comp_background_outer.vue'
 
 const config = {
-  name: 'locationModule',
+  name: 'contentPart',
   setting: [
     {
       label: '导航可吸顶',

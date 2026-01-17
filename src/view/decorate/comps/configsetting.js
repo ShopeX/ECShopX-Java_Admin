@@ -12,11 +12,11 @@ function isCompStyleValue(value) {
   if (!value || typeof value !== 'object') {
     return false
   }
-  
+
   // 检查是否包含 padding/margin 相关的字段
   const paddingKeys = ['paddedt', 'paddedb', 'paddedl', 'paddedr', 'paddedtb', 'paddedlr']
   const hasPaddingFields = paddingKeys.some(key => key in value)
-  
+
   return hasPaddingFields
 }
 
@@ -32,19 +32,25 @@ function processConfig(config) {
 
   // 检查 setting 中已有的 key
   const existingKeys = config.setting.map(item => item.key).filter(Boolean)
-  
+
+  // 获取分组名称的函数
+  const getGroup = () => {
+    if (['contentPart', 'locationModule'].includes(config.name)) {
+      return '导航栏样式'
+    }
+    return '组件样式'
+  }
+
   // 创建 CompStyle 配置项的函数
-  const createCompStyleItem = (key, label, defaultValue = { paddedt: 0, paddedb: 0, paddedl: 0, paddedr: 0 }) => ({
-    group: '组件样式',
+  const createCompStyleItem = (key, label, defaultValue = { paddedt: 0, paddedb: 0, paddedl: 0, paddedr: 0 }, group = null) => ({
+    group: group || getGroup(),
     label,
     key,
     component: function (h, { key }) {
       return (
         <CompStyle
-          showBgsetting={true}
           v-model={this.value[key]}
           uuid={this.value.uuid}
-          showLabel={true}
           showTop={true}
           showBottom={true}
           showLeft={true}
@@ -62,119 +68,7 @@ function processConfig(config) {
 
   // 针对特定挂件的额外配置项
   const widgetSpecificSettings = []
-  if (config.name === 'speedkill') {
-    // 秒杀挂件自动添加组件内样式
-    widgetSpecificSettings.push({
-      group: '组件内样式',
-      label: '边距',
-      key: 'innerPadding',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={true}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={true}
-            showTop={true}
-            showBottom={true}
-            showLeft={true}
-            showRight={true}
-          />
-        )
-      },
-      value: {
-        paddedt: 9,
-        paddedb: 9,
-        paddedl: 12,
-        paddedr: 12
-      }
-    })
-  }
-  if (config.name === 'group') {
-    // 拼团挂件自动添加组件内样式
-    widgetSpecificSettings.push({
-      group: '组件内样式',
-      label: '边距',
-      key: 'innerPadding',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={true}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={true}
-            showTop={true}
-            showBottom={true}
-            showLeft={true}
-            showRight={true}
-          />
-        )
-      },
-      value: {
-        paddedt: 9,
-        paddedb: 9,
-        paddedl: 12,
-        paddedr: 12
-      }
-    })
-  }
-  if (config.name === 'ranking') {
-    // 品类榜单挂件自动添加组件内样式
-    widgetSpecificSettings.push({
-      group: '组件内样式',
-      label: '边距',
-      key: 'innerPadding',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={true}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={true}
-            showTop={true}
-            showBottom={true}
-            showLeft={true}
-            showRight={true}
-          />
-        )
-      },
-      value: {
-        paddedt: 9,
-        paddedb: 9,
-        paddedl: 12,
-        paddedr: 12
-      }
-    })
-  }
-  if (config.name === 'hotranking') {
-    // 热销榜单挂件自动添加组件内样式
-    widgetSpecificSettings.push({
-      group: '组件内样式',
-      label: '边距',
-      key: 'innerPadding',
-      component: function (h, { key }) {
-        return (
-          <CompStyle
-            showBgsetting={true}
-            v-model={this.value[key]}
-            uuid={this.value.uuid}
-            showLabel={true}
-            showTop={true}
-            showBottom={true}
-            showLeft={true}
-            showRight={true}
-          />
-        )
-      },
-      value: {
-        paddedt: 9,
-        paddedb: 9,
-        paddedl: 12,
-        paddedr: 12
-      }
-    })
-  }
-  if (config.name === 'goods') {
+  if (['speedkill', 'group', 'ranking', 'hotranking', 'goods'].includes(config.name)) {
     // 商品挂件自动添加组件内样式
     widgetSpecificSettings.push({
       group: '组件内样式',
@@ -183,10 +77,8 @@ function processConfig(config) {
       component: function (h, { key }) {
         return (
           <CompStyle
-            showBgsetting={true}
             v-model={this.value[key]}
             uuid={this.value.uuid}
-            showLabel={true}
             showTop={true}
             showBottom={true}
             showLeft={true}
@@ -202,6 +94,18 @@ function processConfig(config) {
       }
     })
   }
+  // 定位导航和内容部分自动添加组件样式
+  if (['contentPart', 'locationModule'].includes(config.name)) {
+    widgetSpecificSettings.push({
+      group: '导航项区域设置',
+      label: '边距',
+      key: 'navitemarea',
+      component: function (h, { key }) {
+        return <CompStyle v-model={this.value[key]} uuid={this.value.uuid} />
+      },
+    })
+  }
+
 
   // 处理现有的 setting，自动识别并转换 CompStyle 配置项
   const processedSetting = config.setting.map(item => {
@@ -211,26 +115,21 @@ function processConfig(config) {
     const hasCompStyleComponent = item.component === 'compStyle'
     const hasCompStyleValue = isCompStyleValue(item.value)
     const hasOtherComponent = item.component && item.component !== 'compStyle' && typeof item.component !== 'function'
-    
+
     // 如果需要使用 CompStyle，且没有其他自定义组件，则自动转换
     const shouldUseCompStyle = (hasCompStyleComponent || hasCompStyleValue) && !hasOtherComponent
-    
+
     if (shouldUseCompStyle) {
       const { component, ...rest } = item
+      let group = rest.group || '组件样式'
       return {
         ...rest,
-        group: rest.group || '组件样式', // 如果没有 group，则设置为"组件样式"
+        group: group, // 如果没有 group，则设置为"组件样式"
         component: function (h, { key }) {
           return (
             <CompStyle
-              showBgsetting={true}
               v-model={this.value[key]}
               uuid={this.value.uuid}
-              showLabel={true}
-              showTop={true}
-              showBottom={true}
-              showLeft={true}
-              showRight={true}
             />
           )
         },
@@ -248,7 +147,7 @@ function processConfig(config) {
   // 自动添加缺失的通用配置项
   defaultCommonSettings.forEach(defaultItem => {
     if (!existingKeys.includes(defaultItem.key)) {
-      processedSetting.push(defaultItem)
+      processedSetting.unshift(defaultItem)
     }
   })
 

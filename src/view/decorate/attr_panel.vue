@@ -160,6 +160,10 @@ export default {
         'dotLocation',
         'shape',
         'height',
+        'navitemborder',
+        'leftimgUrl',
+        'rightimgUrl',
+        'navitemarea',
       ]
     },
     // 将配置项按分组组织

@@ -271,10 +271,10 @@ export default {
       }
     },
     widgetCategories() {
-      // 通用挂件：轮播、热区图、视频、楼层图片、文字轮播
-      const generalNames = ['Slider', 'ImgHotzone', 'Film', 'FloorImg', 'Marquees']
-      // 功能挂件：店铺、橱窗、优惠券、图片导航
-      const functionalNames = ['Store', 'Showcase', 'Coupon', 'Navigation','StoreAlphabet', 'Shop']
+      // 通用挂件：轮播、热区图、视频、文字轮播
+      const generalNames = ['Slider', 'ImgHotzone', 'Film', 'Marquees']
+      // 功能挂件：店铺、优惠券
+      const functionalNames = ['Store', 'Coupon', 'StoreAlphabet']
       // 商品挂件：秒杀、拼团、热销榜单、品类榜单、商品
       const goodsNames = ['Speedkill', 'Group', 'hotranking', 'Ranking', 'goods']
       // 专用挂件：订单导航
