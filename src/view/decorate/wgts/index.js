@@ -31,6 +31,7 @@ import WgtShelves from './wgt_shelves'
 import WgtLocationModule from './wgt_locationModule'
 import WgtSpeedkill from './wgt_speedkill'
 import WgtGroup from './wgt_group'
+import WgtRanking from './wgt_ranking'
 
 
 // 首页装修
@@ -57,7 +58,8 @@ let SCENE_1001 = {
   WgtShelves,
   WgtLocationModule,
   WgtSpeedkill,
-  WgtGroup
+  WgtGroup,
+  WgtRanking
 }
 
 if (VERSION_PLATFORM()) {

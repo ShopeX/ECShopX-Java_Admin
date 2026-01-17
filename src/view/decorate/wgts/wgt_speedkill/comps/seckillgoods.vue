@@ -324,7 +324,7 @@ export default {
                     font-family: D-DIN-PRO, D-DIN-PRO;
                     font-weight: 600;
                     font-size: 15px;
-                    color: #D4003B;
+                    color: var(--primary);
                     line-height: 15px;
                 }
 
@@ -349,7 +349,7 @@ export default {
                 font-family: PingFang SC, PingFang SC;
                 font-weight: 500;
                 font-size: 12px;
-                color: #D4003B;
+                color: var(--primary);
                 white-space: nowrap;
                 height: 20px;
                 display: flex;
@@ -357,7 +357,7 @@ export default {
 
                 .start-time-text {
                     font-size: 14px;
-                    color: #D4003B;
+                    color: var(--primary);
                     font-weight: 500;
                     padding-left: 3px;
 
@@ -465,20 +465,20 @@ export default {
                 display: flex;
                 align-items: baseline;
                 gap: 2px;
-                color: #D4003B;
+                color: var(--primary);
 
                 .price-label {
                     font-family: PingFang SC, PingFang SC;
                     font-weight: 500;
                     font-size: 10px;
-                    color: #D4003B;
+                    color: var(--primary);
                 }
 
                 .price-symbol {
                     font-family: D-DIN-PRO, D-DIN-PRO;
                     font-weight: 500;
                     font-size: 11px;
-                    color: #D4003B;
+                    color: var(--primary);
                     line-height: 1;
                 }
 
@@ -486,7 +486,7 @@ export default {
                     font-family: D-DIN-PRO, D-DIN-PRO;
                     font-weight: 600;
                     font-size: 15px;
-                    color: #D4003B;
+                    color: var(--primary);
                     line-height: 1;
                 }
             }

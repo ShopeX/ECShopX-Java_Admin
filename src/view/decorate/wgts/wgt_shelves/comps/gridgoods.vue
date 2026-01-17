@@ -120,12 +120,12 @@ export default {
         getTagStyle(tag) {
             const colorMap = {
                 'marketing': {
-                    color: '#D4003B',
+                    color: 'var(--primary)',
                     borderColor: 'rgba(212,0,59,0.15)',
                     background: 'rgba(212,0,59,0.1)'
                 },
                 'single_group': {
-                    color: '#D4003B',
+                    color: 'var(--primary)',
                     borderColor: 'rgba(212,0,59,0.15)',
                     background: 'rgba(212,0,59,0.1)'
                 },

@@ -1,0 +1,185 @@
+<style lang="scss" src="./index.scss" />
+
+<template>
+    <div class="wgt-ranking" :style="outerStyle">
+        <div class="wgt-ranking-content flex gap-6">
+            <RankingGoods :value="mappedValue" :goods-list="list" :custom-style="innerStyle" />
+        </div>
+    </div>
+</template>
+
+<script>
+import config from './config'
+import RankingGoods from './comps/rankinggoods.vue'
+import rankingdata from './mock/ranking.json'
+
+export default {
+    name: 'Ranking',
+    wgtName: '品类榜单',
+    wgtDesc: '',
+    wgtIcon: 'wgt-store',
+    wgtType: 2,
+    config: config,
+    props: {
+        value: [Object, Array]
+    },
+    components: {
+        RankingGoods
+    },
+    data() {
+        return {
+            list: []
+        }
+    },
+    watch: {
+        'value.data': {
+            handler() {
+                this.getRankingGoodsList()
+            },
+            deep: true
+        }
+    },
+    methods: {
+        // 检查 data 是否有参数
+        hasDataParam() {
+            const data = this.value.data
+            if (!data) return false
+            if (data.id !== undefined && data.id !== null && data.id !== '') {
+                return true
+            }
+            return false
+        },
+        // 获取榜单商品列表
+        async getRankingGoodsList() {
+            // 检查是否有 data 参数
+            // if (!this.hasDataParam()) {
+            //     this.list = []
+            //     return
+            // }
+
+            let params = {
+                data_type: 'category_ranking',
+                data_value: this.value.data?.id || '',
+                data_count: this.value.dataCount,
+                distributor_id: this.value.data?.distributor_id || '',
+                pages_template_id: this.$route.query.id,
+            }
+
+            // 模拟数据 TODO: 删除
+            this.list = rankingdata.data.list.slice(0, this.value.dataCount)
+
+            // 实际接口调用示例（注释掉）
+            // try {
+            //     const res = await this.$api.template.getShelvesGoods(params)
+            //     this.list = res?.data?.data || []
+            // } catch (error) {
+            //     console.error('获取榜单商品列表失败:', error)
+            //     this.list = []
+            // }
+        }
+    },
+    mounted() {
+        this.getRankingGoodsList()
+    },
+    computed: {
+        // 将 config.js 中的字段映射到 rankinggoods.vue 期望的字段
+        mappedValue() {
+            const {
+                rankingTitleType,
+                rankingTitleImage,
+                rankingTitleText,
+                rankingTitleColor,
+                rankingShowMoreBtn,
+                rankingMoreBtnColor,
+                rankingMoreLink,
+                ...rest
+            } = this.value
+
+            return {
+                ...rest,
+                // 映射标题相关字段
+                titleText: {
+                    type: rankingTitleType || 'text',
+                    text: rankingTitleText || '标题',
+                    image: rankingTitleImage || ''
+                },
+                titleColor: rankingTitleColor || '',
+                // 映射更多按钮相关字段
+                moreBtn: {
+                    show: rankingShowMoreBtn !== undefined ? rankingShowMoreBtn : true,
+                    color: rankingMoreBtnColor || ''
+                },
+                moreLink: rankingMoreLink || {}
+            }
+        },
+        outerStyle() {
+            const { outerMargin = {} } = this.value
+            
+            // CompStyle 组件将背景数据直接存储在 outerMargin 中
+            const bgType = outerMargin.bgType
+            let bgColor = ''
+            let bgImage = 'none'
+            
+            // 渐变背景
+            if (bgType === 'gradient') {
+                bgImage = `linear-gradient(to bottom, ${outerMargin.startColor || ''}, ${outerMargin.endColor || ''})`
+            } 
+            // 图片背景
+            else if (bgType === 'pic') {
+                bgImage = outerMargin.bgPic ? `url(${outerMargin.bgPic})` : 'none'
+                bgColor = ''
+            } 
+            // 单色背景
+            else if (bgType === 'color' || !bgType) {
+                bgColor = outerMargin.bgColor || ''
+            }
+            
+            return {
+                paddingTop: (outerMargin.paddedt || 0) + 'px',
+                paddingBottom: (outerMargin.paddedb || 0) + 'px',
+                paddingLeft: (outerMargin.paddedl || 0) + 'px',
+                paddingRight: (outerMargin.paddedr || 0) + 'px',
+                backgroundColor: bgColor || undefined,
+                backgroundImage: bgImage !== 'none' ? bgImage : undefined,
+                backgroundSize: bgImage !== 'none' ? 'cover' : undefined,
+                backgroundPosition: bgImage !== 'none' ? 'center' : undefined,
+                backgroundRepeat: bgImage !== 'none' ? 'no-repeat' : undefined,
+            }
+        },
+        innerStyle() {
+            const { innerPadding = {} } = this.value
+            
+            // CompStyle 组件将背景数据直接存储在 innerPadding 中
+            const bgType = innerPadding.bgType
+            let bgColor = ''
+            let bgImage = 'none'
+            
+            // 渐变背景
+            if (bgType === 'gradient') {
+                bgImage = `linear-gradient(to bottom, ${innerPadding.startColor || ''}, ${innerPadding.endColor || '#ffffff'})`
+            } 
+            // 图片背景
+            else if (bgType === 'pic') {
+                bgImage = innerPadding.bgPic ? `url(${innerPadding.bgPic})` : 'none'
+                bgColor = ''
+            } 
+            // 单色背景
+            else if (bgType === 'color' || !bgType) {
+                bgColor = innerPadding.bgColor || ''
+            }
+            
+            return {
+                paddingLeft: (innerPadding.paddedl || 0) + 'px',
+                paddingRight: (innerPadding.paddedr || 0) + 'px',
+                paddingTop: (innerPadding.paddedt || 0) + 'px',
+                paddingBottom: (innerPadding.paddedb || 0) + 'px',
+                backgroundColor: bgColor || undefined,
+                backgroundImage: bgImage !== 'none' ? bgImage : undefined,
+                backgroundSize: bgImage !== 'none' ? 'cover' : undefined,
+                backgroundPosition: bgImage !== 'none' ? 'center' : undefined,
+                backgroundRepeat: bgImage !== 'none' ? 'no-repeat' : undefined,
+            }
+        }
+    }
+}
+</script>

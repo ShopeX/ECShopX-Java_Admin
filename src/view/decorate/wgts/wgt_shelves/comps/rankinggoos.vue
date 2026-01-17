@@ -113,7 +113,6 @@ export default {
     padding: 12px;
     overflow: hidden;
     position: relative;
-    background-color: #4A4A4A;
 
     // 背景模糊效果
     &::before {

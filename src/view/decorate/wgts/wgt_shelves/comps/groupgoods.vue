@@ -215,7 +215,7 @@ export default {
             padding: 0px 6px;
             line-height: 14px;
             height: 14px;
-            background: #D4003B;
+            background: var(--primary);
             border-radius: 6px 0px 6px 0px;
         }
 
@@ -273,7 +273,7 @@ export default {
                     font-family: PingFang SC, PingFang SC;
                     font-weight: 400;
                     font-size: 10px;
-                    color: #D4003B;
+                    color: var(--primary);
                     margin-right: 2px;
                 }
 
@@ -281,7 +281,7 @@ export default {
                     font-family: D-DIN-PRO, D-DIN-PRO;
                     font-weight: 500;
                     font-size: 11px;
-                    color: #D4003B;
+                    color: var(--primary);
                     line-height: 1;
                     margin-right: 1px;
                 }
@@ -290,7 +290,7 @@ export default {
                     font-family: D-DIN-PRO, D-DIN-PRO;
                     font-weight: 600;
                     font-size: 15px;
-                    color: #D4003B;
+                    color: var(--primary);
                     line-height: 1;
                 }
             }
