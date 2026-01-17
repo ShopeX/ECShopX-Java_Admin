@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import store from '@/store'
 import router from '@/router'
-import { isObject } from '@/utils'
+import { isObject, getBasePath } from '@/utils'
 import { langMap } from '@/i18n'
 import { RequestClient } from './request'
 
@@ -134,36 +134,40 @@ function createRequestClient() {
 
       // 处理401错误
       if (status === 401) {
-        if (!isRefreshing) {
-          isRefreshing = true
-          // 创建刷新token的Promise
-          refreshTokenPromise = refreshToken()
-        }
+        const basePath = getBasePath()
+        store.commit('user/logout')
+        store.commit('system/logout')
+        router.push(basePath ? `/${basePath}/login` : '/login')
+        // if (!isRefreshing) {
+        //   isRefreshing = true
+        //   // 创建刷新token的Promise
+        //   refreshTokenPromise = refreshToken()
+        // }
 
-        // 将请求添加到队列
-        return new Promise((resolve, reject) => {
-          requestQueue.push((token) => {
-            // 更新请求头中的token
-            config.headers.Authorization = `Bearer ${token}`
-            // 重新发起请求
-            resolve(requestClient.request(config))
-          })
-        })
-          .then(() => {
-            // 刷新token成功后，处理队列中的请求
-            refreshTokenPromise.then((token) => {
-              handleRequestQueue(token)
-              isRefreshing = false
-              refreshTokenPromise = null
-            })
-          })
-          .catch((error) => {
-            // 刷新token失败，清空队列
-            requestQueue = []
-            isRefreshing = false
-            refreshTokenPromise = null
-            return Promise.reject(error)
-          })
+        // // 将请求添加到队列
+        // return new Promise((resolve, reject) => {
+        //   requestQueue.push((token) => {
+        //     // 更新请求头中的token
+        //     config.headers.Authorization = `Bearer ${token}`
+        //     // 重新发起请求
+        //     resolve(requestClient.request(config))
+        //   })
+        // })
+        //   .then(() => {
+        //     // 刷新token成功后，处理队列中的请求
+        //     refreshTokenPromise.then((token) => {
+        //       handleRequestQueue(token)
+        //       isRefreshing = false
+        //       refreshTokenPromise = null
+        //     })
+        //   })
+        //   .catch((error) => {
+        //     // 刷新token失败，清空队列
+        //     requestQueue = []
+        //     isRefreshing = false
+        //     refreshTokenPromise = null
+        //     return Promise.reject(error)
+        //   })
       }
       const responseData = error?.response?.data ?? {}
       Vue.prototype.$message.error(
