@@ -151,6 +151,7 @@ export default {
         'dotCover',
         'dotLocation',
         'shape',
+        'height',
       ]
     },
     // 将配置项按分组组织

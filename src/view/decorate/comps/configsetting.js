@@ -174,6 +174,34 @@ function processConfig(config) {
       }
     })
   }
+  if (config.name === 'goods') {
+    // 商品挂件自动添加组件内样式
+    widgetSpecificSettings.push({
+      group: '组件内样式',
+      label: '边距',
+      key: 'innerPadding',
+      component: function (h, { key }) {
+        return (
+          <CompStyle
+            showBgsetting={true}
+            v-model={this.value[key]}
+            uuid={this.value.uuid}
+            showLabel={true}
+            showTop={true}
+            showBottom={true}
+            showLeft={true}
+            showRight={true}
+          />
+        )
+      },
+      value: {
+        paddedt: 9,
+        paddedb: 9,
+        paddedl: 12,
+        paddedr: 12
+      }
+    })
+  }
 
   // 处理现有的 setting，自动识别并转换 CompStyle 配置项
   const processedSetting = config.setting.map(item => {

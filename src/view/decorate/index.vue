@@ -81,6 +81,38 @@
             </draggable>
           </div>
 
+          <!-- 商品挂件 -->
+          <div v-if="widgetCategories.goods.length > 0" class="wgt-category">
+            <div class="category-title">商品挂件</div>
+            <draggable
+              class="wgts-view"
+              :chosen-class="'wgts-chosen'"
+              :list="widgetCategories.goods"
+              :group="{
+                name: 'easyview',
+                pull: 'clone',
+                put: false
+              }"
+              :sort="false"
+              :clone="cloneDefaultField"
+            >
+              <div
+                v-for="(wgt, index) in widgetCategories.goods"
+                :key="`wgt-goods__${index}`"
+                class="wgt-item"
+                :data-name="wgt.name"
+              >
+                <div :class="['wgt-icon', wgt.wgtIcon]" />
+                <div class="wgt-name">
+                  {{ wgt.wgtName }}
+                </div>
+                <div class="wgt-placeholder">
+                  <div class="placholder-txt">放置区域</div>
+                </div>
+              </div>
+            </draggable>
+          </div>
+
           <!-- 专用挂件 -->
           <div v-if="widgetCategories.dedicated.length > 0" class="wgt-category">
             <div class="category-title">专用挂件</div>
@@ -243,12 +275,15 @@ export default {
       const generalNames = ['Slider', 'ImgHotzone', 'Film', 'FloorImg', 'Marquees']
       // 功能挂件：店铺、橱窗、优惠券、图片导航
       const functionalNames = ['Store', 'Showcase', 'Coupon', 'Navigation','StoreAlphabet', 'Shop']
+      // 商品挂件：货架、秒杀、拼团、热销榜单、品类榜单、商品
+      const goodsNames = ['Shelves', 'Speedkill', 'Group', 'hotranking', 'Ranking', 'goods']
       // 专用挂件：订单导航
       const dedicatedNames = ['OrderNavigation']
 
       const categories = {
         general: [],
         functional: [],
+        goods: [],
         dedicated: []
       }
 
@@ -259,6 +294,8 @@ export default {
           categories.general.push(wgt)
         } else if (functionalNames.includes(name)) {
           categories.functional.push(wgt)
+        } else if (goodsNames.includes(name)) {
+          categories.goods.push(wgt)
         } else if (dedicatedNames.includes(name)) {
           categories.dedicated.push(wgt)
         } else {
