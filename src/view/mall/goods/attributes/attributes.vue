@@ -50,8 +50,7 @@
       </el-table-column>
       <el-table-column label="类型" width="150">
         <template slot-scope="props">
-          <!-- {{ JSON.parse(props.row.is_image) ? '图片' : '文字' }} -->
-          {{ (props.row.is_image == 'true' || props.row.is_image == 1) ? '图片' : '文字' }}
+          {{ normalizeIsImage(props.row.is_image) ? '图片' : '文字' }}
         </template>
       </el-table-column>
       <el-table-column prop="attribute_name" label="规格名称" width="200" />
@@ -160,6 +159,10 @@ export default {
     this.fetchList()
   },
   methods: {
+    // 统一转换 is_image 为布尔值
+    normalizeIsImage(value) {
+      return value == true || value == 1 || value == 'true'
+    },
     handleDelete(data) {
       this.$confirm('确认删除该参数？')
         .then((_) => {
@@ -187,7 +190,7 @@ export default {
     handleEdit(data) {
       this.show_sideBar = true
       this.form = {
-        is_image: data.is_image === 'true',
+        is_image: this.normalizeIsImage(data.is_image),
         attribute_id: data.attribute_id,
         attribute_type: data.attribute_type,
         attribute_name: data.attribute_name,
@@ -241,7 +244,11 @@ export default {
         ...this.params
       }
       getGoodsAttr(params).then((res) => {
-        this.list = res.data.data.list
+        // 统一转换 is_image 为布尔值
+        this.list = res.data.data.list.map(item => ({
+          ...item,
+          is_image: this.normalizeIsImage(item.is_image)
+        }))
         this.total_count = res.data.data.total_count
         this.loading = false
       })
