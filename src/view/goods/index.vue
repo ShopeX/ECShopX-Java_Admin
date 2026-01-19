@@ -948,7 +948,7 @@ export default {
     async getMainCategory() {
       const { itemId } = this.$route.params
       this.loading = true
-      const category = await this.$api.goods.getCategory({ is_main_category: true, item_id: itemId })
+      const category = await this.$api.goods.getCategory({ is_main_category: true })
       function _deepCategory(cate, temp) {
         cate.forEach((item) => {
           const _temp = {
@@ -1176,7 +1176,8 @@ export default {
         max_num
       }
       const { goods_params, goods_spec = [] } = await this.$api.goods.getCategoryInfo(
-        item_main_cat_id
+        item_main_cat_id,
+        { item_id: itemId ? itemId : '' }
       )
       this.mainCategorySpec = goods_spec
       this.resolveParamsData(goods_params, item_params)
