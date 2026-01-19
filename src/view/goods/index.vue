@@ -233,6 +233,7 @@ export default {
                 v-model={value[key]}
                 disabled={this.mainCategoryDisabled}
                 options={this.categoryList}
+                props={{ props: { checkStrictly: true } }}
                 on-change={this.onChangeMainCategory}
               />
             )
@@ -947,7 +948,7 @@ export default {
     async getMainCategory() {
       const { itemId } = this.$route.params
       this.loading = true
-      const category = await this.$api.goods.getCategory({ is_main_category: true })
+      const category = await this.$api.goods.getCategory({ is_main_category: true, item_id: itemId })
       function _deepCategory(cate, temp) {
         cate.forEach((item) => {
           const _temp = {
