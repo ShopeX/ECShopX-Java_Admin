@@ -533,11 +533,12 @@ export default {
       const isAddingStoreAlphabet = wgtName === storeAlphabetConfigName || wgtName === storeAlphabetComponentName
       
       // 检查当前已有的挂件（contentComps 中使用的是 config.name）
+      // 添加 null 检查，防止访问 null.name 报错
       const hasStoreAlphabet = this.contentComps.some(
-        comp => comp.name === storeAlphabetConfigName
+        comp => comp && comp.name === storeAlphabetConfigName
       )
       const hasOtherWgts = this.contentComps.some(
-        comp => comp.name !== storeAlphabetConfigName
+        comp => comp && comp.name !== storeAlphabetConfigName
       )
       
       // 如果要添加店铺字母列表，但已有其他挂件，则不允许

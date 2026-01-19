@@ -1,6 +1,4 @@
 import { pickBy } from '@/utils'
-import CompInner from '../../comps/comp_background_inner.vue'
-import CompOuter from '../../comps/comp_background_outer.vue'
 import Attrdata from './attr_data.vue'
 
 const config = {
@@ -53,25 +51,8 @@ const config = {
         paddedl: 10,
         paddedr: 10
       }
-    },
-    // outerMargin 会自动添加，无需手动写
-
-    {
-      label: '组件外背景',
-      key: 'outerBackground',
-      component: function (h, { key }) {
-        return <CompOuter v-model={this.value[key]} uuid={this.value.uuid} />
-      },
-      value: { color: '#f8f8f8', image: '' }
-    },
-    {
-      label: '组件内背景',
-      key: 'innerBackground',
-      component: function (h, { key }) {
-        return <CompInner v-model={this.value[key]} uuid={this.value.uuid} />
-      },
-      value: { type: 'solid', color: '#ffffff', startColor: '#ffffff', endColor: '#ffffff' }
     }
+    // outerMargin、outerBackground、innerBackground 会自动添加，无需手动写
   ],
   transformIn: (v) => {
     const { name, base, data, track, tagsType, meber_tags, no_meber_tags } = v

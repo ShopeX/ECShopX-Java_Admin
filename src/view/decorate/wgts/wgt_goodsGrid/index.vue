@@ -8,7 +8,7 @@
   <div :class="{
     'wgt-goods-grid': true,
     padded: value.padded
-  }">
+  }" :style="outerStyle">
     <div v-if="value.title || value.subtitle" class="wgt-hd">
       <div>
         <span class="title">{{ value.title }}</span>
@@ -140,6 +140,7 @@
 
 <script>
 import config from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'GoodsGrid',
   wgtName: '商品栅格',
@@ -154,6 +155,11 @@ export default {
       leftGoodsList: [],
       rightGoodsList: [],
       goodsList: []
+    }
+  },
+  computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
     }
   },
   // computed: {

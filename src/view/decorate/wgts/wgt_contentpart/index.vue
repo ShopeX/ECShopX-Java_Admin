@@ -61,6 +61,7 @@
 <script>
 import config from './config'
 import gWgts from '../index'
+import { getOuterStyle } from '../../comps/style-utils'
 
 export default {
     name: 'ContentPart',
@@ -90,9 +91,13 @@ export default {
         activeNavItem() {
             return this.navItems[this.activeIndex] || null
         },
+        outerStyle() {
+            return getOuterStyle(this.value)
+        },
         // 整体模块样式
         moduleStyle() {
             return {
+                ...this.outerStyle,
                 position: this.value.navSticky ? 'sticky' : 'relative',
                 top: this.value.navSticky ? '0' : 'auto',
                 zIndex: this.value.navSticky ? '100' : 'auto'

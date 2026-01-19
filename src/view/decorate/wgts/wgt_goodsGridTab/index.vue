@@ -10,6 +10,7 @@
       'wgt-goods-grid-tab': true,
       padded: data.padded
     }"
+    :style="outerStyle"
   >
     <div v-if="data.title || data.subtitle" class="wgt-hd">
       <span class="title">{{ data.title }}</span>
@@ -115,6 +116,7 @@
 <script>
 import { cloneDeep } from 'lodash'
 import config from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'GoodsGridTab',
   wgtName: '商品Tab',
@@ -133,6 +135,9 @@ export default {
     }
   },
   computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    },
     leftGoodsList() {
       const { goodsList, type ,pointGoods} = this.value.list[this.checked]
       const list = type == 'point' ? pointGoods : goodsList

@@ -43,6 +43,7 @@
       'wgt-film': true,
       padded: value.padded
     }"
+    :style="outerStyle"
   >
     <div v-if="value.title || value.subtitle" class="wgt-hd">
       <span class="title">{{ value.title }}</span>
@@ -70,6 +71,7 @@
 
 <script>
 import config, { proportions } from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Film',
   wgtName: '视频',
@@ -85,6 +87,9 @@ export default {
     }
   },
   computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    },
     aspectRatio() {
       const { proportion } = this.value
       return proportions.find(item => item.label == proportion).name

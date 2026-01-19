@@ -56,6 +56,7 @@
 
 <script>
 import config from './config'
+import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 const defaultShopLogo = require('@/assets/imgs/decorate/default-shop-logo.png')
 export default {
   name: 'Shop',
@@ -75,30 +76,10 @@ export default {
   },
   computed: {
     outerStyle() {
-      const { outerMargin, outerBackground } = this.value
-      return {
-        paddingTop: outerMargin.paddedt + 'px',
-        paddingBottom: outerMargin.paddedb + 'px',
-        backgroundColor: outerBackground.color,
-        backgroundImage: outerBackground.image ? `url(${outerBackground.image})` : 'none',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }
+      return getOuterStyle(this.value)
     },
     innerStyle() {
-      const { innerPadding, innerBackground } = this.value
-      return {
-        paddingLeft: innerPadding.paddedl + 'px',
-        paddingRight: innerPadding.paddedr + 'px',
-        paddingTop: innerPadding.paddedt + 'px',
-        paddingBottom: innerPadding.paddedb + 'px',
-        backgroundColor: innerBackground?.type == 'solid' ? innerBackground.color : 'none',
-        backgroundImage:
-          innerBackground?.type == 'gradient'
-            ? `linear-gradient(${innerBackground.startColor}, ${innerBackground.endColor})`
-            : 'none'
-      }
+      return getInnerStyle(this.value)
     }
   },
   watch: {

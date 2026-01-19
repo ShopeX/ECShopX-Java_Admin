@@ -17,6 +17,7 @@ import GroupGoods from './comps/groupgoods.vue'
 import RowGoods from '../../comps/goods-layout/rowgoods.vue'
 import ColumnGoods from '../../comps/goods-layout/columngoods.vue'
 import GridGoods from '../../comps/goods-layout/gridgoods.vue'
+import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 import groupdata from './mock/group.json'
 
 export default {
@@ -122,75 +123,13 @@ export default {
             }
         },
         outerStyle() {
-            const { outerMargin = {} } = this.value
-            
-            // CompStyle 组件将背景数据直接存储在 outerMargin 中
-            const bgType = outerMargin.bgType
-            let bgColor = ''
-            let bgImage = 'none'
-            
-            // 渐变背景
-            if (bgType === 'gradient') {
-                bgImage = `linear-gradient(to bottom, ${outerMargin.startColor || '#ffffff'}, ${outerMargin.endColor || '#ffffff'})`
-            } 
-            // 图片背景
-            else if (bgType === 'pic') {
-                bgImage = outerMargin.bgPic ? `url(${outerMargin.bgPic})` : 'none'
-                bgColor = ''
-            } 
-            // 单色背景
-            else if (bgType === 'color' || !bgType) {
-                bgColor = outerMargin.bgColor || ''
-            }
-            
-            return {
-                paddingTop: (outerMargin.paddedt || 0) + 'px',
-                paddingBottom: (outerMargin.paddedb || 0) + 'px',
-                paddingLeft: (outerMargin.paddedl || 0) + 'px',
-                paddingRight: (outerMargin.paddedr || 0) + 'px',
-                backgroundColor: bgColor || undefined,
-                backgroundImage: bgImage !== 'none' ? bgImage : undefined,
-                backgroundSize: bgImage !== 'none' ? 'cover' : undefined,
-                backgroundPosition: bgImage !== 'none' ? 'center' : undefined,
-                backgroundRepeat: bgImage !== 'none' ? 'no-repeat' : undefined,
-            }
+            return getOuterStyle(this.value)
         },
         goodsLayout() {
             return this.value?.goodsLayout || 'default'
         },
         innerStyle() {
-            const { innerPadding = {} } = this.value
-            
-            // CompStyle 组件将背景数据直接存储在 innerPadding 中
-            const bgType = innerPadding.bgType
-            let bgColor = ''
-            let bgImage = 'none'
-            
-            // 渐变背景
-            if (bgType === 'gradient') {
-                bgImage = `linear-gradient(to bottom, ${innerPadding.startColor || '#ffffff'}, ${innerPadding.endColor || '#ffffff'})`
-            } 
-            // 图片背景
-            else if (bgType === 'pic') {
-                bgImage = innerPadding.bgPic ? `url(${innerPadding.bgPic})` : 'none'
-                bgColor = ''
-            } 
-            // 单色背景
-            else if (bgType === 'color' || !bgType) {
-                bgColor = innerPadding.bgColor || ''
-            }
-            
-            return {
-                paddingLeft: (innerPadding.paddedl || 0) + 'px',
-                paddingRight: (innerPadding.paddedr || 0) + 'px',
-                paddingTop: (innerPadding.paddedt || 0) + 'px',
-                paddingBottom: (innerPadding.paddedb || 0) + 'px',
-                backgroundColor: bgColor || undefined,
-                backgroundImage: bgImage !== 'none' ? bgImage : undefined,
-                backgroundSize: bgImage !== 'none' ? 'cover' : undefined,
-                backgroundPosition: bgImage !== 'none' ? 'center' : undefined,
-                backgroundRepeat: bgImage !== 'none' ? 'no-repeat' : undefined,
-            }
+            return getInnerStyle(this.value)
         }
     }
 }

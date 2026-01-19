@@ -10,6 +10,7 @@
       'wgt-full-slider': true,
       'padded': value.padded
     }"
+    :style="outerStyle"
     ref="fullSlider"
   >
     <div
@@ -115,6 +116,7 @@
 
 <script>
 import config from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 
 export default {
   name: 'FullSlider',
@@ -223,6 +225,9 @@ export default {
     }
   },
   computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    },
     setCarouselHeight() {
       const h = (this.value.height * this.offsetWidth) / 375
       return { height: `${h}px` }

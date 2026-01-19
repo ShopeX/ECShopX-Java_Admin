@@ -10,6 +10,7 @@
       'wgt-nearby-shop': true,
       padded: value.padded
     }"
+    :style="outerStyle"
   >
     <div v-if="value.title || value.subtitle" class="wgt-hd">
       <span class="title">{{ value.title }}</span>
@@ -125,6 +126,7 @@
 
 <script>
 import config from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 const defaultShopImg = require('@/assets/imgs/decorate/default-shop.png')
 const defaultShopBanner = require('@/assets/imgs/decorate/default-shop-banner.png')
 const defaultShopLogo = require('@/assets/imgs/decorate/default-shop-logo.png')
@@ -146,6 +148,11 @@ export default {
       shopList: [],
       activeIndex: 0,
       showMore: true
+    }
+  },
+  computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
     }
   },
   watch: {

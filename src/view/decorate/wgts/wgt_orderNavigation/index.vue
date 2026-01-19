@@ -10,7 +10,7 @@
       'wgt-order-navigation': true,
       'padded': value.padded
     }"
-    :style="`background-color: ${value.backgroundColor};`"
+    :style="{ ...outerStyle, backgroundColor: value.backgroundColor }"
   >
     <div v-if="value.title" :style="`color:${value.titleColor}`" class="wgt-hd">
       <span class="title">{{ value.title }}</span>
@@ -38,6 +38,7 @@
 </template>
 <script>
 import config from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'OrderNavigation',
   wgtName: '订单导航',
@@ -48,6 +49,9 @@ export default {
     value: []
   },
   computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    },
     getNavItemStyle() {
       const { length } = this.value.data
       return {

@@ -43,6 +43,7 @@
       'wgt-marquees': true,
       padded: value.padded
     }"
+    :style="outerStyle"
   >
     <div v-if="value.title || value.subtitle" class="wgt-hd">
       <span class="title">{{ value.title }}</span>
@@ -93,6 +94,7 @@
 
 <script>
 import config from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Marquees',
   wgtName: '文字轮播',
@@ -104,6 +106,11 @@ export default {
   },
   data() {
     return {}
+  },
+  computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    }
   },
   created() {},
   methods: {}

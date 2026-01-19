@@ -10,6 +10,7 @@
       'wgt-coupon': true,
       padded: value.padded
     }"
+    :style="outerStyle"
   >
     <div v-if="value.title || value.subtitle" class="wgt-hd">
       <span class="title">{{ value.title }}</span>
@@ -91,6 +92,7 @@
 <script>
 import Vue from 'vue'
 import config from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Coupon',
   wgtName: '优惠券',
@@ -104,6 +106,11 @@ export default {
     return {
       currentIndex: 1,
       couponDeep: {}
+    }
+  },
+  computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
     }
   },
   created() {},

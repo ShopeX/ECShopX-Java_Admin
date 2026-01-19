@@ -164,6 +164,7 @@ export default {
         'leftimgUrl',
         'rightimgUrl',
         'navitemarea',
+        'autoplay',
       ]
     },
     // 将配置项按分组组织

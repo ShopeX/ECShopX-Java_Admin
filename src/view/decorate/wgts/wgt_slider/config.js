@@ -2,7 +2,7 @@
  * Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
  * See LICENSE file for license details.
  */
-import { pickBy } from '@/utils'
+import { pickBy, isObject } from '@/utils'
 import AttrItem from './attr-item'
 
 const config = {
@@ -18,13 +18,6 @@ const config = {
       min: 1000,
       max: 50000,
       step: 1000
-    },
-    {
-      group: '内容样式',
-      label: '组件间距', key: 'padded', component: 'radiobutton', value: true, options: [
-        { name: '开启', label: true },
-        { name: '关闭', label: false }
-      ]
     },
     {
       group: '内容样式',
@@ -84,48 +77,91 @@ const config = {
       ],
       value: 'dark'
     },
-    {
-      group: '内容样式',
-      label: '轮播项间距', key: 'itemPadded', component: 'radiobutton', value: true, options: [
-      { name: '开启', label: true },
-      { name: '关闭', label: false }
-    ] },
     // { label: '图片描述', key: 'content', component: 'switch', value: true },
     {
       label: '',
       key: 'data',
       component: function (h, { key }) {
-        return <AttrItem v-model={this.value[key]} />
+        return <AttrItem v-model={this.value[key]} uuid={this.value.uuid} />
       },
       value: [
         {
-          button: '',
-          content: '',
-          id: '',
+          media_type: 'img',
+          videoUrl: '',
+          autoplay: false,
+          interact: 'reset',
+          overlay: '',
+          overlayWidth: 100,
+          overlaybuttom: 0,
+          overlayLeft: 0,
           imgUrl: '',
-          linkPage: '',
           mainTitle: '',
-          subtitle: '',
-          subtitleTow: '',
-          template: ''
+          hotData: [],
+          overlayHotData: []
         }
       ]
+    },
+    {
+      label: '自动切换',
+      key: 'autoplay',
+      component: 'radiobutton',
+      options: [
+        { name: '开启', label: true },
+        { name: '关闭', label: false }
+      ],
+      value: true
     }
   ],
   transformIn: (v) => {
-    const { name, base, config, data, track, tagsType ,meber_tags, no_meber_tags} = v
+    const { name, base, config, data, track, tagsType, meber_tags, no_meber_tags } = v
     return {
       id: v?.id,
       name,
       ...base,
       ...config,
-      data,
       track,
-      tags:{
+      tags: {
         type: tagsType || '2',
         meber_tags: meber_tags || [],
         no_meber_tags: no_meber_tags || []
       },
+      data: (data || []).map((item) => {
+        const {
+          linkPage,
+          title,
+          id,
+          hotData = [],
+          videoUrl,
+          overlayHotData = [],
+          autoplay,
+          interact,
+          overlay,
+          overlayWidth,
+          overlaybuttom,
+          overlayLeft,
+          media_type,
+          ...content
+        } = item
+        const url = isObject(videoUrl) ? videoUrl?.url : videoUrl
+        return {
+          data: {
+            linkPage: linkPage,
+            id: id,
+            title: title
+          },
+          hotData,
+          videoUrl: url,
+          autoplay,
+          interact,
+          overlay,
+          overlayWidth,
+          overlaybuttom,
+          overlayLeft,
+          overlayHotData,
+          media_type: media_type || (url ? 'video' : 'img'),
+          ...content
+        }
+      })
     }
   },
   transformOut: (v) => {
@@ -134,9 +170,6 @@ const config = {
       name: 'name',
       base: (v) => {
         return pickBy(v, {
-          title: 'title',
-          subtitle: 'subtitle',
-          padded: 'padded'
         })
       },
       config: (v) => {
@@ -149,10 +182,36 @@ const config = {
           dotCover: 'dotCover',
           itemPadded: 'itemPadded',
           rounded: 'rounded',
-          content: 'content'
+          content: 'content',
+          autoplay: 'autoplay'
         })
       },
-      data: 'data',
+      data: ({ data }) => {
+        return (data || []).map(item => {
+          return pickBy(item, {
+            imgUrl: 'imgUrl',
+            videoUrl: 'videoUrl',
+            subtitle: 'subtitle',
+            subtitleTow: 'subtitleTow',
+            button: 'button',
+            template: 'template',
+            media_type: 'media_type',
+            linkPage: 'data.linkPage',
+            ctoken: 'data.ctoken',
+            id: 'data.id',
+            title: 'data.title',
+            hotData: 'hotData',
+            autoplay: 'autoplay',
+            interact: 'interact',
+            overlay: 'overlay',
+            overlayWidth: 'overlayWidth',
+            overlaybuttom: 'overlaybuttom',
+            overlayLeft: 'overlayLeft',
+            overlayHotData: 'overlayHotData',
+            moreLink: 'moreLink'
+          })
+        })
+      },
       track: 'track',
       tags: 'tags',
       tagsType: 'tags.type',
