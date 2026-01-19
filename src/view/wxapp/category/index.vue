@@ -1140,7 +1140,7 @@ export default {
               }
             })
           })
-          this.form = results
+          this.form = Object.assign({}, this.form, results)
           this.editableData = results.data || []
         } else {
           results.data?.map((item) => {
@@ -1152,7 +1152,7 @@ export default {
               })
             })
           })
-          this.form = results
+          this.form = Object.assign({}, this.form, results)
           this.series = results.data || []
           this.editableData = this.series[0]?.content || []
           this.editableSeries = results.data[0]?.name || ''
@@ -1560,7 +1560,6 @@ export default {
       }
       this.form.addCar = true
       this.form.classify = false
-      console.log(this.form, 'kkkkkkkkkkkkkkkkkkkkkkkkkk')
       let param = {
         template_name: this.template_name,
         config: JSON.stringify([this.form]),
