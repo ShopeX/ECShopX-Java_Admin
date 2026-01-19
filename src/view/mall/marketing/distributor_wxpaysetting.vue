@@ -46,7 +46,7 @@ export default {
         cert_key: null,
         cert_name: '',
         cert_key_name: '',
-        is_open: false
+        is_open: true
       },
     }
   },

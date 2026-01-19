@@ -47,7 +47,7 @@ export default {
         app_id: '',
         ali_public_key: '',
         private_key: '',
-        is_open: false
+        is_open: true
       },
       formItems: [
         {
