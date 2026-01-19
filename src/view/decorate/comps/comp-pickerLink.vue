@@ -82,7 +82,7 @@
     <div class="tracking-params-wrapper">
       <label class="tracking-params-label">埋点参数</label>
       <el-input v-model="localValue.trackingParams" class="tracking-params-input" size="small" type="text"
-        placeholder="请输入埋点上报参数" @change="onChangeTrackingParams" />
+        placeholder="请输入埋点参数" @change="onChangeTrackingParams" />
     </div>
   </div>
 </template>

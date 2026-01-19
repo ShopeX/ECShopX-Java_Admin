@@ -53,7 +53,7 @@ const config = {
     }
   ],
   transformIn: (v) => {
-    const { name, base, data } = v
+    const { name, base, data, track, tagsType, meber_tags, no_meber_tags } = v
     // 将 rpx 转换为 px（除以2）
     const convertedOuterMargin = base?.outerMargin ? {
       paddedt: (base.outerMargin.paddedt || 0) / 2,
@@ -74,6 +74,12 @@ const config = {
       outerMargin: convertedOuterMargin,
       innerPadding: convertedInnerPadding,
       data: data,
+      track,
+      tags: {
+        type: tagsType || '2',
+        meber_tags: meber_tags || [],
+        no_meber_tags: no_meber_tags || []
+      }
     }
   },
   transformOut: (v) => {
@@ -107,6 +113,11 @@ const config = {
         return baseData
       },
       data: 'data',
+      track: 'track',
+      tags: 'tags',
+      tagsType: 'tags.type',
+      meber_tags: 'tags.meber_tags',
+      no_meber_tags: 'tags.no_meber_tags'
     })
   }
 }

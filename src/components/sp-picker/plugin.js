@@ -61,7 +61,8 @@ export default {
       lottery: (args) => fn({ value: { ...args }, type: 'pickerLottery' }),
       couponV2: (args) => fn({ value: { ...args }, type: 'pickerCouponV2' }),
       saleCategory: (args) => fn({ value: { ...args }, type: 'pickerSaleCategory' }),
-      category: (args) => fn({ value: { ...args }, type: 'pickerCategory' })
+      category: (args) => fn({ value: { ...args }, type: 'pickerCategory' }),
+      crowds: (args) => fn({ value: { ...args }, type: 'pickerCrowds' })
     }
 
     Vue.prototype.$picker = $picker

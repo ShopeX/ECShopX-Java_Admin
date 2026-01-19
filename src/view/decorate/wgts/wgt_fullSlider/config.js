@@ -6,7 +6,7 @@ import Vue from 'vue'
 import { pickBy, isObject } from '@/utils'
 import AttrItem from './attr-item.vue'
 
-export default {
+const config = {
   name: 'fullSlider',
   setting: [
     { label: '埋点参数', key: 'track', component: 'input' },
@@ -16,7 +16,7 @@ export default {
     //   component: "switch",
     //   value: false,
     // },
-    // { label: '埋点上报参数', key: 'eventParams', component: 'input' },
+    // { label: '埋点参数', key: 'eventParams', component: 'input' },
     {
       label: '轮播项',
       group: '内容样式',
@@ -109,13 +109,23 @@ export default {
       name,
       base,
       config: { ...otherConfig },
-      data
+      data,
+      track,
+      tagsType,
+      meber_tags,
+      no_meber_tags
     } = v
     return {
       id: v?.id,
       name,
       ...base,
       ...otherConfig,
+      track,
+      tags: {
+        type: tagsType || '2',
+        meber_tags: meber_tags || [],
+        no_meber_tags: no_meber_tags || []
+      },
       data: data.map((item) => {
         const {
           linkPage,
@@ -201,7 +211,18 @@ export default {
           moreLink: 'moreLink'
           // loop: 'loop',
         })
-      }
+      },
+      track: 'track',
+      tags: 'tags',
+      tagsType: 'tags.type',
+      meber_tags: 'tags.meber_tags',
+      no_meber_tags: 'tags.no_meber_tags'
     })
   }
 }
+
+// 自动处理 compStyle 配置（初始化全局处理函数）
+import '../../comps/configsetting'
+export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__) 
+  ? globalThis.__processConfig__(config) 
+  : config

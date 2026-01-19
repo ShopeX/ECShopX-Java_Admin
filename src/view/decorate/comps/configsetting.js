@@ -3,6 +3,7 @@
  * 封装常用的组件配置，避免在每个组件中重复引用
  */
 import CompStyle from './comp_style.vue'
+import CrowdSelectV2 from '@/components/function/crowdSelectV2.vue'
 
 /**
  * 检查一个值是否是 CompStyle 类型的配置值
@@ -113,11 +114,10 @@ function processConfig(config) {
     // 1. 如果 component 已经是 'compStyle'
     // 2. 如果 value 是一个包含 padding/margin 字段的对象（且没有指定其他 component）
     const hasCompStyleComponent = item.component === 'compStyle'
-    const hasCompStyleValue = isCompStyleValue(item.value)
     const hasOtherComponent = item.component && item.component !== 'compStyle' && typeof item.component !== 'function'
 
     // 如果需要使用 CompStyle，且没有其他自定义组件，则自动转换
-    const shouldUseCompStyle = (hasCompStyleComponent || hasCompStyleValue) && !hasOtherComponent
+    const shouldUseCompStyle = hasCompStyleComponent && !hasOtherComponent
 
     if (shouldUseCompStyle) {
       const { component, ...rest } = item
@@ -144,12 +144,38 @@ function processConfig(config) {
     return item
   })
 
+
   // 自动添加缺失的通用配置项
   defaultCommonSettings.forEach(defaultItem => {
     if (!existingKeys.includes(defaultItem.key)) {
       processedSetting.unshift(defaultItem)
     }
   })
+  if (!existingKeys.includes('tags')) {
+    processedSetting.unshift({
+      label: '人群设置',
+      key: 'tags',
+      group: '基础设置',
+      component: function (h, { key }) {
+        return <CrowdSelectV2 v-model={this.value[key]} />
+      },
+      value: {
+        type: '2',
+        meber_tags: [],
+        no_meber_tags: []
+      }
+    })
+  }
+  if (!existingKeys.includes('track')) {
+    processedSetting.unshift({
+      label: '埋点参数',
+      key: 'track',
+      group: '基础设置',
+      component: 'input',
+      value: ''
+    })
+  }
+
 
   // 自动添加挂件特定的配置项
   widgetSpecificSettings.forEach(specificItem => {

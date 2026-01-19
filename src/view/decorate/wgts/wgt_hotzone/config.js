@@ -62,6 +62,10 @@ const config = {
       base,
       config: { imgUrl, imgWidth, imgHeight },
       data,
+      track,
+      tagsType,
+      meber_tags,
+      no_meber_tags,
     } = v
     // 将 rpx 转换为 px（除以2）
     const convertedImgWidth = imgWidth !== undefined && imgWidth !== null ? imgWidth / 2 : 0
@@ -84,7 +88,13 @@ const config = {
         imgWidth: convertedImgWidth,
         imgHeight: convertedImgHeight,
         data
-      }
+      },
+      track,
+      tags:{
+        type: tagsType || '2',
+        meber_tags: meber_tags || [],
+        no_meber_tags: no_meber_tags || []
+      },
     }
   },
   transformOut: (v) => {
@@ -122,7 +132,12 @@ const config = {
           imgHeight
         }
       },
-      data: 'data.data'
+      data: 'data.data',
+      track: 'track',
+      tags: 'tags',
+      tagsType: 'tags.type',
+      meber_tags: 'tags.meber_tags',
+      no_meber_tags: 'tags.no_meber_tags',
     })
   }
 }

@@ -70,11 +70,17 @@ const config = {
     }
   ],
   transformIn: (v) => {
-    const { name, base, data } = v
+    const { name, base, data, track, tagsType, meber_tags, no_meber_tags } = v
     return {
       name,
       ...base,
       data: data,
+      track,
+      tags: {
+        type: tagsType || '2',
+        meber_tags: meber_tags || [],
+        no_meber_tags: no_meber_tags || []
+      }
     }
   },
   transformOut: (v) => {
@@ -90,6 +96,11 @@ const config = {
         })
       },
       data: 'data',
+      track: 'track',
+      tags: 'tags',
+      tagsType: 'tags.type',
+      meber_tags: 'tags.meber_tags',
+      no_meber_tags: 'tags.no_meber_tags'
     })
   }
 }

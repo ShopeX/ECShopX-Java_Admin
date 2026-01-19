@@ -10,7 +10,7 @@ const queryString = window.location.search
 const urlParams = new URLSearchParams(queryString)
 const scene = urlParams.get('scene') || '1001'
 
-export default {
+const config = {
   name: 'page',
   setting: [
     {
@@ -119,7 +119,7 @@ export default {
     // },
   ],
   transformIn: (v) => {
-    const { name, base } = v
+    const { name, base, track, tagsType, meber_tags, no_meber_tags } = v
     let {
       navigateStyle,
       navigateBackgroundColor,
@@ -172,7 +172,13 @@ export default {
       newNavigateStyle,
       newPageBackgroundStyle,
       pTitleHotSetting,
-      isImmersive
+      isImmersive,
+      track,
+      tags: {
+        type: tagsType || '2',
+        meber_tags: meber_tags || [],
+        no_meber_tags: no_meber_tags || []
+      }
     }
   },
   transformOut: (v) => {
@@ -194,7 +200,18 @@ export default {
           isImmersive: 'isImmersive',
           pTitleHotSetting: 'pTitleHotSetting'
         })
-      }
+      },
+      track: 'track',
+      tags: 'tags',
+      tagsType: 'tags.type',
+      meber_tags: 'tags.meber_tags',
+      no_meber_tags: 'tags.no_meber_tags'
     })
   }
 }
+
+// 自动处理 compStyle 配置（初始化全局处理函数）
+import '../../comps/configsetting'
+export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__) 
+  ? globalThis.__processConfig__(config) 
+  : config
