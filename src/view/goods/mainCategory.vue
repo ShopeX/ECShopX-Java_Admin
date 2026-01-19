@@ -32,7 +32,7 @@
         :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
         :load="load"
       >
-        <el-table-column label="操作" width="350">
+        <el-table-column label="操作" width="450">
           <template slot-scope="scope">
             <el-button type="text">
               <router-link
@@ -88,7 +88,7 @@
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column label="分类名称">
+        <el-table-column label="分类名称" width="280">
           <template slot-scope="scope">
             <span
               v-if="!scope.row.hasChildren && scope.row.category_level == '1'"
