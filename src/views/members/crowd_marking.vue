@@ -72,11 +72,11 @@ export default {
           formItemClass: 'w-2/4',
           component: 'datetimepicker',
           componentProps: {
-            type: 'daterange',
+            type: 'datetimerange',
             rangeSeparator: '至',
             startPlaceholder: '开始日期',
             endPlaceholder: '结束日期',
-            format: 'yyyy-MM-dd',
+            format: 'timestamp',
             valueFormat: 'yyyy-MM-dd'
           },
           fieldName: 'created',
@@ -174,8 +174,8 @@ export default {
       }
       // 处理日期范围
       if (finderParams.created && Array.isArray(finderParams.created) && finderParams.created.length === 2) {
-        finderParams.created_start = finderParams.created[0]
-        finderParams.created_end = finderParams.created[1]
+        finderParams.created_start = finderParams.created[0]/1000
+        finderParams.created_end = finderParams.created[1]/1000
       } else {
         finderParams.created_start = ''
         finderParams.created_end = ''
