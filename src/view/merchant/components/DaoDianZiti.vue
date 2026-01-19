@@ -11,6 +11,7 @@
 </style>
 <template>
   <div class="daodianziti">
+    <div class="tip">若没有关联自提点，优先取店铺地址</div>
     <el-button type="text" @click="onSelectZiti">选择自提点</el-button>
     <SpFinder
       ref="finder"
