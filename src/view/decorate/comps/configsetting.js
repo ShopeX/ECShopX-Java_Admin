@@ -5,21 +5,9 @@
 import CompStyle from './comp_style.vue'
 import CrowdSelectV2 from '@/components/function/crowdSelectV2.vue'
 
-/**
- * 检查一个值是否是 CompStyle 类型的配置值
- * 通过检测 value 的结构来判断：如果包含 padding/margin 相关字段，则认为是 CompStyle 类型
- */
-function isCompStyleValue(value) {
-  if (!value || typeof value !== 'object') {
-    return false
-  }
+// 导出转换工具函数，供其他挂件使用
+export { transformInBase, transformOutBase, createTransformOutBase, convertRpxToPx, convertPxToRpx } from './transform-utils'
 
-  // 检查是否包含 padding/margin 相关的字段
-  const paddingKeys = ['paddedt', 'paddedb', 'paddedl', 'paddedr', 'paddedtb', 'paddedlr']
-  const hasPaddingFields = paddingKeys.some(key => key in value)
-
-  return hasPaddingFields
-}
 
 /**
  * 处理配置对象，自动识别并转换 CompStyle 配置项

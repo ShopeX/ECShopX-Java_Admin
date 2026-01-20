@@ -1,5 +1,6 @@
 import { pickBy } from '@/utils'
 import AttrHotSetting from './attr-hotsetting'
+import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 const config = {
   name: 'imgHotzone',
@@ -67,22 +68,18 @@ const config = {
       meber_tags,
       no_meber_tags,
     } = v
-    // 将 rpx 转换为 px（除以2）
+    // 使用公共函数处理 base 中的样式数据转换
+    const transformedBase = transformInBase(base, ['outerMargin'])
+    
+    // 将 rpx 转换为 px（除以2）- hotzone 特有的转换
     const convertedImgWidth = imgWidth !== undefined && imgWidth !== null ? imgWidth / 2 : 0
     const convertedImgHeight = imgHeight !== undefined && imgHeight !== null ? imgHeight / 2 : 0
     const convertedBaseImgHeight = base?.imgHeight !== undefined && base?.imgHeight !== null ? base.imgHeight / 2 : base?.imgHeight
-    const convertedOuterMargin = base?.outerMargin ? {
-      paddedt: (base.outerMargin.paddedt || 0) / 2,
-      paddedb: (base.outerMargin.paddedb || 0) / 2,
-      paddedl: (base.outerMargin.paddedl || 0) / 2,
-      paddedr: (base.outerMargin.paddedr || 0) / 2
-    } : base?.outerMargin
     
     return {
       name,
-      ...base,
+      ...transformedBase,
       imgHeight: convertedBaseImgHeight,
-      outerMargin: convertedOuterMargin,
       data: {
         imgUrl,
         imgWidth: convertedImgWidth,
@@ -101,24 +98,14 @@ const config = {
     return pickBy(v, {
       name: 'name',
       base: (v) => {
-        const baseData = pickBy(v, {
-          animation: 'animation',
-          imgHeight: 'imgHeight',
-          outerMargin: 'outerMargin',
-        })
-        // 将 base.imgHeight 转换为 rpx（乘以2）
+        // 使用公共函数处理 outerMargin 转换
+        const baseData = createTransformOutBase(['animation', 'imgHeight', 'outerMargin'], ['outerMargin'])(v)
+        
+        // 将 base.imgHeight 转换为 rpx（乘以2）- hotzone 特有的转换
         if (baseData.imgHeight !== undefined && baseData.imgHeight !== null) {
           baseData.imgHeight = baseData.imgHeight * 2
         }
-        // 将 outerMargin 中的尺寸转换为 rpx（乘以2）
-        if (baseData.outerMargin) {
-          baseData.outerMargin = {
-            paddedt: (baseData.outerMargin.paddedt || 0) * 2,
-            paddedb: (baseData.outerMargin.paddedb || 0) * 2,
-            paddedl: (baseData.outerMargin.paddedl || 0) * 2,
-            paddedr: (baseData.outerMargin.paddedr || 0) * 2
-          }
-        }
+        
         return baseData
       },
       config: ({ data }) => {
