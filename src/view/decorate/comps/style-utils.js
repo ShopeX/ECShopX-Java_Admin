@@ -34,7 +34,7 @@ export function getOuterStyle(value) {
   
   // 渐变背景
   if (bgType === 'gradient') {
-    bgImage = `linear-gradient(to bottom, ${outerMargin.startColor || '#ffffff'}, ${outerMargin.endColor || '#ffffff'})`
+    bgImage = `linear-gradient(to bottom, ${outerMargin.startColor}, ${outerMargin.endColor})`
   } 
   // 图片背景
   else if (bgType === 'pic') {
@@ -89,7 +89,7 @@ export function getInnerStyle(value) {
   
   // 渐变背景
   if (bgType === 'gradient') {
-    bgImage = `linear-gradient(to bottom, ${innerPadding.startColor || '#ffffff'}, ${innerPadding.endColor || '#ffffff'})`
+    bgImage = `linear-gradient(to bottom, ${innerPadding.startColor}, ${innerPadding.endColor})`
   } 
   // 图片背景
   else if (bgType === 'pic') {

@@ -5,13 +5,14 @@
 import AttrHorizontal from './attr_horizontal'
 import AttrVertical from './attr_vertical'
 import { pickBy } from '@/utils'
+import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 const config = {
   name: 'marquees',
   setting: [
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
     {
       label: '内容',
+      group: '内容设置',
       key: 'direction',
       component: 'radiobutton',
       options: [
@@ -20,10 +21,11 @@ const config = {
       ],
       value: 'vertical'
     },
-    { label: '背景颜色', key: 'bgcolor', component: 'color', value: '#ffffff' },
-    { label: '字体颜色', key: 'fontcolor', component: 'color', value: '#000000' },
+    { label: '背景颜色', key: 'bgcolor', component: 'color', value: '#ffffff',group: '内容设置' },
+    { label: '字体颜色', key: 'fontcolor', component: 'color', value: '#000000',group: '内容设置' },
     {
-      label: '文本',
+      group: '',
+      label: '',
       key: 'dataText',
       isShow: function () {
         return this.value.direction == 'horizontal'
@@ -34,7 +36,7 @@ const config = {
       value: [{ title: '文本内容' }]
     },
     {
-      label: '软文',
+      label: '',
       key: 'dataContent',
       isShow: function () {
         return this.value.direction == 'vertical'
@@ -47,10 +49,12 @@ const config = {
   ],
   transformIn: (v) => {
     const { name, base, config, data, track, tagsType, meber_tags, no_meber_tags } = v
+    // 使用公共函数处理 base 中的样式数据转换
+    const transformedBase = transformInBase(base, ['outerMargin'])
     let res = {
       id: v?.id,
       name,
-      ...base,
+      ...transformedBase,
       ...config,
       track,
       tags: {
@@ -80,11 +84,9 @@ const config = {
       id: 'id',
       name: 'name',
       base: (v) => {
-        return pickBy(v, {
-          title: 'title',
-          subtitle: 'subtitle',
-          padded: 'padded'
-        })
+        // 使用公共函数处理 outerMargin 转换，同时保留其他字段
+        const baseData = createTransformOutBase(['title', 'subtitle', 'padded', 'outerMargin'], ['outerMargin'])(v)
+        return baseData
       },
       config: (v) => {
         return pickBy(v, {

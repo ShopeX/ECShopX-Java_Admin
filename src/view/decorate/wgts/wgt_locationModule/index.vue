@@ -1,5 +1,5 @@
 <template>
-    <div class="wgt-location-module" :style="moduleStyle">
+    <div class="wgt-location-module">
         <!-- 导航栏 -->
         <div class="nav-wrapper" :style="navWrapperStyle">
             <!-- 左滑示意图 -->

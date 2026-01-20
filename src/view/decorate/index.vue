@@ -485,10 +485,17 @@ export default {
       // 如果是从左侧拖拽到右侧（添加新挂件）
       // evt.relatedContext.list === this.contentComps 表示要添加到右侧列表
       if (evt.relatedContext && evt.relatedContext.list === this.contentComps) {
+        // 添加空值检查，防止访问 undefined.element 报错
+        if (!evt.draggedContext || !evt.draggedContext.element) {
+          return true // 允许拖拽，让其他逻辑处理
+        }
         const draggedWgt = evt.draggedContext.element
         
         // 从左侧拖拽时，draggedWgt 可能是组件对象（name 是组件名如 StoreAlphabet）
         // 也可能是克隆后的数据（name 是 config.name 如 storeAlphabet）
+        if (!draggedWgt || !draggedWgt.name) {
+          return true // 允许拖拽，让其他逻辑处理
+        }
         let configName = draggedWgt.name
         
         // 如果是组件对象，需要转换为 config.name
@@ -511,9 +518,13 @@ export default {
     },
     // 拖拽添加挂件时的处理（备用检查，防止 move 事件未触发）
     onDragAdd(evt) {
+      // 添加空值检查，防止访问 undefined.element 报错
+      if (!evt || !evt.added || !evt.added.element) {
+        return
+      }
       const addedWgt = evt.added.element
       // addedWgt.name 是 config.name，即 storeAlphabet
-      if (!this.canAddWgt(addedWgt.name)) {
+      if (!addedWgt || !this.canAddWgt(addedWgt.name)) {
         // 如果不允许添加，移除刚添加的挂件
         this.$nextTick(() => {
           const index = this.contentComps.findIndex(comp => comp === addedWgt)

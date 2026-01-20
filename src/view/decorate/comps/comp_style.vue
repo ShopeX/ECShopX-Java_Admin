@@ -129,8 +129,8 @@ const DEFAULT_FORM = {
   bgColor: '',
   bgPic: '',
   bgType: 'color',
-  startColor: '#ffffff',
-  endColor: '#ffffff'
+  startColor: '',
+  endColor: ''
 }
 
 export default {
@@ -190,21 +190,18 @@ export default {
         { key: 'paddedlr', label: '左右', show: this.showLR }
       ]
     },
-    // 默认背景颜色
-    defaultBgColor() {
-      return '#fff'
-    },
+
     // 显示背景颜色
     displayBgColor() {
-      return this.form.bgColor || this.defaultBgColor
+      return this.form.bgColor
     },
     // 显示起始颜色
     displayStartColor() {
-      return this.form.startColor || '#ffffff'
+      return this.form.startColor
     },
     // 显示结束颜色
     displayEndColor() {
-      return this.form.endColor || '#ffffff'
+      return this.form.endColor
     }
   },
   watch: {
@@ -252,17 +249,17 @@ export default {
     },
     // 重置背景颜色
     onResetBgColor() {
-      this.form.bgColor = this.defaultBgColor
+      this.form.bgColor = ''
       this.handleChange()
     },
     // 重置起始颜色
     onResetStartColor() {
-      this.form.startColor = '#ffffff'
+      this.form.startColor = ''
       this.handleChange()
     },
     // 重置结束颜色
     onResetEndColor() {
-      this.form.endColor = '#ffffff'
+      this.form.endColor = ''
       this.handleChange()
     }
   }

@@ -1,5 +1,5 @@
 <template>
-    <div class="wgt-location-module" :style="moduleStyle">
+    <div class="wgt-location-module">
         <!-- 导航栏 -->
         <div class="nav-wrapper" :style="navWrapperStyle">
             <!-- 左滑示意图 -->
@@ -94,15 +94,7 @@ export default {
         outerStyle() {
             return getOuterStyle(this.value)
         },
-        // 整体模块样式
-        moduleStyle() {
-            return {
-                ...this.outerStyle,
-                position: this.value.navSticky ? 'sticky' : 'relative',
-                top: this.value.navSticky ? '0' : 'auto',
-                zIndex: this.value.navSticky ? '100' : 'auto'
-            }
-        },
+   
         // 导航栏外层样式
         navWrapperStyle() {
             const navbg = this.value.navbg || {}

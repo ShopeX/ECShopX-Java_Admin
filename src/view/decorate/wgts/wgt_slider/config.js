@@ -4,6 +4,7 @@
  */
 import { pickBy, isObject } from '@/utils'
 import AttrItem from './attr-item'
+import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 const config = {
   name: 'slider',
@@ -114,10 +115,13 @@ const config = {
   ],
   transformIn: (v) => {
     const { name, base, config, data, track, tagsType, meber_tags, no_meber_tags } = v
+    // 使用公共函数处理 base 中的样式数据转换
+    const transformedBase = transformInBase(base, ['outerMargin'])
+    
     return {
       id: v?.id,
       name,
-      ...base,
+      ...transformedBase,
       ...config,
       track,
       tags: {
@@ -165,13 +169,11 @@ const config = {
     }
   },
   transformOut: (v) => {
+    console.log(v)
     return pickBy(v, {
       id: 'id',
       name: 'name',
-      base: (v) => {
-        return pickBy(v, {
-        })
-      },
+      base: createTransformOutBase(['outerMargin'], ['outerMargin']),
       config: (v) => {
         return pickBy(v, {
           interval: 'interval',
