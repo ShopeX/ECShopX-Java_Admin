@@ -3,6 +3,7 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 export const proportions = [
   {
@@ -49,11 +50,13 @@ const config = {
   ],
   transformIn: (v) => {
     const { name, base, data, track, tagsType, meber_tags, no_meber_tags } = v
+    // 使用公共函数处理 base 中的样式数据转换
+    const transformedBase = transformInBase(base, ['outerMargin'])
     let _data = data.flat()[0] || {}
     return {
       id: v?.id,
       name,
-      ...base,
+      ...transformedBase,
       data: _data,
       track,
       tags: {
@@ -68,12 +71,9 @@ const config = {
       id: 'id',
       name: 'name',
       base: (v) => {
-        return pickBy(v, {
-          title: 'title',
-          subtitle: 'subtitle',
-          padded: 'padded',
-          proportion: 'proportion'
-        })
+        // 使用公共函数处理 outerMargin 转换，同时保留其他字段
+        const baseData = createTransformOutBase(['proportion', 'outerMargin'], ['outerMargin'])(v)
+        return baseData
       },
       data: ({ data }) => {
         return [

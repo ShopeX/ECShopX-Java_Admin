@@ -45,10 +45,6 @@
     }"
     :style="outerStyle"
   >
-    <div v-if="value.title || value.subtitle" class="wgt-hd">
-      <span class="title">{{ value.title }}</span>
-      <span class="sub-title">{{ value.subtitle }}</span>
-    </div>
     <div class="wgt-bd">
       <!-- 挂件自定义部分 -->
       <video-player
