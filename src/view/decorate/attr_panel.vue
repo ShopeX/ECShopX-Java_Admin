@@ -265,6 +265,8 @@ export default {
         'switch': this._renderSwitch,
         'slider': this._renderSlider
       }
+
+
       return renderItem[item.component](item)
     }
 

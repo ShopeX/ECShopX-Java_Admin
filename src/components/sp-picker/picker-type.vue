@@ -33,7 +33,8 @@ import {
   PickerCouponV2,
   PickerSaleCategory,
   PickerCategory,
-  PickerCrowds
+  PickerCrowds,
+  PickerStore
 } from './pickers'
 
 function resolvePicker(type) {
@@ -96,6 +97,8 @@ function resolvePicker(type) {
       return PickerCategory
     case 'pickerCrowds':
       return PickerCrowds
+    case 'pickerStore':
+      return PickerStore
     default:
       throw new Error(`picker: ${type} not registered`)
     // break

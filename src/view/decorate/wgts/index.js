@@ -102,6 +102,16 @@ const SCENE_1008 = {
   wgtOrderNavigation
 }
 
+// 分类页面
+const SCENE_1007 = {
+  WgtSlider,
+  WgtHotZone,
+  WgtFilm,
+  WgtShop,
+  WgtClassify,
+  // WgtTask
+}
+
 const SCENE_1009 = {
   WgtSlider,
   WgtHotZone
@@ -114,6 +124,7 @@ export default {
   1004: SCENE_1004,
   1005: SCENE_1005,
   1006: SCENE_1006,
+  1007: SCENE_1007,
   1008: SCENE_1008,
   1009: SCENE_1009
 }

@@ -1,11 +1,105 @@
 import { pickBy } from '@/utils'
-import AttrStore from '../wgt_store-alphabet/attr-store'
-import CompBackgroundInner from '../../comps/comp_background_inner.vue'
-import CompOuter from '../../comps/comp_background_outer.vue'
+import AttrStore from './attr-store'
 
-const config = {
+
+const config =  {
   name: 'shop',
   setting: [
+    {
+      label: '自定义挂件名称',
+      key: 'wgtCustName',
+      component: 'input',
+      value: ''
+    },
+    {
+      label: '埋点上报参数',
+      key: 'track',
+      component: 'input',
+      value: ''
+    },
+  
+    {
+      label: '展示形式',
+      key: 'displayType',
+      component: 'radiobutton',
+      options: [
+        { name: '横向排列', label: 'horizontal' },
+        { name: '字母索引表', label: 'alphabet' }
+      ],
+      value: 'horizontal',
+      tips: '切换到字母索引表模式,将无法使用其它挂件',
+      onchange: function (e, vm) {
+        // console.log('e', e)
+        // if (e == 'alphabet') {
+        //   vm.$confirm('切换到字母索引表模式,将无法使用其它挂件,是否继续？', '提示', {
+        //     confirmButtonText: '确定',
+        //     cancelButtonText: '取消',
+        //     type: 'warning'
+        //   }).then(() => {
+        //     vm.value.displayType = 'alphabet'
+        //   }).catch(() => {
+        //     vm.value.displayType = 'horizontal'
+        //   })
+        // }
+        vm.value.dataType = e === 'alphabet' ? 'all' : 'specify'
+        vm.value.data = []
+      },
+      isShow: function () {
+        const { scene = '' } = this.$route.query
+        return scene === '1007'
+      }
+    },
+    {
+      label: '展示形式',
+      key: 'displayType',
+      component: 'radiobutton',
+      options: [
+        { name: '横向排列', label: 'horizontal' }
+        // { name: '字母索引表', label: 'alphabet' }
+      ],
+      value: 'horizontal',
+      onchange: function (e, vm) {
+        vm.value.dataType = e === 'alphabet' ? 'all' : 'specify'
+        vm.value.data = []
+      },
+      isShow: function () {
+        const { scene = '' } = this.$route.query
+        return scene !== '1007'
+      }
+    },
+    {
+      label: '数据类型',
+      key: 'dataType',
+      component: 'select',
+      options: [
+        // { label: '所有店铺', value: 'all' },
+        { label: '指定店铺', value: 'specify' }
+      ],
+      value: 'specify',
+      isShow: function () {
+        return this.value.displayType === 'horizontal'
+      },
+      onchange: function (e, vm) {
+        vm.value.data = []
+      }
+    },
+    {
+      label: '数据类型',
+      key: 'dataType',
+      component: 'select',
+      options: [
+        { label: '所有店铺', value: 'all' },
+        { label: '指定店铺', value: 'specify' }
+      ],
+      value: 'specify',
+      isShow: function () {
+        return this.value.displayType === 'alphabet'
+      },
+      onchange: function (e, vm) {
+        vm.value.data = []
+      }
+    },
+
     {
       label: '数据设置',
       key: 'data',
@@ -23,58 +117,73 @@ const config = {
         )
       },
       value: [],
-    },
-    {
-      label: '组件内边距',
-      key: 'innerPadding',
-      value: {
-        paddedt: 10,
-        paddedb: 10,
-        paddedl: 10,
-        paddedr: 10
+      isShow: function () {
+        return this.value.dataType === 'specify'
       }
     },
-    // outerMargin 会自动添加，无需手动写
-    {
-      label: '组件外背景',
-      key: 'outerBackground',
-      component: function (h, { key }) {
-        return <CompOuter v-model={this.value[key]} uuid={this.value.uuid} />
-      },
-      value: { color: '#f8f8f8', image: '' }
-    },
-    {
-      label: '组件内背景',
-      key: 'innerBackground',
-      component: function (h, { key }) {
-        return <CompBackgroundInner v-model={this.value[key]} uuid={this.value.uuid} />
-      },
-      value: { type: 'solid', color: '#ffffff', startColor: '#ffffff', endColor: '#ffffff' }
-    }
+    // {
+    //   label: '组件外边距',
+    //   key: 'outerMargin',
+    //   component: function (h, { key }) {
+    //     return (
+    //       <CompStyle
+    //         showBgsetting={false}
+    //         v-model={this.value[key]}
+    //         uuid={this.value.uuid}
+    //         showLabel={false}
+    //         showLeft={false}
+    //         showRight={false}
+    //       />
+    //     )
+    //   },
+    //   value: {
+    //     paddedt: 10,
+    //     paddedb: 10
+    //   }
+    // },
+    // {
+    //   label: '组件内边距',
+    //   key: 'innerPadding',
+    //   component: function (h, { key }) {
+    //     return (
+    //       <CompStyle
+    //         showBgsetting={false}
+    //         v-model={this.value[key]}
+    //         uuid={this.value.uuid}
+    //         showLabel={false}
+    //       />
+    //     )
+    //   },
+    //   value: {
+    //     paddedt: 10,
+    //     paddedb: 10,
+    //     paddedl: 10,
+    //     paddedr: 10
+    //   }
+    // },
+    // {
+    //   label: '组件外背景',
+    //   key: 'outerBackground',
+    //   component: function (h, { key }) {
+    //     return <CompOuter v-model={this.value[key]} uuid={this.value.uuid} />
+    //   },
+    //   value: { color: '#f8f8f8', image: '' }
+    // },
+    // {
+    //   label: '组件内背景',
+    //   key: 'innerBackground',
+    //   component: function (h, { key }) {
+    //     return <CompInner v-model={this.value[key]} uuid={this.value.uuid} />
+    //   },
+    //   value: { type: 'solid', color: '#ffffff', startColor: '#ffffff', endColor: '#ffffff' }
+    // }
   ],
   transformIn: (v) => {
-    const { name, base, data, track, tagsType, meber_tags, no_meber_tags } = v
-    // 将 rpx 转换为 px（除以2）
-    const convertedOuterMargin = base?.outerMargin ? {
-      paddedt: (base.outerMargin.paddedt || 0) / 2,
-      paddedb: (base.outerMargin.paddedb || 0) / 2,
-      paddedl: (base.outerMargin.paddedl || 0) / 2,
-      paddedr: (base.outerMargin.paddedr || 0) / 2
-    } : base?.outerMargin
-    const convertedInnerPadding = base?.innerPadding ? {
-      paddedt: (base.innerPadding.paddedt || 0) / 2,
-      paddedb: (base.innerPadding.paddedb || 0) / 2,
-      paddedl: (base.innerPadding.paddedl || 0) / 2,
-      paddedr: (base.innerPadding.paddedr || 0) / 2
-    } : base?.innerPadding
-    
+    const { name, base, data, meber_tags = [], no_meber_tags = [], tagsType } = v
     return {
       name,
       ...base,
-      outerMargin: convertedOuterMargin,
-      innerPadding: convertedInnerPadding,
       data: data,
-      track,
       tags: {
         type: tagsType || '2',
         meber_tags: meber_tags || [],
@@ -82,48 +191,34 @@ const config = {
       }
     }
   },
-  transformOut: (v) => {
+  transformOut: (v,wgtList,regionauth_id) => {
     return pickBy(v, {
       name: 'name',
       base: (v) => {
-        const baseData = pickBy(v, {
+        return pickBy(v, {
+          displayType: 'displayType',
+          dataType: 'dataType',
           outerMargin: 'outerMargin',
           innerPadding: 'innerPadding',
           outerBackground: 'outerBackground',
           innerBackground: 'innerBackground',
+          wgtCustName: 'wgtCustName',
+          track: 'track'
         })
-        // 将 outerMargin 中的尺寸转换为 rpx（乘以2）
-        if (baseData.outerMargin) {
-          baseData.outerMargin = {
-            paddedt: (baseData.outerMargin.paddedt || 0) * 2,
-            paddedb: (baseData.outerMargin.paddedb || 0) * 2,
-            paddedl: (baseData.outerMargin.paddedl || 0) * 2,
-            paddedr: (baseData.outerMargin.paddedr || 0) * 2
-          }
-        }
-        // 将 innerPadding 中的尺寸转换为 rpx（乘以2）
-        if (baseData.innerPadding) {
-          baseData.innerPadding = {
-            paddedt: (baseData.innerPadding.paddedt || 0) * 2,
-            paddedb: (baseData.innerPadding.paddedb || 0) * 2,
-            paddedl: (baseData.innerPadding.paddedl || 0) * 2,
-            paddedr: (baseData.innerPadding.paddedr || 0) * 2
-          }
-        }
-        return baseData
       },
       data: 'data',
-      track: 'track',
-      tags: 'tags',
-      tagsType: 'tags.type',
       meber_tags: 'tags.meber_tags',
-      no_meber_tags: 'tags.no_meber_tags'
+      no_meber_tags: 'tags.no_meber_tags',
+      tagsType: 'tags.type',
+      noRegionauth: !regionauth_id,
     })
   }
 }
 
-// 自动处理 compStyle 配置（初始化全局处理函数）
+
+
 import '../../comps/configsetting'
-export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__) 
-  ? globalThis.__processConfig__(config) 
-  : config
+
+export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__)
+    ? globalThis.__processConfig__(config)
+    : config

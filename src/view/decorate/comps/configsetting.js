@@ -69,7 +69,7 @@ function processConfig(config) {
 
   // 针对特定挂件的额外配置项
   const widgetSpecificSettings = []
-  if (['speedkill', 'group', 'ranking', 'hotranking', 'goods'].includes(config.name)) {
+  if (['speedkill', 'group', 'ranking', 'hotranking', 'goods','shop'].includes(config.name)) {
     // 商品挂件自动添加组件内样式
     widgetSpecificSettings.push({
       group: '组件内样式',
