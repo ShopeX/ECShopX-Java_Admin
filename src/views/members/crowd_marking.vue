@@ -54,18 +54,18 @@ export default {
   data() {
     return {
       params: {
-        tag_id: '',
+        tag_name: '',
         created: []
       },
       searchFormItems: [
         {
           formItemClass: 'w-1/3',
-          component: 'select',
+          component: 'input',
           componentProps: {
-            placeholder: '请输入',
+            placeholder: '请输入标签名称',
             clearable: true
           },
-          fieldName: 'tag_id',
+          fieldName: 'tag_name',
           label: '标签名称'
         },
         {
@@ -197,7 +197,7 @@ export default {
     },
     onReset() {
       this.params = {
-        tag_id: '',
+        tag_name: '',
         created: []
       }
       this.$nextTick(() => {

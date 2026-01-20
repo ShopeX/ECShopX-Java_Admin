@@ -1000,7 +1000,6 @@
         return `${row.user_id}${row.shop_id}`
       },
       handleCancelLabelsDialog() {
-        this.tag.dialog = false
         this.editMobileDialog = false
         this.isEditRemarks = false
         this.dialogIsShow = false

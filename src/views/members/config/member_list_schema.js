@@ -117,19 +117,24 @@ export const finderSetting = (vm) =>   createSetting({
       width: 130,
       render: (h, { row }) => {
         if (row.tagList && row.tagList.length > 0) {
-          return h('div', row.tagList.map(tag =>
+          return h('div', {
+            style: {
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'flex-start'
+            }
+          }, row.tagList.map(tag =>
             h('el-tag', {
               key: tag.tag_id,
               props: {
                 size: 'mini',
                 closable: true,
-                effect: 'dark',
-                color: tag.tag_color
+                effect: 'plain',
+                color: tag.tag_color || ''
               },
               style: {
-                color: tag.font_color,
-                marginRight: '10px',
-                marginBottom: '10px'
+                color: tag.font_color || '',
+                marginBottom: '2px'
               },
               on: {
                 close: () => vm.relTagDelEvent(tag.tag_id, row.user_id)
