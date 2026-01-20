@@ -53,7 +53,7 @@ export default {
     },
 
     _renderColor({ key, value: initValue }) {
-      const displayColor = this.value[key] || initValue || '#000'
+      const displayColor = this.value[key]
       return (
         <div class='el-color-picker-wrap'>
           <span class='color-code'>{displayColor}</span>
@@ -62,7 +62,7 @@ export default {
             class='button-reset'
             type='text'
             on-click={() => {
-              this.value[key] = initValue
+              this.value[key] = ''
             }}
           >
             重置

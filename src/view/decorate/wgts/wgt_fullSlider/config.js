@@ -5,21 +5,13 @@
 import Vue from 'vue'
 import { pickBy, isObject } from '@/utils'
 import AttrItem from './attr-item.vue'
+import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 const config = {
   name: 'fullSlider',
   setting: [
-    { label: '埋点参数', key: 'track', component: 'input' },
-    // {
-    //   label: "组件间距",
-    //   key: "padded",
-    //   component: "switch",
-    //   value: false,
-    // },
-    // { label: '埋点参数', key: 'eventParams', component: 'input' },
     {
-      label: '轮播项',
-      group: '内容样式',
+      label: '',
       key: 'data',
       component: function (h, { key }) {
         return (
@@ -115,10 +107,12 @@ const config = {
       meber_tags,
       no_meber_tags
     } = v
+    // 使用公共函数处理 base 中的样式数据转换
+    const transformedBase = transformInBase(base, ['outerMargin'])
     return {
       id: v?.id,
       name,
-      ...base,
+      ...transformedBase,
       ...otherConfig,
       track,
       tags: {
@@ -170,10 +164,9 @@ const config = {
       id: 'id',
       name: 'name',
       base: (v) => {
-        return pickBy(v, {
-          track: 'track',
-          padded: 'padded'
-        })
+        // 使用公共函数处理 outerMargin 转换，同时保留其他字段
+        const baseData = createTransformOutBase(['track', 'padded', 'outerMargin'], ['outerMargin'])(v)
+        return baseData
       },
       config: (v) => {
         return pickBy(v, {

@@ -34,7 +34,9 @@ import {
   PickerSaleCategory,
   PickerCategory,
   PickerCrowds,
-  PickerStore
+  PickerStore,
+  PickerGroups,
+  PickerActivityCollection
 } from './pickers'
 
 function resolvePicker(type) {
@@ -99,6 +101,10 @@ function resolvePicker(type) {
       return PickerCrowds
     case 'pickerStore':
       return PickerStore
+    case 'pickerGroups':
+      return PickerGroups
+    case 'pickerActivityCollection':
+      return PickerActivityCollection
     default:
       throw new Error(`picker: ${type} not registered`)
     // break
