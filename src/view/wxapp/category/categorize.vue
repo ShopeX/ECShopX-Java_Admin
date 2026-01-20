@@ -54,7 +54,8 @@ export default {
     return {
       addCar: true,
       classify: this.VERSION_PLATFORM(),
-      originalData: [] // 保存接口返回的原始数据
+      originalData: [], // 保存接口返回的原始数据
+      originalHasSeries: false // 保存原始数据是否有系列格式
     }
   },
   computed: {
@@ -76,6 +77,7 @@ export default {
         // 保存接口返回的原始数据
         if (params.data && params.data.length > 0) {
           this.originalData = params.data
+          this.originalHasSeries = params.hasSeries
         }
       }
     },
@@ -90,7 +92,7 @@ export default {
           config: JSON.stringify([
             {
               name: 'base',
-              hasSeries: false,
+              hasSeries: this.originalHasSeries || false,
               data: dataToSave,
               is_open: true,
               addCar: this.addCar,
