@@ -138,14 +138,6 @@ export default {
             minWidth: 300
           },
           {
-            name: '人群数量',
-            key: 'count',
-            width: 120,
-            render: (h, { row }) => {
-              return h('span', row.count || 0)
-            }
-          },
-          {
             name: '创建时间',
             key: 'created',
             width: 180

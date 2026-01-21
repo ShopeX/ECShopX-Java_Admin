@@ -251,7 +251,7 @@
         </el-card>
         <el-card shadow="never" header="适用规则">
           <el-form-item label="前台直接领取">
-            <el-switch v-model="form.receive" active-color="#13ce66" inactive-color="#d2d4db" :disabled="form.coupon_type == 'guide'" />
+            <el-switch v-model="form.receive" active-color="#13ce66" inactive-color="#d2d4db" />
           </el-form-item>
           <el-form-item label="领券限制">
             <el-input
