@@ -1552,12 +1552,15 @@ export default {
     },
     // 保存设置
     saveConfig() {
+      console.log(this.form, this.series, this.curTabIndex, this.form.hasSeries, 'form')
       if (!this.form.hasSeries) {
         this.form.data = this.editableData
       } else {
+        if (this.series.length == 0) return
         this.series[this.curTabIndex].content = this.editableData
         this.form.data = this.series
       }
+      console.log(this.form, 'form')
       this.form.addCar = true
       this.form.classify = false
       let param = {

@@ -55,24 +55,38 @@ export default {
       addCar: true,
       classify: this.VERSION_PLATFORM(),
       originalData: [], // 保存接口返回的原始数据
-      originalHasSeries: false // 保存原始数据是否有系列格式
+      originalHasSeries: false, // 保存原始数据是否有系列格式
+      isInitialized: false // 标记是否已初始化完成
     }
   },
   computed: {
     ...mapGetters(['template_name'])
   },
+  watch: {
+    // 监听分类样式切换，只在切换到"直接加购"时重新获取数据
+    classify(newVal, oldVal) {
+      // 只在初始化完成后、值真正发生变化、且切换到"直接加购"模式时才重新获取数据
+      if (this.isInitialized && newVal !== oldVal && newVal === true) {
+        this.feath(true) // 传入 true 表示是用户主动切换触发的
+      }
+    }
+  },
   mounted() {
     this.feath()
   },
   methods: {
-    async feath() {
+    async feath(isUserSwitch = false) {
       let filter = { template_name: this.template_name, version: 'v1.0.1', page_name: 'category' }
       const res = await this.$api.wxa.getParamByTempName(filter)
       if (res.list[0] && res.list[0].params) {
         const params = res.list[0].params
+        // 如果是用户主动切换，只更新 addCar，不更新 classify（避免覆盖用户的选择）
         if (typeof params.addCar == 'boolean') {
           this.addCar = params.addCar
-          this.classify = params.classify
+          // 只在初始化时设置 classify，用户切换后不覆盖
+          if (!isUserSwitch) {
+            this.classify = params.classify
+          }
         }
         // 保存接口返回的原始数据
         if (params.data && params.data.length > 0) {
@@ -80,19 +94,28 @@ export default {
           this.originalHasSeries = params.hasSeries
         }
       }
+      // 标记初始化完成，后续切换分类样式时会触发 watch
+      if (!isUserSwitch) {
+        this.$nextTick(() => {
+          this.isInitialized = true
+        })
+      }
     },
     async saveConfig() {
+      console.log(this.originalHasSeries, this.originalData, this.addCar)
       if (!this.classify && this.addCar) {
         //平铺开启自定义分类
         this.$refs.indexTile.saveConfig()
       } else {
-        const dataToSave = !this.classify && this.originalData.length > 0 ? this.originalData : []
+        let isShow = this.classify || (!this.classify && !this.addCar)
+        const dataToSave = isShow ? this.originalData : []
+        console.log(dataToSave, isShow, 'dataToSave')
         let param = {
           template_name: this.template_name,
           config: JSON.stringify([
             {
               name: 'base',
-              hasSeries: this.originalHasSeries || false,
+              hasSeries: isShow ? this.originalHasSeries : false,
               data: dataToSave,
               is_open: true,
               addCar: this.addCar,
