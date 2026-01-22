@@ -47,7 +47,7 @@ export default {
         app_id: '',
         ali_public_key: '',
         private_key: '',
-        is_open: false
+        is_open: true
       },
       formItems: [
         {
@@ -127,8 +127,9 @@ export default {
       try {
         await setPaymentSetting(query)
         this.$message.success('保存成功')
+        this.getConfig()
       } catch (error) {
-        this.$message.error('保存失败')
+        console.log(error)
       } finally {
         this.loading = false
       }

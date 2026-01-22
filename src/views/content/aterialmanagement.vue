@@ -13,6 +13,9 @@
             :page-size="24"
             :active-name="activeName"
             :get-status="localpicStatus"
+            :value="{
+              multiple: true
+            }"
             :columns="8"
           />
         </el-tab-pane>

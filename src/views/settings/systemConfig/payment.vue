@@ -610,6 +610,7 @@ export default {
             buttonSize: '点击上传',
             size: 'middle',
             autoUpload: false,
+            multiple: false,
             onChange: (file, fileList) => {
               this.paymentForms.wxpay.cert = file.raw
             }
@@ -620,12 +621,12 @@ export default {
           label: '商户证书秘钥',
           component: 'upload',
           componentProps: {
-            title: formData.cert_key_url,
+            title: formData.cert_key_name,
             buttonSize: '点击上传',
             size: 'middle',
             autoUpload: false,
+            multiple: false,
             onChange: (file, fileList) => {
-              console.log('上传:', file, fileList)
               this.paymentForms.wxpay.cert_key = file.raw
             }
           },

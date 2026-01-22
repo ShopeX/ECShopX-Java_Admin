@@ -123,11 +123,6 @@
           <el-col :span="16">
             <span class="text">最多可选 {{ goodslimit }} 件商品</span>
           </el-col>
-          <el-col :span="8" class="row-fright">
-            <el-button size="small" type="primary" plain @click="handleAddItems">
-              选择商品
-            </el-button>
-          </el-col>
         </el-row>
         <SkuSelector
           ref="itemsSku"

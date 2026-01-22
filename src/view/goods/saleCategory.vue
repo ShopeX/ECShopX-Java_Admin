@@ -34,7 +34,7 @@
         width="100%"
       >
         <el-table-column label="" width="60"></el-table-column>
-        <el-table-column label="操作" width="320">
+        <el-table-column label="操作" width="450">
           <template slot-scope="scope">
             <el-button type="text">
               <router-link
@@ -75,7 +75,7 @@
               </div>
               <el-button
                 slot="reference"
-                style="width: 45px"
+                style="min-width: 65px"
                 type="text"
                 @click="handleClick(scope.row.category_id)"
               >
@@ -87,14 +87,14 @@
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column label="分类名称" prop="category_name">
+        <el-table-column label="分类名称" prop="category_name" width="280">
           <template slot-scope="scope">
             <div class="whitespace-nowrap">
               {{ scope.row.category_name }}
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="sort" label="分类排序" width="80">
+        <el-table-column prop="sort" label="分类排序" width="140">
           <template slot-scope="scope">
             <div>{{ scope.row.sort }}</div>
           </template>

@@ -91,6 +91,7 @@
           <SpFinder
             ref="finder"
             no-selection
+            row-actions-align="left"
             :data="finderData"
             :url="finderUrl"
             :setting="setting"
