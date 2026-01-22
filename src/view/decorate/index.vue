@@ -431,7 +431,7 @@ export default {
       })
       const wgtHeader = list.find((item) => item.name == 'page')
       if (wgtHeader) {
-        const headParams = Header.config.transformIn({ id: wgtHeader?.id, ...wgtHeader.params })
+        const headParams = Header.config.transformIn({ id: wgtHeader?.id, ...wgtHeader.params }, this.widgets)
         headerData = {
           // 初始数据
           ...headerData,
@@ -450,7 +450,7 @@ export default {
         if (wgt) {
           // console.log('getTemplateDetial wgt:', wgt)
           const wgtInitParams = this.cloneDefaultField(wgt)
-          const params = wgt.config.transformIn({ id: li?.id, ...li.params })
+          const params = wgt.config.transformIn({ id: li?.id, ...li.params }, this.widgets)
           this.contentComps.push({
             wgtName: wgt.wgtName,
             ...wgtInitParams,
@@ -574,9 +574,9 @@ export default {
         const { transformOut } = this.widgets.find(
           (wgt) => wgt.name?.toLowerCase() == item.name?.toLowerCase()
         )?.config
-        return transformOut(item)
+        return transformOut(item, this.widgets)
       })
-      data.unshift(this.headerAttr.transformOut(this.headerData))
+      data.unshift(this.headerAttr.transformOut(this.headerData, this.widgets))
       const { id } = this.$route.query
       if (this.localScene == '1004' || this.localScene == '1006' || this.localScene == '1008') {
         await this.$api.wxa.savePageParams({

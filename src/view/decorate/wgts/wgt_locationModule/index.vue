@@ -209,16 +209,10 @@ export default {
         getNavItemStyle(item, index) {
             const isActive = this.activeIndex === index
             const navitemmargin = this.value.navitemmargin || {}
-            
-            // navitemmargin 可能是数字（旧格式）或对象（新格式）
-            const marginValue = typeof navitemmargin === 'number' 
-                ? navitemmargin 
-                : (navitemmargin.paddedlr || 18)
-            
             return {
                 height: `${this.value.navitemheight || 40}px`,
-                paddingLeft: `${marginValue}px`,
-                paddingRight: `${marginValue}px`,
+                paddingLeft: `${navitemmargin}px`,
+                paddingRight: `${navitemmargin}px`,
                 color: isActive ? (item.navitemactivecolor || '#1A1A1A') : (item.navitemcolor || '#666666'),
                 backgroundColor: isActive ? (item.navitemactivebg || 'transparent') : (item.navitembg || 'transparent'),
                 borderRadius: `${item.navitemradius || 0}px`
