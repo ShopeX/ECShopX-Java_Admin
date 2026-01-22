@@ -843,7 +843,7 @@ $txt-placeholder: #f5f5f7;
                     <i class="el-icon-link" v-if="!item.main_category_id && !item.category_id"></i>
                     <template v-if="item">
                       {{ item.main_category_id ? '管理分类：' : '' }}
-                      {{ item.category_id ? '商品分类：' : '' }}
+                      {{ item.category_id ? '销售分类：' : '' }}
                       {{ item.category_name ? item.category_name : '绑定分类' }}
                     </template>
                   </div>
@@ -878,7 +878,7 @@ $txt-placeholder: #f5f5f7;
                           ></i>
                           <template v-if="sitem">
                             {{ sitem.main_category_id ? '管理分类：' : '' }}
-                            {{ sitem.category_id ? '商品分类：' : '' }}
+                            {{ sitem.category_id ? '销售分类：' : '' }}
                             {{ sitem.category_name ? sitem.category_name : '绑定分类' }}
                           </template>
                         </div>
@@ -923,7 +923,7 @@ $txt-placeholder: #f5f5f7;
                                   v-if="!litem.main_category_id && !litem.category_id"
                                 ></i>
                                 {{ litem.main_category_id ? '管理分类：' : ''
-                                }}{{ litem.category_id ? '商品分类：' : ''
+                                }}{{ litem.category_id ? '销售分类：' : ''
                                 }}{{ litem.category_name ? litem.category_name : '绑定分类' }}
                               </div>
                               <div class="move" style="margin-left: 10px">
@@ -969,7 +969,7 @@ $txt-placeholder: #f5f5f7;
         <el-form>
           <el-form-item>
             <el-radio-group v-model="curCateType" @change="curCateTypeChange">
-              <el-radio-button label="goodsCate"> 商品分类 </el-radio-button>
+              <el-radio-button label="goodsCate"> 销售分类 </el-radio-button>
               <el-radio-button label="mainCate"> 管理分类 </el-radio-button>
             </el-radio-group>
           </el-form-item>
@@ -978,7 +978,7 @@ $txt-placeholder: #f5f5f7;
               v-if="curCateType === 'goodsCate'"
               :key="goodsCateValueKey"
               v-model="goodsCateValue"
-              placeholder="选择商品分类"
+              placeholder="选择销售分类"
               :options="category"
               :props="{ checkStrictly: true }"
               clearable
@@ -1140,7 +1140,7 @@ export default {
               }
             })
           })
-          this.form = results
+          this.form = Object.assign({}, this.form, results)
           this.editableData = results.data || []
         } else {
           results.data?.map((item) => {
@@ -1152,7 +1152,7 @@ export default {
               })
             })
           })
-          this.form = results
+          this.form = Object.assign({}, this.form, results)
           this.series = results.data || []
           this.editableData = this.series[0]?.content || []
           this.editableSeries = results.data[0]?.name || ''
@@ -1552,15 +1552,17 @@ export default {
     },
     // 保存设置
     saveConfig() {
+      console.log(this.form, this.series, this.curTabIndex, this.form.hasSeries, 'form')
       if (!this.form.hasSeries) {
         this.form.data = this.editableData
       } else {
+        if (this.series.length == 0) return
         this.series[this.curTabIndex].content = this.editableData
         this.form.data = this.series
       }
+      console.log(this.form, 'form')
       this.form.addCar = true
       this.form.classify = false
-      console.log(this.form, 'kkkkkkkkkkkkkkkkkkkkkkkkkk')
       let param = {
         template_name: this.template_name,
         config: JSON.stringify([this.form]),

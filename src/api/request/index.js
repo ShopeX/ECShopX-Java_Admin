@@ -5,7 +5,7 @@
 import Vue from 'vue'
 import store from '@/store'
 import router from '@/router'
-import { isObject } from '@/utils'
+import { isObject, getBasePath } from '@/utils'
 import { langMap } from '@/i18n'
 import { RequestClient } from './request'
 
@@ -15,6 +15,8 @@ let requestQueue = []
 let isRefreshing = false
 // 刷新token的请求Promise
 let refreshTokenPromise = null
+// 是否正在跳转到登录页
+let isRedirectingToLogin = false
 
 // 刷新token的方法
 async function refreshToken() {
@@ -134,36 +136,58 @@ function createRequestClient() {
 
       // 处理401错误
       if (status === 401) {
-        if (!isRefreshing) {
-          isRefreshing = true
-          // 创建刷新token的Promise
-          refreshTokenPromise = refreshToken()
+        const basePath = getBasePath()
+        const loginPath = basePath ? `/${basePath}/login` : '/login'
+        
+        // 避免重复跳转 - 使用全局标志
+        if (!isRedirectingToLogin && router.currentRoute.path !== loginPath) {
+          isRedirectingToLogin = true
+          console.log(basePath, 'basePath')
+          store.commit('user/logout')
+          store.commit('system/logout')
+          // 使用 replace 避免导航冲突，并捕获错误
+          router.replace(loginPath).catch(err => {
+            // 忽略导航重复错误
+            if (err.name !== 'NavigationDuplicated') {
+              console.error('路由跳转错误:', err)
+            }
+          }).finally(() => {
+            // 跳转完成后重置标志
+            setTimeout(() => {
+              isRedirectingToLogin = false
+            }, 1000)
+          })
         }
+        // if (!isRefreshing) {
+        //   isRefreshing = true
+        //   // 创建刷新token的Promise
+        //   refreshTokenPromise = refreshToken()
+        // }
 
-        // 将请求添加到队列
-        return new Promise((resolve, reject) => {
-          requestQueue.push((token) => {
-            // 更新请求头中的token
-            config.headers.Authorization = `Bearer ${token}`
-            // 重新发起请求
-            resolve(requestClient.request(config))
-          })
-        })
-          .then(() => {
-            // 刷新token成功后，处理队列中的请求
-            refreshTokenPromise.then((token) => {
-              handleRequestQueue(token)
-              isRefreshing = false
-              refreshTokenPromise = null
-            })
-          })
-          .catch((error) => {
-            // 刷新token失败，清空队列
-            requestQueue = []
-            isRefreshing = false
-            refreshTokenPromise = null
-            return Promise.reject(error)
-          })
+        // // 将请求添加到队列
+        // return new Promise((resolve, reject) => {
+        //   requestQueue.push((token) => {
+        //     // 更新请求头中的token
+        //     config.headers.Authorization = `Bearer ${token}`
+        //     // 重新发起请求
+        //     resolve(requestClient.request(config))
+        //   })
+        // })
+        //   .then(() => {
+        //     // 刷新token成功后，处理队列中的请求
+        //     refreshTokenPromise.then((token) => {
+        //       handleRequestQueue(token)
+        //       isRefreshing = false
+        //       refreshTokenPromise = null
+        //     })
+        //   })
+        //   .catch((error) => {
+        //     // 刷新token失败，清空队列
+        //     requestQueue = []
+        //     isRefreshing = false
+        //     refreshTokenPromise = null
+        //     return Promise.reject(error)
+        //   })
       }
       const responseData = error?.response?.data ?? {}
       Vue.prototype.$message.error(

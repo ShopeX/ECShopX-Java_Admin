@@ -1519,7 +1519,7 @@ export default {
         // 刷新列表
         this.fetchList()
       } catch (error) {
-        this.$message.error('保存失败：' + (error.message || '未知错误'))
+        console.log(error)
       }
     },
     showSettingDistance(distributor_id) {

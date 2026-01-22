@@ -7,7 +7,7 @@
     <SpFormPlus
       v-model="form"
       :form-items="formItems"
-      form-type="displayForm"
+      form-type="form"
       label-width="160px"
       :show-default-actions="false"
     />
@@ -348,18 +348,21 @@ export default {
         {
           fieldName: 'clientId',
           label: 'clientId',
+          formItemClass:'w-1/2',
           component: 'input',
           isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry
         },
         {
           fieldName: 'clientSecret',
           label: 'clientSecret',
+          formItemClass:'w-1/2',
           component: 'input',
           isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry
         },
         {
           fieldName: 'storeId',
           label: '门店ID',
+          formItemClass:'w-1/2',
           component: 'input',
           isShow: () => this.form.use_third_party_system && this.form.is_pharma_industry
         },
