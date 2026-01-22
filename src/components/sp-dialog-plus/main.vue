@@ -6,7 +6,7 @@
 <template>
   <el-dialog
     :visible.sync="isLocalShow"
-    :title="title || undefined"
+    :title="title"
     :width="dialogSize"
     :before-close="handleBeforeClose"
     @close="handleClose"
@@ -14,12 +14,12 @@
     <template v-if="$slots.title" slot="title">
       <slot name="title" />
     </template>
-    <template v-else slot="title">
-      <slot />
-    </template>
-    
+
     <template v-if="$slots.body">
       <slot name="body" />
+    </template>
+    <template v-else>
+      <slot />
     </template>
 
     <span slot="footer" class="dialog-footer">
