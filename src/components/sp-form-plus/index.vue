@@ -188,10 +188,7 @@ export default {
       if (this.formType === 'searchForm') {
         return this.defaultCellWidth
       }
-      if (this.formType === 'displayForm') {
-        return 1000
-      }
-      return 500
+      return null
     },
     actionsStyle() {
       return this.formType === 'searchForm'
@@ -252,6 +249,9 @@ export default {
   },
   methods: {
     getComputedCellWidth(cellWidth) {
+      if (this.effectiveDefaultCellWidth === null) {
+        return null
+      }
       return cellWidth * this.effectiveDefaultCellWidth + (cellWidth - 1) * this.cellGap
     },
     // 处理字段值变化

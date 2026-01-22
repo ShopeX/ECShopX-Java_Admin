@@ -8,7 +8,7 @@
     <SpFormPlus
       ref="crmform"
       v-model="formData"
-      form-type="normalForm"
+      form-type="form"
       :form-items="formItems"
       label-width="100px"
       @submit="handleSubmit"
@@ -25,40 +25,41 @@ export default {
       formItems: [
         {
           component: 'input',
+          formItemClass:'w-1/2',
           componentProps: {
             placeholder: '请输入appKey',
             clearable: true
           },
           fieldName: 'app_key',
-          formItemClass: 'w-2/4',
           label: 'appKey',
           rules: [{ required: true, message: '请输入appKey', trigger: 'blur' }]
         },
         {
           component: 'input',
+          formItemClass:'w-1/2',
           componentProps: {
             placeholder: '请输入appSecret',
             clearable: true
           },
           fieldName: 'app_secret',
-          formItemClass: 'w-2/4',
           label: 'appSecret',
           rules: [{ required: true, message: '请输入appSecret', trigger: 'blur' }]
         },
         {
           component: 'input',
+          formItemClass:'w-1/2',
           componentProps: {
             placeholder: '请输入企业标识',
             clearable: true
           },
           fieldName: 'ent_sign',
-          formItemClass: 'w-2/4',
           label: '企业标识',
           rules: [{ required: true, message: '请输入企业标识', trigger: 'blur' }]
         },
         {
           fieldName: 'is_open',
           label: '是否启用',
+          formItemClass:'w-1/2',
           component: 'switch',
           value: false,
           componentProps: {

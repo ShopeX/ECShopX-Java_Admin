@@ -112,7 +112,7 @@ export default {
           fieldName: 'mobile',
           label: '配送员手机号',
           component: 'input',
-          cellWidth: 1.5,
+          cellWidth: 2,
           componentProps: {
             placeholder: '请输入配送员手机号',
             size: 'default'

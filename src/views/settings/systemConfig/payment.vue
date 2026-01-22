@@ -35,7 +35,7 @@
             <SpFormPlus
               v-model="paymentForms[item.name]"
               :form-items="getFormItems(item.name)"
-              form-type="displayForm"
+              form-type="form"
               label-width="200px"
               @submit="handleSubmit(item.name)"
             />
@@ -74,7 +74,7 @@
             <SpFormPlus
               v-model="paymentForms[item.name]"
               :form-items="getFormItems(item.name)"
-              form-type="displayForm"
+              form-type="form"
               label-width="160px"
               @submit="handleSubmit(item.name)"
             />

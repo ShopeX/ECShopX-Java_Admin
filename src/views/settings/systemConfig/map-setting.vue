@@ -11,7 +11,7 @@
       class="mt-[60px]"
       ref="formEle"
       v-model="form"
-      form-type="normalForm"
+      form-type="form"
       :form-items="formItems"
       :submit-loading="loading"
       @submit="onSubmitChange"
