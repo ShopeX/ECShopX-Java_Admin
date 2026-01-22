@@ -212,7 +212,6 @@
                 <span>{{scope.row.use_num || 0}}</span>
               </template>
             </el-table-column>
-            <el-table-column width="200" prop="source_name" label="店铺" />
           </el-table>
           <div class="mt-4 text-right">
             <el-pagination

@@ -319,7 +319,8 @@ export default {
             action: {
               handler: ([row]) => {
                 this.accountsForm = {
-                  ...row
+                  ...row,
+                  is_default: row.is_default == 'true' ? 'yes' : 'no'
                 }
                 this.addDeliveryman('edit')
               }
@@ -1145,7 +1146,16 @@ export default {
     },
     async addDeliveryman(type) {
       if (type == 'add') {
-        this.accountsForm = {}
+        // 新增时设置默认值
+        this.accountsForm = {
+          bank_account_name: '',
+          bank_account_no: '',
+          bank_name: '',
+          china_ums_no: '',
+          pic: '',
+          remark: '',
+          is_default: 'no'
+        }
       }
       await this.$dialog.open({
         title: type == 'edit' ? '编辑收款账户' : '添加收款账户',
@@ -1161,7 +1171,8 @@ export default {
       })
       const formData = await AccountFormApi.getFieldsValue()
       let params = {
-        ...formData
+        ...formData,
+        is_default: formData.is_default == 'yes' ? 'true' : 'false'
       }
       if (type == 'edit') {
         params.id = this.accountsForm.id
