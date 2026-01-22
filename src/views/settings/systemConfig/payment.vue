@@ -184,11 +184,11 @@ const [AccountForm, AccountFormApi] = useForm({
       fieldName: 'is_default',
       label: '是否默认',
       component: 'radio',
-      value: 'no',
+      value: 'false',
       componentProps: {
         options: [
-          { label: '是', value: 'yes' },
-          { label: '否', value: 'no' }
+          { label: '是', value: 'true' },
+          { label: '否', value: 'false' }
         ]
       },
       rules: [{ required: true, message: '请选择是否默认', trigger: 'change' }]
@@ -318,9 +318,8 @@ export default {
             buttonType: 'text',
             action: {
               handler: ([row]) => {
-                this.accountsForm = {
-                  ...row
-                }
+                // 使用深拷贝避免引用问题
+                this.accountsForm = JSON.parse(JSON.stringify(row))
                 this.addDeliveryman('edit')
               }
             }
@@ -393,10 +392,8 @@ export default {
 
   methods: {
     beforeSearch(params) {
-      const _params = {
-        ...params,
-        ...this.params
-      }
+      // 使用深拷贝避免引用问题
+      const _params = JSON.parse(JSON.stringify({ ...params, ...this.params }))
       return _params
     },
     // 初始化支付数据
@@ -447,11 +444,10 @@ export default {
         const data = await this.$api.trade.getPaymentSetting({ pay_type: payType })
         // const data = res.data.data || {}
 
-        // 更新表单数据
-        this.$set(this.paymentForms, payType, {
-          ...data,
-          is_open: data.is_open === 'true' || data.is_open === true
-        })
+        // 更新表单数据（使用深拷贝避免引用问题）
+        const formData = JSON.parse(JSON.stringify(data))
+        formData.is_open = data.is_open === 'true' || data.is_open === true
+        this.$set(this.paymentForms, payType, formData)
 
         // 更新开关状态
         const paymentItem = this.allPaymentList.find((item) => item.name === payType)
@@ -1098,12 +1094,11 @@ export default {
       this.loading = true
       try {
         const formData = this.paymentForms[payType]
-        const params = {
-          pay_type: payType,
-          ...formData,
-          is_open: formData.is_open ? 'true' : 'false',
-          isUploadFile: true
-        }
+        // 使用深拷贝避免引用问题
+        const params = JSON.parse(JSON.stringify(formData))
+        params.pay_type = payType
+        params.is_open = formData.is_open ? 'true' : 'false'
+        params.isUploadFile = true
         // 过滤掉值为 undefined 的参数
         Object.keys(params).forEach((key) => {
           if (key === 'undefined') {
@@ -1161,9 +1156,8 @@ export default {
         }
       })
       const formData = await AccountFormApi.getFieldsValue()
-      let params = {
-        ...formData
-      }
+      // 使用深拷贝避免引用问题
+      let params = JSON.parse(JSON.stringify(formData))
       if (type == 'edit') {
         params.id = this.accountsForm.id
       }
