@@ -184,11 +184,11 @@ const [AccountForm, AccountFormApi] = useForm({
       fieldName: 'is_default',
       label: '是否默认',
       component: 'radio',
-      value: 'no',
+      value: 'false',
       componentProps: {
         options: [
-          { label: '是', value: 'yes' },
-          { label: '否', value: 'no' }
+          { label: '是', value: 'true' },
+          { label: '否', value: 'false' }
         ]
       },
       rules: [{ required: true, message: '请选择是否默认', trigger: 'change' }]
@@ -319,8 +319,7 @@ export default {
             action: {
               handler: ([row]) => {
                 this.accountsForm = {
-                  ...row,
-                  is_default: row.is_default == 'true' ? 'yes' : 'no'
+                  ...row
                 }
                 this.addDeliveryman('edit')
               }
@@ -1154,7 +1153,7 @@ export default {
           china_ums_no: '',
           pic: '',
           remark: '',
-          is_default: 'no'
+          is_default: 'false'
         }
       }
       await this.$dialog.open({
@@ -1171,8 +1170,7 @@ export default {
       })
       const formData = await AccountFormApi.getFieldsValue()
       let params = {
-        ...formData,
-        is_default: formData.is_default == 'yes' ? 'true' : 'false'
+        ...formData
       }
       if (type == 'edit') {
         params.id = this.accountsForm.id
