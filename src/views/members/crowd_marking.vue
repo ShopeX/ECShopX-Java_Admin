@@ -26,6 +26,7 @@
         :setting="finderSetting"
         :row-key="getRowKeys"
         url="/member/segment-rule"
+        :page-size="pageSize"
         :hooks="{
           beforeSearch: beforeSearch,
           afterRequest: afterRequest
@@ -53,6 +54,7 @@ export default {
   },
   data() {
     return {
+      pageSize: 20, // 每页条数
       params: {
         tag_name: '',
         created: []
@@ -161,7 +163,7 @@ export default {
     beforeSearch(params) {
       const finderParams = {
         page: params.page || 1,
-        pageSize: params.pageSize || 20,
+        pageSize: this.pageSize,
         ...this.params
       }
       // 处理日期范围

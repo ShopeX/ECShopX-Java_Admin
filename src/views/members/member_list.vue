@@ -238,16 +238,16 @@
   
         <SpFinder
           ref="finder"
-          :setting="finderSetting"
+          :setting="setting"
           :row-key="getRowKeys"
           url="/members"
           reserve-selection
           fixed-row-action
+          :page-size="pageSize"
           row-actions-width="180px"
           row-actions-fixed-align="left"
           :hooks="{
-            beforeSearch: beforeSearch,
-            afterQuery: afterQuery
+            beforeSearch: beforeSearch
           }"
           @selection-change="handleSelectionChange"
         />
@@ -834,7 +834,8 @@
         selectedCoupons: [],
         showTagDialog: false,
         showCrowdTagDialog: false,
-        selectedCrowdTags: [] // 人群达标选中的标签
+        selectedCrowdTags: [], // 人群达标选中的标签
+        pageSize: 20
       }
     },
     watch: {
@@ -849,7 +850,7 @@
     },
     computed: {
       ...mapGetters(['isMicorMall', 'login_type']),
-      finderSetting() {
+      setting() {
         return finderSetting(this)
       }
     },
@@ -1063,7 +1064,7 @@
       async getMembers() {
         let params = {
           page: 1,
-          pageSize: 20
+          pageSize: this.pageSize
         }
         const { datapass_block } = await this.$api.member.getMembers(params)
         this.datapass_block = datapass_block
@@ -1071,7 +1072,7 @@
       beforeSearch(params) {
         const finderParams = {
           page: params.page,
-          pageSize: 20,
+          pageSize: this.pageSize,
           ...this.params,
           tag_id: this.params.tag_id.length > 0 ? this.params.tag_id.join(',') : ''
         }
@@ -1085,15 +1086,6 @@
         //   finderParams.birthday_end = this.dateStrToTimeStamp(this.birthday[1] + ' 23:59:59')
         // }
         return finderParams
-      },
-      async afterQuery(response) {
-        // 处理 API 返回的数据
-        const data = response.data.data || response.data
-        const { list, total_count } = data
-        return {
-          list: list || [],
-          count: total_count || 0
-        }
       },
       async getGradeList() {
         const gradeList = await this.$api.membercard.getGradeList()
