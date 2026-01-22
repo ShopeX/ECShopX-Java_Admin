@@ -110,7 +110,7 @@ import SkuParams from './components/SkuParams'
 import sku from '../../store/modules/sku'
 export default {
   async beforeRouteLeave(to, from, next) {
-    if (this.$refs['decorateRef'].dialogVisible) {
+    if (this.$refs['decorateRef']?.dialogVisible) {
       this.$refs['decorateRef'].resetDecorateTheme()
       this.$refs['decorateRef'].onClose()
     } else if (!this.isLeave && !this.routerParams.detail) {
@@ -1636,10 +1636,12 @@ export default {
         }
         this.submitLoading = false
         this.isLeave = true
-        this.$parent.onActivated()
-        const _this = this
+        // 安全调用父组件方法
+        if (this.$parent && typeof this.$parent.onActivated === 'function') {
+          this.$parent.onActivated()
+        }
         setTimeout(() => {
-          _this.$router.go(-1)
+          this.$router.go(-1)
         }, 200)
       } catch (e) {
         this.submitLoading = false
