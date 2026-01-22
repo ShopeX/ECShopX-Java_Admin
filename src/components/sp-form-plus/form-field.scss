@@ -51,5 +51,18 @@
         }
       }
     }
+
+    .el-date-picker__wrapper,
+    .el-datetime-picker__wrapper {
+      .el-input__prefix {
+        display: none !important;
+      }
+      .el-input__icon {
+        display: none !important;
+      }
+      .el-input__inner {
+        padding-left: 15px !important;
+      }
+    }
   }
 }

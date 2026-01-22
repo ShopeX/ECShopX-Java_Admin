@@ -42,7 +42,7 @@ export default {
     {
       path: 'datapass/apply',
       name: '权限申请',
-      component: () => import('@/view/base/encrypt/authAdmin.vue')
+      component: () => import('@/views/settings/systemConfig/encrypt/authAdmin.vue')
     }
   ]
 }

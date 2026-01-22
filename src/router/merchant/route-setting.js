@@ -34,13 +34,13 @@ export default {
     {
       path: 'operatorlogs',
       name: `操作日志`,
-      component: () => import('@/view/base/setting/companys/logs')
+      component: () => import('@/views/settings/systemInfo/operation-log')
     },
 
     {
       path: 'datapassapprove',
       name: '权限申请',
-      component: () => import('@/view/base/encrypt/authAdmin.vue')
+      component: () => import('@/views/settings/systemConfig/encrypt/authAdmin.vue')
     },
     {
       path: 'datapassapply',

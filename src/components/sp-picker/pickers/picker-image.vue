@@ -389,7 +389,7 @@ export default {
     columns: {
       type: Number,
       default: 6
-    },
+    }
   },
   data() {
     let { multiple = false, data } = this.value || {}
@@ -403,7 +403,7 @@ export default {
       if (this.value.multiple === undefined) {
         multiple = false
         data = data.url || null
-      } 
+      }
       //已经明确指定了 multiple，按指定模式转换数据格式
       else {
         if (multiple) {
@@ -481,20 +481,20 @@ export default {
       immediate: true,
       deep: true,
       handler(val) {
-        if (!val) return   
+        if (!val) return
         // 首先同步 multiple 状态（无论 data 是否存在）
         if (val.multiple !== undefined) {
           this.multiple = val.multiple
-        } 
+        }
         // 同步 value.data 到 selected
         if (val.data !== undefined) {
-          let { multiple = true, data } = val     
+          let { multiple = true, data } = val
           // 如果明确指定了 multiple，使用指定的值
           if (val.multiple !== undefined) {
             multiple = val.multiple
             this.multiple = val.multiple
           }
-          
+
           if (data && typeof data === 'object' && !Array.isArray(data) && 'url' in data) {
             // 只有当 multiple 未明确指定（使用默认值）时才自动设置为单选
             if (val.multiple === undefined) {
@@ -513,7 +513,7 @@ export default {
               }
             }
           }
-          
+
           if (typeof data === 'string') {
             // 如果字符串为空，视为未选择
             if (data.trim() === '') {
@@ -780,7 +780,7 @@ export default {
         } else {
           // 默认最多可选20
           const maxSelect = 20
-          if (this.selected.length < maxSelect) {  
+          if (this.selected.length < maxSelect) {
             this.selected.push(_item)
           } else {
             this.$message.error(`最多选择${maxSelect}张图片`)

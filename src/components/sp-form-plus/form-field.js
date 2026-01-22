@@ -27,7 +27,19 @@ export default {
       type: String,
       default: ''
     },
+    cellWidth: {
+      type: Number,
+      default: 1
+    },
+    computedCellWidth: {
+      type: Number,
+      default: null
+    },
     formData: Object,
+    formType: {
+      type: String,
+      default: 'searchForm'
+    },
     hideFieldRequiredMark: {
       type: Boolean,
       default: false
@@ -209,6 +221,7 @@ export default {
             size={this.size || 'small'}
             type='date'
             value={this.modelValue}
+            prefix-icon={false}
             {...props}
             on-input={this.handleInput}
           />
@@ -226,9 +239,10 @@ export default {
             startPlaceholder='开始日期/结束时间'
             default-time={['00:00:00', '23:59:59']}
             // endPlaceholder="结束日期"
-            rangeSeparator={`${this.modelValue.length > 1 ? '至' : ''}`}
+            rangeSeparator={`${this.modelValue.length > 1 ? '~' : ''}`}
             value={this.modelValue}
             pickerOptions={PICKER_DATE_OPTIONS}
+            prefix-icon={false}
             onInput={this.handleInput}
           />
         </div>
@@ -330,8 +344,23 @@ export default {
 
     // 获取对应的渲染函数
     const renderComponent = this.getComponentRender()
+
     // 渲染表单项
-    return h('div', { class: ['form-field', this.formItemClass] }, [
+    const divProps = {
+      class: ['form-field', this.formItemClass],
+      attrs: {
+        'data-cell-width': this.cellWidth
+      }
+    }
+    if (this.computedCellWidth) {
+      divProps.style = {
+        flex: `0 0 ${this.computedCellWidth}px`,
+        maxWidth: `${this.computedCellWidth}px`,
+        width: `${this.computedCellWidth}px`
+      }
+    }
+
+    return h('div', divProps, [
       h(
         'el-form-item',
         {

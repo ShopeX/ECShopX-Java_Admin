@@ -5,32 +5,15 @@
 
 <template>
   <div>
-    <el-card header="搜索">
-      <el-row class="flex-center">
-        <el-col :span="8" class="flex-center">
-          <div class="label">物流名称</div>
-          <div class="input">
-            <el-input v-model="form.corp_name" placeholder="请输入物流公司名称" />
-          </div>
-        </el-col>
-        <el-col :span="8" class="flex-center">
-          <div class="label">物流状态</div>
-          <div class="input">
-            <el-select v-model="form.status" clearable placeholder="请选择">
-              <el-option
-                v-for="item in statusOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </div>
-        </el-col>
-        <el-col :span="8" class="flex-center">
-          <el-button @click="handleReset"> 重置 </el-button>
-          <el-button type="primary" @click="handleSearch"> 搜索 </el-button>
-        </el-col>
-      </el-row>
+    <el-card header="搜索" class="search-card">
+      <SpFormPlus
+        v-model="form"
+        form-type="searchForm"
+        :form-items="formItems"
+        :inline="true"
+        @submit="handleSearch"
+        @reset="handleReset"
+      />
     </el-card>
     <el-card header="物流列表">
       <el-row :gutter="40">
@@ -67,6 +50,40 @@ export default {
           label: '关闭'
         }
       ],
+      formItems: [
+        {
+          fieldName: 'corp_name',
+          label: '物流名称',
+          cellWidth: 2,
+          component: 'input',
+          componentProps: {
+            placeholder: '请输入物流公司名称'
+          }
+        },
+        {
+          fieldName: 'status',
+          label: '物流状态',
+          component: 'select',
+          componentProps: {
+            placeholder: '请选择',
+            clearable: true,
+            options: [
+              {
+                value: 0,
+                label: '全部'
+              },
+              {
+                value: 1,
+                label: '启用'
+              },
+              {
+                value: 2,
+                label: '关闭'
+              }
+            ]
+          }
+        }
+      ],
       list: []
     }
   },
@@ -79,6 +96,7 @@ export default {
         corp_name: '',
         status: 0
       }
+      this.getList()
     },
     handleSearch: function () {
       this.getList()
@@ -100,13 +118,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .input {
-    margin-left: 20px;
+.search-card {
+  ::v-deep .sp-form-plus--search-form {
+    background-color: white;
   }
 }
 </style>

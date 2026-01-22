@@ -6,13 +6,16 @@
 <template>
   <SpPage>
     <SpRouterView>
-      <SpFilterForm :model="formData" @onSearch="onSearch" @onReset="onSearch">
-        <SpFilterFormItem prop="app_name" label="小程序名称:">
-          <el-input v-model="formData.app_name" placeholder="请输入小程序名称" />
-        </SpFilterFormItem>
-      </SpFilterForm>
+      <SpFormPlus
+        v-model="formData"
+        form-type="searchForm"
+        :form-items="formItems"
+        @submit="onSearch"
+        @reset="onSearch"
+        :inline="true"
+      />
 
-      <div class="action-container">
+      <div class="action-container mt-5">
         <el-button type="primary" icon="plus" @click="showEditModal('')"> 新增 </el-button>
       </div>
 
@@ -81,6 +84,16 @@ export default {
       formData: {
         app_name: ''
       },
+      formItems: [
+        {
+          fieldName: 'app_name',
+          label: '小程序名称',
+          component: 'input',
+          componentProps: {
+            placeholder: '请输入小程序名称'
+          }
+        }
+      ],
       // 规则
       rules: {
         app_name: [

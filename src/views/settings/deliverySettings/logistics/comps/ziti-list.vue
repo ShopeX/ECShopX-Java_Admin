@@ -19,23 +19,16 @@
       一个自提点仅可被一个店铺绑定使用；每个店铺可绑定多个自提点，绑定至同一店铺的自提点共享该店铺库存。
     </div>
 
-    <SpFilterForm :model="formData" @onSearch="onSearch" @onReset="onSearch">
-      <SpFilterFormItem prop="region" label="自提点地址:">
-        <el-cascader
-          ref="region"
-          v-model="formData.region"
-          filterable
-          clearable
-          placeholder="选择地区筛选"
-          :options="district"
-        />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="keywords" label="自提点名称:">
-        <el-input v-model="formData.keywords" placeholder="自提点名称关键词" />
-      </SpFilterFormItem>
-    </SpFilterForm>
+    <SpFormPlus
+      v-model="formData"
+      form-type="searchForm"
+      :form-items="formItems"
+      :inline="true"
+      @submit="onSearch"
+      @reset="onSearch"
+    />
 
-    <div class="action-container">
+    <div class="action-container mt-5">
       <el-button type="primary" @click="createZitiAddress"> 新增自提点 </el-button>
     </div>
 
@@ -64,6 +57,40 @@ export default {
         keywords: ''
       },
       district,
+      formItems: [
+        {
+          fieldName: 'region',
+          label: '自提点地址',
+          component: ({ h, value, onInput, props }) => {
+            return h('el-cascader', {
+              props: {
+                value: value,
+                filterable: true,
+                clearable: true,
+                placeholder: '选择地区筛选',
+                options: props.options || [],
+                size: 'small'
+              },
+              on: {
+                input: onInput
+              }
+            })
+          },
+          componentProps: {
+            options: district
+          }
+        },
+        {
+          fieldName: 'keywords',
+          label: '自提点名称',
+          component: 'input',
+          formItemClass: 'keywords-field-close',
+          componentProps: {
+            placeholder: '自提点名称关键词',
+            size: 'default'
+          }
+        }
+      ],
       setting: createSetting({
         actions: [
           {
