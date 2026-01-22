@@ -4,7 +4,7 @@
  */
 import { createSetting } from '@shopex-ui/finder'
 
-export const finderSetting = (vm) =>   createSetting({
+export const finderSetting = (vm) => createSetting({
   columns: [
     { name: '平台账号', key: 'userid', width: 100, visible: vm.VERSION_SHUYUN() },
     {

@@ -238,7 +238,7 @@
   
         <SpFinder
           ref="finder"
-          :setting="finderSetting"
+          :setting="setting"
           :row-key="getRowKeys"
           url="/members"
           reserve-selection
@@ -246,8 +246,7 @@
           row-actions-width="180px"
           row-actions-fixed-align="left"
           :hooks="{
-            beforeSearch: beforeSearch,
-            afterQuery: afterQuery
+            beforeSearch: beforeSearch
           }"
           @selection-change="handleSelectionChange"
         />
@@ -849,7 +848,7 @@
     },
     computed: {
       ...mapGetters(['isMicorMall', 'login_type']),
-      finderSetting() {
+      setting() {
         return finderSetting(this)
       }
     },
@@ -1085,15 +1084,6 @@
         //   finderParams.birthday_end = this.dateStrToTimeStamp(this.birthday[1] + ' 23:59:59')
         // }
         return finderParams
-      },
-      async afterQuery(response) {
-        // 处理 API 返回的数据
-        const data = response.data.data || response.data
-        const { list, total_count } = data
-        return {
-          list: list || [],
-          count: total_count || 0
-        }
       },
       async getGradeList() {
         const gradeList = await this.$api.membercard.getGradeList()
