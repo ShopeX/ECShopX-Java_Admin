@@ -26,6 +26,7 @@
       :setting="finderSetting"
       :row-key="getRowKeys"
       url="/member/tag-group"
+      :page-size="pageSize"
       :show-overflow-tooltip="false"
       no-selection
       :hooks="{
@@ -59,6 +60,7 @@ export default {
   },
   data() {
     return {
+      pageSize: 20, // 每页条数
       params: {
         keyword: ''
       },
@@ -178,7 +180,7 @@ export default {
     beforeSearch(params) {
       const finderParams = {
         page: params.page || 1,
-        pageSize: params.pageSize || 20,
+        pageSize: this.pageSize,
         ...this.params
       }
       // 如果有关键词，同时搜索标签组名称和标签名称

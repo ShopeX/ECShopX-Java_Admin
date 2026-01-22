@@ -243,6 +243,7 @@
           url="/members"
           reserve-selection
           fixed-row-action
+          :page-size="pageSize"
           row-actions-width="180px"
           row-actions-fixed-align="left"
           :hooks="{
@@ -833,7 +834,8 @@
         selectedCoupons: [],
         showTagDialog: false,
         showCrowdTagDialog: false,
-        selectedCrowdTags: [] // 人群达标选中的标签
+        selectedCrowdTags: [], // 人群达标选中的标签
+        pageSize: 20
       }
     },
     watch: {
@@ -1062,7 +1064,7 @@
       async getMembers() {
         let params = {
           page: 1,
-          pageSize: 20
+          pageSize: this.pageSize
         }
         const { datapass_block } = await this.$api.member.getMembers(params)
         this.datapass_block = datapass_block
@@ -1070,7 +1072,7 @@
       beforeSearch(params) {
         const finderParams = {
           page: params.page,
-          pageSize: 20,
+          pageSize: this.pageSize,
           ...this.params,
           tag_id: this.params.tag_id.length > 0 ? this.params.tag_id.join(',') : ''
         }
