@@ -32,7 +32,7 @@
         <el-form-item label="活动类型" prop="date_type">
           <el-radio-group v-model="form.date_type" :disabled="form.card_id ? true : false">
             <el-radio label="DATE_TYPE_LONG"> 长期活动 </el-radio>
-            <el-radio label="DATE_TYPE_SHORT"> 短期活动 </el-radio>
+            <!-- <el-radio label="DATE_TYPE_SHORT"> 短期活动 </el-radio> -->
           </el-radio-group>
           <template v-if="form.date_type === 'DATE_TYPE_LONG'">
             <el-form-item class="m-b-10" label-width="80px" label="开始时间" prop="begintime">
@@ -102,7 +102,7 @@
               </template>
             </el-form-item>
           </template>
-          <template v-else>
+          <!-- <template v-else>
             <el-form-item class="m-b-10" label-width="80px" label="发放时间" prop="issuetime">
               <el-date-picker
                 v-model="form.issuetime"
@@ -127,7 +127,7 @@
                 size="small"
               />
             </el-form-item>
-          </template>
+          </template> -->
         </el-form-item>
 
         <el-form-item label="卡券使用说明" prop="description">
@@ -340,8 +340,8 @@ export default {
         quantity: [{ required: true, validator: checkQuantity, trigger: 'blur' }],
         date_type: [{ required: true, message: '请选择活动类型', trigger: 'blur' }],
         begintime: [{ required: true, message: '请选择开始时间', trigger: 'blur' }],
-        issuetime: [{ required: true, message: '请选择发放时间', trigger: 'blur' }],
-        usetime: [{ required: true, message: '请选择使用时间', trigger: 'blur' }],
+        // issuetime: [{ required: true, message: '请选择发放时间', trigger: 'blur' }],
+        // usetime: [{ required: true, message: '请选择使用时间', trigger: 'blur' }],
         days: [{ required: true, validator: checkQuantity, trigger: 'blur' }],
         description: [{ required: true, message: '请填写卡券使用说明', trigger: 'blur' }],
         // color: [{ required: true, message: '请选择优惠券主色', trigger: 'blur' }],
