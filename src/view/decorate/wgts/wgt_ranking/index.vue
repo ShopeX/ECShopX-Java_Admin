@@ -62,10 +62,10 @@ export default {
         // 获取榜单商品列表
         async getRankingGoodsList() {
             // 检查是否有 data 参数
-            // if (!this.hasDataParam()) {
-            //     this.list = []
-            //     return
-            // }
+            if (!this.hasDataParam()) {
+                this.list = []
+                return
+            }
 
             let params = {
                 data_type: 'category_ranking',
@@ -75,17 +75,15 @@ export default {
                 pages_template_id: this.$route.query.id,
             }
 
-            // 模拟数据 TODO: 删除
-            this.list = rankingdata.data.list.slice(0, this.value.dataCount)
 
             // 实际接口调用示例（注释掉）
-            // try {
-            //     const res = await this.$api.template.getShelvesGoods(params)
-            //     this.list = res?.data?.data || []
-            // } catch (error) {
-            //     console.error('获取榜单商品列表失败:', error)
-            //     this.list = []
-            // }
+            try {
+                const res = await this.$api.template.getShelvesGoods(params)
+                this.list = res?.data?.data || []
+            } catch (error) {
+                console.error('获取榜单商品列表失败:', error)
+                this.list = []
+            }
         }
     },
     mounted() {

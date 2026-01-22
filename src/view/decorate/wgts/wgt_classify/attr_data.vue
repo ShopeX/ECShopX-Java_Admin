@@ -1,9 +1,9 @@
 <template>
     <div class="wgt-classify-comp-data">
       <div class="flex flex-col">
-        <el-radio-group v-model="localValue.type" size="mini" @change="handleChangeType">
-          <el-radio label="select">按选择读取子集</el-radio>
-          <el-radio label="category">指定分类</el-radio>
+        <el-radio-group v-model="localValue.type" size="small" @change="handleChangeType">
+          <el-radio-button label="select">按选择读取子集</el-radio-button>
+          <el-radio-button label="category">指定分类</el-radio-button>
         </el-radio-group>
         <el-cascader
           v-if="localValue.type === 'select'"
@@ -296,6 +296,7 @@
   <style lang="scss">
   .wgt-classify-comp-data {
     .category-list {
+      margin-left: -150px;
       .drag-list {
         border: 1px solid #dcdcdc;
         border-radius: 4px;

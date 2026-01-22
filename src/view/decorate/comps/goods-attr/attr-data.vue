@@ -22,6 +22,10 @@
         <CompButton v-if="type === 'category_ranking'" :placeholder="value?.info?.title || '选择榜单'" :view-btn="false"
             :clear-btn="false" @click="handleSelectRanking" />
 
+        <!-- 平台品类榜单 -->
+        <CompButton v-if="type === 'platform_ranking'" :placeholder="value?.info?.title || '选择平台榜单'" :view-btn="false"
+            :clear-btn="false" @click="handleSelectPlatformRanking" />
+
         <!-- 价格区间 -->
         <div v-if="type === 'price'" class="price-range-container">
             <el-input-number v-model="minPrice" :min="0" :precision="0" size="small" :max="maxPrice || 999999"
@@ -125,7 +129,6 @@ export default {
                 data: this.value.id,
                 regionauth_id: this.$route.query.regionauth_id
             })
-            console.log(data,'data222')
             this.$emit('input', { id: data[0].seckill_id, info: { name: data[0].collection_name, regionauth_id: data[0].regionauth_id } })
         },
         // 选择指定商品
@@ -178,11 +181,31 @@ export default {
                 data: [{
                     id: this.value.id
                 }],
-                regionauth_id: this.$route.query.regionauth_id
+                regionauth_id: this.$route.query.regionauth_id,
+                type: 'category_ranking'
             })
             this.$emit('input', {
                 id: data[0].id,
                 info: {
+                    title: data[0].name,
+                    act_name: data[0].name
+                }
+            })
+        },
+        // 选择平台品类榜单
+        async handleSelectPlatformRanking() {
+            const { data } = await this.$picker.ranking({
+                multiple: false,
+                data: [{
+                    id: this.value.id
+                }],
+                regionauth_id: this.$route.query.regionauth_id,
+                type: 'platform_ranking'
+            })
+            this.$emit('input', {
+                id: data[0].id,
+                info: {
+                    title: data[0].name,
                     act_name: data[0].name
                 }
             })

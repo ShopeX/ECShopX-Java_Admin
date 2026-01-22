@@ -3,6 +3,7 @@ import AttrDataVue from '../../comps/goods-attr/attr-data.vue'
 import CompPickerLinkVue from '../../comps/comp-pickerLink.vue'
 import SpImagePicker from '@/components/sp-image-picker/index.vue'
 import { PLATFORM_PAGE_PICKER_TABS, DEFAULT_PICKER_TABS } from '@/consts'
+import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 const config = {
     name: 'group',
@@ -106,7 +107,11 @@ const config = {
         },
     ],
     transformIn: (v) => {
-        const { titleText, titleColor, moreBtn, moreLink, goodsLayout, ...rest } = v.base || {}
+        const { base, ...rest } = v
+        // 使用公共函数处理 base 中的样式数据转换
+        const transformedBase = transformInBase(base, ['outerMargin', 'innerPadding'])
+        const { titleText, titleColor, moreBtn, moreLink, goodsLayout, ...baseRest } = transformedBase || {}
+        
         // 处理 titleText：可能是对象格式 {type, text, image} 或单独的字段
         let groupTitleType = 'text'
         let groupTitleImage = ''
@@ -125,7 +130,7 @@ const config = {
         
         return {
             name: v.name,
-            ...rest,
+            ...baseRest,
             data: v.data,
             // 映射标题相关字段
             groupTitleType,
@@ -148,12 +153,14 @@ const config = {
         return pickBy(v, {
             name: 'name',
             base: (v) => {
-                const baseData = pickBy(v, {
+                // 使用公共函数处理 base 中的样式数据转换
+                const baseData = createTransformOutBase(['outerMargin', 'innerPadding', 'outerBackground', 'innerBackground'], ['outerMargin', 'innerPadding'])(v)
+                
+                // 添加其他字段
+                const otherBaseData = pickBy(v, {
                     wgtCustName: 'wgtCustName',
                     track: 'track',
                     dataCount: 'dataCount',
-                    outerMargin: 'outerMargin',
-                    innerPadding: 'innerPadding',
                     goodsLayout: 'goodsLayout',
                     // 映射标题相关字段 - 转换为对象格式
                     titleText: (v) => {
@@ -173,7 +180,11 @@ const config = {
                     },
                     moreLink: 'groupMoreLink',
                 })
-                return baseData
+                
+                return {
+                    ...baseData,
+                    ...otherBaseData
+                }
             },
             data: 'data',
             meber_tags: 'tags.meber_tags',

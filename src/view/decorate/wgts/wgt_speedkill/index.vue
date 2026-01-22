@@ -18,8 +18,6 @@ import RowGoods from '../../comps/goods-layout/rowgoods.vue'
 import ColumnGoods from '../../comps/goods-layout/columngoods.vue'
 import GridGoods from '../../comps/goods-layout/gridgoods.vue'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
-import seckilldata from './mock/skill.json'
-import promotiondata from './mock/promotion.json'
 
 export default {
     name: 'Speedkill',
@@ -96,8 +94,9 @@ export default {
 
             // 实际接口调用示例（注释掉）
             try {
-                const res = await this.$api.template.getShelvesGoods(params)
-                this.list = res?.data?.data || []
+                const data = await this.$api.template.getShelvesGoods(params)
+                console.log(data,'data')
+                this.list = data || []
             } catch (error) {
                 console.error('获取秒杀商品列表失败:', error)
                 this.list = []
@@ -113,10 +112,6 @@ export default {
                 distributor_id: this.value.data?.distributor_id || '',
                 pages_template_id: this.$route.query.id,
             }
-
-            // 模拟数据 TODO: 删除
-
-            // 实际接口调用示例（注释掉）
             try {
                 const res = await this.$api.template.getShelvesGoods(params)
                 this.list = res?.data?.data || []
