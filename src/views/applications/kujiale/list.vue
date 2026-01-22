@@ -77,7 +77,7 @@
             <h3 class="section-title">2、选择酷家乐案例关联商品</h3>
           </div>
           <div style="margin-top: 16px;margin-left: 40px;">
-            <SkuSelector :data="relItems" @change="handleGoodsChange" />
+            <SkuSelector :data="relItems" :is-hiden-sku="true" @change="handleGoodsChange" />
           </div>
         </div>
 
@@ -411,6 +411,7 @@ export default {
       }
     },
     handleGoodsChange(data) {
+      console.log("🚀🚀🚀 ~ file: list.vue:414 ~ handleGoodsChange ~ data:", data)
       this.selectedSkus = data || []
     },
     // 确认关联
@@ -425,10 +426,10 @@ export default {
       }
       this.confirmLoading = true
       try {
-        const itemIds = this.selectedSkus.map(item => item.itemId)
+        const goodsIds = this.selectedSkus.map(item => item.goods_id)
         await this.$api.goods.kjlBindItem({
           design_id: this.design_id,
-          item_id: itemIds
+          item_id: goodsIds
         })
         this.$message.success('关联成功')
         this.handleDialogClose()
