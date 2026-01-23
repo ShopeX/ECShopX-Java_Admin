@@ -134,6 +134,7 @@ export default {
           },
         },
         {
+          fieldName: 'cert',
           label: '商户证书',
           component: 'upload',
           componentProps: {
@@ -145,11 +146,32 @@ export default {
             onChange: (file, fileList) => {
               this.$set(this.form, 'cert', file.raw)
               this.$set(this.form, 'cert_name', file.name)
+              // 触发字段验证
+              this.$nextTick(() => {
+                if (this.$refs.formRef && this.$refs.formRef.$refs.form) {
+                  this.$refs.formRef.$refs.form.validateField('cert')
+                }
+              })
             },
           },
-          tip: '微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->证书下载 apiclient_cert.pem'
+          tip: '微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->证书下载 apiclient_cert.pem',
+          rules: [
+            {
+              required: true,
+              message: '请上传商户证书',
+              trigger: 'change',
+              validator: (rule, value, callback) => {
+                if (!this.form.cert && !this.form.cert_name) {
+                  callback(new Error('请上传商户证书'))
+                } else {
+                  callback()
+                }
+              }
+            }
+          ]
         },
         {
+          fieldName: 'cert_key',
           label: '商户证书秘钥',
           component: 'upload',
           componentProps: {
@@ -161,9 +183,29 @@ export default {
             onChange: (file, fileList) => {
               this.$set(this.form, 'cert_key', file.raw)
               this.$set(this.form, 'cert_key_name', file.name)
+              // 触发字段验证
+              this.$nextTick(() => {
+                if (this.$refs.formRef && this.$refs.formRef.$refs.form) {
+                  this.$refs.formRef.$refs.form.validateField('cert_key')
+                }
+              })
             }
           },
-          tip: '微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->证书下载 apiclient_key.pem'
+          tip: '微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->证书下载 apiclient_key.pem',
+          rules: [
+            {
+              required: true,
+              message: '请上传商户证书秘钥',
+              trigger: 'change',
+              validator: (rule, value, callback) => {
+                if (!this.form.cert_key && !this.form.cert_key_name) {
+                  callback(new Error('请上传商户证书秘钥'))
+                } else {
+                  callback()
+                }
+              }
+            }
+          ]
         }
       ]
       return formItems
