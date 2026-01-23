@@ -54,7 +54,10 @@ export const finderSetting = (vm) => createSetting({
       key: 'sex',
       width: 70,
       render: (h, { row }) => {
-        return h('span', row?.requestFields?.sex)
+        if (row.sex == '2') return h('span', '女')
+        if (row.sex == '1') return h('span', '男')
+        if (row.sex == '0') return h('span', '未知')
+        return h('span', row.sex)
       },
       visible: !vm.VERSION_IN_PURCHASE()
     },
