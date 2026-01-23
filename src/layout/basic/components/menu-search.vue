@@ -10,7 +10,10 @@
       @click="openSearchDialog">
       <Search theme="outline" :size="14" fill="#333" />
       <span class="text-gray-600">搜索</span>
-      <span class="px-2 py-1 bg-white rounded-l-md rounded-r-xl text-gray-700 font-medium">Ctrl+K</span>
+      <span class="px-2 py-1 bg-white rounded-l-md rounded-r-xl text-gray-700 font-medium">
+        <span v-if="isMac">⌘K</span>
+        <span v-else>Ctrl+K</span>
+      </span>
     </div>
 
     <SpDialogPlus
@@ -136,7 +139,7 @@
 </template>
 
 <script>
-import { getBasePath } from '@/utils'
+import { getBasePath, isMac as checkIsMac } from '@/utils'
 import { Search, EnterKey, SortThree } from '@icon-park/vue'
 import SpDialogPlus from '@/components/sp-dialog-plus/main.vue'
 
@@ -157,6 +160,9 @@ export default {
     }
   },
   computed: {
+    isMac() {
+      return checkIsMac()
+    },
     needsScroll() {
       const hasMoreHistory = this.searchHistory.length > 5
       const hasMoreResults = this.keyword?.trim() && this.filteredMenus.length > 5

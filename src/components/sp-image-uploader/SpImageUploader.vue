@@ -31,7 +31,8 @@
     >
       <div class="flex items-center justify-center">
         <div v-if="isPasteMode" class="hover:cursor-pointer text-gray-400">
-          <div>使用 Ctrl + V 或 <kbd>⌘</kbd> + V</div>
+          <div v-if="isMac">使用 <kbd>⌘</kbd> + V</div>
+          <div v-else>使用 Ctrl + V</div>
         </div>
         <div v-else class="hover:cursor-pointer text-gray-400">
           拖拽或点击后粘贴图片（仅支持单张图片）
@@ -43,6 +44,7 @@
 
 <script>
 import UploadUtil from '@/utils/uploadUtil'
+import { isMac as checkIsMac } from '@/utils'
 
 export default {
   name: 'SpImageUploader',
@@ -68,6 +70,11 @@ export default {
     return {
       isPasteMode: false,
       pasteListener: null
+    }
+  },
+  computed: {
+    isMac() {
+      return checkIsMac()
     }
   },
   mounted() {
