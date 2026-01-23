@@ -171,27 +171,30 @@
               @change="birthdayChange"
             />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="tag_id" label="人群打标:">
-            <div class="flex items-center">
-              <el-select
-                ref="crowdTagSelect"
-                v-model="params.tag_id"
-                multiple
-                clearable
-                :multiple-limit="1"
-                collapse-tags
+          <SpFilterFormItem prop="tag_id" label="标签:">
+            <div class="flex items-center gap-2">
+              <el-input 
+                readonly 
+                :value="tagSelectValue" 
                 placeholder="请选择人群标签"
-                style="width: 100%;"
-                @remove-tag="handleCrowdTagRemove"
+                style="flex: 1;"
+                @click.native="showCrowdTagDialog = true"
               >
-                <el-option
-                  v-for="tag in selectedCrowdTags"
-                  :key="tag.tag_id"
-                  :label="tag.tag_name"
-                  :value="tag.tag_id"
-                />
-              </el-select>
-              <i class="el-icon-circle-plus text-[16px]"  @click="showCrowdTagDialog = true"></i>
+                <template slot="suffix">
+                  <i
+                    v-if="clearTagBtnVisible"
+                    key="clear"
+                    class="el-input__icon el-icon-circle-close"
+                    @click.stop="handleClearTag"
+                  />
+                  <i 
+                    v-else 
+                    key="add"
+                    class="el-input__icon el-icon-circle-plus" 
+                    style="cursor: pointer;"
+                  />
+                </template>
+              </el-input>
             </div>
           </SpFilterFormItem>
         </SpFilterForm>
@@ -206,14 +209,14 @@
             发放优惠券
           </el-button>
           <el-button
-            v-if="$store.getters.login_type != 'distributor'"
+            v-if="!IS_DISTRIBUTOR()"
             type="primary"
             @click="batchActionDialog('send_sms')"
           >
             群发短信
           </el-button>
           <el-button
-            v-if="$store.getters.login_type != 'distributor' && !VERSION_IN_PURCHASE()"
+            v-if="!IS_DISTRIBUTOR() && !VERSION_IN_PURCHASE()"
             type="primary"
             @click="handleVipGradeDelay(false)"
           >
@@ -221,7 +224,7 @@
           </el-button>
           <el-button
             v-if="
-              $store.getters.login_type != 'distributor' &&
+              !IS_DISTRIBUTOR() &&
               !VERSION_IN_PURCHASE() &&
               !VERSION_SHUYUN()
             "
@@ -619,12 +622,14 @@
   
         <!-- 批量打标签弹框 -->
         <CompTagsMore
+          title="批量打标签"
           :visible.sync="showTagDialog"
           @confirm="handleTagConfirm"
         />
         
         <!-- 人群达标标签选择弹框 -->
         <CompTagsMore
+          title="标签选择"
           :visible.sync="showCrowdTagDialog"
           :selected-tags="selectedCrowdTags"
           @confirm="handleCrowdTagConfirm"
@@ -838,22 +843,40 @@
         pageSize: 20
       }
     },
-    watch: {
-      'params.tag_id': {
-        handler(newVal) {
+  watch: {
+    'params.tag_id': {
+      handler(newVal) {
+        if (!newVal || newVal.length === 0) {
+          this.selectedCrowdTags = []
+        } else {
           this.selectedCrowdTags = this.selectedCrowdTags.filter(tag => 
             newVal.includes(tag.tag_id)
           )
-        },
-        deep: true
-      }
+        }
+      },
+      deep: true
+    }
+  },
+  computed: {
+    ...mapGetters(['isMicorMall', 'login_type']),
+    setting() {
+      return finderSetting(this)
     },
-    computed: {
-      ...mapGetters(['isMicorMall', 'login_type']),
-      setting() {
-        return finderSetting(this)
+    // 标签选择器显示值
+    tagSelectValue() {
+      if (this.selectedCrowdTags.length === 0) {
+        return ''
       }
+      if (this.selectedCrowdTags.length === 1) {
+        return this.selectedCrowdTags[0].tag_name
+      }
+      return `已选择${this.selectedCrowdTags.length}个标签`
     },
+    // 清除按钮是否显示
+    clearTagBtnVisible() {
+      return this.selectedCrowdTags.length > 0
+    }
+  },
     mounted() {
       const { salesman_mobile, wechat_nickname, mobile, orderRecords, grade_id } =
         this.$route.query
@@ -1645,6 +1668,11 @@
         if (index > -1) {
           this.selectedCrowdTags.splice(index, 1)
         }
+      },
+      // 清除所有标签
+      handleClearTag() {
+        this.selectedCrowdTags = []
+        this.params.tag_id = []
       },
       async onSelectCoupon() {
         const { data } = await this.$picker.coupon({
