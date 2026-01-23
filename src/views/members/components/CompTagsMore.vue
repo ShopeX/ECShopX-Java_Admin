@@ -6,7 +6,7 @@
 <template>
   <div>
     <el-dialog
-      title="批量打标签"
+      :title="title"
       :visible.sync="dialogVisible"
       width="800px"
       :close-on-click-modal="false"
@@ -27,7 +27,7 @@
           :list="getFormattedTags(category)"
           :tags-id="category.group_id"
           :selection-babel="true"
-          :readonly="false"
+          :readonly="IS_DISTRIBUTOR()"
           tag-size="small"
           :no-background="true"
           @add-tag="(val) => handleAddTags(category, val)"
@@ -36,8 +36,8 @@
       </div>
     </div>
     
-    <div slot="footer" class="flex justify-between items-center">
-      <el-button type="text" @click="showAddTagDialog" class="text-[#409EFF]">
+    <div slot="footer" :class="{ 'flex justify-between items-center': !IS_DISTRIBUTOR(), 'flex justify-end items-center': IS_DISTRIBUTOR() }">
+      <el-button type="text" @click="showAddTagDialog" class="text-[#409EFF]" v-if="!IS_DISTRIBUTOR()">
         新建标签组
       </el-button>
       <div>
@@ -48,7 +48,6 @@
   </el-dialog>
   <CompAddTag
     :visible.sync="addTagDialogVisible"
-    :is-edit="false"
     :form="addTagForm"
     @submit="handleAddTagGroup"
     @close="addTagDialogVisible = false"
@@ -68,6 +67,10 @@ export default {
     CompTagList
   },
   props: {
+    title: {
+      type: String,
+      default: '批量打标签'
+    },
     visible: {
       type: Boolean,
       default: false

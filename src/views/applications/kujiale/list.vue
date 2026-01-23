@@ -77,7 +77,7 @@
             <h3 class="section-title">2、选择酷家乐案例关联商品</h3>
           </div>
           <div style="margin-top: 16px;margin-left: 40px;">
-            <SkuSelector :data="relItems" :is-hiden-sku="true" @change="handleGoodsChange" />
+            <SkuSelector :key="skuSelectorKey" :data="relItems" :is-hiden-sku="true" @change="handleGoodsChange" />
           </div>
         </div>
 
@@ -116,6 +116,7 @@ export default {
       relItems: [], // SkuSelector 组件使用的商品列表
       selectedSkus: [], // 最终选中的SKU列表（从SkuSelector的change事件获取）
       confirmLoading: false,
+      skuSelectorKey: 0, // SkuSelector 组件的 key，用于强制重新渲染
       searchFormItems: [
         {
           component: 'input',
@@ -389,7 +390,15 @@ export default {
       this.selectedRows = selection
     },
     handleSelectProduct() {
+      // 打开弹框前先清空之前的数据
+      this.design_id = ''
+      this.relItems = []
+      this.selectedSkus = []
+      // 强制 SkuSelector 组件重新渲染
+      this.skuSelectorKey = Date.now()
+      // 打开弹框
       this.selectProductVisible = true
+      // 加载案例列表
       this.loadCaseList()
     },
     // 加载案例列表
@@ -407,11 +416,14 @@ export default {
       if (value) {
         this.design_id = value
       } else {
+        // 清空案例选择时，同时清空商品选择
         this.design_id = ''
+        this.relItems = []
+        this.selectedSkus = []
       }
     },
     handleGoodsChange(data) {
-      console.log("🚀🚀🚀 ~ file: list.vue:414 ~ handleGoodsChange ~ data:", data)
+      // 更新选中的商品SKU列表
       this.selectedSkus = data || []
     },
     // 确认关联
@@ -442,12 +454,19 @@ export default {
     },
     // 关闭弹框
     handleDialogClose() {
-      this.selectProductVisible = false
-      this.allCaseList = []
+      // 清空酷家乐案例选择
       this.design_id = ''
+      // 清空商品选择
       this.relItems = []
       this.selectedSkus = []
+      // 重置案例列表
+      this.allCaseList = []
+      // 重置加载状态
       this.confirmLoading = false
+      // 更新 SkuSelector 的 key，强制组件重新渲染
+      this.skuSelectorKey = Date.now()
+      // 关闭弹框
+      this.selectProductVisible = false
     },
     // 解绑商品和方案
     async handleUnbind(row) {
