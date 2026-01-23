@@ -251,7 +251,24 @@ export default {
     renderImagePicker(props = {}) {
       return <SpImagePicker value={this.modelValue} {...props} on-onChange={this.handleInput} />
     },
-
+    renderCascader(props = {}) {
+      return h('el-cascader', {
+        attrs: {
+          ...props,
+          size: this.size || 'small'
+        },
+        props: {
+          value: this.modelValue,
+          options: props.options || [],
+          props: props.props,
+          clearable: props.clearable,
+          placeholder: props.placeholder
+        },
+        on: {
+          change: this.handleInput
+        }
+      })
+    },
     renderSwitch() {
       const props = {
         ...this.componentProps,
@@ -310,7 +327,8 @@ export default {
           radio: this.renderRadio,
           select: this.renderSelect,
           switch: this.renderSwitch,
-          upload: this.renderUpload
+          upload: this.renderUpload,
+          cascader: this.renderCascader
         }
         return renderMap[type] || this.renderInput
       }
@@ -342,6 +360,13 @@ export default {
       return <div class='form-field-group'>{this.label}</div>
     }
 
+    // 检查是否应该显示该字段
+    const shouldShow = this.isShow ? this.isShow(this.modelValue) : true
+    if (!shouldShow) {
+      // 如果不需要显示，直接返回 null，不占据任何空间
+      return null
+    }
+
     // 获取对应的渲染函数
     const renderComponent = this.getComponentRender()
 
@@ -370,12 +395,6 @@ export default {
             prop: this.fieldName,
             rules: this.rules
           },
-          directives: [
-            {
-              name: 'show',
-              value: this.isShow ? this.isShow(this.modelValue) : true
-            }
-          ],
           class: [
             { 'label-inline': this.labelInline },
             { 'hide-field-required-mark': this.hideFieldRequiredMark }

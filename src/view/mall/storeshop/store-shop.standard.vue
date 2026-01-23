@@ -272,8 +272,6 @@ export default {
             name: 'sku编码',
             key: 'item_bn',
             width: 150,
-            align: 'right',
-            headerAlign: 'center'
           },
           {
             name: '商品库存',
