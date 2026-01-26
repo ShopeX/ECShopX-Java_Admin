@@ -136,28 +136,48 @@ function createRequestClient() {
 
       // 处理401错误
       if (status === 401) {
-        const basePath = getBasePath()
+        // 根据当前路由路径判断basePath，而不是从URL获取
+        const currentPath = router.currentRoute.path
+        const pathMatch = currentPath.match(/^\/(shopadmin|supplier|merchant)(\/.*)?$/)
+        const basePath = pathMatch ? pathMatch[1] : null
         const loginPath = basePath ? `/${basePath}/login` : '/login'
         
         // 避免重复跳转 - 使用全局标志
         if (!isRedirectingToLogin && router.currentRoute.path !== loginPath) {
           isRedirectingToLogin = true
-          console.log(basePath, 'basePath')
+          console.log('401跳转 - basePath:', basePath, 'currentPath:', currentPath, 'loginPath:', loginPath)
+          
+          // 先提示token过期
+          Vue.prototype.$message({
+            message: '登录信息已过期，请重新登录',
+            type: 'warning',
+            duration: 2000
+          })
+          
+          // 清除token
           store.commit('user/logout')
           store.commit('system/logout')
-          // 使用 replace 避免导航冲突，并捕获错误
-          router.replace(loginPath).catch(err => {
-            // 忽略导航重复错误
-            if (err.name !== 'NavigationDuplicated') {
-              console.error('路由跳转错误:', err)
-            }
-          }).finally(() => {
-            // 跳转完成后重置标志
-            setTimeout(() => {
-              isRedirectingToLogin = false
-            }, 1000)
-          })
+          
+          // 2秒后跳转到登录页
+          setTimeout(() => {
+            router.replace(loginPath).catch(err => {
+              // 忽略导航重复错误
+              if (err.name !== 'NavigationDuplicated') {
+                console.error('路由跳转错误:', err)
+              }
+            }).finally(() => {
+              // 跳转完成后重置标志
+              setTimeout(() => {
+                isRedirectingToLogin = false
+              }, 1000)
+            })
+          }, 2000)
         }
+        // 401错误直接返回，不继续执行后面的错误处理
+        return Promise.reject(error)
+      }
+      
+        // 注释掉的刷新token逻辑
         // if (!isRefreshing) {
         //   isRefreshing = true
         //   // 创建刷新token的Promise
@@ -188,7 +208,7 @@ function createRequestClient() {
         //     refreshTokenPromise = null
         //     return Promise.reject(error)
         //   })
-      }
+      // 处理其他错误
       const responseData = error?.response?.data ?? {}
       Vue.prototype.$message.error(
         (responseData?.data?.error ?? responseData?.data?.message ?? '') || '请求失败'
