@@ -8,41 +8,7 @@ $active-color: #ff593d;
 $img-placeholder: #dcdddf;
 $txt-placeholder: #f5f5f7;
 
-/* 分类模块 */
-.category-view-warp {
-  position: relative;
-}
-.category-type-view {
-  float: left;
-  width: 100px;
-  height: 100%;
-  overflow: hidden;
-}
-.category-type-scroll {
-  margin-right: -15px;
-  height: 100%;
-  overflow-y: overlay;
-}
-.category-view {
-  width: 380px;
-  height: 100%;
-  padding: 10px 0;
-  margin-left: 100px;
-  overflow: hidden;
-  .template {
-    margin-right: -15px;
-    height: 100%;
-    overflow-y: overlay;
-  }
-}
-.category-setting-view {
-  position: absolute;
-  left: 500px;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  padding-bottom: 30px;
-}
+/* 分类模块 - 使用 Tailwind 类，这里只保留必要的样式 */
 .btn-save {
   width: 200px;
   border-radius: 60px;
@@ -66,7 +32,7 @@ $txt-placeholder: #f5f5f7;
     opacity: 1;
     &::after {
       position: absolute;
-      left: 0;
+      inset-inline-start: 0;
       top: 10px;
       bottom: 10px;
       width: 5px;
@@ -527,10 +493,10 @@ $txt-placeholder: #f5f5f7;
         @change="switchChange"
         inactive-text="是否开启自定义分类">
       </el-switch> -->
-      <section class="section section-white category-view-warp" :style="'height: ' + 580 + 'px;'">
+      <section class="section section-white relative" :style="'height: ' + 580 + 'px;'">
         <!-- 模板分类微缩展示 -->
-        <div class="category-type-view">
-          <div class="category-type-scroll">
+        <div class="float-left w-[100px] h-full overflow-hidden">
+          <div class="me-[-15px] h-full overflow-y-overlay">
             <div
               class="layout-miniature"
               :class="{ active: form.name === 'base' }"
@@ -637,8 +603,8 @@ $txt-placeholder: #f5f5f7;
           </div>
         </div>
         <!-- 分类模板样式展示 -->
-        <div class="category-view">
-          <div class="template">
+        <div class="w-[380px] h-full py-[10px] ms-[100px] overflow-hidden">
+          <div class="me-[-15px] h-full overflow-y-overlay">
             <div class="layout-view">
               <el-tabs v-if="series.length > 0" v-model="editableSeries" @tab-click="handleClick">
                 <el-tab-pane
@@ -779,10 +745,10 @@ $txt-placeholder: #f5f5f7;
           </div>
         </div>
         <!-- 分类模板设置表单 -->
-        <div class="category-setting-view">
+        <div class="absolute start-[500px] top-0 end-0 bottom-0 pb-[30px]">
           <div class="category-form">
             <div class="content-bottom-padded clearfix">
-              <div class="series">
+              <div class="relative float-left h-[40px] pe-[90px]">
                 <el-tabs
                   v-if="series.length > 0"
                   v-model="editableSeries"
@@ -814,7 +780,7 @@ $txt-placeholder: #f5f5f7;
                     <el-button size="mini" type="text" @click="handleCancel"> 取消 </el-button>
                     <el-button type="primary" size="mini" @click="addSeries"> 确定 </el-button>
                   </div>
-                  <el-button slot="reference" type="text" class="add-btn iconfont icon-plus-circle">
+                  <el-button slot="reference" type="text" class="absolute end-0 top-0 iconfont icon-plus-circle">
                     添加系列
                   </el-button>
                 </el-popover>
@@ -822,8 +788,8 @@ $txt-placeholder: #f5f5f7;
             </div>
             <draggable v-model="editableData" :options="dragParentOptions">
               <div v-for="(item, fidx) in editableData" :key="fidx" class="form-parent">
-                <div class="form-item">
-                  <div class="setting-img" @click="showImgs(fidx)">
+                <div class="flex items-center w-[90%]">
+                  <div class="relative w-[50px] h-[50px] me-[10px] leading-[50px] border border-dashed border-[#ccc] rounded-[3px] text-center text-[#ccc] bg-white z-[5] flex justify-center items-center cursor-pointer" @click="showImgs(fidx)">
                     <img
                       v-if="item.img"
                       :src="item.img ? item.img : 'https://fakeimg.pl/50x50'"
@@ -848,12 +814,12 @@ $txt-placeholder: #f5f5f7;
                     </template>
                   </div>
 
-                  <el-checkbox v-model="item.hot"> 热推 </el-checkbox>
-                  <div class="move" style="margin-left: 10px">
+                  <el-checkbox v-model="item.hot" class="ms-[15px] me-[5px]"> 热推 </el-checkbox>
+                  <div class="ms-[10px] text-[#999] cursor-move">
                     <SpIcon size="20" name="sort-one" />
                   </div>
-                  <div class="remove" style="margin-left: 10px">
-                    <SpIcon size="18" name="delete" @click="remove(fidx)" />
+                  <div class="ms-[10px] text-[#999] cursor-pointer" @click="remove(fidx)">
+                    <SpIcon size="18" name="delete" />
                   </div>
                 </div>
                 <div v-if="form.name !== 'fresh'" class="form-child">

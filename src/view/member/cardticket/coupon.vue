@@ -25,11 +25,12 @@
           :name="item.activeName"
         >
           <el-table v-loading="loading" :data="tableList" border @filter-change="filterTag">
-            <el-table-column width="240" label="操作">
+            <el-table-column width="240" label="操作" fixed="left">
               <template slot-scope="scope">
-                <div class="operating-icons">
-                  <el-button type="text">
+                <div class="flex items-center flex-wrap gap-2">
+                  <el-button type="text" class="m-0 px-1">
                     <router-link
+                      class="no-underline text-inherit"
                       :to="{
                         path: matchRoutePath('detail'),
                         query: {
@@ -51,8 +52,10 @@
                       !dmcrmSetting.is_open
                     "
                     type="text"
+                    class="m-0 px-1"
                   >
                     <router-link
+                      class="no-underline text-inherit"
                       :to="{
                         path: matchRoutePath('editor'),
                         query: { chooseCardtype: scope.row.card_type, cardId: scope.row.card_id }
@@ -83,6 +86,7 @@
                       slot="reference"
                       style="width: 45px"
                       type="text"
+                      class="m-0 px-1"
                       @click="handleShow(scope.row.card_id)"
                     >
                       投放
@@ -91,6 +95,7 @@
                   <el-button
                     v-if="scope.row.status != 'CARD_STATUS_DISPATCH' && !dmcrmSetting.is_open"
                     type="text"
+                    class="m-0 px-1"
                     @click="deleteCard(scope.row.card_id, scope.$index)"
                   >
                     删除
@@ -559,6 +564,10 @@ export default {
 <style scoped lang="scss">
 .el-icon-edit {
   cursor: pointer;
+}
+// 覆盖 Element UI 文本按钮的默认 margin-left，确保按钮间距正确
+::v-deep .flex .el-button--text {
+  margin-left: 0;
 }
 .coupon-list {
   margin-top: 10px;
