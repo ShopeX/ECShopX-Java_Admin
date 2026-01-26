@@ -175,16 +175,21 @@ export default {
             }
         }
     },
+    created() {
+        // 在创建时立即加载挂件组件，确保内容可以显示
+        this.loadWidgetComponents()
+    },
     mounted() {
         this.$nextTick(() => {
             this.checkScrollIndicators()
-            // 找到默认激活的导航项
+            // 找到默认激活的导航项，如果没有则使用第一个
             const activeIdx = this.navItems.findIndex(item => item.isActive)
             if (activeIdx > -1) {
                 this.activeIndex = activeIdx
+            } else if (this.navItems.length > 0) {
+                // 如果没有标记为激活的项，默认显示第一项
+                this.activeIndex = 0
             }
-            // 加载挂件组件
-            this.loadWidgetComponents()
         })
     },
     methods: {
