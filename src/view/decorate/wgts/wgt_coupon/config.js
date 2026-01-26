@@ -2,8 +2,9 @@ import { pickBy } from '@/utils'
 import moment from 'moment'
 import CompBtn from '../../comps/comp_btn.vue'
 import CompButton from '../../comps/comp-button.vue'
+import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 // import CrowdSelectV2 from '@/components/function/crowdSelectV2.vue' 
-export default {
+const config = {
   name: 'couponCard',
   setting: [
     {
@@ -164,9 +165,11 @@ export default {
   ],
   transformIn: (v) => {
     const { name, base, data, meber_tags = [], no_meber_tags = [], tagsType } = v
+    // 使用公共函数处理 base 中的样式数据转换
+    const transformedBase = transformInBase(base, ['outerMargin','innerPadding'])
     return {
       name,
-      ...base,
+      ...transformedBase,
       data,
       tags: {
         type: tagsType || '2',
@@ -179,16 +182,12 @@ export default {
     return pickBy(v, {
       name: 'name',
       base: (v) => {
-        return pickBy(v, {
-          wgtCustName: 'wgtCustName',
-          track: 'track', // 埋点上报参数
-          outerMargin: 'outerMargin', // 组件外边距
-          innerMargin: 'innerMargin', // 组件内边距
-          outerBackground: 'outerBackground', // 组件外背景
-          innerBackground: 'innerBackground', // 组件内背景
-          amountColor: 'amountColor', // 面额颜色
-          receiveBtn: 'receiveBtn' // 领取按钮
-        })
+        // 使用公共函数处理 outerMargin 转换，同时保留其他字段
+        const baseData = createTransformOutBase(
+          ['wgtCustName', 'track', 'outerMargin', 'innerPadding', 'outerBackground', 'innerBackground', 'amountColor', 'receiveBtn'],
+          ['outerMargin','innerPadding']
+        )(v)
+        return baseData
       },
       data: 'data',
       meber_tags: 'tags.meber_tags',
@@ -197,3 +196,11 @@ export default {
     })
   }
 }
+
+
+
+import '../../comps/configsetting'
+
+export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__)
+    ? globalThis.__processConfig__(config)
+    : config

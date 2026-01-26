@@ -1,6 +1,6 @@
 import { pickBy } from '@/utils'
 import AttrStore from './attr-store'
-
+import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 const config =  {
   name: 'shop',
@@ -180,9 +180,11 @@ const config =  {
   ],
   transformIn: (v) => {
     const { name, base, data, meber_tags = [], no_meber_tags = [], tagsType } = v
+    // 使用公共函数处理 base 中的样式数据转换
+    const transformedBase = transformInBase(base, ['outerMargin', 'innerPadding'])
     return {
       name,
-      ...base,
+      ...transformedBase,
       data: data,
       tags: {
         type: tagsType || '2',
@@ -195,16 +197,12 @@ const config =  {
     return pickBy(v, {
       name: 'name',
       base: (v) => {
-        return pickBy(v, {
-          displayType: 'displayType',
-          dataType: 'dataType',
-          outerMargin: 'outerMargin',
-          innerPadding: 'innerPadding',
-          outerBackground: 'outerBackground',
-          innerBackground: 'innerBackground',
-          wgtCustName: 'wgtCustName',
-          track: 'track'
-        })
+        // 使用公共函数处理 outerMargin 和 innerPadding 转换，同时保留其他字段
+        const baseData = createTransformOutBase(
+          ['displayType', 'dataType', 'outerMargin', 'innerPadding', 'outerBackground', 'innerBackground', 'wgtCustName', 'track'],
+          ['outerMargin', 'innerPadding']
+        )(v)
+        return baseData
       },
       data: 'data',
       meber_tags: 'tags.meber_tags',

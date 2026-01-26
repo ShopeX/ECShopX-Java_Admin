@@ -251,15 +251,7 @@ export default {
 
         addTemplateFormList() {
             return [
-                {
-                    label: '区域',
-                    key: 'regionauth_id',
-                    type: 'select',
-                    options: this.regionauthList,
-                    disabled: this.disabled,
-                    required: true,
-                    placeholder: '请选择区域'
-                },
+
                 {
                     label: '模板名称',
                     key: 'page_name',
@@ -286,22 +278,12 @@ export default {
             ]
         }
     },
-    created() {
-        this.getRegionauth()
-    },
+
     activated() {
         this.$refs['finder'].refresh()
     },
     methods: {
-        async getRegionauth() {
-            const res = await this.$api.regionauth.getRegionauth()
-            this.regionauthList = res.list.map((item) => ({
-                label: item.regionauth_name,
-                value: item.regionauth_id
-            }))
-            // this.$refs['finder'].handleUpdateField('regionauth_id', this.regionauthList[0]?.value)
-            // this.url='/wxa/customizepage/list'
-        },
+  
 
         onSearch() {
             this.$refs['finder'].refresh()

@@ -401,7 +401,7 @@ export default {
       const { id } = this.$route.query
       let list = []
       try {
-        if (this.localScene == '1004' || this.localScene == '1006' || this.localScene == '1008') {
+        if (this.localScene == '1004' || this.localScene == '1006'||this.localScene == '1007' || this.localScene == '1008') {
           const resTemplate = await this.$api.wxa.getParamByTempName({
             template_name: 'yykweishop',
             page_name: `custom_${id}`,
@@ -578,7 +578,7 @@ export default {
       })
       data.unshift(this.headerAttr.transformOut(this.headerData))
       const { id } = this.$route.query
-      if (this.localScene == '1004' || this.localScene == '1006' || this.localScene == '1008') {
+      if (this.localScene == '1004' || this.localScene == '1006' || this.localScene == '1008'||this.localScene == '1007') {
         await this.$api.wxa.savePageParams({
           template_name: 'yykweishop',
           page_name: `custom_${id}`,

@@ -88,6 +88,7 @@
 
 <script>
 import config from './config'
+import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 const defaultShopLogo = require('@/assets/imgs/decorate/default-shop-logo.png')
 export default {
   name: 'Shop',
@@ -162,39 +163,10 @@ export default {
   },
   computed: {
     outerStyle() {
-      const { outerMargin = {}, outerBackground = {} } = this.value || {}
-      console.log(outerMargin, 'outerMargin')
-      return {
-        paddingTop: (outerMargin.paddedt || 0) + 'px',
-        paddingBottom: (outerMargin.paddedb || 0) + 'px',
-        backgroundColor: outerMargin?.bgType == 'solid' ? outerMargin.color : undefined,
-        backgroundImage:
-        outerMargin?.bgType == 'gradient'
-            ? `linear-gradient(${outerMargin.startColor}, ${outerMargin.endColor})`
-            : outerMargin?.bgType === 'pic' ? `url(${outerMargin.bgPic})` : undefined,
-        backgroundSize: outerMargin?.bgType === 'pic' ? 'cover' : undefined,
-        backgroundPosition: outerMargin?.bgType === 'pic' ? 'center' : undefined,
-        backgroundRepeat: outerMargin?.bgType === 'pic' ? 'no-repeat' : undefined
-      }
+      return getOuterStyle(this.value)
     },
     innerStyle() {
-      const { innerPadding = {}, innerBackground } = this.value || {}
-      console.log(innerPadding, 'innerPadding')
-      return {
-        paddingLeft: (innerPadding.paddedl || 0) + 'px',
-        paddingRight: (innerPadding.paddedr || 0) + 'px',
-        paddingTop: (innerPadding.paddedt || 0) + 'px',
-        paddingBottom: (innerPadding.paddedb || 0) + 'px',
-        backgroundColor: innerPadding?.bgType == 'solid' ? innerPadding.color : undefined,
-        backgroundSize: innerPadding?.bgType === 'pic' ? 'cover' : undefined,
-        backgroundPosition: innerPadding?.bgType === 'pic' ? 'center' : undefined,
-        backgroundRepeat: innerPadding?.bgType === 'pic' ? 'no-repeat' : undefined,
-        backgroundImage:
-        innerPadding?.bgType == 'gradient'
-            ? `linear-gradient(${innerPadding.startColor}, ${innerPadding.endColor})`
-            : innerPadding?.bgType === 'pic' ? `url(${innerPadding.bgPic})` : undefined
-            
-      }
+      return getInnerStyle(this.value)
     },
     categoryTitleStyle() {
       const { outerMargin, outerBackground } = this.value
@@ -250,9 +222,7 @@ export default {
   watch: {
     value:{
       handler(newVal) {
-      
-      console.log('store-value',newVal)
-    },
+      },
     immediate: true,
     deep: true
     },
