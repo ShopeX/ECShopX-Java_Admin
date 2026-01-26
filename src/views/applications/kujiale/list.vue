@@ -438,7 +438,7 @@ export default {
       }
       this.confirmLoading = true
       try {
-        const goodsIds = this.selectedSkus.map(item => item.goods_id)
+        const goodsIds = [...new Set(this.selectedSkus.map(item => item.goods_id))]
         await this.$api.goods.kjlBindItem({
           design_id: this.design_id,
           item_id: goodsIds
