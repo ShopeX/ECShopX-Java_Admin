@@ -21,7 +21,8 @@
 
             <div v-else-if="item.element_type === 'select'" :key="key" class="info-item">
               <span class="txt">{{ item.name }}</span>
-              <span v-if="item.items[member[key]]">{{ item.items[member[key]] }}</span>
+              <span v-if="member[key] === '*'">{{ member[key] }}</span>
+              <span v-else-if="item.items[member[key]]">{{ item.items[member[key]] }}</span>
               <span v-else>--</span>
             </div>
 
