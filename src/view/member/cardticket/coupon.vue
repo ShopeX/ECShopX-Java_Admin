@@ -84,7 +84,6 @@
                     </div>
                     <el-button
                       slot="reference"
-                      style="width: 45px"
                       type="text"
                       class="m-0 px-1"
                       @click="handleShow(scope.row.card_id)"
