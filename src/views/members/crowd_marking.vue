@@ -161,9 +161,13 @@ export default {
       return row.rule_id
     },
     beforeSearch(params) {
+      // 更新 pageSize，使用用户选择的分页大小
+      if (params.pageSize) {
+        this.pageSize = params.pageSize
+      }
       const finderParams = {
         page: params.page || 1,
-        pageSize: this.pageSize,
+        pageSize: params.pageSize || this.pageSize,
         ...this.params
       }
       // 处理日期范围

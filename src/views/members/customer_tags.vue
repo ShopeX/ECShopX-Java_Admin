@@ -178,9 +178,13 @@ export default {
       return row.group_id || row.id
     },
     beforeSearch(params) {
+      // 更新 pageSize，使用用户选择的分页大小
+      if (params.pageSize) {
+        this.pageSize = params.pageSize
+      }
       const finderParams = {
         page: params.page || 1,
-        pageSize: this.pageSize,
+        pageSize: params.pageSize || this.pageSize,
         ...this.params
       }
       // 如果有关键词，同时搜索标签组名称和标签名称
