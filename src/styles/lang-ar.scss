@@ -514,4 +514,10 @@ html[dir='rtl'] {
       transform: translateX(-100%);
     }
   }
+  .page-decorate-index {
+    .right-container {
+      right: auto;
+      left: 0;
+    }
+  }
 }
