@@ -159,11 +159,11 @@
   <div class="content-part-nav-item">
     <CompDragList v-model="localValue" btn-text="添加导航项" type="text" :show-title="true" title="导航项"
       @onAddItem="handleAddNavItem">
-      <template v-if="showSwitch" slot="title" slot-scope="scope">
+      <!-- <template v-if="showSwitch" slot="title" slot-scope="scope">
         <div class="scope-item-title" style="float: right; margin-left: 10px;">
           <el-switch v-model="localValue[scope.index].isActive" @change="handleChangeIsActive(scope.index)" />
         </div>
-      </template>
+      </template> -->
       <template slot="body" slot-scope="scope">
         <div class="scope-item">
           <span class="scope-item-label">导航项形式</span>
