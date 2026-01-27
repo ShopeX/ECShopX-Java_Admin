@@ -1093,9 +1093,13 @@
         this.datapass_block = datapass_block
       },
       beforeSearch(params) {
+        // 更新 pageSize，使用用户选择的分页大小
+        if (params.pageSize) {
+          this.pageSize = params.pageSize
+        }
         const finderParams = {
           page: params.page,
-          pageSize: this.pageSize,
+          pageSize: params.pageSize || this.pageSize,
           ...this.params,
           tag_id: this.params.tag_id.length > 0 ? this.params.tag_id.join(',') : ''
         }
