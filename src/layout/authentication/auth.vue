@@ -21,6 +21,9 @@
       <div class="mt-8">
         <LicenseLogo />
       </div>
+      <div class="mt-2 text-center text-[13px] text-[#B3B3B3]">
+        <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank">湘ICP备14009230号-6</a>
+      </div>
     </div>
     <!-- 登录 -->
   </div>
