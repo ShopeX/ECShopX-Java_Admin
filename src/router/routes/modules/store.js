@@ -110,6 +110,17 @@ const routes = [
         component: () => import('@/views/store/storeRules/store-rules')
       },
       {
+        name: 'storeManageStoreCategory',
+        path: 'store-manage/store-category',
+        meta: {
+          aliasName: 'storecategory',
+          icon: 'icon-address',
+          title: '门店分类',
+          permissions: ['store.storemanager.storecategory']
+        },
+        component: () => import('@/views/store/store-category')
+      },
+      {
         name: 'storeManageRefundAddress',
         path: 'store-manage/refund-address',
         meta: {
