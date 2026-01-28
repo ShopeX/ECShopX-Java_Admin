@@ -146,19 +146,19 @@ export const finderSetting = (vm) => createSetting({
       }
     },
     {name: '注册店铺', key: 'name', width: 130, render: (h, { row }) => {
-      return h('span', row.reg_distributor_name)
+      return h('span', row?.reg_distributor_name)
     }},
     {name: '注册导购', key: 'name', width: 130, render: (h, { row }) => {
-      return h('span', row.reg_salesperson)
+      return h('span', row?.reg_salesperson)
     }},
     {name: '归属店铺', key: 'name', width: 130, render: (h, { row }) => {
-      return h('span', row.store_info.store_name)
+      return h('span', row?.store_info?.store_name)
     }},
     {name: '归属导购', key: 'name', width: 130, render: (h, { row }) => {
-      return h('span', row.salesperson_info.employee_number)
+      return h('span', row?.salesperson_info?.employee_number)
     }},
     {name: '维护店铺', key: 'maintain_store', width: 130, render: (h, { row }) => {
-      return h('span', row.maintain_store)
+      return h('span', row?.maintain_store)
     }},
     {
       name: '用户名',
