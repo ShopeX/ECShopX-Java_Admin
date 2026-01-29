@@ -1,5 +1,6 @@
 import { pickBy } from '@/utils'
 import NavItem from './nav-item.vue'
+import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 const config = {
   name: 'locationModule',
@@ -47,9 +48,7 @@ const config = {
       group: '导航项设置',
       key: 'navitemmargin',
       component: 'number',
-      value: {
-        paddedlr: 18
-      },
+      value: 0,
     },
     {
       label: '导航左滑图片',
@@ -121,15 +120,18 @@ const config = {
       tagsType
     } = v
     
-    // 将旧的配置格式转换为新格式
-    const { navbg, navpadded, navitembg, navitempadded, ...restBase } = base || {}
+    // 使用公共函数处理 base 中的样式数据转换（将 rpx 转换为 px）
+    const transformedBase = transformInBase(base, ['outerMargin', 'navitemarea'])
     
-    // 转换 navbg + navpadded 为 outerMargin
-    const outerMargin = base?.outerMargin || (navbg || navpadded ? {
-      paddedt: navpadded?.paddedt || 0,
-      paddedb: navpadded?.paddedb || 0,
-      paddedl: navpadded?.paddedl || 0,
-      paddedr: navpadded?.paddedr || 0,
+    // 将旧的配置格式转换为新格式（兼容旧数据）
+    const { navbg, navpadded, navitembg, navitempadded, ...restBase } = transformedBase || {}
+    
+    // 转换 navbg + navpadded 为 outerMargin（如果还没有 outerMargin）
+    const outerMargin = transformedBase?.outerMargin || (navbg || navpadded ? {
+      paddedt: (navpadded?.paddedt || 0) / 2,
+      paddedb: (navpadded?.paddedb || 0) / 2,
+      paddedl: (navpadded?.paddedl || 0) / 2,
+      paddedr: (navpadded?.paddedr || 0) / 2,
       bgType: navbg?.image ? 'pic' : 'color',
       bgColor: navbg?.color || '#ffffff',
       bgPic: navbg?.image || '',
@@ -137,12 +139,12 @@ const config = {
       endColor: '#ffffff'
     } : {})
     
-    // 转换 navitembg + navitempadded 为 navitemarea
-    const navitemarea = base?.navitemarea || (navitembg || navitempadded ? {
-      paddedt: navitempadded?.paddedt || 0,
-      paddedb: navitempadded?.paddedb || 0,
-      paddedl: navitempadded?.paddedl || 0,
-      paddedr: navitempadded?.paddedr || 0,
+    // 转换 navitembg + navitempadded 为 navitemarea（如果还没有 navitemarea）
+    const navitemarea = transformedBase?.navitemarea || (navitembg || navitempadded ? {
+      paddedt: (navitempadded?.paddedt || 0) / 2,
+      paddedb: (navitempadded?.paddedb || 0) / 2,
+      paddedl: (navitempadded?.paddedl || 0) / 2,
+      paddedr: (navitempadded?.paddedr || 0) / 2,
       bgType: navitembg?.image ? 'pic' : 'color',
       bgColor: navitembg?.color || 'transparent',
       bgPic: navitembg?.image || '',
@@ -150,10 +152,19 @@ const config = {
       endColor: '#ffffff'
     } : {})
     
+    // 处理 navitemheight 和 navitemmargin 的单位转换（从 rpx 转换为 px）
+    const processedRestBase = { ...restBase }
+    if (processedRestBase.navitemheight !== undefined) {
+      processedRestBase.navitemheight = processedRestBase.navitemheight / 2
+    }
+    if (processedRestBase.navitemmargin !== undefined) {
+      processedRestBase.navitemmargin = processedRestBase.navitemmargin / 2
+    }
+    
     return {
       name,
       uuid,
-      ...restBase,
+      ...processedRestBase,
       outerMargin,
       navitemarea,
       tags: {
@@ -186,58 +197,40 @@ const config = {
       })
     }
   },
-  transformOut: (v, wgtList, regionauth_id) => {
+  transformOut: (v, wgtList) => {
     return pickBy(v, {
       name: 'name',
       meber_tags: 'tags.meber_tags',
       no_meber_tags: 'tags.no_meber_tags',
       tagsType: 'tags.type',
       base: (v) => {
+        // 使用公共函数处理 base 中的样式数据转换（将 px 转换为 rpx）
+        const baseData = createTransformOutBase(['outerMargin', 'navitemarea'], ['outerMargin', 'navitemarea'])(v)
+        
         // 将新的配置结构转换为旧格式以保持兼容
-        const outerMargin = v.outerMargin || {}
-        const navitemarea = v.navitemarea || {}
+        const outerMargin = baseData.outerMargin || {}
+        const navitemarea = baseData.navitemarea || {}
         
-        // 转换 outerMargin 为 navbg 和 navpadded
-        const navbg = {
-          color: outerMargin.bgType === 'color' ? (outerMargin.bgColor || '#ffffff') : '',
-          image: outerMargin.bgType === 'pic' ? (outerMargin.bgPic || '') : ''
-        }
-        const navpadded = {
-          paddedt: outerMargin.paddedt || 0,
-          paddedb: outerMargin.paddedb || 0,
-          paddedl: outerMargin.paddedl || 0,
-          paddedr: outerMargin.paddedr || 0
-        }
-        
-        // 转换 navitemarea 为 navitembg 和 navitempadded
-        const navitembg = {
-          color: navitemarea.bgType === 'color' ? (navitemarea.bgColor || 'transparent') : '',
-          image: navitemarea.bgType === 'pic' ? (navitemarea.bgPic || '') : ''
-        }
-        const navitempadded = {
-          paddedt: navitemarea.paddedt || 0,
-          paddedb: navitemarea.paddedb || 0,
-          paddedl: navitemarea.paddedl || 0,
-          paddedr: navitemarea.paddedr || 0
-        }
-        
-        return pickBy(v, {
+        // 提取其他 base 字段
+        const otherBaseData = pickBy(v, {
           wgtCustName: 'wgtCustName',
           track: 'track',
           animate: 'animate',
           navSticky: 'navSticky',
-          navbg: () => navbg,
-          navpadded: () => navpadded,
-          navitembg: () => navitembg,
-          navitempadded: () => navitempadded,
-          navitemheight: 'navitemheight',
-          navitemmargin: 'navitemmargin',
+          navitemheight: (v) => (v.navitemheight || 0) * 2,
+          navitemmargin: (v) => (v.navitemmargin || 0) * 2,
           leftimgUrl: 'leftimgUrl',
           rightimgUrl: 'rightimgUrl',
           navitemborder: 'navitemborder',
           navitemradius: 'navitemradius',
           navitembordercolor: 'navitembordercolor'
         })
+        
+        return {
+          ...otherBaseData,
+          navitemarea,
+          outerMargin
+        }
       },
       data: (v) => {
         return pickBy(v, {
@@ -248,10 +241,10 @@ const config = {
               if (configType == 'widget') {
                 _children = children?.map((ele) => {
                   const { transformOut } =
-                    wgtList.find((wgt) => wgt.name.toLowerCase() == ele.name.toLowerCase()).config ||
+                    wgtList.find((wgt) => wgt.name.toLowerCase() == ele.name.toLowerCase())?.config ||
                     {}
                   if (transformOut) {
-                    return { ...transformOut(ele, wgtList, regionauth_id), wgtName: ele.wgtName }
+                    return { ...transformOut(ele, wgtList), wgtName: ele.wgtName }
                   }
                   return { ...ele, wgtName: ele.wgtName }
                 })

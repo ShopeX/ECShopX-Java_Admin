@@ -342,6 +342,7 @@ export default {
         navactivebg: '',
         navactivebgimg: '',
         isActive: false,
+        configType: 'widget',
         tags: {
           type: '2',
           meber_tags: [],

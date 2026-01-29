@@ -19,9 +19,10 @@ import WgtStoreAlphabet from './wgt_store-alphabet'
 import WgtClassify from './wgt_classify'
 // import WgtShelves from './wgt_shelves'
 import WgtLocationModule from './wgt_locationModule'
-import WgtSpeedkill from './wgt_speedkill'
-import WgtGroup from './wgt_group'
-import WgtRanking from './wgt_ranking'
+import WgtContentPartition from './wgt_contentPartition'
+// import WgtSpeedkill from './wgt_speedkill' // 秒杀 - 已注释
+// import WgtGroup from './wgt_group' // 拼团 - 已注释
+// import WgtRanking from './wgt_ranking' // 品类榜单 - 已注释
 import WgtHotRanking from './wgt_hotranking'
 import WgtGoods from './wgt_goods'
 
@@ -38,9 +39,10 @@ let SCENE_1001 = {
   WgtStoreAlphabet,
   WgtClassify,
   WgtLocationModule,
-  WgtSpeedkill,
-  WgtGroup,
-  WgtRanking,
+  WgtContentPartition,
+  // WgtSpeedkill, // 秒杀 - 已注释
+  // WgtGroup, // 拼团 - 已注释
+  // WgtRanking, // 品类榜单 - 已注释
   WgtHotRanking,
   WgtGoods
 }

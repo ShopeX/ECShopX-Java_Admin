@@ -65,7 +65,8 @@ export default {
       crowds: (args) => fn({ value: { ...args }, type: 'pickerCrowds' }),
       store: (args) => fn({ value: { ...args }, type: 'pickerStore' }),
       groups: (args) => fn({ value: { ...args }, type: 'pickerGroups' }),
-      activityCollection: (args) => fn({ value: { ...args }, type: 'pickerActivityCollection' })
+      activityCollection: (args) => fn({ value: { ...args }, type: 'pickerActivityCollection' }),
+      ranking: (args) => fn({ value: { ...args }, type: 'pickerRanking' })
     }
 
     Vue.prototype.$picker = $picker

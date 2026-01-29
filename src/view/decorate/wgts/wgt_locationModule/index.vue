@@ -175,16 +175,21 @@ export default {
             }
         }
     },
+    created() {
+        // 在创建时立即加载挂件组件，确保内容可以显示
+        this.loadWidgetComponents()
+    },
     mounted() {
         this.$nextTick(() => {
             this.checkScrollIndicators()
-            // 找到默认激活的导航项
+            // 找到默认激活的导航项，如果没有则使用第一个
             const activeIdx = this.navItems.findIndex(item => item.isActive)
             if (activeIdx > -1) {
                 this.activeIndex = activeIdx
+            } else if (this.navItems.length > 0) {
+                // 如果没有标记为激活的项，默认显示第一项
+                this.activeIndex = 0
             }
-            // 加载挂件组件
-            this.loadWidgetComponents()
         })
     },
     methods: {
@@ -209,16 +214,10 @@ export default {
         getNavItemStyle(item, index) {
             const isActive = this.activeIndex === index
             const navitemmargin = this.value.navitemmargin || {}
-            
-            // navitemmargin 可能是数字（旧格式）或对象（新格式）
-            const marginValue = typeof navitemmargin === 'number' 
-                ? navitemmargin 
-                : (navitemmargin.paddedlr || 18)
-            
             return {
                 height: `${this.value.navitemheight || 40}px`,
-                paddingLeft: `${marginValue}px`,
-                paddingRight: `${marginValue}px`,
+                paddingLeft: `${navitemmargin}px`,
+                paddingRight: `${navitemmargin}px`,
                 color: isActive ? (item.navitemactivecolor || '#1A1A1A') : (item.navitemcolor || '#666666'),
                 backgroundColor: isActive ? (item.navitemactivebg || 'transparent') : (item.navitembg || 'transparent'),
                 borderRadius: `${item.navitemradius || 0}px`

@@ -1,5 +1,5 @@
 <template>
-    <div class="wgt-location-module">
+    <div class="wgt-content-partition">
         <!-- 导航栏 -->
         <div class="nav-wrapper" :style="navWrapperStyle">
             <!-- 左滑示意图 -->
@@ -31,28 +31,19 @@
             <img v-if="value.rightimgUrl && showRightIndicator" :src="value.rightimgUrl" class="nav-indicator right" alt="">
         </div>
 
-        <!-- 内容区域 -->
+        <!-- 内容区域：只展示当前选中导航项的内容 -->
         <div class="content-wrapper">
-            <template v-if="activeNavItem && activeNavItem.children && activeNavItem.children.length > 0">
-                <!-- 关联挂件模式 -->
-                <template v-if="activeNavItem.configType !== 'page'">
+            <!-- 当前选中项的内容区块 -->
+            <div v-if="activeNavItem" 
+                :id="`nav-section-${activeIndex}`" 
+                class="nav-section">
+                <template v-if="activeNavItem.children && activeNavItem.children.length > 0">
                     <component 
                         v-for="(child, idx) in activeNavItem.children" 
                         :key="`widget-${activeIndex}-${idx}`"
                         :is="getWidgetComponent(child.name)"
                         :value="child" />
                 </template>
-                <!-- 关联页面模式 -->
-                <div v-else class="page-placeholder">
-                    <div class="page-info">
-                        <i class="el-icon-document" />
-                        <span>关联页面：{{ activeNavItem.children[0]?.title || '未命名页面' }}</span>
-                    </div>
-                </div>
-            </template>
-            <!-- 空状态 -->
-            <div v-else class="empty-content">
-                <span>暂无内容</span>
             </div>
         </div>
     </div>
@@ -64,10 +55,10 @@ import gWgts from '../index'
 import { getOuterStyle } from '../../comps/style-utils'
 
 export default {
-    name: 'ContentPart',
-    wgtName: '定位导航1',
+    name: 'ContentPartition',
+    wgtName: '内容分区',
     wgtDesc: '',
-    wgtIcon: 'wgt-location-module',
+    wgtIcon: 'wgt-content-partition',
     config: config,
     props: {
         value: {
@@ -87,27 +78,46 @@ export default {
         navItems() {
             return this.value.data || []
         },
-        // 当前选中的导航项
         activeNavItem() {
             return this.navItems[this.activeIndex] || null
         },
         outerStyle() {
             return getOuterStyle(this.value)
         },
-   
+        // 整体模块样式
+        moduleStyle() {
+            return {
+                ...this.outerStyle,
+                position: this.value.navSticky ? 'sticky' : 'relative',
+                top: this.value.navSticky ? '0' : 'auto',
+                zIndex: this.value.navSticky ? '100' : 'auto'
+            }
+        },
         // 导航栏外层样式
         navWrapperStyle() {
-            const navbg = this.value.navbg || {}
-            const navpadded = this.value.navpadded || {}
+            const outerMargin = this.value.outerMargin || {}
             const activeItem = this.navItems[this.activeIndex]
             
-            // 根据当前选中项的配置决定背景
-            let backgroundColor = navbg.color || '#ffffff'
-            let backgroundImage = navbg.image ? `url(${navbg.image})` : 'none'
+            // 从 outerMargin 读取背景和内边距（CompStyle 组件的数据结构）
+            const bgType = outerMargin.bgType
+            let backgroundColor = ''
+            let backgroundImage = 'none'
             
+            // 根据 bgType 处理背景
+            if (bgType === 'gradient') {
+                backgroundImage = `linear-gradient(to bottom, ${outerMargin.startColor || ''}, ${outerMargin.endColor || ''})`
+            } else if (bgType === 'pic') {
+                backgroundImage = outerMargin.bgPic ? `url(${outerMargin.bgPic})` : 'none'
+                backgroundColor = ''
+            } else if (bgType === 'color' || !bgType) {
+                backgroundColor = outerMargin.bgColor || '#ffffff'
+            }
+            
+            // 根据当前选中项的配置决定背景（优先级更高）
             if (activeItem) {
                 if (activeItem.navactivebgimg) {
                     backgroundImage = `url(${activeItem.navactivebgimg})`
+                    backgroundColor = ''
                 } else if (activeItem.navactivebg) {
                     backgroundColor = activeItem.navactivebg
                     backgroundImage = 'none'
@@ -115,31 +125,47 @@ export default {
             }
             
             return {
-                backgroundColor,
-                backgroundImage,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                paddingTop: `${navpadded.paddedt || 0}px`,
-                paddingBottom: `${navpadded.paddedb || 0}px`,
-                paddingLeft: `${navpadded.paddedl || 0}px`,
-                paddingRight: `${navpadded.paddedr || 0}px`
+                paddingTop: `${outerMargin.paddedt || 0}px`,
+                paddingBottom: `${outerMargin.paddedb || 0}px`,
+                paddingLeft: `${outerMargin.paddedl || 0}px`,
+                paddingRight: `${outerMargin.paddedr || 0}px`,
+                backgroundColor: backgroundColor || undefined,
+                backgroundImage: backgroundImage !== 'none' ? backgroundImage : undefined,
+                backgroundSize: backgroundImage !== 'none' ? 'cover' : undefined,
+                backgroundPosition: backgroundImage !== 'none' ? 'center' : undefined,
+                backgroundRepeat: backgroundImage !== 'none' ? 'no-repeat' : undefined,
             }
         },
         // 导航项区域样式
         navItemAreaStyle() {
-            const navitembg = this.value.navitembg || {}
-            const navitempadded = this.value.navitempadded || {}
+            const navitemarea = this.value.navitemarea || {}
+            
+            // 从 navitemarea 读取背景和内边距（CompStyle 组件的数据结构）
+            const bgType = navitemarea.bgType
+            let backgroundColor = ''
+            let backgroundImage = 'none'
+            
+            // 根据 bgType 处理背景
+            if (bgType === 'gradient') {
+                backgroundImage = `linear-gradient(to bottom, ${navitemarea.startColor || ''}, ${navitemarea.endColor || ''})`
+            } else if (bgType === 'pic') {
+                backgroundImage = navitemarea.bgPic ? `url(${navitemarea.bgPic})` : 'none'
+                backgroundColor = ''
+            } else if (bgType === 'color' || !bgType) {
+                backgroundColor = navitemarea.bgColor || 'transparent'
+            }
             
             return {
-                backgroundColor: navitembg.color || 'transparent',
-                backgroundImage: navitembg.image ? `url(${navitembg.image})` : 'none',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                borderRadius: `${this.value.navitemradius || 0}px`,
-                paddingTop: `${navitempadded.paddedt || 0}px`,
-                paddingBottom: `${navitempadded.paddedb || 0}px`,
-                paddingLeft: `${navitempadded.paddedl || 0}px`,
-                paddingRight: `${navitempadded.paddedr || 0}px`
+                paddingTop: `${navitemarea.paddedt || 0}px`,
+                paddingBottom: `${navitemarea.paddedb || 0}px`,
+                paddingLeft: `${navitemarea.paddedl || 0}px`,
+                paddingRight: `${navitemarea.paddedr || 0}px`,
+                backgroundColor: backgroundColor || undefined,
+                backgroundImage: backgroundImage !== 'none' ? backgroundImage : undefined,
+                backgroundSize: backgroundImage !== 'none' ? 'cover' : undefined,
+                backgroundPosition: backgroundImage !== 'none' ? 'center' : undefined,
+                backgroundRepeat: backgroundImage !== 'none' ? 'no-repeat' : undefined,
+                borderRadius: `${this.value.navitemradius || 0}px`
             }
         },
         // 导航列表样式
@@ -149,16 +175,21 @@ export default {
             }
         }
     },
+    created() {
+        // 在创建时立即加载挂件组件，确保内容可以显示
+        this.loadWidgetComponents()
+    },
     mounted() {
         this.$nextTick(() => {
             this.checkScrollIndicators()
-            // 找到默认激活的导航项
+            // 找到默认激活的导航项，如果没有则使用第一个
             const activeIdx = this.navItems.findIndex(item => item.isActive)
             if (activeIdx > -1) {
                 this.activeIndex = activeIdx
+            } else if (this.navItems.length > 0) {
+                // 如果没有标记为激活的项，默认显示第一项
+                this.activeIndex = 0
             }
-            // 加载挂件组件
-            this.loadWidgetComponents()
         })
     },
     methods: {
@@ -182,18 +213,17 @@ export default {
         // 获取单个导航项样式
         getNavItemStyle(item, index) {
             const isActive = this.activeIndex === index
-            const navitemmargin = this.value.navitemmargin || {}
-            
+            const navitemmargin = this.value.navitemmargin || 0
             return {
                 height: `${this.value.navitemheight || 40}px`,
-                paddingLeft: `${navitemmargin.paddedlr || 18}px`,
-                paddingRight: `${navitemmargin.paddedlr || 18}px`,
+                paddingLeft: `${navitemmargin}px`,
+                paddingRight: `${navitemmargin}px`,
                 color: isActive ? (item.navitemactivecolor || '#1A1A1A') : (item.navitemcolor || '#666666'),
                 backgroundColor: isActive ? (item.navitemactivebg || 'transparent') : (item.navitembg || 'transparent'),
                 borderRadius: `${item.navitemradius || 0}px`
             }
         },
-        // 点击导航项
+        // 点击导航项，切换显示的内容
         handleNavClick(index) {
             this.activeIndex = index
         },
@@ -215,7 +245,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wgt-location-module {
+.wgt-content-partition {
     width: 100%;
 
     .nav-wrapper {
@@ -301,24 +331,8 @@ export default {
         min-height: 100px;
     }
 
-    .page-placeholder {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 20px;
-        background: #f5f7fa;
-
-        .page-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #909399;
-            font-size: 14px;
-
-            i {
-                font-size: 18px;
-            }
-        }
+    .nav-section {
+        width: 100%;
     }
 
     .empty-content {

@@ -1,5 +1,6 @@
 import { pickBy } from '@/utils'
 import Attrdata from './attr_data.vue'
+import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 const config = {
   name: 'classify',
@@ -42,46 +43,21 @@ const config = {
         data: []
       }
     },
-    {
-      label: '组件内边距',
-      key: 'innerPadding',
-      value: {
-        paddedt: 10,
-        paddedb: 10,
-        paddedl: 10,
-        paddedr: 10
-      }
-    }
-    // outerMargin、outerBackground、innerBackground 会自动添加，无需手动写
   ],
   transformIn: (v) => {
-    const { name, base, data, track, tagsType, meber_tags, no_meber_tags } = v
-    // 将 outerMargin 中的尺寸除以2
-    const convertedOuterMargin = base?.outerMargin ? {
-      paddedt: (base.outerMargin.paddedt || 0) / 2,
-      paddedb: (base.outerMargin.paddedb || 0) / 2,
-      paddedl: (base.outerMargin.paddedl || 0) / 2,
-      paddedr: (base.outerMargin.paddedr || 0) / 2
-    } : base?.outerMargin
-    // 将 innerPadding 中的尺寸除以2
-    const convertedInnerPadding = base?.innerPadding ? {
-      paddedt: (base.innerPadding.paddedt || 0) / 2,
-      paddedb: (base.innerPadding.paddedb || 0) / 2,
-      paddedl: (base.innerPadding.paddedl || 0) / 2,
-      paddedr: (base.innerPadding.paddedr || 0) / 2
-    } : base?.innerPadding
+    const { base, ...rest } = v
+    // 使用公共函数处理 base 中的样式数据转换
+    const transformedBase = transformInBase(base, ['outerMargin', 'innerPadding'])
     
     return {
-      name,
-      ...base,
-      outerMargin: convertedOuterMargin,
-      innerPadding: convertedInnerPadding,
-      data: data,
-      track,
+      name: v.name,
+      ...transformedBase,
+      data: v.data,
+      track: v.track,
       tags: {
-        type: tagsType || '2',
-        meber_tags: meber_tags || [],
-        no_meber_tags: no_meber_tags || []
+        type: v.tagsType || '2',
+        meber_tags: v.meber_tags || [],
+        no_meber_tags: v.no_meber_tags || []
       }
     }
   },
@@ -89,33 +65,19 @@ const config = {
     return pickBy(v, {
       name: 'name',
       base: (v) => {
-        const baseData = pickBy(v, {
+        // 使用公共函数处理 base 中的样式数据转换
+        const baseData = createTransformOutBase(['outerMargin', 'innerPadding', 'outerBackground', 'innerBackground'], ['outerMargin', 'innerPadding'])(v)
+        
+        // 添加其他字段
+        const otherBaseData = pickBy(v, {
           animate: 'animate',
-          dataType: 'dataType',
-          outerMargin: 'outerMargin',
-          innerPadding: 'innerPadding',
-          outerBackground: 'outerBackground',
-          innerBackground: 'innerBackground'
+          dataType: 'dataType'
         })
-        // 将 outerMargin 中的尺寸乘以2
-        if (baseData.outerMargin) {
-          baseData.outerMargin = {
-            paddedt: (baseData.outerMargin.paddedt || 0) * 2,
-            paddedb: (baseData.outerMargin.paddedb || 0) * 2,
-            paddedl: (baseData.outerMargin.paddedl || 0) * 2,
-            paddedr: (baseData.outerMargin.paddedr || 0) * 2
-          }
+        
+        return {
+          ...baseData,
+          ...otherBaseData
         }
-        // 将 innerPadding 中的尺寸乘以2
-        if (baseData.innerPadding) {
-          baseData.innerPadding = {
-            paddedt: (baseData.innerPadding.paddedt || 0) * 2,
-            paddedb: (baseData.innerPadding.paddedb || 0) * 2,
-            paddedl: (baseData.innerPadding.paddedl || 0) * 2,
-            paddedr: (baseData.innerPadding.paddedr || 0) * 2
-          }
-        }
-        return baseData
       },
       data: 'data',
       track: 'track',

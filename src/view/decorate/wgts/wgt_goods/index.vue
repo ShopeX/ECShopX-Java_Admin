@@ -102,18 +102,13 @@ export default {
                     params.data_value = this.value?.data.id.split(',')
                     break;
             }
-
-            // 模拟数据 TODO: 删除
-            this.list = saledata.data.slice(0, this.value.dataCount)
-
-            // 实际接口调用示例（注释掉）
-            // try {
-            //     const res = await this.$api.template.getShelvesGoods(params)
-            //     this.list = res?.data?.data || []
-            // } catch (error) {
-            //     console.error('获取商品列表失败:', error)
-            //     this.list = []
-            // }
+            try {
+                const data = await this.$api.template.getShelvesGoods(params)
+                this.list = data || []
+            } catch (error) {
+                console.error('获取商品列表失败:', error)
+                this.list = []
+            }
         }
     },
     mounted() {

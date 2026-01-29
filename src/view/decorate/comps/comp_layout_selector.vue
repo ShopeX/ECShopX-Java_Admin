@@ -65,7 +65,7 @@ export default {
         { label: '一行一个', value: 'one' },
         { label: '一行两个', value: 'two' },
         { label: '一行三个', value: 'three' },
-        { label: '可滑动', value: 'grid' }
+        { label: '可滑动', value: 'default' }
       ]
     }
   },

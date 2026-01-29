@@ -59,17 +59,14 @@ export default {
                 distributor_id: '',
             }
 
-            // 模拟数据 TODO: 删除
-            this.list = saledata.data.slice(0, this.value.dataCount)
-
-            // 实际接口调用示例（注释掉）
-            // try {
-            //     const res = await this.$api.template.getShelvesGoods(params)
-            //     this.list = res?.data?.data || []
-            // } catch (error) {
-            //     console.error('获取热销榜单商品列表失败:', error)
-            //     this.list = []
-            // }
+            // 实际接口调用示例
+            try {
+                const data = await this.$api.template.getShelvesGoods(params)
+                this.list = data || []
+            } catch (error) {
+                console.error('获取热销榜单商品列表失败:', error)
+                this.list = []
+            }
         }
     },
     mounted() {
