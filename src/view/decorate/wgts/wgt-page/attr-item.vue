@@ -193,11 +193,8 @@ export default {
     }
   },
   computed: {
-    defaultColor() {
-      return '#fff'
-    },
     displayColor() {
-      return this.localValue.color || this.defaultColor
+      return this.localValue.color
     }
   },
   created() {
@@ -228,7 +225,7 @@ export default {
       this.$emit('input', this.localValue)
     },
     onClickReset() {
-      this.localValue.color = this.defaultColor
+      this.localValue.color = ''
       this.handleChange()
     }
     // onChangeLink(e, index) {

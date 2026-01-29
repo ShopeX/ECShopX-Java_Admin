@@ -76,9 +76,11 @@ const config = {
         return baseData
       },
       data: ({ data }) => {
+        if (!data) return []
         return [
           pickBy(data, {
-            media_id: 'image_id',
+            image_id: 'image_id',
+            media_id: 'image_id', // 兼容后端字段名
             url: 'url'
           })
         ]

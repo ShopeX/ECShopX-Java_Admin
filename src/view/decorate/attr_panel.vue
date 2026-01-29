@@ -165,6 +165,8 @@ export default {
         'rightimgUrl',
         'navitemarea',
         'autoplay',
+        'searchButtonColor',
+        'showSearchButton',
       ]
     },
     // 将配置项按分组组织

@@ -17,18 +17,6 @@ const config = {
       value: true
     },
     {
-      label: '交互类型',
-      group: '内容设置',
-      key: 'animate',
-      component: 'radiobutton',
-      options: [
-        { name: '横向', label: 'horizontal'},
-        { name: '纵向', label: 'vertical' },
-        { name: '分屏', label: 'split' }
-      ],
-      value: 'horizontal'
-    },
-    {
       label: '圆角',
       group: '导航项区域设置',
       key: 'navitemradius',
@@ -103,7 +91,7 @@ const config = {
       group: '数据设置',
       key: 'data',
       component: function (h, { key }) {
-        return <NavItem v-model={this.value[key]} animate={this.value.animate} />
+        return <NavItem v-model={this.value[key]} />
       },
       value: [],
       module: 'navdata'
@@ -215,7 +203,6 @@ const config = {
         const otherBaseData = pickBy(v, {
           wgtCustName: 'wgtCustName',
           track: 'track',
-          animate: 'animate',
           navSticky: 'navSticky',
           navitemheight: (v) => (v.navitemheight || 0) * 2,
           navitemmargin: (v) => (v.navitemmargin || 0) * 2,
