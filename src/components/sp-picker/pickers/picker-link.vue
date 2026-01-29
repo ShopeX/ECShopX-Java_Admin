@@ -100,7 +100,8 @@ export default {
         { id: 'customerService', title: '客服' },
         { id: 'homeSearch', title: '搜索' },
         { id: 'settings', title: '设置' },
-        { id: 'kujiale', title: '酷家乐案例库' }
+        { id: 'kujiale', title: '酷家乐案例库' },
+        { id: 'nearby_store', title: '所有门店列表' }
       ],
       multiple: this.value?.multiple ?? true
     }

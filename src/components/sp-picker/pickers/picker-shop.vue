@@ -41,6 +41,20 @@
       <SpFilterFormItem prop="shop_code">
         <el-input v-model="formData.shop_code" placeholder="请输入店铺号" />
       </SpFilterFormItem>
+      <SpFilterFormItem prop="distributor_category_id">
+        <el-select
+          v-model="formData.distributor_category_id"
+          clearable
+          placeholder="请选择门店分类"
+        >
+          <el-option
+            v-for="item in categoryList"
+            :key="item.category_id"
+            :label="item.category_name"
+            :value="item.category_id"
+          />
+        </el-select>
+      </SpFilterFormItem>
     </SpFilterForm>
     <SpFinder
       ref="finder"
@@ -82,9 +96,11 @@ export default {
       formData: {
         region: [],
         keywords: '',
-        shop_code: ''
+        shop_code: '',
+        distributor_category_id: ''
       },
       district,
+      categoryList: [],
       regionArea: [],
       loading: false,
       multiple: this.value?.multiple ?? true
@@ -94,6 +110,7 @@ export default {
     setting() {
       const columns = [
         { name: '店铺名称', key: 'name' },
+        { name: '门店分类', key: 'distributor_category_name', width: 120 },
         {
           name: '店铺类型',
           key: 'distribution_type',
@@ -117,6 +134,7 @@ export default {
   },
   created() {
     // this.fetch()
+    this.getCategoryList()
   },
   methods: {
     beforeSearch(params) {
@@ -139,6 +157,7 @@ export default {
         ...params,
         name: this.formData.keywords,
         shop_code: this.formData.shop_code,
+        distributor_category_id: this.formData.distributor_category_id,
         province: province,
         city: city,
         area: area,
@@ -175,6 +194,17 @@ export default {
     },
     onSelectionChange(selection) {
       this.updateVal(selection)
+    },
+    async getCategoryList() {
+      try {
+        const res = await this.$api.store.getStoreCategoryList({
+          page: 1,
+          pageSize: 1000
+        })
+        this.categoryList = res.list || []
+      } catch (error) {
+        console.error('获取门店分类列表失败:', error)
+      }
     }
   }
 }

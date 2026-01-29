@@ -30,7 +30,15 @@
     >
       <el-table-column type="selection" :reserve-selection="true" width="50" />
       <el-table-column prop="name" label="名称" />
+      <el-table-column prop="distributor_category_name" label="门店分类" />
       <el-table-column prop="contact" label="联系人" />
+      <el-table-column prop="is_valid" label="状态">
+        <template slot-scope="scope">
+          <span v-if="scope.row.is_valid === 'true'">启用</span>
+          <span v-else-if="scope.row.is_valid === 'false'">禁用</span>
+          <span v-else-if="scope.row.is_valid === 'delete'">废弃</span>
+        </template>
+      </el-table-column>
       <!-- <el-table-column prop="store_name" label="门店"></el-table-column> -->
       <el-table-column prop="address" label="地址" show-overflow-tooltip />
     </el-table>
@@ -124,6 +132,7 @@ export default {
     sourceType(newVal, oldVal) {
       console.log(newVal)
       if (newVal) {
+        // Handle sourceType change if needed
       }
     }
   },

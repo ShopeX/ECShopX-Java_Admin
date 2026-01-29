@@ -79,7 +79,7 @@
       ref="form"
       v-model="form"
       show-message
-      label-width="100px"
+      label-width="130px"
       :form-list="formList"
       :submit="false"
     />
@@ -123,6 +123,7 @@ export default {
     return {
       form: {
         distribution_type: 0, // 店铺类型： 0=自营；1=加盟
+        distributor_category_id: '',
         merchant_id: '',
         shop_code: '',
         name: '',
@@ -132,6 +133,7 @@ export default {
         startTime: '',
         endTime: '',
         is_delivery: false,
+        show_mobile: 1,
         is_audit_goods: false,
         auto_sync_goods: false,
         is_require_subdistrict: false,
@@ -144,6 +146,9 @@ export default {
         address: '',
         is_dada: false,
         is_self_delivery: true,
+        is_valid: 'true',
+        show_salesperson: 0,
+        fixed_salesperson_qrcode_url: '',
         freight_time: 1,
         business: '',
         is_ziti: false,
@@ -174,14 +179,26 @@ export default {
           label: '店铺类型',
           key: 'distribution_type',
           type: 'select',
+          display: 'inline',
           clearable: false,
           options: distributionTypeOptions,
+          isShow: ({ key }, value) => this.IS_ADMIN() && this.distributor_self == 0
+        },
+        {
+          label: '门店分类',
+          key: 'distributor_category_id',
+          type: 'select',
+          display: 'inline',
+          clearable: true,
+          options: [],
+          placeholder: '请选择门店分类',
           isShow: ({ key }, value) => this.IS_ADMIN() && this.distributor_self == 0
         },
         {
           label: '所属商户',
           key: 'merchant_id',
           type: 'select',
+          display: 'inline',
           component: ({ key }, value) => {
             return (
               <el-select
@@ -319,6 +336,21 @@ export default {
           display: 'inline'
         },
         {
+          label: '是否展示联系方式',
+          key: 'show_mobile',
+          type: 'switch',
+          display: 'inline',
+          component: ({ key }, value) => {
+            return (
+              <el-switch
+                v-model={value[key]}
+                active-value={1}
+                inactive-value={0}
+              />
+            )
+          }
+        },
+        {
           label: '审核商品',
           key: 'is_audit_goods',
           type: 'switch',
@@ -424,6 +456,70 @@ export default {
         {
           label: '',
           component: ({ key }, value) => <div id='qqmap_container' />
+        },
+        {
+          label: '门店状态',
+          key: 'is_valid',
+          type: 'radio',
+          tip: '启用：创建店铺默认启用，为正常可售云店<br>禁用：为线上不可售门店，仅在移动端附近门店列表中展示<br>废弃：作废店铺，前端不展示，不可再正常启用',
+          options: [
+            { name: '启用', label: 'true' },
+            { name: '禁用', label: 'false' },
+            { name: '废弃', label: 'delete' }
+          ]
+        },
+        {
+          label: '是否展示导购',
+          key: 'show_salesperson',
+          type: 'switch',
+          display: 'inline',
+          component: ({ key }, value) => {
+            return (
+              <el-switch
+                v-model={value[key]}
+                active-value={1}
+                inactive-value={0}
+                on-change={(val) => {
+                  if (val === 0) {
+                    value.fixed_salesperson_qrcode_url = ''
+                    value.salesperson_type = 1
+                  }
+                }}
+              />
+            )
+          },
+          tip: '开启前端附近门店列表展示微信咨询顾问入口,关闭不展示'
+        },
+        {
+          label: '码类型',
+          key: 'salesperson_type',
+          type: 'radio',
+          display: 'inline',
+          options: [
+            { name: '上传企微码', label: 1 },
+            { name: '导购码 (需开通导购应用)', label: 2 }
+          ],
+          isShow: ({ key }, value) => value.show_salesperson !== 0
+        },
+        {
+          label: '上传企微码图',
+          key: 'fixed_salesperson_qrcode_url',
+          display: 'inline',
+          component: ({ key }, value) => {
+            return <SpImagePicker v-model={value[key]} />
+          },
+          validator: (rule, value, callback) => {
+            if (this.form.show_salesperson === 1 && this.form.salesperson_type === 1) {
+              if (!value) {
+                callback(new Error('请上传企微码图'))
+              } else {
+                callback()
+              }
+            } else {
+              callback()
+            }
+          },
+          isShow: ({ key }, value) => value.show_salesperson === 1 && value.salesperson_type === 1
         },
         {
           label: '送货上门',
@@ -590,6 +686,7 @@ export default {
         }
       ],
       merchantList: [],
+      categoryList: [],
       remoteLoading: false,
       regions: district,
       submitLoading: false,
@@ -623,6 +720,7 @@ export default {
     }
     this.getStoreInfo()
     this.getOrderSetting()
+    this.getCategoryList()
   },
   mounted() {},
   methods: {
@@ -718,6 +816,26 @@ export default {
       })
       this.dadaEnable = is_open === '1'
     },
+    async getCategoryList() {
+      try {
+        const res = await this.$api.store.getStoreCategoryList({
+          page: 1,
+          pageSize: 1000
+        })
+        this.categoryList = res.list || []
+        // 更新 formList 中的选项
+        this.formList.forEach((item) => {
+          if (item.key === 'distributor_category_id') {
+            item.options = this.categoryList.map((category) => ({
+              value: category.category_id,
+              title: category.category_name
+            }))
+          }
+        })
+      } catch (error) {
+        console.error('获取门店分类列表失败:', error)
+      }
+    },
     async getStoreInfo() {
       const { distributor_id } = this.$route.query
       if (distributor_id || this.IS_DISTRIBUTOR()) {
@@ -746,6 +864,7 @@ export default {
         this.datapass_block = res.datapass_block
         this.form = {
           distribution_type: res.distribution_type,
+          distributor_category_id: res.distributor_category_id,
           merchant_id: res.merchant_id,
           shop_code: res.shop_code,
           name: res.name,
@@ -755,6 +874,7 @@ export default {
           startTime,
           endTime,
           is_delivery: res.is_delivery,
+          show_mobile: res.show_mobile,
           is_audit_goods: res.is_audit_goods,
           auto_sync_goods: res.auto_sync_goods,
           is_require_subdistrict: res.is_require_subdistrict,
@@ -768,6 +888,13 @@ export default {
           house_number: res.house_number,
           is_dada: res.is_dada == 1 || res.is_self_delivery,
           is_self_delivery: res.is_self_delivery,
+          is_valid: res.is_valid,
+          // show_salesperson: 0=关闭, 1=固定码, 2=导购
+          // 前端开关: 0=关闭, 1=开启
+          // salesperson_type: 1=上传企微码, 2=导购码
+          show_salesperson: res.show_salesperson === 0 ? 0 : 1,
+          salesperson_type: res.show_salesperson === 1 ? 1 : (res.show_salesperson === 2 ? 2 : 1),
+          fixed_salesperson_qrcode_url: res.fixed_salesperson_qrcode_url || '',
           freight_time: res.freight_time,
           business: res.business,
           is_ziti: res.is_ziti,
@@ -846,6 +973,28 @@ export default {
         delete params.merchant_id
       } else {
         delete params.is_audit_goods
+      }
+      if (!params.distributor_category_id) {
+        delete params.distributor_category_id
+      }
+
+      // 处理 show_salesperson 的值
+      if (this.form.show_salesperson === 0) {
+        // 关闭时，show_salesperson 为 0
+        params.show_salesperson = 0
+        delete params.fixed_salesperson_qrcode_url
+        delete params.salesperson_type
+      } else if (this.form.show_salesperson === 1) {
+        // 开启时，根据 salesperson_type 设置 show_salesperson
+        if (this.form.salesperson_type === 1) {
+          // 上传企微码
+          params.show_salesperson = 1
+        } else if (this.form.salesperson_type === 2) {
+          // 导购码
+          params.show_salesperson = 2
+          delete params.fixed_salesperson_qrcode_url
+        }
+        delete params.salesperson_type
       }
 
       if (this.form.is_dada) {

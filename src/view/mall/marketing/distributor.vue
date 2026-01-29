@@ -103,6 +103,16 @@
         <SpFilterFormItem prop="distributor_id" label="店铺号:">
           <el-input v-model="params.shop_code" placeholder="店铺号" />
         </SpFilterFormItem>
+        <SpFilterFormItem prop="distributor_category_id" label="门店分类:">
+          <el-select v-model="params.distributor_category_id" clearable placeholder="请选择门店分类">
+            <el-option
+              v-for="item in categoryList"
+              :key="item.category_id"
+              :label="item.category_name"
+              :value="item.category_id"
+            />
+          </el-select>
+        </SpFilterFormItem>
         <SpFilterFormItem prop="open_divided" label="开启白名单:">
           <el-select v-model="params.open_divided" placeholder="是否开启">
             <el-option
@@ -223,6 +233,7 @@
             </div>
           </template>
         </el-table-column>
+        <el-table-column width="120" prop="distributor_category_name" label="门店分类" />
         <el-table-column width="100" prop="shop_code" label="店铺号" />
         <el-table-column
           v-if="VERSION_STANDARD()"
@@ -733,6 +744,7 @@ export default {
       distributor_id: undefined,
       tag_id: [],
       shop_code: undefined,
+      distributor_category_id: undefined,
       open_divided: undefined
     }
 
@@ -815,6 +827,7 @@ export default {
         is_distributor: 'true'
       },
       list: [],
+      categoryList: [],
       regions: district,
       codetype: 'index',
       rowdata: {},
@@ -964,6 +977,7 @@ export default {
     }
     this.fetchList()
     this.getAllTagList()
+    this.getCategoryList()
     getSetting().then((res) => {
       let data = res.data.data
       this.isOpen = data.is_open == 'true'
@@ -1244,6 +1258,17 @@ export default {
       getTagList(params).then((response) => {
         this.tag.list = response.data.data.list
       })
+    },
+    async getCategoryList() {
+      try {
+        const res = await this.$api.store.getStoreCategoryList({
+          page: 1,
+          pageSize: 1000
+        })
+        this.categoryList = res.list || []
+      } catch (error) {
+        console.error('获取门店分类列表失败:', error)
+      }
     },
     handleCancelLabelsDialog() {
       this.editValidDialog = false
