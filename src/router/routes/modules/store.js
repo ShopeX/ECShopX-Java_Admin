@@ -121,6 +121,17 @@ const routes = [
         component: () => import('@/views/store/store-category')
       },
       {
+        name: 'storeManageNearbyStoreInfo',
+        path: 'store-manage/nearby-store-info',
+        meta: {
+          aliasName: 'nearbystoreinfo',
+          icon: 'icon-address',
+          title: '附近门店信息',
+          permissions: ['store.storemanager.nearbystoreinfo']
+        },
+        component: () => import('@/views/store/nearby-store-info')
+      },
+      {
         name: 'storeManageRefundAddress',
         path: 'store-manage/refund-address',
         meta: {

@@ -57,3 +57,21 @@ export const updateStoreCategory = (id, params) => {
 export const deleteStoreCategory = (id) => {
   return requestClient.delete(`/distributor/category/${id}`)
 }
+
+/**
+ * 获取附近门店背景图
+ * @returns {Promise} 请求结果
+ */
+export const getNearbyStoreBackground = () => {
+  return requestClient.get('/distributor/list/background')
+}
+
+/**
+ * 保存附近门店背景图
+ * @param {Object} params - 背景图参数
+ * @param {String} params.background_url - 背景图URL
+ * @returns {Promise} 请求结果
+ */
+export const saveNearbyStoreBackground = (params) => {
+  return requestClient.post('/distributor/list/background', params)
+}
