@@ -24,7 +24,7 @@ export default {
     name: 'hotranking',
     wgtName: '热销榜单',
     wgtDesc: '',
-    wgtIcon: 'waterfalls-h',
+    wgtIcon: 'ranking-list',
     wgtType: 2,
     config: config,
     props: {
