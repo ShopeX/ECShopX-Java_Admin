@@ -54,7 +54,7 @@ export default {
   name: 'CouponCard',
   wgtName: '优惠券',
   wgtDesc: '',
-  wgtIcon: 'wgt-coupon',
+  wgtIcon: 'ticket',
   wgtType: 2,
   config: config,
   props: {

@@ -120,7 +120,7 @@ export default {
   name: 'Slider',
   wgtName: '轮播',
   wgtDesc: '',
-  wgtIcon: 'wgt-slider',
+  wgtIcon: 'multi-picture-carousel',
   config: config,
   props: {
     value: [Object, Array]

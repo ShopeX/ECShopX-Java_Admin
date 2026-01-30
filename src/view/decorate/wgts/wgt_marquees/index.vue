@@ -78,7 +78,7 @@ export default {
   name: 'Marquees',
   wgtName: '文字轮播',
   wgtDesc: '',
-  wgtIcon: 'wgt-marquees',
+  wgtIcon: 'announcement',
   config: config,
   props: {
     value: [Object, Array]

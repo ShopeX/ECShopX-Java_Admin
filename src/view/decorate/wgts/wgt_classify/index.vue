@@ -145,7 +145,7 @@
         name: 'Classify',
         wgtName: '商品分类',
         wgtDesc: '',
-        wgtIcon: 'wgt-classify',
+        wgtIcon: 'all-application',
         wgtType: 2,
         config: config,
         props: {

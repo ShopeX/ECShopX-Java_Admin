@@ -58,7 +58,7 @@ export default {
     name: 'ContentPartition',
     wgtName: '内容分区',
     wgtDesc: '',
-    wgtIcon: 'wgt-content-partition',
+    wgtIcon: 'app-switch',
     config: config,
     props: {
         value: {

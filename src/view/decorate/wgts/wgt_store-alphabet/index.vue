@@ -41,9 +41,9 @@ import config from './config'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 export default {
   name: 'StoreAlphabet',
-  wgtName: '店铺字母列表',
+  wgtName: '店铺字母表',
   wgtDesc: '',
-  wgtIcon: 'wgt-store-alphabet',
+  wgtIcon: 'list-alphabet',
   wgtType: 2,
   config: config,
   props: {

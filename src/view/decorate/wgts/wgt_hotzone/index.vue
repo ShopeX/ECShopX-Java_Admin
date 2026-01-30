@@ -55,7 +55,7 @@ export default {
   name: 'ImgHotzone',
   wgtName: '热区图',
   wgtDesc: '',
-  wgtIcon: 'wgt-hotzone',
+  wgtIcon: 'layers',
   wgtType: 1,
   config: config,
   props: {

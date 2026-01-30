@@ -43,7 +43,7 @@ export default {
   name: 'OrderNavigation',
   wgtName: '订单导航',
   wgtDesc: '',
-  wgtIcon: 'wgt-order-navigation',
+  wgtIcon: 'order',
   config,
   props: {
     value: []

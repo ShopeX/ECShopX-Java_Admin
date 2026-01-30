@@ -59,9 +59,9 @@ import { getOuterStyle } from '../../comps/style-utils'
 
 export default {
     name: 'LocationModule',
-    wgtName: '定位导航',
+    wgtName: '电梯',
     wgtDesc: '',
-    wgtIcon: 'wgt-location-module',
+    wgtIcon: 'elevator',
     config: config,
     props: {
         value: {

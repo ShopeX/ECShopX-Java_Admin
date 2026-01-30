@@ -24,7 +24,7 @@ export default {
     name: 'goods',
     wgtName: '商品',
     wgtDesc: '',
-    wgtIcon: 'wgt-store',
+    wgtIcon: 'waterfalls-h',
     wgtType: 2,
     config: config,
     props: {

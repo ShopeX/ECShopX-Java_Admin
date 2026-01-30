@@ -94,7 +94,7 @@ export default {
   name: 'Shop',
   wgtName: '店铺',
   wgtDesc: '',
-  wgtIcon: 'wgt-store',
+  wgtIcon: 'application',
   wgtType: 2,
   config: config,
   props: {

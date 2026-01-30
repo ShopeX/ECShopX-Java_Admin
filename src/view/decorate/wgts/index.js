@@ -51,7 +51,6 @@ if (VERSION_PLATFORM()) {
   SCENE_1001 = {
     ...SCENE_1001,
     WgtShop,
-    WgtNearbyShop
   }
 }
 
