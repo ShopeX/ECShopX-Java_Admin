@@ -77,11 +77,16 @@
               clearable
             />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="cat_id" label="销售分类:">
+          <SpFilterFormItem prop="category" label="销售分类:">
             <el-cascader
-              v-model="queryForm.cat_id"
+              v-model="queryForm.category"
               :options="salesCategoryList"
-              :props="{ checkStrictly: true, label: 'category_name', value: 'category_id' }"
+              :props="{
+                checkStrictly: true,
+                label: 'category_name',
+                value: 'category_id',
+                emitPath: false
+              }"
               clearable
             />
           </SpFilterFormItem>
@@ -325,7 +330,7 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="120px">
+          <el-table-column fixed="left" label="操作" width="120px">
             <template slot-scope="scope">
               <!-- 平台端 来源店铺非平台则隐藏 -->
               <el-button v-if="!adminDisabled" type="text" @click="removeActivityItem(scope.row)">
@@ -428,7 +433,7 @@ export default {
       ],
       queryForm: {
         main_cat_id: [],
-        cat_id: [],
+        category: '',
         item_name: '',
         item_bn: ''
       },
@@ -472,9 +477,11 @@ export default {
       let path
       if (this.IS_DISTRIBUTOR()) {
         if (this.VERSION_STANDARD()) {
-          path = '/shopadmin/products/store-product-manage/physicalupload?file_type=employee_purchase_activity_items'
+          path =
+            '/shopadmin/products/store-product-manage/physicalupload?file_type=employee_purchase_activity_items'
         } else {
-          path = '/shopadmin/products/product-manage/product-import?file_type=employee_purchase_activity_items'
+          path =
+            '/shopadmin/products/product-manage/product-import?file_type=employee_purchase_activity_items'
         }
       } else {
         path =
@@ -483,15 +490,15 @@ export default {
       this.$router.push({ path })
     },
     handlePatchAction() {
-      const selectItems = this.tableData.filter(item => !!item.checked)
+      const selectItems = this.tableData.filter((item) => !!item.checked)
       if (selectItems.length > 0) {
         let itemIds = []
-        selectItems.forEach(item => {
+        selectItems.forEach((item) => {
           // 单规格
           if (item.nospec == 'true') {
             itemIds.push(item.item_id)
           } else if (typeof item.spec_items != 'undefined') {
-            item.spec_items.forEach(sitem => {
+            item.spec_items.forEach((sitem) => {
               itemIds.push(sitem.item_id)
             })
           }
@@ -520,11 +527,11 @@ export default {
     },
     onSelectAll(selection) {
       if (selection.length > 0) {
-        this.tableData.forEach(item => {
+        this.tableData.forEach((item) => {
           item['checked'] = true
         })
       } else {
-        this.tableData.forEach(item => {
+        this.tableData.forEach((item) => {
           item['checked'] = false
         })
       }
@@ -553,10 +560,10 @@ export default {
       if (type == 'goods') {
         params = {
           ...params,
-          item_id: value.map(item => item.itemId)
+          item_id: value.map((item) => item.itemId)
         }
       } else if (type == 'category') {
-        const main_cat_id = value.map(item => item[item.length - 1])
+        const main_cat_id = value.map((item) => item[item.length - 1])
         params = {
           ...params,
           main_cat_id
@@ -583,14 +590,14 @@ export default {
       })
       this.loading = false
       let tindex = 0
-      list.forEach(item => {
+      list.forEach((item) => {
         item['is_sku'] = false
         item['activity_price'] = item.activity_price / 100
         item['limit_fee'] = item.limit_fee / 100
         item['tid'] = ++tindex
         item['checked'] = false
         if (typeof item.spec_items != 'undefined') {
-          item.spec_items.forEach(sitem => {
+          item.spec_items.forEach((sitem) => {
             sitem['is_sku'] = true
             sitem['activity_price'] = sitem.activity_price / 100
             sitem['limit_fee'] = sitem.limit_fee / 100
@@ -606,7 +613,7 @@ export default {
     },
     async onSelectSku({ goods_id, item_id, default_item_id, item_name, item_bn, spec_items = [] }) {
       const { data } = await this.$picker.goodsSku({
-        data: spec_items.map(item => item.item_id),
+        data: spec_items.map((item) => item.item_id),
         itemId: default_item_id,
         itemName: item_name,
         itemBn: item_bn
@@ -615,7 +622,7 @@ export default {
       await this.$api.marketing.selectSkuOfItems({
         activity_id: id,
         goods_id: goods_id,
-        item_id: data.map(item => item.itemId)
+        item_id: data.map((item) => item.itemId)
       })
       this.pagesQuery.reset()
     },

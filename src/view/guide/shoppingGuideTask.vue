@@ -43,7 +43,7 @@
               {{ scope.row.status | sendingState }}
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="200">
+          <el-table-column fixed="left" label="操作" width="200">
             <template slot-scope="scope">
               <el-button
                 type="text"
@@ -146,7 +146,7 @@ export default {
   methods: {
     getList() {
       this.loadingTable = true
-      getSalesperosnTask(this.params).then(response => {
+      getSalesperosnTask(this.params).then((response) => {
         this.list = response.data.data.list
         this.total_count = response.data.data.total_count
         this.loadingTable = false
@@ -174,7 +174,7 @@ export default {
         type: 'warning'
       }).then(() => {
         cancleSalesperosnTask(row.task_id)
-          .then(response => {
+          .then((response) => {
             this.$message({
               type: 'success',
               message: '终止任务成功'

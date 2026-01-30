@@ -74,9 +74,9 @@ export default {
             render: (h, { row }) => {
               return (
                 <div>
-                  {row.distributor_ids.map(item => {
+                  {row.distributor_ids.map((item) => {
                     return (
-                      <el-tag key={item.distributor_ids} size="mini">
+                      <el-tag key={item.distributor_ids} size='mini'>
                         {item.name}
                       </el-tag>
                     )
@@ -149,13 +149,13 @@ export default {
         ],
         actions: [
           {
-            name: '导出',
+            name: '导 出',
             key: 'add',
             type: 'button',
             slot: 'header',
             buttonType: 'primary',
             action: {
-              handler: async val => {
+              handler: async (val) => {
                 let params = {
                   page: 1,
                   pageSize: 20,

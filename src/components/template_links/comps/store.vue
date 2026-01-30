@@ -15,7 +15,7 @@
         </div>
       </div>
       <div v-else class="view-flex-item">全部店铺</div>
-      <div v-if="checked" class="iconfont icon-times" @click="handleResetClick" />
+      <div v-if="checked" class="el-icon-close" @click="handleResetClick" />
       <div class="iconfont icon-sync-alt" @click="handleClick" />
     </div>
     <el-dialog title="选择店铺" :visible.sync="visible" width="500px" append-to-body>
@@ -101,7 +101,7 @@ export default {
     async fetch() {
       const { list, total_count } = await this.$api.marketing.getDistributorList(this.params)
       let _list = []
-      list.map(item => {
+      list.map((item) => {
         _list.push({
           id: item.distributor_id,
           name: item.name,

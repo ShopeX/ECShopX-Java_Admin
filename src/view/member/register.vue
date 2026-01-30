@@ -70,7 +70,13 @@
       </el-tab-pane>
       <el-tab-pane label="注册协议与隐私政策配置" class="paneSecond" name="second">
         <div class="mainSecond">
-          <el-form ref="privacy" :model="privacyForm" :rles="rules" label-width="100px">
+          <el-form
+            ref="privacy"
+            :model="privacyForm"
+            :rles="rules"
+            :label-position="formLabelPosition"
+            label-width="100px"
+          >
             <div class="section-white content-padded">
               <el-card class="box-card">
                 <div class="text item">
@@ -115,7 +121,13 @@
       </el-tab-pane>
       <el-tab-pane label="互联网诊疗风险告知及知情同意书配置" class="paneSecond" name="third">
         <div class="mainSecond">
-          <el-form ref="medicine" :model="medicineForm" :rules="rules2" label-width="100px">
+          <el-form
+            ref="medicine"
+            :model="medicineForm"
+            :rules="rules2"
+            :label-position="formLabelPosition"
+            label-width="100px"
+          >
             <div class="section-white content-padded">
               <el-card class="box-card">
                 <div class="text item">
@@ -177,12 +189,7 @@
           class="select"
           prop="select"
         >
-          <el-input
-            v-model="selectValue.label"
-            placeholder="内容"
-            type="text"
-            show-word-limit
-          >
+          <el-input v-model="selectValue.label" placeholder="内容" type="text" show-word-limit>
             <template slot="append">
               <el-button type="primary" :disabled="!isSelectValue" @click="saveSelect">
                 确认
@@ -345,6 +352,10 @@ export default {
     }
   },
   computed: {
+    formLabelPosition() {
+      const lang = this.$store?.state?.system?.lang
+      return ['en', 'ar'].includes(lang) ? 'top' : ''
+    },
     isSelectValue({ selectValue }) {
       return !!selectValue.label
     }

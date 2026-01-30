@@ -88,7 +88,7 @@ export default {
     },
     aspectRatio() {
       const { proportion } = this.value
-      return proportions.find(item => item.label == proportion).name
+      return proportions.find((item) => item.label == proportion).name
     },
     sourceUrl() {
       const { data } = this.value

@@ -128,7 +128,7 @@
                           <p>
                             优惠金额：{{ scope.row.curFeeSymbol }}{{ item.discount_fee / 100 }} 元
                           </p>
-                          <hr>
+                          <hr />
                         </div>
                       </div>
                       <div slot="reference" class="name-wrapper">
@@ -165,12 +165,12 @@
                 </div> -->
               </template>
             </el-table-column>
-            <el-table-column label="交易时间" width="160">
+            <el-table-column label="交易时间" width="170">
               <template slot-scope="scope">
                 {{ scope.row.timeStart | datetime('YYYY-MM-DD HH:mm:ss') }}
               </template>
             </el-table-column>
-            <el-table-column label="订单信息">
+            <el-table-column label="订单信息" width="200">
               <template slot-scope="scope">
                 <div class="order-num">
                   <el-tooltip effect="dark" content="联系方式" placement="top-start">
@@ -193,16 +193,14 @@
                 <div class="order-time">商品：{{ scope.row.body }}</div>
               </template>
             </el-table-column>
-            <el-table-column label="实付" width="180">
+            <el-table-column label="实付金额(￥)" width="180">
               <template slot-scope="scope">
-                <div>
-                  实付：<span v-if="scope.row.payType == 'point'" class="mark"
-                    >{{ scope.row.payFee }} 积分</span
-                  >
-                  <span v-else class="mark"
-                    ><span class="cur">{{ scope.row.curFeeSymbol }}</span
-                    >{{ scope.row.payFee / 100 }}</span
-                  >
+                <div v-if="scope.row.payType == 'point'">
+                  <span class="mark">{{ scope.row.payFee }} 积分</span>
+                </div>
+                <div v-else>
+                  <span>￥</span>
+                  <span>{{ scope.row.payFee / 100 }}</span>
                 </div>
               </template>
             </el-table-column>
@@ -238,7 +236,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column width="100" label="订单金额">
+            <el-table-column width="180" label="订单金额(￥)">
               <template slot-scope="scope">
                 <template v-if="scope.row.payType == 'point'">
                   <span>{{ scope.row.payFee }} 积分</span>
@@ -269,11 +267,11 @@
                 {{ scope.row.self_delivery_operator_name }}
               </template>
             </el-table-column>
-            <el-table-column prop="mobile" label="业务员">
+            <!-- <el-table-column prop="mobile" label="业务员">
               <template slot-scope="scope">
                 {{ scope.row.salesman_mobile }}
                 <el-tooltip
-                  v-if="datapass_block == 0"
+                  v-if="datapass_block == 0 && scope.row.salesman_mobile"
                   effect="dark"
                   content="复制"
                   placement="top-start"
@@ -285,7 +283,7 @@
                   />
                 </el-tooltip>
               </template>
-            </el-table-column>
+            </el-table-column> -->
 
             <el-table-column
               v-if="$store.getters.login_type != 'merchant' && !VERSION_IN_PURCHASE()"
@@ -442,7 +440,7 @@ export default {
       this.onSearch()
     },
     getDistributionType({ receipt_type }) {
-      const fd = DISTRIBUTION_TYPE.find(item => item.value == receipt_type)
+      const fd = DISTRIBUTION_TYPE.find((item) => item.value == receipt_type)
       if (fd) {
         return fd.title
       }

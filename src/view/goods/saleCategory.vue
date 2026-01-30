@@ -34,31 +34,7 @@
         width="100%"
       >
         <el-table-column label="" width="60"></el-table-column>
-        <el-table-column label="分类名称" prop="category_name">
-          <template slot-scope="scope">
-            <div class="whitespace-nowrap">
-              {{ scope.row.category_name }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="sort" label="分类排序" width="80">
-          <template slot-scope="scope">
-            <div>{{ scope.row.sort }}</div>
-          </template>
-        </el-table-column>
-        <el-table-column label="分类图片" width="200">
-          <template slot-scope="scope">
-            <div class="img-container">
-              <SpImage
-                v-if="scope.row.image_url"
-                :src="scope.row.image_url"
-                :width="48"
-                :height="48"
-              />
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="320">
+        <el-table-column label="操作" width="450">
           <template slot-scope="scope">
             <el-button type="text">
               <router-link
@@ -82,7 +58,7 @@
             <el-button type="text" @click="editCategory(scope.row)"> 编辑 </el-button>
             <el-popover v-if="appID" placement="top" width="200" trigger="click">
               <div>
-                <img class="page-code" :src="appCodeUrl">
+                <img class="page-code" :src="appCodeUrl" />
                 <div class="page-btns">
                   <el-button
                     type="primary"
@@ -99,7 +75,7 @@
               </div>
               <el-button
                 slot="reference"
-                style="width: 45px"
+                style="min-width: 65px"
                 type="text"
                 @click="handleClick(scope.row.category_id)"
               >
@@ -109,6 +85,30 @@
             <el-button type="text" @click.native.prevent="deleteCategory(scope.row)">
               删除
             </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="分类名称" prop="category_name" width="280">
+          <template slot-scope="scope">
+            <div class="whitespace-nowrap">
+              {{ scope.row.category_name }}
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="sort" label="分类排序" width="140">
+          <template slot-scope="scope">
+            <div>{{ scope.row.sort }}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="分类图片" width="200">
+          <template slot-scope="scope">
+            <div class="img-container">
+              <SpImage
+                v-if="scope.row.image_url"
+                :src="scope.row.image_url"
+                :width="48"
+                :height="48"
+              />
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -191,7 +191,7 @@ export default {
   mounted() {
     this.init()
     this.fetchWechatList()
-    this.classification()
+    // this.classification()
   },
   methods: {
     async classification() {
@@ -203,10 +203,10 @@ export default {
       }
       let { list } = await this.$api.wxa.getCustomPageList(params)
       console.log(list, 'src/view/goods/saleCategory.vue-第197行')
-      list.forEach(element => {
+      list.forEach((element) => {
         ;(element.title = element.page_name), (element.value = element.id)
       })
-      // this.categoryFormList[4].options = list
+      this.categoryFormList[4].options = list
     },
     async init() {
       const list = await this.getCategory()
@@ -214,7 +214,7 @@ export default {
     },
     async fetchWechatList() {
       const { list } = await this.$api.minimanage.gettemplateweapplist()
-      const { authorizer = {} } = list.find(item => item.key_name == 'yykweishop') || {}
+      const { authorizer = {} } = list.find((item) => item.key_name == 'yykweishop') || {}
       const { authorizer_appid } = authorizer
       this.appID = authorizer_appid
     },
@@ -282,7 +282,7 @@ export default {
       const res = await this.$api.goods.getCategory({
         parent_id: pid
       })
-      const list = res.map(item => {
+      const list = res.map((item) => {
         return {
           ...item,
           hasChildren: item.has_children == '1'

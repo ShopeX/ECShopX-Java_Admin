@@ -11,7 +11,7 @@
       <div class="hd-rg">
         <el-button v-if="mode == 'page'" plain @click="onExit"> 后退 </el-button>
         <el-button v-if="mode == 'dialog'" plain @click="onClose"> 关闭 </el-button>
-        <el-button plain @click="onSaveTemplate"> 保存 </el-button>
+        <el-button type="primary" @click="onSaveTemplate"> 保存 </el-button>
       </div>
     </div>
     <div class="decorate-bd">
@@ -298,9 +298,7 @@ export default {
       this.getTemplateDetial()
     }
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     regsiterWgts() {
       // const { scene = '1001' } = this.$route.query
@@ -310,9 +308,7 @@ export default {
         Vue.component(wgts[index].name, wgts[index])
       })
     },
-    resetDecorateTheme() {
-
-    },
+    resetDecorateTheme() {},
     getComponentAttr(item) {
       const { wgtName, config } = this.widgets.find((wgt) => {
         return wgt.name?.toLowerCase() == item.name?.toLowerCase()
