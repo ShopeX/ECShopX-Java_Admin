@@ -1097,19 +1097,19 @@ export default {
           _self.generateParams(itemsDetailData.item_params_list)
         }
         if (!_self.form.nospec) {
-          _self.generateSpec(categoryInfoDetail.goods_spec)
+          _self.generateSpec(categoryInfoDetail.goods_spec, itemsDetailData.spec_items)
           _self.specImages = itemsDetailData.spec_images
+          // 恢复规格勾选状态
           itemsDetailData.spec_items.forEach((item) => {
             item.item_spec.forEach((child) => {
               let checkedIndex = _self.skus.findIndex((n) => child.spec_id === n.sku_id)
-              let isin
               if (checkedIndex > -1) {
-                isin = _self.skus[checkedIndex].checked_sku.findIndex(
+                let isin = _self.skus[checkedIndex].checked_sku.findIndex(
                   (k) => child.spec_value_id === k
                 )
-              }
-              if (isin === -1) {
-                _self.skus[checkedIndex].checked_sku.push(child.spec_value_id)
+                if (isin === -1) {
+                  _self.skus[checkedIndex].checked_sku.push(child.spec_value_id)
+                }
               }
             })
           })
@@ -1213,6 +1213,25 @@ export default {
         let detail = res.data.data
         this.generateParams(detail.goods_params)
         this.generateSpec(detail.goods_spec)
+        // 切换分类后，如果有已保存的规格数据，需要重新恢复勾选状态
+        if (this.isEditor && this.editingSkus && this.editingSkus.length > 0) {
+          this.editingSkus.forEach((item) => {
+            if (item.item_spec && item.item_spec.length > 0) {
+              item.item_spec.forEach((child) => {
+                let checkedIndex = this.skus.findIndex((n) => child.spec_id === n.sku_id)
+                if (checkedIndex > -1) {
+                  let isin = this.skus[checkedIndex].checked_sku.findIndex(
+                    (k) => child.spec_value_id === k
+                  )
+                  if (isin === -1) {
+                    this.skus[checkedIndex].checked_sku.push(child.spec_value_id)
+                  }
+                }
+              })
+            }
+          })
+          this.updateSku()
+        }
       })
     },
     generateParams(data) {
@@ -1253,16 +1272,43 @@ export default {
         })
       })
     },
-    generateSpec(data) {
+    generateSpec(data, savedSpecItems = null) {
       let skus = []
+      
       data.forEach((item) => {
         let specs = []
+        let specValueIds = new Set()
+        
+        // 先添加分类中的规格值
         item.attribute_values.list.forEach((spec) => {
           if (!spec.custom_attribute_value) {
             Object.assign(spec, { custom_attribute_value: spec.attribute_value })
           }
           specs.push(spec)
+          specValueIds.add(spec.attribute_value_id)
         })
+        
+        // 如果已保存的规格值不在分类的规格值列表中，也要添加进去
+        // 这样可以确保新勾选的规格值能够正确显示和恢复
+        if (savedSpecItems && savedSpecItems.length > 0) {
+          savedSpecItems.forEach((savedItem) => {
+            if (savedItem.item_spec && savedItem.item_spec.length > 0) {
+              savedItem.item_spec.forEach((savedSpec) => {
+                // 如果这个规格值属于当前规格（spec_id匹配），且不在列表中，则添加
+                if (savedSpec.spec_id === item.attribute_id && !specValueIds.has(savedSpec.spec_value_id)) {
+                  // 创建一个新的规格值对象，使用已保存的数据
+                  specs.push({
+                    attribute_value_id: savedSpec.spec_value_id,
+                    attribute_value: savedSpec.spec_value_name || '',
+                    custom_attribute_value: savedSpec.spec_custom_value_name || savedSpec.spec_value_name || ''
+                  })
+                  specValueIds.add(savedSpec.spec_value_id)
+                }
+              })
+            }
+          })
+        }
+        
         let sku = {
           sku_id: item.attribute_id,
           sku_name: item.attribute_name,
