@@ -11,7 +11,7 @@ const config = {
       key: 'navSticky',
       component: 'radiobutton',
       options: [
-        { name: '是', label: true},
+        { name: '是', label: true },
         { name: '否', label: false }
       ],
       value: true
@@ -44,8 +44,8 @@ const config = {
       key: 'leftimgUrl',
       component: function (h, { key }) {
         return (
-          <div class={'sp-image-picker'}>
-            <SpImagePicker v-model={this.value[key]} size='small' />
+          <div class={'sp-image-picker-mini'}>
+            <SpImagePicker v-model={this.value[key]} size='mini' />
           </div>
         )
       },
@@ -57,8 +57,8 @@ const config = {
       key: 'rightimgUrl',
       component: function (h, { key }) {
         return (
-          <div class={'sp-image-picker'}>
-            <SpImagePicker v-model={this.value[key]} size='small' />
+          <div class={'sp-image-picker-mini'}>
+            <SpImagePicker v-model={this.value[key]} size='mini' />
           </div>
         )
       },
@@ -107,13 +107,13 @@ const config = {
       no_meber_tags,
       tagsType
     } = v
-    
+
     // 使用公共函数处理 base 中的样式数据转换（将 rpx 转换为 px）
     const transformedBase = transformInBase(base, ['outerMargin', 'navitemarea'])
-    
+
     // 将旧的配置格式转换为新格式（兼容旧数据）
     const { navbg, navpadded, navitembg, navitempadded, ...restBase } = transformedBase || {}
-    
+
     // 转换 navbg + navpadded 为 outerMargin（如果还没有 outerMargin）
     const outerMargin = transformedBase?.outerMargin || (navbg || navpadded ? {
       paddedt: (navpadded?.paddedt || 0) / 2,
@@ -126,7 +126,7 @@ const config = {
       startColor: '#ffffff',
       endColor: '#ffffff'
     } : {})
-    
+
     // 转换 navitembg + navitempadded 为 navitemarea（如果还没有 navitemarea）
     const navitemarea = transformedBase?.navitemarea || (navitembg || navitempadded ? {
       paddedt: (navitempadded?.paddedt || 0) / 2,
@@ -139,7 +139,7 @@ const config = {
       startColor: '#ffffff',
       endColor: '#ffffff'
     } : {})
-    
+
     // 处理 navitemheight 和 navitemmargin 的单位转换（从 rpx 转换为 px）
     const processedRestBase = { ...restBase }
     if (processedRestBase.navitemheight !== undefined) {
@@ -148,7 +148,7 @@ const config = {
     if (processedRestBase.navitemmargin !== undefined) {
       processedRestBase.navitemmargin = processedRestBase.navitemmargin / 2
     }
-    
+
     return {
       name,
       uuid,
@@ -195,11 +195,11 @@ const config = {
       base: (v) => {
         // 使用公共函数处理 base 中的样式数据转换（将 px 转换为 rpx）
         const baseData = createTransformOutBase(['outerMargin', 'navitemarea'], ['outerMargin', 'navitemarea'])(v)
-        
+
         // 将新的配置结构转换为旧格式以保持兼容
         const outerMargin = baseData.outerMargin || {}
         const navitemarea = baseData.navitemarea || {}
-        
+
         // 提取其他 base 字段
         const otherBaseData = pickBy(v, {
           wgtCustName: 'wgtCustName',
@@ -214,7 +214,7 @@ const config = {
           navitemradius: 'navitemradius',
           navitembordercolor: 'navitembordercolor'
         })
-        
+
         return {
           ...otherBaseData,
           navitemarea,

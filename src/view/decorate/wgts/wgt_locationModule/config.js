@@ -45,7 +45,7 @@ const config = {
       component: function (h, { key }) {
         return (
           <div class={'sp-image-picker'}>
-            <SpImagePicker v-model={this.value[key]} size='small' />
+            <SpImagePicker v-model={this.value[key]} size='mini' />
           </div>
         )
       },
@@ -58,7 +58,7 @@ const config = {
       component: function (h, { key }) {
         return (
           <div class={'sp-image-picker'}>
-            <SpImagePicker v-model={this.value[key]} size='small' />
+            <SpImagePicker v-model={this.value[key]} size='mini' />
           </div>
         )
       },

@@ -24,12 +24,6 @@
       <SpFilterFormItem prop="tag_name" label="标签名称:">
         <el-input v-model="formData.tag_name" clearable placeholder="标签名称" />
       </SpFilterFormItem>
-      <SpFilterFormItem prop="tag_id" label="标签ID:">
-        <el-input v-model="formData.tag_id" placeholder="标签ID" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="segment_id" label="CDP ID:">
-        <el-input v-model="formData.segment_id" placeholder="CDP ID" />
-      </SpFilterFormItem>
     </SpFilterForm>
     <SpFinder
       ref="finder"
@@ -45,8 +39,6 @@
         columns: [
           { name: 'ID', key: 'tag_id', width: 80 },
           { name: '标签名称', key: 'tag_name' },
-          { name: 'CDP ID', key: 'segment_id' },
-          { name: '区域', key: 'regionauth_name' },
         ]
       }"
       :hooks="{
@@ -75,8 +67,6 @@ export default {
     const { queryParams } = this.value
     const defaultParams = {
       tag_name: '',
-      tag_id: '',
-      segment_id: '',
       status: '1',
       is_onlyactive: '1'
     }

@@ -10,6 +10,7 @@
             :span="10"
             class="im-bd-pd"
           >
+            <p class="label">{{ field.label }}</p>
             <el-input-number
               v-model="form[field.key]"
               controls-position="right"

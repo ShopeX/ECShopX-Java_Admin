@@ -104,6 +104,7 @@ const config = {
     },
     {
       label: '自动切换',
+      group: '内容样式',
       key: 'autoplay',
       component: 'radiobutton',
       options: [
