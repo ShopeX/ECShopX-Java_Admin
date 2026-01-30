@@ -363,26 +363,26 @@ export default {
             this.configForm.is_open_wechatapp_location = tempStatus
           }
         },
-        {
-          label: '扫码功能',
-          key: 'is_open_scan_qrcode',
-          type: 'switch',
-          onChange: async () => {
-            await this.$api.template.setPagesTemplate({
-              is_open_scan_qrcode: this.configForm.is_open_scan_qrcode ? 1 : 2
-            })
-          }
-        },
-        {
-          label: '公众号组件',
-          key: 'is_open_official_account',
-          type: 'switch',
-          onChange: async () => {
-            await this.$api.template.setPagesTemplate({
-              is_open_official_account: this.configForm.is_open_official_account ? 1 : 2
-            })
-          }
-        }
+        // {
+        //   label: '扫码功能',
+        //   key: 'is_open_scan_qrcode',
+        //   type: 'switch',
+        //   onChange: async () => {
+        //     await this.$api.template.setPagesTemplate({
+        //       is_open_scan_qrcode: this.configForm.is_open_scan_qrcode ? 1 : 2
+        //     })
+        //   }
+        // },
+        // {
+        //   label: '公众号组件',
+        //   key: 'is_open_official_account',
+        //   type: 'switch',
+        //   onChange: async () => {
+        //     await this.$api.template.setPagesTemplate({
+        //       is_open_official_account: this.configForm.is_open_official_account ? 1 : 2
+        //     })
+        //   }
+        // }
       ],
       template_name: 'yykweishop',
       isTemplateNavList: true,
