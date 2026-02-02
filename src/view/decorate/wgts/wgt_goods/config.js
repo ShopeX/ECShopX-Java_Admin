@@ -19,7 +19,7 @@ const config = {
                 { label: '按指定商品', value: 'items' },
                 { label: '按管理分类', value: 'main_category' },
                 { label: '按销售分类', value: 'category' },
-                { label: '浏览记录', value: 'history' },
+                { label: '按浏览记录', value: 'history' },
             ],
             value: 'main_category',
             onchange: function (v, self) {
@@ -27,6 +27,10 @@ const config = {
                     id: v == 'price' ? '0,0' : '',
                     info: null
                 })
+                // 浏览记录最大数量为 10，切换时若当前值大于 10 则限制为 10
+                if (v === 'history' && (self.value.dataCount == null || self.value.dataCount > 10)) {
+                    self.$set(self.value, 'dataCount', 10)
+                }
             }
         },
         {
@@ -63,10 +67,18 @@ const config = {
             group: '数据设置',
             label: '数据数量',
             key: 'dataCount',
-            component: 'number',
-            value: 4,
-            min: 1,
-            max: 99
+            component: function (h, { key }) {
+                const maxCount = this.value.dataType === 'history' ? 10 : 99
+                return (
+                    <el-input-number
+                        v-model={this.value[key]}
+                        size='small'
+                        min={1}
+                        max={maxCount}
+                    />
+                )
+            },
+            value: 4
         },
         {
             group: '组件标题',
