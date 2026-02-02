@@ -69,8 +69,8 @@
                 <slot name="title" :data="item" :index="index" />
               </div>
               <div class="iten-hd-right">
-                <i v-if="isEdit" class="iconfont icon-pen" @click="onEdit(item, index)" />
-                <i v-if="isDelete" class="iconfont icon-trash-alt1" @click="onRemoveItem(index)" />
+                <el-button v-if="isEdit" type="text" icon="el-icon-edit" @click="onEdit(item, index)" />
+                <el-button v-if="isDelete" type="text" icon="el-icon-delete" @click="onRemoveItem(index)" />
               </div>
             </div>
             <div class="item-bd">

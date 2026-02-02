@@ -100,10 +100,11 @@ export default {
       if (index < e.length - 1) {
         return this.getNodeInfo(node.children, e, ++index)
       } else {
-        const { category_id, category_name } = node
+        const { category_id, category_name, image_url } = node
         return {
           id: category_id,
-          title: category_name
+          title: category_name,
+          image_url: image_url || ''
         }
       }
     },

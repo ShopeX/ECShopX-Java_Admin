@@ -19,8 +19,12 @@
             v-model="localValue.data"
             type="text"
             btn-text="添加导航项"
-            :show-title="false"
+            :is-edit="true"
+            :is-delete="true"
+            :is-move="true"
             @onAddItem="handleAddNavItem"
+            @edit="handleEditNavItem"
+            @onDelete="handleDeleteNavItem"
           >
             <template slot="title" slot-scope="scope">
               <span class="scope-item-label">{{ scope.data.category_name }}</span>
@@ -125,6 +129,7 @@
           const firstLevel = {
             category_id: item.category_id,
             category_name: item.category_name,
+            image_url: item.image_url,
             children: []
           }
   
@@ -133,7 +138,8 @@
             item.children.forEach((child) => {
               firstLevel.children.push({
                 category_id: child.category_id,
-                category_name: child.category_name
+                category_name: child.category_name,
+                image_url: child.image_url,
               })
             })
           }
@@ -219,7 +225,7 @@
         const category_id = res.data[0].id //分类id
         const category_name = res.data[0].title //分类名称
         const image_url = res.data[0].image_url //分类图片
-        console.log(res, 'res')
+        console.log(res.data, 'res')
         this.localValue.data.push({
           category_id,
           category_name,
@@ -260,6 +266,45 @@
           category: {
             category_id: ''
           },
+          data: this.localValue.data
+        })
+      },
+      // 编辑导航项：重新选择分类
+      async handleEditNavItem({ item, index }) {
+        let res = null
+        if (this.dataType === 'manage') {
+          res = await this.$picker.category({
+            is_main_category: true,
+            multiple: false,
+            data: item.category_id
+          })
+        } else {
+          res = await this.$picker.saleCategory({
+            is_main_category: false,
+            data: item.category_id
+          })
+        }
+        if (!res || !res.data || !res.data[0]) return
+        const category_id = res.data[0].id
+        const category_name = res.data[0].title
+        const image_url = res.data[0].image_url
+        this.$set(this.localValue.data, index, {
+          ...item,
+          category_id,
+          category_name,
+          image_url
+        })
+        this.$emit('input', {
+          type: this.localValue.type,
+          category: this.localValue.category,
+          data: this.localValue.data
+        })
+      },
+      // 删除导航项（组件内部已 splice，此处同步并通知父组件）
+      handleDeleteNavItem() {
+        this.$emit('input', {
+          type: this.localValue.type,
+          category: this.localValue.category,
           data: this.localValue.data
         })
       }

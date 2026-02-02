@@ -27,7 +27,6 @@
             .classify-item-image {
                 width: 100%;
                 aspect-ratio: 1/1;
-                background-color: #F5F5F5;
                 overflow: hidden;
     
                 .el-image {
