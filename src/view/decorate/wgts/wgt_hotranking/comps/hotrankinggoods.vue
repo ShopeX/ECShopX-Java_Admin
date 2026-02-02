@@ -145,6 +145,7 @@ export default {
         display: flex;
         gap: 5px;
         justify-content: flex-start;
+        overflow: hidden;
     }
 
     &-item {

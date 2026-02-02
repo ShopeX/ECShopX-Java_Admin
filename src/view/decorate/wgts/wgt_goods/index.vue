@@ -51,7 +51,7 @@ export default {
         },
         'value.data': {
             handler() {
-                if (['price', 'items', 'main_category', 'category'].includes(this.value.dataType)) {
+                if (['price', 'items', 'main_category', 'category', 'history'].includes(this.value.dataType)) {
                     this.getGoodsList()
                 }
             },

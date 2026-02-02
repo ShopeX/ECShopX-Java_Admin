@@ -233,7 +233,6 @@ export default {
 .column-goods {
     width: 100%;
     box-sizing: border-box;
-    background: #FFFFFF;
     border-radius: 8px;
 
     .column-goods-header {

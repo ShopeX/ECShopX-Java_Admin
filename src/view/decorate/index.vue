@@ -324,7 +324,7 @@ export default {
       
       // 检查是否可以添加（在克隆时检查）
       if (!this.canAddWgt(name)) {
-        this.$message.error('店铺字母列表挂件与其他挂件互斥，无法同时添加')
+        this.$message.error(this.getMutualExclusiveMessage(name))
         // 返回 null 或抛出错误来阻止克隆
         return null
       }
@@ -426,9 +426,9 @@ export default {
     },
     onMoveDownComp(index) {},
     onCopyComp(index, wgt) {
-      // 检查互斥逻辑（wgt.name 是 config.name，即 storeAlphabet）
+      // 检查互斥逻辑（wgt.name 是 config.name，如 storeAlphabet、fullSlider）
       if (!this.canAddWgt(wgt.name)) {
-        this.$message.error('店铺字母列表挂件与其他挂件互斥，无法同时添加')
+        this.$message.error(this.getMutualExclusiveMessage(wgt.name))
         return
       }
       this.contentComps.splice(index + 1, 0, cloneDeep(wgt))
@@ -471,7 +471,7 @@ export default {
         
         // 检查是否可以添加
         if (!this.canAddWgt(configName)) {
-          this.$message.error('店铺字母列表挂件与其他挂件互斥，无法同时添加')
+          this.$message.error(this.getMutualExclusiveMessage(configName))
           return false // 阻止拖拽
         }
       }
@@ -484,7 +484,7 @@ export default {
         return
       }
       const addedWgt = evt.added.element
-      // addedWgt.name 是 config.name，即 storeAlphabet
+      // addedWgt.name 是 config.name，如 storeAlphabet、fullSlider
       if (!addedWgt || !this.canAddWgt(addedWgt.name)) {
         // 如果不允许添加，移除刚添加的挂件
         this.$nextTick(() => {
@@ -493,37 +493,49 @@ export default {
             this.contentComps.splice(index, 1)
           }
         })
-        this.$message.error('店铺字母列表挂件与其他挂件互斥，无法同时添加')
+        this.$message.error(this.getMutualExclusiveMessage(addedWgt.name))
       }
     },
-    // 检查是否可以添加挂件（互斥逻辑）
+    // 检查是否可以添加挂件（互斥逻辑：店铺字母列表、整屏滑动 与其余挂件互斥）
     canAddWgt(wgtName) {
       const storeAlphabetConfigName = 'storeAlphabet'
       const storeAlphabetComponentName = 'StoreAlphabet'
-      
-      // 判断是否要添加店铺字母列表（可能是组件名或配置名）
+      const fullSliderConfigName = 'fullSlider'
+      const fullSliderComponentName = 'FullSlider'
+
       const isAddingStoreAlphabet = wgtName === storeAlphabetConfigName || wgtName === storeAlphabetComponentName
-      
-      // 检查当前已有的挂件（contentComps 中使用的是 config.name）
-      // 添加 null 检查，防止访问 null.name 报错
+      const isAddingFullSlider = wgtName === fullSliderConfigName || wgtName === fullSliderComponentName
+      const isMutuallyExclusiveWgt = isAddingStoreAlphabet || isAddingFullSlider
+
       const hasStoreAlphabet = this.contentComps.some(
         comp => comp && comp.name === storeAlphabetConfigName
       )
-      const hasOtherWgts = this.contentComps.some(
-        comp => comp && comp.name !== storeAlphabetConfigName
+      const hasFullSlider = this.contentComps.some(
+        comp => comp && comp.name === fullSliderConfigName
       )
-      
-      // 如果要添加店铺字母列表，但已有其他挂件，则不允许
-      if (isAddingStoreAlphabet && hasOtherWgts) {
+      const hasOtherWgts = this.contentComps.some(
+        comp => comp && comp.name !== storeAlphabetConfigName && comp.name !== fullSliderConfigName
+      )
+
+      // 添加整屏滑动/店铺字母列表时，已有其他挂件则不允许
+      if (isMutuallyExclusiveWgt && (hasOtherWgts || (isAddingFullSlider && hasStoreAlphabet) || (isAddingStoreAlphabet && hasFullSlider))) {
         return false
       }
-      
-      // 如果要添加其他挂件，但已有店铺字母列表，则不允许
-      if (!isAddingStoreAlphabet && hasStoreAlphabet) {
+      // 添加其他挂件时，已有整屏滑动或店铺字母列表则不允许
+      if (!isMutuallyExclusiveWgt && (hasStoreAlphabet || hasFullSlider)) {
         return false
       }
-      
+
       return true
+    },
+    // 互斥时的提示文案（按组件区分）
+    getMutualExclusiveMessage(wgtName) {
+      const fullSliderConfigName = 'fullSlider'
+      const fullSliderComponentName = 'FullSlider'
+      if (wgtName === fullSliderConfigName || wgtName === fullSliderComponentName) {
+        return '整屏滑动组件与其他组件互斥，无法同时添加'
+      }
+      return '店铺字母列表挂件与其他挂件互斥，无法同时添加'
     },
     async onSaveTemplate() {
       // console.log('onSaveTemplate:', JSON.stringify(data))

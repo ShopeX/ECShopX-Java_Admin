@@ -173,7 +173,6 @@ export default {
 .row-goods {
     width: 100%;
     box-sizing: border-box;
-    background: #FFFFFF;
     border-radius: 8px;
 
     .row-goods-header {

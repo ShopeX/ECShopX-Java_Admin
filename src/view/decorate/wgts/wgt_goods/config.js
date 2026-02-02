@@ -19,6 +19,7 @@ const config = {
                 { label: '按指定商品', value: 'items' },
                 { label: '按管理分类', value: 'main_category' },
                 { label: '按销售分类', value: 'category' },
+                { label: '浏览记录', value: 'history' },
             ],
             value: 'main_category',
             onchange: function (v, self) {
@@ -40,7 +41,7 @@ const config = {
                 info: null
             },
             isShow: function () {
-                return !['price'].includes(this.value.dataType)
+                return !['price', 'history'].includes(this.value.dataType)
             }
         },
         {
@@ -165,6 +166,10 @@ const config = {
         return {
             name: v.name,
             ...rest,
+            // 数据设置：保存后回显必须带回 data、dataType、dataCount（data 在顶层，dataType/dataCount 可能在 base 内）
+            dataType: v.dataType ?? rest.dataType,
+            dataCount: v.dataCount ?? rest.dataCount,
+            data: v.data != null ? v.data : { id: '', info: null },
             // 映射标题相关字段
             goodsTitleType,
             goodsTitleImage,
