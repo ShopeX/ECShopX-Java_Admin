@@ -18,14 +18,14 @@
         </div>
 
         <div class="wgts-slider-dialog-left" v-else :style="`height:${h}px;background:#f5f5f7`">
-            <SpImage v-if="!sliderForm.videoUrl" class="sp-image" fit="scale-down" />
-            <video-player v-if="sliderForm.videoUrl" class="image-item-video" :options="{
+            <SpImage v-if="!videoUrlStr" class="sp-image" fit="scale-down" />
+            <video-player v-if="videoUrlStr" class="image-item-video" :options="{
                 aspectRatio: '16:9',
                 fluid: true,
                 sources: [
                     {
                         type: 'video/mp4',
-                        src: sliderForm.videoUrl
+                        src: videoUrlStr
                     }
                 ],
                 notSupportedMessage: '此视频暂无法播放，请稍后再试',
@@ -164,9 +164,15 @@ export default {
         }
     },
     computed: {
+        // 统一为字符串，避免视频选择器返回对象导致播放器报错、配置区空白
+        videoUrlStr() {
+            if (!this.sliderForm || !this.sliderForm.videoUrl) return ''
+            const v = this.sliderForm.videoUrl
+            return typeof v === 'object' && v !== null && v.url != null ? v.url : (typeof v === 'string' ? v : '')
+        },
         sliderFormList() {
             if (!this.sliderForm) return []
-            const { media_type, hotData, overlayHotData } = this.sliderForm
+            const { media_type, hotData = [], overlayHotData = [] } = this.sliderForm
             return [
                 {
                     label: '内容类型',
@@ -317,7 +323,11 @@ export default {
     watch: {
         sliderItem: {
             handler(val) {
+                if (!val) return
                 this.sliderForm = cloneDeep(val)
+                // 保证热区数组存在，避免后续访问 .length 或 .push 报错
+                if (!Array.isArray(this.sliderForm.hotData)) this.sliderForm.hotData = []
+                if (!Array.isArray(this.sliderForm.overlayHotData)) this.sliderForm.overlayHotData = []
                 this.h = this.height || 375
             },
             deep: true,
@@ -336,9 +346,15 @@ export default {
         },
         'sliderForm.videoUrl': {
             handler(val) {
+                // 视频选择器可能返回对象 { url }，统一存为字符串避免配置区空白
+                if (val && typeof val === 'object' && val.url != null) {
+                    this.$set(this.sliderForm, 'videoUrl', val.url)
+                    return
+                }
                 if (this.index !== 0) return
-                if (val) {
-                    getVideoAttribute(val, (h) => {
+                const url = typeof val === 'string' ? val : ''
+                if (url) {
+                    getVideoAttribute(url, (h) => {
                         this.h = h
                     })
                 }

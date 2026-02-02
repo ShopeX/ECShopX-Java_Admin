@@ -131,17 +131,24 @@ export default {
             })
             this.$emit('input', { id: data[0].seckill_id, info: { name: data[0].collection_name, regionauth_id: data[0].regionauth_id } })
         },
-        // 选择指定商品
+        // 选择指定商品（使用 goodsitem 弹窗，goodsCheck 在 plugin 中未注册）
         async handleSelectGoods() {
-            const { data, length } = await this.$picker.goodsCheck({
-                data: this.localValue?.info?.type !== 'group_id' ? '' : this.localValue?.id,
-                goods: this.localValue?.info?.type !== 'group_id' && this.localValue?.id ? this.localValue?.id.split(',') : [],
+            const idStr = this.localValue?.info?.type === 'group_id' ? this.localValue?.id || '' : ''
+            const list = idStr ? idStr.split(',').map((id) => ({ item_id: id, itemId: id })) : []
+            const result = await this.$picker.goodsitem({
+                isPointGoods: false,
                 multiple: true,
-                rowKey: 'goods_id',
+                rowKey: 'item_id',
+                data: list,
                 regionauth_id: this.$route.query.regionauth_id,
                 distributor_id: this.$route.query.distributor_id,
                 distributor_name: this.$route.query.distributor_name
             })
+            if (!result || !result.data) return
+            const selected = result.data || []
+            const ids = selected.map((item) => item.item_id || item.itemId).filter(Boolean)
+            const data = ids.join(',')
+            const length = ids.length
             this.localValue = {
                 id: data,
                 info: {

@@ -20,17 +20,25 @@ export const getImageAttribute = (url, callback) => {
   img.src = url
 }
 export const getVideoAttribute = (url, callback) => {
-  if (!url) {
+  // 支持字符串或对象 { url: '...' }
+  const src = url && typeof url === 'object' && url.url != null ? url.url : (typeof url === 'string' ? url : '')
+  if (!src) {
     callback(375)
     return
   }
-  let videoElement = document.createElement('video')
-  videoElement.src = url
+  const videoElement = document.createElement('video')
+  videoElement.src = src
   videoElement.addEventListener('loadedmetadata', function () {
-    URL.revokeObjectURL(url)
-    let width = videoElement.videoWidth
-    let height = videoElement.videoHeight
-    let radio = 375 / width
+    // 仅对 blob URL 调用 revokeObjectURL，避免对普通 http(s) 地址误用
+    if (typeof src === 'string' && src.startsWith('blob:')) {
+      URL.revokeObjectURL(src)
+    }
+    const width = videoElement.videoWidth
+    const height = videoElement.videoHeight
+    const radio = 375 / width
     callback(height * radio)
+  })
+  videoElement.addEventListener('error', function () {
+    callback(375)
   })
 }

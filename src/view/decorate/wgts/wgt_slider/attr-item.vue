@@ -114,7 +114,7 @@
             />
             <video
               v-else
-              :src="scope.data.videoUrl"
+              :src="(scope.data.videoUrl && typeof scope.data.videoUrl === 'object' && scope.data.videoUrl.url) ? scope.data.videoUrl.url : (scope.data.videoUrl || '')"
               width="64"
               height="64"
               @click="onSetHotZone(scope.data, scope.index)"
@@ -126,7 +126,7 @@
             </div>
             <div class="slider-item-link">
               <div
-                v-if="scope.data.hotData.length == 0 && scope.data.overlayHotData.length == 0"
+                v-if="(scope.data.hotData || []).length == 0 && (scope.data.overlayHotData || []).length == 0"
                 class="zone-item-link-no"
                 @click="onSetHotZone(scope.data, scope.index)"
               >
