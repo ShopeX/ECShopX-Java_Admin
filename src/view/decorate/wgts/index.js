@@ -36,7 +36,6 @@ let SCENE_1001 = {
   WgtMarquees,
   WgtFullSlider,
   wgtOrderNavigation,
-  WgtStoreAlphabet,
   WgtClassify,
   WgtLocationModule,
   WgtContentPartition,
@@ -70,7 +69,6 @@ const SCENE_1003 = {
   WgtMarquees,
   WgtShop,
   WgtNearbyShop,
-  WgtStoreAlphabet,
   WgtClassify
 }
 
@@ -103,12 +101,13 @@ const SCENE_1008 = {
   wgtOrderNavigation
 }
 
-// 分类页面
+// 分类页面（storeAlphabet 仅在此页可用）
 const SCENE_1007 = {
   WgtSlider,
   WgtHotZone,
   WgtFilm,
   WgtShop,
+  WgtStoreAlphabet,
   WgtClassify,
   // WgtTask
 }
