@@ -137,7 +137,7 @@
                 @click="handleClickWgtItem(index)"
               >
                 <div class="wgt-tip">
-                  {{ wgt.wgtName }}
+                  {{ (wgt && wgt.wgtName) || '' }}
                 </div>
                 <div
                   class="wgt-tools flex flex-col gap-1"
@@ -146,7 +146,7 @@
                   <SpIcon name="copy" @click="onCopyComp(index, wgt)" />
                   <SpIcon name="delete" @click="onDeleteComp(index)" />
                 </div>
-                <component :is="wgt.name" :value="wgt" />
+                <component v-if="wgt && wgt.name" :is="wgt.name" :value="wgt" />
               </div>
             </draggable>
           </div>
@@ -155,7 +155,7 @@
       <div class="right-container">
         <div v-if="activeCompIndex !== null && contentComps[activeCompIndex] && hackReset">
           <div class="wgt-name">
-            {{ getComponentAttr(contentComps[activeCompIndex]).wgtName }}
+            {{ (getComponentAttr(contentComps[activeCompIndex]) || {}).wgtName }}
           </div>
           <attrPanel
             v-model="contentComps[activeCompIndex]"
@@ -272,6 +272,24 @@ export default {
       return categories
     }
   },
+  watch: {
+    // 自动剔除无效/空白挂件（null、空对象或未在 widgets 中注册的项），避免出现“无用”条
+    contentComps: {
+      handler() {
+        if (!this.widgets.length) return
+        this.$nextTick(() => {
+          const valid = this.contentComps.filter((c) => this.isValidContentComp(c))
+          if (valid.length < this.contentComps.length) {
+            this.contentComps.splice(0, this.contentComps.length, ...valid)
+            if (this.activeCompIndex !== null && (this.activeCompIndex >= this.contentComps.length || !this.contentComps[this.activeCompIndex])) {
+              this.activeCompIndex = this.contentComps.length > 0 ? this.contentComps.length - 1 : null
+            }
+          }
+        })
+      },
+      deep: true
+    }
+  },
   created() {
     const { mode } = this
     if (mode == 'page') {
@@ -310,12 +328,14 @@ export default {
     },
     resetDecorateTheme() {},
     getComponentAttr(item) {
-      const { wgtName, config } = this.widgets.find((wgt) => {
+      if (!item) return { wgtName: '', config: {} }
+      const wgt = this.widgets.find((wgt) => {
         return wgt.name?.toLowerCase() == item.name?.toLowerCase()
       })
+      if (!wgt) return { wgtName: item.wgtName || item.name || '', ...(item.config || {}) }
       return {
-        wgtName,
-        ...config
+        wgtName: wgt.wgtName,
+        ...wgt.config
       }
     },
     cloneDefaultField(e) {
@@ -426,6 +446,7 @@ export default {
     },
     onMoveDownComp(index) {},
     onCopyComp(index, wgt) {
+      if (!wgt || !wgt.name) return
       // 检查互斥逻辑（wgt.name 是 config.name，如 storeAlphabet、fullSlider）
       if (!this.canAddWgt(wgt.name)) {
         this.$message.error(this.getMutualExclusiveMessage(wgt.name))
@@ -479,22 +500,31 @@ export default {
     },
     // 拖拽添加挂件时的处理（备用检查，防止 move 事件未触发）
     onDragAdd(evt) {
-      // 添加空值检查，防止访问 undefined.element 报错
-      if (!evt || !evt.added || !evt.added.element) {
-        return
-      }
+      if (!evt || !evt.added) return
       const addedWgt = evt.added.element
-      // addedWgt.name 是 config.name，如 storeAlphabet、fullSlider
-      if (!addedWgt || !this.canAddWgt(addedWgt.name)) {
-        // 如果不允许添加，移除刚添加的挂件
+      const addedIndex = evt.added.newIndex
+      // 互斥时 clone 可能返回 null，仍会加入列表形成空白项；或加入的是不允许的挂件
+      const name = addedWgt && addedWgt.name ? addedWgt.name : ''
+      const shouldRemove = !addedWgt || !name || !this.canAddWgt(name)
+      if (shouldRemove) {
+        // 在下一帧按“刚添加的索引”移除（确保 vuedraggable 已更新列表），避免留下空白/无用挂件
         this.$nextTick(() => {
-          const index = this.contentComps.findIndex(comp => comp === addedWgt)
-          if (index !== -1) {
-            this.contentComps.splice(index, 1)
+          if (addedIndex >= 0 && addedIndex < this.contentComps.length) {
+            this.contentComps.splice(addedIndex, 1)
+          }
+          // 只保留在 widgets 中注册的有效挂件，剔除 null、空对象或未知项
+          this.contentComps = this.contentComps.filter((c) => this.isValidContentComp(c))
+          if (this.activeCompIndex !== null && (this.activeCompIndex >= this.contentComps.length || !this.contentComps[this.activeCompIndex])) {
+            this.activeCompIndex = this.contentComps.length > 0 ? this.contentComps.length - 1 : null
           }
         })
-        this.$message.error(this.getMutualExclusiveMessage(addedWgt.name))
+        this.$message.error(this.getMutualExclusiveMessage(name))
       }
+    },
+    // 是否为有效挂件（在 widgets 中注册且可渲染）
+    isValidContentComp(c) {
+      if (!c || typeof c !== 'object' || !c.name) return false
+      return this.widgets.some((w) => (w.name || '').toLowerCase() === (c.name || '').toLowerCase())
     },
     // 检查是否可以添加挂件（互斥逻辑：店铺字母列表、整屏滑动 与其余挂件互斥）
     canAddWgt(wgtName) {
@@ -530,12 +560,7 @@ export default {
     },
     // 互斥时的提示文案（按组件区分）
     getMutualExclusiveMessage(wgtName) {
-      const fullSliderConfigName = 'fullSlider'
-      const fullSliderComponentName = 'FullSlider'
-      if (wgtName === fullSliderConfigName || wgtName === fullSliderComponentName) {
-        return '整屏滑动组件与其他组件互斥，无法同时添加'
-      }
-      return '店铺字母列表挂件与其他挂件互斥，无法同时添加'
+      return `该挂件与其他挂件互斥，无法同时添加`
     },
     async onSaveTemplate() {
       // console.log('onSaveTemplate:', JSON.stringify(data))
