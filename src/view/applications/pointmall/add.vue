@@ -1349,11 +1349,8 @@ export default {
       this.submitLoading = true
       const that = this
       let formSkuItem = this.editingSkus
-      // this.specItems.forEach(item => {
-      //   item.forEach(child => {
-      //     formSkuItem.push(child)
-      //   })
-      // })
+      
+      
       if (this.mode === 'component') {
         this.form.intro = JSON.stringify(this.content)
       }
@@ -1640,11 +1637,13 @@ export default {
             item.checked_sku.forEach((checked) => {
               let issue = item.sku_value.find((sku) => sku.attribute_value_id === checked)
               if (issue) {
+                // 如果用户修改了自定义名称，用自定义名称更新 spec_value_name
+                const customValue = issue.custom_attribute_value || ''
                 let obj = {
                   spec_id: item.sku_id,
                   spec_value_id: issue.attribute_value_id,
-                  spec_value_name: issue.attribute_value,
-                  spec_custom_value_name: issue.custom_attribute_value || ''
+                  spec_value_name: customValue || issue.attribute_value,
+                  spec_custom_value_name: customValue
                 }
                 skuGroup.push(obj)
               }
