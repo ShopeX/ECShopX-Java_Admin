@@ -86,10 +86,11 @@ export default {
                 }
             }
 
+            const effectiveDataCount = this.value?.dataCount ?? this.value?.base?.dataCount ?? 4
             let params = {
                 data_type: dataType,
                 data_value: this.value.data?.id || '',
-                data_count: this.value.dataCount,
+                data_count: effectiveDataCount,
                 distributor_id: this.value.data?.distributor_id || '',
                 pages_template_id: this.$route.query.id,
             }
@@ -104,7 +105,7 @@ export default {
             }
             try {
                 const data = await this.$api.template.getShelvesGoods(params)
-                this.list = data || []
+                this.list = data.slice(0, effectiveDataCount) || []
             } catch (error) {
                 console.error('获取商品列表失败:', error)
                 this.list = []

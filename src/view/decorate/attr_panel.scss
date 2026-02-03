@@ -170,7 +170,6 @@
               .image-item {
                 width: 100%;
                 height: 100%;
-                margin-top: -30px;
                 .el-icon-camera {
                   font-size: 18px;
                 }
@@ -320,8 +319,8 @@
     }
     // 当 cell-value-content 包含图片选择器时，改为左对齐
     .cell-value-content:has(.sp-image-picker) {
-      justify-content: flex-start;
-      align-items: flex-start;
+      justify-content: flex-end;
+      align-items: flex-end;
     }
   }
   &.wgt-attr-film {

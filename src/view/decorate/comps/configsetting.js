@@ -50,9 +50,9 @@ function processConfig(config) {
     value: defaultValue
   })
 
-  // 默认的通用配置项（所有组件都自动包含）
+  // 默认的通用配置项（所有组件都自动包含）- 组件上下左右边距默认 16
   const defaultCommonSettings = [
-    createCompStyleItem('outerMargin', '边距')
+    createCompStyleItem('outerMargin', '边距', { paddedt: 16, paddedb: 16, paddedl: 16, paddedr: 16 })
   ]
 
   // 针对特定挂件的额外配置项
@@ -76,10 +76,10 @@ function processConfig(config) {
         )
       },
       value: {
-        paddedt: 9,
-        paddedb: 9,
-        paddedl: 12,
-        paddedr: 12
+        paddedt: 16,
+        paddedb: 16,
+        paddedl: 16,
+        paddedr: 16
       }
     })
   }
