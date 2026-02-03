@@ -103,7 +103,7 @@ export default {
     return {
       searchParams: {
         keywords: '', // 商品标题
-        item_bn: '', // SKU编码
+        goods_bn: '', // SPU编码
         design_id: '', // 方案ID
         plan_name: '', // 方案名称
         approve_status: '', // 商品状态
@@ -119,6 +119,7 @@ export default {
       skuSelectorKey: 0, // SkuSelector 组件的 key，用于强制重新渲染
       searchFormItems: [
         {
+          cellWidth: 1.3,
           component: 'input',
           componentProps: {
             placeholder: '请输入商品标题',
@@ -129,15 +130,17 @@ export default {
           label: '商品标题'
         },
         {
+          cellWidth: 1.3,
           component: 'input',
           componentProps: {
-            placeholder: '请输入SKU编码',
+            placeholder: '请输入SPU编码',
             clearable: true
           },
-          fieldName: 'item_bn',
-          label: 'SKU编码'
+          fieldName: 'goods_bn',
+          label: 'SPU编码'
         },
         {
+          cellWidth: 1.3,
           component: 'input',
           componentProps: {
             placeholder: '请输入方案ID',
@@ -147,6 +150,7 @@ export default {
           label: '方案ID'
         },
         {
+          cellWidth: 1.3,
           component: 'input',
           componentProps: {
             placeholder: '请输入方案名称',
@@ -156,6 +160,7 @@ export default {
           label: '方案名称'
         },
         {
+          cellWidth: 1.3,
           component: 'select',
           componentProps: {
             placeholder: '请选择',
@@ -172,6 +177,7 @@ export default {
           label: '商品状态'
         },
         {
+          cellWidth: 1.3,
           component: ({ h, value, onInput, props: componentProps }) => {
             return h('el-cascader', {
               attrs: {
@@ -226,8 +232,8 @@ export default {
             showOverflowTooltip: true
           },
           {
-            name: 'SKU编码',
-            key: 'item_bn',
+            name: 'SPU编码',
+            key: 'goods_bn',
             width: 150
           },
           {
@@ -363,7 +369,7 @@ export default {
     handleReset() {
       this.searchParams = {
         keywords: '',
-        item_bn: '',
+        goods_bn: '',
         design_id: '',
         design_name: '',
         approve_status: '',

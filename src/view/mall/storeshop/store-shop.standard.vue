@@ -36,42 +36,15 @@
 <template>
   <SpPage class="">
     <SpPlatformTip v-if="!VERSION_SHUYUN()" h5 app alipay />
-    <SpFilterForm :model="formData" @onSearch="onSearch" @onReset="onSearch">
-      <SpFilterFormItem prop="distributor_id" label="店铺:">
-        <SpSelectShop
-          ref="selectShop"
-          v-model="formData.distributor_id"
-          clearable
-          placeholder="请选择"
-          :queryParams="{ is_valid: true }"
-        />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="keywords" label="商品名称:">
-        <el-input v-model="formData.keywords" placeholder="请输入商品名称" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="item_bn" label="商品货号:">
-        <el-input v-model="formData.item_bn" placeholder="请输入商品货号" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="barcode" label="商品条码:">
-        <el-input v-model="formData.barcode" placeholder="请输入商品条码" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="supplier_name" label="所属供应商:">
-        <el-input v-model="formData.supplier_name" placeholder="请输入所属供应商" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="approve_status" label="总部销售状态:">
-        <el-select v-model="formData.approve_status" clearable placeholder="请选择">
-          <el-option
-            v-for="item in statusOption"
-            :key="item.value"
-            :label="item.title"
-            size="mini"
-            :value="item.value"
-          />
-        </el-select>
-      </SpFilterFormItem>
-    </SpFilterForm>
+    <SpFormPlus
+      ref="searchForm"
+      v-model="searchParams"
+      :form-items="searchFormItems"
+      form-type="searchForm"
+      @submit="onSearch"
+    />
 
-    <div class="action-container">
+    <div class="action-container mt-4">
       <el-button type="primary" @click="removeItemFromShop"> 从店铺移除 </el-button>
       <!-- <el-button type="primary" plain> 变更状态 </el-button> -->
       <el-button type="primary" @click="handleBatchDownload"> 商品码下载 </el-button>
@@ -174,13 +147,22 @@ export default {
       statusOption = updateStatusOption
     }
     return {
-      formData: {
+      selectShopRef: null,
+      searchParams: {
         distributor_id: '',
         keywords: '',
         item_bn: '',
         barcode: '',
         supplier_name: '',
-        approve_status: ''
+        approve_status: '',
+        brand_id: ''
+      },
+      goodsBranchList: [],
+      goodsBranchParams: {
+        page: 1,
+        pageSize: 1000,
+        attribute_type: 'brand',
+        attribute_name: ''
       },
       statusOption: statusOption,
       finderData: [],
@@ -209,7 +191,7 @@ export default {
               itemId={this.itemSkuForm.itemId}
               isSuplier={this.editRow.supplier_id != '0'}
               isTotalStore={this.itemSkuForm.is_total_store}
-              distributorId={this.formData.distributor_id}
+              distributorId={this.searchParams.distributor_id}
             />
           )
         }
@@ -218,6 +200,102 @@ export default {
   },
   computed: {
     ...mapGetters(['login_type']),
+    // 搜索表单配置
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'distributor_id',
+          label: '店铺',
+          component: ({ value, onInput, h }) => {
+            return h('SpSelectShop', {
+              props: {
+                value: value,
+                clearable: true,
+                size: 'small',
+                placeholder: '请选择',
+                queryParams: { is_valid: true }
+              },
+              ref: (vm) => {
+                if (vm) {
+                  this.selectShopRef = vm
+                }
+              },
+              on: {
+                input: onInput
+              }
+            })
+          },
+          cellWidth: 1.3
+        },
+        {
+          fieldName: 'keywords',
+          label: '商品名称',
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: '请输入商品名称'
+          }
+        },
+        {
+          fieldName: 'brand_id',
+          label: '品牌',
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: '商品/商标关键词',
+            remote: true,
+            filterable: true,
+            clearable: true,
+            remoteMethod: this.getGoodsBranchList,
+            options: this.goodsBranchList.map((item) => ({
+              label: item.attribute_name,
+              value: item.attribute_id
+            }))
+          }
+        },
+        {
+          fieldName: 'item_bn',
+          label: '商品货号',
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: '请输入商品货号'
+          }
+        },
+        {
+          fieldName: 'barcode',
+          label: '商品条码',
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: '请输入商品条码'
+          }
+        },
+        {
+          fieldName: 'supplier_name',
+          label: '所属供应商',
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: '请输入所属供应商'
+          }
+        },
+        {
+          fieldName: 'approve_status',
+          label: '总部销售状态',
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: '请选择',
+            options: this.statusOption.map((item) => ({
+              label: item.title,
+              value: item.value
+            }))
+          }
+        }
+      ]
+    },
     setting() {
       return createSetting({
         actions: [
@@ -252,7 +330,7 @@ export default {
                 on: {
                   change: async (e) => {
                     await this.$api.marketing.updateDistributorItem({
-                      distributor_id: this.formData.distributor_id,
+                      distributor_id: this.searchParams.distributor_id,
                       goods_id: row.goods_id,
                       is_can_sale: e
                     })
@@ -272,8 +350,6 @@ export default {
             name: 'sku编码',
             key: 'item_bn',
             width: 150,
-            align: 'right',
-            headerAlign: 'center'
           },
           {
             name: '商品库存',
@@ -295,7 +371,7 @@ export default {
                 on: {
                   change: async (e) => {
                     await this.$api.marketing.updateDistributorItem({
-                      distributor_id: this.formData.distributor_id,
+                      distributor_id: this.searchParams.distributor_id,
                       goods_id: row.goods_id,
                       is_total_store: !e
                     })
@@ -429,13 +505,14 @@ export default {
   },
   created() {
     this.getDefaultDistributor()
+    this.getGoodsBranchList()
   },
   methods: {
     onSearch() {
       this.$refs.finder.refresh(true)
     },
     async getDefaultDistributor() {
-      if (!this.formData.distributor_id) {
+      if (!this.searchParams.distributor_id) {
         {
           /* const { distributor_id, name } = await this.$api.marketing.getDistributorInfo({
           distributor_id: 0
@@ -449,20 +526,24 @@ export default {
           is_valid: true
         })
         if (list.length > 0) {
-          this.formData.distributor_id = list[0].distributor_id
-          if (this.$refs.selectShop) {
-            this.$refs.selectShop.selectValue = list[0].name
-          }
+          const { distributor_id, name } = list[0]
+          this.searchParams.distributor_id = distributor_id
+          this.$nextTick(() => {
+            if (this.selectShopRef) {
+              // 使用 onChange 方法设置值，这样会同时更新 selectValue 和 value
+              this.selectShopRef.onChange({ name, value: distributor_id })
+            }
+          })
         }
       }
       this.finderUrl = '/distributor/items'
       this.finderData = undefined
     },
     beforeSearch(params) {
-      const formData = this.formData
+      const searchParams = this.searchParams
       params = {
         ...params,
-        ...formData,
+        ...searchParams,
         is_can_sale: this.activeTab == 'second' ? true : this.activeTab == 'third' ? false : '_all'
       }
       return params
@@ -492,7 +573,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消'
       })
-      const { distributor_id } = this.formData
+      const { distributor_id } = this.searchParams
       await this.$api.marketing.deleteDistributorItems({
         distributor_id,
         item_ids: this.selectItems.map((item) => item.goods_id)
@@ -507,7 +588,7 @@ export default {
       }
       const zip = new JSZip()
       const requests = []
-      const { distributor_id } = this.formData
+      const { distributor_id } = this.searchParams
       this.selectItems.forEach((item) => {
         const url = `${this.BASE_API}/goods/distributionGoodsWxaCodeStream?item_id=${item.itemId}&distributor_id=${distributor_id}`
         requests.push(getFileBlob(url))
@@ -524,7 +605,7 @@ export default {
     // 导出
     async handleExport() {
       const exportParams = {
-        ...this.formData,
+        ...this.searchParams,
         goods_ids: this.selectItems.map((item) => item.goods_id)
       }
       const { status } = await this.$api.marketing.exportDistributorItems(exportParams)
@@ -553,7 +634,7 @@ export default {
         this.loading = true
         try {
           await this.$api.marketing.updateDistributorItem({
-            distributor_id: this.formData.distributor_id,
+            distributor_id: this.searchParams.distributor_id,
             goods_id: JSON.stringify(this.selectItems.map((item) => item.goods_id)),
             is_can_sale: command == '1'
           })
@@ -577,7 +658,7 @@ export default {
         }
         try {
           await this.$api.marketing.updateDistributorItem({
-            distributor_id: this.formData.distributor_id,
+            distributor_id: this.searchParams.distributor_id,
             goods_id: JSON.stringify(remainItems.map((item) => item.goods_id)),
             is_total_store: command == '3'
           })
@@ -592,6 +673,11 @@ export default {
     },
     handleTabClick() {
       this.$refs.finder.refresh()
+    },
+    async getGoodsBranchList(searchVal = '') {
+      this.goodsBranchParams.attribute_name = searchVal
+      const { list } = await this.$api.goods.getGoodsAttr(this.goodsBranchParams)
+      this.goodsBranchList = list
     }
   }
 }
