@@ -158,7 +158,9 @@ const config = {
         },
     ],
     transformIn: (v) => {
-        const { titleText, titleColor, moreBtn, moreLink, goodsLayout, ...rest } = v.base || {}
+        const base = v.base || {}
+        const transformedBase = transformInBase(base, ['outerMargin', 'innerPadding'])
+        const { titleText, titleColor, moreBtn, moreLink, goodsLayout, ...rest } = transformedBase || {}
         // 处理 titleText：可能是对象格式 {type, text, image} 或单独的字段
         let goodsTitleType = 'text'
         let goodsTitleImage = ''
