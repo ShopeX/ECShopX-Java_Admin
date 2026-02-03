@@ -30,7 +30,6 @@
           <div v-else class="wgt-couponcard-item-info">
             <p class="use-title">{{ item?.title }}</p>
             <p class="use-desc">{{ item.desc }}</p>
-            <p  class="use-desc" v-html="item.description" />
           </div>
         </div>
         <!-- dayStockNum: 'stockNum',//日剩余库存
