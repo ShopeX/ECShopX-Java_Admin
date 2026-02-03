@@ -36,7 +36,7 @@
                 :style="overlayStyle" @add="handleAdd($event, 'overlay')" @change="handleChange($event, 'overlay')"
                 @remove="handleRemove($event, 'overlay')" />
         </div>
-        <SpForm ref="form" v-model="sliderForm" :form-list="sliderFormList" :submit="false" label-width="100px" />
+        <SpForm ref="form" class="sp-form" v-model="sliderForm" :form-list="sliderFormList" :submit="false" label-width="110px" />
     </div>
 </template>
 
@@ -412,6 +412,7 @@ export default {
     .sp-form .el-form-item {
         margin-bottom: 6px;
     }
+ 
 
     .overlay-list {
         display: flex;
