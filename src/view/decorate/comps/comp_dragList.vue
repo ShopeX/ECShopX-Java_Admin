@@ -64,7 +64,7 @@
           <div v-for="(item, index) in localValue" :key="`drag-item__${index}`" class="drag-list">
             <div class="item-hd">
               <div class="iten-hd-left">
-                <span v-if="isMove" class="iconfont icon-bars mover" />
+                <el-button v-if="isMove" class="mover" type="text" icon="el-icon-menu" @click="onEdit(item, index)" />
                 <span v-if="showTitle">{{ title }}{{ index + 1 }}</span>
                 <slot name="title" :data="item" :index="index" />
               </div>

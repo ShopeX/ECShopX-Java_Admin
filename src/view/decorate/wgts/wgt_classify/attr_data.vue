@@ -25,9 +25,10 @@
             @onAddItem="handleAddNavItem"
             @edit="handleEditNavItem"
             @onDelete="handleDeleteNavItem"
+            @move="handleMove"
           >
             <template slot="title" slot-scope="scope">
-              <span class="scope-item-label">{{ scope.data.category_name }}</span>
+              <span class="scope-item-label">{{ scope.data.current_category_name || scope.data.category_name }}</span>
             </template>
             <template slot="body" slot-scope="scope">
               <div class="scope-item-wrapper">
@@ -307,6 +308,14 @@
           category: this.localValue.category,
           data: this.localValue.data
         })
+      },
+      // 拖拽排序结束后同步到父组件
+      handleMove() {
+        this.$emit('input', {
+          type: this.localValue.type,
+          category: this.localValue.category,
+          data: this.localValue.data
+        })
       }
     }
   }
@@ -329,7 +338,7 @@
       display: flex;
       align-items: center;
       margin-bottom: 10px;
-  
+
       .scope-item-label {
         font-size: 12px;
         color: #999;

@@ -118,6 +118,8 @@ const config = {
         return {
             name: v.name,
             ...baseRest,
+            // 数据数量：支持从顶层或 base 回显，预览/iframe 更新后能正确显示
+            dataCount: v.dataCount ?? v.base?.dataCount ?? baseRest?.dataCount ?? 4,
             // 映射标题相关字段
             hotrankingTitleType,
             hotrankingTitleImage,

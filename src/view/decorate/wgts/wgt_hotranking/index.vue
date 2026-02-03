@@ -46,23 +46,25 @@ export default {
             handler() {
                 this.getHotRankingGoodsList()
             },
+            immediate: true,
             deep: true
         }
     },
     methods: {
         // 获取热销榜单商品列表（按销量排序）
         async getHotRankingGoodsList() {
+            const effectiveDataCount = this.value?.dataCount ?? this.value?.base?.dataCount ?? 4
             let params = {
                 data_type: 'sales',
                 data_value: '',
-                data_count: this.value.dataCount,
+                data_count: effectiveDataCount,
                 distributor_id: '',
             }
 
             // 实际接口调用示例
             try {
                 const data = await this.$api.template.getShelvesGoods(params)
-                this.list = data || []
+                this.list = data.slice(0, effectiveDataCount) || []
             } catch (error) {
                 console.error('获取热销榜单商品列表失败:', error)
                 this.list = []
