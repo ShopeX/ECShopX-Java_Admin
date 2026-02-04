@@ -268,6 +268,10 @@ export default {
         'slider': this._renderSlider
       }
 
+      if (!renderItem[item.component]) {
+        console.warn(`Unknown component type: ${item.component} for key: ${item.key}`)
+        return null
+      }
 
       return renderItem[item.component](item)
     }

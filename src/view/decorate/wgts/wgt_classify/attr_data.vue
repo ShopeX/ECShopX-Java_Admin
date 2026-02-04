@@ -293,7 +293,8 @@
           ...item,
           category_id,
           category_name,
-          image_url
+          image_url,
+          current_category_name: category_name
         })
         this.$emit('input', {
           type: this.localValue.type,

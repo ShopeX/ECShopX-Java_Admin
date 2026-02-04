@@ -19,82 +19,13 @@ const config =  {
     },
   
     {
-      label: '展示形式',
-      key: 'displayType',
-      component: 'radiobutton',
-      options: [
-        { name: '横向排列', label: 'horizontal' },
-        { name: '字母索引表', label: 'alphabet' }
-      ],
-      value: 'horizontal',
-      tips: '切换到字母索引表模式,将无法使用其它挂件',
-      onchange: function (e, vm) {
-        // console.log('e', e)
-        // if (e == 'alphabet') {
-        //   vm.$confirm('切换到字母索引表模式,将无法使用其它挂件,是否继续？', '提示', {
-        //     confirmButtonText: '确定',
-        //     cancelButtonText: '取消',
-        //     type: 'warning'
-        //   }).then(() => {
-        //     vm.value.displayType = 'alphabet'
-        //   }).catch(() => {
-        //     vm.value.displayType = 'horizontal'
-        //   })
-        // }
-        vm.value.dataType = e === 'alphabet' ? 'all' : 'specify'
-        vm.value.data = []
-      },
-      isShow: function () {
-        const { scene = '' } = this.$route.query
-        return scene === '1007'
-      }
-    },
-    {
-      label: '展示形式',
-      key: 'displayType',
-      component: 'radiobutton',
-      options: [
-        { name: '横向排列', label: 'horizontal' }
-        // { name: '字母索引表', label: 'alphabet' }
-      ],
-      value: 'horizontal',
-      onchange: function (e, vm) {
-        vm.value.dataType = e === 'alphabet' ? 'all' : 'specify'
-        vm.value.data = []
-      },
-      isShow: function () {
-        const { scene = '' } = this.$route.query
-        return scene !== '1007'
-      }
-    },
-    {
       label: '数据类型',
       key: 'dataType',
       component: 'select',
       options: [
-        // { label: '所有店铺', value: 'all' },
         { label: '指定店铺', value: 'specify' }
       ],
       value: 'specify',
-      isShow: function () {
-        return this.value.displayType === 'horizontal'
-      },
-      onchange: function (e, vm) {
-        vm.value.data = []
-      }
-    },
-    {
-      label: '数据类型',
-      key: 'dataType',
-      component: 'select',
-      options: [
-        { label: '所有店铺', value: 'all' },
-        { label: '指定店铺', value: 'specify' }
-      ],
-      value: 'specify',
-      isShow: function () {
-        return this.value.displayType === 'alphabet'
-      },
       onchange: function (e, vm) {
         vm.value.data = []
       }
@@ -199,7 +130,7 @@ const config =  {
       base: (v) => {
         // 使用公共函数处理 outerMargin 和 innerPadding 转换，同时保留其他字段
         const baseData = createTransformOutBase(
-          ['displayType', 'dataType', 'outerMargin', 'innerPadding', 'outerBackground', 'innerBackground', 'wgtCustName', 'track'],
+          ['dataType', 'outerMargin', 'innerPadding', 'outerBackground', 'innerBackground', 'wgtCustName', 'track'],
           ['outerMargin', 'innerPadding']
         )(v)
         return baseData
