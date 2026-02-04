@@ -132,7 +132,6 @@ export default {
         'innerBackground',
         'navbg',
         'navitembg',
-        'titleStyle',
         'titleColor',
         'titleBackgroundImage',
         'bgColor',
