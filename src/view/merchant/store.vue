@@ -73,6 +73,15 @@
   }
 }
 </style>
+<style lang="scss">
+// 营业时间下拉选项居中（只针对 merchant-store 页面的时间选择器）
+.merchant-store-time-select {
+  .time-select-item,
+  .el-time-spinner__item {
+    text-align: center !important;
+  }
+}
+</style>
 <template>
   <SpPage class="merchant-store">
     <SpForm
@@ -289,6 +298,7 @@ export default {
                 <el-time-select
                   v-model={value['startTime']}
                   class='start-time'
+                  popper-class='merchant-store-time-select'
                   placeholder='起始时间'
                   picker-options={{
                     start: '00:00',
@@ -300,6 +310,7 @@ export default {
                 <el-time-select
                   v-model={value['endTime']}
                   class='end-time'
+                  popper-class='merchant-store-time-select'
                   placeholder='结束时间'
                   picker-options={{
                     start: '00:00',
