@@ -319,6 +319,11 @@ export default {
     }
   }
 }
+.tc {
+  clear: both;
+  text-align: right;
+  margin-top: 10px;
+}
 .msg_card {
   background-color: #f4f5f9;
   border-top: 1px solid #e7e7eb;
