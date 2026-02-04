@@ -1030,7 +1030,7 @@ export default {
         // 初始化门店数据
         const response = await getItemsDetail(_self.$route.params.itemId)
         let itemsDetailData = response.data.data
-        const categoryInfoRes = await getCategoryInfo(itemsDetailData.item_main_cat_id)
+        const categoryInfoRes = await getCategoryInfo(itemsDetailData.item_main_cat_id, { is_point: 1,item_id: _self.$route.params.itemId })
         const categoryInfoDetail = categoryInfoRes.data.data
         if (itemsDetailData.regions_id) {
           _self.select_regions_value = itemsDetailData.regions_id
