@@ -308,8 +308,9 @@ export default {
     let scene = this.$route.query.scene || '1001'
     console.log(this.localValue, 'localValue')
     const wgts = gWgts[scene]
+    console.log(wgts, 'wgts')
     Object.keys(wgts).forEach((index) => {
-      if (wgts[index].name != 'Contentpart') {
+      if (!['contentpartition','locationmodule'].includes(wgts[index].name.toLowerCase())) {
         this.gWgtsArr.push(wgts[index])
       }
     })

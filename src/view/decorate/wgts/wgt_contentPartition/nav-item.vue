@@ -309,7 +309,7 @@ export default {
     console.log(this.localValue, 'localValue')
     const wgts = gWgts[scene]
     Object.keys(wgts).forEach((index) => {
-      if (wgts[index].name != 'Contentpart' && wgts[index].name != 'contentPartition') {
+      if (!['contentpartition','locationmodule'].includes(wgts[index].name.toLowerCase())) {
         this.gWgtsArr.push(wgts[index])
       }
     })

@@ -65,12 +65,10 @@
             key: 'wgtIcon',
             width: '60px',
             render: (h, { row }) =>
-              h('div', {
-                style: {
-                  width: '40px',
-                  height: '40px',
-                  'background-image': `url(${require(`@/assets/imgs/decorate/${row.wgtIcon}.png`)})`,
-                  'background-size': '100%'
+              h('SpIcon', {
+                props: {
+                  name: row.wgtIcon,
+                  size: 40
                 }
               })
           },
