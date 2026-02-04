@@ -19,8 +19,17 @@
 <template>
   <SpPage>
     <div class="page-goods-salecategory">
-      <div class="action-container">
+      <div class="action-container flex items-center gap-4">
         <el-button type="primary" @click="addCategory"> 添加销售分类 </el-button>
+        <div class="flex items-center gap-2">
+          <span>前端是否展示</span>
+          <el-switch
+            v-model="saleableEnabled"
+            :active-value="true"
+            :inactive-value="false"
+            @change="handleSaleableChange"
+          />
+        </div>
       </div>
 
       <el-table
@@ -139,6 +148,7 @@ export default {
       mapData: null,
       cacheRowData: null,
       categoryDialog: false,
+      saleableEnabled: true,
       categoryForm: {
         category_id: '',
         category_name: '',
@@ -191,6 +201,7 @@ export default {
   mounted() {
     this.init()
     this.fetchWechatList()
+    this.fetchSaleableFilter()
     // this.classification()
   },
   methods: {
@@ -217,6 +228,24 @@ export default {
       const { authorizer = {} } = list.find(item => item.key_name == 'yykweishop') || {}
       const { authorizer_appid } = authorizer
       this.appID = authorizer_appid
+    },
+    async fetchSaleableFilter() {
+      try {
+        const res = await this.$api.goods.getSaleableFilter()
+        this.saleableEnabled = res.enabled ?? true
+      } catch (e) {
+        console.error('获取前端展示开关状态失败', e)
+      }
+    },
+    async handleSaleableChange(value) {
+      try {
+        await this.$api.goods.setSaleableFilter({ enabled: value })
+        this.$message.success(value ? '已开启前端展示' : '已关闭前端展示')
+      } catch (e) {
+        // 如果失败，恢复原值
+        this.saleableEnabled = !value
+        this.$message.error('设置失败')
+      }
     },
     addCategory() {
       this.categoryForm = {

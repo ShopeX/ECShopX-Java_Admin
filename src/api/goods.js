@@ -743,3 +743,20 @@ export function kjlUnBindItem(params) {
     params
   })
 }
+
+// 获取销售分类前端展示开关状态
+export function getSaleableFilter() {
+  return fetch({
+    url: '/goods/category/saleable-filter/get',
+    method: 'get'
+  })
+}
+
+// 设置销售分类前端展示开关状态
+export function setSaleableFilter(params) {
+  return fetch({
+    url: '/goods/category/saleable-filter',
+    method: 'post',
+    params
+  })
+}
