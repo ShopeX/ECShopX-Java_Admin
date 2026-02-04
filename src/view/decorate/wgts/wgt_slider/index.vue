@@ -12,16 +12,18 @@
     :style="outerStyle"
   >
     <div
+      ref="sliderWrap"
       class="wgt-bd"
       :class="{
         spaced: value.spaced,
       }"
     >
-      <!-- 挂件自定义部分 -->
+      <!-- 挂件自定义部分：占位图撑开第一屏高度，加载后重新测量 -->
       <SpImage
         class="placeholder-item"
         :src="value.data.length > 0 ? value.data[0].imgUrl : null"
         fit="contain"
+        @load="measureFirstScreenHeight"
       />
       <!-- <img class="placeholder-item" style="display: block;" :src="value.data.length > 0 ? value.data[0].imgUrl : null" width="100%" /> -->
       <el-carousel
@@ -155,7 +157,32 @@ export default {
     }
   },
   created() {},
+  mounted() {
+    this.measureFirstScreenHeight()
+  },
+  updated() {
+    this.$nextTick(this.measureFirstScreenHeight)
+  },
   methods: {
+    /** 测量第一屏高度并写入 value，宽固定 375；高度 = 内容高 + 上边距(paddedt) + 下边距(paddedb) */
+    measureFirstScreenHeight() {
+      this.$nextTick(() => {
+      const el = this.$refs.sliderWrap
+      if (!el || !this.value) return
+      const contentHeight = el.clientHeight || el.offsetHeight
+      if (contentHeight <= 0) return
+      const outer = this.value.outerMargin || {}
+      const paddedt = Number(outer.paddedt) || 0
+      const paddedb = Number(outer.paddedb) || 0
+      const totalHeight = contentHeight + paddedt + paddedb
+      console.log(totalHeight,'totalHeight')
+      console.log(paddedt,'paddedt')
+      console.log(paddedb,'paddedb')
+      console.log(contentHeight,'contentHeight')
+      this.$set(this.value, 'firstScreenWidth', 375)
+      this.$set(this.value, 'firstScreenHeight', totalHeight)
+    })
+    },
     overlayStyle(item, index) {
       const { overlaybuttom, overlayLeft, overlayWidth } = item
       return {

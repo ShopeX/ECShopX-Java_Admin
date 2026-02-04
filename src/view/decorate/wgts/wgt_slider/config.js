@@ -118,12 +118,15 @@ const config = {
     const { name, base, config, data, track, tagsType, meber_tags, no_meber_tags } = v
     // 使用公共函数处理 base 中的样式数据转换
     const transformedBase = transformInBase(base, ['outerMargin'])
-    
+    // 第一屏尺寸：宽固定 375，高从保存数据回显，渲染后再由 measureFirstScreenHeight 更新
+    const { firstScreenWidth, firstScreenHeight } = config || {}
     return {
       id: v?.id,
       name,
       ...transformedBase,
       ...config,
+      firstScreenWidth: firstScreenWidth ?? 375,
+      firstScreenHeight: firstScreenHeight ?? 0,
       track,
       tags: {
         type: tagsType || '2',
@@ -186,7 +189,9 @@ const config = {
           itemPadded: 'itemPadded',
           rounded: 'rounded',
           content: 'content',
-          autoplay: 'autoplay'
+          autoplay: 'autoplay',
+          firstScreenWidth: 'firstScreenWidth',
+          firstScreenHeight: 'firstScreenHeight'
         })
       },
       data: ({ data }) => {
