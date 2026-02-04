@@ -17,14 +17,20 @@
       :class="{
         spaced: value.spaced,
       }"
+      :style="bdStyle"
     >
-      <!-- 挂件自定义部分：占位图撑开第一屏高度，加载后重新测量 -->
+      <!-- 第一屏为图片时用占位图撑开高度并测量；第一屏为视频时用 9:16 比例 -->
       <SpImage
+        v-if="!isFirstVideo"
         class="placeholder-item"
         :src="value.data.length > 0 ? value.data[0].imgUrl : null"
         fit="contain"
         @load="measureFirstScreenHeight"
       />
+      <template v-else>
+        <!-- 视频第一屏：占位撑开 9:16 高度 -->
+        <div class="placeholder-item placeholder-video-ratio" />
+      </template>
       <!-- <img class="placeholder-item" style="display: block;" :src="value.data.length > 0 ? value.data[0].imgUrl : null" width="100%" /> -->
       <el-carousel
         class="slider-container"
@@ -135,6 +141,20 @@ export default {
   computed: {
     outerStyle() {
       return getOuterStyle(this.value)
+    },
+    /** 第一屏是否为视频 */
+    isFirstVideo() {
+      const first = this.value?.data?.[0]
+      return !!(first?.media_type === 'video' && first?.videoUrl)
+    },
+    /** 第一屏为视频时固定 9:16 比例的高度（宽 375） */
+    firstScreenVideoHeight() {
+      return Math.round((375 * 16) / 9)
+    },
+    /** 第一屏为视频时给 .wgt-bd 固定高度，保证 9:16 比例 */
+    bdStyle() {
+      if (!this.isFirstVideo) return {}
+      return { minHeight: `${this.firstScreenVideoHeight}px` }
     }
   },
   watch: {
@@ -154,6 +174,9 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    isFirstVideo() {
+      this.measureFirstScreenHeight()
     }
   },
   created() {},
@@ -164,24 +187,26 @@ export default {
     this.$nextTick(this.measureFirstScreenHeight)
   },
   methods: {
-    /** 测量第一屏高度并写入 value，宽固定 375；高度 = 内容高 + 上边距(paddedt) + 下边距(paddedb) */
+    /** 测量第一屏高度并写入 value，宽固定 375；高度 = 内容高 + 上边距(paddedt) + 下边距(paddedb)；第一屏为视频时内容高按 9:16 计算 */
     measureFirstScreenHeight() {
       this.$nextTick(() => {
-      const el = this.$refs.sliderWrap
-      if (!el || !this.value) return
-      const contentHeight = el.clientHeight || el.offsetHeight
-      if (contentHeight <= 0) return
-      const outer = this.value.outerMargin || {}
-      const paddedt = Number(outer.paddedt) || 0
-      const paddedb = Number(outer.paddedb) || 0
-      const totalHeight = contentHeight + paddedt + paddedb
-      console.log(totalHeight,'totalHeight')
-      console.log(paddedt,'paddedt')
-      console.log(paddedb,'paddedb')
-      console.log(contentHeight,'contentHeight')
-      this.$set(this.value, 'firstScreenWidth', 375)
-      this.$set(this.value, 'firstScreenHeight', totalHeight)
-    })
+        if (!this.value) return
+        const outer = this.value.outerMargin || {}
+        const paddedt = Number(outer.paddedt) || 0
+        const paddedb = Number(outer.paddedb) || 0
+        let contentHeight
+        if (this.isFirstVideo) {
+          contentHeight = this.firstScreenVideoHeight
+        } else {
+          const el = this.$refs.sliderWrap
+          if (!el) return
+          contentHeight = el.clientHeight || el.offsetHeight
+          if (contentHeight <= 0) return
+        }
+        const totalHeight = contentHeight + paddedt + paddedb
+        this.$set(this.value, 'firstScreenWidth', 375)
+        this.$set(this.value, 'firstScreenHeight', totalHeight)
+      })
     },
     overlayStyle(item, index) {
       const { overlaybuttom, overlayLeft, overlayWidth } = item

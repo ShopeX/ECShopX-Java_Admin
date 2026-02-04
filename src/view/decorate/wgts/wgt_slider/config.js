@@ -173,7 +173,6 @@ const config = {
     }
   },
   transformOut: (v) => {
-    console.log(v)
     return pickBy(v, {
       id: 'id',
       name: 'name',

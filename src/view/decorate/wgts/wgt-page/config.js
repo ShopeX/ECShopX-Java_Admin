@@ -33,7 +33,7 @@ const config = {
       }
     },
     {
-      group: '标题设置',
+      group: '风格设置',
       label: '页头标题区',
       key: 'titleStyle',
       component: 'radiobutton',
@@ -137,6 +137,9 @@ const config = {
       key: 'pTitleHotSetting',
       component: function (h, { key }) {
         return <AttrFunctionArea v-model={this.value[key]} />
+      },
+      isShow: function () {
+        return this.value.titleStyle != '0'
       },
       value: {
         type: 'hotzone',
