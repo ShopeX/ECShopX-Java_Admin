@@ -298,6 +298,28 @@
           <el-button type="primary" @click="onSubmit"> 保存 </el-button>
         </div>
       </el-tab-pane>
+      <el-tab-pane label="导购服务设置" name="third">
+        <div class="list">
+          <div class="title">导购服务图片配置</div>
+          <div class="formBox">
+            <el-form ref="form" label-width="150px">
+              <el-card shadow="never">
+                <el-form-item label="导购服务头像图">
+                  <SpImagePicker v-model="form.avatar_url" />
+                  <div class="tips">建议尺寸：100px * 100px</div>
+                </el-form-item>
+                <el-form-item label="添加导购背景图">
+                  <SpImagePicker v-model="form.bg_avatar_url" />
+                  <div class="tips">建议尺寸：750px * 400px</div>
+                </el-form-item>
+              </el-card>
+            </el-form>
+          </div>
+        </div>
+        <div class="page-btn">
+          <el-button type="primary" @click="onSubmit"> 保存 </el-button>
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -316,6 +338,8 @@ export default {
       activeName: 'first',
       form: {
         corpid: '', //企业ID
+        avatar_url: '', // 导购服务头像图
+        bg_avatar_url: '', // 添加导购背景图
         agents: {
           // 小程序配置
           app: {
