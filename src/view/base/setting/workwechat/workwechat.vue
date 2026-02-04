@@ -310,7 +310,7 @@
                 </el-form-item>
                 <el-form-item label="添加导购背景图">
                   <SpImagePicker v-model="form.bg_avatar_url" />
-                  <div class="tips">建议尺寸：750px * 400px</div>
+                  <div class="tips">建议尺寸：280px * 436px</div>
                 </el-form-item>
               </el-card>
             </el-form>
