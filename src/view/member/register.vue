@@ -160,7 +160,7 @@
         label-width="120px"
       >
         <el-form-item label="配置标题" prop="label">
-          <el-input v-model="editform.label" type="text" maxlength="9" show-word-limit />
+          <el-input v-model="editform.label" type="text" maxlength="200" show-word-limit />
         </el-form-item>
         <el-form-item label="信息格式">
           <el-select v-model="editform.field_type" @change="fieldTypeChange">
@@ -213,7 +213,7 @@
           <el-input
             v-model="editform.alert_required_message"
             type="text"
-            maxlength="15"
+            maxlength="200"
             show-word-limit
           />
         </el-form-item>
