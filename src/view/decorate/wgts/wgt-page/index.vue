@@ -184,7 +184,7 @@
         <div v-if="value.titleStyle == '3' && value.showSearchButton" class="title-search">
           <div class="search-container">
             <i class="el-icon-search search-icon" />
-            <input type="text" class="search-input" placeholder="底纹词滚动展示">
+            <input type="text" class="search-input" placeholder="">
             <div class="search-button" :style="searchButtonStyle">
               <span>搜索</span>
             </div>

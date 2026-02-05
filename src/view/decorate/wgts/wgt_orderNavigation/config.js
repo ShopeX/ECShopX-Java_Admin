@@ -4,16 +4,16 @@
  */
 import { pickBy } from '@/utils'
 import AttrNavItem from './attr-imagepanel'
+import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 const config = {
   name: 'orderNavigation',
   setting: [
-    { label: '埋点参数', key: 'track', component: 'input', value: '' },
     { label: '组件间距', key: 'padded', component: 'switch', value: true },
+    { label: '标题', group: '基础设置', key: 'title', component: 'input', value: '' },
     { label: '标题颜色', key: 'titleColor', component: 'color', value: '#000' },
-    { label: '背景颜色', key: 'backgroundColor', component: 'color', value: '#fff' },
     {
-      label: '导航图标',
+      label: '',
       key: 'data',
       component: function (h, { key }) {
         return <AttrNavItem v-model={this.value[key]} isBusinessShow={this.value.navigation} />
@@ -39,12 +39,13 @@ const config = {
     }
   ],
   transformIn: (v) => {
-    const { name, base, config, data, track, tagsType, meber_tags, no_meber_tags } = v
+    const { name, base, config: cfg, data, track, tagsType, meber_tags, no_meber_tags } = v
+    const transformedBase = transformInBase(base, ['outerMargin'])
     return {
       id: v?.id,
       name,
-      ...base,
-      ...config,
+      ...transformedBase,
+      ...(cfg || {}),
       data,
       track,
       tags: {
@@ -58,15 +59,10 @@ const config = {
     return pickBy(v, {
       id: 'id',
       name: 'name',
-      base: (v) => {
-        return pickBy(v, {
-          title: 'title',
-          // subtitle: 'subtitle',
-          padded: 'padded',
-          titleColor: 'titleColor',
-          backgroundColor: 'backgroundColor'
-        })
-      },
+      base: createTransformOutBase(
+        ['outerMargin', 'title', 'padded', 'titleColor', 'backgroundColor'],
+        ['outerMargin']
+      ),
       data: 'data',
       track: 'track',
       tags: 'tags',

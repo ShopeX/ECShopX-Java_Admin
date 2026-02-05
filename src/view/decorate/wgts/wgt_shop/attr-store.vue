@@ -43,10 +43,7 @@ export default {
       const ids = this.value.map((item) => item.distributor_id)
       const { data } = await this.$picker.store({
         data: this.value.length > 0 ? this.value : [],
-        multiple: true,
-        params: {
-          regionauth_id: this.$route.query.regionauth_id
-        }
+        multiple: true
       })
       if (data) {
         console.log(data, 'data')
