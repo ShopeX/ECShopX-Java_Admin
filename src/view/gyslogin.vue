@@ -86,7 +86,7 @@
 <script>
 import { Message } from 'element-ui'
 import { isMobile } from '../utils/validate'
-import { fetch } from './request'
+import { fetch } from '@/api/request'
 import { login, getAdminInfo } from '../api/login'
 export default {
   data() {
