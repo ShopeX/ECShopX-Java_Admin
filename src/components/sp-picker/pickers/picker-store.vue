@@ -29,12 +29,12 @@
           <SpFilterFormItem prop="shop_code" label="店铺号">
             <el-input v-model="formData.shop_code" placeholder="请输入店铺号" />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="status" label="状态">
-            <el-select v-model="formData.status" placeholder="请选择状态" clearable>
-              <el-option label="待审核" value="0" />
-              <el-option label="已上架" value="1" />
-              <el-option label="已下架" value="2" />
-              <el-option label="已撤柜" value="9" />
+          <SpFilterFormItem prop="is_valid" label="状态">
+            <el-select v-model="formData.is_valid" placeholder="请选择状态" clearable>
+              <el-option label="全部" value="" />
+              <el-option label="启用" value="true" />
+              <el-option label="禁用" value="false" />
+              <el-option label="废弃" value="delete" />
             </el-select>
           </SpFilterFormItem>
         </SpFilterForm>
@@ -69,7 +69,7 @@
             regionauth_id: '',
             keywords: '',
             shop_code: '',
-            status: '1'
+            is_valid: ''
           },
           district,
           regionArea: [],
@@ -96,7 +96,15 @@
               },
               visible: this.VERSION_PLATFORM
             },
-            { name: '店铺状态', key: 'status_name' },
+            {
+              name: '店铺状态',
+              key: 'is_valid',
+              formatter: (value) =>
+                (value === 'true' && '启用') ||
+                (value === 'false' && '禁用') ||
+                (value === 'delete' && '废弃') ||
+                ''
+            },
             { name: '店铺号', key: 'shop_code' },
             { name: '店铺地址', key: 'store_address' }
           ]
@@ -117,7 +125,7 @@
             name: this.formData.keywords,
             shop_code: this.formData.shop_code,
             distribution_type: this.value?.distribution_type,
-            status: this.formData.status,
+            is_valid: this.formData.is_valid || undefined,
             ...(this.value?.params || {}),
           }
     
