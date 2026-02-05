@@ -10,7 +10,7 @@
       'wgt-order-navigation': true,
       'padded': value.padded
     }"
-    :style="{ ...outerStyle, backgroundColor: value.backgroundColor }"
+    :style="{ ...outerStyle }"
   >
     <div v-if="value.title" :style="`color:${value.titleColor}`" class="wgt-hd">
       <span class="title">{{ value.title }}</span>
