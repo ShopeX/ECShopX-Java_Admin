@@ -221,11 +221,13 @@ function createRequestClient() {
 
 const requestClient = createRequestClient()
 
-const fetch = ({ url, method, params }) => {
+const fetch = ({ url, method, params, skipCountryCode, ...rest }) => {
   // 如果 params 中包含 isUploadFile，需要特殊处理
   const requestConfig = {
     method,
-    data: params
+    data: params,
+    ...(skipCountryCode !== undefined && { skipCountryCode }),
+    ...rest
   }
   return requestClient.request(url, requestConfig)
 }
