@@ -9,9 +9,9 @@ import { transformInBase, createTransformOutBase } from '../../comps/transform-u
 const config = {
   name: 'orderNavigation',
   setting: [
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
+    { label: '组件间距',group:'组件样式', key: 'padded', component: 'switch', value: true },
     { label: '标题', group: '基础设置', key: 'title', component: 'input', value: '' },
-    { label: '标题颜色', key: 'titleColor', component: 'color', value: '#000' },
+    { label: '标题颜色', group: '组件样式', key: 'titleColor', component: 'color', value: '#000' },
     {
       label: '',
       key: 'data',
