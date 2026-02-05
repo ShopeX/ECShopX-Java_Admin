@@ -7,11 +7,16 @@
 
 <script>
 import { isFunction } from '@/utils'
+import CompLayoutSelector from '../../comps/comp_layout_selector.vue'
 import CompPickerLink from './comp_pickerLink'
+
+// 商品挂件列表
+const GOODS_WIDGETS = ['speedkill', 'group', 'hotranking', 'ranking', 'goods']
 
 export default {
   name: 'CompPanel',
   components: {
+    CompLayoutSelector,
     CompPickerLink
   },
   props: {
@@ -45,8 +50,8 @@ export default {
       return <el-input type='textarea' v-model={this.value[key]} rows={rows} size='small' />
     },
 
-    _renderInput({ key, maxlength }) {
-      return <el-input type='text' v-model={this.value[key]} maxlength={maxlength} size='small' />
+    _renderInput({ key }) {
+      return <el-input type='text' v-model={this.value[key]} size='small' />
     },
 
     _renderColor({ key, value: initValue }) {
@@ -95,16 +100,13 @@ export default {
         </el-radio-group>
       )
     },
-    _renderRadioButton({ key, options, onchange = () => {}, tips }) {
+    _renderRadioButton({ key, options, onchange = () => {} }) {
       return (
-        <div>
-          <el-radio-group v-model={this.value[key]} size='mini' onChange={(e) => onchange(e, this)}>
-            {options.map((op) => (
-              <el-radio-button label={op.label}>{op.name}</el-radio-button>
-            ))}
-          </el-radio-group>
-          {tips && <div class='cell-value-tip' domPropsInnerHTML={tips} />}
-        </div>
+        <el-radio-group v-model={this.value[key]} size='mini' onChange={(e) => onchange(e, this)}>
+          {options.map((op) => (
+            <el-radio-button label={op.label}>{op.name}</el-radio-button>
+          ))}
+        </el-radio-group>
       )
     },
     _renderPickerLink({ key }) {
@@ -135,7 +137,6 @@ export default {
         'innerBackground',
         'navbg',
         'navitembg',
-        'titleStyle',
         'titleColor',
         'titleBackgroundImage',
         'bgColor',
@@ -168,6 +169,8 @@ export default {
         'rightimgUrl',
         'navitemarea',
         'autoplay',
+        'searchButtonColor',
+        'showSearchButton',
       ]
     },
     // 将配置项按分组组织
@@ -227,6 +230,20 @@ export default {
         // 在样式列表中的都是样式设置
         return this.styleKeys.includes(item.key)
       })
+    },
+    // 判断是否为商品挂件
+    isGoodsWidget() {
+      const widgetName = this.value?.name || ''
+      return GOODS_WIDGETS.includes(widgetName)
+    },
+    // 布局值
+    layoutValue: {
+      get() {
+        return this.value?.goodsLayout || 'default'
+      },
+      set(val) {
+        this.$set(this.value, 'goodsLayout', val)
+      }
     }
   },
   render(h) {
@@ -251,7 +268,7 @@ export default {
       }
 
       if (!renderItem[item.component]) {
-        console.warn(`Unknown component type: ${item.component}`)
+        console.warn(`Unknown component type: ${item.component} for key: ${item.key}`)
         return null
       }
 
@@ -304,6 +321,22 @@ export default {
 
     return (
       <div class='attr-panel'>
+        {/* 商品挂件布局选择器 */}
+        {this.isGoodsWidget && (
+          <div class='layout-selector-wrapper'>
+            <div class='layout-selector-label'>商品排列</div>
+            <CompLayoutSelector
+              value={this.layoutValue}
+              on-input={(val) => { this.layoutValue = val }}
+              options={[
+                { label: '默认排列', value: 'default' },
+                { label: '一行一个', value: 'one' },
+                { label: '一行两个', value: 'two' },
+                { label: '一行三个', value: 'three' },
+              ]}
+            />
+          </div>
+        )}
         <el-tabs v-model={this.activeTab} class='attr-panel-tabs'>
           <el-tab-pane label='内容设置' name='content'>
             <div class='attr-panel-content'>
