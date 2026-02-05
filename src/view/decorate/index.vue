@@ -163,7 +163,7 @@
             :info="getComponentAttr(contentComps[activeCompIndex])"
           />
         </div>
-        <div v-if="activeCompIndex == null && hackReset && headerAttr">
+        <div v-if="activeCompIndex == null && hackReset && headerAttr && localScene != '1007'">
           <div class="wgt-name">{{ headerAttr.wgtName }}</div>
           <attrPanel v-model="headerData" :info="headerAttr" />
         </div>
@@ -234,11 +234,8 @@ export default {
       }
     },
     headerVisible() {
-      if (this.mode == 'page' && this.scene == '1001') {
-        return true
-      } else {
-        return false
-      }
+      // 仅商城装修(1001)展示页面设置挂件，1007 分类模版等不展示
+      return this.mode == 'page' && this.localScene == '1001'
     },
     widgetCategories() {
       // 通用挂件：轮播、热区图、视频、文字轮播
