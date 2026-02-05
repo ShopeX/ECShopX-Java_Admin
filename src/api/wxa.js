@@ -30,7 +30,8 @@ export function getCodeUnlimit(query) {
   return fetch({
     url: '/wxa/codeunlimit',
     method: 'get',
-    params: query
+    params: query,
+    skipCountryCode: true
   })
 }
 

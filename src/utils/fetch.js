@@ -80,7 +80,9 @@ function createAxios(inst, isJson = true) {
     const showError = config.showError === undefined ? true : config.showError
     config.headers['Authorization'] = 'Bearer ' + store.getters.token
     
-    // 添加 country_code 语言参数
+    // 添加 country_code 语言参数；若传入 skipCountryCode 则不添加
+    const skipCountryCode = config.skipCountryCode === true
+    if (skipCountryCode) delete config.skipCountryCode
     const lang = window.localStorage.getItem('lang')
     const langMap = {
       zhcn: 'zh-CN',
@@ -88,7 +90,7 @@ function createAxios(inst, isJson = true) {
       zhtw: 'zh-TW',
       ar: 'ar-SA'
     }
-    if (lang && langMap[lang]) {
+    if (lang && langMap[lang] && !skipCountryCode) {
       if (isGetMethod || isDeleteMethod) {
         // GET/DELETE 请求添加到 params
         config.params = config.params || {}
