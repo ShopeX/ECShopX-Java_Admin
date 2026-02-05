@@ -13,12 +13,12 @@ const config = {
       component: 'input',
       value: ''
     },
-    {
-      label: '埋点上报参数',
-      key: 'track',
-      component: 'input',
-      value: ''
-    },
+    // {
+    //   label: '埋点上报参数',
+    //   key: 'track',
+    //   component: 'input',
+    //   value: ''
+    // },
     // {
     //   label: '人群设置',
     //   key: 'tags',

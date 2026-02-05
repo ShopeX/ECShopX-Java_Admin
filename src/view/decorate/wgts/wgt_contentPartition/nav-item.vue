@@ -152,6 +152,14 @@
       }
     }
   }
+  .el-drawer__header{
+    height: 50px;
+      line-height: 50px;
+      padding: 0 20px;
+      font-size: 16px;
+      font-weight: 600;
+      border-bottom: 1px solid #f5f5f5;
+  }
 }
 </style>
 
