@@ -113,6 +113,7 @@ export default {
               )
           },
           { name: '卡券名称', key: 'title' },
+      
           {
             name: '优惠券状态',
             key: '_coupon_status',
@@ -141,7 +142,8 @@ export default {
             width: '100px'
           },
           { name: '领取量', key: 'get_num', width: '80px' },
-          { name: '使用量', key: 'use_num', width: '80px' }
+          { name: '使用量', key: 'use_num', width: '80px' },
+          { name: '店铺', key: 'source_name', width: '160px' }
         ]
       }
     }
