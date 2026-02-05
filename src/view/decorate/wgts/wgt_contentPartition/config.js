@@ -44,7 +44,7 @@ const config = {
       key: 'leftimgUrl',
       component: function (h, { key }) {
         return (
-          <div class={'sp-image-picker-mini'}>
+          <div class={'sp-image-picker-contentpart'}>
             <SpImagePicker v-model={this.value[key]} size='mini' />
           </div>
         )
@@ -57,7 +57,7 @@ const config = {
       key: 'rightimgUrl',
       component: function (h, { key }) {
         return (
-          <div class={'sp-image-picker-mini'}>
+          <div class={'sp-image-picker-contentpart'}>
             <SpImagePicker v-model={this.value[key]} size='mini' />
           </div>
         )
