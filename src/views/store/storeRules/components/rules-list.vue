@@ -133,7 +133,7 @@ export default {
         this.list = newVal.list
         this.shop_lbs = newVal.shop_lbs
       },
-      deep: true,
+      deep: true
     }
   }
 }

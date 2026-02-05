@@ -167,17 +167,16 @@
       >
         <div class="section-body">
           <div class="message-tip">
-            1.“通知类”短信无发送时间限制；“营销类”短信可发送时间为每天08:00-22:00，超出可发送时间提交的短信任务将在下一个可发送时间发送。<br>
+            1.“通知类”短信无发送时间限制；“营销类”短信可发送时间为每天08:00-22:00，超出可发送时间提交的短信任务将在下一个可发送时间发送。<br />
             2.关于短信长度：<el-button type="text" @click="handleInquireVariable">
-              变量预估长度
-</el-button
-            ><br>
-            1）预估长度：是系统评估当前模板可能产生的计费条数和字数，可用于评估充值短信条数；预估长度=短信签名+退订文案+短信正文+变量预估长度。<br>
-            2）预扣费长度：短信任务执行时，将替换已知变量后（品牌名称、活动名称、支付金额等），重新预估短信长度，完成预扣费并提交至运营商。<br>
-            3）实际扣费：短信发送成功后，待运营商返回发送账单（一般为5个自然日，大促期间可能会有延迟），根据账单中的实际发送结果进行返款。<br>
-            3.短信内容请输入汉字、英文、常用标点符号、数字。其他特殊字符在实际发送中会展示异常。<br>
-            4.编辑“通知类”短信内容时，请慎重添加营销链接，可能会触发运营商拦截，导致短信发送失败。<br>
-            5.应运营商要求，“通知类”短信不可添加退订文案；“营销类”必须添加退订文案。<br>
+              变量预估长度 </el-button
+            ><br />
+            1）预估长度：是系统评估当前模板可能产生的计费条数和字数，可用于评估充值短信条数；预估长度=短信签名+退订文案+短信正文+变量预估长度。<br />
+            2）预扣费长度：短信任务执行时，将替换已知变量后（品牌名称、活动名称、支付金额等），重新预估短信长度，完成预扣费并提交至运营商。<br />
+            3）实际扣费：短信发送成功后，待运营商返回发送账单（一般为5个自然日，大促期间可能会有延迟），根据账单中的实际发送结果进行返款。<br />
+            3.短信内容请输入汉字、英文、常用标点符号、数字。其他特殊字符在实际发送中会展示异常。<br />
+            4.编辑“通知类”短信内容时，请慎重添加营销链接，可能会触发运营商拦截，导致短信发送失败。<br />
+            5.应运营商要求，“通知类”短信不可添加退订文案；“营销类”必须添加退订文案。<br />
           </div>
           <div class="message-content">
             <el-form label-width="100px" class="message-content-left">
@@ -335,17 +334,17 @@ export default {
     if (this.VERSION_SHUYUN()) {
       this.activeName = 'second'
     }
-    getSmsBasic().then(response => {
+    getSmsBasic().then((response) => {
       if (response.data.data.sms_remainder) {
         let sms_remainder = response.data.data.sms_remainder.info
         this.messageCount = sms_remainder.all_residual
       }
       this.sms_buy_url = response.data.data.sms_buy_url
     })
-    getSmsTemplateList().then(res => {
+    getSmsTemplateList().then((res) => {
       const { list } = res.data.data
       const _list = {}
-      Object.keys(list).forEach(key => {
+      Object.keys(list).forEach((key) => {
         if (VERSION_STANDARD()) {
           if (key != 'merchant') {
             _list[key] = list[key]
@@ -357,7 +356,7 @@ export default {
       this.smsTemlateList = _list
       console.log(this.smsTemlateList)
     })
-    getSmsSign().then(res => {
+    getSmsSign().then((res) => {
       this.messageAutograph = res.data.data.sign || ''
     })
   },
@@ -368,7 +367,7 @@ export default {
         let query = { template_name, is_open, content }
         this.loading = true
         updateSmsTemplate(query)
-          .then(res => {
+          .then((res) => {
             console.log(res)
             if (res.data.data.status) {
               this.detailDialog2 = false
@@ -391,7 +390,7 @@ export default {
     },
     openChange(is_open) {
       let query = { template_name: this.currentTemplate.tmpl_name, is_open: is_open }
-      updateSmsTemplate(query).then(res => {
+      updateSmsTemplate(query).then((res) => {
         console.log(res)
       })
     },
@@ -405,7 +404,7 @@ export default {
       console.log('测试短信参数', data)
       this.messgeLoading = true
       testMessage(data)
-        .then(res => {
+        .then((res) => {
           console.log(res)
           if (res.data.data.status) {
             this.$message({
@@ -420,7 +419,7 @@ export default {
     },
     saveSmsSignAction() {
       let query = { sign: this.messageAutograph }
-      saveSmsSign(query).then(res => {
+      saveSmsSign(query).then((res) => {
         this.$message({
           type: 'success',
           message: '设置短信签名成功'

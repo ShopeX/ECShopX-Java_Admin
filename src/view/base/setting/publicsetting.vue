@@ -438,7 +438,7 @@ export default {
         storeId: res.medicine_setting.kuaizhen580_config?.kuaizhen_store_id,
         stores_isolate: res.open_distributor_divided?.status || false, // 店铺隔离开关
         stores_isolate_template: res.open_distributor_divided?.template || '', // 店铺隔离模版
-        stores_isolate_type: res.open_distributor_divided?.type || 1, // 店铺隔离类型
+        stores_isolate_type: res.open_distributor_divided?.type || 1 // 店铺隔离类型
         // stores_isolate: res.open_distributor_divided?.status || false, // 店铺隔离开关
         // stores_isolate_template: res.open_distributor_divided?.template || '' // 店铺隔离模版
       }

@@ -48,7 +48,7 @@ export default {
             buttonType: 'text',
             action: {
               handler: async ([row]) => {
-                const index = this.finderData.findIndex(item => item.id == row.id)
+                const index = this.finderData.findIndex((item) => item.id == row.id)
                 this.finderData.splice(index, 1)
                 this.$nextTick(() => {
                   this.$refs['finder'].refresh()
@@ -82,7 +82,7 @@ export default {
     },
     async onSelectShop() {
       const { distributor_id } = this.$route.query
-      const ids = this.finderData.map(item => item.distributor_id)
+      const ids = this.finderData.map((item) => item.distributor_id)
       const { data } = await this.$picker.afterSalesList({
         data: ids,
         distributor_id: distributor_id

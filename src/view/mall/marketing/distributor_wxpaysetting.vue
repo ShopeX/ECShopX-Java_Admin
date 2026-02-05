@@ -11,12 +11,12 @@
       </el-form-item>
       <el-form-item label="公众账号ID">
         <el-input v-model="form.app_id" style="width: 300px" />
-        <br>
+        <br />
         <span class="frm-tips">微信支付分配的公众账号ID（企业号corpid即为此appId）</span>
       </el-form-item>
       <el-form-item label="APP应用ID">
         <el-input v-model="form.app_app_id" style="width: 300px" />
-        <br>
+        <br />
         <span class="frm-tips"
           >微信开放平台审核通过的应用APPID（请登录open.weixin.qq.com查看，注意与公众号的APPID不同）</span
         >
@@ -109,7 +109,7 @@ export default {
       this.form.distributor_id = distributor_id
       let query = {}
       query = { pay_type: 'wxpay', distributor_id: distributor_id }
-      getPaymentSetting(query).then(response => {
+      getPaymentSetting(query).then((response) => {
         let form =
           Array.isArray(response.data.data) && !response.data.data.length ? {} : response.data.data
         form.is_servicer = response.data.data.is_servicer == 'true' ? true : false
@@ -141,14 +141,14 @@ export default {
         cert_key: this.form.cert_key
       }
       setPaymentSetting(query)
-        .then(response => {
+        .then((response) => {
           this.$message({
             type: 'success',
             message: '保存成功'
           })
           this.loading = false
         })
-        .catch(error => {
+        .catch((error) => {
           this.loading = false
         })
     }

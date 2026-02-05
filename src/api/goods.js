@@ -265,10 +265,11 @@ export function updateCategory(category_id, query) {
   })
 }
 
-export function getCategoryInfo(category_id) {
+export function getCategoryInfo(category_id, params) {
   return fetch({
     url: '/goods/category/' + category_id,
-    method: 'get'
+    method: 'get',
+    params
   })
 }
 
@@ -758,5 +759,12 @@ export function setSaleableFilter(params) {
     url: '/goods/category/saleable-filter',
     method: 'post',
     params
+  })
+}
+// 触发B2B商品拉取
+export function updateBatchGoods() {
+  return fetch({
+    url: '/goods/b2b/sync',
+    method: 'post'
   })
 }

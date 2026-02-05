@@ -47,7 +47,7 @@ $txt-placeholder: #f5f5f7;
   width: 200px;
   border-radius: 60px;
 }
-.content-center{
+.content-center {
   display: flex;
   justify-content: center;
 }
@@ -672,7 +672,7 @@ $txt-placeholder: #f5f5f7;
                           : 'https://fakeimg.pl/250x100/EFEFEF/CCC/'
                       "
                       alt=""
-                    >
+                    />
                     <div
                       v-for="(sitem, sidx) in editableData[currentFidx].children"
                       :key="sidx"
@@ -687,7 +687,7 @@ $txt-placeholder: #f5f5f7;
                             class="child-img"
                             :src="litem.img ? litem.img : 'https://fakeimg.pl/50x50/EFEFEF/CCC/'"
                             alt=""
-                          >
+                          />
                           <div>{{ litem.name ? litem.name : '子分类' }}</div>
                         </div>
                       </div>
@@ -719,10 +719,10 @@ $txt-placeholder: #f5f5f7;
                           : 'https://fakeimg.pl/250x100/EFEFEF/CCC/'
                       "
                       alt=""
-                    >
+                    />
                     <div v-for="item in 3" :key="item" class="child-goods-view">
                       <div class="child-item">
-                        <img class="item-img" src="https://fakeimg.pl/70x70/EFEFEF/CCC/" alt="">
+                        <img class="item-img" src="https://fakeimg.pl/70x70/EFEFEF/CCC/" alt="" />
                         <div class="item-caption">
                           <div>
                             <div class="item-title">当前类目商品标题</div>
@@ -752,7 +752,7 @@ $txt-placeholder: #f5f5f7;
                       :src="item.img ? item.img : 'https://fakeimg.pl/320x120/EFEFEF/CCC/'"
                       alt=""
                       @click="switchTab(index)"
-                    >
+                    />
                     <div v-for="(sitem, sidx) in item.children" :key="sidx" class="child">
                       <div v-if="sitem.name" class="second-title">
                         {{ sitem.name }}
@@ -763,7 +763,7 @@ $txt-placeholder: #f5f5f7;
                             class="child-img"
                             :src="litem.img ? litem.img : 'https://fakeimg.pl/70x70/EFEFEF/CCC/'"
                             alt=""
-                          >
+                          />
                           <div>{{ litem.name ? litem.name : '子分类' }}</div>
                         </div>
                       </div>
@@ -828,25 +828,18 @@ $txt-placeholder: #f5f5f7;
                       v-if="item.img"
                       :src="item.img ? item.img : 'https://fakeimg.pl/50x50'"
                       alt=""
-                    >
+                    />
                     <SpIcon v-else size="22" name="pic" />
                   </div>
                   <el-input v-model="item.name" placeholder="名称" />
-                  <div
-                    v-if="form.name === 'fresh'"
-                    class="bind-btn"
-                    @click="showCategory(fidx)"
-                  >
+                  <div v-if="form.name === 'fresh'" class="bind-btn" @click="showCategory(fidx)">
                     <i class="el-icon-link"></i>
                     {{ item.category_name ? item.category_name : '绑定分类' }}
                   </div>
                   <!-- <div class="bind-btn el-icon-link" @click="openPageDialog(fidx)">
                     {{ item.page_name ? item.page_name : '绑定自定义页面' }}
                   </div> -->
-                  <div
-                    class="bind-btn"
-                    @click="showCategory(fidx, '', '', item)"
-                  >
+                  <div class="bind-btn" @click="showCategory(fidx, '', '', item)">
                     <i class="el-icon-link" v-if="!item.main_category_id && !item.category_id"></i>
                     <template v-if="item">
                       {{ item.main_category_id ? '管理分类：' : '' }}
@@ -856,10 +849,10 @@ $txt-placeholder: #f5f5f7;
                   </div>
 
                   <el-checkbox v-model="item.hot"> 热推 </el-checkbox>
-                  <div class="move" style="margin-left: 10px;">
+                  <div class="move" style="margin-left: 10px">
                     <SpIcon size="20" name="sort-one" />
                   </div>
-                  <div class="remove" style="margin-left: 10px;">
+                  <div class="remove" style="margin-left: 10px">
                     <SpIcon size="18" name="delete" @click="remove(fidx)" />
                   </div>
                 </div>
@@ -878,21 +871,21 @@ $txt-placeholder: #f5f5f7;
                           </div>
                         </div> -->
                         <el-input v-model="sitem.name" placeholder="名称" />
-                        <div
-                          class="bind-btn"
-                          @click="showCategory(fidx, sidx, '', sitem)"
-                        >
-                          <i class="el-icon-link" v-if="!sitem.main_category_id && !sitem.category_id"></i>
+                        <div class="bind-btn" @click="showCategory(fidx, sidx, '', sitem)">
+                          <i
+                            class="el-icon-link"
+                            v-if="!sitem.main_category_id && !sitem.category_id"
+                          ></i>
                           <template v-if="sitem">
                             {{ sitem.main_category_id ? '管理分类：' : '' }}
                             {{ sitem.category_id ? '商品分类：' : '' }}
                             {{ sitem.category_name ? sitem.category_name : '绑定分类' }}
                           </template>
                         </div>
-                        <div class="move" style="margin-left: 10px;">
+                        <div class="move" style="margin-left: 10px">
                           <SpIcon size="20" name="sort-one" />
                         </div>
-                        <div class="remove" style="margin-left: 10px;">
+                        <div class="remove" style="margin-left: 10px">
                           <SpIcon size="18" name="delete" @click="remove(fidx, sidx)" />
                         </div>
                       </div>
@@ -909,7 +902,7 @@ $txt-placeholder: #f5f5f7;
                                   v-if="litem.img"
                                   :src="litem.img ? litem.img : 'https://fakeimg.pl/50x50'"
                                   alt=""
-                                >
+                                />
                                 <SpIcon v-else size="22" name="pic" />
                               </div>
                               <el-input v-model="litem.name" placeholder="名称" />
@@ -925,15 +918,18 @@ $txt-placeholder: #f5f5f7;
                                   )
                                 "
                               >
-                                <i class="el-icon-link" v-if="!litem.main_category_id && !litem.category_id"></i>
+                                <i
+                                  class="el-icon-link"
+                                  v-if="!litem.main_category_id && !litem.category_id"
+                                ></i>
                                 {{ litem.main_category_id ? '管理分类：' : ''
                                 }}{{ litem.category_id ? '商品分类：' : ''
                                 }}{{ litem.category_name ? litem.category_name : '绑定分类' }}
                               </div>
-                              <div class="move" style="margin-left: 10px;">
+                              <div class="move" style="margin-left: 10px">
                                 <SpIcon size="20" name="sort-one" />
                               </div>
-                              <div class="remove" style="margin-left: 10px;">
+                              <div class="remove" style="margin-left: 10px">
                                 <SpIcon size="18" name="delete" @click="remove(fidx, sidx, lidx)" />
                               </div>
                             </div>
@@ -1020,20 +1016,12 @@ $txt-placeholder: #f5f5f7;
           <el-button type="primary" @click="confirmPageDialog"> 确 定 </el-button>
         </div>
       </el-dialog>
-      <imgPicker
-        :dialog-visible="imgsVisible"
-        :sc-status="isGetImage"
-        @chooseImg="pickImg"
-        @closeImgDialog="closeimgsVisible"
-      />
     </div>
   </transition>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-// 组件
-import imgPicker from '@/components/imageselect'
 // 第三方组件
 import draggable from 'vuedraggable'
 // api
@@ -1042,7 +1030,6 @@ import { savePageParams, getParamByTempName, getCustomPageList } from '@/api/wxa
 import { isArray } from '@/utils'
 export default {
   components: {
-    imgPicker,
     // 第三方组件
     draggable
   },
@@ -1115,9 +1102,6 @@ export default {
         animation: 150,
         scroll: true
       },
-      // 图片选择器
-      isGetImage: false,
-      imgsVisible: false,
       // 分类选择器
       curCateType: 'goodsCate',
       categoryLoading: false,
@@ -1145,12 +1129,12 @@ export default {
   mounted() {
     // this.custom()
     let filter = { template_name: this.template_name, version: 'v1.0.1', page_name: 'category' }
-    getParamByTempName(filter).then(res => {
+    getParamByTempName(filter).then((res) => {
       if (res.data.data?.list?.length !== 0) {
         let results = res.data.data.list[0].params
         if (!results.hasSeries) {
-          results.data?.map(item => {
-            item.children?.map(child => {
+          results.data?.map((item) => {
+            item.children?.map((child) => {
               if (!child.children) {
                 Object.assign(child, { children: [] })
               }
@@ -1159,9 +1143,9 @@ export default {
           this.form = results
           this.editableData = results.data || []
         } else {
-          results.data?.map(item => {
-            item.content?.map(series => {
-              series.children?.map(child => {
+          results.data?.map((item) => {
+            item.content?.map((series) => {
+              series.children?.map((child) => {
                 if (!child.children) {
                   Object.assign(child, { children: [] })
                 }
@@ -1228,10 +1212,10 @@ export default {
       }
     },
     findCateName(val, data) {
-      const fidx = data.findIndex(n => val[0] === n.value)
-      const cidx = val[1] ? data[fidx].children.findIndex(n => val[1] === n.value) : ''
+      const fidx = data.findIndex((n) => val[0] === n.value)
+      const cidx = val[1] ? data[fidx].children.findIndex((n) => val[1] === n.value) : ''
       const gidx = val[2]
-        ? data[fidx].children[cidx].children.findIndex(n => val[2] === n.value)
+        ? data[fidx].children[cidx].children.findIndex((n) => val[2] === n.value)
         : ''
       let name = ''
       if (gidx !== '') {
@@ -1298,12 +1282,12 @@ export default {
           }
           console.log(activeName)
           this.editableSeries = activeName
-          this.series = tabs.filter(tab => tab.name !== targetName)
+          this.series = tabs.filter((tab) => tab.name !== targetName)
           if (this.series.length === 0) {
             this.form.hasSeries = false
-            this.editableData = this.form.data.find(item => item.name === targetName).content
+            this.editableData = this.form.data.find((item) => item.name === targetName).content
           } else {
-            this.editableData = this.series.find(item => item.name === activeName).content
+            this.editableData = this.series.find((item) => item.name === activeName).content
           }
         })
         .catch(() => {})
@@ -1339,20 +1323,20 @@ export default {
     remove(fidx, sidx, lidx) {
       if (lidx !== undefined) {
         this.$confirm('确认删除？')
-          .then(_ => {
+          .then((_) => {
             this.editableData[fidx].children[sidx].children.splice(lidx, 1)
           })
-          .catch(_ => {})
+          .catch((_) => {})
       } else {
         this.$confirm('删该分类将会删除其所有子级，确认删除吗？')
-          .then(_ => {
+          .then((_) => {
             if (sidx !== undefined) {
               this.editableData[fidx].children.splice(sidx, 1)
             } else {
               this.editableData.splice(fidx, 1)
             }
           })
-          .catch(_ => {})
+          .catch((_) => {})
       }
     },
     // 模版演示父级菜单切换
@@ -1364,39 +1348,40 @@ export default {
       this.form.name = type
     },
     // 图片选择器绑定事件
-    showImgs(fidx, sidx, lidx) {
-      this.imgsVisible = true
-      this.isGetImage = true
-      this.currentFidx = fidx
+    async showImgs(fidx, sidx, lidx) {
+      // 获取当前图片URL（如果存在）
+      let currentImgUrl = ''
       if (lidx !== undefined) {
-        this.currentSidx = sidx
-        this.currentLidx = lidx
+        currentImgUrl =
+          (this.editableData[fidx].children[sidx].children[lidx] &&
+            this.editableData[fidx].children[sidx].children[lidx].img) ||
+          ''
+      } else if (sidx !== undefined) {
+        currentImgUrl =
+          (this.editableData[fidx].children[sidx] && this.editableData[fidx].children[sidx].img) ||
+          ''
+      } else {
+        currentImgUrl = (this.editableData[fidx] && this.editableData[fidx].img) || ''
       }
-      if (sidx !== undefined && lidx === undefined) {
-        this.currentSidx = sidx
-        this.currentLidx = ''
+
+      try {
+        const { data } = await this.$picker.image({
+          data: currentImgUrl ? { url: currentImgUrl } : undefined
+        })
+
+        const imgUrl = (data && data.url) || data || ''
+
+        // 根据层级更新对应的图片
+        if (lidx !== undefined) {
+          this.editableData[fidx].children[sidx].children[lidx].img = imgUrl
+        } else if (sidx !== undefined) {
+          this.editableData[fidx].children[sidx].img = imgUrl
+        } else {
+          this.editableData[fidx].img = imgUrl
+        }
+      } catch (error) {
+        console.log('图片选择已取消')
       }
-      if (sidx === undefined && lidx === undefined) {
-        this.currentSidx = ''
-        this.currentLidx = ''
-      }
-    },
-    pickImg(data) {
-      if (this.currentLidx !== '') {
-        this.editableData[this.currentFidx].children[this.currentSidx].children[
-          this.currentLidx
-        ].img = data.url
-      }
-      if (this.currentSidx !== '' && this.currentLidx === '') {
-        this.editableData[this.currentFidx].children[this.currentSidx].img = data.url
-      }
-      if (this.currentSidx === '' && this.currentLidx === '') {
-        this.editableData[this.currentFidx].img = data.url
-      }
-      this.imgsVisible = false
-    },
-    closeimgsVisible() {
-      this.imgsVisible = false
     },
     // 递归
     recursive(list, id) {
@@ -1418,8 +1403,8 @@ export default {
       //   }
       //   loop(item)
       // })
-      list.forEach(item => {
-        const loop = data => {
+      list.forEach((item) => {
+        const loop = (data) => {
           if (data.value == id) {
             result = data
             return result
@@ -1514,21 +1499,21 @@ export default {
     },
     initCategory(data) {
       let categorys = []
-      data?.map(item => {
+      data?.map((item) => {
         let fitem = {
           value: item.category_id,
           label: item.category_name
         }
         if (item.children.length) {
           Object.assign(fitem, { children: [] })
-          item.children?.map(child => {
+          item.children?.map((child) => {
             let citem = {
               value: child.category_id,
               label: child.category_name
             }
             if (child.children.length) {
               Object.assign(citem, { children: [] })
-              child.children?.map(grandson => {
+              child.children?.map((grandson) => {
                 let gitem = {
                   value: grandson.category_id,
                   label: grandson.category_name
@@ -1581,7 +1566,7 @@ export default {
         config: JSON.stringify([this.form]),
         page_name: 'category'
       }
-      savePageParams(param).then(res => {
+      savePageParams(param).then((res) => {
         if (res.data.data.status) {
           this.$message({
             message: '保存成功',
@@ -1602,7 +1587,7 @@ export default {
       this.pageDialogVisible = false
       const index = this.currentFidx
       this.editableData[index].id = this.selectedCustomPage
-      const cur = this.customPageList.find(v => v.id == this.selectedCustomPage)
+      const cur = this.customPageList.find((v) => v.id == this.selectedCustomPage)
       cur && (this.editableData[index].page_name = cur.page_name)
     },
     openPageDialog(index) {

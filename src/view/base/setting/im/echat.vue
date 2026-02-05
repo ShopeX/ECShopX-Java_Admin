@@ -60,13 +60,13 @@ export default {
   },
   methods: {
     getInfo() {
-      getECahtSetting().then(response => {
+      getECahtSetting().then((response) => {
         this.form = response.data.data
       })
     },
     onSubmit() {
       saveEChatSetting(this.form)
-        .then(response => {
+        .then((response) => {
           this.$message({ message: '保存成功', type: 'success' })
           this.getInfo()
         })

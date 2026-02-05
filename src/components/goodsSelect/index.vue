@@ -97,6 +97,16 @@
         </el-col>
         <el-col :span="6" class="last-col">
           <el-input
+            v-model="params.goods_bn"
+            placeholder="SPU编码"
+            clearable
+            class="input-with-select"
+          >
+            <el-button slot="append" icon="el-icon-search" @click="searchByKey" />
+          </el-input>
+        </el-col>
+        <el-col :span="6" class="last-col">
+          <el-input
             v-model="params.supplier_name"
             placeholder="所属供应商"
             clearable
@@ -157,6 +167,7 @@
       <el-table-column prop="itemId" label="商品ID" width="70" />
       <el-table-column prop="itemName" label="商品名称" />
       <el-table-column prop="item_spec_desc" label="规格" />
+      <el-table-column prop="goods_bn" label="SPU编码" />
       <el-table-column label="是否赠品">
         <template slot-scope="scope">
           {{ scope.row.is_gift == '1' ? '是' : '否' }}
@@ -203,12 +214,13 @@
       <el-table-column prop="itemId" label="商品ID" width="70" />
       <el-table-column prop="itemName" label="商品名称" />
       <el-table-column prop="item_spec_desc" label="规格" />
+      <el-table-column prop="goods_bn" label="SPU编码" />
       <el-table-column label="是否赠品">
         <template slot-scope="scope">
           {{ scope.row.is_gift == '1' ? '是' : '否' }}
         </template>
       </el-table-column>
-      <el-table-column prop="supplier_name" label="所属供应商" />
+      <el-table-column prop="supplier_name" label="所属供应商" width="120" />
       <el-table-column label="商品类型">
         <template slot-scope="scope">
           {{ itemSourceMap[scope.row.item_holder] }}
@@ -359,7 +371,8 @@ export default {
         audit_status: 'approved',
         is_gift: '',
         supplier_name: '',
-        item_holder: ''
+        item_holder: '',
+        goods_bn: ''
       },
       categoryList: [],
       select_category_value: [],
@@ -502,8 +515,8 @@ export default {
       if (this.limitNum) {
         this.$message({ message: '当前组件不支持全选', type: 'warning' })
         this.$refs.multipleTable.clearSelection()
-        this.itemsData.forEach(item => {
-          let checked = this.selectRows.find(n => n.itemId === item.itemId)
+        this.itemsData.forEach((item) => {
+          let checked = this.selectRows.find((n) => n.itemId === item.itemId)
           if (checked) {
             this.$refs.multipleTable.toggleRowSelection(item)
           }
@@ -511,15 +524,15 @@ export default {
         return
       }
       if (val.length > 0) {
-        val.forEach(item => {
-          let inChecked = this.selectRows.findIndex(n => item.itemId === n.itemId)
+        val.forEach((item) => {
+          let inChecked = this.selectRows.findIndex((n) => item.itemId === n.itemId)
           if (inChecked === -1) {
             this.selectRows.push(item)
           }
         })
       } else {
         this.itemsData.forEach((item, index) => {
-          let inChecked = this.selectRows.findIndex(n => item.itemId === n.itemId)
+          let inChecked = this.selectRows.findIndex((n) => item.itemId === n.itemId)
           if (inChecked !== -1) {
             this.selectRows.splice(inChecked, 1)
           }
@@ -527,7 +540,7 @@ export default {
       }
     },
     handleSelectChange(val, row) {
-      let inChecked = this.selectRows.findIndex(item => row.itemId === item.itemId)
+      let inChecked = this.selectRows.findIndex((item) => row.itemId === item.itemId)
       if (inChecked !== -1) {
         this.selectRows.splice(inChecked, 1)
       } else {
@@ -535,7 +548,7 @@ export default {
           this.selectRows = []
           this.selectRows.push(row)
           this.$refs.multipleTable.clearSelection()
-          this.selectRows.forEach(item => {
+          this.selectRows.forEach((item) => {
             this.$refs.multipleTable.toggleRowSelection(item)
           })
           return
@@ -545,7 +558,7 @@ export default {
             type: 'warning'
           })
           this.$refs.multipleTable.clearSelection()
-          this.selectRows.forEach(item => {
+          this.selectRows.forEach((item) => {
             this.$refs.multipleTable.toggleRowSelection(item)
           })
           return
@@ -587,14 +600,14 @@ export default {
             this.params.distributor_id == '0'
           )
         ) {
-          getDistributorItems(param).then(response => {
+          getDistributorItems(param).then((response) => {
             this.itemsData = response.data.data.list
 
             this.total_count = parseInt(response.data.data.total_count)
             this.loading = false
           })
         } else {
-          getItemsList(param).then(response => {
+          getItemsList(param).then((response) => {
             this.itemsData = response.data.data.list
             this.total_count = parseInt(response.data.data.total_count)
             this.loading = false
@@ -607,7 +620,7 @@ export default {
     },
     toggleSelection(rows) {
       if (rows) {
-        rows.forEach(row => {
+        rows.forEach((row) => {
           this.$refs.multipleTable.toggleRowSelection(row)
         })
       } else {
@@ -617,18 +630,18 @@ export default {
     // 获取  运费模板 options
     getShippingTemplatesList(distributor_id = 0) {
       this.loading = true
-      getShippingTemplatesList({ distributor_id }).then(response => {
+      getShippingTemplatesList({ distributor_id }).then((response) => {
         this.templatesList = response.data.data.list
       })
     },
     getCurrencyInfo() {
-      getDefaultCurrency().then(res => {
+      getDefaultCurrency().then((res) => {
         this.currency = res.data.data
         this.cursymbol = this.currency.symbol
       })
     },
     getCategory() {
-      getCategory([]).then(response => {
+      getCategory([]).then((response) => {
         this.categoryList = response.data.data
       })
     },
@@ -655,7 +668,7 @@ export default {
       // this.loading = true
       // console.log(searchVal)
       this.goodsBranchParams.attribute_name = searchVal
-      getGoodsAttr(this.goodsBranchParams).then(response => {
+      getGoodsAttr(this.goodsBranchParams).then((response) => {
         this.goodsBranchList = response.data.data.list
         // console.log(this.goodsBranchList)
       })
@@ -688,7 +701,7 @@ export default {
         }
         let ids = []
         this.loading = true
-        this.multipleSelection.forEach(item => {
+        this.multipleSelection.forEach((item) => {
           ids.push(item.item_id)
         })
         if (ids.length > 0) {
@@ -698,15 +711,15 @@ export default {
           param.item_id = ids
           // this.selectRows = []
           if (this.VERSION_PLATFORM() || !param.distributor_id || param.distributor_id == '0') {
-            getSkuList(param).then(res => {
+            getSkuList(param).then((res) => {
               const selectRows = res.data.data.list
               // console.log();
 
               this.selectRows = selectRows
 
               this.$refs.multipleTable.clearSelection()
-              this.itemsData.forEach(item => {
-                let checked = this.selectRows.find(n => n.itemId === item.itemId)
+              this.itemsData.forEach((item) => {
+                let checked = this.selectRows.find((n) => n.itemId === item.itemId)
                 if (checked) {
                   this.$refs.multipleTable.toggleRowSelection(item)
                 }
@@ -715,12 +728,12 @@ export default {
               this.loading = false
             })
           } else {
-            getDistributorItems(param).then(res => {
+            getDistributorItems(param).then((res) => {
               const selectRows = res.data.data.list
               this.selectRows = selectRows
               this.$refs.multipleTable.clearSelection()
-              this.itemsData.forEach(item => {
-                let checked = selectRows.find(n => n.itemId === item.itemId)
+              this.itemsData.forEach((item) => {
+                let checked = selectRows.find((n) => n.itemId === item.itemId)
                 if (checked) {
                   this.$refs.multipleTable.toggleRowSelection(item)
                 }
@@ -753,8 +766,8 @@ export default {
     },
     itemsData(val) {
       if (this.selectRows.length > 0) {
-        this.itemsData.forEach(item => {
-          let checked = this.selectRows.find(n => n.itemId === item.itemId)
+        this.itemsData.forEach((item) => {
+          let checked = this.selectRows.find((n) => n.itemId === item.itemId)
           if (checked) {
             this.$refs.multipleTable.toggleRowSelection(item)
           }
@@ -776,7 +789,7 @@ export default {
         }
         let ids = []
         this.loading = true
-        this.multipleSelection.forEach(item => {
+        this.multipleSelection.forEach((item) => {
           ids.push(item.item_id)
         })
         if (ids.length > 0) {
@@ -786,12 +799,12 @@ export default {
           param.item_id = ids
           // this.selectRows = []
           if (this.VERSION_PLATFORM() || !param.distributor_id || param.distributor_id == '0') {
-            getSkuList(param).then(res => {
+            getSkuList(param).then((res) => {
               const selectRows = res.data.data.list
               this.selectRows = selectRows
               this.$refs.multipleTable.clearSelection()
-              this.itemsData.forEach(item => {
-                let checked = selectRows.find(n => n.itemId === item.itemId)
+              this.itemsData.forEach((item) => {
+                let checked = selectRows.find((n) => n.itemId === item.itemId)
                 if (checked) {
                   this.$refs.multipleTable.toggleRowSelection(item)
                 }
@@ -799,12 +812,12 @@ export default {
               this.loading = false
             })
           } else {
-            getDistributorItems(param).then(res => {
+            getDistributorItems(param).then((res) => {
               const selectRows = res.data.data.list
               this.selectRows = selectRows
               this.$refs.multipleTable.clearSelection()
-              this.itemsData.forEach(item => {
-                let checked = selectRows.find(n => n.itemId === item.itemId)
+              this.itemsData.forEach((item) => {
+                let checked = selectRows.find((n) => n.itemId === item.itemId)
                 if (checked) {
                   this.$refs.multipleTable.toggleRowSelection(item)
                 }
@@ -831,8 +844,8 @@ export default {
     },
     itemsData(val) {
       if (this.selectRows.length > 0) {
-        this.itemsData.forEach(item => {
-          let checked = this.selectRows.find(n => n.itemId === item.itemId)
+        this.itemsData.forEach((item) => {
+          let checked = this.selectRows.find((n) => n.itemId === item.itemId)
           if (checked) {
             this.$refs.multipleTable.toggleRowSelection(item)
           }

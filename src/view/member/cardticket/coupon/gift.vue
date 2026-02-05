@@ -388,7 +388,7 @@ export default {
         this.$message.error('请输入有效的数字')
         return
       }
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.form.date_type === 'DATE_TYPE_LONG') {
             this.form.send_begin_time = this.toTimeStamp(this.form.begintime)
@@ -411,7 +411,7 @@ export default {
     },
     async submitGift(listData, source) {
       const params = this.params
-      Object.keys(params).forEach(key => {
+      Object.keys(params).forEach((key) => {
         params[key] = listData[key]
       })
       params.get_limit = params.get_limit || 1
@@ -488,13 +488,13 @@ export default {
     // 编辑卡券状态
     editGift(status) {
       const params = this.params
-      Object.keys(params).forEach(key => {
+      Object.keys(params).forEach((key) => {
         params[key] = this.form[key]
       })
       params.kq_status = Number(status)
       params.grade_ids = JSON.stringify(params.grade_ids)
       params.vip_grade_ids = JSON.stringify(params.vip_grade_ids)
-      updateCard(params).then(res => {
+      updateCard(params).then((res) => {
         if (res) {
           this.$message.success('更新成功')
           this.refresh()

@@ -24,7 +24,7 @@
 <template>
   <div class="coupon-style">
     <div v-for="(item, index) in styles" :key="`style-item__${index}`" class="style-item">
-      <img class="style-icon" :src="item.icon">
+      <img class="style-icon" :src="item.icon" />
       <el-radio v-model="localValue" :label="item.value">{{ item.label }}</el-radio>
     </div>
   </div>

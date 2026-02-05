@@ -194,7 +194,7 @@ export default {
   watch: {
     async 'form.template_type'(template_type) {
       const result = await getTemplateSeleteList({ template_type })
-      let new_arr = result.data.data.list.filter(el => el.scene_name != '订单提货码')
+      let new_arr = result.data.data.list.filter((el) => el.scene_name != '订单提货码')
       this.template_type_options = new_arr
       // 如是创建状态  把关联状态都清空
       const { type } = this.$route.query
@@ -230,7 +230,7 @@ export default {
         page: 1,
         pageSize: 500
       })
-      this.signNameList = list.map(item => ({ label: item.sign_name, value: item.sign_name }))
+      this.signNameList = list.map((item) => ({ label: item.sign_name, value: item.sign_name }))
 
       if (type) {
         const result = await SmsTemplateDetail({ id })
@@ -264,7 +264,7 @@ export default {
     },
     submitForm(formName) {
       const { type, id } = this.$route.query
-      this.$refs[formName].validate(async valid => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
             if (type == 'edit') {
@@ -294,7 +294,7 @@ export default {
     },
     fnBack() {
       this.$router.push({
-        path: `/setting/system-config/sms-service/ali_sms/sms_template`
+        path: `/setting/system-config/sms-service/sms_template`
       })
     },
     fnAgain() {

@@ -113,7 +113,7 @@
             />
           </el-select>
         </SpFilterFormItem>
-        <SpFilterFormItem prop="open_divided" label="开启白名单:">
+        <SpFilterFormItem prop="open_divided" label="开启白名单:" v-if="VERSION_STANDARD()">
           <el-select v-model="params.open_divided" placeholder="是否开启">
             <el-option
               v-for="(item, index) in isOpenList"
@@ -156,7 +156,12 @@
             添加店铺
           </el-button>
 
-          <el-button v-if="VERSION_STANDARD()" type="primary" icon="el-icon-circle-plus" @click="uploadHandleChange()">
+          <el-button
+            v-if="VERSION_STANDARD()"
+            type="primary"
+            icon="el-icon-circle-plus"
+            @click="uploadHandleChange()"
+          >
             导入店铺
           </el-button>
         </div>
@@ -418,9 +423,7 @@
               </router-link>
             </el-button>
 
-            <el-button type="text" @click="linkTemplates(scope.row)">
-              店铺装修
-            </el-button>
+            <el-button type="text" @click="linkTemplates(scope.row)"> 店铺装修 </el-button>
 
             <el-popover placement="top-start" trigger="hover">
               <div>
@@ -1134,7 +1137,7 @@ export default {
         var temp = '微商城'
         a.href = response.data.data.base64Image
         if (response.data.data.tempname) {
-           temp = response.data.data.tempname
+          temp = response.data.data.tempname
         }
         a.download = temp + row.name + '.png'
         a.click()
