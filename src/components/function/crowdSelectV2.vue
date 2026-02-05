@@ -46,7 +46,7 @@ export default {
     value: {
       type: Object,
       default: () => ({
-        type: '1',
+        type: '2',
         meber_tags: [],
         no_meber_tags: []
       })
@@ -65,10 +65,12 @@ export default {
       options: [{
         id: '2',
         name: '适用人群'
-      },{
-        id: '1',
-        name: '不适用人群'
-      },]
+      },
+      // {
+      //   id: '1',
+      //   name: '不适用人群'
+      // }
+    ]
     }
   },
   computed: {
