@@ -20,8 +20,7 @@ export default {
             showSettingSaleClassify: false,
             saleClassifyForm: {
                 id: '',
-                category_id: '',
-                regionauth_id: ''
+                category_id: ''
             },
             disabled: false,
             showCopyDialog: false,
@@ -42,29 +41,18 @@ export default {
             ],
             showAddTemplateDialog: false,
             addTemplateForm: {
-                regionauth_id: '',
                 page_name: '',
                 page_description: '',
                 is_open: true
             },
-            regionauthList: [],
             categoryList: [],
             url: '/wxa/customizepage/list'
         }
     },
     computed: {
         setting() {
-            const { regionauthList } = this
             return createSetting({
                 search: [
-                    {
-                        key: 'regionauth_id',
-                        name: '区域',
-                        type: 'select',
-                        filterable: true,
-                        remote: true,
-                        options: regionauthList
-                    },
                     {
                         key: 'id',
                         name: '页面ID',
@@ -88,11 +76,6 @@ export default {
                         minWidth: 260
                     },
                     {
-                        key: 'regionauth_name',
-                        name: '区域',
-                        minWidth: 260
-                    },
-                    {
                         key: 'category_name',
                         name: '关联销售分类',
                         minWidth: 120
@@ -110,7 +93,6 @@ export default {
                                 on: {
                                     change: async (e) => {
                                         await this.$api.wxa.editCustomPage(row.id, {
-                                            regionauth_id: row.regionauth_id,
                                             page_name: row.page_name,
                                             page_description: row.page_description,
                                             is_open: e == 1,
@@ -137,8 +119,6 @@ export default {
                         action: {
                             handler: () => {
                                 this.showAddTemplateDialog = true
-                                const id = this.$refs['finder'].getSearchParams().regionauth_id
-                                this.addTemplateForm.regionauth_id = id
                                 this.addTemplateForm.page_name = ''
                                 this.addTemplateForm.page_description = ''
                                 this.addTemplateForm.is_open = true
@@ -153,7 +133,7 @@ export default {
                         type: 'button',
                         buttonType: 'text',
                         action: {
-                            handler: ([{ id, regionauth_id }]) => {
+                            handler: ([{ id }]) => {
                                 this.$router.push(
                                     `/wxapp/manage/decorate?id=${id}&scene=1007`
                                 )
@@ -169,8 +149,7 @@ export default {
                             handler: async ([row]) => {
                                 this.categoryList = []
                                 const res = await this.$api.goods.getCategory({
-                                    parent_id: 0,
-                                    regionauth_id: row?.regionauth_id
+                                    parent_id: 0
                                 })
                                 const list = res.map((item) => ({
                                     title: item.category_name,
@@ -178,7 +157,6 @@ export default {
                                 }))
                                 this.categoryList = list
                                 this.saleClassifyForm.id = row?.id
-                                this.saleClassifyForm.regionauth_id = row?.regionauth_id
                                 this.saleClassifyForm.category_id = row?.category_id
                                 this.showSettingSaleClassify = true
                             }
@@ -193,7 +171,6 @@ export default {
                             handler: ([row]) => {
                                 this.addTemplateForm.id = row?.id
                                 this.showAddTemplateDialog = true
-                                this.addTemplateForm.regionauth_id = row?.regionauth_id
                                 this.addTemplateForm.page_name = row?.page_name
                                 this.addTemplateForm.page_description = row?.page_description
                                 this.addTemplateForm.is_open = row?.is_open == 1
@@ -298,8 +275,7 @@ export default {
         },
         async onSaleClassifyFormSubmit() {
             await this.$api.wxa.bindcategory(this.saleClassifyForm.id, {
-                category_id: this.saleClassifyForm.category_id,
-                regionauth_id: this.saleClassifyForm.regionauth_id
+                category_id: this.saleClassifyForm.category_id
             })
             this.$message.success('关联成功')
             this.showSettingSaleClassify = false
