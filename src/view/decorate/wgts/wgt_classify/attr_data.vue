@@ -42,7 +42,7 @@
                     />
                   </div>
                 </div>
-                <div v-if="!VERSION_B2C()" class="scope-item">
+                <div v-if="!VERSION_STANDARD()" class="scope-item">
                   <span class="scope-item-label">圈选店铺</span>
                   <CompButton
                     placeholder="设置店铺"
@@ -63,7 +63,7 @@
   
   <script>
   import api from '@/api'
-  import { VERSION_B2C } from '@/utils'
+  import { VERSION_STANDARD } from '@/utils'
   import CompDragList from '../../comps/comp_dragList'
   import CompButton from '../../comps/comp-button'
   
