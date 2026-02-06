@@ -173,6 +173,7 @@
 
 <script>
 import config from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'GoodsGrid',
   wgtName: '商品栅格',
@@ -187,6 +188,11 @@ export default {
       leftGoodsList: [],
       rightGoodsList: [],
       goodsList: []
+    }
+  },
+  computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
     }
   },
   // computed: {

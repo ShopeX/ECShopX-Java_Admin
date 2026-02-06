@@ -30,7 +30,14 @@ import {
   PickerGoodsItem,
   PickerWidget,
   PickerLottery,
-  PickerCouponV2
+  PickerCouponV2,
+  PickerSaleCategory,
+  PickerCategory,
+  PickerCrowds,
+  PickerStore,
+  PickerGroups,
+  PickerActivityCollection,
+  PickerRanking
 } from './pickers'
 
 function resolvePicker(type) {
@@ -87,6 +94,20 @@ function resolvePicker(type) {
       return PickerLottery
     case 'pickerCouponV2':
       return PickerCouponV2
+    case 'pickerSaleCategory':
+      return PickerSaleCategory
+    case 'pickerCategory':
+      return PickerCategory
+    case 'pickerCrowds':
+      return PickerCrowds
+    case 'pickerStore':
+      return PickerStore
+    case 'pickerGroups':
+      return PickerGroups
+    case 'pickerActivityCollection':
+      return PickerActivityCollection
+    case 'pickerRanking':
+      return PickerRanking
     default:
       throw new Error(`picker: ${type} not registered`)
     // break

@@ -4,133 +4,139 @@
 -->
 
 <style scoped lang="scss">
-.categorize {
-  margin-bottom: 24px;
-}
-
-.btn-save {
-  width: 200px;
-  border-radius: 60px;
-}
-</style>
-
-<template>
-  <SpPage>
-    <SpPlatformTip v-if="!VERSION_SHUYUN()" h5 app alipay />
-    <div class="categorize">
-      分类样式：
-      <el-radio-group v-model="classify">
-        <el-radio v-if="VERSION_PLATFORM()" :label="true">直接加购</el-radio>
-        <el-radio :label="false">平铺</el-radio>
-      </el-radio-group>
-    </div>
-    <div v-if="!classify">
-      是否开启自定义分类：
-      <el-switch v-model="addCar" active-color="#13ce66" inactive-color="#ff4949" />
-    </div>
-
-    <addCartas v-if="classify" />
-    <index v-if="!classify && addCar" ref="indexTile" />
-    <div
-      v-if="(!classify && !addCar) || classify"
-      class="section-footer flex justify-start ml-[100px] mt-[20px]"
-    >
-      <el-button type="primary" @click="saveConfig"> 保存 </el-button>
-    </div>
-  </SpPage>
-</template>
-
-<script>
-import addCartas from './addCartas.vue'
-import index from './index.vue'
-import { mapGetters } from 'vuex'
-
-export default {
-  components: {
-    addCartas,
-    index
-  },
-  data() {
-    return {
-      addCar: true,
-      classify: this.VERSION_PLATFORM(),
-      originalData: [], // 保存接口返回的原始数据
-      originalHasSeries: false, // 保存原始数据是否有系列格式
-      isInitialized: false // 标记是否已初始化完成
-    }
-  },
-  computed: {
-    ...mapGetters(['template_name'])
-  },
-  watch: {
-    // 监听分类样式切换，只在切换到"直接加购"时重新获取数据
-    classify(newVal, oldVal) {
-      // 只在初始化完成后、值真正发生变化、且切换到"直接加购"模式时才重新获取数据
-      if (this.isInitialized && newVal !== oldVal && newVal === true) {
-        this.feath(true) // 传入 true 表示是用户主动切换触发的
+  .categorize {
+    margin-bottom: 24px;
+    border-bottom: 1px solid #E4E7ED;
+    padding-bottom: 10px;
+  }
+  
+  .categorize-title {
+    margin-right: 10px;
+    font-size: 14px;
+    color: #606266;
+  }
+  
+  .btn-save {
+    border-radius: 60px;
+    margin-left: 20px;
+  }
+  
+  .custom_classify {
+    display: inline-block;
+    margin-left: 20px;
+  }
+  </style>
+  
+  <template>
+    <SpPage>
+      <SpPlatformTip h5 app alipay />
+      <!-- <div class="categorize">
+        <span class="categorize-title">分类页业务模式:</span>
+        <el-radio-group v-model="classify">
+          <el-radio :label="false">自定义</el-radio>
+          <el-radio :label="true">生鲜外卖</el-radio>
+        </el-radio-group>
+        <el-button class="btn-save" type="primary" size="mini" @click="saveConfig"> 保存 </el-button>
+     
+      </div>
+   -->
+      <addCartas v-if="classify" />
+      <List v-else ref="list" />
+      <!-- <section v-if="classify" class="content-padded-s section-white content-center">
+        <el-button class="btn-save" type="primary" @click="saveConfig"> 保存 </el-button>
+      </section> -->
+    </SpPage>
+  </template>
+  
+  <script>
+  import addCartas from './addCartas.vue'
+  import index from './index.vue'
+  import List from './list.vue'
+  import { mapGetters } from 'vuex'
+  
+  export default {
+    components: {
+      addCartas,
+      List
+    },
+    data() {
+      return {
+        addCar: true,
+        classify: false,
+        refresh: false
       }
-    }
-  },
-  mounted() {
-    this.feath()
-  },
-  methods: {
-    async feath(isUserSwitch = false) {
-      let filter = { template_name: this.template_name, version: 'v1.0.1', page_name: 'category' }
-      const res = await this.$api.wxa.getParamByTempName(filter)
-      if (res.list[0] && res.list[0].params) {
-        const params = res.list[0].params
-        // 如果是用户主动切换，只更新 addCar，不更新 classify（避免覆盖用户的选择）
-        if (typeof params.addCar == 'boolean') {
-          this.addCar = params.addCar
-          // 只在初始化时设置 classify，用户切换后不覆盖
-          if (!isUserSwitch) {
-            this.classify = params.classify
+    },
+    computed: {
+      ...mapGetters(['wheight', 'template_name'])
+    },
+    beforeRouteLeave(to, from, next) {
+      if (!to.path.includes('/wxapp/manage/decorate')) {
+        this.refresh = true
+      } else {
+        this.refresh = false
+      }
+      next()
+    },
+    mounted() {
+      this.feath()
+    },
+    async activated() {
+      if (this.refresh) {
+        this.feath()
+        this.$nextTick(async () => {
+          if (this.$refs.list) {
+            await this.$refs.list.getRegionauth()
+            this.$refs.list.onSearch()
           }
-        }
-        // 保存接口返回的原始数据
-        if (params.data && params.data.length > 0) {
-          this.originalData = params.data
-          this.originalHasSeries = params.hasSeries
-        }
-      }
-      // 标记初始化完成，后续切换分类样式时会触发 watch
-      if (!isUserSwitch) {
-        this.$nextTick(() => {
-          this.isInitialized = true
         })
       }
     },
-    async saveConfig() {
-      console.log(this.originalHasSeries, this.originalData, this.addCar)
-      if (!this.classify && this.addCar) {
-        //平铺开启自定义分类
-        this.$refs.indexTile.saveConfig()
-      } else {
-        let isShow = this.classify || (!this.classify && !this.addCar)
-        const dataToSave = isShow ? this.originalData : []
-        console.log(dataToSave, isShow, 'dataToSave')
+    methods: {
+      async feath() {
+        let filter = { template_name: this.template_name, version: 'v1.0.1', page_name: 'category' }
+        const res = await this.$api.wxa.getParamByTempName(filter)
+        if (typeof res.list[0].params.addCar == 'boolean') {
+          this.addCar = res.list[0].params.addCar
+          this.classify = res.list[0].params.classify
+        }
+      },
+      async saveConfig() {
         let param = {
           template_name: this.template_name,
-          config: JSON.stringify([
-            {
-              name: 'base',
-              hasSeries: isShow ? this.originalHasSeries : false,
-              data: dataToSave,
-              is_open: true,
-              addCar: this.addCar,
-              classify: this.classify
-            }
-          ]),
-          page_name: 'category'
+          config: JSON.stringify([{
+            name: 'base',
+            hasSeries: false,
+            data: [],
+            is_open: true,
+            addCar: true, //默认开启
+            classify: this.classify
+          }]),
+          page_name: 'category',
         }
         await this.$api.wxa.savePageParams(param)
+        // if (!this.classify) { //平铺开启自定义分类
+        //   this.$refs.indexTile.saveConfig()
+        // } else {
+        //   let param = {
+        //     template_name: this.template_name,
+        //     config: JSON.stringify([{
+        //       name: 'base',
+        //       hasSeries: false,
+        //       data: [],
+        //       is_open: true,
+        //       addCar: this.addCar,
+        //       classify: this.classify
+        //     }]),
+        //     page_name: 'category',
+        //   }
+        //   await this.$api.wxa.savePageParams(param)
         this.$message({
           message: '保存成功',
           type: 'success'
         })
+        // }
       }
     }
   }
-}
-</script>
+  </script>
+  

@@ -15,6 +15,21 @@
       height: 64px;
     }
   }
+  &.mini {
+    .image-item {
+      width: 48px;
+      height: 48px;
+    }
+    .placeholder {
+      height: 48px;
+    }
+    .el-icon-camera {
+      font-size: 18px;
+    }
+    .add-text {
+      font-size: 10px;
+    }
+  }
   &.big {
     .image-item {
       width: 120px;
