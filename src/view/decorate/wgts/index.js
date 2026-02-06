@@ -2,7 +2,7 @@
  * Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
  * See LICENSE file for license details.
  */
-import { VERSION_PLATFORM } from '@/utils'
+import { VERSION_PLATFORM, VERSION_B2C } from '@/utils'
 import WgtSlider from './wgt_slider'
 import WgtHotZone from './wgt_hotzone'
 import WgtFilm from './wgt_film'
@@ -46,6 +46,7 @@ let SCENE_1001 = {
   WgtGoods
 }
 
+// 店铺挂件仅 BBC 展示，B2C 不展示
 if (VERSION_PLATFORM()) {
   SCENE_1001 = {
     ...SCENE_1001,
@@ -60,7 +61,7 @@ const SCENE_1002 = {
   WgtHotZone
 }
 
-// 店铺装修
+// 店铺装修（店铺挂件仅 BBC 展示）
 const SCENE_1003 = {
   WgtSlider,
   WgtHotZone,
@@ -101,12 +102,12 @@ const SCENE_1008 = {
   wgtOrderNavigation
 }
 
-// 分类页面（storeAlphabet 仅在此页可用）
+// 分类页面（storeAlphabet 仅在此页可用；店铺挂件仅 BBC 展示）
 const SCENE_1007 = {
   WgtSlider,
   WgtHotZone,
   WgtFilm,
-  WgtShop,
+  ...(!VERSION_B2C() ? { WgtShop } : {}),
   WgtStoreAlphabet,
   WgtClassify,
   // WgtTask
