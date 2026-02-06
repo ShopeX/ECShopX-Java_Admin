@@ -228,6 +228,19 @@ export default {
                     }
                 },
                 {
+                    label: '封面',
+                    key: 'imgUrl',
+                    component: () => (
+                        <SpImagePicker
+                            v-model={this.sliderForm.imgUrl}
+                            size="small"
+                            class="video-link"
+                            text="封面"
+                        />
+                    ),
+                    isShow: media_type == "video"
+                },
+                {
                     label: '入场自动播放',
                     key: 'autoplay',
                     type: 'switch',
@@ -409,6 +422,10 @@ export default {
 </style>
 <style lang="scss">
 .wgts-slider-dialog {
+    .video-js{
+        position: absolute;
+        top:0px;
+    }
     .sp-form .el-form-item {
         margin-bottom: 6px;
     }
