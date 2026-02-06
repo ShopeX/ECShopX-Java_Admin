@@ -3,7 +3,7 @@ import moment from 'moment'
 import CompBtn from '../../comps/comp_btn.vue'
 import CompButton from '../../comps/comp-button.vue'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
-// import CrowdSelectV2 from '@/components/function/crowdSelectV2.vue' 
+// import CrowdSelectV2 from '@/components/function/crowdSelectV2.vue'
 const config = {
   name: 'couponCard',
   setting: [
@@ -38,8 +38,8 @@ const config = {
         const self = this
         return (
           <CompButton
-            placeholder="选择优惠券"
-            format="{0}个优惠券"
+            placeholder='选择优惠券'
+            format='{0}个优惠券'
             value={self.value[key]?.length || 0}
             viewBtn={false}
             on-click={async () => {
@@ -52,7 +52,6 @@ const config = {
                     regionauth_id: self.$route.query.regionauth_id
                   }
                 })
-                
                 const formattedCouponList = couponData.map((item) => {
                   let amount
                   if (item.card_type == 'cash') {
@@ -166,7 +165,7 @@ const config = {
   transformIn: (v) => {
     const { name, base, data, meber_tags = [], no_meber_tags = [], tagsType } = v
     // 使用公共函数处理 base 中的样式数据转换
-    const transformedBase = transformInBase(base, ['outerMargin','innerPadding'])
+    const transformedBase = transformInBase(base, ['outerMargin', 'innerPadding'])
     return {
       name,
       ...transformedBase,
@@ -184,23 +183,30 @@ const config = {
       base: (v) => {
         // 使用公共函数处理 outerMargin 转换，同时保留其他字段
         const baseData = createTransformOutBase(
-          ['wgtCustName', 'track', 'outerMargin', 'innerPadding', 'outerBackground', 'innerBackground', 'amountColor', 'receiveBtn'],
-          ['outerMargin','innerPadding']
+          [
+            'wgtCustName',
+            'track',
+            'outerMargin',
+            'innerPadding',
+            'outerBackground',
+            'innerBackground',
+            'amountColor',
+            'receiveBtn'
+          ],
+          ['outerMargin', 'innerPadding']
         )(v)
         return baseData
       },
       data: 'data',
       meber_tags: 'tags.meber_tags',
       no_meber_tags: 'tags.no_meber_tags',
-      tagsType: 'tags.type',
+      tagsType: 'tags.type'
     })
   }
 }
 
-
-
 import '../../comps/configsetting'
 
-export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__)
-    ? globalThis.__processConfig__(config)
-    : config
+export default typeof globalThis !== 'undefined' && globalThis.__processConfig__
+  ? globalThis.__processConfig__(config)
+  : config

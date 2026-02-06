@@ -6,8 +6,13 @@ import CompStyle from './comp_style.vue'
 import CrowdSelectV2 from '@/components/function/crowdSelectV2.vue'
 
 // 导出转换工具函数，供其他挂件使用
-export { transformInBase, transformOutBase, createTransformOutBase, convertRpxToPx, convertPxToRpx } from './transform-utils'
-
+export {
+  transformInBase,
+  transformOutBase,
+  createTransformOutBase,
+  convertRpxToPx,
+  convertPxToRpx
+} from './transform-utils'
 
 /**
  * 处理配置对象，自动识别并转换 CompStyle 配置项
@@ -20,7 +25,7 @@ function processConfig(config) {
   }
 
   // 检查 setting 中已有的 key
-  const existingKeys = config.setting.map(item => item.key).filter(Boolean)
+  const existingKeys = config.setting.map((item) => item.key).filter(Boolean)
 
   // 获取分组名称的函数
   const getGroup = () => {
@@ -31,7 +36,12 @@ function processConfig(config) {
   }
 
   // 创建 CompStyle 配置项的函数
-  const createCompStyleItem = (key, label, defaultValue = { paddedt: 0, paddedb: 0, paddedl: 0, paddedr: 0 }, group = null) => ({
+  const createCompStyleItem = (
+    key,
+    label,
+    defaultValue = { paddedt: 0, paddedb: 0, paddedl: 0, paddedr: 0 },
+    group = null
+  ) => ({
     group: group || getGroup(),
     label,
     key,
@@ -52,12 +62,29 @@ function processConfig(config) {
 
   // 默认的通用配置项（所有组件都自动包含）- 组件上下左右边距默认 16
   const defaultCommonSettings = [
-    createCompStyleItem('outerMargin', '边距', { paddedt: 16, paddedb: 16, paddedl: 16, paddedr: 16 })
+    createCompStyleItem('outerMargin', '边距', {
+      paddedt: 16,
+      paddedb: 16,
+      paddedl: 16,
+      paddedr: 16
+    })
   ]
 
   // 针对特定挂件的额外配置项
   const widgetSpecificSettings = []
-  if (['speedkill', 'group', 'ranking', 'hotranking', 'goods','shop','couponCard','classify','storeAlphabet'].includes(config.name)) {
+  if (
+    [
+      'speedkill',
+      'group',
+      'ranking',
+      'hotranking',
+      'goods',
+      'shop',
+      'couponCard',
+      'classify',
+      'storeAlphabet'
+    ].includes(config.name)
+  ) {
     // 商品挂件自动添加组件内样式
     widgetSpecificSettings.push({
       group: '组件内样式',
@@ -91,18 +118,18 @@ function processConfig(config) {
       key: 'navitemarea',
       component: function (h, { key }) {
         return <CompStyle v-model={this.value[key]} uuid={this.value.uuid} />
-      },
+      }
     })
   }
 
-
   // 处理现有的 setting，自动识别并转换 CompStyle 配置项
-  const processedSetting = config.setting.map(item => {
+  const processedSetting = config.setting.map((item) => {
     // 自动判断是否需要使用 CompStyle：
     // 1. 如果 component 已经是 'compStyle'
     // 2. 如果 value 是一个包含 padding/margin 字段的对象（且没有指定其他 component）
     const hasCompStyleComponent = item.component === 'compStyle'
-    const hasOtherComponent = item.component && item.component !== 'compStyle' && typeof item.component !== 'function'
+    const hasOtherComponent =
+      item.component && item.component !== 'compStyle' && typeof item.component !== 'function'
 
     // 如果需要使用 CompStyle，且没有其他自定义组件，则自动转换
     const shouldUseCompStyle = hasCompStyleComponent && !hasOtherComponent
@@ -114,12 +141,7 @@ function processConfig(config) {
         ...rest,
         group: group, // 如果没有 group，则设置为"组件样式"
         component: function (h, { key }) {
-          return (
-            <CompStyle
-              v-model={this.value[key]}
-              uuid={this.value.uuid}
-            />
-          )
+          return <CompStyle v-model={this.value[key]} uuid={this.value.uuid} />
         },
         value: item.value || {
           paddedt: 0,
@@ -132,9 +154,8 @@ function processConfig(config) {
     return item
   })
 
-
   // 自动添加缺失的通用配置项
-  defaultCommonSettings.forEach(defaultItem => {
+  defaultCommonSettings.forEach((defaultItem) => {
     if (!existingKeys.includes(defaultItem.key)) {
       processedSetting.unshift(defaultItem)
     }
@@ -164,9 +185,8 @@ function processConfig(config) {
     })
   }
 
-
   // 自动添加挂件特定的配置项
-  widgetSpecificSettings.forEach(specificItem => {
+  widgetSpecificSettings.forEach((specificItem) => {
     if (!existingKeys.includes(specificItem.key)) {
       processedSetting.push(specificItem)
     }

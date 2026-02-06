@@ -165,7 +165,10 @@ const config = {
       name: 'name',
       base: (v) => {
         // 使用公共函数处理 outerMargin 转换，同时保留其他字段
-        const baseData = createTransformOutBase(['track', 'padded', 'outerMargin'], ['outerMargin'])(v)
+        const baseData = createTransformOutBase(
+          ['track', 'padded', 'outerMargin'],
+          ['outerMargin']
+        )(v)
         return baseData
       },
       config: (v) => {
@@ -216,6 +219,6 @@ const config = {
 
 // 自动处理 compStyle 配置（初始化全局处理函数）
 import '../../comps/configsetting'
-export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__) 
-  ? globalThis.__processConfig__(config) 
+export default typeof globalThis !== 'undefined' && globalThis.__processConfig__
+  ? globalThis.__processConfig__(config)
   : config

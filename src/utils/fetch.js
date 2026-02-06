@@ -73,13 +73,16 @@ function createAxios(inst, isJson = true) {
   inst.defaults.baseURL = inst.defaults.baseURL || process.env.VUE_APP_BASE_API || '/'
   inst.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
   inst.interceptors.request.use((config) => {
-    console.log('[utils/fetch] 1. 拦截器开始处理:', { url: config.url, method: config.method, hasParams: !!config.params })
+    console.log('[utils/fetch] 1. 拦截器开始处理:', {
+      url: config.url,
+      method: config.method,
+      hasParams: !!config.params
+    })
     const isGetMethod = config.method === 'get'
     const isPutMethod = config.method === 'put'
     const isDeleteMethod = config.method === 'delete'
     const showError = config.showError === undefined ? true : config.showError
     config.headers['Authorization'] = 'Bearer ' + store.getters.token
-    
     // 添加 country_code 语言参数；若传入 skipCountryCode 则不添加
     const skipCountryCode = config.skipCountryCode === true
     if (skipCountryCode) delete config.skipCountryCode
@@ -103,7 +106,6 @@ function createAxios(inst, isJson = true) {
         console.log('[utils/fetch] 2. POST/PUT 请求添加 country_code 到 params:', langMap[lang])
       }
     }
-    
     if (isGetMethod || isDeleteMethod) {
       if (isObject(config.params)) {
         let params = {}
@@ -146,7 +148,11 @@ function createAxios(inst, isJson = true) {
       }
     }
     config.showError = showError
-    console.log('[utils/fetch] 7. 拦截器处理完成，最终 config:', { method: config.method, hasData: !!config.data, hasParams: !!config.params })
+    console.log('[utils/fetch] 7. 拦截器处理完成，最终 config:', {
+      method: config.method,
+      hasData: !!config.data,
+      hasParams: !!config.params
+    })
     return config
   })
 

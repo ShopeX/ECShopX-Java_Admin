@@ -66,7 +66,16 @@ const config = {
     // }
   ],
   transformIn: (v) => {
-    const { name, base, seletedTags = [], productLabel = [], track, tagsType, meber_tags, no_meber_tags } = v
+    const {
+      name,
+      base,
+      seletedTags = [],
+      productLabel = [],
+      track,
+      tagsType,
+      meber_tags,
+      no_meber_tags
+    } = v
     return {
       id: v?.id,
       name,
@@ -111,6 +120,6 @@ const config = {
 
 // 自动处理 compStyle 配置（初始化全局处理函数）
 import '../../comps/configsetting'
-export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__) 
-  ? globalThis.__processConfig__(config) 
+export default typeof globalThis !== 'undefined' && globalThis.__processConfig__
+  ? globalThis.__processConfig__(config)
   : config

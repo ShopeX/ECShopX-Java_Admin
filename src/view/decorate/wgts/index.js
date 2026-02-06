@@ -25,7 +25,7 @@ import WgtContentPartition from './wgt_contentPartition'
 // import WgtRanking from './wgt_ranking' // 品类榜单 - 已注释
 import WgtHotRanking from './wgt_hotranking'
 import WgtGoods from './wgt_goods'
-console.log('VERSION_STANDARD',VERSION_STANDARD())
+console.log('VERSION_STANDARD', VERSION_STANDARD())
 
 // 首页装修
 let SCENE_1001 = {
@@ -50,7 +50,7 @@ let SCENE_1001 = {
 if (VERSION_PLATFORM()) {
   SCENE_1001 = {
     ...SCENE_1001,
-    WgtShop,
+    WgtShop
   }
 }
 
@@ -109,7 +109,7 @@ const SCENE_1007 = {
   WgtFilm,
   ...(!VERSION_STANDARD() ? { WgtShop } : {}),
   WgtStoreAlphabet,
-  WgtClassify,
+  WgtClassify
   // WgtTask
 }
 

@@ -9,7 +9,7 @@ import { transformInBase, createTransformOutBase } from '../../comps/transform-u
 const config = {
   name: 'orderNavigation',
   setting: [
-    { label: '组件间距',group:'组件样式', key: 'padded', component: 'switch', value: true },
+    { label: '组件间距', group: '组件样式', key: 'padded', component: 'switch', value: true },
     { label: '标题', group: '基础设置', key: 'title', component: 'input', value: '' },
     { label: '标题颜色', group: '组件样式', key: 'titleColor', component: 'color', value: '#000' },
     {
@@ -75,6 +75,6 @@ const config = {
 
 // 自动处理 compStyle 配置（初始化全局处理函数）
 import '../../comps/configsetting'
-export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__) 
-  ? globalThis.__processConfig__(config) 
+export default typeof globalThis !== 'undefined' && globalThis.__processConfig__
+  ? globalThis.__processConfig__(config)
   : config

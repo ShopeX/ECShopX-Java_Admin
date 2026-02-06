@@ -21,7 +21,8 @@ export const getImageAttribute = (url, callback) => {
 }
 export const getVideoAttribute = (url, callback) => {
   // 支持字符串或对象 { url: '...' }
-  const src = url && typeof url === 'object' && url.url != null ? url.url : (typeof url === 'string' ? url : '')
+  const src =
+    url && typeof url === 'object' && url.url != null ? url.url : typeof url === 'string' ? url : ''
   if (!src) {
     callback(375)
     return

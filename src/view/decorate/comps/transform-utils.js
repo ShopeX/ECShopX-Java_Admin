@@ -11,7 +11,6 @@ import { pickBy } from '@/utils'
  */
 export function convertRpxToPx(marginObj) {
   if (!marginObj) return marginObj
-  
   return {
     ...marginObj,
     paddedt: (marginObj.paddedt || 0) / 2,
@@ -28,7 +27,6 @@ export function convertRpxToPx(marginObj) {
  */
 export function convertPxToRpx(marginObj) {
   if (!marginObj) return marginObj
-  
   const { paddedt, paddedb, paddedl, paddedr, ...otherFields } = marginObj
   return {
     ...otherFields,
@@ -48,15 +46,14 @@ export function convertPxToRpx(marginObj) {
  */
 export function transformInBase(base, styleKeys = ['outerMargin', 'innerPadding']) {
   if (!base) return base
-  
+
   const result = { ...base }
-  
-  styleKeys.forEach(key => {
+
+  styleKeys.forEach((key) => {
     if (base[key]) {
       result[key] = convertRpxToPx(base[key])
     }
   })
-  
   return result
 }
 
@@ -68,19 +65,25 @@ export function transformInBase(base, styleKeys = ['outerMargin', 'innerPadding'
  * @param {Array} styleKeys - 需要转换的样式键数组，如 ['outerMargin', 'innerPadding']
  * @returns {Object} 转换后的 base 数据
  */
-export function transformOutBase(value, baseKeys = ['outerMargin', 'innerPadding'], styleKeys = ['outerMargin', 'innerPadding']) {
-  const baseData = pickBy(value, baseKeys.reduce((acc, key) => {
-    acc[key] = key
-    return acc
-  }, {}))
-  
+export function transformOutBase(
+  value,
+  baseKeys = ['outerMargin', 'innerPadding'],
+  styleKeys = ['outerMargin', 'innerPadding']
+) {
+  const baseData = pickBy(
+    value,
+    baseKeys.reduce((acc, key) => {
+      acc[key] = key
+      return acc
+    }, {})
+  )
+
   // 转换样式键（rpx 转换）
-  styleKeys.forEach(key => {
+  styleKeys.forEach((key) => {
     if (baseData[key]) {
       baseData[key] = convertPxToRpx(baseData[key])
     }
   })
-  
   return baseData
 }
 
@@ -94,11 +97,11 @@ export function createTransformIn(customTransformIn, styleKeys = ['outerMargin',
   return (v, ...args) => {
     const { base, ...rest } = v
     const transformedBase = transformInBase(base, styleKeys)
-    
+
     if (customTransformIn) {
       return customTransformIn({ ...rest, base: transformedBase }, ...args)
     }
-    
+
     return {
       ...rest,
       ...transformedBase
@@ -112,7 +115,10 @@ export function createTransformIn(customTransformIn, styleKeys = ['outerMargin',
  * @param {Array} styleKeys - 需要转换的样式键数组
  * @returns {Function} base 处理函数
  */
-export function createTransformOutBase(baseKeys = ['outerMargin', 'innerPadding'], styleKeys = ['outerMargin', 'innerPadding']) {
+export function createTransformOutBase(
+  baseKeys = ['outerMargin', 'innerPadding'],
+  styleKeys = ['outerMargin', 'innerPadding']
+) {
   return (v) => {
     return transformOutBase(v, baseKeys, styleKeys)
   }
