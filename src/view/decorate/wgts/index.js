@@ -2,7 +2,7 @@
  * Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
  * See LICENSE file for license details.
  */
-import { VERSION_PLATFORM, VERSION_B2C } from '@/utils'
+import { VERSION_PLATFORM, VERSION_STANDARD } from '@/utils'
 import WgtSlider from './wgt_slider'
 import WgtHotZone from './wgt_hotzone'
 import WgtFilm from './wgt_film'
@@ -25,7 +25,7 @@ import WgtContentPartition from './wgt_contentPartition'
 // import WgtRanking from './wgt_ranking' // 品类榜单 - 已注释
 import WgtHotRanking from './wgt_hotranking'
 import WgtGoods from './wgt_goods'
-
+console.log('VERSION_STANDARD',VERSION_STANDARD())
 
 // 首页装修
 let SCENE_1001 = {
@@ -107,7 +107,7 @@ const SCENE_1007 = {
   WgtSlider,
   WgtHotZone,
   WgtFilm,
-  ...(!VERSION_B2C() ? { WgtShop } : {}),
+  ...(!VERSION_STANDARD() ? { WgtShop } : {}),
   WgtStoreAlphabet,
   WgtClassify,
   // WgtTask
