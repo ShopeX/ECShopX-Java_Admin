@@ -19,13 +19,13 @@
       }"
       :style="bdStyle"
     >
-      <!-- 第一屏为图片时用占位图撑开高度并测量；第一屏为视频时用 9:16 比例 -->
-      <SpImage
+      <!-- 第一屏为图片时用占位图撑开高度并测量；使用 el-image 以正确触发 @load，换图后能拿到新图尺寸 -->
+      <el-image
         v-if="!isFirstVideo"
         class="placeholder-item"
-        :src="value.data.length > 0 ? value.data[0].imgUrl : null"
+        :src="value.data.length > 0 ? value.data[0].imgUrl : ''"
         fit="contain"
-        @load="measureFirstScreenHeight"
+        @load="onPlaceholderImageLoad"
       />
       <template v-else>
         <!-- 视频第一屏：占位撑开 9:16 高度 -->
@@ -187,7 +187,23 @@ export default {
     this.$nextTick(this.measureFirstScreenHeight)
   },
   methods: {
-    /** 测量第一屏高度并写入 value，宽固定 375；高度 = 内容高 + 上边距(paddedt) + 下边距(paddedb)；第一屏为视频时内容高按 9:16 计算 */
+    /** 占位图加载完成：用图片真实宽高计算第一屏高度，换图后能拿到准确高度 */
+    onPlaceholderImageLoad(e) {
+      if (!this.value || this.isFirstVideo) return
+      const img = e?.target
+      if (!img || !img.naturalWidth || !img.naturalHeight) {
+        this.measureFirstScreenHeight()
+        return
+      }
+      const outer = this.value.outerMargin || {}
+      const paddedt = Number(outer.paddedt) || 0
+      const paddedb = Number(outer.paddedb) || 0
+      const contentHeight = Math.round((375 * img.naturalHeight) / img.naturalWidth)
+      const totalHeight = contentHeight + paddedt + paddedb
+      this.$set(this.value, 'firstScreenWidth', 375)
+      this.$set(this.value, 'firstScreenHeight', totalHeight)
+    },
+    /** 测量第一屏高度并写入 value，宽固定 375；高度 = 内容高 + 上边距(paddedt) + 下边距(paddedb)；第一屏为视频时内容高按 9:16 计算；第一屏为图时仅在有有效高度或视频时更新，避免换图瞬间被旧高覆盖 */
     measureFirstScreenHeight() {
       this.$nextTick(() => {
         if (!this.value) return
