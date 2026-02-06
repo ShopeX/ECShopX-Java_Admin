@@ -224,7 +224,7 @@ import CompPickerLink from '../../comps/comp-pickerLink'
 **指定 tabs 用法**（如商品/排行榜等「更多」链接）:
 ```javascript
 import CompPickerLinkVue from '../../comps/comp-pickerLink.vue'
-import { PLATFORM_PAGE_PICKER_TABS, DEFAULT_PICKER_TABS } from '@/consts'
+
 
 {
   label: '更多链接',
@@ -234,7 +234,7 @@ import { PLATFORM_PAGE_PICKER_TABS, DEFAULT_PICKER_TABS } from '@/consts'
       <CompPickerLinkVue
         v-model={this.value[key]}
         style='margin-top: 7px;'
-        tabs={this.$route.query.scene == '1010' ? PLATFORM_PAGE_PICKER_TABS : DEFAULT_PICKER_TABS}
+        
       />
     )
   },

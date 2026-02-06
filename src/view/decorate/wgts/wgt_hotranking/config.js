@@ -1,7 +1,7 @@
 import { pickBy } from '@/utils'
 import CompPickerLinkVue from '../../comps/comp-pickerLink.vue'
 import SpImagePicker from '@/components/sp-image-picker/index.vue'
-import { PLATFORM_PAGE_PICKER_TABS, DEFAULT_PICKER_TABS } from '@/consts'
+
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 const config = {
@@ -85,7 +85,7 @@ const config = {
             label: '',
             key: 'hotrankingMoreLink',
             component: function (h, { key }) {
-                return <CompPickerLinkVue v-model={this.value[key]} style='margin-top: 7px;' tabs={this.$route.query.scene == '1010' ? PLATFORM_PAGE_PICKER_TABS : DEFAULT_PICKER_TABS} />
+                return <CompPickerLinkVue v-model={this.value[key]} style='margin-top: 7px;'  />
             },
             isShow: function () {
                 return this.value.hotrankingShowMoreBtn
