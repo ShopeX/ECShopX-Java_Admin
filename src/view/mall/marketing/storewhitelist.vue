@@ -13,27 +13,27 @@
   <SpPage class="store-wihitelist">
     <SpRouterView>
       <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onReset">
-        <SpFilterFormItem prop="mobile" label="手机号:">
-          <el-input v-model="params.mobile" placeholder="请输入手机号" />
+        <SpFilterFormItem prop="mobile" :label="$t('7f673091.ce2bf3')">
+          <el-input v-model="params.mobile" :placeholder="$t('7f673091.6e4f4b')" />
         </SpFilterFormItem>
-        <SpFilterFormItem prop="username" label="姓名:">
-          <el-input v-model="params.username" placeholder="请输入姓名" />
+        <SpFilterFormItem prop="username" :label="$t('7f673091.75d152')">
+          <el-input v-model="params.username" :placeholder="$t('7f673091.8093e3')" />
         </SpFilterFormItem>
-        <SpFilterFormItem prop="distributor_id" label="店铺:">
-          <SpSelectShop v-model="params.distributor_id" multiple clearable placeholder="请选择" />
+        <SpFilterFormItem prop="distributor_id" :label="$t('7f673091.efa91f')">
+          <SpSelectShop v-model="params.distributor_id" multiple clearable :placeholder="$t('7f673091.708c9d')" />
         </SpFilterFormItem>
       </SpFilterForm>
 
       <div class="action-container">
         <el-button type="primary" icon="el-icon-circle-plus" @click="clickAddWhiteList()">
-          添加白名单
+          {{ $t('7f673091.45609b') }}
         </el-button>
         <el-button type="primary" icon="el-icon-circle-plus" @click="uploadHandleChange()">
-          导入白名单
+          {{ $t('7f673091.a00fda') }}
         </el-button>
-        <el-button type="primary" @click="handleWhitelistExport"> 导出 </el-button>
+        <el-button type="primary" @click="handleWhitelistExport"> {{ $t('7f673091.55405e') }} </el-button>
         <el-button type="primary" icon="el-icon-delete" plain @click="clickDelAllWhiteList()">
-          清空白名单
+          {{ $t('7f673091.ed7589') }}
         </el-button>
       </div>
 
@@ -43,16 +43,16 @@
         border
         @selection-change="handleSelectionChange"
       >
-        <el-table-column label="操作">
+        <el-table-column :label="$t('7f673091.2b6bc0')">
           <template slot-scope="scope">
-            <el-button type="text" @click="editShopWhite(scope.row)"> 编辑 </el-button>
-            <el-button type="text" @click="delWhitelist(scope.row)"> 删除 </el-button>
+            <el-button type="text" @click="editShopWhite(scope.row)"> {{ $t('7f673091.95b351') }} </el-button>
+            <el-button type="text" @click="delWhitelist(scope.row)"> {{ $t('7f673091.2f4aad') }} </el-button>
           </template>
         </el-table-column>
-        <el-table-column type="selection" align="center" label="全选" />
-        <el-table-column prop="mobile" label="手机号" />
-        <el-table-column prop="username" label="姓名" />
-        <el-table-column prop="distributor_info" label="所属店铺">
+        <el-table-column type="selection" align="center" :label="$t('7f673091.66eeac')" />
+        <el-table-column prop="mobile" :label="$t('7f673091.8098e2')" />
+        <el-table-column prop="username" :label="$t('7f673091.60d045')" />
+        <el-table-column prop="distributor_info" :label="$t('7f673091.baad7e')">
           <template slot-scope="scope">
             <!-- 店铺端 需要只展示自己的店铺名称 -->
             <span v-if="IS_DISTRIBUTOR()">{{
@@ -61,7 +61,7 @@
             <span v-else>{{ scope.row.distributor_info.map((item) => item.name).join(',') }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="distributor_info" label="店铺号">
+        <el-table-column prop="distributor_info" :label="$t('7f673091.f6d738')">
           <template slot-scope="scope">
             <span v-if="IS_DISTRIBUTOR()">{{
               scope.row.distributor_info.find((item) => item.distributor_id === shopId)?.shop_code
@@ -134,10 +134,10 @@ export default {
       },
       whitelistFormList: [
         {
-          label: '手机号',
+          label: this.$t('7f673091.8098e2'),
           key: 'mobile',
           type: 'input',
-          message: '请输入手机号',
+          message: this.$t('7f673091.6e4f4b'),
           isShow: () => {
             return this.editType !== 'delAll'
           },
@@ -148,10 +148,10 @@ export default {
               return
             }
             if (!mobile) {
-              callback(new Error('手机号不能为空'))
+              callback(new Error(this.$t('7f673091.a11685')))
             } else {
               if (!isMobile(mobile)) {
-                callback(new Error('手机号格式错误'))
+                callback(new Error(this.$t('7f673091.dc6732')))
               } else {
                 callback()
               }
@@ -159,11 +159,11 @@ export default {
           }
         },
         {
-          label: '姓名',
+          label: this.$t('7f673091.60d045'),
           key: 'username',
           type: 'input',
           // required: true,
-          message: '请输入联系人',
+          message: this.$t('7f673091.9e3f21'),
           isShow: () => {
             return this.editType !== 'delAll'
           },
@@ -174,14 +174,14 @@ export default {
               return
             }
             if (!username) {
-              callback(new Error('联系人不能为空'))
+              callback(new Error(this.$t('7f673091.bfc304')))
             } else {
               callback()
             }
           }
         },
         {
-          label: '选择店铺',
+          label: this.$t('7f673091.afa2e6'),
           key: 'num',
           isShow: () => {
             return this.editType !== 'edit' || !this.IS_DISTRIBUTOR() // 店铺端编辑不能选择店铺
@@ -194,14 +194,14 @@ export default {
                 </el-tag>
               ))}
               <el-button type='text' on-click={this.addStoreAction}>
-                添加适用店铺
+                {this.$t('7f673091.7b91b1')}
               </el-button>
             </div>
           ),
           validator: (rule, value, callback) => {
             const { distributors } = this.whitelistForm
             if (distributors.length == 0) {
-              callback(new Error('请选择店铺'))
+              callback(new Error(this.$t('7f673091.06accf')))
             } else {
               callback()
             }
@@ -231,15 +231,15 @@ export default {
         )
         const { status } = await this.$api.company.whitelistExport(exportData)
         if (status) {
-          this.$message.success('已加入执行队列，请在设置-导出列表中下载')
+          this.$message.success(this.$t('7f673091.3e1ddd'))
           this.$export_open('distributor_white_list')
         } else {
-          this.$message.error('导出失败')
+          this.$message.error(this.$t('7f673091.dd51ab'))
         }
       } else {
         this.$message({
           type: 'warning',
-          message: '请选择需要导出的数据'
+          message: this.$t('7f673091.e02487')
         })
       }
     },
@@ -250,7 +250,7 @@ export default {
       this.whitelistForm.username = ''
       this.whitelistForm.mobile = ''
       this.editType = 'add'
-      this.dialogTitle = '添加白名单'
+      this.dialogTitle = this.$t('7f673091.45609b')
       this.whitelistDialog = true
     },
     // 添加白名单适用店铺
@@ -276,9 +276,9 @@ export default {
       }
       const { status } = await this.$api.company.saveShopWhiteList(params)
       if (status) {
-        this.$message.success('添加成功')
+        this.$message.success(this.$t('7f673091.3fdaea'))
       } else {
-        this.$message.error('添加失败')
+        this.$message.error(this.$t('7f673091.6452a0'))
       }
       this.whitelistForm = {
         id: null,
@@ -315,7 +315,7 @@ export default {
         username,
         mobile
       }
-      this.dialogTitle = '编辑白名单'
+      this.dialogTitle = this.$t('7f673091.86bbf6')
       this.editType = 'edit'
       this.whitelistDialog = true
     },
@@ -331,16 +331,16 @@ export default {
       }
       const { status } = await this.$api.company.delShopWhite(params)
       if (status) {
-        this.$message.success('删除成功')
+        this.$message.success(this.$t('7f673091.0007d1'))
       } else {
-        this.$message.error('删除失败')
+        this.$message.error(this.$t('7f673091.acf066'))
       }
       this.whitelistDialog = false
       this.fetchList()
     },
     // 清空白名单
     async clickDelAllWhiteList() {
-      this.dialogTitle = '清空店铺白名单'
+      this.dialogTitle = this.$t('7f673091.fb44eb')
       this.editType = 'delAll'
       this.whitelistDialog = true
       this.whitelistForm.distributors = []

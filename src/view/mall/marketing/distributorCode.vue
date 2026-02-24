@@ -12,7 +12,7 @@
         </el-col>
         <el-col>
           <el-button type="primary" @click="downDistributorCode">
-            下载<i class="el-icon-download el-icon--right" />
+            {{ $t('c4465f73.f26ef9') }}<i class="el-icon-download el-icon--right" />
           </el-button>
         </el-col>
       </el-row>

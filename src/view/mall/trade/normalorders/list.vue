@@ -7,14 +7,14 @@
   <SpRouterView>
     <SpPage>
       <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onSearch">
-        <SpFilterFormItem prop="mobile" label="手机号:">
-          <el-input v-model="params.mobile" placeholder="请输入客户手机号码" />
+        <SpFilterFormItem prop="mobile" :label="$t('c95ea121.ce2bf3')">
+          <el-input v-model="params.mobile" :placeholder="$t('c95ea121.c746c6')" />
         </SpFilterFormItem>
-        <SpFilterFormItem prop="order_id" label="订单号:">
-          <el-input v-model="params.order_id" placeholder="请输入订单号" />
+        <SpFilterFormItem prop="order_id" :label="$t('c95ea121.070dce')">
+          <el-input v-model="params.order_id" :placeholder="$t('c95ea121.e9e836')" />
         </SpFilterFormItem>
-        <SpFilterFormItem v-if="!isMicorMall" prop="receipt_type" label="配送方式:">
-          <el-select v-model="params.receipt_type" clearable placeholder="请选择">
+        <SpFilterFormItem v-if="!isMicorMall" prop="receipt_type" :label="$t('c95ea121.b6ae11')">
+          <el-select v-model="params.receipt_type" clearable :placeholder="$t('c95ea121.708c9d')">
             <el-option
               v-for="item in distributionType"
               :key="item.value"
@@ -24,8 +24,8 @@
             />
           </el-select>
         </SpFilterFormItem>
-        <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="source_id" label="订单来源:">
-          <el-select v-model="params.source_id" clearable placeholder="请选择">
+        <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="source_id" :label="$t('c95ea121.b36ea7')">
+          <el-select v-model="params.source_id" clearable :placeholder="$t('c95ea121.708c9d')">
             <el-option
               v-for="item in orderSourceList"
               :key="item.value"
@@ -38,12 +38,12 @@
         <SpFilterFormItem
           v-if="VERSION_STANDARD() || IS_ADMIN()"
           prop="supplier_name"
-          label="来源供应商:"
+          :label="$t('c95ea121.a54fd2')"
         >
-          <el-input v-model="params.supplier_name" placeholder="来源供应商" />
+          <el-input v-model="params.supplier_name" :placeholder="$t('c95ea121.55c61d')" />
         </SpFilterFormItem>
-        <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="order_class" label="订单类型:">
-          <el-select v-model="params.order_class" clearable placeholder="请选择">
+        <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="order_class" :label="$t('c95ea121.0e83be')">
+          <el-select v-model="params.order_class" clearable :placeholder="$t('c95ea121.708c9d')">
             <el-option
               v-for="item in orderType"
               :key="item.value"
@@ -57,22 +57,22 @@
         <SpFilterFormItem
           v-if="is_pharma_industry"
           prop="is_prescription_order"
-          label="是否处方药:"
+          :label="$t('c95ea121.b7a604')"
         >
-          <el-select v-model="params.is_prescription_order" clearable placeholder="请选择">
-            <el-option label="全部" value="" />
-            <el-option label="是" value="1" />
-            <el-option label="否" value="0" />
+          <el-select v-model="params.is_prescription_order" clearable :placeholder="$t('c95ea121.708c9d')">
+            <el-option :label="$t('c95ea121.a8b0c2')" value="" />
+            <el-option :label="$t('c95ea121.0a60ac')" value="1" />
+            <el-option :label="$t('c95ea121.c9744f')" value="0" />
           </el-select>
         </SpFilterFormItem>
-        <SpFilterFormItem v-if="is_pharma_industry" prop="serial_no" label="处方编号:">
-          <el-input v-model="params.serial_no" placeholder="请输入处方编号" />
+        <SpFilterFormItem v-if="is_pharma_industry" prop="serial_no" :label="$t('c95ea121.4465a6')">
+          <el-input v-model="params.serial_no" :placeholder="$t('c95ea121.43d6ec')" />
         </SpFilterFormItem>
-        <SpFilterFormItem v-if="is_pharma_industry" prop="user_family_name" label="就诊人:">
-          <el-input v-model="params.user_family_name" placeholder="请输入就诊人" />
+        <SpFilterFormItem v-if="is_pharma_industry" prop="user_family_name" :label="$t('c95ea121.f3f325')">
+          <el-input v-model="params.user_family_name" :placeholder="$t('c95ea121.e5d7bb')" />
         </SpFilterFormItem>
-        <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="delivery_staff_id" label="配送员:">
-          <el-select v-model="params.delivery_staff_id" clearable placeholder="请选择">
+        <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="delivery_staff_id" :label="$t('c95ea121.7f6b70')">
+          <el-select v-model="params.delivery_staff_id" clearable :placeholder="$t('c95ea121.708c9d')">
             <el-option
               v-for="item in deliveryPersonnel"
               :key="item.value"
@@ -85,8 +85,8 @@
         <!-- <SpFilterFormItem prop="salespersonname" label="业务员:">
           <el-input v-model="params.salespersonname" placeholder="请输入业务员" />
         </SpFilterFormItem> -->
-        <SpFilterFormItem prop="role" label="角色:">
-          <el-select v-model="params.role" placeholder="请选择" clearable>
+        <SpFilterFormItem prop="role" :label="$t('c95ea121.e1f833')">
+          <el-select v-model="params.role" :placeholder="$t('c95ea121.708c9d')" clearable>
             <el-option
               v-for="item in roleList"
               :key="item.value"
@@ -95,16 +95,16 @@
             />
           </el-select>
         </SpFilterFormItem>
-        <SpFilterFormItem prop="create_time" label="下单时间:" size="max">
+        <SpFilterFormItem prop="create_time" :label="$t('c95ea121.43c297')" size="max">
           <el-date-picker
             v-model="params.create_time"
             clearable
             type="datetimerange"
             align="right"
             format="yyyy-MM-dd HH:mm:ss"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
+            :range-separator="$t('c95ea121.981cbe')"
+            :start-placeholder="$t('c95ea121.b44c0f')"
+            :end-placeholder="$t('c95ea121.1d468b')"
             prefix-icon="null"
             :default-time="defaultTime"
             :picker-options="pickerOptions"
@@ -113,9 +113,9 @@
         <SpFilterFormItem
           v-if="!isMicorMall && !VERSION_IN_PURCHASE()"
           prop="invoice_status"
-          label="开票状态:"
+          :label="$t('c95ea121.dfc420')"
         >
-          <el-select v-model="params.invoice_status" clearable placeholder="请选择">
+          <el-select v-model="params.invoice_status" clearable :placeholder="$t('c95ea121.708c9d')">
             <el-option
               v-for="item in invoiceStatusArr"
               :key="item.value"
@@ -125,16 +125,16 @@
             />
           </el-select>
         </SpFilterFormItem>
-        <SpFilterFormItem prop="delivery_time" label="发货时间:" size="max">
+        <SpFilterFormItem prop="delivery_time" :label="$t('c95ea121.21524c')" size="max">
           <el-date-picker
             v-model="params.delivery_time"
             clearable
             type="datetimerange"
             align="right"
             format="yyyy-MM-dd HH:mm:ss"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
+            :range-separator="$t('c95ea121.981cbe')"
+            :start-placeholder="$t('c95ea121.b44c0f')"
+            :end-placeholder="$t('c95ea121.1d468b')"
             prefix-icon="null"
             :default-time="defaultTime"
             :picker-options="pickerOptions"
@@ -143,9 +143,9 @@
         <SpFilterFormItem
           v-if="!(VERSION_SHUYUN() || VERSION_B2C())"
           prop="order_holder"
-          label="订单分类:"
+          :label="$t('c95ea121.e56a5e')"
         >
-          <el-select v-model="params.order_holder" clearable placeholder="请选择">
+          <el-select v-model="params.order_holder" clearable :placeholder="$t('c95ea121.708c9d')">
             <el-option
               v-for="item in orderCategory"
               :key="item.value"
@@ -162,14 +162,14 @@
             !VERSION_IN_PURCHASE()
           "
           prop="distributor_id"
-          label="来源店铺:"
+          :label="$t('c95ea121.16f2bc')"
         >
-          <SpSelectShop v-model="params.distributor_id" clearable placeholder="请选择" />
+          <SpSelectShop v-model="params.distributor_id" clearable :placeholder="$t('c95ea121.708c9d')" />
         </SpFilterFormItem>
         <SpFilterFormItem
           v-if="!VERSION_SHUYUN() && !VERSION_B2C() && !VERSION_IN_PURCHASE()"
           prop="subDistrict"
-          label="选择街道:"
+          :label="$t('c95ea121.d3063b')"
         >
           <el-cascader
             v-model="params.subDistrict"
@@ -197,18 +197,18 @@
       <div class="action-container">
         <el-dropdown @command="handleExport">
           <el-button type="primary" plain>
-            导出<i class="el-icon-arrow-down el-icon--right" />
+            {{ $t('c95ea121.55405e') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="exportInvoice"> 发票订单 </el-dropdown-item>
-            <el-dropdown-item command="exportDataMaster">主订单 </el-dropdown-item>
-            <el-dropdown-item command="exportDataNormal">子订单 </el-dropdown-item>
+            <el-dropdown-item command="exportInvoice">{{ $t('c95ea121.a17c19') }}</el-dropdown-item>
+            <el-dropdown-item command="exportDataMaster">{{ $t('c95ea121.d4d21f') }}</el-dropdown-item>
+            <el-dropdown-item command="exportDataNormal">{{ $t('c95ea121.a19dd9') }}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <el-tooltip
           v-if="IS_SUPPLIER()"
           effect="light"
-          content="请将从订单列表导出的主订单文件，删除不想批量发货的订单号，修改物流公司，物流单号后上传即可。"
+          :content="$t('c95ea121.29119c')"
           placement="top-start"
         >
           <el-upload
@@ -218,7 +218,7 @@
             :auto-upload="false"
             :show-file-list="false"
           >
-            <el-button type="primary" plain> 批量发货 </el-button>
+            <el-button type="primary" plain>{{ $t('c95ea121.425991') }}</el-button>
           </el-upload>
         </el-tooltip>
         <el-upload
@@ -228,10 +228,10 @@
           :auto-upload="false"
           :show-file-list="false"
         >
-          <el-button type="primary" plain> 批量取消 </el-button>
+          <el-button type="primary" plain>{{ $t('c95ea121.321129') }}</el-button>
         </el-upload>
         <!-- v-if="IS_DISTRIBUTOR() || IS_MERCHANT()" -->
-        <el-button type="primary" plain @click="assignPersonnel(true)"> 分配配送员 </el-button>
+        <el-button type="primary" plain @click="assignPersonnel(true)">{{ $t('c95ea121.531827') }}</el-button>
         <!-- <el-upload
         action=""
         class="btn-upload"
@@ -240,7 +240,7 @@
         :show-file-list="false"
       > -->
         <!-- v-if="IS_DISTRIBUTOR || IS_ADMIN()" -->
-        <el-button type="primary" plain @click="assignPersonnel(false)"> 取消配送 </el-button>
+        <el-button type="primary" plain @click="assignPersonnel(false)">{{ $t('c95ea121.204fe4') }}</el-button>
         <!-- </el-upload> -->
       </div>
 
@@ -257,11 +257,11 @@
           :data="tableList"
           @selection-change="handleSelectionChange"
         >
-          <el-table-column width="180" prop="order_id" label="订单号">
+          <el-table-column width="180" prop="order_id" :label="$t('c95ea121.1e8dc2')">
             <template slot-scope="scope">
               <div class="order-num">
                 {{ scope.row.order_id }}
-                <el-tooltip effect="dark" content="复制" placement="top-start">
+                <el-tooltip effect="dark" :content="$t('c95ea121.79d3ab')" placement="top-start">
                   <i
                     v-clipboard:copy="scope.row.order_id"
                     v-clipboard:success="onCopySuccess"
@@ -270,13 +270,13 @@
                 </el-tooltip>
               </div>
               <div class="order-store">
-                <el-tooltip effect="dark" content="来源店铺" placement="top-start">
+                <el-tooltip effect="dark" :content="$t('c95ea121.53cc55')" placement="top-start">
                   <i class="el-icon-office-building" />
                 </el-tooltip>
                 {{ scope.row.distributor_name }}
               </div>
               <div class="order-time">
-                <el-tooltip effect="dark" content="下单时间" placement="top-start">
+                <el-tooltip effect="dark" :content="$t('c95ea121.2240cc')" placement="top-start">
                   <i class="el-icon-time" />
                 </el-tooltip>
                 {{ scope.row.create_time | datetime('YYYY-MM-DD HH:mm:ss') }}
@@ -293,7 +293,7 @@
           <!--            {{ scope.row.supplier_info.username }}-->
           <!--          </template>-->
           <!--        </el-table-column>-->
-          <el-table-column width="120" label="订单分类" header-align="center" prop="order_holder">
+          <el-table-column width="120" :label="$t('c95ea121.350fd3')" header-align="center" prop="order_holder">
             <template slot-scope="scope">
               {{ getOrderCategoryName(scope.row.order_holder) }}
             </template>
@@ -306,7 +306,7 @@
           <el-table-column
             prop="total_fee"
             width="120"
-            label="实付金额（¥）"
+            :label="$t('c95ea121.fddcee')"
             align="right"
             header-align="center"
           >
@@ -317,7 +317,7 @@
           <el-table-column
             prop="point_fee"
             width="120"
-            label="积分抵扣"
+            :label="$t('c95ea121.d443a9')"
             align="right"
             header-align="center"
           >
@@ -328,7 +328,7 @@
           <el-table-column
             prop="cost_fee"
             width="120"
-            label="结算价（¥）"
+            :label="$t('c95ea121.17b4aa')"
             align="right"
             header-align="center"
           >
@@ -336,7 +336,7 @@
               {{ (scope.row.cost_fee / 100).toFixed(2) }}
             </template>
           </el-table-column>
-          <el-table-column width="100" label="运费（¥）" align="right" header-align="center">
+          <el-table-column width="100" :label="$t('c95ea121.4dd437')" align="right" header-align="center">
             <template slot-scope="scope">
               {{ (scope.row.freight_fee / 100 + scope.row.freight_point_fee / 100).toFixed(2) }}
             </template>
@@ -349,7 +349,7 @@
                 <el-tooltip
                   v-if="datapass_block == 0"
                   effect="dark"
-                  content="复制"
+                  :content="$t('c95ea121.79d3ab')"
                   placement="top-start"
                 >
                   <i
@@ -364,7 +364,7 @@
                 <el-tooltip
                   v-if="datapass_block == 0"
                   effect="dark"
-                  content="复制"
+                  :content="$t('c95ea121.79d3ab')"
                   placement="top-start"
                 >
                   <i
@@ -376,12 +376,12 @@
               </div>
             </template>
           </el-table-column> -->
-          <el-table-column prop="invoice_status" label="发票状态">
+          <el-table-column prop="invoice_status" :label="$t('c95ea121.a03d7f')">
             <template slot-scope="scope">
               {{ openStatus?.find((item) => item.value === scope.row.invoice_status)?.title }}
             </template>
           </el-table-column>
-          <el-table-column prop="mobile" label="客户手机号" width="140">
+          <el-table-column prop="mobile" :label="$t('c95ea121.a32da1')" width="140">
             <template slot-scope="scope">
               <template v-if="!scope.row.user_delete && login_type !== 'merchant'">
                 <router-link
@@ -404,7 +404,7 @@
                 <el-tooltip
                   v-if="datapass_block == 0"
                   effect="dark"
-                  content="复制"
+                  :content="$t('c95ea121.79d3ab')"
                   placement="top-start"
                 >
                   <i
@@ -419,7 +419,7 @@
                 <el-tooltip
                   v-if="datapass_block == 0"
                   effect="dark"
-                  content="复制"
+                  :content="$t('c95ea121.79d3ab')"
                   placement="top-start"
                 >
                   <i
@@ -431,8 +431,8 @@
               </template>
             </template>
           </el-table-column>
-          <el-table-column prop="distributor_name" label="来源店铺" />
-          <el-table-column prop="work_userid" label="导购" v-if="VERSION_STANDARD()">
+          <el-table-column prop="distributor_name" :label="$t('c95ea121.53cc55')" />
+          <el-table-column prop="work_userid" :label="$t('c95ea121.c60b43')" v-if="VERSION_STANDARD()">
             <template slot-scope="scope">
               {{ scope.row.salesman_info?.work_userid }}
             </template>
@@ -441,58 +441,58 @@
       </el-table-column> -->
           <!-- <el-table-column prop="receiver_name" label="收货人" /> -->
           <template v-if="login_type != 'merchant'">
-            <el-table-column v-if="!isMicorMall" label="订单类型">
+            <el-table-column v-if="!isMicorMall" :label="$t('c95ea121.5cd56b')">
               <template slot-scope="scope">
                 {{ getOrderType(scope.row) }}
               </template>
             </el-table-column>
           </template>
-          <el-table-column prop="order_status" label="订单状态">
+          <el-table-column prop="order_status" :label="$t('c95ea121.86f6cf')">
             <template slot-scope="scope">
               {{ scope.row.order_status_msg }}
             </template>
           </el-table-column>
           <!-- <el-table-column prop="salespersonname " label="业务员"></el-table-column> -->
-          <el-table-column label="配送方式">
+          <el-table-column :label="$t('c95ea121.edfe4c')">
             <template slot-scope="scope">
               {{ getDistributionType(scope.row) }}
             </template>
           </el-table-column>
 
-          <el-table-column label="配送状态">
+          <el-table-column :label="$t('c95ea121.553e84')">
             <template slot-scope="scope">
               {{ getDistributionStatus(scope.row) }}
             </template>
           </el-table-column>
 
-          <el-table-column label="配送员">
+          <el-table-column :label="$t('c95ea121.b7765e')">
             <template slot-scope="scope">
               {{ scope.row.self_delivery_operator_name }}
             </template>
           </el-table-column>
 
-          <el-table-column label="配送费">
+          <el-table-column :label="$t('c95ea121.1138a9')">
             <template slot-scope="scope">
               {{
-                scope.row.self_delivery_operator_name && scope.row.self_delivery_fee / 100 + '元'
+                scope.row.self_delivery_operator_name && scope.row.self_delivery_fee / 100 + $t('c95ea121.c16655')
               }}
             </template>
           </el-table-column>
 
-          <el-table-column label="配送员电话" width="140">
+          <el-table-column :label="$t('c95ea121.f3fa72')" width="140">
             <template slot-scope="scope">
               {{ scope.row.self_delivery_operator_mobile }}
             </template>
           </el-table-column>
           <el-table-column type="selection" width="55" fixed="left" />
           <!-- <el-table-column prop="source_name" label="来源"></el-table-column> -->
-          <el-table-column label="操作" fixed="left">
+          <el-table-column :label="$t('c95ea121.2b6bc0')" fixed="left">
             <template slot-scope="scope">
               <el-button type="text" style="margin-right: 8px">
                 <router-link
                   :to="`${$route.path}/detail?orderId=${scope.row.order_id}&resource=${$route.path}`"
                 >
-                  详情
+                  {{ $t('c95ea121.f26225') }}
                 </router-link>
               </el-button>
               <el-popover placement="right" trigger="hover">
@@ -501,7 +501,7 @@
                     <router-link
                       :to="`${$route.path}/process?orderId=${scope.row.order_id}&resource=${$route.path}`"
                     >
-                      日志
+                      {{ $t('c95ea121.456d29') }}
                     </router-link>
                   </el-button>
                   <template v-for="(btn, index) in scope.row.actionBtns">
@@ -515,7 +515,7 @@
                   </template>
                 </div>
                 <el-button slot="reference" type="text">
-                  更多<i class="el-icon-d-arrow-right" />
+                  {{ $t('c95ea121.0ec9ea') }}<i class="el-icon-d-arrow-right" />
                 </el-button>
               </el-popover>
             </template>
@@ -539,7 +539,7 @@
       <SpDialog
         ref="remarkDialogRef"
         v-model="remarkDialog"
-        :title="`修改备注【订单:${remarkForm.orderId}】`"
+        :title="`${$t('c95ea121.b1bfe2')}【${$t('c95ea121.4c117f')}:${remarkForm.orderId}】`"
         :form="remarkForm"
         :form-list="remarkFormList"
         @onSubmit="onRemarkSubmit"
@@ -550,7 +550,7 @@
         ref="cancelOrderDialogRef"
         v-model="cancelOrderDialog"
         class="dialog-cancelorder"
-        :title="`取消订单【订单:${cancelOrderForm.order_id}】`"
+        :title="`${$t('c95ea121.b21b5e')}【${$t('c95ea121.4c117f')}:${cancelOrderForm.order_id}】`"
         :loading="cancelOrderForm.loading"
         :form="cancelOrderForm"
         :form-list="cancelOrderFormList"
@@ -563,7 +563,7 @@
         v-model="deliverGoodsDialog"
         width="1000px"
         :confirm-status="confirmStatus"
-        :title="`发货【订单:${deliverGoodsForm.order_id}】`"
+        :title="`${$t('c95ea121.045315')}【${$t('c95ea121.4c117f')}:${deliverGoodsForm.order_id}】`"
         :form="deliverGoodsForm"
         :form-list="deliverGoodsFormList"
         @onSubmit="deliverGoodsSubmit"
@@ -574,7 +574,7 @@
         ref="updateDeliverGoodsDialogRef"
         v-model="updateDeliverGoodsDialog"
         width="1000px"
-        :title="`更新发货【订单:${updateDeliverGoodsForm.order_id}】`"
+        :title="`${$t('c95ea121.59d9e1')}【${$t('c95ea121.4c117f')}:${updateDeliverGoodsForm.order_id}】`"
         :form="updateDeliverGoodsForm"
         :form-list="updateDeliverGoodsFormList"
         @onSubmit="updateDeliverGoodsSubmit"
@@ -584,7 +584,7 @@
       <SpDialog
         ref="writeOffDialogRef"
         v-model="writeOffDialog"
-        :title="`核销【订单:${writeOffForm.order_id}】`"
+        :title="`${$t('c95ea121.e7d31e')}【${$t('c95ea121.4c117f')}:${writeOffForm.order_id}】`"
         :form="writeOffForm"
         :form-list="writeOffFormList"
         @onSubmit="writeOffSubmit"
@@ -594,7 +594,7 @@
       <SpDialog
         ref="refundRef"
         v-model="refundDialog"
-        :title="`退款【订单:${refundForm.order_id}】`"
+        :title="`${$t('c95ea121.44c198')}【${$t('c95ea121.4c117f')}:${refundForm.order_id}】`"
         :form="refundForm"
         :form-list="refundFormList"
         @onSubmit="refundSubmit"
@@ -608,7 +608,7 @@
         class="dialog-changeprice"
         :loading="changePriceForm.loading"
         :destroy-on-close="true"
-        :title="`订单改价【订单:${changePriceForm.order_id}】`"
+        :title="`${$t('c95ea121.30913f')}【${$t('c95ea121.4c117f')}:${changePriceForm.order_id}】`"
         :form="changePriceForm"
         :form-list="changePriceFormList"
         @onSubmit="changePriceSubmit"
@@ -618,7 +618,7 @@
       <SpDialog
         ref="personnel"
         v-model="personnelDialog"
-        :title="statusPersonnel ? '分配配送员' : '取消配送'"
+        :title="statusPersonnel ? $t('c95ea121.531827') : $t('c95ea121.204fe4')"
         :form="personnelForm"
         :form-list="personnelFormList"
         @onSubmit="onPersonnelSubmit"

@@ -26,7 +26,7 @@
 }
 </style>
 <template>
-  <SpPage title="售后申请">
+  <SpPage :title="$t('9ebd763b.a518ff')">
     <template slot="page-footer">
       <div class="text-center">
         <el-button
@@ -36,9 +36,9 @@
             }
           "
         >
-          取消
+          {{ $t('9ebd763b.625fb2') }}
         </el-button>
-        <el-button type="primary" @click="submitRefund"> 保存 </el-button>
+        <el-button type="primary" @click="submitRefund">{{ $t('9ebd763b.be5fbb') }}</el-button>
       </div>
     </template>
     <!-- form: {{ form }} -->
