@@ -37,7 +37,12 @@
           >
             {{ $t('5d9377e9.a8b0c2') }}
           </el-option>
-          <el-option v-if="$store.getters.login_type != 'merchant'" key="0" :label="$t('5d9377e9.0d7757')" value="0">
+          <el-option
+            v-if="$store.getters.login_type != 'merchant'"
+            key="0"
+            :label="$t('5d9377e9.0d7757')"
+            value="0"
+          >
             {{ $t('5d9377e9.0d7757') }}
           </el-option>
 
@@ -225,7 +230,10 @@ export default {
       },
       tab: {
         name: this.$store.getters.login_type !== 'merchant' ? 'member' : 'order',
-        label: this.$store.getters.login_type !== 'merchant' ? this.$t('5d9377e9.cfe830') : this.$t('5d9377e9.fbb493')
+        label:
+          this.$store.getters.login_type !== 'merchant'
+            ? this.$t('5d9377e9.cfe830')
+            : this.$t('5d9377e9.fbb493')
       },
       chartColors: {
         red: 'rgb(255, 99, 132)',

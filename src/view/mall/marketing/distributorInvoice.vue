@@ -142,12 +142,12 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="handleClose">{{ $t('0d468884.c08ab9') }}</el-button>
-          <el-button v-if="operate == 'create'" type="primary" @click="createDistributorInvoice"
-            >{{ $t('0d468884.aa7527') }}</el-button
-          >
-          <el-button v-if="operate == 'update'" type="primary" @click="updateDistributorInvoice"
-            >{{ $t('0d468884.aa7527') }}</el-button
-          >
+          <el-button v-if="operate == 'create'" type="primary" @click="createDistributorInvoice">{{
+            $t('0d468884.aa7527')
+          }}</el-button>
+          <el-button v-if="operate == 'update'" type="primary" @click="updateDistributorInvoice">{{
+            $t('0d468884.aa7527')
+          }}</el-button>
         </span>
       </el-dialog>
     </div>

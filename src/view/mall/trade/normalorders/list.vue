@@ -24,7 +24,11 @@
             />
           </el-select>
         </SpFilterFormItem>
-        <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="source_id" :label="$t('c95ea121.b36ea7')">
+        <SpFilterFormItem
+          v-if="!VERSION_IN_PURCHASE()"
+          prop="source_id"
+          :label="$t('c95ea121.b36ea7')"
+        >
           <el-select v-model="params.source_id" clearable :placeholder="$t('c95ea121.708c9d')">
             <el-option
               v-for="item in orderSourceList"
@@ -42,7 +46,11 @@
         >
           <el-input v-model="params.supplier_name" :placeholder="$t('c95ea121.55c61d')" />
         </SpFilterFormItem>
-        <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="order_class" :label="$t('c95ea121.0e83be')">
+        <SpFilterFormItem
+          v-if="!VERSION_IN_PURCHASE()"
+          prop="order_class"
+          :label="$t('c95ea121.0e83be')"
+        >
           <el-select v-model="params.order_class" clearable :placeholder="$t('c95ea121.708c9d')">
             <el-option
               v-for="item in orderType"
@@ -59,7 +67,11 @@
           prop="is_prescription_order"
           :label="$t('c95ea121.b7a604')"
         >
-          <el-select v-model="params.is_prescription_order" clearable :placeholder="$t('c95ea121.708c9d')">
+          <el-select
+            v-model="params.is_prescription_order"
+            clearable
+            :placeholder="$t('c95ea121.708c9d')"
+          >
             <el-option :label="$t('c95ea121.a8b0c2')" value="" />
             <el-option :label="$t('c95ea121.0a60ac')" value="1" />
             <el-option :label="$t('c95ea121.c9744f')" value="0" />
@@ -68,11 +80,23 @@
         <SpFilterFormItem v-if="is_pharma_industry" prop="serial_no" :label="$t('c95ea121.4465a6')">
           <el-input v-model="params.serial_no" :placeholder="$t('c95ea121.43d6ec')" />
         </SpFilterFormItem>
-        <SpFilterFormItem v-if="is_pharma_industry" prop="user_family_name" :label="$t('c95ea121.f3f325')">
+        <SpFilterFormItem
+          v-if="is_pharma_industry"
+          prop="user_family_name"
+          :label="$t('c95ea121.f3f325')"
+        >
           <el-input v-model="params.user_family_name" :placeholder="$t('c95ea121.e5d7bb')" />
         </SpFilterFormItem>
-        <SpFilterFormItem v-if="!VERSION_IN_PURCHASE()" prop="delivery_staff_id" :label="$t('c95ea121.7f6b70')">
-          <el-select v-model="params.delivery_staff_id" clearable :placeholder="$t('c95ea121.708c9d')">
+        <SpFilterFormItem
+          v-if="!VERSION_IN_PURCHASE()"
+          prop="delivery_staff_id"
+          :label="$t('c95ea121.7f6b70')"
+        >
+          <el-select
+            v-model="params.delivery_staff_id"
+            clearable
+            :placeholder="$t('c95ea121.708c9d')"
+          >
             <el-option
               v-for="item in deliveryPersonnel"
               :key="item.value"
@@ -164,7 +188,11 @@
           prop="distributor_id"
           :label="$t('c95ea121.16f2bc')"
         >
-          <SpSelectShop v-model="params.distributor_id" clearable :placeholder="$t('c95ea121.708c9d')" />
+          <SpSelectShop
+            v-model="params.distributor_id"
+            clearable
+            :placeholder="$t('c95ea121.708c9d')"
+          />
         </SpFilterFormItem>
         <SpFilterFormItem
           v-if="!VERSION_SHUYUN() && !VERSION_B2C() && !VERSION_IN_PURCHASE()"
@@ -201,8 +229,12 @@
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="exportInvoice">{{ $t('c95ea121.a17c19') }}</el-dropdown-item>
-            <el-dropdown-item command="exportDataMaster">{{ $t('c95ea121.d4d21f') }}</el-dropdown-item>
-            <el-dropdown-item command="exportDataNormal">{{ $t('c95ea121.a19dd9') }}</el-dropdown-item>
+            <el-dropdown-item command="exportDataMaster">{{
+              $t('c95ea121.d4d21f')
+            }}</el-dropdown-item>
+            <el-dropdown-item command="exportDataNormal">{{
+              $t('c95ea121.a19dd9')
+            }}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <el-tooltip
@@ -231,7 +263,9 @@
           <el-button type="primary" plain>{{ $t('c95ea121.321129') }}</el-button>
         </el-upload>
         <!-- v-if="IS_DISTRIBUTOR() || IS_MERCHANT()" -->
-        <el-button type="primary" plain @click="assignPersonnel(true)">{{ $t('c95ea121.531827') }}</el-button>
+        <el-button type="primary" plain @click="assignPersonnel(true)">{{
+          $t('c95ea121.531827')
+        }}</el-button>
         <!-- <el-upload
         action=""
         class="btn-upload"
@@ -240,7 +274,9 @@
         :show-file-list="false"
       > -->
         <!-- v-if="IS_DISTRIBUTOR || IS_ADMIN()" -->
-        <el-button type="primary" plain @click="assignPersonnel(false)">{{ $t('c95ea121.204fe4') }}</el-button>
+        <el-button type="primary" plain @click="assignPersonnel(false)">{{
+          $t('c95ea121.204fe4')
+        }}</el-button>
         <!-- </el-upload> -->
       </div>
 
@@ -293,7 +329,12 @@
           <!--            {{ scope.row.supplier_info.username }}-->
           <!--          </template>-->
           <!--        </el-table-column>-->
-          <el-table-column width="120" :label="$t('c95ea121.350fd3')" header-align="center" prop="order_holder">
+          <el-table-column
+            width="120"
+            :label="$t('c95ea121.350fd3')"
+            header-align="center"
+            prop="order_holder"
+          >
             <template slot-scope="scope">
               {{ getOrderCategoryName(scope.row.order_holder) }}
             </template>
@@ -336,7 +377,12 @@
               {{ (scope.row.cost_fee / 100).toFixed(2) }}
             </template>
           </el-table-column>
-          <el-table-column width="100" :label="$t('c95ea121.4dd437')" align="right" header-align="center">
+          <el-table-column
+            width="100"
+            :label="$t('c95ea121.4dd437')"
+            align="right"
+            header-align="center"
+          >
             <template slot-scope="scope">
               {{ (scope.row.freight_fee / 100 + scope.row.freight_point_fee / 100).toFixed(2) }}
             </template>
@@ -432,7 +478,11 @@
             </template>
           </el-table-column>
           <el-table-column prop="distributor_name" :label="$t('c95ea121.53cc55')" />
-          <el-table-column prop="work_userid" :label="$t('c95ea121.c60b43')" v-if="VERSION_STANDARD()">
+          <el-table-column
+            prop="work_userid"
+            :label="$t('c95ea121.c60b43')"
+            v-if="VERSION_STANDARD()"
+          >
             <template slot-scope="scope">
               {{ scope.row.salesman_info?.work_userid }}
             </template>
@@ -474,7 +524,8 @@
           <el-table-column :label="$t('c95ea121.1138a9')">
             <template slot-scope="scope">
               {{
-                scope.row.self_delivery_operator_name && scope.row.self_delivery_fee / 100 + $t('c95ea121.c16655')
+                scope.row.self_delivery_operator_name &&
+                scope.row.self_delivery_fee / 100 + $t('c95ea121.c16655')
               }}
             </template>
           </el-table-column>
@@ -574,7 +625,9 @@
         ref="updateDeliverGoodsDialogRef"
         v-model="updateDeliverGoodsDialog"
         width="1000px"
-        :title="`${$t('c95ea121.59d9e1')}【${$t('c95ea121.4c117f')}:${updateDeliverGoodsForm.order_id}】`"
+        :title="`${$t('c95ea121.59d9e1')}【${$t('c95ea121.4c117f')}:${
+          updateDeliverGoodsForm.order_id
+        }】`"
         :form="updateDeliverGoodsForm"
         :form-list="updateDeliverGoodsFormList"
         @onSubmit="updateDeliverGoodsSubmit"

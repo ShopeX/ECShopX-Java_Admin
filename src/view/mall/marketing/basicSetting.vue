@@ -17,11 +17,21 @@
         -->
         <el-form-item :label="$t('664b0a1e.ee25bb')">
           {{ $t('664b0a1e.10c96e') }}
-          <el-input v-model="form.limit_rebate" :placeholder="$t('664b0a1e.22266f')" style="width: 80px" /> {{ $t('664b0a1e.c16655') }}
+          <el-input
+            v-model="form.limit_rebate"
+            :placeholder="$t('664b0a1e.22266f')"
+            style="width: 80px"
+          />
+          {{ $t('664b0a1e.c16655') }}
         </el-form-item>
         <el-form-item :label="$t('664b0a1e.c6ef82')">
           {{ $t('664b0a1e.c1a80c') }}
-          <el-input v-model="form.limit_time" :placeholder="$t('664b0a1e.22266f')" style="width: 80px" /> {{ $t('664b0a1e.49f897') }}
+          <el-input
+            v-model="form.limit_time"
+            :placeholder="$t('664b0a1e.22266f')"
+            style="width: 80px"
+          />
+          {{ $t('664b0a1e.49f897') }}
         </el-form-item>
         <el-form-item :label="$t('664b0a1e.7c4898')">
           <el-input

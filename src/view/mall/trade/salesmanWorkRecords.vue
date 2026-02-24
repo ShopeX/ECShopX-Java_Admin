@@ -37,7 +37,11 @@
         </el-popover>
       </el-col>
     </el-row>
-    <el-dialog :title="$t('3fb52f77.3704ef')" :visible.sync="downloadView" :close-on-click-modal="false">
+    <el-dialog
+      :title="$t('3fb52f77.3704ef')"
+      :visible.sync="downloadView"
+      :close-on-click-modal="false"
+    >
       <template v-if="downloadUrl">
         <a :href="downloadUrl" download>{{ downloadName }}</a>
       </template>

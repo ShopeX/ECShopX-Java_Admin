@@ -39,8 +39,12 @@
       <el-table-column :label="$t('cbe6c60e.2b6bc0')">
         <template slot-scope="scope">
           <div class="operating-icons gap-2">
-            <el-button type="text" @click="editAction(scope.$index, scope.row)"> {{ $t('cbe6c60e.95b351') }} </el-button>
-            <el-button type="text" @click="deleteAction(scope.$index, scope.row)"> {{ $t('cbe6c60e.2f4aad') }} </el-button>
+            <el-button type="text" @click="editAction(scope.$index, scope.row)">
+              {{ $t('cbe6c60e.95b351') }}
+            </el-button>
+            <el-button type="text" @click="deleteAction(scope.$index, scope.row)">
+              {{ $t('cbe6c60e.2f4aad') }}
+            </el-button>
           </div>
         </template>
       </el-table-column>

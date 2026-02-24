@@ -42,7 +42,11 @@
             <el-input v-model="params.mobile" :placeholder="$t('4d1aec94.8098e2')" />
           </SpFilterFormItem>
           <SpFilterFormItem prop="aftersales_status" :label="$t('4d1aec94.aaddd7')">
-            <el-select v-model="params.aftersales_status" clearable :placeholder="$t('4d1aec94.5101e8')">
+            <el-select
+              v-model="params.aftersales_status"
+              clearable
+              :placeholder="$t('4d1aec94.5101e8')"
+            >
               <el-option
                 v-for="(item, index) in aftersalesStatusList"
                 :key="index"
@@ -89,8 +93,16 @@
               />
             </el-select>
           </SpFilterFormItem>
-          <SpFilterFormItem v-if="IS_SUPPLIER()" prop="distributor_id" :label="$t('4d1aec94.16f2bc')">
-            <SpSelectShop v-model="params.distributor_id" clearable :placeholder="$t('4d1aec94.708c9d')" />
+          <SpFilterFormItem
+            v-if="IS_SUPPLIER()"
+            prop="distributor_id"
+            :label="$t('4d1aec94.16f2bc')"
+          >
+            <SpSelectShop
+              v-model="params.distributor_id"
+              clearable
+              :placeholder="$t('4d1aec94.708c9d')"
+            />
           </SpFilterFormItem>
           <SpFilterFormItem prop="order_class" :label="$t('4d1aec94.0e83be')">
             <el-select v-model="params.order_class" clearable :placeholder="$t('4d1aec94.708c9d')">
@@ -108,7 +120,11 @@
             prop="is_prescription_order"
             :label="$t('4d1aec94.b7a604')"
           >
-            <el-select v-model="params.is_prescription_order" clearable :placeholder="$t('4d1aec94.708c9d')">
+            <el-select
+              v-model="params.is_prescription_order"
+              clearable
+              :placeholder="$t('4d1aec94.708c9d')"
+            >
               <el-option :label="$t('4d1aec94.a8b0c2')" value="" />
               <el-option :label="$t('4d1aec94.0a60ac')" value="1" />
               <el-option :label="$t('4d1aec94.c9744f')" value="0" />
@@ -132,7 +148,9 @@
         >
           <template slot="tableTop">
             <div class="action-container">
-              <el-button @click="exportData" type="primary" plain> {{ $t('4d1aec94.55405e') }} </el-button>
+              <el-button @click="exportData" type="primary" plain>
+                {{ $t('4d1aec94.55405e') }}
+              </el-button>
               <el-button v-if="showAftersale" type="primary" plain @click="aftersalesRemindAction">
                 {{ $t('4d1aec94.117b5a') }}
               </el-button>
@@ -183,7 +201,9 @@
           </template>
           <div slot="footer" class="dialog-footer">
             <el-button @click.native="handleCancel"> {{ $t('4d1aec94.625fb2') }} </el-button>
-            <el-button type="primary" @click="submitAftersalesRemind"> {{ $t('4d1aec94.38cf16') }} </el-button>
+            <el-button type="primary" @click="submitAftersalesRemind">
+              {{ $t('4d1aec94.38cf16') }}
+            </el-button>
           </div>
         </el-dialog>
         <RemarkModal ref="modalRef" @onDone="handleRemarksDone" />
@@ -322,7 +342,11 @@ export default {
                   h(
                     'el-tooltip',
                     {
-                      props: { effect: 'dark', content: i18n.t('4d1aec94.79d3ab'), placement: 'top-start' }
+                      props: {
+                        effect: 'dark',
+                        content: i18n.t('4d1aec94.79d3ab'),
+                        placement: 'top-start'
+                      }
                     },
                     [
                       h('i', {
@@ -340,7 +364,11 @@ export default {
                     h(
                       'el-tooltip',
                       {
-                        props: { effect: 'dark', content: i18n.t('4d1aec94.8a0cc2'), placement: 'top-start' }
+                        props: {
+                          effect: 'dark',
+                          content: i18n.t('4d1aec94.8a0cc2'),
+                          placement: 'top-start'
+                        }
                       },
                       [h('i', { class: 'el-icon-office-building' })]
                     ),
@@ -350,7 +378,11 @@ export default {
                   h(
                     'el-tooltip',
                     {
-                      props: { effect: 'dark', content: i18n.t('4d1aec94.5ba072'), placement: 'top-start' }
+                      props: {
+                        effect: 'dark',
+                        content: i18n.t('4d1aec94.5ba072'),
+                        placement: 'top-start'
+                      }
                     },
                     [h('i', { class: 'el-icon-time' })]
                   ),
@@ -369,7 +401,11 @@ export default {
                 h(
                   'el-tooltip',
                   {
-                    props: { effect: 'dark', content: i18n.t('4d1aec94.79d3ab'), placement: 'top-start' }
+                    props: {
+                      effect: 'dark',
+                      content: i18n.t('4d1aec94.79d3ab'),
+                      placement: 'top-start'
+                    }
                   },
                   [
                     h('i', {

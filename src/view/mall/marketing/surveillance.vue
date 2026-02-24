@@ -6,7 +6,9 @@
 <template>
   <div>
     <div class="content-bottom-padded">
-      <el-button type="primary" @click="handleBatchDownload"> {{ $t('9fbbb4f6.5b8a6c') }} </el-button>
+      <el-button type="primary" @click="handleBatchDownload">
+        {{ $t('9fbbb4f6.5b8a6c') }}
+      </el-button>
     </div>
 
     <el-tag style="width: 100%" type="warning"> {{ $t('9fbbb4f6.43d1e2') }} </el-tag>
@@ -20,13 +22,25 @@
     >
       <el-table-column type="selection" width="55" />
       <el-table-column prop="itemName" :label="$t('9fbbb4f6.1fd1d5')" />
-      <el-table-column prop="price" :label="$t('9fbbb4f6.0e9fd9')" :formatter="priceformatter" width="120" />
+      <el-table-column
+        prop="price"
+        :label="$t('9fbbb4f6.0e9fd9')"
+        :formatter="priceformatter"
+        width="120"
+      />
       <el-table-column prop="store" :label="$t('9fbbb4f6.0eac88')" width="100" />
-      <el-table-column prop="rebate" :label="$t('9fbbb4f6.5c88d7')" :formatter="rebateformatter" width="100" />
+      <el-table-column
+        prop="rebate"
+        :label="$t('9fbbb4f6.5c88d7')"
+        :formatter="rebateformatter"
+        width="100"
+      />
       <el-table-column :label="$t('9fbbb4f6.3fea7c')" width="120">
         <template slot-scope="scope">
           <span v-if="scope.row.approve_status == 'onsale'">{{ $t('9fbbb4f6.9b7481') }}</span>
-          <span v-else-if="scope.row.approve_status == 'offline_sale'">{{ $t('9fbbb4f6.2c50a0') }} </span>
+          <span v-else-if="scope.row.approve_status == 'offline_sale'"
+            >{{ $t('9fbbb4f6.2c50a0') }}
+          </span>
           <span v-else>{{ $t('9fbbb4f6.ae83a3') }}</span>
         </template>
       </el-table-column>
@@ -40,7 +54,9 @@
       />
     </div>
 
-    <el-tag style="width: 100%; margin-top: 20px" type="warning"> {{ $t('9fbbb4f6.8967cd') }} </el-tag>
+    <el-tag style="width: 100%; margin-top: 20px" type="warning">
+      {{ $t('9fbbb4f6.8967cd') }}
+    </el-tag>
     <el-table
       ref="multipleDistributorsTable"
       v-loading="distributors.loading"

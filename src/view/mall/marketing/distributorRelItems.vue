@@ -89,7 +89,12 @@
         >
           <el-table-column type="selection" width="55" />
           <el-table-column prop="itemName" :label="$t('3da3c275.1fd1d5')" />
-          <el-table-column prop="price" :label="$t('3da3c275.0e9fd9')" :formatter="priceformatter" width="120" />
+          <el-table-column
+            prop="price"
+            :label="$t('3da3c275.0e9fd9')"
+            :formatter="priceformatter"
+            width="120"
+          />
           <el-table-column prop="store" :label="$t('3da3c275.0eac88')" width="100" />
           <el-table-column
             prop="rebate"
@@ -100,7 +105,9 @@
           <el-table-column :label="$t('3da3c275.3fea7c')" width="120">
             <template slot-scope="scope">
               <span v-if="scope.row.approve_status == 'onsale'">{{ $t('3da3c275.9b7481') }}</span>
-              <span v-else-if="scope.row.approve_status == 'offline_sale'">{{ $t('3da3c275.2c50a0') }} </span>
+              <span v-else-if="scope.row.approve_status == 'offline_sale'"
+                >{{ $t('3da3c275.2c50a0') }}
+              </span>
               <span v-else>{{ $t('3da3c275.ae83a3') }}</span>
             </template>
           </el-table-column>

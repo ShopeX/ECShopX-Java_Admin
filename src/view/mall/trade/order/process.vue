@@ -20,10 +20,14 @@
               <p>
                 {{ $t('18d95d54.f1f902') }}
                 <span v-if="'user' == key.operator_type"> {{ $t('18d95d54.1fd02a') }} </span>
-                <span v-else-if="'salesperson' == key.operator_type"> {{ $t('18d95d54.a6d9eb') }} </span>
+                <span v-else-if="'salesperson' == key.operator_type">
+                  {{ $t('18d95d54.a6d9eb') }}
+                </span>
                 <span v-else-if="'admin' == key.operator_type"> {{ $t('18d95d54.b1dae9') }} </span>
                 <span v-else-if="'system' == key.operator_type"> {{ $t('18d95d54.8a8b89') }} </span>
-                <span v-else-if="'distributor' == key.operator_type"> {{ $t('18d95d54.3282f2') }} </span>
+                <span v-else-if="'distributor' == key.operator_type">
+                  {{ $t('18d95d54.3282f2') }}
+                </span>
                 <span v-else> {{ $t('18d95d54.1622dc') }} </span>
               </p>
               <p>{{ $t('18d95d54.a7b805') }}{{ key.detail }}</p>

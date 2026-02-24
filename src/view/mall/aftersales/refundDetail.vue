@@ -167,7 +167,9 @@
                 >{{ $t('eb172bd4.ee3e27') }}</el-button
               >
             </span>
-            <span v-else-if="refundDetail.refund_channel == 'original'">{{ $t('eb172bd4.eef322') }}</span>
+            <span v-else-if="refundDetail.refund_channel == 'original'">{{
+              $t('eb172bd4.eef322')
+            }}</span>
           </el-col>
         </el-row>
         <el-row>

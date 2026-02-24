@@ -7,7 +7,9 @@
   <SpPage :title="$t('e06d340d.0ee0ea')">
     <template slot="page-footer">
       <div class="text-center">
-        <el-button type="primary" @click="submitSaveAction"> {{ $t('e06d340d.be5fbb') }} </el-button>
+        <el-button type="primary" @click="submitSaveAction">
+          {{ $t('e06d340d.be5fbb') }}
+        </el-button>
       </div>
     </template>
     <el-form ref="form" v-loading="loading" :model="form" class="box-set" label-width="90px">
@@ -21,30 +23,42 @@
               <el-radio v-if="templatesId" v-model="form.is_free" disabled label="0">
                 {{ $t('e06d340d.631244') }}
               </el-radio>
-              <el-radio v-else v-model="form.is_free" label="0"> {{ $t('e06d340d.631244') }} </el-radio>
+              <el-radio v-else v-model="form.is_free" label="0">
+                {{ $t('e06d340d.631244') }}
+              </el-radio>
               <el-radio v-if="templatesId" v-model="form.is_free" disabled label="1">
                 {{ $t('e06d340d.882490') }}
               </el-radio>
-              <el-radio v-else v-model="form.is_free" label="1"> {{ $t('e06d340d.882490') }} </el-radio>
+              <el-radio v-else v-model="form.is_free" label="1">
+                {{ $t('e06d340d.882490') }}
+              </el-radio>
               <p class="frm-tips">{{ $t('e06d340d.e28fdd') }}</p>
             </el-form-item>
             <el-form-item v-show="form.is_free == 0" :label="$t('e06d340d.99caba')">
               <el-radio v-if="templatesId" v-model="form.valuation" disabled label="1">
                 {{ $t('e06d340d.f0af47') }}
               </el-radio>
-              <el-radio v-else v-model="form.valuation" label="1"> {{ $t('e06d340d.f0af47') }} </el-radio>
+              <el-radio v-else v-model="form.valuation" label="1">
+                {{ $t('e06d340d.f0af47') }}
+              </el-radio>
               <el-radio v-if="templatesId" v-model="form.valuation" disabled label="2">
                 {{ $t('e06d340d.3200ea') }}
               </el-radio>
-              <el-radio v-else v-model="form.valuation" label="2"> {{ $t('e06d340d.3200ea') }} </el-radio>
+              <el-radio v-else v-model="form.valuation" label="2">
+                {{ $t('e06d340d.3200ea') }}
+              </el-radio>
               <el-radio v-if="templatesId" v-model="form.valuation" disabled label="3">
                 {{ $t('e06d340d.a21abc') }}
               </el-radio>
-              <el-radio v-else v-model="form.valuation" label="3"> {{ $t('e06d340d.a21abc') }} </el-radio>
+              <el-radio v-else v-model="form.valuation" label="3">
+                {{ $t('e06d340d.a21abc') }}
+              </el-radio>
               <el-radio v-if="templatesId" v-model="form.valuation" disabled label="4">
                 {{ $t('e06d340d.af3592') }}
               </el-radio>
-              <el-radio v-else v-model="form.valuation" label="4"> {{ $t('e06d340d.af3592') }} </el-radio>
+              <el-radio v-else v-model="form.valuation" label="4">
+                {{ $t('e06d340d.af3592') }}
+              </el-radio>
               <p class="frm-tips">{{ $t('e06d340d.e21a40') }}</p>
             </el-form-item>
             <el-form-item :label="$t('e06d340d.84d6a9')">
@@ -786,8 +800,12 @@
           </el-col>
         </el-row>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogAreaFormVisible = false"> {{ $t('e06d340d.c08ab9') }} </el-button>
-          <el-button type="primary" @click="handleAreaChooseFinish"> {{ $t('e06d340d.aa7527') }} </el-button>
+          <el-button @click="dialogAreaFormVisible = false">
+            {{ $t('e06d340d.c08ab9') }}
+          </el-button>
+          <el-button type="primary" @click="handleAreaChooseFinish">
+            {{ $t('e06d340d.aa7527') }}
+          </el-button>
         </div>
       </el-dialog>
     </el-form>

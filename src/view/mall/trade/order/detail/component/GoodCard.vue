@@ -55,7 +55,12 @@
         </el-table-column>
         <el-table-column prop="num" :label="$t('67233cd4.0bf60b')" width="80" />
 
-        <el-table-column v-if="orderInfo.type == '1'" prop="price" :label="$t('67233cd4.18acc2')" width="180">
+        <el-table-column
+          v-if="orderInfo.type == '1'"
+          prop="price"
+          :label="$t('67233cd4.18acc2')"
+          width="180"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.fee_symbol }}{{ (scope.row.taxable_fee / 100).toFixed(2) }}</span>
           </template>
@@ -121,7 +126,10 @@
               <span v-else>{{ scope.row.delivery_code }}</span>
             </template>
           </el-table-column>
-          <el-table-column v-if="orderInfo.order_status == 'WAIT_BUYER_CONFIRM'" :label="$t('67233cd4.2b6bc0')">
+          <el-table-column
+            v-if="orderInfo.order_status == 'WAIT_BUYER_CONFIRM'"
+            :label="$t('67233cd4.2b6bc0')"
+          >
             <template slot-scope="scope">
               <el-button
                 type="text"

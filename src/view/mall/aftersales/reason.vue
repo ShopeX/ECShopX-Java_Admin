@@ -21,7 +21,9 @@
       >
         <el-table-column :label="$t('2090c821.2b6bc0')" width="150">
           <template slot-scope="scope">
-            <el-button type="text" @click="handleDelete(scope)"> {{ $t('2090c821.2f4aad') }} </el-button>
+            <el-button type="text" @click="handleDelete(scope)">
+              {{ $t('2090c821.2f4aad') }}
+            </el-button>
           </template>
         </el-table-column>
         <el-table-column prop="attribute_name" :label="$t('2090c821.41dfb0')">

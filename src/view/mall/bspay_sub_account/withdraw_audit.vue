@@ -75,8 +75,10 @@ export default {
     async handleAudit(row, action) {
       try {
         // 弹出确认对话框
-        const confirmText = action === 'approve' ? this.$t('38eed5f9.0a5f82') : this.$t('38eed5f9.edc5c6')
-        const actionText = action === 'approve' ? this.$t('38eed5f9.23c1f3') : this.$t('38eed5f9.7173f8')
+        const confirmText =
+          action === 'approve' ? this.$t('38eed5f9.0a5f82') : this.$t('38eed5f9.edc5c6')
+        const actionText =
+          action === 'approve' ? this.$t('38eed5f9.23c1f3') : this.$t('38eed5f9.7173f8')
 
         await this.$confirm(confirmText, this.$t('38eed5f9.02d981'), {
           confirmButtonText: this.$t('38eed5f9.38cf16'),
@@ -85,12 +87,16 @@ export default {
         })
 
         // 弹出备注输入框
-        const { value: remark } = await this.$prompt(this.$t('38eed5f9.8044cf'), this.$t('38eed5f9.200d69'), {
-          confirmButtonText: this.$t('38eed5f9.38cf16'),
-          cancelButtonText: this.$t('38eed5f9.625fb2'),
-          inputPattern: /.+/,
-          inputErrorMessage: this.$t('38eed5f9.aa94a1')
-        })
+        const { value: remark } = await this.$prompt(
+          this.$t('38eed5f9.8044cf'),
+          this.$t('38eed5f9.200d69'),
+          {
+            confirmButtonText: this.$t('38eed5f9.38cf16'),
+            cancelButtonText: this.$t('38eed5f9.625fb2'),
+            inputPattern: /.+/,
+            inputErrorMessage: this.$t('38eed5f9.aa94a1')
+          }
+        )
 
         // 调用审核接口
         const params = {
@@ -131,7 +137,10 @@ export default {
         if (response.status) {
           // 如果返回了文件URL，直接下载
           if (response.data && response.data.file_url) {
-            this.downloadFile(response.data.file_url, response.data.file_name || this.$t('38eed5f9.97b6c4'))
+            this.downloadFile(
+              response.data.file_url,
+              response.data.file_name || this.$t('38eed5f9.97b6c4')
+            )
             this.$message.success(this.$t('38eed5f9.105c8a'))
           } else {
             // 否则提示用户去导出列表下载

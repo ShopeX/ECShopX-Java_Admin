@@ -42,10 +42,18 @@
       </el-table-column>
       <el-table-column prop="status" :label="$t('fb2561ac.0ed783')">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.status == 'apply'" type="primary"> {{ $t('fb2561ac.047109') }} </el-tag>
-          <el-tag v-if="scope.row.status == 'process'" type="danger"> {{ $t('fb2561ac.444e00') }} </el-tag>
-          <el-tag v-if="scope.row.status == 'success'" type="warning"> {{ $t('fb2561ac.42b524') }} </el-tag>
-          <el-tag v-if="scope.row.status == 'reject'" type="info"> {{ $t('fb2561ac.81233d') }} </el-tag>
+          <el-tag v-if="scope.row.status == 'apply'" type="primary">
+            {{ $t('fb2561ac.047109') }}
+          </el-tag>
+          <el-tag v-if="scope.row.status == 'process'" type="danger">
+            {{ $t('fb2561ac.444e00') }}
+          </el-tag>
+          <el-tag v-if="scope.row.status == 'success'" type="warning">
+            {{ $t('fb2561ac.42b524') }}
+          </el-tag>
+          <el-tag v-if="scope.row.status == 'reject'" type="info">
+            {{ $t('fb2561ac.81233d') }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column :label="$t('fb2561ac.e679e8')" width="120">
@@ -92,7 +100,12 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <el-dialog :title="$t('fb2561ac.e679e8')" :visible.sync="payDialog" :close-on-click-modal="false" width="50%">
+    <el-dialog
+      :title="$t('fb2561ac.e679e8')"
+      :visible.sync="payDialog"
+      :close-on-click-modal="false"
+      width="50%"
+    >
       <el-table :data="payList" border style="width: 100%">
         <el-table-column prop="update_time" :label="$t('fb2561ac.4ff1e7')" width="180">
           <template slot-scope="scope">
@@ -107,7 +120,9 @@
         <el-table-column prop="status" :label="$t('fb2561ac.ac204b')">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 'NOT_PAY'"> {{ $t('fb2561ac.8cbf8e') }} </span>
-            <el-tag v-if="scope.row.status == 'SUCCESS'" type="success"> {{ $t('fb2561ac.c7c515') }} </el-tag>
+            <el-tag v-if="scope.row.status == 'SUCCESS'" type="success">
+              {{ $t('fb2561ac.c7c515') }}
+            </el-tag>
             <span v-if="scope.row.status == 'FAIL'"> {{ $t('fb2561ac.35d585') }} </span>
           </template>
         </el-table-column>
@@ -136,7 +151,12 @@
         </el-button>
       </div>
     </el-dialog>
-    <el-dialog :title="$t('fb2561ac.597e24')" :visible.sync="dialog" :close-on-click-modal="false" width="50%">
+    <el-dialog
+      :title="$t('fb2561ac.597e24')"
+      :visible.sync="dialog"
+      :close-on-click-modal="false"
+      width="50%"
+    >
       <el-alert
         v-if="detail.money > cashWithdrawalRebate"
         :title="$t('fb2561ac.0ea1df')"
@@ -153,10 +173,13 @@
         </div>
         <div class="text item">
           <span>{{ $t('fb2561ac.7069d4') }} </span
-          ><span style="font-size: 26px; color: red">{{ cashWithdrawalRebate / 100 }}</span> {{ $t('fb2561ac.c16655') }}
+          ><span style="font-size: 26px; color: red">{{ cashWithdrawalRebate / 100 }}</span>
+          {{ $t('fb2561ac.c16655') }}
         </div>
         <div class="text item">
-          {{ $t('fb2561ac.37fec4') }} <span style="font-size: 26px; color: red">{{ detail.money / 100 }}</span> {{ $t('fb2561ac.c16655') }}
+          {{ $t('fb2561ac.37fec4') }}
+          <span style="font-size: 26px; color: red">{{ detail.money / 100 }}</span>
+          {{ $t('fb2561ac.c16655') }}
         </div>
       </el-card>
       <div slot="footer" class="dialog-footer content-center">

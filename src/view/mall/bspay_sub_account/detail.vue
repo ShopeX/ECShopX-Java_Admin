@@ -84,7 +84,11 @@
                 effect="light"
               >
                 <i class="el-icon-warning-outline" />
-                <div v-if="$store.getters.login_type == 'merchant'" slot="content" v-html="$t('90dac937.82185c')" />
+                <div
+                  v-if="$store.getters.login_type == 'merchant'"
+                  slot="content"
+                  v-html="$t('90dac937.82185c')"
+                />
                 <div v-else slot="content" v-html="$t('90dac937.ab2a43')" />
               </el-tooltip>
               {{ $t('90dac937.f9e205') }}

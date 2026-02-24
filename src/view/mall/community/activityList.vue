@@ -75,9 +75,17 @@
               </template>
             </el-table-column>
 
-            <el-table-column width="220" prop="activity_process_msg" :label="$t('7fa20317.3fea7c')" />
+            <el-table-column
+              width="220"
+              prop="activity_process_msg"
+              :label="$t('7fa20317.3fea7c')"
+            />
 
-            <el-table-column width="200" prop="activity_delivery_status_msg" :label="$t('7fa20317.c3c7a1')" />
+            <el-table-column
+              width="200"
+              prop="activity_delivery_status_msg"
+              :label="$t('7fa20317.c3c7a1')"
+            />
 
             <el-table-column :label="$t('7fa20317.2b6bc0')" min-width="150">
               <template slot-scope="scope">

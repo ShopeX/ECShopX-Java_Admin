@@ -85,7 +85,11 @@
               </router-link>
             </template>
           </el-table-column>
-          <el-table-column prop="distributor_mobile" :label="$t('dbc8a05e.69e563')" min-width="64" />
+          <el-table-column
+            prop="distributor_mobile"
+            :label="$t('dbc8a05e.69e563')"
+            min-width="64"
+          />
           <el-table-column prop="item_name" :label="$t('dbc8a05e.54d6cd')" />
           <el-table-column prop="num" :label="$t('dbc8a05e.06612d')" min-width="48" />
           <el-table-column :label="$t('dbc8a05e.d07413')" min-width="60">
@@ -100,7 +104,9 @@
           </el-table-column>
           <el-table-column prop="is_close" :label="$t('dbc8a05e.b5aa25')" min-width="50">
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.is_close == true" type="warning"> {{ $t('dbc8a05e.139304') }} </el-tag>
+              <el-tag v-if="scope.row.is_close == true" type="warning">
+                {{ $t('dbc8a05e.139304') }}
+              </el-tag>
               <el-tag v-else type="info"> {{ $t('dbc8a05e.facb53') }} </el-tag>
             </template>
           </el-table-column>

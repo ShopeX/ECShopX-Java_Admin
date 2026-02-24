@@ -62,7 +62,11 @@ export default {
           }
         ],
         [
-          { name: self.$t('14e217b9.630c77'), field: 'get_points', isHidden: self.hiddenPoint('get_points') },
+          {
+            name: self.$t('14e217b9.630c77'),
+            field: 'get_points',
+            isHidden: self.hiddenPoint('get_points')
+          },
           {
             name: self.$t('14e217b9.864d7a'),
             field: 'extra_points',
@@ -186,7 +190,9 @@ export default {
       if (this.memberInfo.vipgrade && this.memberInfo.vipgrade.is_vip) {
         returnValue = this.memberInfo.vipgrade.grade_name
       } else {
-        returnValue = this.memberInfo.gradeInfo ? this.memberInfo.gradeInfo.grade_name : this.$t('14e217b9.d81bb2')
+        returnValue = this.memberInfo.gradeInfo
+          ? this.memberInfo.gradeInfo.grade_name
+          : this.$t('14e217b9.d81bb2')
       }
       return returnValue
     },

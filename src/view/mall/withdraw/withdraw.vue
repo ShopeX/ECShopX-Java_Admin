@@ -14,7 +14,9 @@
           <div class="part1">
             <div style="margin-right: 50px">
               <div style="margin-left: 30px; margin-bottom: 20px; color: #333">
-                <span>{{ $t('7f31cab4.e2201a') }}：￥{{ (cash_balance / 100) | formatNumMoney }}</span>
+                <span
+                  >{{ $t('7f31cab4.e2201a') }}：￥{{ (cash_balance / 100) | formatNumMoney }}</span
+                >
                 <span v-if="$store.getters.login_type != 'admin'" style="margin-left: 30px"
                   >{{ $t('7f31cab4.3b757d') }}：￥{{ (cash_limit / 100) | formatNumMoney }}</span
                 >
@@ -76,9 +78,7 @@
                 <p>{{ $t('7f31cab4.f0bb50') }}</p>
                 <p>{{ $t('7f31cab4.aa4888') }}</p>
               </template>
-              <p v-if="auto_draw_cash == 'N'">
-                * {{ $t('7f31cab4.56ee17') }}
-              </p>
+              <p v-if="auto_draw_cash == 'N'">* {{ $t('7f31cab4.56ee17') }}</p>
             </div>
           </div>
           <div class="list">

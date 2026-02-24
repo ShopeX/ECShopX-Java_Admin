@@ -42,7 +42,9 @@
               <div class="cus-dealer-pfonts">
                 <i class="el-icon-phone cus-icon" />
                 <span>{{
-                  infoList.basicInfo ? infoList.basicInfo.tel_no + '（' + $t('52f8a5c0.3d9d21') + '）' : '-'
+                  infoList.basicInfo
+                    ? infoList.basicInfo.tel_no + '（' + $t('52f8a5c0.3d9d21') + '）'
+                    : '-'
                 }}</span>
               </div>
               <div v-if="loginType === 'distributor'" class="cus-dealer-pfonts cus-margin-50">
@@ -259,7 +261,11 @@ export default {
     // },
     bankAcctType() {
       let { bank_acct_type } = this.infoList
-      return (bank_acct_type === '1' && this.$t('52f8a5c0.18ba13')) || (bank_acct_type === '2' && this.$t('52f8a5c0.f0bf8a')) || '-'
+      return (
+        (bank_acct_type === '1' && this.$t('52f8a5c0.18ba13')) ||
+        (bank_acct_type === '2' && this.$t('52f8a5c0.f0bf8a')) ||
+        '-'
+      )
     },
     dowloadFile(url) {
       let link = document.createElement('a')

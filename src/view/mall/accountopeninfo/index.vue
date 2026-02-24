@@ -431,7 +431,11 @@ export default {
     },
     bankAcctType() {
       let { bank_acct_type } = this.MerchantEntry
-      return (bank_acct_type === '1' && this.$t('287aad92.18ba13')) || (bank_acct_type === '2' && this.$t('287aad92.f0bf8a')) || '-'
+      return (
+        (bank_acct_type === '1' && this.$t('287aad92.18ba13')) ||
+        (bank_acct_type === '2' && this.$t('287aad92.f0bf8a')) ||
+        '-'
+      )
     },
     areaFilter() {
       let { prov_code, area_code } = this.MerchantEntry

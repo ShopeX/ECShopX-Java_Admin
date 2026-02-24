@@ -8,7 +8,9 @@
     <SpPage>
       <div>
         <div class="action-container">
-          <el-button type="primary" icon="plus" @click="addTemplates"> {{ $t('c8abf6d9.a8c029') }} </el-button>
+          <el-button type="primary" icon="plus" @click="addTemplates">
+            {{ $t('c8abf6d9.a8c029') }}
+          </el-button>
         </div>
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
           <el-tab-pane :label="$t('c8abf6d9.882490')" name="first">

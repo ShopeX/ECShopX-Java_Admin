@@ -143,10 +143,14 @@ export default {
             action: {
               handler: async ([row]) => {
                 try {
-                  const res = await this.$confirm(this.$t('2eada62f.c508ab'), this.$t('2eada62f.02d981'), {
-                    confirmButtonText: this.$t('2eada62f.38cf16'),
-                    cancelButtonText: this.$t('2eada62f.625fb2')
-                  })
+                  const res = await this.$confirm(
+                    this.$t('2eada62f.c508ab'),
+                    this.$t('2eada62f.02d981'),
+                    {
+                      confirmButtonText: this.$t('2eada62f.38cf16'),
+                      cancelButtonText: this.$t('2eada62f.625fb2')
+                    }
+                  )
                   await this.$api.community.withdrawApply(row.id, {
                     process_type: 'reject'
                   })

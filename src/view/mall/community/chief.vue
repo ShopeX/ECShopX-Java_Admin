@@ -22,7 +22,9 @@
       </SpFilterForm>
 
       <div class="action-container">
-        <el-button type="primary" icon="el-plus-circle" @click="chiefupload"> {{ $t('c96a5149.5ad881') }} </el-button>
+        <el-button type="primary" icon="el-plus-circle" @click="chiefupload">
+          {{ $t('c96a5149.5ad881') }}
+        </el-button>
         <el-button type="primary" icon="el-plus-circle" @click="handleApprove">
           {{ $t('c96a5149.794efd') }}
         </el-button>

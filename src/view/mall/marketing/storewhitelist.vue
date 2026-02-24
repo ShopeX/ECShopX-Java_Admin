@@ -20,7 +20,12 @@
           <el-input v-model="params.username" :placeholder="$t('7f673091.8093e3')" />
         </SpFilterFormItem>
         <SpFilterFormItem prop="distributor_id" :label="$t('7f673091.efa91f')">
-          <SpSelectShop v-model="params.distributor_id" multiple clearable :placeholder="$t('7f673091.708c9d')" />
+          <SpSelectShop
+            v-model="params.distributor_id"
+            multiple
+            clearable
+            :placeholder="$t('7f673091.708c9d')"
+          />
         </SpFilterFormItem>
       </SpFilterForm>
 
@@ -31,7 +36,9 @@
         <el-button type="primary" icon="el-icon-circle-plus" @click="uploadHandleChange()">
           {{ $t('7f673091.a00fda') }}
         </el-button>
-        <el-button type="primary" @click="handleWhitelistExport"> {{ $t('7f673091.55405e') }} </el-button>
+        <el-button type="primary" @click="handleWhitelistExport">
+          {{ $t('7f673091.55405e') }}
+        </el-button>
         <el-button type="primary" icon="el-icon-delete" plain @click="clickDelAllWhiteList()">
           {{ $t('7f673091.ed7589') }}
         </el-button>
@@ -45,8 +52,12 @@
       >
         <el-table-column :label="$t('7f673091.2b6bc0')">
           <template slot-scope="scope">
-            <el-button type="text" @click="editShopWhite(scope.row)"> {{ $t('7f673091.95b351') }} </el-button>
-            <el-button type="text" @click="delWhitelist(scope.row)"> {{ $t('7f673091.2f4aad') }} </el-button>
+            <el-button type="text" @click="editShopWhite(scope.row)">
+              {{ $t('7f673091.95b351') }}
+            </el-button>
+            <el-button type="text" @click="delWhitelist(scope.row)">
+              {{ $t('7f673091.2f4aad') }}
+            </el-button>
           </template>
         </el-table-column>
         <el-table-column type="selection" align="center" :label="$t('7f673091.66eeac')" />

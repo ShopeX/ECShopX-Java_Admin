@@ -37,7 +37,9 @@
     </SpFilterForm>
 
     <div class="action-container">
-      <el-button v-loading="exportloading" type="primary" @click="exportData"> {{ $t('1f1701db.55405e') }} </el-button>
+      <el-button v-loading="exportloading" type="primary" @click="exportData">
+        {{ $t('1f1701db.55405e') }}
+      </el-button>
       <el-popover
         placement="top-start"
         width="200"

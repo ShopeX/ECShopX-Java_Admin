@@ -98,12 +98,20 @@
 
       <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onReset">
         <SpFilterFormItem prop="distributor_id" :label="$t('b2fe051e.efa91f')">
-          <SpSelectShop v-model="params.distributor_id" clearable :placeholder="$t('b2fe051e.708c9d')" />
+          <SpSelectShop
+            v-model="params.distributor_id"
+            clearable
+            :placeholder="$t('b2fe051e.708c9d')"
+          />
         </SpFilterFormItem>
         <SpFilterFormItem prop="distributor_id" :label="$t('b2fe051e.002a31')">
           <el-input v-model="params.shop_code" :placeholder="$t('b2fe051e.f6d738')" />
         </SpFilterFormItem>
-        <SpFilterFormItem prop="open_divided" :label="$t('b2fe051e.92e8f8')" v-if="VERSION_STANDARD()">
+        <SpFilterFormItem
+          prop="open_divided"
+          :label="$t('b2fe051e.92e8f8')"
+          v-if="VERSION_STANDARD()"
+        >
           <el-select v-model="params.open_divided" :placeholder="$t('b2fe051e.780afe')">
             <el-option
               v-for="(item, index) in isOpenList"
@@ -125,16 +133,36 @@
         <SpFilterFormItem prop="mobile" :label="$t('b2fe051e.2f0a34')">
           <el-input v-model="params.mobile" :placeholder="$t('b2fe051e.d9898e')" />
         </SpFilterFormItem>
-        <SpFilterFormItem v-if="!VERSION_STANDARD()" prop="distribution_type" :label="$t('b2fe051e.213633')">
-          <el-select v-model="params.distribution_type" clearable :placeholder="$t('b2fe051e.677408')">
-            <el-option :label="$t('b2fe051e.059670')" value="1"> {{ $t('b2fe051e.059670') }} </el-option>
-            <el-option :label="$t('b2fe051e.491c0c')" value="0"> {{ $t('b2fe051e.491c0c') }} </el-option>
+        <SpFilterFormItem
+          v-if="!VERSION_STANDARD()"
+          prop="distribution_type"
+          :label="$t('b2fe051e.213633')"
+        >
+          <el-select
+            v-model="params.distribution_type"
+            clearable
+            :placeholder="$t('b2fe051e.677408')"
+          >
+            <el-option :label="$t('b2fe051e.059670')" value="1">
+              {{ $t('b2fe051e.059670') }}
+            </el-option>
+            <el-option :label="$t('b2fe051e.491c0c')" value="0">
+              {{ $t('b2fe051e.491c0c') }}
+            </el-option>
           </el-select>
         </SpFilterFormItem>
         <SpFilterFormItem prop="payment_subject" :label="$t('b2fe051e.4cd089')">
-          <el-select v-model="params.payment_subject" clearable :placeholder="$t('b2fe051e.6747b9')">
-            <el-option :label="$t('b2fe051e.295713')" value="1"> {{ $t('b2fe051e.295713') }} </el-option>
-            <el-option :label="$t('b2fe051e.498128')" value="0"> {{ $t('b2fe051e.498128') }} </el-option>
+          <el-select
+            v-model="params.payment_subject"
+            clearable
+            :placeholder="$t('b2fe051e.6747b9')"
+          >
+            <el-option :label="$t('b2fe051e.295713')" value="1">
+              {{ $t('b2fe051e.295713') }}
+            </el-option>
+            <el-option :label="$t('b2fe051e.498128')" value="0">
+              {{ $t('b2fe051e.498128') }}
+            </el-option>
           </el-select>
         </SpFilterFormItem>
         <SpFilterFormItem
@@ -363,7 +391,11 @@
           </template>
         </el-table-column>
 
-        <el-table-column v-if="$store.getters.login_type == 'admin'" width="80" :label="$t('b2fe051e.d1c357')">
+        <el-table-column
+          v-if="$store.getters.login_type == 'admin'"
+          width="80"
+          :label="$t('b2fe051e.d1c357')"
+        >
           <template v-if="scope.row.is_valid !== 'delete'" slot-scope="scope">
             <el-tooltip effect="dark" :content="$t('b2fe051e.f93b8b')" placement="top-start">
               <el-switch
@@ -379,7 +411,9 @@
 
         <el-table-column :label="$t('b2fe051e.068acb')" width="100">
           <template slot-scope="scope">
-            <span>{{ scope.row.payment_subject == 1 ? $t('b2fe051e.295713') : $t('b2fe051e.498128') }}</span>
+            <span>{{
+              scope.row.payment_subject == 1 ? $t('b2fe051e.295713') : $t('b2fe051e.498128')
+            }}</span>
             <i
               v-if="IS_ADMIN() && (VERSION_STANDARD() || VERSION_PLATFORM())"
               class="el-icon-edit cursor-pointer"
@@ -389,7 +423,12 @@
           </template>
         </el-table-column>
 
-        <el-table-column v-if="VERSION_PLATFORM()" prop="tagList" :label="$t('b2fe051e.14d342')" class="tab">
+        <el-table-column
+          v-if="VERSION_PLATFORM()"
+          prop="tagList"
+          :label="$t('b2fe051e.14d342')"
+          class="tab"
+        >
           <template slot-scope="scope">
             <el-tag
               v-for="taglist in scope.row.tagList"
@@ -430,7 +469,9 @@
               </router-link>
             </el-button>
 
-            <el-button type="text" @click="linkTemplates(scope.row)"> {{ $t('b2fe051e.eab3fc') }} </el-button>
+            <el-button type="text" @click="linkTemplates(scope.row)">
+              {{ $t('b2fe051e.eab3fc') }}
+            </el-button>
 
             <el-popover placement="top-start" trigger="hover">
               <div>
@@ -760,7 +801,7 @@ export default {
 
     const validateLink = (rule, value, callback) => {
       const { channel, wxapp, h5, app, aliapp, pc } = this.keFuForm
-        if (channel == 'multi') {
+      if (channel == 'multi') {
         if (wxapp || h5 || app || aliapp || pc) {
           callback()
         } else {
@@ -964,7 +1005,11 @@ export default {
           key: 'common',
           component: () => (
             <div class='kf-link'>
-              <el-input type='text' placeholder={this.$t('b2fe051e.c33409')} v-model={this.keFuForm.common} />
+              <el-input
+                type='text'
+                placeholder={this.$t('b2fe051e.c33409')}
+                v-model={this.keFuForm.common}
+              />
               <div class='tips'>
                 如实际运营中有多个客服人员接待咨询，建议配置为美洽客服组链接，在美洽客服组内添加客服人员坐席。
               </div>

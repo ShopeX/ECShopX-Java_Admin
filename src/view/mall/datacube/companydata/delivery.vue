@@ -23,7 +23,11 @@
         <el-input v-model="params.delivery_staff_mobile" :placeholder="$t('b2f40ed3.8098e2')" />
       </SpFilterFormItem>
       <SpFilterFormItem prop="distributor_id" :label="$t('b2f40ed3.1861bc')">
-        <SpSelectShop v-model="params.distributor_id" clearable :placeholder="$t('b2f40ed3.708c9d')" />
+        <SpSelectShop
+          v-model="params.distributor_id"
+          clearable
+          :placeholder="$t('b2f40ed3.708c9d')"
+        />
       </SpFilterFormItem>
       <!-- <SpFilterFormItem prop="merchant_id" label="所属商家:">
         <el-select v-model="params.merchant_id" filterable placeholder="请选择">

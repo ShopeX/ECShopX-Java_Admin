@@ -32,12 +32,12 @@
       <el-table-column :label="$t('647ce252.2b6bc0')" width="180">
         <template slot-scope="scope">
           <div class="operating-icons">
-            <el-button type="text" @click="editTemplatesAction(scope.$index, scope.row)"
-              >{{ $t('647ce252.95b351') }}</el-button
-            >
-            <el-button type="text" @click="deleteTemplatesAction(scope.$index, scope.row)"
-              >{{ $t('647ce252.2f4aad') }}</el-button
-            >
+            <el-button type="text" @click="editTemplatesAction(scope.$index, scope.row)">{{
+              $t('647ce252.95b351')
+            }}</el-button>
+            <el-button type="text" @click="deleteTemplatesAction(scope.$index, scope.row)">{{
+              $t('647ce252.2f4aad')
+            }}</el-button>
           </div>
         </template>
       </el-table-column>

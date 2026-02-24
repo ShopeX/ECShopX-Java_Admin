@@ -79,7 +79,11 @@
         @onSubmit="onAddSubmit"
       />
 
-      <el-dialog :title="$t('77050e4f.2f9864')" :visible.sync="downloadView" :close-on-click-modal="false">
+      <el-dialog
+        :title="$t('77050e4f.2f9864')"
+        :visible.sync="downloadView"
+        :close-on-click-modal="false"
+      >
         <template v-if="downloadUrl">
           <a :href="downloadUrl" download>{{ downloadName }}</a>
         </template>

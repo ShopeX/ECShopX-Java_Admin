@@ -90,8 +90,12 @@
               </el-col>
             </el-row>
             <el-form-item style="text-align: right">
-              <el-button type="primary" size="medium" @click="queryHandle"> {{ $t('eac538c8.bee912') }} </el-button>
-              <el-button type="info" size="medium" @click="resetForm('ruleForm')"> {{ $t('eac538c8.288f0c') }} </el-button>
+              <el-button type="primary" size="medium" @click="queryHandle">
+                {{ $t('eac538c8.bee912') }}
+              </el-button>
+              <el-button type="info" size="medium" @click="resetForm('ruleForm')">
+                {{ $t('eac538c8.288f0c') }}
+              </el-button>
             </el-form-item>
             <el-row :gutter="20" class="group">
               <el-col v-if="$store.getters.login_type != 'distributor'" :span="6" class="item">
@@ -129,7 +133,9 @@
                 导入<i class="el-icon-upload el-icon--right" />
               </el-button> -->
                 </el-upload>
-                <el-button type="primary" size="medium" @click="exportFile"> {{ $t('eac538c8.d64170') }} </el-button>
+                <el-button type="primary" size="medium" @click="exportFile">
+                  {{ $t('eac538c8.d64170') }}
+                </el-button>
               </el-row>
               <el-table v-loading="loading" :data="list" style="width: 100%">
                 <el-table-column :label="$t('eac538c8.1e8dc2')" prop="orderId" />
@@ -149,21 +155,33 @@
                   </el-table-column>
                 </template>
 
-                <el-table-column v-if="$store.getters.login_type != 'distributor'" :label="$t('eac538c8.b1862e')">
+                <el-table-column
+                  v-if="$store.getters.login_type != 'distributor'"
+                  :label="$t('eac538c8.b1862e')"
+                >
                   <template slot-scope="scope">
                     <span>{{ (scope.row.totalFee / 100) | formatNumMoney }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column v-if="$store.getters.login_type == 'distributor'" :label="$t('eac538c8.7184d3')">
+                <el-table-column
+                  v-if="$store.getters.login_type == 'distributor'"
+                  :label="$t('eac538c8.7184d3')"
+                >
                   <template slot-scope="scope">
                     <span>{{ (scope.row.totalFee / 100) | formatNumMoney }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column :label="$t('eac538c8.209f63')" prop="tradeState">
                   <template slot-scope="scope">
-                    <span v-if="scope.row.tradeState == 'SUCCESS'">{{ $t('eac538c8.21d63b') }}</span>
-                    <span v-else-if="scope.row.tradeState == 'PARTIAL_REFUND'">{{ $t('eac538c8.cfcaaa') }}</span>
-                    <span v-else-if="scope.row.tradeState == 'FULL_REFUND'">{{ $t('eac538c8.3b5a4d') }}</span>
+                    <span v-if="scope.row.tradeState == 'SUCCESS'">{{
+                      $t('eac538c8.21d63b')
+                    }}</span>
+                    <span v-else-if="scope.row.tradeState == 'PARTIAL_REFUND'">{{
+                      $t('eac538c8.cfcaaa')
+                    }}</span>
+                    <span v-else-if="scope.row.tradeState == 'FULL_REFUND'">{{
+                      $t('eac538c8.3b5a4d')
+                    }}</span>
                     <!-- <span v-else-if="scope.row.tradeState =='CLOSED'">已关闭</span>
                   <span v-else-if="scope.row.tradeState =='REVOKED'">已撤销</span>
                   <span v-else-if="scope.row.tradeState =='PAYERROR'">支付失败</span> -->
@@ -188,15 +206,21 @@
                 </el-table-column>
                 <el-table-column :label="$t('eac538c8.9b712b')">
                   <template slot-scope="scope">
-                    <span v-if="scope.row.bspayDivStatus == 'NOTDIV'">{{ $t('eac538c8.3d8a78') }}</span>
-                    <span v-else-if="scope.row.bspayDivStatus == 'DIVED'">{{ $t('eac538c8.6b086e') }}</span>
+                    <span v-if="scope.row.bspayDivStatus == 'NOTDIV'">{{
+                      $t('eac538c8.3d8a78')
+                    }}</span>
+                    <span v-else-if="scope.row.bspayDivStatus == 'DIVED'">{{
+                      $t('eac538c8.6b086e')
+                    }}</span>
                   </template>
                 </el-table-column>
                 <template v-if="$store.getters.login_type == 'admin'">
                   <el-table-column :label="$t('eac538c8.6e640f')" prop="bspayFeeMode">
                     <template slot-scope="scope">
                       <span v-if="scope.row.bspayFeeMode == '2'">{{ $t('eac538c8.75d29a') }}</span>
-                      <span v-else-if="scope.row.bspayFeeMode == '1'">{{ $t('eac538c8.6c1506') }}</span>
+                      <span v-else-if="scope.row.bspayFeeMode == '1'">{{
+                        $t('eac538c8.6c1506')
+                      }}</span>
                       <span v-else>-</span>
                     </template>
                   </el-table-column>

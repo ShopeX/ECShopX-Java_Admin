@@ -56,7 +56,12 @@
       <el-card>
         <el-tabs v-model="activeName" class="cus-details-tabs" @tab-click="tabChange">
           <el-tab-pane v-if="loginType === 'admin'" :label="$t('d7f0eef5.9e5ffa')" name="first">
-            <BaseModal :span="20" :label-list="baseInfo" :info="infoList" :title="$t('d7f0eef5.fc82aa')" />
+            <BaseModal
+              :span="20"
+              :label-list="baseInfo"
+              :info="infoList"
+              :title="$t('d7f0eef5.fc82aa')"
+            />
             <BaseModal
               v-if="is_rel_dealer"
               :span="20"
@@ -113,7 +118,9 @@
               <el-button v-if="accountInfo.audit_state != 'A'" type="primary" @click="editHandle">
                 {{ $t('d7f0eef5.95b351') }}
               </el-button>
-              <el-button v-if="accountInfo.audit_state == 'A'">{{ $t('d7f0eef5.b720a6') }}</el-button>
+              <el-button v-if="accountInfo.audit_state == 'A'">{{
+                $t('d7f0eef5.b720a6')
+              }}</el-button>
             </div>
           </el-tab-pane>
           <el-tab-pane
@@ -233,7 +240,11 @@ export default {
       enterSplitAccountList: [
         // 企业分帐
         { name: this.$t('d7f0eef5.6e640f'), field: 'adapay_fee_mode', filter: this.adapayFilter },
-        { name: this.$t('d7f0eef5.08605d'), field: 'headquarters_proportion', filter: this.headquartersFilter },
+        {
+          name: this.$t('d7f0eef5.08605d'),
+          field: 'headquarters_proportion',
+          filter: this.headquartersFilter
+        },
         { name: this.$t('d7f0eef5.b61188'), field: 'dealer_proportion', filter: this.dealerFilter }
       ],
       personInfo: [
@@ -252,7 +263,11 @@ export default {
       splitAccountList: [
         // 个人分帐
         { name: this.$t('d7f0eef5.6e640f'), field: 'adapay_fee_mode', filter: this.adapayFilter },
-        { name: this.$t('d7f0eef5.08605d'), field: 'headquarters_proportion', filter: this.headquartersFilter }
+        {
+          name: this.$t('d7f0eef5.08605d'),
+          field: 'headquarters_proportion',
+          filter: this.headquartersFilter
+        }
       ]
     }
   },

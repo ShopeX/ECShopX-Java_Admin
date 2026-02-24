@@ -100,7 +100,12 @@
             />
           </div>
           <div v-if="shopValues.length >= 0">
-            <el-select v-model="shopValue" clearable :placeholder="$t('68f8d259.708c9d')" @change="selectChange">
+            <el-select
+              v-model="shopValue"
+              clearable
+              :placeholder="$t('68f8d259.708c9d')"
+              @change="selectChange"
+            >
               <el-option
                 v-for="item in shopValues"
                 :key="item.distributor_id"
@@ -112,7 +117,9 @@
         </div>
         <div class="right">
           <div class="btn">
-            <el-button type="primary" size="mini" @click="exportHandle"> {{ $t('68f8d259.55405e') }} </el-button>
+            <el-button type="primary" size="mini" @click="exportHandle">
+              {{ $t('68f8d259.55405e') }}
+            </el-button>
           </div>
           <div class="why" @mouseenter="mouseenterHandle(2)" @mouseout="mouseoverHandle(2)">
             <img src="../../../../assets/img/wenhao.png" alt="" />

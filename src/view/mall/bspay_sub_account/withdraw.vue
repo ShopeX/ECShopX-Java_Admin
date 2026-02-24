@@ -14,12 +14,15 @@
           <div class="part1">
             <div style="margin-right: 50px">
               <div style="margin-left: 30px; margin-bottom: 20px; color: #333">
-                <span>{{ $t('d901a946.54bcf0') }}{{ (available_balance / 100) | formatNumMoney }}</span>
+                <span
+                  >{{ $t('d901a946.54bcf0') }}{{ (available_balance / 100) | formatNumMoney }}</span
+                >
                 <span style="margin-left: 30px"
                   >{{ $t('d901a946.568012') }}{{ (pending_balance / 100) | formatNumMoney }}</span
                 >
                 <span style="margin-left: 30px; color: #0079fe; font-weight: bold"
-                  >{{ $t('d901a946.f9a7b6') }}{{
+                  >{{ $t('d901a946.f9a7b6')
+                  }}{{
                     Math.max(0, (available_balance - pending_balance) / 100) | formatNumMoney
                   }}</span
                 >
@@ -152,13 +155,13 @@ export default {
                     }
                   }}
                 >
-                  <template slot='append'>{ this.$t('d901a946.c16655') }</template>
+                  <template slot='append'>{this.$t('d901a946.c16655')}</template>
                 </el-input>
                 <span
                   style='margin-left: 12px; color: #0079fe; cursor: pointer; white-space: nowrap; flex-shrink: 0;'
                   onClick={() => this.allHandle()} // 全部提现
                 >
-                  { i18n.t('d901a946.5eb161') }
+                  {i18n.t('d901a946.5eb161')}
                 </span>
               </div>
             )
@@ -240,16 +243,12 @@ export default {
           })
 
           // 显示成功提示框
-          this.$confirm(
-            this.$t('d901a946.4b050b'),
-            this.$t('d901a946.dca060'),
-            {
-              confirmButtonText: this.$t('d901a946.38cf16'),
-              type: 'success',
-              showCancelButton: false,
-              center: true
-            }
-          ).then(() => {
+          this.$confirm(this.$t('d901a946.4b050b'), this.$t('d901a946.dca060'), {
+            confirmButtonText: this.$t('d901a946.38cf16'),
+            type: 'success',
+            showCancelButton: false,
+            center: true
+          }).then(() => {
             // 用户点击确定后的操作
             console.log('用户确认提现成功提示')
           })

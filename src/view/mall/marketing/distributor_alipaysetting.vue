@@ -19,7 +19,8 @@
     />
     <div class="mt-5 p-4 rounded" style="background-color: #fff6f7">
       <span class="text-gray-500 text-xs leading-6">
-        {{ $t('7a42c841.1fd9ff') }}<a
+        {{ $t('7a42c841.1fd9ff')
+        }}<a
           href="https://b.alipay.com/signing/productDetail.htm?productId=I1011000290000001001"
           target="_blank"
           class="text-blue-500 no-underline"
@@ -28,7 +29,9 @@
       </span>
     </div>
     <div class="mt-5 pt-5 border-t border-gray-200 text-center">
-      <el-button v-loading="loading" type="primary" @click="onSubmit"> {{ $t('7a42c841.be5fbb') }} </el-button>
+      <el-button v-loading="loading" type="primary" @click="onSubmit">
+        {{ $t('7a42c841.be5fbb') }}
+      </el-button>
     </div>
   </SpPage>
 </template>

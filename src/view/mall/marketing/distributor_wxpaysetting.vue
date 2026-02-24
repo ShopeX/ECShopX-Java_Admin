@@ -18,7 +18,9 @@
       :show-default-actions="false"
     />
     <div class="mt-5 pt-5 border-t border-gray-200 text-center">
-      <el-button v-loading="loading" type="primary" @click="onSubmit"> {{ $t('38a9041d.be5fbb') }} </el-button>
+      <el-button v-loading="loading" type="primary" @click="onSubmit">
+        {{ $t('38a9041d.be5fbb') }}
+      </el-button>
     </div>
   </SpPage>
 </template>

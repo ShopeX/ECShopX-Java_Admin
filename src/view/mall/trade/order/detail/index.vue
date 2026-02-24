@@ -185,7 +185,11 @@
                 {{ (scope.row.cost_fee / 100).toFixed(2) }}
               </template>
             </el-table-column>
-            <el-table-column v-if="!VERSION_IN_PURCHASE()" :label="$t('3cdfcea1.5c7afc')" width="120">
+            <el-table-column
+              v-if="!VERSION_IN_PURCHASE()"
+              :label="$t('3cdfcea1.5c7afc')"
+              width="120"
+            >
               <template slot-scope="scope">
                 {{ (scope.row.member_discount / 100).toFixed(2) }}
               </template>
@@ -205,7 +209,10 @@
                 {{ (scope.row.discount_fee / 100).toFixed(2) }}
               </template>
             </el-table-column>
-            <el-table-column v-if="!VERSION_IN_PURCHASE() && !VERSION_STANDARD()" :label="$t('3cdfcea1.f8d735')">
+            <el-table-column
+              v-if="!VERSION_IN_PURCHASE() && !VERSION_STANDARD()"
+              :label="$t('3cdfcea1.f8d735')"
+            >
               <template slot-scope="scope">
                 <span>{{ scope.row.fee_rate }}</span>
               </template>
@@ -467,11 +474,15 @@
         <div slot="header">{{ $t('3cdfcea1.15c09f') }}</div>
         <div v-if="orderInfo?.self_delivery_operator_name" class="card-panel">
           <div class="card-panel-item">
-            <span>{{ $t('3cdfcea1.0bf1a7') }}{{ orderInfo.self_delivery_operator_name || '-' }}</span>
+            <span
+              >{{ $t('3cdfcea1.0bf1a7') }}{{ orderInfo.self_delivery_operator_name || '-' }}</span
+            >
             <span class="ml-16"
               >{{ $t('3cdfcea1.ad1a76') }}{{ orderInfo.self_delivery_operator_mobile || '-' }}</span
             >
-            <span class="ml-16">{{ $t('3cdfcea1.ad365e') }}{{ orderInfo.self_delivery_fee / 100 }}元</span>
+            <span class="ml-16"
+              >{{ $t('3cdfcea1.ad365e') }}{{ orderInfo.self_delivery_fee / 100 }}元</span
+            >
           </div>
         </div>
         <div class="delivery-log">
@@ -484,7 +495,9 @@
             >
               <el-card>
                 <p>{{ $t('3cdfcea1.a7b805') }}{{ key.msg }}</p>
-                <p v-if="key.delivery_remark">{{ $t('3cdfcea1.82ad15') }}{{ key.delivery_remark }}</p>
+                <p v-if="key.delivery_remark">
+                  {{ $t('3cdfcea1.82ad15') }}{{ key.delivery_remark }}
+                </p>
                 <div v-if="key.pics?.length">
                   {{ $t('3cdfcea1.6a1136') }}
                   <div class="img-box">
@@ -576,17 +589,41 @@ export default {
         { label: this.$t('3cdfcea1.90d17e'), field: 'order_id', is_show: true },
         { label: this.$t('3cdfcea1.0e83be'), field: 'order_class', is_show: true },
         { label: this.$t('3cdfcea1.7816f5'), field: 'order_status_msg', is_show: true },
-        { label: this.$t('3cdfcea1.dfc420'), field: 'invoice_status', is_show: !this.VERSION_IN_PURCHASE() },
+        {
+          label: this.$t('3cdfcea1.dfc420'),
+          field: 'invoice_status',
+          is_show: !this.VERSION_IN_PURCHASE()
+        },
         { label: this.$t('3cdfcea1.e9d70f'), field: 'receiptTypeTxt', is_show: true },
         { label: this.$t('3cdfcea1.f1a471'), field: 'username', is_show: true },
         { label: this.$t('3cdfcea1.468c2b'), field: 'mobile', is_show: true },
         { label: this.$t('3cdfcea1.3b387e'), field: 'memberGrade', is_show: true },
-        { label: this.$t('3cdfcea1.287fa3'), field: 'memberDiscount', is_show: !this.VERSION_IN_PURCHASE() },
+        {
+          label: this.$t('3cdfcea1.287fa3'),
+          field: 'memberDiscount',
+          is_show: !this.VERSION_IN_PURCHASE()
+        },
         { label: this.$t('3cdfcea1.e48a1d'), field: 'fee_type', is_show: true },
-        { label: this.$t('3cdfcea1.da46b5'), field: 'bonus_points', is_show: !this.VERSION_IN_PURCHASE() },
-        { label: this.$t('3cdfcea1.2f0613'), field: 'get_points', is_show: !this.VERSION_IN_PURCHASE() },
-        { label: this.$t('3cdfcea1.30c38a'), field: 'extra_points', is_show: !this.VERSION_IN_PURCHASE() },
-        { label: this.$t('3cdfcea1.87c5d5'), field: 'point_use', is_show: !this.VERSION_IN_PURCHASE() },
+        {
+          label: this.$t('3cdfcea1.da46b5'),
+          field: 'bonus_points',
+          is_show: !this.VERSION_IN_PURCHASE()
+        },
+        {
+          label: this.$t('3cdfcea1.2f0613'),
+          field: 'get_points',
+          is_show: !this.VERSION_IN_PURCHASE()
+        },
+        {
+          label: this.$t('3cdfcea1.30c38a'),
+          field: 'extra_points',
+          is_show: !this.VERSION_IN_PURCHASE()
+        },
+        {
+          label: this.$t('3cdfcea1.87c5d5'),
+          field: 'point_use',
+          is_show: !this.VERSION_IN_PURCHASE()
+        },
         { label: this.$t('3cdfcea1.1583ee'), field: 'purchaseRole', is_show: true },
         { label: this.$t('3cdfcea1.1e1a6f'), field: 'sale_salesman_distributor_id', is_show: true },
         { label: this.$t('3cdfcea1.860510'), field: 'salesman_mobile', is_show: true },
@@ -599,10 +636,26 @@ export default {
         { label: this.$t('3cdfcea1.35b3c2'), field: 'transactionId', is_show: true },
         { label: this.$t('3cdfcea1.6eb0c2'), field: 'goodsPrice', is_show: true },
         { label: this.$t('3cdfcea1.b4a1ba'), field: 'freightFee', is_show: true },
-        { label: this.$t('3cdfcea1.a34d7d'), field: 'memberDiscountPrice', is_show: !this.VERSION_IN_PURCHASE() },
-        { label: this.$t('3cdfcea1.a1fed5'), field: 'couponDiscount', is_show: !this.VERSION_IN_PURCHASE() },
-        { label: this.$t('3cdfcea1.0b4786'), field: 'totalDiscount', is_show: !this.VERSION_IN_PURCHASE() },
-        { label: this.$t('3cdfcea1.30020a'), field: 'pointFee', is_show: !this.VERSION_IN_PURCHASE() },
+        {
+          label: this.$t('3cdfcea1.a34d7d'),
+          field: 'memberDiscountPrice',
+          is_show: !this.VERSION_IN_PURCHASE()
+        },
+        {
+          label: this.$t('3cdfcea1.a1fed5'),
+          field: 'couponDiscount',
+          is_show: !this.VERSION_IN_PURCHASE()
+        },
+        {
+          label: this.$t('3cdfcea1.0b4786'),
+          field: 'totalDiscount',
+          is_show: !this.VERSION_IN_PURCHASE()
+        },
+        {
+          label: this.$t('3cdfcea1.30020a'),
+          field: 'pointFee',
+          is_show: !this.VERSION_IN_PURCHASE()
+        },
         { label: this.$t('3cdfcea1.32613e'), field: 'totalPrice', is_show: true },
         { label: this.$t('3cdfcea1.e98e07'), field: 'realPrice', is_show: true },
         { label: this.$t('3cdfcea1.292de2'), field: 'payTypeTxt', is_show: true },
@@ -628,10 +681,26 @@ export default {
         { label: this.$t('3cdfcea1.d651d6'), field: 'relationship', is_show: true },
         { label: this.$t('3cdfcea1.312e3d'), field: 'is_pregnant_woman', is_show: true },
         { label: this.$t('3cdfcea1.043fb3'), field: 'is_lactation', is_show: true },
-        { label: this.$t('3cdfcea1.572906'), field: 'before_ai_result_used_medicine', is_show: true },
-        { label: this.$t('3cdfcea1.a5ebb2'), field: 'is_before_ai_result_allergy_history', is_show: true },
-        { label: this.$t('3cdfcea1.a0439b'), field: 'before_ai_result_allergy_history', is_show: true },
-        { label: this.$t('3cdfcea1.72c335'), field: 'before_ai_result_body_abnormal', is_show: true }
+        {
+          label: this.$t('3cdfcea1.572906'),
+          field: 'before_ai_result_used_medicine',
+          is_show: true
+        },
+        {
+          label: this.$t('3cdfcea1.a5ebb2'),
+          field: 'is_before_ai_result_allergy_history',
+          is_show: true
+        },
+        {
+          label: this.$t('3cdfcea1.a0439b'),
+          field: 'before_ai_result_allergy_history',
+          is_show: true
+        },
+        {
+          label: this.$t('3cdfcea1.72c335'),
+          field: 'before_ai_result_body_abnormal',
+          is_show: true
+        }
       ],
       prescriptionInfoList: [
         { label: this.$t('3cdfcea1.77de9b'), field: 'prescription_id', is_show: true },
@@ -1022,7 +1091,8 @@ export default {
         timeExpire: tradeInfo.timeExpire
           ? moment(tradeInfo.timeExpire * 1000).format('YYYY-MM-DD HH:mm:ss')
           : '',
-        invoiceType: invoiceType == 'individual' ? this.$t('3cdfcea1.6a0e04') : this.$t('3cdfcea1.04c9e3'),
+        invoiceType:
+          invoiceType == 'individual' ? this.$t('3cdfcea1.6a0e04') : this.$t('3cdfcea1.04c9e3'),
         invoiceContent,
         invoicedCompanyName,
         invoiceRegistrationNumber,
@@ -1042,7 +1112,10 @@ export default {
         user_family_id_card: diagnosis_data.user_family_id_card,
         user_family_phone: diagnosis_data.user_family_phone,
         user_family_age: diagnosis_data.user_family_age,
-        user_family_gender: diagnosis_data.user_family_gender == 1 ? this.$t('3cdfcea1.36a490') : this.$t('3cdfcea1.87c835'),
+        user_family_gender:
+          diagnosis_data.user_family_gender == 1
+            ? this.$t('3cdfcea1.36a490')
+            : this.$t('3cdfcea1.87c835'),
         relationship: this.relationshipMap[diagnosis_data.relationship],
         is_pregnant_woman: diagnosis_data.is_pregnant_woman == 1 ? '是' : '否',
         is_lactation: diagnosis_data.is_lactation == 1 ? '是' : '否',
@@ -1068,7 +1141,8 @@ export default {
         doctor_id: prescription_data.doctor_id,
         doctor_name: prescription_data.doctor_name,
         tags: prescription_data.tags,
-        prescription_in_status: prescription_data.status == 1 ? this.$t('3cdfcea1.fd6e80') : this.$t('3cdfcea1.0044f6'),
+        prescription_in_status:
+          prescription_data.status == 1 ? this.$t('3cdfcea1.fd6e80') : this.$t('3cdfcea1.0044f6'),
         prescription_created: prescription_data.created
           ? moment(prescription_data.created * 1000).format('YYYY-MM-DD HH:mm:ss')
           : '',

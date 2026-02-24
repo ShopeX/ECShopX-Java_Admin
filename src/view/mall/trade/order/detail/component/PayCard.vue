@@ -4,7 +4,12 @@
 -->
 
 <template>
-  <CustomCard :title="$t('912c5906.a58517')" :info="info" :data-source="tradeInfo" :is-common="true" />
+  <CustomCard
+    :title="$t('912c5906.a58517')"
+    :info="info"
+    :data-source="tradeInfo"
+    :is-common="true"
+  />
 </template>
 
 <script>

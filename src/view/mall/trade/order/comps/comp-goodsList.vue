@@ -77,7 +77,12 @@
           {{ scope.row.point_fee / 100 }}
         </template>
       </el-table-column>
-      <el-table-column v-if="!VERSION_STANDARD()" prop="pic" :label="$t('2d162ff1.5937ae')" width="120">
+      <el-table-column
+        v-if="!VERSION_STANDARD()"
+        prop="pic"
+        :label="$t('2d162ff1.5937ae')"
+        width="120"
+      >
         <template slot-scope="scope">
           {{ scope.row.fee_symbol }}{{ scope.row.cost_price / 100 }}
         </template>

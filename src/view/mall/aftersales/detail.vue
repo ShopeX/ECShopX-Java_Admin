@@ -48,9 +48,15 @@
       <el-row>
         <el-col :span="3" class="col-3 content-right"> {{ $t('e67351f7.0e993f') }} </el-col>
         <el-col :span="20">
-          <span v-if="aftersalesInfo.aftersales_type == 'ONLY_REFUND'">{{ $t('e67351f7.6b8821') }} </span>
-          <span v-if="aftersalesInfo.aftersales_type == 'REFUND_GOODS'">{{ $t('e67351f7.cc0193') }} </span>
-          <span v-if="aftersalesInfo.aftersales_type == 'EXCHANGING_GOODS'">{{ $t('e67351f7.bb9cd5') }} </span>
+          <span v-if="aftersalesInfo.aftersales_type == 'ONLY_REFUND'"
+            >{{ $t('e67351f7.6b8821') }}
+          </span>
+          <span v-if="aftersalesInfo.aftersales_type == 'REFUND_GOODS'"
+            >{{ $t('e67351f7.cc0193') }}
+          </span>
+          <span v-if="aftersalesInfo.aftersales_type == 'EXCHANGING_GOODS'"
+            >{{ $t('e67351f7.bb9cd5') }}
+          </span>
         </el-col>
       </el-row>
       <el-row>
@@ -105,10 +111,18 @@
         <el-col :span="3" class="col-3 content-right"> {{ $t('e67351f7.aaddd7') }} </el-col>
         <el-col :span="20">
           <span v-if="aftersalesInfo.aftersales_status == '0'"> {{ $t('e67351f7.d89d86') }}</span>
-          <span v-else-if="aftersalesInfo.aftersales_status == '1'"> {{ $t('e67351f7.c217f8') }}</span>
-          <span v-else-if="aftersalesInfo.aftersales_status == '2'"> {{ $t('e67351f7.5ad605') }}</span>
-          <span v-else-if="aftersalesInfo.aftersales_status == '3'"> {{ $t('e67351f7.dbf36d') }}</span>
-          <span v-else-if="aftersalesInfo.aftersales_status == '4'"> {{ $t('e67351f7.50239f') }}</span>
+          <span v-else-if="aftersalesInfo.aftersales_status == '1'">
+            {{ $t('e67351f7.c217f8') }}</span
+          >
+          <span v-else-if="aftersalesInfo.aftersales_status == '2'">
+            {{ $t('e67351f7.5ad605') }}</span
+          >
+          <span v-else-if="aftersalesInfo.aftersales_status == '3'">
+            {{ $t('e67351f7.dbf36d') }}</span
+          >
+          <span v-else-if="aftersalesInfo.aftersales_status == '4'">
+            {{ $t('e67351f7.50239f') }}</span
+          >
         </el-col>
       </el-row>
       <el-row>
@@ -136,7 +150,9 @@
     </div>
     <div class="remark_footer">
       <el-row style="width: 100%">
-        <el-col :span="3" class="remark_footer_title col-3 content-right"> {{ $t('e67351f7.00b7f4') }} </el-col>
+        <el-col :span="3" class="remark_footer_title col-3 content-right">
+          {{ $t('e67351f7.00b7f4') }}
+        </el-col>
         <el-col :span="20">
           <div class="remark_footer_content">
             {{ aftersalesInfo.distributor_remark }}
@@ -151,7 +167,12 @@
       <el-row>
         <template>
           <el-table :data="aftersalesInfo.detail" style="width: 960px">
-            <el-table-column class="goods-img" prop="pic" :label="$t('e67351f7.9b94b1')" width="180">
+            <el-table-column
+              class="goods-img"
+              prop="pic"
+              :label="$t('e67351f7.9b94b1')"
+              width="180"
+            >
               <template slot-scope="scope">
                 <span><img :src="scope.row.item_pic" :alt="scope.row.item_name" /></span>
               </template>
@@ -172,7 +193,11 @@
               </template>
             </el-table-column>
             <el-table-column prop="item_bn" :label="$t('e67351f7.0888fc')" width="150" />
-            <el-table-column prop="orderItem.item_spec_desc" :label="$t('e67351f7.ea887b')" width="150" />
+            <el-table-column
+              prop="orderItem.item_spec_desc"
+              :label="$t('e67351f7.ea887b')"
+              width="150"
+            />
             <el-table-column prop="supplier_name" :label="$t('e67351f7.55c61d')" width="150">
               <template slot-scope="scope">
                 {{ scope.row.supplier_name?.supplier_name }}
@@ -270,9 +295,15 @@
           <el-col :span="3" class="col-3 content-right"> {{ $t('e67351f7.a2f94f') }} </el-col>
           <el-col :span="20">
             <span v-if="refundInfo.refund_status == 'SUCCESS'"> {{ $t('e67351f7.d58cbd') }} </span>
-            <span v-else-if="refundInfo.refund_status == 'REFUNDCLOSE'"> {{ $t('e67351f7.c32482') }} </span>
-            <span v-else-if="refundInfo.refund_status == 'PROCESSING'"> {{ $t('e67351f7.73ce8f') }} </span>
-            <span v-else-if="refundInfo.refund_status == 'CHANGE'"> {{ $t('e67351f7.c59ead') }} </span>
+            <span v-else-if="refundInfo.refund_status == 'REFUNDCLOSE'">
+              {{ $t('e67351f7.c32482') }}
+            </span>
+            <span v-else-if="refundInfo.refund_status == 'PROCESSING'">
+              {{ $t('e67351f7.73ce8f') }}
+            </span>
+            <span v-else-if="refundInfo.refund_status == 'CHANGE'">
+              {{ $t('e67351f7.c59ead') }}
+            </span>
           </el-col>
         </el-row>
         <el-row v-if="refundInfo.refunds_memo">
@@ -316,7 +347,9 @@
         </el-row>
         <el-row>
           <el-col :span="3" class="col-3 content-right">
-            <el-button type="primary" plain @click="submitAftersalesInfo"> {{ $t('e67351f7.939d53') }} </el-button>
+            <el-button type="primary" plain @click="submitAftersalesInfo">
+              {{ $t('e67351f7.939d53') }}
+            </el-button>
           </el-col>
         </el-row>
       </div>
@@ -377,18 +410,30 @@
           <el-row class="agreen-info">
             <el-col :span="2" class="col-3 agreen-right"> {{ $t('e67351f7.8d274e') }} </el-col>
             <el-col :span="8">
-              <el-input v-model="corp_code" type="text" :placeholder="$t('e67351f7.751ed9')" clearable />
+              <el-input
+                v-model="corp_code"
+                type="text"
+                :placeholder="$t('e67351f7.751ed9')"
+                clearable
+              />
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="2" class="col-3 agreen-right"> {{ $t('e67351f7.b75dd1') }} </el-col>
             <el-col :span="8">
-              <el-input v-model="logi_no" type="text" :placeholder="$t('e67351f7.5cc10a')" clearable />
+              <el-input
+                v-model="logi_no"
+                type="text"
+                :placeholder="$t('e67351f7.5cc10a')"
+                clearable
+              />
             </el-col>
           </el-row>
         </div>
         <div class="section-footer with-border content-center">
-          <el-button type="primary" @click="sendBackAction"> {{ $t('e67351f7.d7c770') }} </el-button>
+          <el-button type="primary" @click="sendBackAction">
+            {{ $t('e67351f7.d7c770') }}
+          </el-button>
         </div>
       </template>
 
@@ -483,7 +528,9 @@
               </el-col>
             </el-row>
             <div class="section-footer with-border content-center">
-              <el-button type="primary" @click="refundAction"> {{ $t('e67351f7.e83a25') }} </el-button>
+              <el-button type="primary" @click="refundAction">
+                {{ $t('e67351f7.e83a25') }}
+              </el-button>
             </div>
           </template>
         </div>
@@ -584,7 +631,9 @@
                   {{ $t('e67351f7.0cb2e3') }}
                 </el-button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <el-button icon="el-icon-circle" @click="onAddAddress"> {{ $t('e67351f7.0a02f7') }} </el-button>
+                <el-button icon="el-icon-circle" @click="onAddAddress">
+                  {{ $t('e67351f7.0a02f7') }}
+                </el-button>
               </el-col>
             </el-row>
             <el-row>
@@ -620,7 +669,13 @@
           <el-row>
             <el-col :span="3" class="col-3 content-right"> {{ $t('e67351f7.50550f') }} </el-col>
             <el-col :span="8">
-              {{ `${aftersalesInfo.return_type == 'offline' ? $t('e67351f7.11b600') : $t('e67351f7.ed91f2')}` }}
+              {{
+                `${
+                  aftersalesInfo.return_type == 'offline'
+                    ? $t('e67351f7.11b600')
+                    : $t('e67351f7.ed91f2')
+                }`
+              }}
             </el-col>
           </el-row>
           <el-row>
@@ -629,7 +684,11 @@
               <div>{{ aftersalesInfo.aftersales_address.aftersales_name }}</div>
               <div>{{ aftersalesInfo.aftersales_address.aftersales_address }}</div>
               <div>{{ aftersalesInfo.aftersales_address.aftersales_mobile }}</div>
-              <div>{{ `${$t('e67351f7.5cf7ca')} ${aftersalesInfo.aftersales_address.aftersales_hours}` }}</div>
+              <div>
+                {{
+                  `${$t('e67351f7.5cf7ca')} ${aftersalesInfo.aftersales_address.aftersales_hours}`
+                }}
+              </div>
             </el-col>
           </el-row>
           <el-row>
@@ -715,7 +774,9 @@
         <span slot="footer" class="dialog-footer">
           <el-button @click="handleCancel">{{ $t('e67351f7.c08ab9') }}</el-button>
           <!-- <el-button @click="relShop.relShopVisible = false">取 消</el-button> -->
-          <el-button type="primary" @click="handleSelectAftersalesAddress()">{{ $t('e67351f7.aa7527') }}</el-button>
+          <el-button type="primary" @click="handleSelectAftersalesAddress()">{{
+            $t('e67351f7.aa7527')
+          }}</el-button>
         </span>
       </template>
     </el-dialog>

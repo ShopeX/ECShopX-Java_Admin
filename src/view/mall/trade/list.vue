@@ -56,10 +56,16 @@
       </SpFilterForm>
 
       <div class="action-container">
-        <el-button type="primary" plain @click="exportData"> {{ $t('35ec026d.55405e') }} </el-button>
+        <el-button type="primary" plain @click="exportData">
+          {{ $t('35ec026d.55405e') }}
+        </el-button>
       </div>
 
-      <el-dialog :title="$t('35ec026d.2f9864')" :visible.sync="downloadView" :close-on-click-modal="false">
+      <el-dialog
+        :title="$t('35ec026d.2f9864')"
+        :visible.sync="downloadView"
+        :close-on-click-modal="false"
+      >
         <template v-if="downloadUrl">
           <a :href="downloadUrl" download>{{ downloadName }}</a>
         </template>
@@ -121,12 +127,17 @@
                     <el-popover v-if="scope.row.discountInfo" trigger="hover" placement="top">
                       <div v-for="item in scope.row.discountInfo" :key="item.orderId">
                         <div v-if="item.discount_fee">
-                          <p v-if="item.coupon_code">{{ $t('35ec026d.5cc63d') }}{{ item.coupon_code }}</p>
-                          <p v-if="item.member_card_code">{{ $t('35ec026d.c26cd3') }}{{ item.member_card_code }}</p>
+                          <p v-if="item.coupon_code">
+                            {{ $t('35ec026d.5cc63d') }}{{ item.coupon_code }}
+                          </p>
+                          <p v-if="item.member_card_code">
+                            {{ $t('35ec026d.c26cd3') }}{{ item.member_card_code }}
+                          </p>
                           <p>{{ $t('35ec026d.fd30de') }}{{ item.info }}</p>
                           <p>{{ $t('35ec026d.e5c225') }}{{ item.rule }}</p>
                           <p>
-                            {{ $t('35ec026d.87ae51') }}{{ scope.row.curFeeSymbol }}{{ item.discount_fee / 100 }} {{ $t('35ec026d.c16655') }}
+                            {{ $t('35ec026d.87ae51') }}{{ scope.row.curFeeSymbol
+                            }}{{ item.discount_fee / 100 }} {{ $t('35ec026d.c16655') }}
                           </p>
                           <hr />
                         </div>
@@ -259,7 +270,10 @@
             </el-table-column>
             <el-table-column :label="$t('35ec026d.1138a9')">
               <template slot-scope="scope">
-                {{ scope.row.self_delivery_fee && scope.row.self_delivery_fee / 100 + $t('35ec026d.c16655') }}
+                {{
+                  scope.row.self_delivery_fee &&
+                  scope.row.self_delivery_fee / 100 + $t('35ec026d.c16655')
+                }}
               </template>
             </el-table-column>
             <el-table-column :label="$t('35ec026d.b7765e')">
@@ -299,7 +313,9 @@
                 <el-tag v-if="scope.row.tradeState == 'SUCCESS'" type="success" size="mini">
                   {{ $t('35ec026d.eb5dc9') }}
                 </el-tag>
-                <el-tag v-if="scope.row.tradeState == 'NOTPAY'" size="mini"> {{ $t('35ec026d.608afd') }} </el-tag>
+                <el-tag v-if="scope.row.tradeState == 'NOTPAY'" size="mini">
+                  {{ $t('35ec026d.608afd') }}
+                </el-tag>
                 <el-tag v-if="scope.row.tradeState == 'CLOSED'" type="primary" size="mini">
                   {{ $t('35ec026d.9c5850') }}
                 </el-tag>

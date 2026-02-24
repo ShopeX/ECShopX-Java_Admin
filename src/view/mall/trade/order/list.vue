@@ -51,7 +51,11 @@
           </el-popover>
         </el-col>
       </el-row>
-      <el-dialog :title="$t('a332b824.2cf869')" :visible.sync="downloadView" :close-on-click-modal="false">
+      <el-dialog
+        :title="$t('a332b824.2cf869')"
+        :visible.sync="downloadView"
+        :close-on-click-modal="false"
+      >
         <template v-if="downloadUrl">
           <a :href="downloadUrl" download>{{ downloadName }}</a>
         </template>
@@ -74,7 +78,8 @@
                 </el-tooltip>
               </div>
               <div>
-                {{ $t('a332b824.79074b') }}<span class="mark"
+                {{ $t('a332b824.79074b')
+                }}<span class="mark"
                   ><span class="cur">{{ scope.row.fee_symbol }}</span
                   >{{ scope.row.total_fee / 100 }}</span
                 >
@@ -131,7 +136,9 @@
               >
                 {{ $t('a332b824.fad522') }}
               </el-tag>
-              <el-tag v-else-if="scope.row.order_status == 'NOTPAY'" size="mini"> {{ $t('a332b824.608afd') }} </el-tag>
+              <el-tag v-else-if="scope.row.order_status == 'NOTPAY'" size="mini">
+                {{ $t('a332b824.608afd') }}
+              </el-tag>
               <el-tag
                 v-else-if="scope.row.order_status == 'CLOSED' || scope.row.order_status == 'CANCEL'"
                 type="danger"

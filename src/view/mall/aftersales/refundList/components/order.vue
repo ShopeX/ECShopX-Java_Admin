@@ -74,10 +74,17 @@
     </div>
 
     <el-form ref="form" label-width="100px">
-      <el-table v-loading="loading" border :data="tableList" :element-loading-text="$t('822436ab.f09b12')">
+      <el-table
+        v-loading="loading"
+        border
+        :data="tableList"
+        :element-loading-text="$t('822436ab.f09b12')"
+      >
         <el-table-column :label="$t('822436ab.2b6bc0')" fixed="left">
           <template slot-scope="scope">
-            <el-button type="text" @click="handleDetail(scope.row)">{{ $t('822436ab.f26225') }}</el-button>
+            <el-button type="text" @click="handleDetail(scope.row)">{{
+              $t('822436ab.f26225')
+            }}</el-button>
             <el-button
               v-if="
                 scope.row.refund_status == 'AUDIT_SUCCESS' &&
@@ -202,9 +209,9 @@
         </el-table-column>
         <el-table-column min-width="200" :label="$t('822436ab.0c9d2b')">
           <template slot-scope="scope">
-            <span v-if="scope.row.pay_type == 'wxpay' || scope.row.pay_type == 'adapay'"
-              >{{ $t('822436ab.bffe28') }}</span
-            >
+            <span v-if="scope.row.pay_type == 'wxpay' || scope.row.pay_type == 'adapay'">{{
+              $t('822436ab.bffe28')
+            }}</span>
             <span v-if="scope.row.pay_type == 'wxpayapp'">{{ $t('822436ab.3c2c77') }}</span>
             <span v-if="scope.row.pay_type == 'wxpayh5'">{{ $t('822436ab.df7033') }}</span>
             <span v-if="scope.row.pay_type == 'wxpaypc'">{{ $t('822436ab.c8a8cb') }}</span>
@@ -253,7 +260,9 @@
         <!-- 退款方式 -->
         <el-table-column prop="refund_channel" width="80" :label="$t('822436ab.4178e0')">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.refund_channel == 'offline'" size="mini"> {{ $t('822436ab.46a9a9') }} </el-tag>
+            <el-tag v-if="scope.row.refund_channel == 'offline'" size="mini">
+              {{ $t('822436ab.46a9a9') }}
+            </el-tag>
             <el-tag v-if="scope.row.refund_channel == 'original'" type="success" size="mini">
               {{ $t('822436ab.eef322') }}
             </el-tag>

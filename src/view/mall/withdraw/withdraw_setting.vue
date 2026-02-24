@@ -7,7 +7,9 @@
   <SpPage :title="$t('aeec1e55.b33aa1')">
     <template slot="page-footer">
       <div class="text-center">
-        <el-button type="info" size="medium" @click="getConfig">{{ $t('aeec1e55.625fb2') }}</el-button>
+        <el-button type="info" size="medium" @click="getConfig">{{
+          $t('aeec1e55.625fb2')
+        }}</el-button>
 
         <loading-btn
           ref="loadingBtn"

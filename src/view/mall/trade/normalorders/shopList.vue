@@ -18,7 +18,11 @@
             :placeholder="$t('8906cb64.4b8cb9')"
             @change="dateChange"
           />
-          <el-select v-model="order_class" :placeholder="$t('8906cb64.249ee7')" @change="TypeHandle">
+          <el-select
+            v-model="order_class"
+            :placeholder="$t('8906cb64.249ee7')"
+            @change="TypeHandle"
+          >
             <el-option
               v-for="(item, index) in order_class_array"
               :key="index"
@@ -56,7 +60,12 @@
           <el-input v-model="identifier" class="input-m" :placeholder="$t('8906cb64.f4b2e7')">
             <el-button slot="append" icon="el-icon-search" @click="numberSearch" />
           </el-input>
-          <el-select v-model="source_from" :placeholder="$t('8906cb64.f46a3f')" clearable @change="TypeHandle">
+          <el-select
+            v-model="source_from"
+            :placeholder="$t('8906cb64.f46a3f')"
+            clearable
+            @change="TypeHandle"
+          >
             <el-option
               v-for="(item, index) in sourceFromList"
               :key="index"
@@ -72,7 +81,9 @@
             <el-button type="primary" @click="exportData('normal_master_order')">
               {{ $t('8906cb64.538414') }}
             </el-button>
-            <el-button type="primary" @click="exportData('normal_order')">{{ $t('8906cb64.82b914') }}</el-button>
+            <el-button type="primary" @click="exportData('normal_order')">{{
+              $t('8906cb64.82b914')
+            }}</el-button>
           </el-button-group>
           <el-popover
             placement="top-start"
@@ -84,7 +95,11 @@
           </el-popover>
         </el-col>
       </el-row>
-      <el-dialog :title="$t('8906cb64.2cf869')" :visible.sync="downloadView" :close-on-click-modal="false">
+      <el-dialog
+        :title="$t('8906cb64.2cf869')"
+        :visible.sync="downloadView"
+        :close-on-click-modal="false"
+      >
         <template v-if="downloadUrl">
           <a :href="downloadUrl" download>{{ downloadName }}</a>
         </template>
@@ -217,7 +232,9 @@
               <el-tag v-if="scope.row.order_status == 'PAYED'" type="success" size="mini">
                 {{ $t('8906cb64.8d02a5') }}
               </el-tag>
-              <el-tag v-else-if="scope.row.order_status == 'NOTPAY'" size="mini">{{ $t('8906cb64.608afd') }}</el-tag>
+              <el-tag v-else-if="scope.row.order_status == 'NOTPAY'" size="mini">{{
+                $t('8906cb64.608afd')
+              }}</el-tag>
               <el-tag v-else-if="scope.row.order_status_des == 'CANCEL'" type="danger" size="mini">
                 {{ $t('8906cb64.2111cc') }}
               </el-tag>
@@ -423,7 +440,9 @@
         </template>
         <div slot="footer" class="dialog-footer">
           <el-button @click.native="handleCancel">{{ $t('8906cb64.625fb2') }}</el-button>
-          <el-button type="primary" @click="submitDeliveryAction">{{ $t('8906cb64.38cf16') }}</el-button>
+          <el-button type="primary" @click="submitDeliveryAction">{{
+            $t('8906cb64.38cf16')
+          }}</el-button>
         </div>
       </el-dialog>
       <el-dialog
@@ -462,7 +481,11 @@
                 </el-table-column>
                 <el-table-column prop="supplier_name" :label="$t('8906cb64.55c61d')" width="130" />
                 <el-table-column prop="num" :label="$t('8906cb64.0bf60b')" width="100" />
-                <el-table-column prop="delivery_item_num" :label="$t('8906cb64.745165')" width="100" />
+                <el-table-column
+                  prop="delivery_item_num"
+                  :label="$t('8906cb64.745165')"
+                  width="100"
+                />
                 <el-table-column :label="$t('8906cb64.6943ad')" width="130">
                   <template slot-scope="scope">
                     <span>{{ scope.row.fee_symbol }}{{ scope.row.total_fee / 100 }}</span>
@@ -485,7 +508,9 @@
                         :max="scope.row.num - scope.row.delivery_item_num"
                         :disabled="IS_ADMIN() && scope.row.supplier_id > 0"
                       />
-                      <span v-if="scope.row.num - scope.row.delivery_item_num == 0">{{ $t('8906cb64.82446c') }}</span>
+                      <span v-if="scope.row.num - scope.row.delivery_item_num == 0">{{
+                        $t('8906cb64.82446c')
+                      }}</span>
                     </template>
                   </el-table-column>
                 </template>
@@ -519,7 +544,11 @@
                 </template>
               </el-form-item>
               <el-form-item :label="$t('8906cb64.b7765e')" width="200">
-                <el-select v-model="deliveryForm.delivery_ersonnel" clearable :placeholder="$t('8906cb64.708c9d')">
+                <el-select
+                  v-model="deliveryForm.delivery_ersonnel"
+                  clearable
+                  :placeholder="$t('8906cb64.708c9d')"
+                >
                   <el-option
                     v-for="item in deliveryPersonnel"
                     :key="item.value"
@@ -566,7 +595,9 @@
         </template>
         <div slot="footer" class="dialog-footer">
           <el-button @click.native="handleCancel">{{ $t('8906cb64.625fb2') }}</el-button>
-          <el-button type="primary" @click="submitDeliveryAction">{{ $t('8906cb64.38cf16') }}</el-button>
+          <el-button type="primary" @click="submitDeliveryAction">{{
+            $t('8906cb64.38cf16')
+          }}</el-button>
         </div>
       </el-dialog>
       <el-dialog
@@ -585,16 +616,25 @@
               <span v-else>{{ $t('8906cb64.f01ac7') }}</span>
             </el-col>
             <el-col :span="24">
-              <span>{{ $t('8906cb64.796c1b') }}{{ cancelData.create_time | datetime('YYYY-MM-DD HH:mm:ss') }}</span>
+              <span
+                >{{ $t('8906cb64.796c1b')
+                }}{{ cancelData.create_time | datetime('YYYY-MM-DD HH:mm:ss') }}</span
+              >
             </el-col>
             <el-col :span="24">
               <span>{{ $t('8906cb64.a2f94f') }}</span>
               <span v-if="cancelData.refund_status == 'READY'">{{ $t('8906cb64.5cb424') }}</span>
-              <span v-if="cancelData.refund_status == 'AUDIT_SUCCESS'">{{ $t('8906cb64.202a8b') }}</span>
+              <span v-if="cancelData.refund_status == 'AUDIT_SUCCESS'">{{
+                $t('8906cb64.202a8b')
+              }}</span>
               <span v-if="cancelData.refund_status == 'SUCCESS'">{{ $t('8906cb64.d58cbd') }}</span>
-              <span v-if="cancelData.refund_status == 'SHOP_CHECK_FAILS'">{{ $t('8906cb64.0e14e3') }}</span>
+              <span v-if="cancelData.refund_status == 'SHOP_CHECK_FAILS'">{{
+                $t('8906cb64.0e14e3')
+              }}</span>
               <span v-if="cancelData.refund_status == 'CANCEL'">{{ $t('8906cb64.0a7dff') }}</span>
-              <span v-if="cancelData.refund_status == 'PROCESSING'">{{ $t('8906cb64.cd3291') }}</span>
+              <span v-if="cancelData.refund_status == 'PROCESSING'">{{
+                $t('8906cb64.cd3291')
+              }}</span>
               <span v-if="cancelData.refund_status == 'FAILS'">{{ $t('8906cb64.7c2544') }}</span>
             </el-col>
             <el-col :span="24">
@@ -606,7 +646,10 @@
               <span v-if="cancelData.progress == '4'">{{ $t('8906cb64.dbf36d') }}</span>
             </el-col>
             <el-col :span="24">
-              <span>{{ $t('8906cb64.b772c7') }}{{ cancelData.fee_symbol }}{{ cancelData.total_fee / 100 }}</span>
+              <span
+                >{{ $t('8906cb64.b772c7') }}{{ cancelData.fee_symbol
+                }}{{ cancelData.total_fee / 100 }}</span
+              >
             </el-col>
             <el-col :span="24">
               <span v-if="cancelData.pay_type == 'wxpay'">{{ $t('8906cb64.f5041a') }}</span>
@@ -621,8 +664,12 @@
               <el-row>
                 <el-col :span="20">
                   <template>
-                    <el-radio v-model="cancelForm.check_cancel" label="0">{{ $t('8906cb64.1bf19c') }}</el-radio>
-                    <el-radio v-model="cancelForm.check_cancel" label="1">{{ $t('8906cb64.e61f2c') }}</el-radio>
+                    <el-radio v-model="cancelForm.check_cancel" label="0">{{
+                      $t('8906cb64.1bf19c')
+                    }}</el-radio>
+                    <el-radio v-model="cancelForm.check_cancel" label="1">{{
+                      $t('8906cb64.e61f2c')
+                    }}</el-radio>
                   </template>
                 </el-col>
               </el-row>
@@ -643,7 +690,9 @@
         </template>
         <div slot="footer" class="dialog-footer">
           <el-button @click.native="handleCancelOrderCancel">{{ $t('8906cb64.625fb2') }}</el-button>
-          <el-button type="primary" @click="submitCancelConfirmAction">{{ $t('8906cb64.38cf16') }}</el-button>
+          <el-button type="primary" @click="submitCancelConfirmAction">{{
+            $t('8906cb64.38cf16')
+          }}</el-button>
         </div>
       </el-dialog>
       <el-dialog
@@ -693,7 +742,9 @@
         </template>
         <div slot="footer" class="dialog-footer">
           <el-button @click.native="handleCancelOrder">{{ $t('8906cb64.625fb2') }}</el-button>
-          <el-button type="primary" @click="submitCancelOrderConfirmAction">{{ $t('8906cb64.38cf16') }}</el-button>
+          <el-button type="primary" @click="submitCancelOrderConfirmAction">{{
+            $t('8906cb64.38cf16')
+          }}</el-button>
         </div>
       </el-dialog>
 
@@ -728,7 +779,9 @@
         </template>
         <div slot="footer" class="dialog-footer">
           <el-button @click.native="handleWriteoffOrder">{{ $t('8906cb64.625fb2') }}</el-button>
-          <el-button type="primary" @click="submitWriteoffOrderConfirmAction">{{ $t('8906cb64.38cf16') }}</el-button>
+          <el-button type="primary" @click="submitWriteoffOrderConfirmAction">{{
+            $t('8906cb64.38cf16')
+          }}</el-button>
         </div>
       </el-dialog>
       <el-dialog

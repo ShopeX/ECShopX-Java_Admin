@@ -14,7 +14,11 @@
     <SpPlatformTip h5 app alipay />
     <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onSearch">
       <SpFilterFormItem prop="distributor_id" :label="$t('b30cce08.efa91f')">
-        <SpSelectShop v-model="params.distributor_id" clearable :placeholder="$t('b30cce08.708c9d')" />
+        <SpSelectShop
+          v-model="params.distributor_id"
+          clearable
+          :placeholder="$t('b30cce08.708c9d')"
+        />
       </SpFilterFormItem>
       <SpFilterFormItem prop="regionList" :label="$t('b30cce08.7f3dd5')">
         <el-cascader
@@ -53,7 +57,9 @@
           >
             {{ $t('b30cce08.95b351') }}
           </el-button>
-          <el-button type="text" @click="handleDelete(scope.row)"> {{ $t('b30cce08.2f4aad') }} </el-button>
+          <el-button type="text" @click="handleDelete(scope.row)">
+            {{ $t('b30cce08.2f4aad') }}
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column prop="name" :label="$t('b30cce08.295713')" />

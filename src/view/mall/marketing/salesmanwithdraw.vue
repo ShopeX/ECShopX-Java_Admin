@@ -45,10 +45,18 @@
       </el-table-column>
       <el-table-column prop="status" :label="$t('72e49edf.0ed783')">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.status == 'apply'" type="primary"> {{ $t('72e49edf.047109') }} </el-tag>
-          <el-tag v-if="scope.row.status == 'process'" type="danger"> {{ $t('72e49edf.444e00') }} </el-tag>
-          <el-tag v-if="scope.row.status == 'success'" type="warning"> {{ $t('72e49edf.42b524') }} </el-tag>
-          <el-tag v-if="scope.row.status == 'reject'" type="info"> {{ $t('72e49edf.81233d') }} </el-tag>
+          <el-tag v-if="scope.row.status == 'apply'" type="primary">
+            {{ $t('72e49edf.047109') }}
+          </el-tag>
+          <el-tag v-if="scope.row.status == 'process'" type="danger">
+            {{ $t('72e49edf.444e00') }}
+          </el-tag>
+          <el-tag v-if="scope.row.status == 'success'" type="warning">
+            {{ $t('72e49edf.42b524') }}
+          </el-tag>
+          <el-tag v-if="scope.row.status == 'reject'" type="info">
+            {{ $t('72e49edf.81233d') }}
+          </el-tag>
         </template>
       </el-table-column>
       <!-- <el-table-column
@@ -111,7 +119,12 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <el-dialog :title="$t('72e49edf.e679e8')" :visible.sync="payDialog" :close-on-click-modal="false" width="50%">
+    <el-dialog
+      :title="$t('72e49edf.e679e8')"
+      :visible.sync="payDialog"
+      :close-on-click-modal="false"
+      width="50%"
+    >
       <el-table :data="payList" border style="width: 100%">
         <el-table-column prop="update_time" :label="$t('72e49edf.4ff1e7')" width="180">
           <template slot-scope="scope">
@@ -126,7 +139,9 @@
         <el-table-column prop="status" :label="$t('72e49edf.ac204b')">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 'NOT_PAY'"> {{ $t('72e49edf.8cbf8e') }} </span>
-            <el-tag v-if="scope.row.status == 'SUCCESS'" type="success"> {{ $t('72e49edf.c7c515') }} </el-tag>
+            <el-tag v-if="scope.row.status == 'SUCCESS'" type="success">
+              {{ $t('72e49edf.c7c515') }}
+            </el-tag>
             <span v-if="scope.row.status == 'FAIL'"> {{ $t('72e49edf.35d585') }} </span>
           </template>
         </el-table-column>
@@ -161,12 +176,7 @@
       :close-on-click-modal="false"
       width="50%"
     >
-      <el-input
-        v-model="textarea"
-        type="textarea"
-        :rows="6"
-        :placeholder="$t('72e49edf.78cc67')"
-      />
+      <el-input v-model="textarea" type="textarea" :rows="6" :placeholder="$t('72e49edf.78cc67')" />
       <div slot="footer" class="dialog-footer content-center">
         <el-button @click.native="finishdialog = false"> {{ $t('72e49edf.170933') }} </el-button>
         <el-button type="primary" @click="actionProcessCashWithdrawal('success')">
@@ -175,7 +185,12 @@
       </div>
     </el-dialog>
 
-    <el-dialog :title="$t('72e49edf.597e24')" :visible.sync="dialog" :close-on-click-modal="false" width="50%">
+    <el-dialog
+      :title="$t('72e49edf.597e24')"
+      :visible.sync="dialog"
+      :close-on-click-modal="false"
+      width="50%"
+    >
       <el-alert
         v-if="detail.money > cashWithdrawalRebate"
         :title="$t('72e49edf.0ea1df')"
@@ -192,10 +207,13 @@
         </div>
         <div class="text item">
           <span>{{ $t('72e49edf.7069d4') }} </span
-          ><span style="font-size: 26px; color: red">{{ cashWithdrawalRebate / 100 }}</span> {{ $t('72e49edf.c16655') }}
+          ><span style="font-size: 26px; color: red">{{ cashWithdrawalRebate / 100 }}</span>
+          {{ $t('72e49edf.c16655') }}
         </div>
         <div class="text item">
-          {{ $t('72e49edf.37fec4') }} <span style="font-size: 26px; color: red">{{ detail.money / 100 }}</span> {{ $t('72e49edf.c16655') }}
+          {{ $t('72e49edf.37fec4') }}
+          <span style="font-size: 26px; color: red">{{ detail.money / 100 }}</span>
+          {{ $t('72e49edf.c16655') }}
         </div>
       </el-card>
       <div slot="footer" class="dialog-footer content-center">

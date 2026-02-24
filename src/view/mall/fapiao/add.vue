@@ -15,13 +15,26 @@
           />
         </el-form-item>
         <el-form-item :label="$t('5001c021.2a79a7')" prop="resourceName">
-          <el-input v-model="form.title_date" :placeholder="$t('5001c021.a4d9a2')" style="width: 140px" /> %
+          <el-input
+            v-model="form.title_date"
+            :placeholder="$t('5001c021.a4d9a2')"
+            style="width: 140px"
+          />
+          %
         </el-form-item>
         <el-form-item :label="$t('5001c021.1e3650')" prop="resourceName">
-          <el-input v-model="form.title_time" :placeholder="$t('5001c021.3fcdc5')" style="width: 340px" />
+          <el-input
+            v-model="form.title_time"
+            :placeholder="$t('5001c021.3fcdc5')"
+            style="width: 340px"
+          />
         </el-form-item>
         <el-form-item :label="$t('5001c021.b6c084')" prop="reservationName">
-          <el-input v-model="form.title_time" :placeholder="$t('5001c021.ffce05')" style="width: 340px" />
+          <el-input
+            v-model="form.title_time"
+            :placeholder="$t('5001c021.ffce05')"
+            style="width: 340px"
+          />
         </el-form-item>
         <el-form-item :label="$t('5001c021.0f7f38')" prop="interval">
           <el-input
@@ -38,7 +51,11 @@
           />
         </el-form-item>
         <el-form-item :label="$t('5001c021.68346c')" prop="resourceName">
-          <el-input v-model="form.title_time" :placeholder="$t('5001c021.4e9fd0')" style="width: 340px" />
+          <el-input
+            v-model="form.title_time"
+            :placeholder="$t('5001c021.4e9fd0')"
+            style="width: 340px"
+          />
         </el-form-item>
         <el-form-item :label="$t('5001c021.9ed26a')" prop="resourceName">
           <el-input

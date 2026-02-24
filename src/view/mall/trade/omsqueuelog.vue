@@ -22,7 +22,11 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="10">
-        <el-input v-model="params.content" :placeholder="$t('5f2af693.a11cc7')" class="input-with-select">
+        <el-input
+          v-model="params.content"
+          :placeholder="$t('5f2af693.a11cc7')"
+          class="input-with-select"
+        >
           <el-button slot="append" icon="el-icon-search" @click="searchDate" />
         </el-input>
       </el-col>

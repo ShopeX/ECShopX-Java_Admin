@@ -148,9 +148,15 @@
               >
                 <el-button slot="reference" type="text">{{ $t('7ee70716.a77aa8') }}</el-button>
               </el-popover>
-              <span v-else-if="scope.row.approve_status == 'onsale'">{{ $t('7ee70716.959221') }}</span>
-              <span v-else-if="scope.row.approve_status == 'offline_sale'">{{ $t('7ee70716.2c50a0') }}</span>
-              <span v-else-if="scope.row.approve_status == 'only_show'">{{ $t('7ee70716.acf86b') }}</span>
+              <span v-else-if="scope.row.approve_status == 'onsale'">{{
+                $t('7ee70716.959221')
+              }}</span>
+              <span v-else-if="scope.row.approve_status == 'offline_sale'">{{
+                $t('7ee70716.2c50a0')
+              }}</span>
+              <span v-else-if="scope.row.approve_status == 'only_show'">{{
+                $t('7ee70716.acf86b')
+              }}</span>
               <span v-else>{{ $t('7ee70716.ae83a3') }}</span>
             </template>
           </el-table-column>
@@ -158,7 +164,9 @@
 
           <el-table-column fixed="left" :label="$t('7ee70716.2b6bc0')" width="160">
             <template slot-scope="scope">
-              <el-button type="text" @click="deleteItem(scope.row)">{{ $t('7ee70716.2f4aad') }}</el-button>
+              <el-button type="text" @click="deleteItem(scope.row)">{{
+                $t('7ee70716.2f4aad')
+              }}</el-button>
               <el-button type="text" class="btn-gap" @click="modifyItem(scope.row)">
                 {{ $t('7ee70716.85d8be') }}
               </el-button>
