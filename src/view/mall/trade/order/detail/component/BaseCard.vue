@@ -165,16 +165,16 @@ export default {
       let returnValue = ''
       switch (item) {
         case 'logistics':
-          returnValue = '普通快递'
+          returnValue = this.$t('14e217b9.249bfe')
           break
         case 'ziti':
-          returnValue = '自提'
+          returnValue = this.$t('14e217b9.b30d27')
           break
         case 'dada':
-          returnValue = '同城配'
+          returnValue = this.$t('14e217b9.583dcd')
           break
         default:
-          returnValue = '普通快递'
+          returnValue = this.$t('14e217b9.249bfe')
           break
       }
       return returnValue

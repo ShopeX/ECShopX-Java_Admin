@@ -236,7 +236,7 @@ export default {
         if (status == 0) {
           // 提现成功提示
           this.$message({
-            message: this.$t('d901a946.17cdbe') + this.form.cash_amt + '元',
+            message: this.$t('d901a946.17cdbe') + this.form.cash_amt + this.$t('d41d8cd9.m8n9o0'),
             type: 'success',
             duration: 5000,
             showClose: true
@@ -250,7 +250,7 @@ export default {
             center: true
           }).then(() => {
             // 用户点击确定后的操作
-            console.log('用户确认提现成功提示')
+            console.log('User confirmed withdrawal success')
           })
 
           // 重置表单
@@ -263,7 +263,7 @@ export default {
           this.$message.error(this.$t('d901a946.68ac19'))
         }
       } catch (error) {
-        console.log('提现失败:', error)
+        console.log('Withdrawal failed:', error)
         // this.$message.error('提现申请提交失败，请检查网络连接或联系客服')
       } finally {
         // 关闭loading状态
@@ -288,7 +288,7 @@ export default {
         this.available_balance = available_balance
         this.pending_balance = pending_balance
       } catch (error) {
-        console.error('获取提现余额失败:', error)
+        console.error('Get withdraw balance failed:', error)
       }
     },
 

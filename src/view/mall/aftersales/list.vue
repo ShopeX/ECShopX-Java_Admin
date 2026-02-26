@@ -182,9 +182,7 @@
                 <template>
                   <SpRichText v-model="aftersalesRemindForm.intro" />
                 </template>
-                <span class="frm-tips"
-                  >例如：由于商品的特殊性，如涉及机油类产品需寄回，建议使用京东快递，快递公司联系电话955XX。</span
-                >
+                <span class="frm-tips">{{ $t('4d1aec94.cdebf6') }}</span>
               </el-form-item>
               <el-form-item :label="$t('4d1aec94.53c3dd')">
                 <el-switch
@@ -193,9 +191,7 @@
                   inactive-color="#ff4949"
                 />
                 <br />
-                <span class="frm-tips"
-                  >如开启展示，则后台所输入内容将会展示在前端消费者提交售后申请的页面上，内容不超过200字</span
-                >
+                <span class="frm-tips">{{ $t('4d1aec94.8f2914') }}</span>
               </el-form-item>
             </el-form>
           </template>
@@ -936,7 +932,7 @@ export default {
           params.is_approved = this.batchReviewForm.is_approved
           params.refuse_reason = this.batchReviewForm.refuse_reason
         }
-        console.log('批量审核参数:', params)
+        console.log('Batch review params:', params)
         if (this.batchReviewType == 'refund') {
           await this.$api.aftersales.refundCheck(params)
         } else {
@@ -946,7 +942,7 @@ export default {
         this.batchReviewDialog = false
         this.$refs.finder.refresh()
       } catch (error) {
-        console.error('批量审核失败:', error)
+        console.error('Batch review failed:', error)
         this.$message.error(this.$t('4d1aec94.239a77'))
       }
     }

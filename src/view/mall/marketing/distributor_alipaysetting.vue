@@ -76,7 +76,7 @@ export default {
             placeholder: this.$t('7a42c841.0797c6'),
             rows: 5
           },
-          tip: 'RSA2(SHA256)密钥 支付宝公钥',
+          tip: this.$t('7a42c841.28b4cb'),
           rules: [{ required: true, message: this.$t('7a42c841.0797c6'), trigger: 'blur' }]
         },
         {
@@ -89,7 +89,7 @@ export default {
             placeholder: this.$t('7a42c841.cb68a9'),
             rows: 5
           },
-          tip: 'RSA2(SHA256)密钥 自己私钥',
+          tip: this.$t('7a42c841.2b4b9b'),
           rules: [{ required: true, message: this.$t('7a42c841.cb68a9'), trigger: 'blur' }]
         }
       ]

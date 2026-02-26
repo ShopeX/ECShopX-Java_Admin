@@ -170,7 +170,7 @@
               </el-form-item>
             </el-col>
             <!-- <el-col :span="6">
-              <el-form-item label="订单状态">
+              <el-form-item :label="$t('c8d3d7a6.86f6cf')">
                 <el-select size='small' v-model="formData.order_status" style="width: 100%;">
                   <el-option
                     v-for="item in statusOption"
@@ -500,7 +500,7 @@ export default {
         .catch((error) => {
           this.$message({
             type: 'error',
-            message: '获取统计信息出错'
+            message: this.$t('c8d3d7a6.5b0398')
           })
         })
     },
@@ -545,13 +545,13 @@ export default {
         if (status) {
           this.$message({
             type: 'success',
-            message: '已加入执行队列，请在设置-导出列表中下载'
+            message: this.$t('c8d3d7a6.3e1ddd')
           })
           return
         } else {
           this.$message({
             type: 'error',
-            message: '无内容可导出 或 执行失败，请检查重试'
+            message: this.$t('c8d3d7a6.89ae53')
           })
           return
         }

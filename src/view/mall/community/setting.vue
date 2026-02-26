@@ -320,8 +320,7 @@ export default {
       this.form = {
         condition_type,
         condition_money,
-        chief_desc:
-          '您可在模板编辑-热区图组件-设置路径，选择团长申请页面路径供用户在店铺首页进入团长申请页面',
+        chief_desc: this.$t('580ee024.7e29e8'),
         rebate_ratio,
         aggrement,
         explanation

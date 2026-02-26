@@ -92,7 +92,7 @@
       </div> -->
       <div v-if="IS_MERCHANT()" style="margin-bottom: 10px">
         <el-alert type="info" title="" show-icon>
-          <div>可在设置-店铺管理员添加店铺端账号，登录地址 【 {{ origin }}/shopadmin/login 】</div>
+          <div>{{ $t('b2fe051e.f4347e', [origin + '/shopadmin/login']) }}</div>
         </el-alert>
       </div>
 
@@ -744,7 +744,7 @@
         ref="paymentSubjectDialogRef"
         width="30%"
         v-model="paymentSubjectDialog"
-        :title="`编辑【${paymentSubjectForm.name || ''}】收款主体`"
+        :title="`${$t('d41d8cd9.j8k9l0')}${paymentSubjectForm.name || ''}${$t('d41d8cd9.m1n2o3')}`"
         :form="paymentSubjectForm"
         :form-list="paymentSubjectFormList"
         @onSubmit="onPaymentSubjectSubmit"
@@ -1010,9 +1010,7 @@ export default {
                 placeholder={this.$t('b2fe051e.c33409')}
                 v-model={this.keFuForm.common}
               />
-              <div class='tips'>
-                如实际运营中有多个客服人员接待咨询，建议配置为美洽客服组链接，在美洽客服组内添加客服人员坐席。
-              </div>
+              <div class='tips'>{this.$t('d41d8cd9.p4q5r6')}</div>
             </div>
           ),
           validator: (rule, value, callback) => {
@@ -1125,11 +1123,11 @@ export default {
                 slot: 'content'
               },
               [
-                '自动同步：开启自动同步后，总部添加编辑商品会自动',
+                this.$t('d41d8cd9.s7t8u9'),
                 h('br'),
-                '同步上架到店铺，保留开启前的商品状态。',
+                this.$t('d41d8cd9.v0w1x2'),
                 h('br'),
-                '关闭同步后将保留已同步的商品数据'
+                this.$t('d41d8cd9.y3z4a5')
               ]
             )
           ]
@@ -1246,7 +1244,7 @@ export default {
       }
       getWxaDristributorCodeStream(params).then((response) => {
         var a = document.createElement('a')
-        var temp = '微商城'
+        var temp = this.$t('d41d8cd9.b6c7d8')
         a.href = response.data.data.base64Image
         if (response.data.data.tempname) {
           temp = response.data.data.tempname
@@ -1380,7 +1378,7 @@ export default {
           alipay: false,
           chinaumspay: false
         }
-        console.error('获取支付配置状态失败:', error)
+        console.error('Get payment config failed:', error)
       }
     },
     getAllTagList() {

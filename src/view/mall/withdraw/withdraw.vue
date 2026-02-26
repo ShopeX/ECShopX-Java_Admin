@@ -37,7 +37,7 @@
                     type="number"
                     min="0"
                   >
-                    <template slot="append">元</template>
+                    <template slot="append">{{ $t('7f31cab4.c16655') }}</template>
                   </el-input>
                   <span
                     style="margin-left: 12px; color: #0079fe; cursor: pointer"

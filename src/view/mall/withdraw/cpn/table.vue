@@ -10,7 +10,7 @@
     <el-table-column :label="$t('ae5eae00.3b757d')">
       <template slot-scope="scope">
         <el-input style="width: 200px" type="number" min="1" v-model.number="scope.row.draw_limit">
-          <template slot="append">元</template>
+          <template slot="append">{{ $t('ae5eae00.c16655') }}</template>
         </el-input>
       </template>
     </el-table-column>

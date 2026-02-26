@@ -24,7 +24,7 @@
                   style="width: 150px"
                   @input="oninput"
                 />
-                元
+                {{ $t('a6226f20.c16655') }}
               </el-form-item>
               <p v-if="distributormoneyList.withdraw_method === 2" style="margin-bottom: 15px">
                 {{ $t('a6226f20.ee6ce8') }}
@@ -329,18 +329,22 @@ export default {
         if (valid) {
           this.$confirm(
             `<div style='margin-left:45px'>
-              <p><i class="el-icon-warning" style='color:#E6A23C; font-size: 20px;margin-right:5px'></i>请确认您的提现金额: ¥ ${withdrawal_amount}</p>
-              <p style='font-size:12px;margin-left:30px;color:#ccc'>操作后无法撤销，请再次确认您的提现金额</p>
+              <p><i class="el-icon-warning" style='color:#E6A23C; font-size: 20px;margin-right:5px'></i>${this.$t(
+                'a6226f20.e741d2'
+              )} ¥ ${withdrawal_amount}</p>
+              <p style='font-size:12px;margin-left:30px;color:#ccc'>${this.$t(
+                'a6226f20.787531'
+              )}</p>
             </div>`,
-            '提现提示',
+            this.$t('a6226f20.79a5a0'),
             {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
+              confirmButtonText: this.$t('a6226f20.38cf16'),
+              cancelButtonText: this.$t('a6226f20.625fb2'),
               dangerouslyUseHTMLString: true
             }
           ).then(() => {
             onSumbitsData({ withdrawal_amount }).then((res) => {
-              this.$message({ type: 'success', message: '提现成功!' })
+              this.$message({ type: 'success', message: this.$t('a6226f20.ad01c2') })
             })
           })
         } else {
@@ -418,13 +422,13 @@ export default {
         if (status) {
           this.$message({
             type: 'success',
-            message: '已加入执行队列，请在设置-导出列表中下载'
+            message: this.$t('a6226f20.3e1ddd')
           })
           return
         } else {
           this.$message({
             type: 'error',
-            message: '无内容可导出 或 执行失败，请检查重试'
+            message: this.$t('a6226f20.89ae53')
           })
           return
         }

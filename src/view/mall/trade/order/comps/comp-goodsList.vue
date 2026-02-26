@@ -108,7 +108,7 @@
       <div class="item-info">
         <div class="item-name">{{ item.item_name }}</div>
         <div class="item-price">{{ `¥${item.total_fee / item.num / 100}` }}</div>
-        <div v-if="item.item_spec_desc" class="spec-desc">{{ `规格：${item.item_spec_desc}` }}</div>
+        <div v-if="item.item_spec_desc" class="spec-desc">{{ $t('2d162ff1.69c069') + item.item_spec_desc }}</div>
         <el-input-number
           v-model="item.refundNum"
           size="mini"

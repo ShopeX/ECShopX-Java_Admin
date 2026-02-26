@@ -67,7 +67,7 @@ export default {
                 this.value[key] = ''
               }}
             >
-              重置
+              {this.$t('a6226f20.4b9c32')}
             </el-button>
             <div class='color-swatch' style={{ backgroundColor: displayColor }}>
               <el-color-picker v-model={this.value[key]} size='small' />
@@ -324,23 +324,23 @@ export default {
         {/* 商品挂件布局选择器 */}
         {this.isGoodsWidget && (
           <div class='layout-selector-wrapper'>
-            <div class='layout-selector-label'>商品排列</div>
+            <div class='layout-selector-label'>{this.$t('e7f2a1b3.9c3e21')}</div>
             <CompLayoutSelector
               value={this.layoutValue}
               on-input={(val) => {
                 this.layoutValue = val
               }}
               options={[
-                { label: '默认排列', value: 'default' },
-                { label: '一行一个', value: 'one' },
-                { label: '一行两个', value: 'two' },
-                { label: '一行三个', value: 'three' }
+                { label: this.$t('e7f2a1b3.ad4f32'), value: 'default' },
+                { label: this.$t('e7f2a1b3.be5f43'), value: 'one' },
+                { label: this.$t('e7f2a1b3.cf6a54'), value: 'two' },
+                { label: this.$t('e7f2a1b3.d07b65'), value: 'three' }
               ]}
             />
           </div>
         )}
         <el-tabs v-model={this.activeTab} class='attr-panel-tabs'>
-          <el-tab-pane label='内容设置' name='content'>
+          <el-tab-pane label={this.$t('e7f2a1b3.7a1c09')} name='content'>
             <div class='attr-panel-content'>
               {hasContentGroups && renderGroupedSettings(this.groupedSettings.content)}
               {this.groupedSettings.contentUngrouped.length > 0 &&
@@ -350,7 +350,7 @@ export default {
                 renderSettings(this.contentSettings)}
             </div>
           </el-tab-pane>
-          <el-tab-pane label='样式设置' name='style'>
+          <el-tab-pane label={this.$t('e7f2a1b3.8b2d10')} name='style'>
             <div class='attr-panel-content'>
               {hasStyleGroups && renderGroupedSettings(this.groupedSettings.style)}
               {this.groupedSettings.styleUngrouped.length > 0 &&

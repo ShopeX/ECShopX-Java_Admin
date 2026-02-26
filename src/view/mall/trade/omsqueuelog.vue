@@ -110,7 +110,7 @@ export default {
       pickerOptions: {
         shortcuts: [
           {
-            text: '最近一周',
+            text: this.$t('5f2af693.56ee10'),
             onClick(picker) {
               const end = new Date()
               const start = new Date()
@@ -119,7 +119,7 @@ export default {
             }
           },
           {
-            text: '最近一个月',
+            text: this.$t('5f2af693.335dfc'),
             onClick(picker) {
               const end = new Date()
               const start = new Date()
@@ -128,7 +128,7 @@ export default {
             }
           },
           {
-            text: '最近三个月',
+            text: this.$t('5f2af693.d96eb4'),
             onClick(picker) {
               const end = new Date()
               const start = new Date()

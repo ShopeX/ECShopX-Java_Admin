@@ -15,7 +15,7 @@
       </el-table-column>
       <el-table-column width="100" :label="$t('5946f71f.9a935b')">
         <template slot-scope="scope">
-          {{ scope.row.fee === '包邮' ? $t('372bd421.56f046') : scope.row.fee }}
+          {{ scope.row.fee === $t('372bd421.56f046') ? $t('372bd421.56f046') : scope.row.fee }}
         </template>
       </el-table-column>
       <el-table-column width="70" :label="$t('647ce252.3fea7c')">
@@ -94,7 +94,7 @@ export default {
             template_id: response.data.data.list[item].template_id,
             name: response.data.data.list[item].name,
             area: '0',
-            fee: '包邮',
+            fee: this.$t('372bd421.56f046'),
             status: response.data.data.list[item].status,
             updated_at: response.data.data.list[item].update_time
           })

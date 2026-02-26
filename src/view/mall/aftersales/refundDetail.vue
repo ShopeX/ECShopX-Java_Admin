@@ -209,7 +209,7 @@
       <SpDialog
         ref="refundDialogRef"
         v-model="refundDialog"
-        :title="`退款【订单：${refundForm.order_id}】`"
+        :title="`${$t('eb172bd4.d59116')}${refundForm.order_id}${$t('eb172bd4.5942e7')}`"
         :form="refundForm"
         :form-list="refundFormList"
         :is-show-footer="false"

@@ -1119,7 +1119,7 @@ export default {
       getOrderDetail(order_id).then((response) => {
         this.deliveryData = response.data.data
         if (this.deliveryData.orderInfo.cancel_status == 'WAIT_PROCESS') {
-          this.$message.error('客户已经申请退款，请先处理退款操作再决定是否发货!')
+          this.$message.error(this.$t('8906cb64.e406db'))
           return false
         }
 
@@ -1147,7 +1147,7 @@ export default {
       getWriteoff(order_id).then((response) => {
         this.writeoffOrderData = response.data.data
         if (this.writeoffOrderData.ziti_status == 'DONE') {
-          this.$message.error('该订单已核销!')
+          this.$message.error(this.$t('8906cb64.c9045d'))
           return false
         }
         this.writeoffOrderVisible = true
@@ -1166,7 +1166,7 @@ export default {
         this.writeoffOrderData.pickupcode_status == 1 &&
         this.writeoffOrderForm.pickupcode == ''
       ) {
-        this.$message.error('请输入提货码!')
+        this.$message.error(this.$t('8906cb64.080282'))
         return false
       }
       doWriteoff(this.writeoffOrderForm.order_id, this.writeoffOrderForm).then((response) => {
@@ -1175,9 +1175,9 @@ export default {
         if (writeoffStatus == 'DONE') {
           this.handleWriteoffOrder()
           this.writeoffOrderSuccVisible = true
-          this.writeoffOrderSucc.msg = '订单' + order_id + '核销成功'
+          this.writeoffOrderSucc.msg = this.$t('8906cb64.101a8e', [order_id])
         } else {
-          this.$message.success('自提订单核销失败!')
+          this.$message.success(this.$t('8906cb64.47c5ff'))
           return false
         }
       })
@@ -1208,14 +1208,14 @@ export default {
         var cancelOrderStatus = response.data.data.refund_status
         if (cancelOrderStatus == 'AUDIT_SUCCESS') {
           this.handleCancelOrderCancel()
-          this.$message.success('审核成功!')
+          this.$message.success(this.$t('8906cb64.388738'))
           this.getOrders(this.params)
         } else if (cancelOrderStatus == 'SHOP_CHECK_FAILS') {
           this.handleCancelOrderCancel()
-          this.$message.success('审核拒绝成功!')
+          this.$message.success(this.$t('8906cb64.1cd415'))
           this.getOrders(this.params)
         } else {
-          this.$message.error('审核失败!')
+          this.$message.error(this.$t('8906cb64.f74090'))
           this.getOrders(this.params)
           return false
         }
@@ -1250,10 +1250,10 @@ export default {
         var deliveryStatus = response.data.data.delivery_status
         if (deliveryStatus && deliveryStatus != 'PENDING') {
           this.handleCancel()
-          this.$message.success('发货成功!')
+          this.$message.success(this.$t('8906cb64.de3b52'))
           this.getOrders(this.params)
         } else {
-          this.$message.error('发货失败!')
+          this.$message.error(this.$t('8906cb64.2249c1'))
           return false
         }
       })
@@ -1265,7 +1265,7 @@ export default {
         this.cancelOrderData = response.data.data
         console.log(this.cancelOrderData)
         if (this.cancelOrderData.orderInfo.cancel_status == 'SUCCESS') {
-          this.$message.error('该订单已取消!')
+          this.$message.error(this.$t('8906cb64.8f8a2c'))
           return false
         }
         this.cancelOrderVisible = true
@@ -1290,21 +1290,21 @@ export default {
     },
     submitCancelOrderConfirmAction() {
       if (this.cancelOrderForm.cancel_reason == 0) {
-        this.$message.error('请选择取消原因!')
+        this.$message.error(this.$t('8906cb64.1be7fb'))
         return false
       }
       if (this.cancelOrderForm.cancel_reason == 12 && this.cancelOrderForm.other_reason == '') {
-        this.$message.error('请输入取消原因!')
+        this.$message.error(this.$t('8906cb64.d31b9c'))
         return false
       }
       cancelOrderConfirm(this.cancelOrderForm.order_id, this.cancelOrderForm).then((response) => {
         var cancelOrderStatus = response.data.data.refund_status
         if (cancelOrderStatus == 'WAIT_CHECK') {
           this.handleCancelOrder()
-          this.$message.success('取消订单成功!')
+          this.$message.success(this.$t('8906cb64.86a02e'))
           this.getOrders(this.params)
         } else {
-          this.$message.success('取消订单失败!')
+          this.$message.success(this.$t('8906cb64.dc8eed'))
           this.getOrders(this.params)
           return false
         }
@@ -1319,7 +1319,7 @@ export default {
       if (this.params.order_type != 'normal') {
         this.$message({
           type: 'error',
-          message: '暂不支持该类型订单导出'
+          message: this.$t('8906cb64.08bd5c')
         })
         return
       }
@@ -1327,7 +1327,7 @@ export default {
         if (response.data.data.status) {
           this.$message({
             type: 'success',
-            message: '已加入执行队列，请在设置-导出列表中下载'
+            message: this.$t('8906cb64.3e1ddd')
           })
           this.$export_open(type)
           return
@@ -1338,7 +1338,7 @@ export default {
         } else {
           this.$message({
             type: 'error',
-            message: '无内容可导出 或 执行失败，请检查重试'
+            message: this.$t('8906cb64.89ae53')
           })
           return
         }
@@ -1350,7 +1350,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
 .el-row {
   margin-bottom: 20px;
   &:last-child {

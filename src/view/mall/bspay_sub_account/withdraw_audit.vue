@@ -116,7 +116,7 @@ export default {
         }
       } catch (error) {
         if (error !== 'cancel') {
-          console.error('审核失败:', error)
+          console.error('Audit failed:', error)
           this.$message.error(this.$t('38eed5f9.fe3661'))
         }
       }
@@ -152,7 +152,7 @@ export default {
           this.$message.error(response.message || this.$t('38eed5f9.dd51ab'))
         }
       } catch (error) {
-        console.error('导出失败:', error)
+        console.error('Export failed:', error)
         this.$message.error(this.$t('38eed5f9.dd51ab'))
       } finally {
         this.exportLoading = false

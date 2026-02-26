@@ -85,7 +85,7 @@
                     type="number"
                     min="0"
                   >
-                    <template slot="append">元</template>
+                    <template slot="append">{{ $t('aeec1e55.c16655') }}</template>
                   </el-input>
                   <span class="tips">{{ $t('aeec1e55.d96d6f') }}</span>
                 </el-form-item>
@@ -112,7 +112,7 @@
                   type="number"
                   min="0"
                 >
-                  <template slot="append">元</template>
+                  <template slot="append">{{ $t('aeec1e55.c16655') }}</template>
                 </el-input>
               </el-form-item>
               <el-form-item :label="$t('aeec1e55.16914d')" class="noBottom">
@@ -154,7 +154,7 @@
 
 <script>
 import loadingBtn from '@/components/loading-btn'
-import { MaxRules, requiredRules } from '@/view/base/setting/dealer/tools'
+import { MaxRules } from '@/view/base/setting/dealer/tools'
 import withdrawShop from '@/components/withdrawShop'
 import selectorTable from './cpn/table.vue'
 export default {
@@ -180,14 +180,20 @@ export default {
         draw_limit_list: [] // 不适用商户
       },
       rules: {
-        auto_draw_cash: [requiredRules('是否自动提现')],
-        auto_type: [requiredRules('自动提现类型', 'change')],
-        auto_day: [requiredRules('自动提现日期')],
-        auto_time: [requiredRules('自动提现时间')],
-        min_cash: [requiredRules('提现金额')],
-        cash_type: [requiredRules('取现类型', 'change')],
-        draw_limit: requiredRules('商户暂冻金额'),
-        isAllShop: [requiredRules('不适用商户')]
+        auto_draw_cash: [
+          { required: true, message: () => this.$t('aeec1e55.aded40'), trigger: 'blur' }
+        ],
+        auto_type: [
+          { required: true, message: () => this.$t('aeec1e55.cdf692'), trigger: 'change' }
+        ],
+        auto_day: [{ required: true, message: () => this.$t('aeec1e55.ba1490'), trigger: 'blur' }],
+        auto_time: [{ required: true, message: () => this.$t('aeec1e55.6e5e4f'), trigger: 'blur' }],
+        min_cash: [{ required: true, message: () => this.$t('aeec1e55.d7b3e3'), trigger: 'blur' }],
+        cash_type: [
+          { required: true, message: () => this.$t('aeec1e55.ced632'), trigger: 'change' }
+        ],
+        draw_limit: { required: true, message: () => this.$t('aeec1e55.a31457'), trigger: 'blur' },
+        isAllShop: [{ required: true, message: () => this.$t('aeec1e55.c3fdb4'), trigger: 'blur' }]
       }
     }
   },

@@ -1240,10 +1240,10 @@ export default {
       }
 
       if (
-        this.form.regions[0] == '北京市' ||
-        this.form.regions[0] == '天津市' ||
-        this.form.regions[0] == '上海市' ||
-        this.form.regions[0] == '重庆市'
+        this.form.regions[0] == this.$t('e67351f7.a8e562') ||
+        this.form.regions[0] == this.$t('e67351f7.727286') ||
+        this.form.regions[0] == this.$t('e67351f7.b67334') ||
+        this.form.regions[0] == this.$t('e67351f7.9bf8cb')
       ) {
         this.searchRegion = this.form.regions[0] + this.form.regions[2]
       } else {

@@ -80,7 +80,7 @@ export default {
   data() {
     var modelChecked = (rule, val, callback) => {
       if (val.length <= 0) {
-        return callback(new Error('请选择预约模式'))
+        return callback(new Error(this.$t('5001c021.5e2e72')))
       }
       callback()
     }
@@ -88,7 +88,7 @@ export default {
     var maxLimitChecked = (rule, value, callback) => {
       let reg = /^\d*$/
       if (!reg.test(value)) {
-        callback(new Error('最多提前天数必须为整数'))
+        callback(new Error(this.$t('5001c021.e2cd91')))
       } else {
         callback()
       }
@@ -96,7 +96,7 @@ export default {
     var minLimitChecked = (rule, value, callback) => {
       let reg = /^\d*$/
       if (!reg.test(value)) {
-        callback(new Error('最少提前分钟数必须为整数'))
+        callback(new Error(this.$t('5001c021.5ff9d4')))
       } else {
         callback()
       }
@@ -104,7 +104,7 @@ export default {
     var smsDelayChecked = (rule, value, callback) => {
       let reg = /^\d*$/
       if (!reg.test(value)) {
-        callback(new Error('预约短信通知提醒必须为整数'))
+        callback(new Error(this.$t('5001c021.60caae')))
       } else {
         callback()
       }
@@ -112,17 +112,17 @@ export default {
     var cancelMinuteChecked = (rule, value, callback) => {
       let reg = /^\d*$/
       if (!reg.test(value)) {
-        callback(new Error('取消预约条件必须为整数'))
+        callback(new Error(this.$t('5001c021.67d6fd')))
       } else {
         callback()
       }
     }
     return {
       timeIntervals: [
-        { value: 15, label: '15分钟' },
-        { value: 30, label: '30分钟' },
-        { value: 60, label: '60分钟' },
-        { value: 90, label: '90分钟' }
+        { value: 15, labelKey: '5001c021.f511e9' },
+        { value: 30, labelKey: '5001c021.751a79' },
+        { value: 60, labelKey: '5001c021.743a81' },
+        { value: 90, labelKey: '5001c021.7c4d81' }
       ],
       attrList: [], //服务类目ID
       form: {
@@ -138,8 +138,10 @@ export default {
       },
       rules: {
         resourceName: [{ required: true, message: i18n.t('5001c021.df09ff'), trigger: 'blur' }],
-        reservationName: [{ required: true, message: '服务类目不能为空', trigger: 'blur' }],
-        interval: [{ required: true, message: '预约时间间隔不能为空', trigger: 'blur' }],
+        reservationName: [
+          { required: true, message: () => this.$t('5001c021.4f848a'), trigger: 'blur' }
+        ],
+        interval: [{ required: true, message: () => this.$t('5001c021.e5f6ff'), trigger: 'blur' }],
         maxLimitDay: [{ required: true, validator: maxLimitChecked, trigger: 'blur' }],
         minLimitHour: [{ required: true, validator: minLimitChecked, trigger: 'blur' }]
       }

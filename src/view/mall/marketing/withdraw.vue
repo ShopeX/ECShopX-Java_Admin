@@ -278,7 +278,7 @@ export default {
     dialogOpen(detail) {
       this.dialog = true
       this.detail = detail
-      this.applyText = '分销商申请提现佣金' + detail.money / 100 + '元'
+      this.applyText = this.$t('fb2561ac.628f1d') + detail.money / 100 + this.$t('fb2561ac.c16655')
       getDistributorCount(detail.distributor_id).then((response) => {
         this.cashWithdrawalRebate = response.data.data.cashWithdrawalRebate
       })

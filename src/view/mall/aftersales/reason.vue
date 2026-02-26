@@ -118,7 +118,7 @@ export default {
       // console.log('获取数据')
       // this.loading = true
       getAftersalesReason([]).then((res) => {
-        console.log('返回数据', res)
+        console.log('Response data', res)
         this.reason_list = res.data.data
       })
     }

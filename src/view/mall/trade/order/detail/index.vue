@@ -481,7 +481,8 @@
               >{{ $t('3cdfcea1.ad1a76') }}{{ orderInfo.self_delivery_operator_mobile || '-' }}</span
             >
             <span class="ml-16"
-              >{{ $t('3cdfcea1.ad365e') }}{{ orderInfo.self_delivery_fee / 100 }}元</span
+              >{{ $t('3cdfcea1.ad365e') }}{{ orderInfo.self_delivery_fee / 100
+              }}{{ $t('3cdfcea1.c16655') }}</span
             >
           </div>
         </div>
@@ -992,11 +993,11 @@ export default {
 
       let crossOrderTxt = ''
       if (order_class == 'normal' && orderInfo.type == '1') {
-        crossOrderTxt = `（跨境订单）`
+        crossOrderTxt = this.$t('3cdfcea1.d89979')
       }
 
       const fdReceiptType = DISTRIBUTION_TYPE.find((k) => k.value == receipt_type)
-      let receiptTypeTxt = '普通快递'
+      let receiptTypeTxt = this.$t('3cdfcea1.249bfe')
       if (fdReceiptType) {
         receiptTypeTxt = fdReceiptType.title
       }
@@ -1006,7 +1007,7 @@ export default {
       if (vipgrade && vipgrade.is_vip) {
         memberGrade = vipgrade.grade_name
       } else {
-        memberGrade = gradeInfo ? gradeInfo.grade_name : '无'
+        memberGrade = gradeInfo ? gradeInfo.grade_name : this.$t('3cdfcea1.d81bb2')
       }
 
       let memberDiscount = ''
@@ -1017,7 +1018,7 @@ export default {
       this.orderInfo = {
         ...orderInfo,
         create_time: create_time ? moment(create_time * 1000).format('YYYY-MM-DD HH:mm:ss') : '',
-        order_class: `${fd ? fd.title : '实体订单'}${crossOrderTxt}`,
+        order_class: `${fd ? fd.title : this.$t('3cdfcea1.7a83f9')}${crossOrderTxt}`,
         _order_class: orderInfo.order_class,
         invoice_status:
           OPEN_STATUS_ARR.find((el) => el.value === orderInfo.invoice_status)?.title || '',
@@ -1117,18 +1118,28 @@ export default {
             ? this.$t('3cdfcea1.36a490')
             : this.$t('3cdfcea1.87c835'),
         relationship: this.relationshipMap[diagnosis_data.relationship],
-        is_pregnant_woman: diagnosis_data.is_pregnant_woman == 1 ? '是' : '否',
-        is_lactation: diagnosis_data.is_lactation == 1 ? '是' : '否',
+        is_pregnant_woman:
+          diagnosis_data.is_pregnant_woman == 1
+            ? this.$t('3cdfcea1.0a60ac')
+            : this.$t('3cdfcea1.c9744f'),
+        is_lactation:
+          diagnosis_data.is_lactation == 1
+            ? this.$t('3cdfcea1.0a60ac')
+            : this.$t('3cdfcea1.c9744f'),
         before_ai_result_used_medicine:
-          diagnosis_data?.before_ai_data_list?.before_ai_result_used_medicine == 1 ? '是' : '否',
+          diagnosis_data?.before_ai_data_list?.before_ai_result_used_medicine == 1
+            ? this.$t('3cdfcea1.0a60ac')
+            : this.$t('3cdfcea1.c9744f'),
         is_before_ai_result_allergy_history: diagnosis_data?.before_ai_data_list
           ?.before_ai_result_allergy_history
-          ? '是'
-          : '否',
+          ? this.$t('3cdfcea1.0a60ac')
+          : this.$t('3cdfcea1.c9744f'),
         before_ai_result_allergy_history:
           diagnosis_data?.before_ai_data_list?.before_ai_result_allergy_history,
         before_ai_result_body_abnormal:
-          diagnosis_data?.before_ai_data_list?.before_ai_result_body_abnormal == 1 ? '是' : '否',
+          diagnosis_data?.before_ai_data_list?.before_ai_result_body_abnormal == 1
+            ? this.$t('3cdfcea1.0a60ac')
+            : this.$t('3cdfcea1.c9744f'),
 
         prescription_id: prescription_data.id,
         hospital_name: prescription_data.hospital_name,

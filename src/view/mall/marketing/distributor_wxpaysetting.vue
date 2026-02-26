@@ -156,7 +156,7 @@ export default {
               })
             }
           },
-          tip: '微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->证书下载 apiclient_cert.pem',
+          tip: this.$t('38a9041d.c58e48'),
           rules: [
             {
               required: true,
@@ -193,7 +193,7 @@ export default {
               })
             }
           },
-          tip: '微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->证书下载 apiclient_key.pem',
+          tip: this.$t('38a9041d.2af448'),
           rules: [
             {
               required: true,
