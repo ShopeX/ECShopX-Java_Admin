@@ -4,31 +4,31 @@
 -->
 
 <template>
-  <SpPage title="积分配置" class="section section-white point-rule">
+  <SpPage :title="$t('031f6b81.35f445')" class="section section-white point-rule">
     <div slot="page-footer" class="text-center">
-      <el-button type="primary" @click="save"> 保 存 </el-button>
+      <el-button type="primary" @click="save"> {{ $t('031f6b81.56df61') }} </el-button>
     </div>
     <el-form ref="form" :model="form" label-position="left" label-width="180px">
       <div class="section-body">
-        <el-form-item v-if="!VERSION_SHUYUN()" label="积分：">
+        <el-form-item v-if="!VERSION_SHUYUN()" :label="$t('031f6b81.3c4670')">
           <el-switch
             v-model="form.isOpenMemberPoint"
             :width="40"
             active-value="true"
             inactive-value="false"
             inactive-color="#ccc"
-            active-text="开启"
-            inactive-text="关闭"
+            :active-text="$t('031f6b81.cc42dd')"
+            :inactive-text="$t('031f6b81.b15d91')"
             active-color="#13ce66"
             @change="isOpenMemberPointHandle"
           />
         </el-form-item>
-        <el-form-item v-if="!VERSION_SHUYUN()" label="展示名称：">
+        <el-form-item v-if="!VERSION_SHUYUN()" :label="$t('031f6b81.80dd3d')">
           <el-input v-model="form.name" placeholder="" style="width: 120px" :max="8" />
           <el-tooltip
             class="item"
             effect="dark"
-            content="设置店铺内积分对应的展示名称"
+            :content="$t('031f6b81.793980')"
             placement="top"
           >
             <i class="el-icon-question" />
@@ -37,36 +37,36 @@
         <div>
           <el-form-item
             v-if="!VERSION_SHUYUN() && form.isOpenMemberPoint == 'true'"
-            label="获取方式："
+            :label="$t('031f6b81.c5c99b')"
           >
             <el-radio-group v-model="form.access" @change="changeAccess">
-              <el-radio label="order"> 订单 </el-radio>
-              <el-radio label="items"> 商品 </el-radio>
+              <el-radio label="order"> {{ $t('031f6b81.4c117f') }} </el-radio>
+              <el-radio label="items"> {{ $t('031f6b81.9897d8') }} </el-radio>
             </el-radio-group>
-            <p v-if="access == 'order'" class="frm-tips">说明：可按订单金额比例获取</p>
-            <p v-if="access == 'items'" class="frm-tips">说明：可按单商品设置的积分值获取</p>
+            <p v-if="access == 'order'" class="frm-tips">{{ $t('031f6b81.1e8e75') }}</p>
+            <p v-if="access == 'items'" class="frm-tips">{{ $t('031f6b81.85f868') }}</p>
           </el-form-item>
           <el-form-item
             v-if="!VERSION_SHUYUN() && form.isOpenMemberPoint == 'true' && access == 'order'"
-            label="获取比例："
+            :label="$t('031f6b81.d85f77')"
           >
-            订单金额1元人民币 获得<el-input
+            {{ $t('031f6b81.37d64c') }}<el-input
               v-model="form.gain_point"
               type="number"
               placeholder=""
               style="width: 120px"
               :min="0"
               :max="9999999"
-            />积分
+            />{{ $t('031f6b81.9f68a8') }}
           </el-form-item>
 
           <el-form-item
             v-if="!VERSION_SHUYUN() && form.isOpenMemberPoint == 'true' && access == 'order'"
-            label="运费配置："
+            :label="$t('031f6b81.73b492')"
           >
             <el-radio-group v-model="form.include_freight">
-              <el-radio label="true"> 包含 </el-radio>
-              <el-radio label="false"> 不包含 </el-radio>
+              <el-radio label="true"> {{ $t('031f6b81.e13556') }} </el-radio>
+              <el-radio label="false"> {{ $t('031f6b81.da0291') }} </el-radio>
             </el-radio-group>
             <p v-if="include_freight == 'true'" class="frm-tips">
               说明：可设置订单中运费部分金额是否可获取积分

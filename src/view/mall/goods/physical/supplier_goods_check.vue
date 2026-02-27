@@ -705,7 +705,7 @@ export default {
                   </div>
                   <div style='color: #666;'>
                     {`${this.$t('d41d8cd9.b1f6ae')}${scope.row.goods_bn}`}
-                    <el-tooltip effect='dark' :content="this.$t('d41d8cd9.l1m2n3')" placement='top-start'>
+                    <el-tooltip effect='dark' content={this.$t('d41d8cd9.l1m2n3')} placement='top-start'>
                       <i
                         on-click={() => {
                           this.$copyText(scope.row.goods_bn).then(() => {

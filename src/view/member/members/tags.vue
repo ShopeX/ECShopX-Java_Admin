@@ -62,20 +62,20 @@
     </el-row> -->
 
     <SpFilterForm :model="params" @onSearch="searchData" @onReset="onSearch">
-      <SpFilterFormItem prop="tag_name" label="标签名:">
-        <el-input v-model="params.tag_name" placeholder="标签名" style="width: 100%">
+      <SpFilterFormItem prop="tag_name" :label="$t('45a63912.e33129')">
+        <el-input v-model="params.tag_name" :placeholder="$t('45a63912.0718bf')" style="width: 100%">
           <!-- <el-button slot="append" icon="el-icon-search" @click="searchData" /> -->
         </el-input>
       </SpFilterFormItem>
     </SpFilterForm>
 
     <div class="action-container">
-      <el-button type="primary" @click="addTemplate"> 添加标签 </el-button>
+      <el-button type="primary" @click="addTemplate"> {{ $t('45a63912.736eaa') }} </el-button>
     </div>
 
     <el-table v-loading="loading" :data="tagsList" :height="wheight - 200">
-      <el-table-column prop="tag_id" label="ID" width="100" />
-      <el-table-column prop="tag_name" label="标签名称" width="250">
+      <el-table-column prop="tag_id" :label="$t('45a63912.b718ad')" width="100" />
+      <el-table-column prop="tag_name" :label="$t('45a63912.341fe8')" width="250">
         <template slot-scope="scope">
           <el-tag :color="scope.row.tag_color" size="mini" :style="'color:' + scope.row.font_color">
             {{ scope.row.tag_name }}
