@@ -139,8 +139,14 @@ export default {
 
 <style lang="scss" scoped>
 .crowd-select {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   .selected-crowds {
     margin-top: 10px;
+    margin-left: -70px;
     .el-tag {
       margin-right: 10px;
       margin-bottom: 5px;
@@ -150,9 +156,7 @@ export default {
   &-header {
     display: flex;
     align-items: center;
-    &-add {
-      margin-right: 12px;
-    }
+    gap: 10px;
   }
 }
 </style>

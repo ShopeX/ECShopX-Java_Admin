@@ -320,7 +320,6 @@ export default {
 .avatar-uploader .el-upload {
   border: 1px dashed #ff5000;
   border-radius: 6px;
-  cursor: pointer;
   position: relative;
   overflow: hidden;
 }
@@ -404,7 +403,6 @@ export default {
   .sp-image-picker {
     display: inline-block;
     border-radius: 6px;
-    cursor: pointer;
     width: 200px;
     height: 125px;
 
@@ -433,6 +431,12 @@ export default {
       width: 100% !important;
       height: 100% !important;
       border: 1px dashed #c0ccda !important;
+      .img-content{
+        cursor: default !important;
+      }
+      .image-meta{
+        cursor: pointer !important;
+      }
     }
   }
 }
