@@ -2,7 +2,7 @@ import { pickBy } from '@/utils'
 import AttrStore from './attr-store'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
-const config =  {
+const config = {
   name: 'shop',
   setting: [
     {
@@ -17,14 +17,11 @@ const config =  {
       component: 'input',
       value: ''
     },
-  
     {
       label: '数据类型',
       key: 'dataType',
       component: 'select',
-      options: [
-        { label: '指定店铺', value: 'specify' }
-      ],
+      options: [{ label: '指定店铺', value: 'specify' }],
       value: 'specify',
       onchange: function (e, vm) {
         vm.value.data = []
@@ -51,7 +48,7 @@ const config =  {
       isShow: function () {
         return this.value.dataType === 'specify'
       }
-    },
+    }
     // {
     //   label: '组件外边距',
     //   key: 'outerMargin',
@@ -124,13 +121,21 @@ const config =  {
       }
     }
   },
-  transformOut: (v,wgtList,regionauth_id) => {
+  transformOut: (v, wgtList, regionauth_id) => {
     return pickBy(v, {
       name: 'name',
       base: (v) => {
         // 使用公共函数处理 outerMargin 和 innerPadding 转换，同时保留其他字段
         const baseData = createTransformOutBase(
-          ['dataType', 'outerMargin', 'innerPadding', 'outerBackground', 'innerBackground', 'wgtCustName', 'track'],
+          [
+            'dataType',
+            'outerMargin',
+            'innerPadding',
+            'outerBackground',
+            'innerBackground',
+            'wgtCustName',
+            'track'
+          ],
           ['outerMargin', 'innerPadding']
         )(v)
         return baseData
@@ -139,15 +144,13 @@ const config =  {
       meber_tags: 'tags.meber_tags',
       no_meber_tags: 'tags.no_meber_tags',
       tagsType: 'tags.type',
-      noRegionauth: !regionauth_id,
+      noRegionauth: !regionauth_id
     })
   }
 }
 
-
-
 import '../../comps/configsetting'
 
-export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__)
-    ? globalThis.__processConfig__(config)
-    : config
+export default typeof globalThis !== 'undefined' && globalThis.__processConfig__
+  ? globalThis.__processConfig__(config)
+  : config

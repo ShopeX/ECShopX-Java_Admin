@@ -22,7 +22,11 @@ const config = {
     },
     {
       group: '内容样式',
-      label: '图片边角', key: 'rounded', component: 'radiobutton', value: false, options: [
+      label: '图片边角',
+      key: 'rounded',
+      component: 'radiobutton',
+      value: false,
+      options: [
         { name: '圆角', label: true },
         { name: '直角', label: false }
       ]
@@ -38,12 +42,17 @@ const config = {
       ],
       value: true
     },
-    { 
+    {
       group: '指示点设置',
-      label: '指示点覆盖', key: 'dotCover', component: 'radiobutton', value: false, options: [
-      { name: '开启', label: true },
-      { name: '关闭', label: false }
-    ] },
+      label: '指示点覆盖',
+      key: 'dotCover',
+      component: 'radiobutton',
+      value: false,
+      options: [
+        { name: '开启', label: true },
+        { name: '关闭', label: false }
+      ]
+    },
     {
       group: '指示点设置',
       label: '指示点位置',
@@ -194,7 +203,7 @@ const config = {
         })
       },
       data: ({ data }) => {
-        return (data || []).map(item => {
+        return (data || []).map((item) => {
           return pickBy(item, {
             imgUrl: 'imgUrl',
             videoUrl: 'videoUrl',
@@ -223,13 +232,13 @@ const config = {
       tags: 'tags',
       tagsType: 'tags.type',
       meber_tags: 'tags.meber_tags',
-      no_meber_tags: 'tags.no_meber_tags',
+      no_meber_tags: 'tags.no_meber_tags'
     })
   }
 }
 
 // 自动处理 compStyle 配置（初始化全局处理函数）
 import '../../comps/configsetting'
-export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__) 
-  ? globalThis.__processConfig__(config) 
+export default typeof globalThis !== 'undefined' && globalThis.__processConfig__
+  ? globalThis.__processConfig__(config)
   : config

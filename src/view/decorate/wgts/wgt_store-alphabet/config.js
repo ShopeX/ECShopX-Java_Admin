@@ -16,9 +16,7 @@ const config = {
       onchange: function (e, vm) {
         vm.value.data = []
       }
-    },
-
-
+    }
   ],
   transformIn: (v) => {
     const { name, base, data, track, tagsType, meber_tags, no_meber_tags } = v
@@ -42,7 +40,14 @@ const config = {
       base: (v) => {
         // 使用公共函数处理 outerMargin 和 innerPadding 转换，同时保留其他字段
         const baseData = createTransformOutBase(
-          ['dataType', 'outerMargin', 'innerPadding', 'outerBackground', 'innerBackground', 'track'],
+          [
+            'dataType',
+            'outerMargin',
+            'innerPadding',
+            'outerBackground',
+            'innerBackground',
+            'track'
+          ],
           ['outerMargin', 'innerPadding']
         )(v)
         return baseData
@@ -60,6 +65,6 @@ const config = {
 // 自动处理 compStyle 配置（初始化全局处理函数）
 import '../../comps/configsetting'
 
-export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__)
-    ? globalThis.__processConfig__(config)
-    : config
+export default typeof globalThis !== 'undefined' && globalThis.__processConfig__
+  ? globalThis.__processConfig__(config)
+  : config

@@ -267,4 +267,3 @@ export function updatePaymentSubject(id, params) {
     params: params
   })
 }
-

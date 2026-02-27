@@ -141,73 +141,83 @@ function createRequestClient() {
         const pathMatch = currentPath.match(/^\/(shopadmin|supplier|merchant)(\/.*)?$/)
         const basePath = pathMatch ? pathMatch[1] : null
         const loginPath = basePath ? `/${basePath}/login` : '/login'
-        
+
         // 避免重复跳转 - 使用全局标志
         if (!isRedirectingToLogin && router.currentRoute.path !== loginPath) {
           isRedirectingToLogin = true
-          console.log('401跳转 - basePath:', basePath, 'currentPath:', currentPath, 'loginPath:', loginPath)
-          
+          console.log(
+            '401跳转 - basePath:',
+            basePath,
+            'currentPath:',
+            currentPath,
+            'loginPath:',
+            loginPath
+          )
+
           // 先提示token过期
           Vue.prototype.$message({
             message: '登录信息已过期，请重新登录',
             type: 'warning',
             duration: 2000
           })
-          
+
           // 清除token
           store.commit('user/logout')
           store.commit('system/logout')
-          
+
           // 2秒后跳转到登录页
           setTimeout(() => {
-            router.replace(loginPath).catch(err => {
-              // 忽略导航重复错误
-              if (err.name !== 'NavigationDuplicated') {
-                console.error('路由跳转错误:', err)
-              }
-            }).finally(() => {
-              // 跳转完成后重置标志
-              setTimeout(() => {
-                isRedirectingToLogin = false
-              }, 1000)
-            })
+            router
+              .replace(loginPath)
+              .catch((err) => {
+                // 忽略导航重复错误
+                if (err.name !== 'NavigationDuplicated') {
+                  console.error('路由跳转错误:', err)
+                }
+              })
+              .finally(() => {
+                // 跳转完成后重置标志
+                setTimeout(() => {
+                  isRedirectingToLogin = false
+                }, 1000)
+              })
           }, 2000)
         }
         // 401错误直接返回，不继续执行后面的错误处理
         return Promise.reject(error)
       }
-      
-        // 注释掉的刷新token逻辑
-        // if (!isRefreshing) {
-        //   isRefreshing = true
-        //   // 创建刷新token的Promise
-        //   refreshTokenPromise = refreshToken()
-        // }
 
-        // // 将请求添加到队列
-        // return new Promise((resolve, reject) => {
-        //   requestQueue.push((token) => {
-        //     // 更新请求头中的token
-        //     config.headers.Authorization = `Bearer ${token}`
-        //     // 重新发起请求
-        //     resolve(requestClient.request(config))
-        //   })
-        // })
-        //   .then(() => {
-        //     // 刷新token成功后，处理队列中的请求
-        //     refreshTokenPromise.then((token) => {
-        //       handleRequestQueue(token)
-        //       isRefreshing = false
-        //       refreshTokenPromise = null
-        //     })
-        //   })
-        //   .catch((error) => {
-        //     // 刷新token失败，清空队列
-        //     requestQueue = []
-        //     isRefreshing = false
-        //     refreshTokenPromise = null
-        //     return Promise.reject(error)
-        //   })
+      // 注释掉的刷新token逻辑
+      // if (!isRefreshing) {
+      //   isRefreshing = true
+      //   // 创建刷新token的Promise
+      //   refreshTokenPromise = refreshToken()
+      // }
+
+      // // 将请求添加到队列
+      // return new Promise((resolve, reject) => {
+      //   requestQueue.push((token) => {
+      //     // 更新请求头中的token
+      //     config.headers.Authorization = `Bearer ${token}`
+      //     // 重新发起请求
+      //     resolve(requestClient.request(config))
+      //   })
+      // })
+      //   .then(() => {
+      //     // 刷新token成功后，处理队列中的请求
+      //     refreshTokenPromise.then((token) => {
+      //       handleRequestQueue(token)
+      //       isRefreshing = false
+      //       refreshTokenPromise = null
+      //     })
+      //   })
+      //   .catch((error) => {
+      //     // 刷新token失败，清空队列
+      //     requestQueue = []
+      //     isRefreshing = false
+      //     refreshTokenPromise = null
+      //     return Promise.reject(error)
+      //   })
       // 处理其他错误
       const responseData = error?.response?.data ?? {}
       Vue.prototype.$message.error(

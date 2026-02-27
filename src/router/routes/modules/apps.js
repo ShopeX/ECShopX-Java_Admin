@@ -426,7 +426,7 @@ const routes = [
           permissions: ['applications.kujiale.kujiale-products']
         },
         component: () => import('@/views/applications/kujiale/list')
-      },
+      }
     ]
   }
 ]

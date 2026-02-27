@@ -18,7 +18,7 @@ const config = {
       label: '沉浸式页头',
       key: 'isImmersive',
       component: 'switch',
-      value: false,
+      value: false
     },
     {
       group: '页头设置',
@@ -91,14 +91,16 @@ const config = {
         }
         const bgColor = vm.value[key].bgColor
         const textColor = vm.value[key].textColor
-        
+
         return (
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <div
+              style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}
+            >
               <span style={{ fontSize: '12px', color: '#999' }}>底色</span>
-              <el-color-picker 
+              <el-color-picker
                 value={bgColor}
-                size="small"
+                size='small'
                 onChange={(color) => {
                   if (!vm.value[key]) {
                     vm.$set(vm.value, key, {})
@@ -107,11 +109,13 @@ const config = {
                 }}
               />
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <div
+              style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}
+            >
               <span style={{ fontSize: '12px', color: '#999' }}>文字</span>
-              <el-color-picker 
+              <el-color-picker
                 value={textColor}
-                size="small"
+                size='small'
                 onChange={(color) => {
                   if (!vm.value[key]) {
                     vm.$set(vm.value, key, {})
@@ -199,7 +203,6 @@ const config = {
       showSearchButton,
       searchButtonColor
     } = base || {}
-    
     // 兼容旧数据格式：如果 pTitleHotSetting 直接是热区图对象，转换为新格式
     if (pTitleHotSetting && pTitleHotSetting.imgUrl !== undefined && !pTitleHotSetting.type) {
       pTitleHotSetting = {

@@ -375,7 +375,7 @@ export const LINK_PATH = {
 export const CARD_TYPE = {
   discount: '折扣券',
   cash: '满减券',
-  new_gift: '兑换券',
+  new_gift: '兑换券'
 
   // 'minus': '立减券',
   // 'gift': '兑换券'

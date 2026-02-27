@@ -42,13 +42,12 @@ const config = {
         },
         data: []
       }
-    },
+    }
   ],
   transformIn: (v) => {
     const { base, ...rest } = v
     // 使用公共函数处理 base 中的样式数据转换
     const transformedBase = transformInBase(base, ['outerMargin', 'innerPadding'])
-    
     return {
       name: v.name,
       ...transformedBase,
@@ -66,14 +65,16 @@ const config = {
       name: 'name',
       base: (v) => {
         // 使用公共函数处理 base 中的样式数据转换
-        const baseData = createTransformOutBase(['outerMargin', 'innerPadding', 'outerBackground', 'innerBackground'], ['outerMargin', 'innerPadding'])(v)
-        
+        const baseData = createTransformOutBase(
+          ['outerMargin', 'innerPadding', 'outerBackground', 'innerBackground'],
+          ['outerMargin', 'innerPadding']
+        )(v)
+
         // 添加其他字段
         const otherBaseData = pickBy(v, {
           animate: 'animate',
           dataType: 'dataType'
         })
-        
         return {
           ...baseData,
           ...otherBaseData
@@ -91,6 +92,6 @@ const config = {
 
 // 自动处理 compStyle 配置（初始化全局处理函数）
 import '../../comps/configsetting'
-export default (typeof globalThis !== 'undefined' && globalThis.__processConfig__) 
-  ? globalThis.__processConfig__(config) 
+export default typeof globalThis !== 'undefined' && globalThis.__processConfig__
+  ? globalThis.__processConfig__(config)
   : config

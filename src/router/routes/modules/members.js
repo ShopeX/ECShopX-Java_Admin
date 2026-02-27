@@ -93,7 +93,7 @@ const routes = [
           permissions: ['member.tagsmanage.crowdMarking']
         },
         component: () => import('@/views/members/crowd_marking'),
-         children: [
+        children: [
           {
             path: 'editor',
             component: () => import('@/views/members/crowd_marking_editor')
