@@ -1,64 +1,24 @@
-<style lang="scss">
-.picker-crowds {
-  .picker-crowds-body {
-    max-height: 500px;
-    overflow-y: auto;
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-  .picker-crowds-group {
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #e4e7ed;
-    &:last-child {
-      border-bottom: 0;
-    }
-  }
-  .picker-crowds-group-name {
-    font-weight: 500;
-    font-size: 14px;
-    color: #303133;
-    margin-bottom: 12px;
-  }
-  .picker-crowds-tags {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px 10px;
-    line-height: 22px;
-    .el-tag {
-      cursor: pointer;
-      margin: 0;
-      &.is-selected {
-        background-color: #409eff;
-        border-color: #409eff;
-        color: #fff;
-      }
-    }
-  }
-}
-</style>
 <template>
   <div class="picker-crowds">
-    <div class="picker-crowds-body">
+    <div class="max-h-[500px] overflow-y-auto pr-2.5 pl-2.5">
       <div
         v-for="category in tagCategories"
         :key="category.group_id"
-        class="picker-crowds-group"
+        class="mb-6 pb-4 border-b border-[#e4e7ed] last:border-b-0"
       >
-        <div class="picker-crowds-group-name">{{ category.group_name }}</div>
-        <div class="picker-crowds-tags">
-          <el-tag
-            v-for="(tag, index) in getFormattedTags(category)"
-            :key="tag.tag_id"
-            :effect="tag.selected ? 'light' : 'plain'"
-            size="small"
-            class="cursor-pointer"
-            @click.native="handleTagSelect(category, tag, index)"
-          >
-            {{ tag.tag_name }}
-          </el-tag>
+        <div class="flex justify-between items-center mb-3">
+          <span class="font-medium text-sm text-[#303133]">{{ category.group_name }}</span>
         </div>
+        <CompTagList
+          :list="getFormattedTags(category)"
+          :tags-id="category.group_id"
+          :selection-babel="true"
+          :readonly="false"
+          tag-size="small"
+          :no-background="true"
+          @add-tag="(val) => handleAddTags(category, val)"
+          @tag-select="(tag, index) => handleTagSelect(category, tag, index)"
+        />
       </div>
       <div v-if="!loading && tagCategories.length === 0" class="text-gray-400 text-sm py-4">
         暂无标签组
@@ -73,10 +33,14 @@
 <script>
 import { cloneDeep } from 'lodash'
 import BasePicker from './base'
+import CompTagList from '@/views/members/components/CompTagList'
 
 export default {
   name: 'PickerCrowds',
   extends: BasePicker,
+  components: {
+    CompTagList
+  },
   config: {
     title: '选择人群标签'
   },
@@ -138,12 +102,26 @@ export default {
           (t) => String(t.tag_id) === String(tag.tag_id)
         )
         return {
-          ...tag,
+          selected,
           group_id: groupId,
-          group_name: category.group_name,
-          selected
+          ...tag
         }
       })
+    },
+    /** 与 CompTagsMore 一致：点击「+ 添加」输入标签名后，调用 saveTag 创建新标签并刷新列表 */
+    async handleAddTags(category, value) {
+      try {
+        await this.$api.member.saveTag({
+          group_id: category.group_id,
+          tag_name: value,
+          tag_color: '#ff1939',
+          font_color: '#ffffff'
+        })
+        await this.loadTagCategories()
+        this.$message.success('添加标签成功')
+      } catch (error) {
+        console.error(error)
+      }
     },
     handleTagSelect(category, tag, index) {
       const groupId = category.group_id
@@ -152,18 +130,16 @@ export default {
       }
       const list = this.selectedTagMap[groupId]
       const idx = list.findIndex((t) => String(t.tag_id) === String(tag.tag_id))
-      if (tag.selected) {
-        if (idx > -1) list.splice(idx, 1)
-      } else {
-        if (idx === -1) {
-          list.push({
-            group_id: groupId,
-            tag_id: tag.tag_id,
-            tag_name: tag.tag_name,
-            tag_color: tag.tag_color,
-            font_color: tag.font_color
-          })
-        }
+      if (tag.selected && idx === -1) {
+        list.push({
+          group_id: groupId,
+          tag_id: tag.tag_id,
+          tag_name: tag.tag_name,
+          tag_color: tag.tag_color,
+          font_color: tag.font_color
+        })
+      } else if (!tag.selected && idx > -1) {
+        list.splice(idx, 1)
       }
       this.flushSelection()
     },

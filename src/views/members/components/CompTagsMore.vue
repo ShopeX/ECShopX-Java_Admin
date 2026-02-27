@@ -30,7 +30,7 @@
             :readonly="IS_DISTRIBUTOR()"
             tag-size="small"
             :no-background="true"
-            :select-only="true"
+            @add-tag="(val) => handleAddTags(category, val)"
             @tag-select="(tag, index) => handleTagSelect(category, tag, index)"
           />
         </div>
@@ -38,21 +38,43 @@
 
       <div
         slot="footer"
-        class="flex justify-end items-center"
+        :class="{
+          'flex justify-between items-center': !IS_DISTRIBUTOR(),
+          'flex justify-end items-center': IS_DISTRIBUTOR()
+        }"
       >
-        <el-button @click="handleClose">取 消</el-button>
-        <el-button type="primary" @click="handleConfirm">确 定</el-button>
+        <el-button
+          type="text"
+          @click="showAddTagDialog"
+          class="text-[#409EFF]"
+          v-if="!IS_DISTRIBUTOR()"
+        >
+          新建标签组
+        </el-button>
+        <div>
+          <el-button @click="handleClose">取 消</el-button>
+          <el-button type="primary" @click="handleConfirm">确 定</el-button>
+        </div>
       </div>
     </el-dialog>
+    <CompAddTag
+      :visible.sync="addTagDialogVisible"
+      :form="addTagForm"
+      @submit="handleAddTagGroup"
+      @close="addTagDialogVisible = false"
+    />
   </div>
 </template>
 
 <script>
+import { getTagCategoryList, createTagCategory } from '@/api/member'
+import CompAddTag from './CompAddTag'
 import CompTagList from './CompTagList'
 
 export default {
   name: 'CompTagsMore',
   components: {
+    CompAddTag,
     CompTagList
   },
   props: {
@@ -73,7 +95,13 @@ export default {
     return {
       dialogVisible: this.visible,
       tagCategories: [],
-      selectedTagMap: {} // { group_id: [tag1, tag2, ...] }
+      selectedTagMap: {}, // { group_id: [tag1, tag2, ...] }
+      addTagDialogVisible: false,
+      addTagForm: {
+        group_id: '',
+        group_name: '',
+        tags: []
+      }
     }
   },
   watch: {
@@ -99,8 +127,7 @@ export default {
       try {
         const { list = [] } = await this.$api.member.getTagGroupList({
           page: 1,
-          page_size: 100,
-          country_code: 'zh-CN'
+          page_size: 100
         })
         this.tagCategories = list
       } catch (error) {
@@ -154,6 +181,27 @@ export default {
         this.selectedTagMap[groupId].splice(existingIndex, 1)
       }
     },
+    showAddTagDialog() {
+      this.addTagForm = {
+        group_id: '',
+        group_name: '',
+        tags: [{ tag_name: '', tag_color: '', font_color: '' }]
+      }
+      this.addTagDialogVisible = true
+    },
+    async handleAddTagGroup(submitData) {
+      try {
+        await this.$api.member.createTagGroup(submitData)
+        this.$message({
+          type: 'success',
+          message: '创建成功'
+        })
+        this.addTagDialogVisible = false
+        await this.loadTagCategories()
+      } catch (error) {
+        console.log(error)
+      }
+    },
     handleClose() {
       this.dialogVisible = false
       this.$emit('close')
@@ -175,6 +223,24 @@ export default {
       this.$emit('confirm', allSelectedTags)
       this.handleClose()
     },
+    async handleAddTags(row, value) {
+      try {
+        const params = {
+          group_id: row.group_id,
+          tag_name: value,
+          tag_color: '#ff1939',
+          font_color: '#ffffff'
+        }
+        await this.$api.member.saveTag(params)
+        await this.loadTagCategories()
+        this.$message({
+          type: 'success',
+          message: '添加标签成功'
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 }
 </script>
