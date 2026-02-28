@@ -1540,7 +1540,9 @@ export default {
     async syncToShop(isAll) {
       let distributorIds = '_all'
       if (!isAll) {
-        const { data } = await this.$picker.shop()
+        const { data } = await this.$picker.shop({
+          queryParams: { is_valid: 'true' }
+        })
         distributorIds = data.map((item) => item.distributor_id)
       }
       if (this.selectionItems.length == 0) {
