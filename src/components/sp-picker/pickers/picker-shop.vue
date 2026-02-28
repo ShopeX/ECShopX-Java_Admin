@@ -55,7 +55,7 @@
           />
         </el-select>
       </SpFilterFormItem>
-      <SpFilterFormItem prop="is_valid">
+      <SpFilterFormItem v-if="!isValidFixed" prop="is_valid">
         <el-select v-model="formData.is_valid" clearable placeholder="状态">
           <el-option value="true" label="启用" />
           <el-option value="false" label="禁用" />
@@ -115,6 +115,10 @@ export default {
     }
   },
   computed: {
+    // 调用方通过 queryParams 指定了 is_valid 时，不再展示状态筛选
+    isValidFixed() {
+      return this.value?.queryParams?.is_valid !== undefined && this.value?.queryParams?.is_valid !== ''
+    },
     setting() {
       const columns = [
         { name: '店铺名称', key: 'name' },
