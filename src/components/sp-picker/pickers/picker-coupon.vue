@@ -147,7 +147,7 @@ export default {
         page_no: params.page,
         page_size: params.pageSize,
         end_date: 1,
-        from: 'btn',
+        // from: 'btn',
         is_guide: 0
       }
       return params
