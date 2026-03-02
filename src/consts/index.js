@@ -368,7 +368,8 @@ export const LINK_PATH = {
   'liverooms': '直播',
   'other_wxapp': '外部小程序',
   'shop_tag': '商家',
-  'lottery': '抽奖活动'
+  'lottery': '抽奖活动',
+  'customer_service': '客服'
 }
 
 export const CARD_TYPE = {
