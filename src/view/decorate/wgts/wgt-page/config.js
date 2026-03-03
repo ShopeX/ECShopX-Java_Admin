@@ -194,7 +194,6 @@ const config = {
       titleStyle,
       titleColor,
       titleBackgroundImage,
-      titlePosition,
       pageBackgroundStyle,
       pageBackgroundColor,
       pageBackgroundImage,
@@ -245,7 +244,6 @@ const config = {
       titleStyle,
       titleColor,
       titleBackgroundImage,
-      titlePosition, // 兼容旧版本
       pageBackgroundStyle, // 兼容旧版本
       pageBackgroundImage,
       newNavigateStyle,
@@ -274,7 +272,6 @@ const config = {
           titleStyle: 'titleStyle',
           titleColor: 'titleColor',
           titleBackgroundImage: 'titleBackgroundImage',
-          titlePosition: 'titlePosition',
           showSearchButton: 'showSearchButton',
           searchButtonColor: 'searchButtonColor',
           pageBackgroundStyle: 'pageBackgroundStyle',
