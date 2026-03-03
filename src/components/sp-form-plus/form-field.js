@@ -160,9 +160,10 @@ export default {
         radios
       )
     },
-    // 渲染 checkbox 组件
+    // 渲染 checkbox 组件（el-checkbox-group 的 value 必须为数组，否则会出现勾选一个则全部勾选等问题）
     renderCheckbox(props = {}) {
-      const checkboxes = (props.options || []).map((option) =>
+      const { options = [], ...restProps } = props
+      const checkboxes = options.map((option) =>
         h(
           'el-checkbox',
           {
@@ -174,13 +175,18 @@ export default {
           option.label
         )
       )
+      const groupValue = Array.isArray(this.modelValue)
+        ? this.modelValue
+        : this.modelValue != null && this.modelValue !== ''
+        ? [].concat(this.modelValue)
+        : []
 
       return h(
         'el-checkbox-group',
         {
           props: {
-            value: this.modelValue,
-            ...props
+            ...restProps,
+            value: groupValue
           },
           on: {
             input: this.handleInput

@@ -4,7 +4,7 @@
 -->
 <template>
   <div class="flex items-center flex-wrap leading-[22px]">
-    <div v-if="!readonly" class="mr-2.5 mb-2.5">
+    <div v-if="!readonly && !selectOnly" class="mr-2.5 mb-2.5">
       <el-input
         v-if="showInput"
         v-model="value"
@@ -56,6 +56,11 @@ export default {
       default: 'medium'
     },
     noBackground: {
+      type: Boolean,
+      default: false
+    },
+    /** 仅选择：不显示「+ 添加」，只能从已有标签中勾选 */
+    selectOnly: {
       type: Boolean,
       default: false
     }

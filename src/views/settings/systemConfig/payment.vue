@@ -466,6 +466,12 @@ export default {
         // 更新表单数据（使用深拷贝避免引用问题）
         const formData = JSON.parse(JSON.stringify(data))
         formData.is_open = data.is_open === 'true' || data.is_open === true
+        // 汇付支付渠道：接口可能返回字符串，统一转为数组，避免勾选错乱
+        if (payType === 'bspay' && formData.pay_channel != null) {
+          formData.pay_channel = Array.isArray(formData.pay_channel)
+            ? formData.pay_channel
+            : String(formData.pay_channel).split(',').map((s) => s.trim()).filter(Boolean)
+        }
         this.$set(this.paymentForms, payType, formData)
 
         // 更新开关状态
@@ -481,6 +487,13 @@ export default {
       } catch (error) {
         console.error(`加载${payType}配置失败:`, error)
       }
+    },
+
+    /** 支付渠道统一为数组，避免接口返回字符串导致勾选错乱（复选需数组） */
+    normalizePayChannel(v) {
+      if (Array.isArray(v)) return v
+      if (v == null || v === '') return []
+      return String(v).split(',').map((s) => s.trim()).filter(Boolean)
     },
 
     // 获取表单配置项
@@ -953,7 +966,7 @@ export default {
           fieldName: 'pay_channel',
           label: '支付渠道',
           component: 'checkbox',
-          value: formData.pay_channel || [],
+          value: this.normalizePayChannel(formData.pay_channel),
           componentProps: {
             options: [
               { label: '微信小程序支付', value: 'wx_lite' },

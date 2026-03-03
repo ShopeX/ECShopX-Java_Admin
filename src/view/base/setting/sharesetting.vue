@@ -21,20 +21,18 @@
           <div class="preview-box f_l">
             <div>
               <div class="upload-box" @click="handleImgChange('index')">
-                <img
-                  v-if="shareForm.index.imageUrl"
-                  :src="wximageurl + shareForm.index.imageUrl"
-                  class="avatar"
-                />
-                <i v-else class="el-icon-plus avatar-uploader-icon" />
+                <SpImagePicker v-model="shareForm.index.imageUrl" />
+                <!-- <img v-if="shareForm.index.imageUrl" :src="wximageurl + shareForm.index.imageUrl" class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon" /> -->
               </div>
             </div>
-            <imgPicker
+
+            <!-- <imgPicker
               :dialog-visible="imgDialog"
               :sc-status="isGetImage"
               @chooseImg="pickImg"
               @closeImgDialog="closeImgDialog"
-            />
+            /> -->
             <p class="content-center">{{ $t('901267f6.9cbbc8') }}</p>
           </div>
           <div class="item-content f_l">
@@ -59,12 +57,10 @@
           <div class="preview-box f_l">
             <div>
               <div class="upload-box" @click="handleImgChange('planting')">
-                <img
-                  v-if="shareForm.planting.imageUrl"
-                  :src="wximageurl + shareForm.planting.imageUrl"
-                  class="avatar"
-                />
-                <i v-else class="el-icon-plus avatar-uploader-icon" />
+                <SpImagePicker v-model="shareForm.planting.imageUrl" />
+                <!-- <img v-if="shareForm.planting.imageUrl" :src="wximageurl + shareForm.planting.imageUrl"
+                  class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon" /> -->
               </div>
             </div>
             <p class="content-center">{{ $t('901267f6.9cbbc8') }}</p>
@@ -91,12 +87,10 @@
           <div class="preview-box f_l">
             <div>
               <div class="upload-box" @click="handleImgChange('itemlist')">
-                <img
-                  v-if="shareForm.itemlist.imageUrl"
-                  :src="wximageurl + shareForm.itemlist.imageUrl"
-                  class="avatar"
-                />
-                <i v-else class="el-icon-plus avatar-uploader-icon" />
+                <SpImagePicker v-model="shareForm.itemlist.imageUrl" />
+                <!-- <img v-if="shareForm.itemlist.imageUrl" :src="wximageurl + shareForm.itemlist.imageUrl"
+                  class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon" /> -->
               </div>
             </div>
             <p class="content-center">{{ $t('901267f6.9cbbc8') }}</p>
@@ -123,12 +117,9 @@
           <div class="preview-box f_l">
             <div>
               <div class="upload-box" @click="handleImgChange('group')">
-                <img
-                  v-if="shareForm.group.imageUrl"
-                  :src="wximageurl + shareForm.group.imageUrl"
-                  class="avatar"
-                />
-                <i v-else class="el-icon-plus avatar-uploader-icon" />
+                <SpImagePicker v-model="shareForm.group.imageUrl" />
+                <!-- <img v-if="shareForm.group.imageUrl" :src="wximageurl + shareForm.group.imageUrl" class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon" /> -->
               </div>
             </div>
             <p class="content-center">{{ $t('901267f6.9cbbc8') }}</p>
@@ -155,12 +146,9 @@
           <div class="preview-box f_l">
             <div>
               <div class="upload-box" @click="handleImgChange('seckill')">
-                <img
-                  v-if="shareForm.seckill.imageUrl"
-                  :src="wximageurl + shareForm.seckill.imageUrl"
-                  class="avatar"
-                />
-                <i v-else class="el-icon-plus avatar-uploader-icon" />
+                <SpImagePicker v-model="shareForm.seckill.imageUrl" />
+                <!-- <img v-if="shareForm.seckill.imageUrl" :src="wximageurl + shareForm.seckill.imageUrl" class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon" /> -->
               </div>
             </div>
             <p class="content-center">{{ $t('901267f6.9cbbc8') }}</p>
@@ -187,12 +175,9 @@
           <div class="preview-box f_l">
             <div>
               <div class="upload-box" @click="handleImgChange('coupon')">
-                <img
-                  v-if="shareForm.coupon.imageUrl"
-                  :src="wximageurl + shareForm.coupon.imageUrl"
-                  class="avatar"
-                />
-                <i v-else class="el-icon-plus avatar-uploader-icon" />
+                <SpImagePicker v-model="shareForm.coupon.imageUrl" />
+                <!-- <img v-if="shareForm.coupon.imageUrl" :src="wximageurl + shareForm.coupon.imageUrl" class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon" /> -->
               </div>
             </div>
             <p class="content-center">{{ $t('901267f6.9cbbc8') }}</p>
@@ -316,28 +301,33 @@ export default {
 .section-box {
   padding: 15px;
 }
+
 .avatar-uploader {
   margin-bottom: 15px;
   width: 200px;
   height: 125px;
+
   &.disabled {
     border-color: #999;
+
     .avatar-uploader-icon {
       color: #999;
       cursor: not-allowed;
     }
   }
 }
+
 .avatar-uploader .el-upload {
   border: 1px dashed #ff5000;
   border-radius: 6px;
-  cursor: pointer;
   position: relative;
   overflow: hidden;
 }
+
 .avatar-uploader .el-upload:hover {
   border-color: #ff5000;
 }
+
 .avatar-uploader-icon {
   display: block;
   font-size: 28px;
@@ -348,27 +338,34 @@ export default {
   color: #ccc;
   text-align: center;
 }
+
 .avatar {
   width: 200px;
   height: 125px;
   display: block;
 }
+
 .item-box {
   padding-top: 10px;
 }
+
 .level-item {
   margin: 20px 40px;
+
   .el-icon-close {
     cursor: pointer;
   }
 }
+
 .preview-box {
   width: 200px;
   margin-top: 15px;
   margin: 15px 20px 0 0;
 }
+
 .item-content {
   width: 500px;
+
   .txt {
     width: 80px;
     display: inline-block;
@@ -376,44 +373,71 @@ export default {
     margin-right: 10px;
     line-height: 36px;
   }
+
   .txt-none {
     line-height: 36px;
   }
-  > div {
+
+  >div {
     margin-top: 10px;
   }
 }
+
 .section-footer {
   margin-top: 20px;
 }
+
 .noborder {
   border: 0;
 }
+
 .item-content .el-input {
   width: 65%;
 }
+
 .item-content .el-checkbox {
   color: inherit;
 }
+
 .upload-box {
-  display: inline-block;
-  border: 1px dashed #c0ccda;
-  border-radius: 6px;
-  cursor: pointer;
-  overflow: hidden;
-  width: 200px;
-  height: 125px;
+  .sp-image-picker {
+    display: inline-block;
+    border-radius: 6px;
+    width: 200px;
+    height: 125px;
+
+  }
+
   .avatar {
     max-width: 100%;
     max-height: 100%;
   }
+
   .avatar-uploader-icon {
     width: 100%;
     height: 100%;
     line-height: 125px;
   }
+
   .avatar-uploader-icon {
     font-size: 38px;
+  }
+}
+</style>
+<style lang="scss">
+.upload-box {
+  .sp-image-picker {
+    .image-item {
+      width: 100% !important;
+      height: 100% !important;
+      border: 1px dashed #c0ccda !important;
+      .img-content{
+        cursor: default !important;
+      }
+      .image-meta{
+        cursor: pointer !important;
+      }
+    }
   }
 }
 </style>

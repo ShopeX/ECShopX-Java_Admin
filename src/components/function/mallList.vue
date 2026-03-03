@@ -217,7 +217,8 @@
         </el-form-item>
         <el-form-item :label="$t('6880d32e.259536')">
           <div class="setting-item slider" style="width: 55%">
-            <img
+            <SpImagePicker v-model="form.template_pic" />
+            <!-- <img
               v-if="form.template_pic"
               :src="form.template_pic"
               class="banner-uploader"
@@ -225,7 +226,7 @@
             />
             <div v-else class="banner-uploader" @click="handleImgChange">
               <i class="el-icon-camera" />
-            </div>
+            </div> -->
           </div>
         </el-form-item>
       </el-form>
