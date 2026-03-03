@@ -93,12 +93,12 @@
 
           <!--  -->
           <div v-if="member.salesperson_info?.employee_number" class="info-item">
-            <span class="txt">绑定导购</span>
+            <span class="txt">归属导购</span>
             <span v-if="member.created">{{ member.salesperson_info?.employee_number }}</span>
             <span v-else>--</span>
           </div>
           <div v-if="member.salesperson_info?.store_name" class="info-item">
-            <span class="txt">绑定门店</span>
+            <span class="txt">归属门店</span>
             <span v-if="member.created">{{ member.salesperson_info?.store_name }}</span>
             <span v-else>--</span>
           </div>
