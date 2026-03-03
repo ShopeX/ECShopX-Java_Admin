@@ -154,7 +154,7 @@ import config from './config'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 export default {
   name: 'Classify',
-  wgtName: '商品分类',
+  wgtName: '57f694b2.c3ece5',
   wgtDesc: '',
   wgtIcon: 'all-application',
   wgtType: 2,

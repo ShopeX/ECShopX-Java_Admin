@@ -240,7 +240,7 @@ const weappHeaderLight = require('@/assets/imgs/weapp-header-light.png')
 import config from './config'
 export default {
   name: 'Page',
-  wgtName: '页面设置',
+  wgtName: '33e085f7.a018ef',
   wgtDesc: '',
   config: config,
   props: {

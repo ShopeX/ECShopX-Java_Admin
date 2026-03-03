@@ -171,10 +171,10 @@
         />
 
         <el-button @click="onAddGroup" class="h-[calc(1em+16px)]">{{
-          $t('4c4bec01.ddceab')
+          addGroupBtnText
         }}</el-button>
         <el-button :disabled="disabledBtn" @click="onMoveGroup">{{
-          $t('4c4bec01.af4be5')
+          moveGroupBtnText
         }}</el-button>
         <!-- <el-button :disabled="disabledDeleteGroup" @click="onDeleteImageGroup">
           删除分组
@@ -200,7 +200,7 @@
           下载
         </el-button> -->
         <el-button :disabled="disabledBtn" @click="handleCancelAll">{{
-          $t('4c4bec01.4c347e')
+          cancelAllBtnText
         }}</el-button>
       </div>
       <!-- <div>
@@ -295,7 +295,7 @@
               </div>
             </div>
           </div>
-          <el-empty v-if="list.length == 0" :description="$t('4c4bec01.21efd8')" />
+          <el-empty v-if="list.length == 0" :description="emptyDescription" />
         </div>
         <el-pagination
           layout="total, prev, pager, next"
@@ -312,7 +312,7 @@
     <SpDialog
       ref="groupDialogRef"
       v-model="groupDialog"
-      :title="$t('4c4bec01.ddceab')"
+      :title="groupDialogTitle"
       :modal="false"
       :form="groupForm"
       :form-list="groupFormList"
@@ -323,7 +323,7 @@
     <SpDialog
       ref="editDialogRef"
       v-model="editDialog"
-      :title="$t('4c4bec01.2ccbfe')"
+      :title="editDialogTitle"
       :modal="false"
       :form="editForm"
       :form-list="editFormList"
@@ -333,7 +333,7 @@
     <!-- 图片裁剪 -->
     <el-dialog
       class="cropper-dialog"
-      :title="$t('4c4bec01.1cb6db')"
+      :title="cropperDialogTitle"
       :modal="false"
       :visible.sync="cropperDialogShow"
       width="500px"
@@ -354,9 +354,9 @@
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="cropperDialogShow = false">{{ $t('4c4bec01.c08ab9') }}</el-button>
+        <el-button @click="cropperDialogShow = false">{{ cancelText }}</el-button>
         <el-button type="primary" @click="cropperDialogShow = false">{{
-          $t('4c4bec01.aa7527')
+          confirmText
         }}</el-button>
       </span>
     </el-dialog>
@@ -365,6 +365,7 @@
 
 <script>
 import { VueCropper } from 'vue-cropper'
+import { i18n } from '@/i18n'
 import UploadUtil from '@/utils/uploadUtil'
 import { isObject, isArray } from '@/utils'
 import BasePicker from './base'
@@ -387,10 +388,10 @@ export default {
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
-    title: '我的图片'
+    title: ''
   },
   created() {
-    this.$options.config.title = this.$t('4c4bec01.e757d0')
+    this.$options.config.title = i18n.t('4c4bec01.e757d0')
   },
   props: {
     value: {
@@ -526,29 +527,56 @@ export default {
     }
   },
   computed: {
+    addGroupBtnText() {
+      return i18n.t('4c4bec01.ddceab')
+    },
+    moveGroupBtnText() {
+      return i18n.t('4c4bec01.af4be5')
+    },
+    cancelAllBtnText() {
+      return i18n.t('4c4bec01.4c347e')
+    },
+    emptyDescription() {
+      return i18n.t('4c4bec01.21efd8')
+    },
+    groupDialogTitle() {
+      return i18n.t('4c4bec01.ddceab')
+    },
+    editDialogTitle() {
+      return i18n.t('4c4bec01.2ccbfe')
+    },
+    cropperDialogTitle() {
+      return i18n.t('4c4bec01.1cb6db')
+    },
+    cancelText() {
+      return i18n.t('4c4bec01.c08ab9')
+    },
+    confirmText() {
+      return i18n.t('4c4bec01.aa7527')
+    },
     groupFormList() {
       return [
         {
-          label: this.$t('4c4bec01.1014b3'),
+          label: i18n.t('4c4bec01.1014b3'),
           key: 'groupName',
           type: 'input',
           maxlength: 20,
-          placeholder: this.$t('4c4bec01.0c6416'),
+          placeholder: i18n.t('4c4bec01.0c6416'),
           required: true,
-          message: this.$t('4c4bec01.281bad')
+          message: i18n.t('4c4bec01.281bad')
         }
       ]
     },
     editFormList() {
       return [
         {
-          label: this.$t('4c4bec01.e26c8c'),
+          label: i18n.t('4c4bec01.e26c8c'),
           key: 'groupId',
-          placeholder: this.$t('4c4bec01.597997'),
+          placeholder: i18n.t('4c4bec01.597997'),
           type: 'select',
           options: this.editFormListOptions,
           required: true,
-          message: this.$t('4c4bec01.281bad')
+          message: i18n.t('4c4bec01.281bad')
         }
       ]
     },
@@ -590,16 +618,16 @@ export default {
   },
   methods: {
     removeItem(item, index) {
-      this.$confirm(this.$t('4c4bec01.5dab41'), this.$t('4c4bec01.02d981'), {
-        confirmButtonText: this.$t('4c4bec01.38cf16'),
-        cancelButtonText: this.$t('4c4bec01.625fb2'),
+      this.$confirm(i18n.t('4c4bec01.5dab41'), i18n.t('4c4bec01.02d981'), {
+        confirmButtonText: i18n.t('4c4bec01.38cf16'),
+        cancelButtonText: i18n.t('4c4bec01.625fb2'),
         type: 'warning'
       })
         .then(() => {
           deleteImage({ image_id: item.image_id }).then((response) => {
             this.refresh(true)
             this.$message({
-              message: this.$t('4c4bec01.0007d1'),
+              message: i18n.t('4c4bec01.0007d1'),
               type: 'success',
               duration: 5 * 1000
             })
@@ -608,7 +636,7 @@ export default {
         .catch(() => {
           this.$message({
             type: 'info',
-            message: this.$t('4c4bec01.2111cc')
+            message: i18n.t('4c4bec01.2111cc')
           })
         })
     },
@@ -617,7 +645,7 @@ export default {
       if (this.$refs.spCropperRef && item) {
         const currentIndex = this.list.findIndex((img) => img.image_id === item.image_id)
         if (currentIndex === -1) {
-          this.$message.warning(this.$t('4c4bec01.fa3a23'))
+          this.$message.warning(i18n.t('4c4bec01.fa3a23'))
           return
         }
         this.$refs.spCropperRef.showDialog({
@@ -630,7 +658,7 @@ export default {
 
     handleCropComplete(data) {
       this.refresh(true)
-      this.$message.success(this.$t('4c4bec01.6a0cb2'))
+      this.$message.success(i18n.t('4c4bec01.6a0cb2'))
     },
 
     isActive({ image_id, url }) {
@@ -672,11 +700,11 @@ export default {
     async onDeleteGroup({ image_cat_id, image_cat_name }) {
       try {
         await this.$confirm(
-          this.$t('4c4bec01.9b22f9') + `【${image_cat_name}】？`,
-          this.$t('4c4bec01.02d981'),
+          i18n.t('4c4bec01.9b22f9') + `【${image_cat_name}】？`,
+          i18n.t('4c4bec01.02d981'),
           {
-            confirmButtonText: this.$t('4c4bec01.38cf16'),
-            cancelButtonText: this.$t('4c4bec01.625fb2')
+            confirmButtonText: i18n.t('4c4bec01.38cf16'),
+            cancelButtonText: i18n.t('4c4bec01.625fb2')
           }
         )
         await this.$api.picker.deleteImageGroup(image_cat_id)
@@ -760,7 +788,7 @@ export default {
     async getImageAllCatgory() {
       const { list } = await this.$api.picker.getImageAllCatgory({ image_cat_id: 0 })
       this.catgoryList = [
-        { image_cat_id: -1, image_cat_name: this.$t('4c4bec01.a8982a') },
+        { image_cat_id: -1, image_cat_name: i18n.t('4c4bec01.a8982a') },
         ...list.reverse()
       ]
       console.log('catgoryList:', this.catgoryList)
@@ -805,7 +833,7 @@ export default {
           if (this.selected.length < maxSelect) {
             this.selected.push(_item)
           } else {
-            this.$message.error(this.$t('4c4bec01.a0672e') + maxSelect + this.$t('4c4bec01.54aa1e'))
+            this.$message.error(i18n.t('4c4bec01.a0672e') + maxSelect + i18n.t('4c4bec01.54aa1e'))
             return
           }
         }
@@ -824,7 +852,7 @@ export default {
     },
     async handleCopy(url) {
       await this.$copyText(url)
-      this.$message.success(this.$t('4c4bec01.c13172'))
+      this.$message.success(i18n.t('4c4bec01.c13172'))
     },
     handleCancelAll() {
       const { multiple } = this

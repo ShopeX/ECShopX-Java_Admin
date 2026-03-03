@@ -21,15 +21,16 @@
         />
       </div>
       <div v-if="!loading && tagCategories.length === 0" class="text-gray-400 text-sm py-4">
-        {{ $t('394573fc.f44b57') }}
+        {{ emptyText }}
       </div>
-      <div v-if="loading" class="text-gray-400 text-sm py-4">{{ $t('394573fc.26b5bd') }}</div>
+      <div v-if="loading" class="text-gray-400 text-sm py-4">{{ loadingText }}</div>
     </div>
   </div>
 </template>
 
 <script>
 import { cloneDeep } from 'lodash'
+import { i18n } from '@/i18n'
 import BasePicker from './base'
 import CompTagList from '@/views/members/components/CompTagList'
 
@@ -44,12 +45,17 @@ export default {
   },
   props: ['value'],
   computed: {
+    emptyText() {
+      return i18n.t('394573fc.f44b57')
+    },
+    loadingText() {
+      return i18n.t('394573fc.26b5bd')
+    },
     crowdsSetting() {
-      const t = this.$t.bind(this)
       return {
         columns: [
           { name: 'ID', key: 'tag_id', width: 80 },
-          { name: t('394573fc.341fe8'), key: 'tag_name' }
+          { name: i18n.t('394573fc.341fe8'), key: 'tag_name' }
         ]
       }
     }
@@ -62,7 +68,7 @@ export default {
     }
   },
   created() {
-    this.$options.config.title = this.$t('394573fc.d2a769')
+    this.$options.config.title = i18n.t('394573fc.d2a769')
     this.initSelectedFromValue()
   },
   mounted() {
@@ -128,7 +134,7 @@ export default {
           font_color: '#ffffff'
         })
         await this.loadTagCategories()
-        this.$message.success(this.$t('394573fc.78ec37'))
+        this.$message.success(i18n.t('394573fc.78ec37'))
       } catch (error) {
         console.error(error)
       }

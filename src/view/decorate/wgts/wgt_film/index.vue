@@ -57,7 +57,7 @@ import config, { proportions } from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Film',
-  wgtName: '视频',
+  wgtName: 'cd407b12.7fcf42',
   wgtDesc: '',
   wgtIcon: 'video-two',
   config: config,

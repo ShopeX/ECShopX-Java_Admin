@@ -244,6 +244,7 @@
 <script>
 import moment from 'moment'
 import { VERSION_PLATFORM, VERSION_STANDARD, VERSION_B2C } from '@/utils'
+import { i18n } from '@/i18n'
 
 import DistributorSelect from '@/components/function/distributorSelect'
 import MallDecoration from '@/components/function/mallDecoration'
@@ -339,7 +340,7 @@ export default {
       },
       configFormList: [
         {
-          label: this.$t('a066f499.9223a7'),
+          label: i18n.t('a066f499.9223a7'),
           key: 'is_open_recommend',
           type: 'switch',
           onChange: async () => {
@@ -349,7 +350,7 @@ export default {
           }
         },
         {
-          label: this.$t('a066f499.0cf696'),
+          label: i18n.t('a066f499.0cf696'),
           key: 'is_open_wechatapp_location',
           type: 'switch',
           isShow: () => {
@@ -359,9 +360,9 @@ export default {
             const tempStatus = this.configForm.is_open_wechatapp_location
             if (!VERSION_PLATFORM() && !this.configForm.is_open_wechatapp_location) {
               this.configForm.is_open_wechatapp_location = true
-              await this.$confirm(this.$t('a066f499.0a9b59'), this.$t('a066f499.02d981'), {
-                confirmButtonText: this.$t('a066f499.38cf16'),
-                cancelButtonText: this.$t('a066f499.625fb2'),
+              await this.$confirm(i18n.t('a066f499.0a9b59'), i18n.t('a066f499.02d981'), {
+                confirmButtonText: i18n.t('a066f499.38cf16'),
+                cancelButtonText: i18n.t('a066f499.625fb2'),
                 type: 'warning'
               })
             }
@@ -371,26 +372,6 @@ export default {
             this.configForm.is_open_wechatapp_location = tempStatus
           }
         }
-        // {
-        //   label: '扫码功能',
-        //   key: 'is_open_scan_qrcode',
-        //   type: 'switch',
-        //   onChange: async () => {
-        //     await this.$api.template.setPagesTemplate({
-        //       is_open_scan_qrcode: this.configForm.is_open_scan_qrcode ? 1 : 2
-        //     })
-        //   }
-        // },
-        // {
-        //   label: '公众号组件',
-        //   key: 'is_open_official_account',
-        //   type: 'switch',
-        //   onChange: async () => {
-        //     await this.$api.template.setPagesTemplate({
-        //       is_open_official_account: this.configForm.is_open_official_account ? 1 : 2
-        //     })
-        //   }
-        // }
       ],
       template_name: 'yykweishop',
       isTemplateNavList: true,
@@ -402,20 +383,20 @@ export default {
       },
       templateFormList: [
         {
-          label: this.$t('a066f499.a5d1c5'),
+          label: i18n.t('a066f499.a5d1c5'),
           key: 'template_title',
           type: 'input',
-          placeholder: this.$t('a066f499.8f21b9'),
+          placeholder: i18n.t('a066f499.8f21b9'),
           required: true,
-          message: this.$t('a066f499.281bad')
+          message: i18n.t('a066f499.281bad')
         },
         {
-          label: this.$t('a066f499.259536'),
+          label: i18n.t('a066f499.259536'),
           key: 'template_pic',
           component: () => <SpImagePicker v-model={this.templateForm.template_pic} />,
           validator: (rule, value, callback) => {
             if (!value) {
-              callback(new Error(this.$t('a066f499.5b9c9d')))
+              callback(new Error(i18n.t('a066f499.5b9c9d')))
             } else {
               callback()
             }
@@ -530,15 +511,15 @@ export default {
                       <SpInput
                         v-model={item.text}
                         width={'120px'}
-                        placeholder={this.$t('a066f499.8585af')}
+                        placeholder={i18n.t('a066f499.8585af')}
                       />
                       <el-select
                         v-model={item.pagePath}
-                        placeholder={this.$t('a066f499.4ef9f6')}
+                        placeholder={i18n.t('a066f499.4ef9f6')}
                         on-change={this.onChangePagePath.bind(this, index)}
                       >
                         {this.templateNavList.map((item, index) => (
-                          <el-option label={this.$t(item.label)} value={item.value} />
+                          <el-option label={i18n.t(item.label)} value={item.value} />
                         ))}
                       </el-select>
                       {item.pagePath == 'customPage' && (
@@ -547,7 +528,7 @@ export default {
                             class='btn-linkpath'
                             onClick={this.handleCustomPageSelect.bind(this, item)}
                           >
-                            {item?.customPage?.page_name ?? this.$t('a066f499.7727a5')}
+                            {item?.customPage?.page_name ?? i18n.t('a066f499.7727a5')}
                           </div>
                         </div>
                       )}
@@ -555,7 +536,7 @@ export default {
                     <div class='nav-item-bd'>
                       {index > 1 && (
                         <el-button type='text' on-click={this.removeTabItem.bind(this, index)}>
-                          {this.$t('a066f499.2f4aad')}
+                          {i18n.t('a066f499.2f4aad')}
                         </el-button>
                       )}
                     </div>
@@ -565,11 +546,11 @@ export default {
               <div></div>
             </div>
           ),
-          tip: this.$t('a066f499.ebf932'),
+          tip: i18n.t('a066f499.ebf932'),
           validator: (rule, value, callback) => {
             const fd = value.find((item) => !item.pagePath || !item.name)
             if (fd) {
-              callback(this.$t('a066f499.012229'))
+              callback(i18n.t('a066f499.012229'))
             } else {
               callback()
             }
@@ -585,7 +566,7 @@ export default {
               class='iconfont icon-plus-circle'
               on-click={this.addTabItem}
             >
-              {this.$t('a066f499.648c5e')}
+              {i18n.t('a066f499.648c5e')}
             </el-button>
           )
         }
@@ -704,7 +685,7 @@ export default {
         this.distributorVisible = false
         this.distributorStatus = false
         this.$message({
-          message: this.$t('a066f499.33130f'),
+          message: i18n.t('a066f499.33130f'),
           type: 'success'
         })
       })
@@ -723,7 +704,7 @@ export default {
       await this.$api.template.setPagesTemplate({
         is_enforce_sync: this.is_enforce_sync
       })
-      this.$message.success(this.$t('a066f499.33130f'))
+      this.$message.success(i18n.t('a066f499.33130f'))
     },
     addTemplate() {
       this.templateForm = this.$options.data().templateForm
@@ -780,9 +761,9 @@ export default {
       const status = JSON.parse(JSON.stringify(item.status))
       if (item.status == 1) {
         this.templateList[index].status = 2
-        await this.$confirm(this.$t('a066f499.b25494'), this.$t('a066f499.dabf42'), {
-          confirmButtonText: this.$t('a066f499.38cf16'),
-          cancelButtonText: this.$t('a066f499.625fb2')
+        await this.$confirm(i18n.t('a066f499.b25494'), i18n.t('a066f499.dabf42'), {
+          confirmButtonText: i18n.t('a066f499.38cf16'),
+          cancelButtonText: i18n.t('a066f499.625fb2')
         })
       }
       await this.$api.template.modifyPagesTemplateStatus({
@@ -804,9 +785,9 @@ export default {
     },
     // 取消定时模板
     async cancelTime(item) {
-      await this.$confirm(this.$t('a066f499.c655f2'), this.$t('a066f499.268d04'), {
-        confirmButtonText: this.$t('a066f499.38cf16'),
-        cancelButtonText: this.$t('a066f499.625fb2')
+      await this.$confirm(i18n.t('a066f499.c655f2'), i18n.t('a066f499.268d04'), {
+        confirmButtonText: i18n.t('a066f499.38cf16'),
+        cancelButtonText: i18n.t('a066f499.625fb2')
       })
       await this.$api.template.modifyPagesTemplateStatus({
         pages_template_id: item.pages_template_id,
@@ -833,24 +814,24 @@ export default {
       }
     },
     async copyTemplate(pages_template_id) {
-      await this.$confirm(this.$t('a066f499.4ce207'), this.$t('a066f499.580dd7'), {
-        confirmButtonText: this.$t('a066f499.38cf16'),
-        cancelButtonText: this.$t('a066f499.625fb2')
+      await this.$confirm(i18n.t('a066f499.4ce207'), i18n.t('a066f499.580dd7'), {
+        confirmButtonText: i18n.t('a066f499.38cf16'),
+        cancelButtonText: i18n.t('a066f499.625fb2')
       })
       await this.$api.template.copyPagesTemplate({
         pages_template_id
       })
-      this.$message.success(this.$t('a066f499.33130f'))
+      this.$message.success(i18n.t('a066f499.33130f'))
       this.params.page_no = 1
       this.getList()
     },
     async abandonTemplate(pages_template_id) {
-      await this.$confirm(this.$t('a066f499.018e6d'), this.$t('a066f499.faac73'), {
-        confirmButtonText: this.$t('a066f499.38cf16'),
-        cancelButtonText: this.$t('a066f499.625fb2')
+      await this.$confirm(i18n.t('a066f499.018e6d'), i18n.t('a066f499.faac73'), {
+        confirmButtonText: i18n.t('a066f499.38cf16'),
+        cancelButtonText: i18n.t('a066f499.625fb2')
       })
       await this.$api.template.deletePagesTemplate(pages_template_id)
-      this.$message.success(this.$t('a066f499.33130f'))
+      this.$message.success(i18n.t('a066f499.33130f'))
       this.params.page_no = 1
       this.getList()
     },
@@ -902,7 +883,7 @@ export default {
     },
     onChangePagePath(index, value) {
       const { label, name } = this.templateNavList.find((item) => item.value == value)
-      this.navForm.tabList[index].text = this.$t(label)
+      this.navForm.tabList[index].text = i18n.t(label)
       this.navForm.tabList[index].name = name
       if (value != 'customPage' && this.navForm.tabList[index]?.customPage) {
         this.$delete(this.navForm.tabList[index], 'customPage')
@@ -914,7 +895,7 @@ export default {
       const emptyIndex = tabList.findIndex((item) => item.name == 'customPage' && !item.customPage)
       if (emptyIndex > -1) {
         return this.$message({
-          message: this.$t('a066f499.7727a5'),
+          message: i18n.t('a066f499.7727a5'),
           type: 'error',
           duration: 5 * 1000
         })
@@ -935,7 +916,7 @@ export default {
       }
       await this.$api.template.setPagesTemplate(params)
       this.navDrawerShow = false
-      this.$message.success(this.$t('a066f499.33130f'))
+      this.$message.success(i18n.t('a066f499.33130f'))
     }
   }
 }

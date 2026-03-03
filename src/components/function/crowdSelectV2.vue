@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 export default {
   props: {
     value: {
@@ -84,14 +85,14 @@ export default {
   data() {
     return {
       optionsValue: [{ id: '2' }],
-      optionNameKey: '26b7f367.188e1b'
+      optionNameKey: i18n.t('26b7f367.188e1b')
     }
   },
   computed: {
     options() {
       return this.optionsValue.map((item) => ({
         ...item,
-        name: this.$t(this.optionNameKey)
+        name: this.optionNameKey
       }))
     },
     selectedCrowds: {
