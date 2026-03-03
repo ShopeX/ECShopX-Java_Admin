@@ -25,17 +25,35 @@
     background-size: cover;
     background-position: 50%;
     overflow: hidden;
+    padding-right: 94px;
+    box-sizing: border-box;
+  }
+
+  .header-content-left {
+    width: 94px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 15px;
   }
 
   .header-container {
     height: 32px;
     margin-top: 26px;
     line-height: 32px;
-    padding: 0 15px;
     position: relative;
     display: flex;
     align-items: center;
     gap: 10px;
+
+    .title-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+      flex: 1;
+      min-width: 0;
+    }
 
     &.has-nearby {
       justify-content: flex-start;
@@ -173,6 +191,7 @@
         :class="{ 'has-nearby': showFunctionArea && functionAreaType === 'nearby' }"
         :style="containerStyle"
       >
+      <div class="header-content-left">
         <!-- 功能区：热区图 -->
         <div
           class="title-function"
@@ -189,11 +208,13 @@
           <i class="nearby-function-icon el-icon-arrow-down" />
           <!-- 附近门店组件，可根据需要添加 -->
         </div>
+      </div>
+        <div class="title-container">
         <!-- 标题区：搜索 -->
         <div v-if="value.titleStyle == '3' && value.showSearchButton" class="title-search">
           <div class="search-container">
             <i class="el-icon-search search-icon" />
-            <input type="text" class="search-input" placeholder="" />
+            <input type="text" class="search-input" placeholder="">
             <div class="search-button" :style="searchButtonStyle">
               <span>搜索</span>
             </div>
@@ -208,6 +229,7 @@
           :src="value.titleBackgroundImage"
         />
       </div>
+    </div>
     </div>
   </div>
 </template>
