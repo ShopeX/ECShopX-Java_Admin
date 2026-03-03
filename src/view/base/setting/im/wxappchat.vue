@@ -5,8 +5,23 @@
 
 <template>
   <SpPage>
-    <div class="container">
+    <div v-loading="loading" class="container">
       <SpPlatformTip v-if="!VERSION_SHUYUN()" />
+
+      <div class="section-white switch-row">
+        <div class="switch-label">小程序客服</div>
+        <el-switch
+          v-model="form.show_float"
+          :active-value="1"
+          :inactive-value="0"
+          active-text="开启"
+          inactive-text="关闭"
+          active-color="#13ce66"
+          inactive-color="#ccc"
+          @change="onSwitchChange"
+        />
+        <span class="switch-tip">关闭时小程序前端客服浮标不展示</span>
+      </div>
 
       <div class="info">
         <div class="text">
@@ -39,17 +54,54 @@
 </template>
 
 <script>
+import { getWorkWechatConfig, setWorkWechatConfig } from '@/api/wechat'
+
 const normal = require(`@/assets/img/ecshopx/1-Normal.png`)
 const wechat = require(`@/assets/img/ecshopx/kefu.png`)
 export default {
   data() {
     return {
       normal,
-      wechat
+      wechat,
+      loading: false,
+      configData: {},
+      form: {
+        show_float: 0
+      }
     }
   },
+  mounted() {
+    this.getConfig()
+  },
   methods: {
-    handleConfig: function () {
+    getConfig() {
+      this.loading = true
+      getWorkWechatConfig()
+        .then((res) => {
+          console.log(res)
+          const data = res.data?.data || {}
+          this.configData = { ...data }
+          if (typeof data.show_float !== 'undefined') {
+            this.form.show_float = Number(data.show_float) ? 1 : 0
+          }
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    onSwitchChange(val) {
+      const params = { ...this.configData, show_float: val }
+      setWorkWechatConfig(params)
+        .then(() => {
+          this.configData = { ...params }
+          this.$message({ type: 'success', message: '保存成功' })
+        })
+        .catch(() => {
+          this.$message({ type: 'error', message: '保存失败' })
+          this.form.show_float = val === 1 ? 0 : 1
+        })
+    },
+    handleConfig() {
       location.href = 'https://mp.weixin.qq.com/wxamp/wakf'
     }
   }
@@ -61,6 +113,26 @@ export default {
   .title {
     font-size: 16px;
     color: #3d4355;
+  }
+  .switch-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
+    .switch-label {
+      font-size: 14px;
+      color: #3d4355;
+      font-weight: 500;
+    }
+    .switch-tip {
+      font-size: 12px;
+      color: #909399;
+    }
   }
   .info {
     height: 60px;
