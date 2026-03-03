@@ -49,11 +49,11 @@
         </el-table-column>
         <el-table-column :label="$t('a1788ba0.c11ddb')">
           <template slot-scope="scope">
-            <el-tag size="mini" v-if="scope.row.pay_type === 'wechat'" type="success">微信</el-tag>
-            <el-tag size="mini" v-if="scope.row.pay_type === 'alipay'">支付宝</el-tag>
-            <el-tag size="mini" v-if="scope.row.pay_type === 'hfpay'" type="warning">汇付</el-tag>
+            <el-tag size="mini" v-if="scope.row.pay_type === 'wechat'" type="success">{{ $t('a1788ba0.cfbf6f') }}</el-tag>
+            <el-tag size="mini" v-if="scope.row.pay_type === 'alipay'">{{ $t('a1788ba0.ccd097') }}</el-tag>
+            <el-tag size="mini" v-if="scope.row.pay_type === 'hfpay'" type="warning">{{ $t('a1788ba0.4c7d29') }}</el-tag>
             <el-tag size="mini" v-if="scope.row.pay_type === 'bankcard'" type="warning">
-              银行卡
+              {{ $t('a1788ba0.774267') }}
             </el-tag>
           </template>
         </el-table-column>
@@ -78,8 +78,12 @@
             <el-tag type="success" v-if="scope.row.status == 'success'" size="mini">
               {{ $t('a1788ba0.42b524') }}
             </el-tag>
-            <el-tag type="info" v-if="scope.row.status == 'reject'" size="mini">{{ $t('a1788ba0.940fe3') }}</el-tag>
-            <el-tag type="danger" v-if="scope.row.status == 'failed'" size="mini">{{ $t('a1788ba0.f285c5') }}</el-tag>
+            <el-tag type="info" v-if="scope.row.status == 'reject'" size="mini">{{
+              $t('a1788ba0.940fe3')
+            }}</el-tag>
+            <el-tag type="danger" v-if="scope.row.status == 'failed'" size="mini">{{
+              $t('a1788ba0.f285c5')
+            }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column :label="$t('a1788ba0.e679e8')" width="120">
@@ -149,7 +153,12 @@
         />
       </div>
     </el-card>
-    <el-dialog :title="$t('a1788ba0.e679e8')" :visible.sync="payDialog" :close-on-click-modal="false" width="50%">
+    <el-dialog
+      :title="$t('a1788ba0.e679e8')"
+      :visible.sync="payDialog"
+      :close-on-click-modal="false"
+      width="50%"
+    >
       <el-table :data="payList">
         <el-table-column prop="update_time" :label="$t('a1788ba0.4ff1e7')" width="180">
           <template slot-scope="scope">
@@ -165,7 +174,9 @@
           <template slot-scope="scope">
             <span v-if="scope.row.status == 'NOT_PAY'"> {{ $t('a1788ba0.8cbf8e') }} </span>
             <span v-if="scope.row.status == 'PAYING'"> {{ $t('a1788ba0.73e3ca') }} </span>
-            <el-tag type="success" v-if="scope.row.status == 'SUCCESS'"> {{ $t('a1788ba0.c7c515') }} </el-tag>
+            <el-tag type="success" v-if="scope.row.status == 'SUCCESS'">
+              {{ $t('a1788ba0.c7c515') }}
+            </el-tag>
             <span v-if="scope.row.status == 'FAIL'"> {{ $t('a1788ba0.35d585') }} </span>
           </template>
         </el-table-column>
@@ -194,7 +205,12 @@
         </el-button>
       </div>
     </el-dialog>
-    <el-dialog :title="$t('a1788ba0.597e24')" :visible.sync="dialog" :close-on-click-modal="false" width="50%">
+    <el-dialog
+      :title="$t('a1788ba0.597e24')"
+      :visible.sync="dialog"
+      :close-on-click-modal="false"
+      width="50%"
+    >
       <el-alert
         v-if="detail.money > cashWithdrawalRebate"
         :title="$t('a1788ba0.0ea1df')"
@@ -226,17 +242,22 @@
           <span style="font-size: 20px">{{ detail.account_name }} - {{ detail.mobile }}</span>
         </div>
         <div v-if="detail.pay_type === 'alipay'" class="text item">
-          <span>{{ $t('a1788ba0.6feb60') }}</span><span style="font-size: 26px">{{ detail.account_name }}</span>
+          <span>{{ $t('a1788ba0.6feb60') }}</span
+          ><span style="font-size: 26px">{{ detail.account_name }}</span>
         </div>
         <div v-if="detail.pay_type === 'alipay'" class="text item">
-          <span>{{ $t('a1788ba0.83ab43') }}</span><span style="font-size: 26px">{{ detail.pay_account }}</span>
+          <span>{{ $t('a1788ba0.83ab43') }}</span
+          ><span style="font-size: 26px">{{ detail.pay_account }}</span>
         </div>
         <div class="text item">
           <span>{{ $t('a1788ba0.7069d4') }} </span
-          ><span style="font-size: 26px; color: red">{{ cashWithdrawalRebate / 100 }}</span> {{ $t('a1788ba0.c16655') }}
+          ><span style="font-size: 26px; color: red">{{ cashWithdrawalRebate / 100 }}</span>
+          {{ $t('a1788ba0.c16655') }}
         </div>
         <div class="text item">
-          {{ $t('a1788ba0.37fec4') }} <span style="font-size: 26px; color: red">{{ detail.money / 100 }}</span> {{ $t('a1788ba0.c16655') }}
+          {{ $t('a1788ba0.37fec4') }}
+          <span style="font-size: 26px; color: red">{{ detail.money / 100 }}</span>
+          {{ $t('a1788ba0.c16655') }}
         </div>
       </el-card>
       <div slot="footer" class="dialog-footer content-center">
@@ -269,7 +290,6 @@ export default {
       textarea: '',
       dialog: false,
       canceldialog: false,
-      applyText: '',
       pageLimit: 10,
       detail: {},
       payDialog: false,
@@ -361,7 +381,6 @@ export default {
     dialogOpen(detail) {
       this.dialog = true
       this.detail = detail
-      this.applyText = '推广员申请提现佣金' + detail.money / 100 + '元'
       withdrawalStatistics({ user_id: detail.user_id }).then((response) => {
         this.cashWithdrawalRebate =
           Number(response.data.data.cashWithdrawalRebate) +
