@@ -71,7 +71,7 @@ export default {
   methods: {
     initSelectedFromValue() {
       this.selectedTagMap = {}
-      const data = (this.value && this.value.data) ? cloneDeep(this.value.data) : []
+      const data = this.value && this.value.data ? cloneDeep(this.value.data) : []
       if (Array.isArray(data) && data.length > 0) {
         data.forEach((tag) => {
           const groupId = tag.group_id
@@ -156,7 +156,7 @@ export default {
     flushSelection() {
       const all = []
       Object.keys(this.selectedTagMap).forEach((groupId) => {
-        (this.selectedTagMap[groupId] || []).forEach((tag) => {
+        ;(this.selectedTagMap[groupId] || []).forEach((tag) => {
           all.push({ ...tag, group_id: groupId })
         })
       })

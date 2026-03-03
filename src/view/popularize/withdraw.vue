@@ -49,9 +49,15 @@
         </el-table-column>
         <el-table-column :label="$t('a1788ba0.c11ddb')">
           <template slot-scope="scope">
-            <el-tag size="mini" v-if="scope.row.pay_type === 'wechat'" type="success">{{ $t('a1788ba0.cfbf6f') }}</el-tag>
-            <el-tag size="mini" v-if="scope.row.pay_type === 'alipay'">{{ $t('a1788ba0.ccd097') }}</el-tag>
-            <el-tag size="mini" v-if="scope.row.pay_type === 'hfpay'" type="warning">{{ $t('a1788ba0.4c7d29') }}</el-tag>
+            <el-tag size="mini" v-if="scope.row.pay_type === 'wechat'" type="success">{{
+              $t('a1788ba0.cfbf6f')
+            }}</el-tag>
+            <el-tag size="mini" v-if="scope.row.pay_type === 'alipay'">{{
+              $t('a1788ba0.ccd097')
+            }}</el-tag>
+            <el-tag size="mini" v-if="scope.row.pay_type === 'hfpay'" type="warning">{{
+              $t('a1788ba0.4c7d29')
+            }}</el-tag>
             <el-tag size="mini" v-if="scope.row.pay_type === 'bankcard'" type="warning">
               {{ $t('a1788ba0.774267') }}
             </el-tag>

@@ -378,7 +378,7 @@ export default {
     line-height: 36px;
   }
 
-  >div {
+  > div {
     margin-top: 10px;
   }
 }
@@ -405,7 +405,6 @@ export default {
     border-radius: 6px;
     width: 200px;
     height: 125px;
-
   }
 
   .avatar {
@@ -431,10 +430,10 @@ export default {
       width: 100% !important;
       height: 100% !important;
       border: 1px dashed #c0ccda !important;
-      .img-content{
+      .img-content {
         cursor: default !important;
       }
-      .image-meta{
+      .image-meta {
         cursor: pointer !important;
       }
     }

@@ -470,7 +470,10 @@ export default {
         if (payType === 'bspay' && formData.pay_channel != null) {
           formData.pay_channel = Array.isArray(formData.pay_channel)
             ? formData.pay_channel
-            : String(formData.pay_channel).split(',').map((s) => s.trim()).filter(Boolean)
+            : String(formData.pay_channel)
+                .split(',')
+                .map((s) => s.trim())
+                .filter(Boolean)
         }
         this.$set(this.paymentForms, payType, formData)
 
@@ -493,7 +496,10 @@ export default {
     normalizePayChannel(v) {
       if (Array.isArray(v)) return v
       if (v == null || v === '') return []
-      return String(v).split(',').map((s) => s.trim()).filter(Boolean)
+      return String(v)
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
     },
 
     // 获取表单配置项
