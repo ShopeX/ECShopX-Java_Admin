@@ -707,7 +707,11 @@ export default {
       this.$message.success(i18n.t('a066f499.33130f'))
     },
     addTemplate() {
-      this.templateForm = this.$options.data().templateForm
+      this.templateForm = {
+        pages_template_id: '',
+        template_title: '',
+        template_pic: ''
+      }
       this.templateDialog = true
     },
     modifyTemplate({ pages_template_id, template_title, template_pic }) {
