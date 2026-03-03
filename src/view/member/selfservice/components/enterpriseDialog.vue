@@ -13,7 +13,11 @@
     <div style="margin-bottom: 15px">
       <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onReset">
         <SpFilterFormItem prop="distributor_id">
-          <SpSelectShop v-model="params.distributor_id" clearable :placeholder="$t('ac2a6290.708c9d')" />
+          <SpSelectShop
+            v-model="params.distributor_id"
+            clearable
+            :placeholder="$t('ac2a6290.708c9d')"
+          />
         </SpFilterFormItem>
         <SpFilterFormItem prop="name">
           <el-input v-model="params.name" :placeholder="$t('ac2a6290.8ded4d')" />
@@ -54,7 +58,9 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="cancelAction">{{ $t('ac2a6290.c08ab9') }}</el-button>
-      <el-button v-if="type != 'show'" type="primary" @click="saveStoreAction">{{ $t('ac2a6290.aa7527') }}</el-button>
+      <el-button v-if="type != 'show'" type="primary" @click="saveStoreAction">{{
+        $t('ac2a6290.aa7527')
+      }}</el-button>
     </span>
   </el-dialog>
 </template>

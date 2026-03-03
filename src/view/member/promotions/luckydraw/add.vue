@@ -22,8 +22,12 @@
                         <img :src="wximageurl + goods.pics[0]" class="groups-goodspic" />
                         <div class="gooups-goodsmsg">
                           <div>{{ goods.itemName }}</div>
-                          <div>{{ $t('d37687bd.80193b') }}{{ cursymbol }} {{ goods.price / 100 }}</div>
-                          <div v-if="goods.item_type == 'normal'">{{ $t('d37687bd.b008bd') }}{{ goods.store }}</div>
+                          <div>
+                            {{ $t('d37687bd.80193b') }}{{ cursymbol }} {{ goods.price / 100 }}
+                          </div>
+                          <div v-if="goods.item_type == 'normal'">
+                            {{ $t('d37687bd.b008bd') }}{{ goods.store }}
+                          </div>
                         </div>
                       </div>
                       <div v-else tabindex="0" class="el-upload el-upload--picture-card">
@@ -40,9 +44,17 @@
           </section>
         </div>
         <div class="form-wrapper clearfix">
-          <el-form-item :label="$t('d37687bd.39834b')" prop="luckydraw_name" :rules="rules.luckydraw_name">
+          <el-form-item
+            :label="$t('d37687bd.39834b')"
+            prop="luckydraw_name"
+            :rules="rules.luckydraw_name"
+          >
             <el-col :span="9">
-              <el-input v-model="form.luckydraw_name" :maxlength="30" :placeholder="$t('d37687bd.5c43b7')" />
+              <el-input
+                v-model="form.luckydraw_name"
+                :maxlength="30"
+                :placeholder="$t('d37687bd.5c43b7')"
+              />
             </el-col>
           </el-form-item>
           <el-form-item :label="$t('d37687bd.c799f5')" prop="date" :rules="rules.date">
@@ -58,7 +70,11 @@
               />
             </el-col>
           </el-form-item>
-          <el-form-item :label="$t('d37687bd.6bca26')" prop="luckydraw_payment" :rules="rules.luckydraw_payment">
+          <el-form-item
+            :label="$t('d37687bd.6bca26')"
+            prop="luckydraw_payment"
+            :rules="rules.luckydraw_payment"
+          >
             <el-col :span="2">
               <el-select
                 v-model="form.luckydraw_payment"
@@ -105,7 +121,11 @@
             </el-col>
             <el-col :span="1"> {{ $t('d37687bd.9f68a8') }} </el-col>
           </el-form-item>
-          <el-form-item :label="$t('d37687bd.a73b1b')" prop="luckydraw_store" :rules="rules.luckydraw_store">
+          <el-form-item
+            :label="$t('d37687bd.a73b1b')"
+            prop="luckydraw_store"
+            :rules="rules.luckydraw_store"
+          >
             <el-col :span="2">
               <el-input
                 v-model="form.luckydraw_store"
@@ -122,8 +142,12 @@
             <el-col :span="2">
               <el-input v-model="form.payment_total" readonly placeholder="" />
             </el-col>
-            <el-col v-if="form.luckydraw_payment == 'point'" :span="1"> {{ $t('d37687bd.1a381b') }} </el-col>
-            <el-col v-else-if="form.luckydraw_payment == 'cash'" :span="1"> {{ $t('d37687bd.602771') }} </el-col>
+            <el-col v-if="form.luckydraw_payment == 'point'" :span="1">
+              {{ $t('d37687bd.1a381b') }}
+            </el-col>
+            <el-col v-else-if="form.luckydraw_payment == 'cash'" :span="1">
+              {{ $t('d37687bd.602771') }}
+            </el-col>
             {{ $t('d37687bd.4ca103') }}
           </el-form-item>
           <el-form-item :label="$t('d37687bd.04cbda')" prop="limit_num" :rules="rules.limit_num">
@@ -144,9 +168,17 @@
               </el-select>
             </el-col>
           </el-form-item>
-          <el-form-item :label="$t('d37687bd.3bdd08')" prop="description" :rules="rules.description">
+          <el-form-item
+            :label="$t('d37687bd.3bdd08')"
+            prop="description"
+            :rules="rules.description"
+          >
             <el-col :span="12">
-              <el-input v-model="form.description" :maxlength="25" :placeholder="$t('d37687bd.acde7b')" />
+              <el-input
+                v-model="form.description"
+                :maxlength="25"
+                :placeholder="$t('d37687bd.acde7b')"
+              />
             </el-col>
           </el-form-item>
           <el-form-item label=" ">
@@ -180,9 +212,9 @@
         <el-table-column prop="price" :label="$t('d37687bd.e29575')" :formatter="priceformatter" />
         <el-table-column prop="itemName" :label="$t('d37687bd.3fea7c')">
           <template slot-scope="scope">
-            <a v-if="form.item_Id != scope.row.itemId" href="#" @click="chooseItem(scope.row)"
-              >{{ $t('d37687bd.153fa6') }}</a
-            >
+            <a v-if="form.item_Id != scope.row.itemId" href="#" @click="chooseItem(scope.row)">{{
+              $t('d37687bd.153fa6')
+            }}</a>
             <span v-else>{{ $t('d37687bd.f08afd') }}</span>
           </template>
         </el-table-column>
@@ -198,7 +230,9 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="centerDialogVisible = false">{{ $t('d37687bd.9d2578') }}</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false">{{ $t('d37687bd.aa7527') }}</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">{{
+          $t('d37687bd.aa7527')
+        }}</el-button>
       </span>
     </el-dialog>
   </div>

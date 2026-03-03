@@ -6,41 +6,41 @@ const config = {
   name: 'contentPartition',
   setting: [
     {
-      label: '导航可吸顶',
-      group: '内容设置',
+      label: '85b49e49.7bcb8e',
+      group: '85b49e49.c6b063',
       key: 'navSticky',
       component: 'radiobutton',
       options: [
-        { name: '是', label: true },
-        { name: '否', label: false }
+        { name: '85b49e49.0a60ac', label: true },
+        { name: '85b49e49.c9744f', label: false }
       ],
       value: true
     },
     {
-      label: '圆角',
-      group: '导航项区域设置',
+      label: '85b49e49.0103eb',
+      group: '85b49e49.480e08',
       key: 'navitemradius',
       component: 'number',
       value: 0,
       module: 'navitemarea'
     },
     {
-      label: '高度',
-      group: '导航项设置',
+      label: '85b49e49.c1df04',
+      group: '85b49e49.5f3c21',
       key: 'navitemheight',
       component: 'number',
       value: 40
     },
     {
-      label: '左右内间距',
-      group: '导航项设置',
+      label: '85b49e49.35824c',
+      group: '85b49e49.5f3c21',
       key: 'navitemmargin',
       component: 'number',
       value: 0
     },
     {
-      label: '导航左滑图片',
-      group: '导航项设置',
+      label: '85b49e49.ebf1ca',
+      group: '85b49e49.5f3c21',
       key: 'leftimgUrl',
       component: function (h, { key }) {
         return (
@@ -52,8 +52,8 @@ const config = {
       value: ''
     },
     {
-      label: '导航右滑图片',
-      group: '导航项设置',
+      label: '85b49e49.01569f',
+      group: '85b49e49.5f3c21',
       key: 'rightimgUrl',
       component: function (h, { key }) {
         return (
@@ -65,19 +65,19 @@ const config = {
       value: ''
     },
     {
-      label: '选中底线',
-      group: '导航项设置',
+      label: '85b49e49.efcd04',
+      group: '85b49e49.5f3c21',
       key: 'navitemborder',
       component: 'radiobutton',
       options: [
-        { name: '是', label: 'true' },
-        { name: '否', label: 'false' }
+        { name: '85b49e49.0a60ac', label: 'true' },
+        { name: '85b49e49.c9744f', label: 'false' }
       ],
       value: false
     },
     {
-      label: '底线颜色',
-      group: '导航项设置',
+      label: '85b49e49.c33be8',
+      group: '85b49e49.5f3c21',
       key: 'navitembordercolor',
       component: 'color',
       value: '#ffffff',
@@ -88,7 +88,7 @@ const config = {
     },
     {
       label: '',
-      group: '数据设置',
+      group: '85b49e49.e7af71',
       key: 'data',
       component: function (h, { key }) {
         return <NavItem v-model={this.value[key]} animate='horizontal' />

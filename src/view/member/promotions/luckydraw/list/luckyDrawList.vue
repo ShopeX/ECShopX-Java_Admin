@@ -43,11 +43,15 @@
             width="200"
             trigger="hover"
           >
-            <span v-if="scope.row.third_info.name">{{ $t('f31a353f.842867') }}{{ scope.row.third_info.name }}</span
+            <span v-if="scope.row.third_info.name"
+              >{{ $t('f31a353f.842867') }}{{ scope.row.third_info.name }}</span
             ><br />
-            <span v-if="scope.row.third_info.period">{{ $t('f31a353f.d24a26') }}{{ scope.row.third_info.period }}</span
+            <span v-if="scope.row.third_info.period"
+              >{{ $t('f31a353f.d24a26') }}{{ scope.row.third_info.period }}</span
             ><br />
-            <span v-if="scope.row.third_info.number">{{ $t('f31a353f.e5aaf0') }}{{ scope.row.third_info.number }}</span>
+            <span v-if="scope.row.third_info.number"
+              >{{ $t('f31a353f.e5aaf0') }}{{ scope.row.third_info.number }}</span
+            >
             <el-tag slot="reference" type="danger">
               {{ scope.row.lucky_code }}
             </el-tag>

@@ -33,8 +33,12 @@
                 >
                   {{ $t('12e0fbf0.625fb2') }}
                 </el-button>
-                <el-button type="text" @click="viewDetail(scope.row)"> {{ $t('12e0fbf0.607e7a') }} </el-button>
-                <el-button type="text" @click="copyActivity(scope.row)"> {{ $t('12e0fbf0.69c875') }} </el-button>
+                <el-button type="text" @click="viewDetail(scope.row)">
+                  {{ $t('12e0fbf0.607e7a') }}
+                </el-button>
+                <el-button type="text" @click="copyActivity(scope.row)">
+                  {{ $t('12e0fbf0.69c875') }}
+                </el-button>
                 <el-button
                   v-if="scope.row.status == 'waiting'"
                   type="text"

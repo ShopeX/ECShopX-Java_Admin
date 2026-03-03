@@ -6,22 +6,22 @@ const config = {
   name: 'shop',
   setting: [
     {
-      label: '自定义挂件名称',
+      label: 'ca99873f.aebb0a',
       key: 'wgtCustName',
       component: 'input',
       value: ''
     },
     {
-      label: '埋点上报参数',
+      label: 'ca99873f.095e43',
       key: 'track',
       component: 'input',
       value: ''
     },
     {
-      label: '数据类型',
+      label: 'ca99873f.185f7b',
       key: 'dataType',
       component: 'select',
-      options: [{ label: '指定店铺', value: 'specify' }],
+      options: [{ label: 'ca99873f.fcf7d8', value: 'specify' }],
       value: 'specify',
       onchange: function (e, vm) {
         vm.value.data = []
@@ -29,7 +29,7 @@ const config = {
     },
 
     {
-      label: '数据设置',
+      label: 'ca99873f.e7af71',
       key: 'data',
       component: function (h, { key }) {
         return (

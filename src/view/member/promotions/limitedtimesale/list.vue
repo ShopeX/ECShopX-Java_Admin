@@ -55,9 +55,13 @@
             <el-table-column prop="status" :label="$t('ecf8f419.3fea7c')" min-width="100">
               <template slot-scope="scope">
                 <span v-if="scope.row.status == 'waiting'">{{ $t('ecf8f419.1568ba') }}</span>
-                <span v-else-if="scope.row.status == 'in_the_notice'">{{ $t('ecf8f419.2a1f77') }}</span>
+                <span v-else-if="scope.row.status == 'in_the_notice'">{{
+                  $t('ecf8f419.2a1f77')
+                }}</span>
                 <span v-else-if="scope.row.status == 'in_sale'">{{ $t('ecf8f419.fb852f') }}</span>
-                <span v-else-if="scope.row.status == 'it_has_ended'">{{ $t('ecf8f419.047fab') }}</span>
+                <span v-else-if="scope.row.status == 'it_has_ended'">{{
+                  $t('ecf8f419.047fab')
+                }}</span>
                 <span v-else-if="scope.row.status == 'close'">{{ $t('ecf8f419.255412') }}</span>
               </template>
             </el-table-column>

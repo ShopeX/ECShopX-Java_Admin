@@ -20,7 +20,7 @@
   <SpPage>
     <div class="page-goods-salecategory">
       <div class="action-container">
-        <el-button type="primary" @click="addCategory"> 添加销售分类 </el-button>
+        <el-button type="primary" @click="addCategory"> {{ $t('0e7dabe2.c171b3') }} </el-button>
       </div>
 
       <el-table
@@ -34,7 +34,7 @@
         width="100%"
       >
         <el-table-column label="" width="60"></el-table-column>
-        <el-table-column label="操作" width="450">
+        <el-table-column :label="$t('0e7dabe2.2b6bc0')" width="450">
           <template slot-scope="scope">
             <el-button type="text">
               <router-link
@@ -45,7 +45,7 @@
                   query: { category: scope.row.path }
                 }"
               >
-                查看商品
+                {{ $t('0e7dabe2.f13684') }}
               </router-link>
             </el-button>
             <el-button
@@ -53,9 +53,11 @@
               type="text"
               @click="appendChildren(scope.row)"
             >
-              新增子类
+              {{ $t('0e7dabe2.82537d') }}
             </el-button>
-            <el-button type="text" @click="editCategory(scope.row)"> 编辑 </el-button>
+            <el-button type="text" @click="editCategory(scope.row)">
+              {{ $t('0e7dabe2.95b351') }}
+            </el-button>
             <el-popover v-if="appID" placement="top" width="200" trigger="click">
               <div>
                 <img class="page-code" :src="appCodeUrl" />
@@ -66,10 +68,10 @@
                     size="mini"
                     @click="handleDownload(scope.row.category_name)"
                   >
-                    下载码
+                    {{ $t('0e7dabe2.99e985') }}
                   </el-button>
                   <el-button v-clipboard:copy="curPageUrl" type="primary" plain size="mini">
-                    复制链接
+                    {{ $t('0e7dabe2.879058') }}
                   </el-button>
                 </div>
               </div>
@@ -79,27 +81,27 @@
                 type="text"
                 @click="handleClick(scope.row.category_id)"
               >
-                投放
+                {{ $t('0e7dabe2.536ff1') }}
               </el-button>
             </el-popover>
             <el-button type="text" @click.native.prevent="deleteCategory(scope.row)">
-              删除
+              {{ $t('0e7dabe2.2f4aad') }}
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column label="分类名称" prop="category_name" width="280">
+        <el-table-column :label="$t('0e7dabe2.04d7d8')" prop="category_name" width="280">
           <template slot-scope="scope">
             <div class="whitespace-nowrap">
               {{ scope.row.category_name }}
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="sort" label="分类排序" width="140">
+        <el-table-column prop="sort" :label="$t('0e7dabe2.53eb44')" width="140">
           <template slot-scope="scope">
             <div>{{ scope.row.sort }}</div>
           </template>
         </el-table-column>
-        <el-table-column label="分类图片" width="200">
+        <el-table-column :label="$t('0e7dabe2.b34dc8')" width="200">
           <template slot-scope="scope">
             <div class="img-container">
               <SpImage
@@ -117,7 +119,7 @@
       <SpDialog
         ref="categoryDialogRef"
         v-model="categoryDialog"
-        :title="categoryForm.category_id > 0 ? '编辑分类' : '添加分类'"
+        :title="categoryForm.category_id > 0 ? $t('0e7dabe2.55d793') : $t('0e7dabe2.9811be')"
         :modal="false"
         :form="categoryForm"
         :form-list="categoryFormList"
@@ -150,27 +152,27 @@ export default {
       },
       categoryFormList: [
         {
-          label: '分类名称',
+          label: this.$t('0e7dabe2.04d7d8'),
           key: 'category_name',
           type: 'input',
-          placeholder: '请输入分类名称',
+          placeholder: this.$t('0e7dabe2.68363f'),
           required: true,
-          message: '不能为空'
+          message: this.$t('0e7dabe2.281bad')
         },
         {
-          label: '分类排序',
+          label: this.$t('0e7dabe2.53eb44'),
           key: 'sort',
           type: 'number'
         },
         {
-          label: '父级分类',
+          label: this.$t('0e7dabe2.dc1eed'),
           key: 'parent_name',
           type: 'text',
           isShow: ({ key }, value) =>
             this.categoryForm.parent_id > 0 && !this.categoryForm.category_id
         },
         {
-          label: '分类图片',
+          label: this.$t('0e7dabe2.b34dc8'),
           key: 'image_url',
           component: ({ key }, value) => <SpImagePicker v-model={value[key]} />
         }
@@ -307,7 +309,7 @@ export default {
           category_id,
           customize_page_id
         })
-        this.$message.success('编辑成功')
+        this.$message.success(this.$t('0e7dabe2.3bb47b'))
       } else {
         await this.$api.goods.addCategory({
           category_name,
@@ -316,20 +318,20 @@ export default {
           customize_page_id,
           parent_id: parent_id != '0' ? parent_id : undefined
         })
-        this.$message.success('添加成功')
+        this.$message.success(this.$t('0e7dabe2.3fdaea'))
       }
       this.refreshNode(parent_id)
       this.categoryDialog = false
     },
     async deleteCategory(row) {
-      await this.$confirm('此操作将删除该分类, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消'
+      await this.$confirm(this.$t('0e7dabe2.442ecc'), this.$t('0e7dabe2.02d981'), {
+        confirmButtonText: this.$t('0e7dabe2.38cf16'),
+        cancelButtonText: this.$t('0e7dabe2.625fb2')
       })
       const { parent_id, category_id } = row
       this.cacheRowData = row
       await this.$api.goods.deleteCategory(category_id)
-      this.$message.success('删除分类成功')
+      this.$message.success(this.$t('0e7dabe2.1fe03c'))
       this.refreshNode(parent_id)
       // const store = this.$refs.tableTree.store
       // let parentRow, index

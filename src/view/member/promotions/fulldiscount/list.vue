@@ -68,7 +68,9 @@
                         {{ item.shop_name }}
                       </div>
                     </span>
-                    <span v-else> <div>{{ $t('06ee5a6d.1f8c5d') }}</div> </span>
+                    <span v-else>
+                      <div>{{ $t('06ee5a6d.1f8c5d') }}</div>
+                    </span>
                   </el-form-item>
                 </el-form>
               </template>
@@ -79,10 +81,12 @@
               <template slot-scope="scope">
                 <div v-for="(item, index) in scope.row.condition_value" :key="index">
                   <span v-if="scope.row.condition_type == 'quantity'">
-                    {{ $t('06ee5a6d.13dc43') }}{{ item.full }}{{ $t('06ee5a6d.15bdcc') }}{{ item.discount }}{{ $t('06ee5a6d.1cd2a7') }}
+                    {{ $t('06ee5a6d.13dc43') }}{{ item.full }}{{ $t('06ee5a6d.15bdcc')
+                    }}{{ item.discount }}{{ $t('06ee5a6d.1cd2a7') }}
                   </span>
                   <span v-if="scope.row.condition_type == 'totalfee'">
-                    {{ $t('06ee5a6d.13dc43') }}{{ item.full }}{{ $t('06ee5a6d.d7d4b2') }}{{ item.discount }}{{ $t('06ee5a6d.1cd2a7') }}
+                    {{ $t('06ee5a6d.13dc43') }}{{ item.full }}{{ $t('06ee5a6d.d7d4b2')
+                    }}{{ item.discount }}{{ $t('06ee5a6d.1cd2a7') }}
                   </span>
                 </div>
               </template>

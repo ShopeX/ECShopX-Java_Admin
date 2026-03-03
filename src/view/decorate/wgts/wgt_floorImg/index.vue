@@ -78,7 +78,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'FloorImg',
-  wgtName: '楼层图片',
+  wgtName: '917cea90.e9eabc',
   wgtDesc: '',
   wgtIcon: 'wgt-floorImg',
   config: config,

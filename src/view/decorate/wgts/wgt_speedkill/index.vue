@@ -41,7 +41,7 @@ import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 
 export default {
   name: 'Speedkill',
-  wgtName: '秒杀',
+  wgtName: 'd36dbb01.55c758',
   wgtDesc: '',
   wgtIcon: 'wgt-store',
   wgtType: 2,

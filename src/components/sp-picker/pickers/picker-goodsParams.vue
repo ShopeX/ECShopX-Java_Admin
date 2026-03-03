@@ -43,7 +43,7 @@
         'header-cell-class-name': cellClass
       }"
       url="/goods/attributes"
-      show-pager-text="已选中：${n}"
+      :show-pager-text="$t('f4806533.a9e74f') + '${n}'"
       :fixed-row-action="true"
       :setting="setting"
       :hooks="{
@@ -78,10 +78,11 @@ export default {
   },
   computed: {
     setting() {
+      const t = this.$t.bind(this)
       return createSetting({
         columns: [
           {
-            name: '名称',
+            name: t('f4806533.d7ec2d'),
             key: 'attribute_name',
             width: 160,
             render: (h, scope) => {
@@ -101,13 +102,13 @@ export default {
                         size: 'mini'
                       }
                     },
-                    '图片'
+                    t('f4806533.20def7')
                   )
               ])
             }
           },
           {
-            name: '属性值',
+            name: t('f4806533.52dff5'),
             key: 'attribute_values',
             render: (h, scope) => {
               const { list } = scope.row.attribute_values
@@ -139,7 +140,7 @@ export default {
     }
   },
   created() {
-    // this.fetch()
+    this.$options.config.title = this.$t('f4806533.afa2e6')
   },
   methods: {
     beforeSearch(params) {

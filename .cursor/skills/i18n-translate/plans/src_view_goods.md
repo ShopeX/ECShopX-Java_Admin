@@ -7,25 +7,25 @@
 
 | 状态 | 数量 | 占比 |
 |------|------|------|
-| 未翻译完 | 8 | 88.9% |
-| 已翻译 | 0 | 0.0% |
+| 未翻译完 | 0 | 0.0% |
+| 已翻译 | 8 | 88.9% |
 | 无需翻译 | 1 | 11.1% |
 | **合计** | **9** | 100% |
 
 ## 未翻译完
 
-- `arrivalNotice.vue`
-- `components/GoodsParams.vue`
-- `components/SkuParams.vue`
-- `components/SpecParams.vue`
-- `index.vue`
-- `mainCategory.vue`
-- `rate.vue`
-- `saleCategory.vue`
+（无）
 
 ## 已翻译
 
-（无）
+- `arrivalNotice.vue`
+- `mainCategory.vue`
+- `rate.vue`
+- `saleCategory.vue`
+- `components/GoodsParams.vue`
+- `components/SpecParams.vue`
+- `components/SkuParams.vue`
+- `index.vue`
 
 ## 无需翻译
 

@@ -243,8 +243,12 @@
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button @click.native="sendoutVisible = false"> {{ $t('9cc0c982.625fb2') }} </el-button>
-          <el-button type="primary" @click.native="sendoutAction"> {{ $t('9cc0c982.38cf16') }} </el-button>
+          <el-button @click.native="sendoutVisible = false">
+            {{ $t('9cc0c982.625fb2') }}
+          </el-button>
+          <el-button type="primary" @click.native="sendoutAction">
+            {{ $t('9cc0c982.38cf16') }}
+          </el-button>
         </div>
       </el-dialog>
     </SpPage>

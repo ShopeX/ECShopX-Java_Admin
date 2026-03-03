@@ -7,7 +7,9 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="3">
-        <el-button type="primary" icon="plus" @click="addActivityData">{{ $t('cada7636.23b46b') }}</el-button>
+        <el-button type="primary" icon="plus" @click="addActivityData">{{
+          $t('cada7636.23b46b')
+        }}</el-button>
       </el-col>
       <el-col :span="6">
         <el-input v-model="params.name" :placeholder="$t('cada7636.39834b')">
@@ -315,9 +317,7 @@ export default {
       })
     },
     updateStatusCommunityAction(status, row) {
-      const msg = status == 'close'
-        ? this.$t('cada7636.01be42')
-        : this.$t('cada7636.cc0067')
+      const msg = status == 'close' ? this.$t('cada7636.01be42') : this.$t('cada7636.cc0067')
       this.$confirm(msg, this.$t('cada7636.02d981'), {
         cancelButtonText: this.$t('cada7636.625fb2'),
         confirmButtonText: this.$t('cada7636.38cf16'),

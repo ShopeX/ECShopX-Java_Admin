@@ -19,13 +19,13 @@
             <el-radio-button label="basic_entry">{{ $t('0493712c.4e8c55') }}</el-radio-button>
           </el-radio-group>
         </div>
-        <el-form-item
-          :label="$t('c831a478.32c65d')"
-          prop="tem_name"
-          :rules="titleRules"
-        >
+        <el-form-item :label="$t('c831a478.32c65d')" prop="tem_name" :rules="titleRules">
           <el-col :span="20">
-            <el-input v-model.trim="form.tem_name" :maxlength="30" :placeholder="$t('0493712c.450f34')" />
+            <el-input
+              v-model.trim="form.tem_name"
+              :maxlength="30"
+              :placeholder="$t('0493712c.450f34')"
+            />
           </el-col>
         </el-form-item>
         <el-form-item
@@ -36,7 +36,9 @@
         >
           <el-row :gutter="20">
             <el-col :span="5">
-              <el-radio v-model="form.form_style" label="single">{{ $t('0493712c.0ba634') }}</el-radio>
+              <el-radio v-model="form.form_style" label="single">{{
+                $t('0493712c.0ba634')
+              }}</el-radio>
               <!-- <el-radio v-model="form.form_style" label="multiple">多页问卷(每页一项)</el-radio> -->
             </el-col>
             <el-col :span="10">
@@ -96,11 +98,7 @@
             />
           </el-col>
         </el-form-item> -->
-        <el-form-item
-          :label="$t('0493712c.4dca81')"
-          prop="content"
-          :rules="formContentRules"
-        >
+        <el-form-item :label="$t('0493712c.4dca81')" prop="content" :rules="formContentRules">
           <el-row v-for="(item, index) in form.content" :key="index" :gutter="2">
             <el-col :span="18">
               <el-card class="box-card">
@@ -127,7 +125,11 @@
                 <el-col v-if="item.formdata.length > 0">
                   <el-table :data="item.formdata" style="width: 100%">
                     <el-table-column prop="id" :label="$t('1ad8a87f.b718ad')" width="40" />
-                    <el-table-column prop="field_title" :label="$t('c831a478.32c65d')" width="100" />
+                    <el-table-column
+                      prop="field_title"
+                      :label="$t('c831a478.32c65d')"
+                      width="100"
+                    />
                     <el-table-column prop="sort" :label="$t('0493712c.c360e9')" width="100">
                       <template slot-scope="scope">
                         <el-input v-model="scope.row.sort" width="80" size="small" />
@@ -154,7 +156,9 @@
               </el-card>
             </el-col>
             <el-col v-if="form.tem_type == 'ask_answer_paper'" :span="2">
-              <el-button v-if="index == 0" circle type="primary" @click="addCard">{{ $t('c831a478.c0a0f2') }}</el-button>
+              <el-button v-if="index == 0" circle type="primary" @click="addCard">{{
+                $t('c831a478.c0a0f2')
+              }}</el-button>
               <el-button v-if="index != 0" circle type="primary" @click="delCard(index)">
                 {{ $t('0493712c.fe5c38') }}
               </el-button>
@@ -224,7 +228,11 @@
           </el-select>
         </el-col>
         <el-col :span="6">
-          <el-input v-model="params.field_title" :placeholder="$t('c831a478.32c65d')" style="width: 100%">
+          <el-input
+            v-model="params.field_title"
+            :placeholder="$t('c831a478.32c65d')"
+            style="width: 100%"
+          >
             <el-button slot="append" icon="el-icon-search" @click="searchData" />
           </el-input>
         </el-col>

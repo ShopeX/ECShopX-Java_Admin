@@ -27,7 +27,9 @@
       </el-table-column>
       <el-table-column :label="$t('50b00a23.2b6bc0')" width="250">
         <template slot-scope="scope">
-          <el-button size="mini" @click="showTeamAction(scope.$index, scope.row)"> {{ $t('50b00a23.607e7a') }} </el-button>
+          <el-button size="mini" @click="showTeamAction(scope.$index, scope.row)">
+            {{ $t('50b00a23.607e7a') }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>

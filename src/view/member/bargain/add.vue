@@ -91,7 +91,9 @@
                   <i class="el-icon-plus avatar-uploader-icon" />
                 </div>
               </div>
-              <el-button size="small" type="primary" @click="changeItem"> {{ $t('82e97e47.43d1e2') }} </el-button>
+              <el-button size="small" type="primary" @click="changeItem">
+                {{ $t('82e97e47.43d1e2') }}
+              </el-button>
             </div>
           </el-col>
         </el-row>
@@ -203,7 +205,9 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="centerDialogVisible = false">{{ $t('82e97e47.9d2578') }}</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false">{{ $t('82e97e47.aa7527') }}</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false">{{
+          $t('82e97e47.aa7527')
+        }}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -333,7 +337,9 @@ export default {
         title: [{ required: true, message: () => this.$t('82e97e47.7528b3'), trigger: 'blur' }],
         ad_pic: [{ required: true, message: () => this.$t('82e97e47.d3872a'), trigger: 'change' }],
         bargains_datetime: [{ required: true, validator: datetimeChecked, trigger: 'blur' }],
-        bargain_rules: [{ required: true, message: () => this.$t('82e97e47.d0eebd'), trigger: 'blur' }],
+        bargain_rules: [
+          { required: true, message: () => this.$t('82e97e47.d0eebd'), trigger: 'blur' }
+        ],
         item_name: [{ required: true, message: () => this.$t('82e97e47.448ab9'), trigger: 'blur' }],
         item_pics: [{ required: true, message: () => this.$t('82e97e47.180e73'), trigger: 'blur' }],
         mkt_price: [{ required: true, validator: mktPriceChecked, trigger: 'blur' }],
@@ -341,8 +347,17 @@ export default {
         price_range: [{ required: true, validator: priceRangeChecked, trigger: 'blur' }],
         people_range: [{ required: true, validator: peopleRangeChecked, trigger: 'blur' }],
         min_price: [{ required: true, message: () => this.$t('82e97e47.cb30c0'), trigger: 'blur' }],
-        limit_num: [{ required: true, type: 'number', message: () => this.$t('82e97e47.03abcd'), trigger: 'blur' }],
-        item_intro: [{ required: true, message: () => this.$t('82e97e47.495d38'), trigger: 'blur' }],
+        limit_num: [
+          {
+            required: true,
+            type: 'number',
+            message: () => this.$t('82e97e47.03abcd'),
+            trigger: 'blur'
+          }
+        ],
+        item_intro: [
+          { required: true, message: () => this.$t('82e97e47.495d38'), trigger: 'blur' }
+        ],
         share_msg: [{ required: true, message: () => this.$t('82e97e47.7b4bd5'), trigger: 'blur' }]
       }
     }

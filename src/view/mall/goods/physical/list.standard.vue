@@ -310,7 +310,7 @@
             <el-table-column prop="item_holder" :label="$t('b7aea01d.2af133')" width="100">
               <template slot-scope="scope">
                 <div class="ell3">
-                  {{ goodCategoryMap[scope.row.item_holder] }}
+                  {{ $t(goodCategoryMap[scope.row.item_holder]) }}
                 </div>
               </template>
             </el-table-column>

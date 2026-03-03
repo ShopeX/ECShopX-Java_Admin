@@ -42,7 +42,12 @@
         {{ scope.row.quantity - scope.row.get_num }}
       </template>
     </el-table-column>
-    <el-table-column prop="give_num" :label="$t('2f3b0c72.95eb49')" width="100" show-overflow-tooltip />
+    <el-table-column
+      prop="give_num"
+      :label="$t('2f3b0c72.95eb49')"
+      width="100"
+      show-overflow-tooltip
+    />
     <el-table-column v-if="type != 'edit'" fixed="left" :label="$t('2f3b0c72.2b6bc0')" width="100">
       <template slot-scope="scope">
         <el-button

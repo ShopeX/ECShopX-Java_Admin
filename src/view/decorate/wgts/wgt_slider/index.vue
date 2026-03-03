@@ -122,7 +122,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Slider',
-  wgtName: '轮播',
+  wgtName: 'ac4e1949.a5987d',
   wgtDesc: '',
   wgtIcon: 'multi-picture-carousel',
   config: config,

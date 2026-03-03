@@ -152,7 +152,9 @@
             </el-form-item> -->
           </div>
           <div class="section-footer with-border">
-            <el-button type="primary" @click="submitForm('form')">{{ $t('aae72239.be5fbb') }}</el-button>
+            <el-button type="primary" @click="submitForm('form')">{{
+              $t('aae72239.be5fbb')
+            }}</el-button>
           </div>
         </el-form>
       </section>

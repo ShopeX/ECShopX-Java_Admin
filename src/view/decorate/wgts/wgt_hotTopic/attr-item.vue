@@ -25,7 +25,7 @@
         <div class="topic-item">
           <el-input
             v-model="scope.data.topic"
-            placeholder="话题"
+            :placeholder="$t('ba246fa8.b00a65')"
             size="small"
             class="topic-input"
           />

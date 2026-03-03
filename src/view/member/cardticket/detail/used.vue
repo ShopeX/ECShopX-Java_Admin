@@ -12,7 +12,9 @@
       <el-table-column prop="mobile" :label="$t('de5acab9.8098e2')" width="120" />
       <el-table-column prop="used_status" :label="$t('de5acab9.b63552')" width="100">
         <template slot-scope="scope">
-          <template v-if="scope.row.used_status == 'callback'"> {{ $t('de5acab9.c3cb48') }} </template>
+          <template v-if="scope.row.used_status == 'callback'">
+            {{ $t('de5acab9.c3cb48') }}
+          </template>
           <template v-else> {{ $t('de5acab9.e7d31e') }} </template>
         </template>
       </el-table-column>

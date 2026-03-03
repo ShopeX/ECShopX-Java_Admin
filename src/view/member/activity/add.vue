@@ -116,11 +116,11 @@
                 :span="8"
               >
                 <div class="promotion-card">
-<div class="promotion-card-header">
+                  <div class="promotion-card-header">
                     {{ $t('118bb174.2f3635') }}
-                    <a class="promotion-card-btn" href="#" @click="showModal('coupons', item.id)"
-                      >{{ $t('118bb174.66ab5e') }}</a
-                      >
+                    <a class="promotion-card-btn" href="#" @click="showModal('coupons', item.id)">{{
+                      $t('118bb174.66ab5e')
+                    }}</a>
                   </div>
                   <div class="promotion-card-body">
                     <ul class="promotion-card-list">
@@ -176,21 +176,21 @@
                     <div slot="header" class="clearfix">
                       <span>{{ $t('118bb174.dbe8ba') }}</span>
                     </div>
-                    <span v-if="form.activity_type === 'member_birthday'"
-                      >{{ $t('118bb174.77fed3') }}</span
-                    >
-                    <span v-if="form.activity_type === 'member_day'"
-                      >{{ $t('118bb174.62eb69') }}</span
-                    >
-                    <span v-if="form.activity_type === 'member_anniversary'"
-                      >{{ $t('118bb174.6ab1b5') }}</span
-                    >
-                    <span v-if="form.activity_type === 'member_upgrade'"
-                      >{{ $t('118bb174.67eebf') }}</span
-                    >
-                    <span v-if="form.activity_type === 'member_vip_upgrade'"
-                      >{{ $t('118bb174.4ec471') }}</span
-                    >
+                    <span v-if="form.activity_type === 'member_birthday'">{{
+                      $t('118bb174.77fed3')
+                    }}</span>
+                    <span v-if="form.activity_type === 'member_day'">{{
+                      $t('118bb174.62eb69')
+                    }}</span>
+                    <span v-if="form.activity_type === 'member_anniversary'">{{
+                      $t('118bb174.6ab1b5')
+                    }}</span>
+                    <span v-if="form.activity_type === 'member_upgrade'">{{
+                      $t('118bb174.67eebf')
+                    }}</span>
+                    <span v-if="form.activity_type === 'member_vip_upgrade'">{{
+                      $t('118bb174.4ec471')
+                    }}</span>
                   </el-card>
                 </el-col>
               </el-row>
@@ -240,7 +240,9 @@
           </div>
           <span slot="footer" class="dialog-footer">
             <el-button @click="cancelSelected('goods')">{{ $t('118bb174.c08ab9') }}</el-button>
-            <el-button type="primary" @click="submitSelected('goods')">{{ $t('118bb174.aa7527') }}</el-button>
+            <el-button type="primary" @click="submitSelected('goods')">{{
+              $t('118bb174.aa7527')
+            }}</el-button>
           </span>
         </el-dialog>
       </div>
@@ -280,7 +282,9 @@
           </div>
           <span slot="footer" class="dialog-footer">
             <el-button @click="cancelSelected('coupons')">{{ $t('118bb174.c08ab9') }}</el-button>
-            <el-button type="primary" @click="submitSelected('coupons')">{{ $t('118bb174.aa7527') }}</el-button>
+            <el-button type="primary" @click="submitSelected('coupons')">{{
+              $t('118bb174.aa7527')
+            }}</el-button>
           </span>
         </el-dialog>
       </div>
@@ -387,7 +391,17 @@ export default {
         for (var i = 0; i < 7; i++) {
           let obj = {}
           obj.value = i + 1
-          obj.label = this.$t(['118bb174.5ce438', '118bb174.34e521', '118bb174.711d99', '118bb174.3df6af', '118bb174.450ea3', '118bb174.1ae72f', '118bb174.67b195'][obj.value - 1])
+          obj.label = this.$t(
+            [
+              '118bb174.5ce438',
+              '118bb174.34e521',
+              '118bb174.711d99',
+              '118bb174.3df6af',
+              '118bb174.450ea3',
+              '118bb174.1ae72f',
+              '118bb174.67b195'
+            ][obj.value - 1]
+          )
           week.push(obj)
         }
         for (var i = 0; i < 31; i++) {

@@ -25,7 +25,7 @@
             type="primary"
             icon="iconfont icon-xinzengcaozuo-01"
             @click="handleAdd"
-            >添加销方信息</el-button
+            >{{ $t('1c61c845.cf0b06') }}</el-button
           >
         </template>
       </SpFinder>
@@ -98,7 +98,7 @@ export default {
       return _params
     },
     editRowHandle(row) {
-      this.dialogTitle = '编辑销方信息'
+      this.dialogTitle = this.$t('1c61c845.1a1177')
       this.editRow = row
       this.dialogShow = true
       this.dialogForm = generatorParams(formSchema(this), row)
@@ -110,7 +110,7 @@ export default {
       this.confirmStatus = true
       if(this.editRow.id){
         api.financial.updateInvoiceSeller(this.editRow.id, this.dialogForm).then((res) => {
-          this.$message.success('更新成功')
+          this.$message.success(this.$t('1c61c845.55aa63'))
           this.dialogShow = false
           this.refresh()
         }).finally(()=>{
@@ -118,7 +118,7 @@ export default {
         })
       }else{
         api.financial.createInvoiceSeller(this.dialogForm).then((res) => {
-          this.$message.success('创建成功')
+          this.$message.success(this.$t('1c61c845.04a691'))
           this.dialogShow = false
           this.refresh()
         }).finally(()=>{
@@ -127,7 +127,7 @@ export default {
       }
     },
     handleAdd(){
-      this.dialogTitle = '添加销方信息'
+      this.dialogTitle = this.$t('1c61c845.cf0b06')
       this.editRow = {}
       this.dialogShow = true
       this.dialogForm = generatorParams(formSchema(this), {})

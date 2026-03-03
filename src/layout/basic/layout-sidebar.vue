@@ -123,7 +123,7 @@ export default {
         }
       }
       // 否则返回默认系统标题
-      return getSystemTitle()
+      return this.$t(getSystemTitle())
     },
     activeSubIndex() {
       //通过权限标识查找三级菜单
@@ -498,7 +498,8 @@ export default {
 :deep(.el-menu-item) {
   border-radius: 6px;
   height: 42px;
-  line-height: 42px;
+  display: flex;
+  align-items: center;
   margin: 0 8px 2px;
   padding-right: 12px !important;
 
@@ -514,7 +515,8 @@ export default {
 :deep(.el-submenu__title) {
   border-radius: 6px;
   height: 42px;
-  line-height: 42px;
+  display: flex;
+  align-items: center;
   margin: 0 8px 2px;
   color: #666;
 }

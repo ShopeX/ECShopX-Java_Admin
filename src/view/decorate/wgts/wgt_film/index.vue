@@ -47,20 +47,7 @@
   >
     <div class="wgt-bd">
       <!-- 挂件自定义部分 -->
-      <video-player
-        :options="{
-          aspectRatio: aspectRatio,
-          sources: [
-            {
-              type: 'video/mp4',
-              src: sourceUrl
-            }
-          ],
-          notSupportedMessage: '添加视频源',
-          suppressNotSupportedError: true,
-          controlBar: false
-        }"
-      />
+      <video-player :options="videoOptions" />
     </div>
   </div>
 </template>
@@ -93,6 +80,15 @@ export default {
     sourceUrl() {
       const { data } = this.value
       return data?.url || ''
+    },
+    videoOptions() {
+      return {
+        aspectRatio: this.aspectRatio,
+        sources: [{ type: 'video/mp4', src: this.sourceUrl }],
+        notSupportedMessage: this.$t('cd407b12.63ca71'),
+        suppressNotSupportedError: true,
+        controlBar: false
+      }
     }
   },
   created() {},

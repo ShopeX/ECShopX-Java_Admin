@@ -57,7 +57,9 @@
                   >
                     {{ $t('c693e930.625fb2') }}
                   </el-button>
-                  <el-button type="text" @click="showLimitPromotion(scope.row)"> {{ $t('c693e930.607e7a') }} </el-button>
+                  <el-button type="text" @click="showLimitPromotion(scope.row)">
+                    {{ $t('c693e930.607e7a') }}
+                  </el-button>
                   <el-button
                     v-if="editlActionVisible(scope.row)"
                     type="text"

@@ -24,7 +24,7 @@
       <!-- 挂件自定义部分 -->
       <div class="search-container">
         <i class="ecx-icon icon-sousuo" />
-        <span class="placeholder"> {{ value.placeholder }} </span>
+        <span class="placeholder"> {{ value.placeholder ? $t(value.placeholder) : '' }} </span>
       </div>
       <!-- 挂件自定义部分 -->
     </div>
@@ -35,7 +35,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Search',
-  wgtName: '搜索',
+  wgtName: '545d9787.e5f71f',
   wgtDesc: '',
   wgtIcon: 'wgt-search',
   config: config,

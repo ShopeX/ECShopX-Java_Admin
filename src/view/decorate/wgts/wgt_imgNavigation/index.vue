@@ -27,7 +27,7 @@
         <div class="nav-image">
           <SpImage :src="item.imgUrl" :circle="8" :style="getNavItemImageStyle" />
         </div>
-        <div v-if="item.content" class="nav-item--content">{{ item.content }}</div>
+        <div v-if="item.content" class="nav-item--content">{{ $t(item.content) }}</div>
       </div>
       <!-- 挂件自定义部分 -->
     </div>
@@ -38,7 +38,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Navigation',
-  wgtName: '图片导航',
+  wgtName: '06a3fb4c.8ae4a2',
   wgtDesc: '',
   wgtIcon: 'wgt-img-navigation',
   config,

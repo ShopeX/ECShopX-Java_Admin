@@ -53,7 +53,7 @@
               src: videoUrlStr
             }
           ],
-          notSupportedMessage: '此视频暂无法播放，请稍后再试',
+          notSupportedMessage: $t('d7d37966.01c0da'),
           controlBar: false
         }"
       />
@@ -229,22 +229,22 @@ export default {
       const { media_type, hotData = [], overlayHotData = [] } = this.sliderForm
       return [
         {
-          label: '内容类型',
+          label: this.$t('d7d37966.701f7f'),
           key: 'media_type',
           type: 'radio',
           options: [
             {
               label: 'img',
-              name: '图片'
+              name: this.$t('d7d37966.20def7')
             },
             {
               label: 'video',
-              name: '视频'
+              name: this.$t('d7d37966.7fcf42')
             }
           ]
         },
         {
-          label: media_type == 'video' ? '视频' : '图片',
+          label: media_type == 'video' ? this.$t('d7d37966.7fcf42') : this.$t('d7d37966.20def7'),
           key: 'videoUrl',
           component: ({ key }) => {
             return (
@@ -258,15 +258,22 @@ export default {
                       v-model={this.sliderForm.imgUrl}
                       size='small'
                       class='video-link'
-                      text={media_type == 'video' ? '封面' : '图片'}
+                      text={
+                        media_type == 'video'
+                          ? this.$t('d7d37966.412310')
+                          : this.$t('d7d37966.20def7')
+                      }
                     />
-                    <div>建议尺寸：（宽度640px，高度自适应）</div>
+                    <div>{this.$t('d7d37966.e76dee')}</div>
                     <div class='zone-list-hotdata'>
                       {hotData?.map((item, index) => {
                         return (
                           <div class='zone-item'>
                             <div class='zone-item-label'>
-                              <span>热区{index + 1}</span>
+                              <span>
+                                {this.$t('d7d37966.50da72')}
+                                {index + 1}
+                              </span>
 
                               <el-button
                                 type='text'
@@ -275,7 +282,7 @@ export default {
                                   this.handleRemove(index, 'img')
                                 }}
                               >
-                                删除
+                                {this.$t('d7d37966.2f4aad')}
                               </el-button>
                             </div>
                             <CompPickerLink
@@ -296,29 +303,29 @@ export default {
           }
         },
         {
-          label: '入场自动播放',
+          label: this.$t('d7d37966.b8cfcd'),
           key: 'autoplay',
           type: 'switch',
           isShow: media_type == 'video'
         },
         {
-          label: '离场视频交互',
+          label: this.$t('d7d37966.b46893'),
           key: 'interact',
           type: 'radio',
           options: [
             {
               label: 'reset',
-              name: '重置'
+              name: this.$t('d7d37966.4b9c32')
             },
             {
               label: 'pause',
-              name: '暂停'
+              name: this.$t('d7d37966.8d63ef')
             }
           ],
           isShow: media_type == 'video'
         },
         {
-          label: media_type == 'video' ? '视频叠层' : '图片叠层',
+          label: media_type == 'video' ? this.$t('d7d37966.17aaa3') : this.$t('d7d37966.680a76'),
           key: 'overlay',
           component: ({ key }) => {
             return (
@@ -331,13 +338,16 @@ export default {
                     this.changeOverlay(e)
                   }}
                 />
-                <div>建议尺寸：（宽度640px，高度自适应）</div>
+                <div>{this.$t('d7d37966.e76dee')}</div>
                 <div class='zone-list-overlaydata'>
                   {overlayHotData?.map((item, index) => {
                     return (
                       <div class='zone-item'>
                         <div class='zone-item-label'>
-                          <span>叠层热区{index + 1}</span>
+                          <span>
+                            {this.$t('d7d37966.5cefe9')}
+                            {index + 1}
+                          </span>
                           <el-button
                             type='text'
                             size='small'
@@ -345,7 +355,7 @@ export default {
                               this.handleRemove(index, 'overlay')
                             }}
                           >
-                            删除
+                            {this.$t('d7d37966.2f4aad')}
                           </el-button>
                         </div>
                         <CompPickerLink
@@ -364,27 +374,27 @@ export default {
           }
         },
         {
-          label: '叠层宽度',
+          label: this.$t('d7d37966.68f333'),
           key: 'overlayWidth',
           isShow: this.sliderForm.overlay,
-          tip: '单位为 %',
+          tip: this.$t('d7d37966.dddfd9'),
           type: 'slider',
           maxlength: 10,
           showInput: true,
-          placeholder: '请输入宽度'
+          placeholder: this.$t('d7d37966.8bc93d')
         },
         {
-          label: '叠层下边距离',
+          label: this.$t('d7d37966.7c2c35'),
           key: 'overlaybuttom',
           isShow: this.sliderForm.overlay,
           type: 'slider',
-          tip: '单位为 %',
+          tip: this.$t('d7d37966.dddfd9'),
           showInput: true,
           maxlength: 10,
-          placeholder: '请输入下边距离'
+          placeholder: this.$t('d7d37966.76c356')
         },
         {
-          label: '叠层左边距离',
+          label: this.$t('d7d37966.d1d8cd'),
           key: 'overlayLeft',
           isShow: this.sliderForm.overlay,
           showInput: true,

@@ -7,11 +7,7 @@
   <SpPage>
     <el-form ref="form" :model="form" class="box-set" label-width="120px">
       <el-card :header="$t('c9c68157.191931')" shadow="naver">
-        <el-form-item
-          :label="$t('c9c68157.39834b')"
-          prop="title"
-          :rules="titleRules"
-        >
+        <el-form-item :label="$t('c9c68157.39834b')" prop="title" :rules="titleRules">
           <el-col :span="8">
             <el-input v-model="form.title" :maxlength="30" :placeholder="$t('c9c68157.7528b3')" />
           </el-col>
@@ -95,11 +91,7 @@
             </div>
           </transition>
         </el-form-item>
-        <el-form-item
-          :label="$t('c9c68157.e79791')"
-          prop="upvaluation"
-          :rules="upvaluationRules"
-        >
+        <el-form-item :label="$t('c9c68157.e79791')" prop="upvaluation" :rules="upvaluationRules">
           {{ $t('c9c68157.158fe0') }}
           <el-input
             v-model="form.upvaluation"
@@ -151,7 +143,9 @@
     <template slot="page-footer">
       <div class="text-center">
         <el-button @click.native="handleCancel"> {{ $t('c9c68157.5f4112') }} </el-button>
-        <el-button type="primary" @click="submitActivityAction()"> {{ $t('c9c68157.be5fbb') }} </el-button>
+        <el-button type="primary" @click="submitActivityAction()">
+          {{ $t('c9c68157.be5fbb') }}
+        </el-button>
       </div>
     </template>
   </SpPage>

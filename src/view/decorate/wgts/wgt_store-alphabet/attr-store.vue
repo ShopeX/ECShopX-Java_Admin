@@ -8,8 +8,8 @@
 </style>
 <template>
   <CompButton
-    placeholder="选择店铺"
-    format="{0}个店铺"
+    :placeholder="$t('d38a7529.afa2e6')"
+    :format="$t('d38a7529.ca9969')"
     :value="value.length"
     :view-btn="false"
     @click="handleClickAdd"

@@ -28,7 +28,11 @@
               >{{ inputValue.gift_length }}/{{ inputValue.gift_max }}</span
             >
           </el-form-item>
-          <el-form-item v-if="form.card_type === 'discount'" :label="$t('dba53da0.878d1f')" prop="discount">
+          <el-form-item
+            v-if="form.card_type === 'discount'"
+            :label="$t('dba53da0.878d1f')"
+            prop="discount"
+          >
             <el-input
               v-model="form.discount"
               :disabled="form.card_id ? true : false"
@@ -38,7 +42,11 @@
               min="1"
             />
           </el-form-item>
-          <el-form-item v-if="form.card_type === 'cash'" :label="$t('dba53da0.2fc887')" prop="reduce_cost">
+          <el-form-item
+            v-if="form.card_type === 'cash'"
+            :label="$t('dba53da0.2fc887')"
+            prop="reduce_cost"
+          >
             <el-input
               v-model="form.reduce_cost"
               type="number"
@@ -249,14 +257,21 @@
             />
             <p class="frm-tips">{{ $t('dba53da0.727b1d') }}</p>
           </el-form-item>
-          <el-form-item v-if="is_distributor == false && form.card_type == 'gift'" :label="$t('dba53da0.b90304')">
+          <el-form-item
+            v-if="is_distributor == false && form.card_type == 'gift'"
+            :label="$t('dba53da0.b90304')"
+          >
             <el-radio-group
               v-model="form.use_platform"
               :disabled="form.card_id != '' || onlyShow"
               @change="usePlatformChange"
             >
-              <el-radio v-if="is_distributor == false" label="store">{{ $t('dba53da0.1b38a1') }}</el-radio>
-              <el-radio v-if="form.card_type != 'gift'" label="mall">{{ $t('dba53da0.4448af') }}</el-radio>
+              <el-radio v-if="is_distributor == false" label="store">{{
+                $t('dba53da0.1b38a1')
+              }}</el-radio>
+              <el-radio v-if="form.card_type != 'gift'" label="mall">{{
+                $t('dba53da0.4448af')
+              }}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item
@@ -442,7 +457,11 @@
             <el-table v-if="relStores.length > 0" :data="relStores" style="line-height: normal">
               <el-table-column label="ID" prop="wxShopId" width="60" />
               <el-table-column :label="$t('dba53da0.d7ec2d')" prop="storeName" />
-              <el-table-column prop="address" :label="$t('dba53da0.765048')" show-overflow-tooltip />
+              <el-table-column
+                prop="address"
+                :label="$t('dba53da0.765048')"
+                show-overflow-tooltip
+              />
               <el-table-column :label="$t('dba53da0.2b6bc0')" width="50">
                 <template slot-scope="scope">
                   <i class="el-icon-delete" @click="deleteRow(scope.$index, form.items)" />
@@ -464,7 +483,9 @@
             </el-radio-group>
           </el-form-item>
           <div v-if="!zdShopHidden">
-            <el-button type="primary" @click="addDistributorAction">{{ $t('dba53da0.afa2e6') }}</el-button>
+            <el-button type="primary" @click="addDistributorAction">{{
+              $t('dba53da0.afa2e6')
+            }}</el-button>
             <el-table
               v-if="distributor_info.length > 0"
               :data="distributor_info"
@@ -472,7 +493,11 @@
             >
               <el-table-column label="ID" prop="distributor_id" width="60" />
               <el-table-column :label="$t('dba53da0.d7ec2d')" prop="name" />
-              <el-table-column prop="address" :label="$t('dba53da0.765048')" show-overflow-tooltip />
+              <el-table-column
+                prop="address"
+                :label="$t('dba53da0.765048')"
+                show-overflow-tooltip
+              />
               <el-table-column :label="$t('dba53da0.2b6bc0')" width="50">
                 <template slot-scope="scope">
                   <i

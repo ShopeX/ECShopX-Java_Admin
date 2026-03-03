@@ -14,7 +14,7 @@
         <div class="template-item add-btn" @click="chooseTemp">
           <div class="template-wrap items-center flex-col flex add-btn">
             <i class="iconfont icon-weixin" />
-            <div>添加小程序模板</div>
+            <div>{{ $t('9aec82de.e117c3') }}</div>
           </div>
         </div>
       </el-col>
@@ -83,7 +83,8 @@
               {{ item.templateInfo.name }}
             </div>
             <div class="template-opend-btn" @click="linkTo(item)">
-              <span v-if="item.is_bind">编辑模板</span><span v-else>未绑定</span>
+              <span v-if="item.is_bind">{{ $t('9aec82de.c6aa35') }}</span
+              ><span v-else>{{ $t('9aec82de.906ad1') }}</span>
             </div>
           </div>
         </div>

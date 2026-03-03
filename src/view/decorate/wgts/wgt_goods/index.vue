@@ -42,7 +42,7 @@ import saledata from './mock/saledata.json'
 
 export default {
   name: 'goods',
-  wgtName: '商品',
+  wgtName: '8865eba5.9897d8',
   wgtDesc: '',
   wgtIcon: 'waterfalls-h',
   wgtType: 2,

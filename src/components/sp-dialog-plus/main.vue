@@ -94,14 +94,14 @@ export default {
     computedButtonCancel() {
       return {
         visible: true,
-        text: '取消',
+        text: this.$t('d6ce3fc7.625fb2'),
         ...this.buttonCancel
       }
     },
     computedButtonConfirm() {
       return {
         visible: true,
-        text: '确定',
+        text: this.$t('d6ce3fc7.38cf16'),
         ...this.buttonConfirm
       }
     }

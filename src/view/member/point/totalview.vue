@@ -10,7 +10,8 @@
         <!-- <i class="iconfont icon-coins" /> -->
         <SpIcon name="layers" :size="50" fill="#ff5000" />
         <div>
-          <span>{{ $t('5f9e58ef.48b0e9') }}</span> <span class="money mark">{{ count.can_use }}</span>
+          <span>{{ $t('5f9e58ef.48b0e9') }}</span>
+          <span class="money mark">{{ count.can_use }}</span>
         </div>
       </div>
       <div class="view-flex-item">

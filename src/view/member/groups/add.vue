@@ -25,7 +25,9 @@
                   <div class="gooups-goodsmsg">
                     <div>{{ goods.itemName }}</div>
                     <div>{{ $t('cfc108c7.80193b') }}{{ goods.price }}</div>
-                    <div v-if="goods.item_type == 'normal'">{{ $t('cfc108c7.b008bd') }}{{ goods.store }}</div>
+                    <div v-if="goods.item_type == 'normal'">
+                      {{ $t('cfc108c7.b008bd') }}{{ goods.store }}
+                    </div>
                   </div>
                 </div>
                 <div v-else tabindex="0" class="el-upload el-upload--picture-card">
@@ -40,7 +42,11 @@
       <el-form-item :label="$t('cfc108c7.39834b')" prop="act_name" :rules="rules.act_name">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-input v-model="form.act_name" :maxlength="30" :placeholder="$t('cfc108c7.68b3e2')" />
+            <el-input
+              v-model="form.act_name"
+              :maxlength="30"
+              :placeholder="$t('cfc108c7.68b3e2')"
+            />
           </el-col>
         </el-row>
       </el-form-item>
@@ -70,7 +76,9 @@
       <el-form-item :label="$t('cfc108c7.8c918e')" prop="act_price" :rules="rules.act_price">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-input v-model="form.act_price" placeholder=""> {{ $t('cfc108c7.c16655') }} </el-input>
+            <el-input v-model="form.act_price" placeholder="">
+              {{ $t('cfc108c7.c16655') }}
+            </el-input>
           </el-col>
           <el-col :span="2"> {{ $t('cfc108c7.c16655') }} </el-col>
         </el-row>
@@ -78,7 +86,9 @@
       <el-form-item :label="$t('cfc108c7.25c463')" prop="person_num" :rules="rules.person_num">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-input v-model="form.person_num" placeholder=""> {{ $t('cfc108c7.465afe') }} </el-input>
+            <el-input v-model="form.person_num" placeholder="">
+              {{ $t('cfc108c7.465afe') }}
+            </el-input>
           </el-col>
         </el-row>
       </el-form-item>
@@ -90,7 +100,11 @@
           <el-col :span="2"> {{ $t('cfc108c7.2de0d4') }} </el-col>
         </el-row>
       </el-form-item>
-      <el-form-item :label="$t('cfc108c7.9bd6cd')" prop="limit_buy_num" :rules="rules.limit_buy_num">
+      <el-form-item
+        :label="$t('cfc108c7.9bd6cd')"
+        prop="limit_buy_num"
+        :rules="rules.limit_buy_num"
+      >
         <el-row :gutter="20">
           <el-col :span="12">
             <el-input v-model="form.limit_buy_num" placeholder="" />
@@ -200,7 +214,9 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="goodsDialogVisible = false">{{ $t('cfc108c7.9d2578') }}</el-button>
-        <el-button type="primary" @click="goodsDialogVisible = false">{{ $t('cfc108c7.aa7527') }}</el-button>
+        <el-button type="primary" @click="goodsDialogVisible = false">{{
+          $t('cfc108c7.aa7527')
+        }}</el-button>
       </span>
     </el-dialog>
   </el-form>

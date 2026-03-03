@@ -57,7 +57,7 @@
     >
       <!-- 挂件自定义部分 -->
       <div v-for="(item, index) in value.data" :key="index" class="topic-item">
-        <span>{{ item.topic }}</span>
+        <span>{{ $t(item.topic) }}</span>
       </div>
       <!-- 挂件自定义部分 -->
     </div>
@@ -68,7 +68,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'HotTopic',
-  wgtName: '热点话题',
+  wgtName: '758b56eb.b11dc3',
   wgtDesc: '',
   wgtIcon: 'wgt-hotTopic',
   config: config,

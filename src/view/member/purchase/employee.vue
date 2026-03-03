@@ -36,7 +36,11 @@
           </el-select>
         </SpFilterFormItem>
         <SpFilterFormItem prop="distributor_id" :label="$t('5a5739e5.16f2bc')">
-          <SpSelectShop v-model="queryForm.distributor_id" clearable :placeholder="$t('5a5739e5.708c9d')" />
+          <SpSelectShop
+            v-model="queryForm.distributor_id"
+            clearable
+            :placeholder="$t('5a5739e5.708c9d')"
+          />
         </SpFilterFormItem>
       </SpFilterForm>
 
@@ -47,7 +51,9 @@
         <el-button type="primary" icon="iconfont icon-daorucaozuo-01" @click="handleImportEmployee">
           {{ $t('5a5739e5.4580b9') }}
         </el-button>
-        <el-button type="primary" plain @click="handleExport"> {{ $t('5a5739e5.55405e') }} </el-button>
+        <el-button type="primary" plain @click="handleExport">
+          {{ $t('5a5739e5.55405e') }}
+        </el-button>
       </div>
 
       <SpFinder
@@ -250,8 +256,17 @@ export default {
       return auth_type
     },
     validateTypeList() {
-      const keys = { '': '5a5739e5.a8b0c2', mobile: '5a5739e5.8098e2', account: '5a5739e5.bc1f2d', email: '5a5739e5.3bc5e6', qr_code: '5a5739e5.22b03c' }
-      return VALIDATE_TYPES.map((item) => ({ ...item, name: this.$t(keys[item.value] || '5a5739e5.a8b0c2') }))
+      const keys = {
+        '': '5a5739e5.a8b0c2',
+        mobile: '5a5739e5.8098e2',
+        account: '5a5739e5.bc1f2d',
+        email: '5a5739e5.3bc5e6',
+        qr_code: '5a5739e5.22b03c'
+      }
+      return VALIDATE_TYPES.map((item) => ({
+        ...item,
+        name: this.$t(keys[item.value] || '5a5739e5.a8b0c2')
+      }))
     }
   },
   created() {

@@ -32,8 +32,12 @@
           <span v-else-if="'CANCEL' == scope.row.order_status">{{ $t('3f4c07c6.cc30f5') }}</span>
           <span v-else-if="'DONE' == scope.row.order_status">{{ $t('3f4c07c6.eb5dc9') }}</span>
           <span v-else-if="'PAYED' == scope.row.order_status">{{ $t('3f4c07c6.eb5dc9') }}</span>
-          <span v-else-if="'REFUND_PROCESS' == scope.row.order_status">{{ $t('3f4c07c6.07e608') }}</span>
-          <span v-else-if="'REFUND_SUCCESS' == scope.row.order_status">{{ $t('3f4c07c6.d58cbd') }}</span>
+          <span v-else-if="'REFUND_PROCESS' == scope.row.order_status">{{
+            $t('3f4c07c6.07e608')
+          }}</span>
+          <span v-else-if="'REFUND_SUCCESS' == scope.row.order_status">{{
+            $t('3f4c07c6.d58cbd')
+          }}</span>
           <span v-else>{{ $t('3f4c07c6.3515e2') }}</span>
         </template>
       </el-table-column>

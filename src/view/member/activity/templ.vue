@@ -37,9 +37,7 @@ export default {
         {
           name: '9c5a295f.de4753',
           desc: '9c5a295f.2886f5',
-          itemList: [
-            { name: '9c5a295f.6e189b', desc: '9c5a295f.e0caf3', form: 'member_birthday' }
-          ]
+          itemList: [{ name: '9c5a295f.6e189b', desc: '9c5a295f.e0caf3', form: 'member_birthday' }]
         },
         {
           name: '9c5a295f.176808',

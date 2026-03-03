@@ -15,7 +15,7 @@
             class="header-text"
             :style="{ color: value.titleColor }"
           >
-            {{ value.titleText?.text }}
+            {{ value.titleText?.text ? $t(value.titleText.text) : '' }}
           </span>
         </div>
       </div>
@@ -25,7 +25,7 @@
         class="header-more"
         :style="{ color: value.moreBtn.color }"
       >
-        查看更多>
+        {{ $t('47f355d9.44a1f0') }}
       </div>
     </div>
 

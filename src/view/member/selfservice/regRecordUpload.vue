@@ -6,12 +6,21 @@
 <template>
   <div>
     <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
-      <el-tab-pane v-for="item in pane_list" :key="item.name" :label="$t(item.labelKey)" :name="item.name">
+      <el-tab-pane
+        v-for="item in pane_list"
+        :key="item.name"
+        :label="$t(item.labelKey)"
+        :name="item.name"
+      >
         <div class="tip-info">
           <p>
-            {{ $t('731b7d26.7b5c77') }}<strong>{{ $t('731b7d26.d99268') }}</strong>。
+            {{ $t('731b7d26.7b5c77') }}<strong>{{ $t('731b7d26.d99268') }}</strong
+            >。
           </p>
-          <p>{{ $t('731b7d26.41c5ec') }}<strong>{{ $t('731b7d26.d99268') }}</strong>{{ $t('731b7d26.40d0ad') }}</p>
+          <p>
+            {{ $t('731b7d26.41c5ec') }}<strong>{{ $t('731b7d26.d99268') }}</strong
+            >{{ $t('731b7d26.40d0ad') }}
+          </p>
         </div>
         <el-form ref="form" label-width="100px">
           <el-table
@@ -22,11 +31,17 @@
           >
             <el-table-column prop="file_name" :label="$t('731b7d26.a6fc9e')" min-width="100" />
             <el-table-column prop="created_date" :label="$t('731b7d26.cae255')" min-width="80" />
-            <el-table-column prop="file_size_format" :label="$t('731b7d26.396b7d')" min-width="60" />
+            <el-table-column
+              prop="file_size_format"
+              :label="$t('731b7d26.396b7d')"
+              min-width="60"
+            />
             <el-table-column :label="$t('731b7d26.21b314')" min-width="50">
               <template slot-scope="scope">
                 <span v-if="scope.row.handle_status == 'wait'">{{ $t('731b7d26.1e57c1') }}</span>
-                <span v-if="scope.row.handle_status == 'processing'">{{ $t('731b7d26.5d459d') }}</span>
+                <span v-if="scope.row.handle_status == 'processing'">{{
+                  $t('731b7d26.5d459d')
+                }}</span>
                 <span v-if="scope.row.handle_status == 'finish'">{{ $t('731b7d26.7be39b') }}</span>
               </template>
             </el-table-column>

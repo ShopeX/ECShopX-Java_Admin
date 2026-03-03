@@ -31,7 +31,11 @@
           />
         </SpFilterFormItem>
         <SpFilterFormItem prop="distributor_id" :label="$t('6b57cb80.4de1b7')">
-          <SpSelectShop v-model="params.distributor_id" clearable :placeholder="$t('ac2a6290.708c9d')" />
+          <SpSelectShop
+            v-model="params.distributor_id"
+            clearable
+            :placeholder="$t('ac2a6290.708c9d')"
+          />
         </SpFilterFormItem>
       </SpFilterForm>
 
@@ -42,7 +46,11 @@
       </div>
 
       <el-table v-loading="loading" border :data="tableList" style="width: 100%">
-        <el-table-column :label="$t('8da83775.2b6bc0')" fixed="left" :width="IS_DISTRIBUTOR() ? 150 : 250">
+        <el-table-column
+          :label="$t('8da83775.2b6bc0')"
+          fixed="left"
+          :width="IS_DISTRIBUTOR() ? 150 : 250"
+        >
           <template slot-scope="scope">
             <el-button
               v-if="

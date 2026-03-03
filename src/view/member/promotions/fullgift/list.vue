@@ -69,7 +69,9 @@
                         {{ item.shop_name }}
                       </div>
                     </span>
-                    <span v-else> <div>{{ $t('e814a89b.77678b') }}</div> </span>
+                    <span v-else>
+                      <div>{{ $t('e814a89b.77678b') }}</div>
+                    </span>
                   </el-form-item>
                 </el-form>
               </template>
@@ -80,7 +82,9 @@
               <template slot-scope="scope">
                 <div v-for="(item, index) in scope.row.condition_value" :key="index">
                   <span v-if="scope.row.condition_type == 'quantity'">
-                    {{ $t('e814a89b.13dc43') }}{{ item.full }}{{ $t('e814a89b.f7edf5') }},{{ $t('e814a89b.7de0a5') }}<el-button
+                    {{ $t('e814a89b.13dc43') }}{{ item.full }}{{ $t('e814a89b.f7edf5') }},{{
+                      $t('e814a89b.7de0a5')
+                    }}<el-button
                       type="text"
                       @click="
                         viewGiftItemList(scope.row, item.full, scope.row.condition_value.length)
@@ -89,7 +93,9 @@
                     >)
                   </span>
                   <span v-if="scope.row.condition_type == 'totalfee'">
-                    {{ $t('e814a89b.13dc43') }}{{ item.full }}{{ $t('e814a89b.c16655') }},{{ $t('e814a89b.7de0a5') }}<el-button
+                    {{ $t('e814a89b.13dc43') }}{{ item.full }}{{ $t('e814a89b.c16655') }},{{
+                      $t('e814a89b.7de0a5')
+                    }}<el-button
                       type="text"
                       @click="
                         viewGiftItemList(scope.row, item.full, scope.row.condition_value.length)

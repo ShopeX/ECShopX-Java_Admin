@@ -49,7 +49,9 @@
         </el-col>
         <el-col :md="2" :lg="2">
           <el-button-group>
-            <el-button size="mini" type="primary" @click="exportData"> {{ $t('72b49acd.55405e') }} </el-button>
+            <el-button size="mini" type="primary" @click="exportData">
+              {{ $t('72b49acd.55405e') }}
+            </el-button>
           </el-button-group>
           <el-popover
             placement="top-start"
@@ -99,10 +101,18 @@
         </el-table-column>
         <el-table-column prop="status" :label="$t('72b49acd.0ed783')">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.status == 'apply'" type="primary"> {{ $t('72b49acd.047109') }} </el-tag>
-            <el-tag v-if="scope.row.status == 'process'" type="danger"> {{ $t('72b49acd.444e00') }} </el-tag>
-            <el-tag v-if="scope.row.status == 'success'" type="warning"> {{ $t('72b49acd.42b524') }} </el-tag>
-            <el-tag v-if="scope.row.status == 'reject'" type="info"> {{ $t('72b49acd.81233d') }} </el-tag>
+            <el-tag v-if="scope.row.status == 'apply'" type="primary">
+              {{ $t('72b49acd.047109') }}
+            </el-tag>
+            <el-tag v-if="scope.row.status == 'process'" type="danger">
+              {{ $t('72b49acd.444e00') }}
+            </el-tag>
+            <el-tag v-if="scope.row.status == 'success'" type="warning">
+              {{ $t('72b49acd.42b524') }}
+            </el-tag>
+            <el-tag v-if="scope.row.status == 'reject'" type="info">
+              {{ $t('72b49acd.81233d') }}
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column :label="$t('72b49acd.2b6bc0')" width="240">
@@ -160,7 +170,12 @@
       </div>
     </el-tabs>
 
-    <el-dialog :title="$t('72b49acd.e679e8')" :visible.sync="payDialog" :close-on-click-modal="false" width="50%">
+    <el-dialog
+      :title="$t('72b49acd.e679e8')"
+      :visible.sync="payDialog"
+      :close-on-click-modal="false"
+      width="50%"
+    >
       <el-table :data="payList" border style="width: 100%">
         <el-table-column prop="update_time" :label="$t('72b49acd.4ff1e7')" width="180">
           <template slot-scope="scope">
@@ -175,7 +190,9 @@
         <el-table-column prop="status" :label="$t('72b49acd.ac204b')">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 'NOT_PAY'"> {{ $t('72b49acd.8cbf8e') }} </span>
-            <el-tag v-if="scope.row.status == 'SUCCESS'" type="success"> {{ $t('72b49acd.c7c515') }} </el-tag>
+            <el-tag v-if="scope.row.status == 'SUCCESS'" type="success">
+              {{ $t('72b49acd.c7c515') }}
+            </el-tag>
             <span v-if="scope.row.status == 'FAIL'"> {{ $t('72b49acd.35d585') }} </span>
           </template>
         </el-table-column>
@@ -204,7 +221,12 @@
         </el-button>
       </div>
     </el-dialog>
-    <el-dialog :title="$t('72b49acd.597e24')" :visible.sync="dialog" :close-on-click-modal="false" width="50%">
+    <el-dialog
+      :title="$t('72b49acd.597e24')"
+      :visible.sync="dialog"
+      :close-on-click-modal="false"
+      width="50%"
+    >
       <el-alert
         v-if="detail.bank_type === 'wechatpay'"
         :title="$t('72b49acd.5a8dbc')"
@@ -258,7 +280,9 @@
           </el-col>
         </el-row>
         <div class="text item">
-          {{ $t('72b49acd.37fec4') }} <span style="font-size: 26px; color: red">{{ detail.money / 100 }}</span> {{ $t('72b49acd.c16655') }}
+          {{ $t('72b49acd.37fec4') }}
+          <span style="font-size: 26px; color: red">{{ detail.money / 100 }}</span>
+          {{ $t('72b49acd.c16655') }}
         </div>
       </el-card>
       <div slot="footer" class="dialog-footer content-center">
@@ -314,7 +338,9 @@
       </el-table>
       <div slot="footer" class="dialog-footer content-center">
         <el-button @click.native="newDialog = false"> {{ $t('72b49acd.170933') }} </el-button>
-        <el-button type="primary" @click="batchPayment('argee')"> {{ $t('72b49acd.3d98ab') }} </el-button>
+        <el-button type="primary" @click="batchPayment('argee')">
+          {{ $t('72b49acd.3d98ab') }}
+        </el-button>
       </div>
     </el-dialog>
   </div>

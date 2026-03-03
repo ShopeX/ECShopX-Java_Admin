@@ -58,7 +58,7 @@
       :setting="{
         columns: [
           { name: 'ID', key: 'id', width: 120 },
-          { name: '页面名称', key: 'title' }
+          { name: $t('223cc8af.b78454'), key: 'title' }
         ]
       }"
       @select="onSelect"
@@ -78,6 +78,9 @@ export default {
     title: '选择页面'
   },
   props: ['value'],
+  created() {
+    this.$options.config.title = this.$t('223cc8af.a4895e')
+  },
   data() {
     return {
       formData: {
@@ -105,7 +108,6 @@ export default {
       multiple: this.value?.multiple ?? true
     }
   },
-  created() {},
   mounted() {
     if (!this.VERSION_PLATFORM() && !this.VERSION_B2C()) {
       // 平台版&b2c隐藏助力活动和助力订单

@@ -8,10 +8,10 @@ import { pickBy, isObject } from '@/utils'
 const config = {
   name: 'floorImg',
   setting: [
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
-    { label: '显示背景图', key: 'openBackImg', component: 'switch', value: false },
+    { label: 'e3c7978b.4707ba', key: 'padded', component: 'switch', value: true },
+    { label: 'e3c7978b.b7e88c', key: 'openBackImg', component: 'switch', value: false },
     {
-      label: '背景图片',
+      label: 'e3c7978b.d74849',
       key: 'backgroundImg',
       component: function (h, { key }) {
         return <SpImagePicker v-model={this.value[key]} size='small' />
@@ -21,9 +21,9 @@ const config = {
         return this.value.openBackImg
       }
     },
-    { label: '字体颜色', key: 'WordColor', component: 'color', value: '#222' },
+    { label: 'e3c7978b.690660', key: 'WordColor', component: 'color', value: '#222' },
     {
-      label: '图片列表',
+      label: 'e3c7978b.d98b3f',
       key: 'data',
       component: function (h, { key }) {
         return <AttrImgList v-model={this.value[key]} />

@@ -95,11 +95,13 @@
       v-model="localValue"
       @onAddItem="handleClickAdd"
       type="text"
-      btn-text="添加轮播项"
+      :btn-text="$t('58595357.4cd62d')"
       :show-title="true"
       @move="handleMove"
     >
-      <template slot="header" slot-scope="scope"> 轮播{{ scope.index + 1 }} </template>
+      <template slot="header" slot-scope="scope">
+        {{ $t('58595357.a5987d') }} {{ scope.index + 1 }}
+      </template>
       <template slot="body" slot-scope="scope">
         <div class="slider-item">
           <div class="slider-item-img">
@@ -126,7 +128,11 @@
           </div>
           <div class="slider-item-info">
             <div class="slider-item-type">
-              <div>{{ scope.data.media_type == 'video' ? '视频' : '图片' }}</div>
+              <div>
+                {{
+                  scope.data.media_type == 'video' ? $t('58595357.7fcf42') : $t('58595357.20def7')
+                }}
+              </div>
             </div>
             <div class="slider-item-link">
               <div
@@ -137,7 +143,7 @@
                 class="zone-item-link-no"
                 @click="onSetHotZone(scope.data, scope.index)"
               >
-                选择路径
+                {{ $t('58595357.e3cf91') }}
               </div>
               <div class="zone-item" v-if="scope.data.media_type === 'img'">
                 <span
@@ -226,7 +232,7 @@ export default {
   methods: {
     async onSetHotZone(item, index) {
       useDialog(null, {
-        title: `轮播项${index + 1}`,
+        title: this.$t('58595357.3db933') + (index + 1),
         width: '860px',
         top: '4vh',
         class: 'attr_slider_dialog',
@@ -236,12 +242,12 @@ export default {
         component: () => import('./sliderDialog.vue'),
         actions: [
           {
-            label: '关闭',
+            label: this.$t('58595357.b15d91'),
             key: 'close',
             type: 'default',
             size: 'small'
           },
-          { label: '确定', key: 'save', type: 'primary', size: 'small' }
+          { label: this.$t('58595357.38cf16'), key: 'save', type: 'primary', size: 'small' }
         ]
       }).then(async (args) => {
         if (!args) return

@@ -24,7 +24,7 @@
             <div class="favorite-btn">
               <i class="el-icon-star-off" />
             </div>
-            <div class="enter-shop-btn">进店逛逛</div>
+            <div class="enter-shop-btn">{{ $t('1d819fcf.0f2d3a') }}</div>
           </div>
         </div>
         <div class="shop-products">
@@ -37,7 +37,7 @@
                 <div slot="error" class="image-slot" />
               </el-image>
             </div>
-            <div class="product-title">{{ item?.item_name || '商品名称' }}</div>
+            <div class="product-title">{{ item?.item_name || $t('1d819fcf.1fd1d5') }}</div>
             <div class="product-tags">
               <span
                 v-for="(tag, tagIndex) in item?.tags || ['4折', '活动标']"
@@ -65,7 +65,7 @@ import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 const defaultShopLogo = require('@/assets/imgs/decorate/default-shop-logo.png')
 export default {
   name: 'Shop',
-  wgtName: '店铺',
+  wgtName: '1d819fcf.295713',
   wgtDesc: '',
   wgtIcon: 'application',
   wgtType: 2,

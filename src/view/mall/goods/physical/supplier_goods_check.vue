@@ -668,7 +668,13 @@ export default {
           }
         ],
         columns: [
-          { name: this.$t('d41d8cd9.c2d3e4'), key: 'item_id', width: 120, align: 'right', headerAlign: 'center' },
+          {
+            name: this.$t('d41d8cd9.c2d3e4'),
+            key: 'item_id',
+            width: 120,
+            align: 'right',
+            headerAlign: 'center'
+          },
           {
             name: this.$t('d41d8cd9.f5g6h7'),
             key: 'main_item_id',
@@ -705,7 +711,11 @@ export default {
                   </div>
                   <div style='color: #666;'>
                     {`${this.$t('d41d8cd9.b1f6ae')}${scope.row.goods_bn}`}
-                    <el-tooltip effect='dark' content={this.$t('d41d8cd9.l1m2n3')} placement='top-start'>
+                    <el-tooltip
+                      effect='dark'
+                      content={this.$t('d41d8cd9.l1m2n3')}
+                      placement='top-start'
+                    >
                       <i
                         on-click={() => {
                           this.$copyText(scope.row.goods_bn).then(() => {

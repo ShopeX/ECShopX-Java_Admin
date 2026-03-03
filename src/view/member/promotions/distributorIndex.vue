@@ -6,7 +6,12 @@
 <template>
   <div>
     <div class="content-bottom-padded">
-      <el-tooltip class="item" effect="light" :content="$t('2292c1bd.80f4f2')" placement="right-start">
+      <el-tooltip
+        class="item"
+        effect="light"
+        :content="$t('2292c1bd.80f4f2')"
+        placement="right-start"
+      >
         <el-button type="primary" icon="plus" @click="actionCouponAdd">
           {{ $t('2292c1bd.80f4f2') }}
         </el-button>
@@ -17,7 +22,9 @@
       <el-table-column prop="ad_title" :label="$t('2292c1bd.32c65d')" width="200" />
       <el-table-column prop="is_open" :label="$t('2292c1bd.780afe')" width="80">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.is_open == 'true'" type="success" size="mini"> {{ $t('2292c1bd.0a60ac') }} </el-tag>
+          <el-tag v-if="scope.row.is_open == 'true'" type="success" size="mini">
+            {{ $t('2292c1bd.0a60ac') }}
+          </el-tag>
           <el-tag v-else type="success" size="mini"> {{ $t('2292c1bd.c9744f') }} </el-tag>
         </template>
       </el-table-column>

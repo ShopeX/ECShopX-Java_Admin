@@ -13,7 +13,11 @@
           :rules="{ required: true, message: this.$t('f5a87ec7.411cac'), trigger: 'blur' }"
         >
           <el-col :span="20">
-            <el-input v-model="form.limit_name" :maxlength="30" :placeholder="$t('f5a87ec7.017ce7')" />
+            <el-input
+              v-model="form.limit_name"
+              :maxlength="30"
+              :placeholder="$t('f5a87ec7.017ce7')"
+            />
           </el-col>
         </el-form-item>
         <el-form-item :label="$t('f5a87ec7.5a0c6c')">

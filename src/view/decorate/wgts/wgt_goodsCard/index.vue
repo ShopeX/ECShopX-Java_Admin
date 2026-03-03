@@ -84,13 +84,15 @@
             <div class="goods-card__info-price">
               <SpPrice :value="item.price / 100" />
             </div>
-            <div v-if="item.sales > 0" class="goods-card__info-sales">销量：{{ item.sales }}</div>
+            <div v-if="item.sales > 0" class="goods-card__info-sales">
+              {{ $t('1ab937c7.44e7eb') }}：{{ item.sales }}
+            </div>
           </div>
         </div>
         <div class="goods-card__footer">
-          <el-button type="text-default"> 加入心愿 </el-button>
+          <el-button type="text-default">{{ $t('1ab937c7.56d0b8') }}</el-button>
           <div class="gap-line" />
-          <el-button type="text-default"> 加入购买 </el-button>
+          <el-button type="text-default">{{ $t('1ab937c7.2971f7') }}</el-button>
         </div>
       </div>
     </div>

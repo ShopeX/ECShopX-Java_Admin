@@ -25,9 +25,13 @@
               <div class="good-price pr">
                 <div :class="[this.usage === 'store' ? 'ds' : 'ds-n', 'pa']">
                   <!-- <a @click="openProduct(item.item_id)"> -->
-                  <y-button text="查看详情" style="margin: 0 5px" />
+                  <y-button :text="$t('356d811f.5b48db')" style="margin: 0 5px" />
                   <!-- </a> -->
-                  <y-button text="加入购物车" style="margin: 0 5px" class-style="main-btn" />
+                  <y-button
+                    :text="$t('356d811f.62d369')"
+                    style="margin: 0 5px"
+                    class-style="main-btn"
+                  />
                 </div>
                 <p>¥ {{ (Number(item.price) / 100).toFixed(2) }}</p>
               </div>
@@ -37,7 +41,7 @@
         <div v-else class="placeholder">
           <div class="content-center">
             <div class="iconfont icon-magic" />
-            <div>请设置商品</div>
+            <div>{{ $t('356d811f.ca1fee') }}</div>
           </div>
         </div>
       </div>

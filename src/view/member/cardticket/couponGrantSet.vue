@@ -22,7 +22,9 @@
     <div>
       <el-row :gutter="20">
         <el-col :md="4" :lg="8">
-          <el-button type="primary" icon="plus" @click="addCoupon"> {{ $t('963ca074.ae8c83') }} </el-button>
+          <el-button type="primary" icon="plus" @click="addCoupon">
+            {{ $t('963ca074.ae8c83') }}
+          </el-button>
         </el-col>
       </el-row>
       <el-table :data="coupon_list">
@@ -39,7 +41,9 @@
         </el-table-column> -->
         <el-table-column :label="$t('963ca074.2b6bc0')">
           <template slot-scope="scope">
-            <el-button type="text" @click="deleteCoupon(scope.row)"> {{ $t('963ca074.86048b') }} </el-button>
+            <el-button type="text" @click="deleteCoupon(scope.row)">
+              {{ $t('963ca074.86048b') }}
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -51,7 +55,9 @@
       />
     </div>
     <div style="text-align: center">
-      <el-button type="primary" @click="saveCouponGrantSet"> {{ $t('963ca074.c5575b') }} </el-button>
+      <el-button type="primary" @click="saveCouponGrantSet">
+        {{ $t('963ca074.c5575b') }}
+      </el-button>
     </div>
   </div>
 </template>

@@ -194,7 +194,11 @@
         /> -->
         <membercardList :info="member" />
       </el-tab-pane>
-      <el-tab-pane v-if="!VERSION_IN_PURCHASE() && !VERSION_SHUYUN()" :label="$t('f14acdc9.dc8c37')" name="point">
+      <el-tab-pane
+        v-if="!VERSION_IN_PURCHASE() && !VERSION_SHUYUN()"
+        :label="$t('f14acdc9.dc8c37')"
+        name="point"
+      >
         <pointList />
       </el-tab-pane>
       <!-- <el-tab-pane v-if="VUE_APP_CHUZHI" label="充值记录" name="chuzhi">

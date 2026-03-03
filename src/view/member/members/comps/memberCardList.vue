@@ -41,7 +41,7 @@
         <div v-if="vipGradeIsOpen" class="action-container">
           <div v-for="(item, index) in userVipGrade" :key="item.lv_type" class="vip-item">
             {{ item.grade_name
-            }}{{ item.is_had_vip ? (item.end_time + $t('188e1819.15b382')) : $t('188e1819.6bbb6c') }}
+            }}{{ item.is_had_vip ? item.end_time + $t('188e1819.15b382') : $t('188e1819.6bbb6c') }}
             <el-input-number
               v-model="formData[item.lv_type].day"
               controls-position="right"

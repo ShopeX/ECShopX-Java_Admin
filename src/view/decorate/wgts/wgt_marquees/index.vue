@@ -90,7 +90,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Marquees',
-  wgtName: '文字轮播',
+  wgtName: '17b1b213.917617',
   wgtDesc: '',
   wgtIcon: 'announcement',
   config: config,

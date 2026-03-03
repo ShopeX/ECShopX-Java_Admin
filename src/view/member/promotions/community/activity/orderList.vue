@@ -54,7 +54,8 @@
                 <div slot="header" class="clearfix">
                   <el-row v-if="communityObj[props.row.shop_id]" :gutter="24">
                     <el-col :md="8" :lg="6">
-                      {{ $t('9d49798d.16cb48') }}{{ communityObj[props.row.shop_id].community_name }}
+                      {{ $t('9d49798d.16cb48')
+                      }}{{ communityObj[props.row.shop_id].community_name }}
                     </el-col>
                     <el-col :md="8" :lg="6">
                       {{ $t('9d49798d.21461a') }}{{ communityObj[props.row.shop_id].leader_name }}
@@ -65,7 +66,12 @@
                   </el-row>
                 </div>
                 <el-table :data="props.row.items" style="width: 100%">
-                  <el-table-column class="goods-img" prop="pic" :label="$t('9d49798d.20def7')" min-width="50">
+                  <el-table-column
+                    class="goods-img"
+                    prop="pic"
+                    :label="$t('9d49798d.20def7')"
+                    min-width="50"
+                  >
                     <template slot-scope="scope">
                       <span
                         ><img
@@ -75,7 +81,11 @@
                       /></span>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="item_name" min-width="200" :label="$t('9d49798d.d7ec2d')" />
+                  <el-table-column
+                    prop="item_name"
+                    min-width="200"
+                    :label="$t('9d49798d.d7ec2d')"
+                  />
                   <el-table-column prop="num" min-width="50" :label="$t('9d49798d.0bf60b')" />
                   <el-table-column prop="price" min-width="50" :label="$t('9d49798d.1afdfe')">
                     <template slot-scope="scope">
@@ -111,7 +121,9 @@
               <el-tag v-else-if="scope.row.order_status == 'PAYED'" type="primary" size="mini">
                 {{ $t('9d49798d.64729d') }}
               </el-tag>
-              <el-tag v-else-if="scope.row.order_status == 'NOTPAY'" size="mini">{{ $t('9d49798d.608afd') }}</el-tag>
+              <el-tag v-else-if="scope.row.order_status == 'NOTPAY'" size="mini">{{
+                $t('9d49798d.608afd')
+              }}</el-tag>
               <el-tag v-else-if="scope.row.order_status == 'CANCEL'" type="danger" size="mini">
                 {{ $t('9d49798d.2111cc') }}
               </el-tag>

@@ -34,7 +34,7 @@
                     <el-option
                       v-for="option in bspayPaymentOptions"
                       :key="option.value"
-                      :label="option.label"
+                      :label="$t(option.label)"
                       :value="option.value"
                     />
                   </el-select>
@@ -148,7 +148,11 @@
                     <template slot-scope="scope">
                       <span v-if="scope.row.payType == 'pos'">{{ $t('eac538c8.d37dec') }}</span>
                       <span v-else-if="scope.row.payType == 'bspay' && scope.row.payChannel">
-                        {{ paymentDisplayNames[scope.row.payChannel] || scope.row.payChannel }}
+                        {{
+                          paymentDisplayNames[scope.row.payChannel]
+                            ? $t(paymentDisplayNames[scope.row.payChannel])
+                            : scope.row.payChannel
+                        }}
                       </span>
                       <span v-else>{{ scope.row.payType || '-' }}</span>
                     </template>

@@ -6,11 +6,7 @@
 <template>
   <el-form ref="form" :model="form" class="box-set page-memberpreference" label-width="120px">
     <el-card :header="$t('89f4b371.6ea1fe')" shadow="naver">
-      <el-form-item
-        :label="$t('89f4b371.d7ec2d')"
-        prop="marketing_name"
-        :rules="nameRules"
-      >
+      <el-form-item :label="$t('89f4b371.d7ec2d')" prop="marketing_name" :rules="nameRules">
         <el-col :span="20">
           <el-input
             v-model="form.marketing_name"
@@ -66,7 +62,9 @@
             >
               <el-button type="primary"> {{ $t('89f4b371.c3202e') }} </el-button>
             </el-upload>
-            <el-button type="primary" @click="uploadHandleTemplate()"> {{ $t('89f4b371.c3f9a1') }} </el-button>
+            <el-button type="primary" @click="uploadHandleTemplate()">
+              {{ $t('89f4b371.c3f9a1') }}
+            </el-button>
           </template>
         </SkuSelector>
       </div>

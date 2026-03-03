@@ -179,7 +179,7 @@
           :on-success="handleAvatarSuccess"
           :on-error="uploadError"
         >
-          <el-button>上传视频</el-button>
+          <el-button>{{ $t('24acd55e.afddcb') }}</el-button>
         </el-upload>
       </div>
       <!-- <div>
@@ -207,7 +207,7 @@
                       src: item.url
                     }
                   ],
-                  notSupportedMessage: '此视频暂无法播放，请稍后再试',
+                  notSupportedMessage: this.$t('24acd55e.01c0da'),
                   controlBar: false
                 }"
               />
@@ -231,7 +231,7 @@
               </div>
             </div>
           </div>
-          <el-empty v-if="list.length == 0" description="暂无数据" />
+          <el-empty v-if="list.length == 0" :description="$t('24acd55e.21efd8')" />
         </div>
         <el-pagination
           layout="total, prev, pager, next"
@@ -258,6 +258,9 @@ export default {
     title: '我的视频'
   },
   props: ['value'],
+  created() {
+    this.$options.config.title = this.$t('24acd55e.718023')
+  },
   data() {
     const { multiple = false, data } = this.value
     return {
@@ -360,11 +363,11 @@ export default {
       const isMP4 = file.type === 'video/mp4'
       const isLt5M = file.size / 1024 / 1024 < 50
       if (!isMP4) {
-        this.$message.error('上传视频只能是 mp4 格式!')
+        this.$message.error(this.$t('24acd55e.6c6cbc'))
         return
       }
       if (!isLt5M) {
-        this.$message.error('上传图片大小不能超过 50MB!')
+        this.$message.error(this.$t('24acd55e.9bdfc4'))
         return
       }
       this.localpostData.fname = file.name
@@ -379,7 +382,7 @@ export default {
         storage: 'videos' //图片id必填
       }
       await this.$api.qiniu.uploadQiniuPic(uploadParams)
-      this.$message.success('上传成功')
+      this.$message.success(this.$t('24acd55e.a7699b'))
       this.refresh(true)
     },
     // 自定义上传
@@ -401,7 +404,7 @@ export default {
     async handleCopy(url) {
       await this.$copyText(url)
       this.$notify.success({
-        message: '链接复制成功',
+        message: this.$t('24acd55e.c13172'),
         showClose: true
       })
     }

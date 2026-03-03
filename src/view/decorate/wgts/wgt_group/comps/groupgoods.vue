@@ -25,7 +25,7 @@
         class="header-more"
         :style="{ color: value.moreBtn.color }"
       >
-        查看更多<el-icon class="el-icon-arrow-right" />
+        {{ $t('2e6e1703.90ef7c') }}<el-icon class="el-icon-arrow-right" />
       </div>
     </div>
 
@@ -57,7 +57,7 @@
 
           <!-- 拼团价 -->
           <div class="goods-group-price">
-            <span class="price-label">拼团价</span>
+            <span class="price-label">{{ $t('2e6e1703.35a576') }}</span>
             <span class="price-symbol">¥</span>
             <span class="price-value">{{ formatGroupPrice(item) }}</span>
           </div>

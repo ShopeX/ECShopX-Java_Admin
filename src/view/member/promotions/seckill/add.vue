@@ -18,13 +18,13 @@
           @closeImgDialog="closeImgDialog"
         />
       </el-form-item>
-      <el-form-item
-        :label="$t('6cf25ced.39834b')"
-        prop="activity_name"
-        :rules="activityNameRules"
-      >
+      <el-form-item :label="$t('6cf25ced.39834b')" prop="activity_name" :rules="activityNameRules">
         <el-col :span="20">
-          <el-input v-model="form.activity_name" :maxlength="30" :placeholder="$t('6cf25ced.39834b')" />
+          <el-input
+            v-model="form.activity_name"
+            :maxlength="30"
+            :placeholder="$t('6cf25ced.39834b')"
+          />
         </el-col>
       </el-form-item>
       <el-form-item :label="$t('6cf25ced.292b75')" prop="activity_release_time">
@@ -57,13 +57,19 @@
       <el-form-item :label="$t('6cf25ced.b06918')">
         <el-col :span="20">
           <!-- <el-radio v-model="form.is_activity_rebate" label="true" disabled="true">返佣</el-radio> -->
-          <el-radio v-model="form.is_activity_rebate" label="false"> {{ $t('6cf25ced.b57dbf') }} </el-radio>
+          <el-radio v-model="form.is_activity_rebate" label="false">
+            {{ $t('6cf25ced.b57dbf') }}
+          </el-radio>
         </el-col>
       </el-form-item>
       <el-form-item :label="$t('6cf25ced.dab983')">
         <el-col :span="20">
-          <el-radio v-model="form.is_free_shipping" label="true"> {{ $t('6cf25ced.56f046') }} </el-radio>
-          <el-radio v-model="form.is_free_shipping" label="false"> {{ $t('6cf25ced.1e5573') }} </el-radio>
+          <el-radio v-model="form.is_free_shipping" label="true">
+            {{ $t('6cf25ced.56f046') }}
+          </el-radio>
+          <el-radio v-model="form.is_free_shipping" label="false">
+            {{ $t('6cf25ced.1e5573') }}
+          </el-radio>
         </el-col>
       </el-form-item>
       <el-form-item :label="$t('6cf25ced.1cec3a')" prop="validity_period">
@@ -246,7 +252,9 @@
     </el-card> -->
     <div class="content-center">
       <el-button @click.native="handleCancel"> {{ $t('6cf25ced.5f4112') }} </el-button>
-      <el-button type="primary" @click="submitActivityAction()"> {{ $t('6cf25ced.be5fbb') }} </el-button>
+      <el-button type="primary" @click="submitActivityAction()">
+        {{ $t('6cf25ced.be5fbb') }}
+      </el-button>
     </div>
   </el-form>
 </template>

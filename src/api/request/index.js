@@ -6,7 +6,7 @@ import Vue from 'vue'
 import store from '@/store'
 import router from '@/router'
 import { isObject, getBasePath } from '@/utils'
-import { langMap } from '@/i18n'
+import { langMap, i18n } from '@/i18n'
 import { RequestClient } from './request'
 
 // 请求队列
@@ -121,9 +121,9 @@ function createRequestClient() {
       const err = error?.toString?.() ?? ''
       let errMsg = ''
       if (err?.includes('Network Error')) {
-        errMsg = '网络异常，请检查您的网络连接后重试'
+        errMsg = i18n.t('1f7b7edc.db63d0')
       } else if (error?.message?.includes?.('timeout')) {
-        errMsg = '请求超时，请稍后再试'
+        errMsg = i18n.t('1f7b7edc.de9296')
       }
 
       if (errMsg) {
@@ -156,7 +156,7 @@ function createRequestClient() {
 
           // 先提示token过期
           Vue.prototype.$message({
-            message: '登录信息已过期，请重新登录',
+            message: i18n.t('1f7b7edc.3925e5'),
             type: 'warning',
             duration: 2000
           })
@@ -221,7 +221,8 @@ function createRequestClient() {
       // 处理其他错误
       const responseData = error?.response?.data ?? {}
       Vue.prototype.$message.error(
-        (responseData?.data?.error ?? responseData?.data?.message ?? '') || '请求失败'
+        (responseData?.data?.error ?? responseData?.data?.message ?? '') ||
+          i18n.t('1f7b7edc.f50bf4')
       )
       return Promise.reject(error)
     }

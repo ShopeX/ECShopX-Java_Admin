@@ -42,7 +42,11 @@
         :rules="{ required: true, message: this.$t('0ab3280d.813065'), trigger: 'blur' }"
       >
         <el-col :span="20">
-          <el-input v-model="form.activity_name" :maxlength="30" :placeholder="$t('0ab3280d.39834b')" />
+          <el-input
+            v-model="form.activity_name"
+            :maxlength="30"
+            :placeholder="$t('0ab3280d.39834b')"
+          />
         </el-col>
       </el-form-item>
       <el-form-item :label="$t('0ab3280d.c799f5')">
@@ -63,14 +67,26 @@
           <el-input v-model="form.description" type="textarea" :rows="2" placeholder="" />
         </el-col>
       </el-form-item>
-      <el-form-item :label="$t('0ab3280d.079bfa')" prop="limit_total_money" :rules="rules.limit_total_money">
+      <el-form-item
+        :label="$t('0ab3280d.079bfa')"
+        prop="limit_total_money"
+        :rules="rules.limit_total_money"
+      >
         <el-col :span="20">
-          <el-input v-model="form.limit_total_money" :maxlength="30" :placeholder="$t('0ab3280d.079bfa')" />
+          <el-input
+            v-model="form.limit_total_money"
+            :maxlength="30"
+            :placeholder="$t('0ab3280d.079bfa')"
+          />
         </el-col>
       </el-form-item>
       <el-form-item :label="$t('0ab3280d.19f783')" prop="limit_money" :rules="rules.limit_money">
         <el-col :span="20">
-          <el-input v-model="form.limit_money" :maxlength="30" :placeholder="$t('0ab3280d.a6afef')" />
+          <el-input
+            v-model="form.limit_money"
+            :maxlength="30"
+            :placeholder="$t('0ab3280d.a6afef')"
+          />
         </el-col>
       </el-form-item>
       <!--el-form-item label="是否包邮">
@@ -111,7 +127,9 @@
             >
               <el-button type="primary"> {{ $t('0ab3280d.c3202e') }} </el-button>
             </el-upload>
-            <el-button type="primary" @click="uploadHandleTemplate()"> {{ $t('0ab3280d.c3f9a1') }} </el-button>
+            <el-button type="primary" @click="uploadHandleTemplate()">
+              {{ $t('0ab3280d.c3f9a1') }}
+            </el-button>
           </template>
         </SkuSelector>
       </div>

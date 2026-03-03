@@ -185,7 +185,7 @@
           v-if="showFunctionArea && functionAreaType === 'nearby'"
           class="title-function nearby-function"
         >
-          <p class="nearby-function-text">上海</p>
+          <p class="nearby-function-text">{{ $t('33e085f7.e94e8b') }}</p>
           <i class="nearby-function-icon el-icon-arrow-down" />
           <!-- 附近门店组件，可根据需要添加 -->
         </div>
@@ -195,7 +195,7 @@
             <i class="el-icon-search search-icon" />
             <input type="text" class="search-input" placeholder="" />
             <div class="search-button" :style="searchButtonStyle">
-              <span>搜索</span>
+              <span>{{ $t('33e085f7.e5f71f') }}</span>
             </div>
           </div>
         </div>

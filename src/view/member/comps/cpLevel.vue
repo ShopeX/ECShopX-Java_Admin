@@ -136,7 +136,8 @@
                     v-if="item.voucher_package !== undefined && item.voucher_package.length > 0"
                   >
                     <span style="margin-left: 30px"
-                      >{{ $t('11dd4b4a.7bf54e') }} {{ item.voucher_package.length }} {{ $t('11dd4b4a.6dd3e5') }}</span
+                      >{{ $t('11dd4b4a.7bf54e') }} {{ item.voucher_package.length }}
+                      {{ $t('11dd4b4a.6dd3e5') }}</span
                     >
                   </template>
                 </template>
@@ -249,9 +250,16 @@ export default {
     getLevelLabel(index) {
       if (index === 0) return this.$t('11dd4b4a.de985e')
       const ordinalKeys = [
-        '11dd4b4a.2d8be2', '11dd4b4a.e662ff', '11dd4b4a.21716c', '11dd4b4a.1fcc29',
-        '11dd4b4a.61b453', '11dd4b4a.aad691', '11dd4b4a.edf1ac', '11dd4b4a.9b4851',
-        '11dd4b4a.181245', '11dd4b4a.6863d8'
+        '11dd4b4a.2d8be2',
+        '11dd4b4a.e662ff',
+        '11dd4b4a.21716c',
+        '11dd4b4a.1fcc29',
+        '11dd4b4a.61b453',
+        '11dd4b4a.aad691',
+        '11dd4b4a.edf1ac',
+        '11dd4b4a.9b4851',
+        '11dd4b4a.181245',
+        '11dd4b4a.6863d8'
       ]
       const ordinal = index <= 10 ? this.$t(ordinalKeys[index - 1]) : index + 1
       return this.$t('11dd4b4a.6911fb', [ordinal])

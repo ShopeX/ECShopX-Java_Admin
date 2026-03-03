@@ -6,9 +6,9 @@ import { pickBy } from '@/utils'
 const config = {
   name: 'search',
   setting: [
-    { label: '钉在顶部', key: 'fixTop', component: 'switch', value: false },
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
-    { label: '占位内容', key: 'placeholder', component: 'input', value: '搜索想要的商品' }
+    { label: '043bd5c4.816458', key: 'fixTop', component: 'switch', value: false },
+    { label: '043bd5c4.4707ba', key: 'padded', component: 'switch', value: true },
+    { label: '043bd5c4.8ce1cd', key: 'placeholder', component: 'input', value: '043bd5c4.758b99' }
   ],
   transformIn: (v) => {
     const { name, base, config, track, tagsType, meber_tags, no_meber_tags } = v

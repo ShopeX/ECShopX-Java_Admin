@@ -72,7 +72,11 @@
               style="width: 100px"
               size="mini"
             />
-            {{ $t('118844d3.c16655') }} &nbsp;&nbsp;<i v-if="key != 0" class="el-icon-delete" @click="delRules(key)" />
+            {{ $t('118844d3.c16655') }} &nbsp;&nbsp;<i
+              v-if="key != 0"
+              class="el-icon-delete"
+              @click="delRules(key)"
+            />
           </div>
           <div
             v-for="(item, key) in conditionValue"
@@ -98,7 +102,11 @@
               style="width: 100px"
               size="mini"
             />
-            {{ $t('118844d3.c16655') }} &nbsp;&nbsp;<i v-if="key != 0" class="el-icon-delete" @click="delRules(key)" />
+            {{ $t('118844d3.c16655') }} &nbsp;&nbsp;<i
+              v-if="key != 0"
+              class="el-icon-delete"
+              @click="delRules(key)"
+            />
           </div>
           <el-checkbox
             v-model="form.canjoin_repeat"
@@ -190,7 +198,9 @@
             >
               <el-button type="primary"> {{ $t('118844d3.c3202e') }} </el-button>
             </el-upload>
-            <el-button type="primary" @click="uploadHandleTemplate()"> {{ $t('118844d3.c3f9a1') }} </el-button>
+            <el-button type="primary" @click="uploadHandleTemplate()">
+              {{ $t('118844d3.c3f9a1') }}
+            </el-button>
           </template>
         </SkuSelector>
       </div>
@@ -269,7 +279,11 @@
         </div>
       </template>
     </el-card>
-    <el-card v-if="VERSION_STANDARD() && !is_distributor" :header="$t('118844d3.7318a6')" shadow="naver">
+    <el-card
+      v-if="VERSION_STANDARD() && !is_distributor"
+      :header="$t('118844d3.7318a6')"
+      shadow="naver"
+    >
       <div :span="23">
         <el-button type="primary" @click="relStoresClick"> {{ $t('118844d3.afa2e6') }} </el-button>
         <el-table v-if="relStores.length > 0" :data="relStores" style="line-height: normal">

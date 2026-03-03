@@ -143,14 +143,17 @@
           </div>
         </template>
         <div v-else class="tips">
-          {{ $t('4ba95137.bef345') }}<span class="primary-color">{{ $t('4ba95137.ee1f52') }}</span>{{ $t('4ba95137.e1bd33') }}
+          {{ $t('4ba95137.bef345') }}<span class="primary-color">{{ $t('4ba95137.ee1f52') }}</span
+          >{{ $t('4ba95137.e1bd33') }}
         </div>
       </div>
     </el-card>
 
     <div class="content-center">
       <el-button @click="cancelSubmit"> {{ $t('4ba95137.625fb2') }} </el-button>
-      <el-button v-loading="loading" type="primary" @click="submitDetail"> {{ $t('4ba95137.939d53') }} </el-button>
+      <el-button v-loading="loading" type="primary" @click="submitDetail">
+        {{ $t('4ba95137.939d53') }}
+      </el-button>
     </div>
 
     <DistributorSelect
@@ -278,14 +281,10 @@ export default {
           callback: (action) => {}
         })
       } else {
-        this.$confirm(
-          this.$t('4ba95137.94c80e'),
-          this.$t('4ba95137.891584'),
-          {
-            confirmButtonText: this.$t('4ba95137.38cf16'),
-            cancelButtonText: this.$t('4ba95137.625fb2')
-          }
-        )
+        this.$confirm(this.$t('4ba95137.94c80e'), this.$t('4ba95137.891584'), {
+          confirmButtonText: this.$t('4ba95137.38cf16'),
+          cancelButtonText: this.$t('4ba95137.625fb2')
+        })
           .then(async () => {
             // 提交返回列表页
             const distributor_ids = this.distributorList.map((v) => v.distributor_id)

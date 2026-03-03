@@ -8,9 +8,9 @@ import AttrGoods from './attr-goods'
 const config = {
   name: 'goods',
   setting: [
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
+    { label: '8f58e7cb.4707ba', key: 'padded', component: 'switch', value: true },
     {
-      label: '选择商品',
+      label: '8f58e7cb.43d1e2',
       key: 'data',
       component: function (h, { key }) {
         return <AttrGoods v-model={this.value[key]} />

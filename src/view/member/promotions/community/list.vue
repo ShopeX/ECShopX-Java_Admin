@@ -31,7 +31,9 @@
         </el-select>
       </el-col>
       <el-col :span="4">
-        <el-button type="primary" icon="plus" @click="addServiceLabels"> {{ $t('0976304f.cc1c5e') }} </el-button>
+        <el-button type="primary" icon="plus" @click="addServiceLabels">
+          {{ $t('0976304f.cc1c5e') }}
+        </el-button>
       </el-col>
     </el-row>
     <el-table v-loading="loading" :data="communityList" :height="wheight - 270">
@@ -108,7 +110,11 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <el-dialog :title="$t('0976304f.ae48dd')" :visible.sync="checkVisible" :before-close="handleCancel">
+    <el-dialog
+      :title="$t('0976304f.ae48dd')"
+      :visible.sync="checkVisible"
+      :before-close="handleCancel"
+    >
       <template>
         <el-form ref="form" :model="community" class="demo-ruleForm" label-width="90px">
           <el-form-item :label="$t('0976304f.fc82aa')">
@@ -152,8 +158,12 @@
           </el-form-item>
           <el-form-item :label="$t('0976304f.b6d0e9')">
             <template>
-              <el-radio v-model="community.check_status" label="open"> {{ $t('0976304f.23c1f3') }} </el-radio>
-              <el-radio v-model="community.check_status" label="refuse"> {{ $t('0976304f.7173f8') }} </el-radio>
+              <el-radio v-model="community.check_status" label="open">
+                {{ $t('0976304f.23c1f3') }}
+              </el-radio>
+              <el-radio v-model="community.check_status" label="refuse">
+                {{ $t('0976304f.7173f8') }}
+              </el-radio>
             </template>
           </el-form-item>
           <el-form-item v-if="community.check_status == 'refuse'" :label="$t('0976304f.cc3307')">
@@ -168,7 +178,9 @@
       </template>
       <div slot="footer" class="dialog-footer">
         <el-button @click.native="handleCancel"> {{ $t('0976304f.625fb2') }} </el-button>
-        <el-button type="primary" @click="checkActionSubmit"> {{ $t('0976304f.be5fbb') }} </el-button>
+        <el-button type="primary" @click="checkActionSubmit">
+          {{ $t('0976304f.be5fbb') }}
+        </el-button>
       </div>
     </el-dialog>
   </div>

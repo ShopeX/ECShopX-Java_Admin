@@ -70,7 +70,11 @@
               style="width: 100px"
               size="mini"
             />
-            %{{ $t('ded9cbe0.1cd2a7') }} &nbsp;&nbsp;<i v-if="key != 0" class="el-icon-delete" @click="delRules(key)" />
+            %{{ $t('ded9cbe0.1cd2a7') }} &nbsp;&nbsp;<i
+              v-if="key != 0"
+              class="el-icon-delete"
+              @click="delRules(key)"
+            />
             <el-alert :title="$t('ded9cbe0.562476')" type="error" />
           </div>
           <div
@@ -97,7 +101,11 @@
               style="width: 100px"
               size="mini"
             />
-            %{{ $t('ded9cbe0.1cd2a7') }} &nbsp;&nbsp;<i v-if="key != 0" class="el-icon-delete" @click="delRules(key)" />
+            %{{ $t('ded9cbe0.1cd2a7') }} &nbsp;&nbsp;<i
+              v-if="key != 0"
+              class="el-icon-delete"
+              @click="delRules(key)"
+            />
             <el-alert :title="$t('ded9cbe0.562476')" type="error" />
           </div>
         </div>
@@ -176,7 +184,9 @@
             >
               <el-button type="primary"> {{ $t('ded9cbe0.2a6f8c') }} </el-button>
             </el-upload>
-            <el-button type="primary" @click="uploadHandleTemplate()"> {{ $t('ded9cbe0.9c3d5e') }} </el-button>
+            <el-button type="primary" @click="uploadHandleTemplate()">
+              {{ $t('ded9cbe0.9c3d5e') }}
+            </el-button>
           </template>
         </SkuSelector>
       </div>
@@ -255,7 +265,11 @@
         </div>
       </template>
     </el-card>
-    <el-card v-if="VERSION_STANDARD() && !is_distributor" :header="$t('ded9cbe0.0f6e2b')" shadow="naver">
+    <el-card
+      v-if="VERSION_STANDARD() && !is_distributor"
+      :header="$t('ded9cbe0.0f6e2b')"
+      shadow="naver"
+    >
       <el-button type="primary" @click="relStoresClick"> {{ $t('ded9cbe0.3c8a5d') }} </el-button>
       <el-table v-if="relStores.length > 0" :data="relStores" style="line-height: normal">
         <el-table-column :label="$t('ded9cbe0.b718ad')" prop="distributor_id" width="60" />

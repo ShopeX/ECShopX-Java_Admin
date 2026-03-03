@@ -31,9 +31,9 @@ export const proportions = [
 const config = {
   name: 'film',
   setting: [
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
+    { label: '735ae7b3.4707ba', key: 'padded', component: 'switch', value: true },
     {
-      label: '选择视频',
+      label: '735ae7b3.543018',
       key: 'data',
       component: function (h, { key }) {
         return <SpVideoPicker v-model={this.value[key]} size='small' />
@@ -41,7 +41,7 @@ const config = {
       value: {}
     },
     {
-      label: '视频比例',
+      label: '735ae7b3.df0134',
       key: 'proportion',
       component: 'radiobutton',
       options: proportions,

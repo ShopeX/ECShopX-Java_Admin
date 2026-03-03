@@ -17,9 +17,17 @@
           <el-input v-model="params.tem_name" :placeholder="$t('d3f8464b.a5d1c5')" />
         </SpFilterFormItem>
         <SpFilterFormItem prop="tem_type" :label="$t('d3f8464b.719bc8')">
-          <el-select v-model="params.tem_type" :placeholder="$t('d3f8464b.bfd708')" style="width: 100%">
+          <el-select
+            v-model="params.tem_type"
+            :placeholder="$t('d3f8464b.bfd708')"
+            style="width: 100%"
+          >
             <el-option key="basic_entry" :label="$t('d3f8464b.c94d96')" value="basic_entry" />
-            <el-option key="ask_answer_paper" :label="$t('0493712c.859b34')" value="ask_answer_paper" />
+            <el-option
+              key="ask_answer_paper"
+              :label="$t('0493712c.859b34')"
+              value="ask_answer_paper"
+            />
           </el-select>
         </SpFilterFormItem>
       </SpFilterForm>

@@ -32,7 +32,9 @@
       </el-col>
     </el-row>
     <div>
-      <el-button type="primary" @click="handleGoodsDialogShow"> 选择商品 </el-button>
+      <el-button type="primary" @click="handleGoodsDialogShow">{{
+        $t('ea95ac26.43d1e2')
+      }}</el-button>
     </div>
     <!-- <el-dialog
       title="选择sku"

@@ -62,9 +62,9 @@
   <div>
     <div class="function-area-selector">
       <el-radio-group v-model="functionType" size="mini" @change="handleTypeChange">
-        <el-radio-button label="none">不展示</el-radio-button>
-        <el-radio-button label="hotzone">热区图</el-radio-button>
-        <el-radio-button label="nearby">附近门店</el-radio-button>
+        <el-radio-button label="none">{{ $t('e35c6150.006e01') }}</el-radio-button>
+        <el-radio-button label="hotzone">{{ $t('e35c6150.0ad6ab') }}</el-radio-button>
+        <el-radio-button label="nearby">{{ $t('e35c6150.81b37c') }}</el-radio-button>
       </el-radio-group>
     </div>
     <div v-if="functionType === 'hotzone'" class="function-content">

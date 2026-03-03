@@ -35,7 +35,12 @@
             <!-- <el-radio label="DATE_TYPE_SHORT"> 短期活动 </el-radio> -->
           </el-radio-group>
           <template v-if="form.date_type === 'DATE_TYPE_LONG'">
-            <el-form-item class="m-b-10" label-width="80px" :label="$t('81b3322f.592c59')" prop="begintime">
+            <el-form-item
+              class="m-b-10"
+              label-width="80px"
+              :label="$t('81b3322f.592c59')"
+              prop="begintime"
+            >
               <el-date-picker
                 v-model="form.begintime"
                 :disabled="form.card_id ? true : false"
@@ -230,7 +235,9 @@
       </el-card>
 
       <div class="content-center">
-        <el-button v-if="form.kq_status !== 2" @click="cancelSubmit"> {{ $t('81b3322f.625fb2') }} </el-button>
+        <el-button v-if="form.kq_status !== 2" @click="cancelSubmit">
+          {{ $t('81b3322f.625fb2') }}
+        </el-button>
         <template v-if="form.card_id && form.kq_status === 0">
           <el-button type="danger" @click="editGift(2)"> {{ $t('81b3322f.b15d91') }} </el-button>
           <el-button type="danger" @click="editGift(1)"> {{ $t('81b3322f.8d63ef') }} </el-button>

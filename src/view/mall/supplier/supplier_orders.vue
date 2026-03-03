@@ -112,7 +112,7 @@
           </el-table-column>
           <!-- <el-table-column prop="pay_type" width="120" label="支付方式" align="right" header-align="center">
           <template slot-scope="scope">
-            {{ payTypeList[scope.row.pay_type] }}
+            {{ $t(payTypeList[scope.row.pay_type]) }}
           </template>
         </el-table-column> -->
           <!-- <el-table-column prop="total_fee" width="120" label="订单金额（¥）" align="right" header-align="center">

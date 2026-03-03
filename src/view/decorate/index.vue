@@ -9,9 +9,13 @@
     <div class="decorate-hd">
       <div class="hd-lf">{{ localTitle }}</div>
       <div class="hd-rg">
-        <el-button v-if="mode == 'page'" plain @click="onExit"> 后退 </el-button>
-        <el-button v-if="mode == 'dialog'" plain @click="onClose"> 关闭 </el-button>
-        <el-button type="primary" @click="onSaveTemplate"> 保存 </el-button>
+        <el-button v-if="mode == 'page'" plain @click="onExit">{{
+          $t('c3827da6.5094c1')
+        }}</el-button>
+        <el-button v-if="mode == 'dialog'" plain @click="onClose">{{
+          $t('c3827da6.b15d91')
+        }}</el-button>
+        <el-button type="primary" @click="onSaveTemplate">{{ $t('c3827da6.be5fbb') }}</el-button>
       </div>
     </div>
     <div class="decorate-bd">
@@ -19,7 +23,7 @@
         <div class="wgts-categories">
           <!-- 通用挂件 -->
           <div v-if="widgetCategories.general.length > 0" class="wgt-category">
-            <div class="category-title">通用挂件</div>
+            <div class="category-title">{{ $t('c3827da6.c67610') }}</div>
             <draggable
               class="wgts-view"
               :chosen-class="'wgts-chosen'"
@@ -41,10 +45,10 @@
                 <SpIcon size="24" :name="wgt.wgtIcon" />
                 <!-- <div :class="['wgt-icon', wgt.wgtIcon]" /> -->
                 <div class="wgt-name">
-                  {{ wgt.wgtName }}
+                  {{ $t(wgt.wgtName) }}
                 </div>
                 <div class="wgt-placeholder">
-                  <div class="placholder-txt">放置区域</div>
+                  <div class="placholder-txt">{{ $t('c3827da6.b3d296') }}</div>
                 </div>
               </div>
             </draggable>
@@ -52,7 +56,7 @@
 
           <!-- 功能挂件 -->
           <div v-if="widgetCategories.functional.length > 0" class="wgt-category">
-            <div class="category-title">功能挂件</div>
+            <div class="category-title">{{ $t('c3827da6.1c4b6c') }}</div>
             <draggable
               class="wgts-view"
               :chosen-class="'wgts-chosen'"
@@ -73,10 +77,10 @@
               >
                 <SpIcon size="24" :name="wgt.wgtIcon" />
                 <div class="wgt-name">
-                  {{ wgt.wgtName }}
+                  {{ $t(wgt.wgtName) }}
                 </div>
                 <div class="wgt-placeholder">
-                  <div class="placholder-txt">放置区域</div>
+                  <div class="placholder-txt">{{ $t('c3827da6.b3d296') }}</div>
                 </div>
               </div>
             </draggable>
@@ -84,7 +88,7 @@
 
           <!-- 专用挂件 -->
           <div v-if="widgetCategories.dedicated.length > 0" class="wgt-category">
-            <div class="category-title">专用挂件</div>
+            <div class="category-title">{{ $t('c3827da6.c69295') }}</div>
             <draggable
               class="wgts-view"
               :chosen-class="'wgts-chosen'"
@@ -106,10 +110,10 @@
                 <SpIcon size="24" :name="wgt.wgtIcon" />
 
                 <div class="wgt-name">
-                  {{ wgt.wgtName }}
+                  {{ $t(wgt.wgtName) }}
                 </div>
                 <div class="wgt-placeholder">
-                  <div class="placholder-txt">放置区域</div>
+                  <div class="placholder-txt">{{ $t('c3827da6.b3d296') }}</div>
                 </div>
               </div>
             </draggable>
@@ -137,7 +141,7 @@
                 @click="handleClickWgtItem(index)"
               >
                 <div class="wgt-tip">
-                  {{ (wgt && wgt.wgtName) || '' }}
+                  {{ (wgt && wgt.wgtName && $t(wgt.wgtName)) || '' }}
                 </div>
                 <div
                   class="wgt-tools flex flex-col gap-1"
@@ -155,7 +159,7 @@
       <div class="right-container">
         <div v-if="activeCompIndex !== null && contentComps[activeCompIndex] && hackReset">
           <div class="wgt-name">
-            {{ (getComponentAttr(contentComps[activeCompIndex]) || {}).wgtName }}
+            {{ $t((getComponentAttr(contentComps[activeCompIndex]) || {}).wgtName) }}
           </div>
           <attrPanel
             v-model="contentComps[activeCompIndex]"
@@ -164,7 +168,7 @@
           />
         </div>
         <div v-if="activeCompIndex == null && hackReset && headerAttr && localScene != '1007'">
-          <div class="wgt-name">{{ headerAttr.wgtName }}</div>
+          <div class="wgt-name">{{ $t(headerAttr.wgtName) }}</div>
           <attrPanel v-model="headerData" :info="headerAttr" />
         </div>
       </div>
@@ -309,13 +313,13 @@ export default {
       this.localScene = scene
 
       const _title = {
-        1001: '商城装修',
-        1002: '商品详情',
-        1003: '店铺装修',
-        1004: '自定义页装修',
-        1007: '分类模版装修',
-        1008: '个人中心模版装修',
-        1009: '导购模板装修'
+        1001: this.$t('c3827da6.3d97fc'),
+        1002: this.$t('c3827da6.b4f5db'),
+        1003: this.$t('c3827da6.eab3fc'),
+        1004: this.$t('c3827da6.9d3c40'),
+        1007: this.$t('c3827da6.38e3c7'),
+        1008: this.$t('c3827da6.fbd049'),
+        1009: this.$t('c3827da6.fa06ad')
       }
       this.localTitle = _title[scene]
     } else {
@@ -593,7 +597,7 @@ export default {
     },
     // 互斥时的提示文案（按组件区分）
     getMutualExclusiveMessage(wgtName) {
-      return `该挂件与其他挂件互斥，无法同时添加`
+      return this.$t('c3827da6.e6e7eb')
     },
     async onSaveTemplate() {
       // console.log('onSaveTemplate:', JSON.stringify(data))
@@ -631,7 +635,7 @@ export default {
         })
       }
 
-      this.$message.success('保存成功')
+      this.$message.success(this.$t('c3827da6.3b1083'))
     },
     onExit() {
       this.$router.go(-1)

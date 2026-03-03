@@ -7,21 +7,21 @@
 
 | 状态 | 数量 | 占比 |
 |------|------|------|
-| 未翻译完 | 4 | 100.0% |
-| 已翻译 | 0 | 0.0% |
+| 未翻译完 | 0 | 0.0% |
+| 已翻译 | 4 | 100.0% |
 | 无需翻译 | 0 | 0.0% |
 | **合计** | **4** | 100% |
 
 ## 未翻译完
 
-- `account/index.vue`
-- `bspay_create_user.vue`
-- `create_account.vue`
-- `distributor/index.vue`
+（无）
 
 ## 已翻译
 
-（无）
+- `account/index.vue`
+- `distributor/index.vue`
+- `bspay_create_user.vue`
+- `create_account.vue`
 
 ## 无需翻译
 

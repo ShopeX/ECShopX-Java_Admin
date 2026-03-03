@@ -47,18 +47,28 @@
                 class="link-content border px-2"
               >
                 <span @click="handleGoodsChange()">
-                  <template v-if="form.register_jump_path.linkPage === 'goods'">{{ $t('ae01af00.10fe9c') }}</template>
-                  <template v-if="form.register_jump_path.linkPage === 'category'">{{ $t('ae01af00.e7d2e8') }}</template>
-                  <template v-if="form.register_jump_path.linkPage === 'article'">{{ $t('ae01af00.8cb9b8') }}</template>
-                  <template v-if="form.register_jump_path.linkPage === 'planting'">{{ $t('ae01af00.9dcd91') }}</template>
+                  <template v-if="form.register_jump_path.linkPage === 'goods'">{{
+                    $t('ae01af00.10fe9c')
+                  }}</template>
+                  <template v-if="form.register_jump_path.linkPage === 'category'">{{
+                    $t('ae01af00.e7d2e8')
+                  }}</template>
+                  <template v-if="form.register_jump_path.linkPage === 'article'">{{
+                    $t('ae01af00.8cb9b8')
+                  }}</template>
+                  <template v-if="form.register_jump_path.linkPage === 'planting'">{{
+                    $t('ae01af00.9dcd91')
+                  }}</template>
                   <!--template v-if="form.register_jump_path.linkPage === 'planting'">种草：</template-->
-                  <template v-if="form.register_jump_path.linkPage === 'link'">{{ $t('ae01af00.ffd741') }}</template>
-                  <template v-if="form.register_jump_path.linkPage === 'marketing'"
-                    >{{ $t('ae01af00.c78a2f') }}</template
-                  >
-                  <template v-if="form.register_jump_path.linkPage === 'custom_page'"
-                    >{{ $t('ae01af00.2a4e32') }}</template
-                  >
+                  <template v-if="form.register_jump_path.linkPage === 'link'">{{
+                    $t('ae01af00.ffd741')
+                  }}</template>
+                  <template v-if="form.register_jump_path.linkPage === 'marketing'">{{
+                    $t('ae01af00.c78a2f')
+                  }}</template>
+                  <template v-if="form.register_jump_path.linkPage === 'custom_page'">{{
+                    $t('ae01af00.2a4e32')
+                  }}</template>
                   {{ form.register_jump_path.title }}
                 </span>
                 <span style="margin-left: 10px">
@@ -115,7 +125,9 @@
               <div class="promotion-card">
                 <div class="promotion-card-header">
                   {{ $t('ae01af00.2f3635') }}
-                  <a class="promotion-card-btn" href="#" @click="showModal">{{ $t('ae01af00.66ab5e') }}</a>
+                  <a class="promotion-card-btn" href="#" @click="showModal">{{
+                    $t('ae01af00.66ab5e')
+                  }}</a>
                 </div>
                 <div class="promotion-card-body">
                   <ul class="promotion-card-list">
@@ -184,7 +196,9 @@
       <el-radio-group v-model="card_type" @change="cardTypeChange(false)">
         <el-radio-button label="all" value="all"> {{ $t('ae01af00.a8b0c2') }} </el-radio-button>
         <el-radio-button label="cash" value="cash"> {{ $t('ae01af00.f23195') }} </el-radio-button>
-        <el-radio-button label="discount" value="discount"> {{ $t('ae01af00.9268f9') }} </el-radio-button>
+        <el-radio-button label="discount" value="discount">
+          {{ $t('ae01af00.9268f9') }}
+        </el-radio-button>
         <el-radio-button v-if="VERSION_STANDARD()" label="new_gift" value="new_gift">
           {{ $t('ae01af00.8bc752') }}
         </el-radio-button>
@@ -215,7 +229,9 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelSelected">{{ $t('ae01af00.c08ab9') }}</el-button>
-        <el-button type="primary" @click="submitSelected(false)">{{ $t('ae01af00.aa7527') }}</el-button>
+        <el-button type="primary" @click="submitSelected(false)">{{
+          $t('ae01af00.aa7527')
+        }}</el-button>
       </span>
     </el-dialog>
     <el-dialog
@@ -228,7 +244,9 @@
       <el-radio-group v-model="card_type" @change="cardTypeChange(true)">
         <el-radio-button label="all" value="all"> {{ $t('ae01af00.a8b0c2') }} </el-radio-button>
         <el-radio-button label="cash" value="cash"> {{ $t('ae01af00.f23195') }} </el-radio-button>
-        <el-radio-button label="discount" value="discount"> {{ $t('ae01af00.9268f9') }} </el-radio-button>
+        <el-radio-button label="discount" value="discount">
+          {{ $t('ae01af00.9268f9') }}
+        </el-radio-button>
         <!-- <el-radio-button
           label="gift"
           value="gift"
@@ -262,7 +280,9 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelSelected">{{ $t('ae01af00.c08ab9') }}</el-button>
-        <el-button type="primary" @click="submitSelected(true)">{{ $t('ae01af00.aa7527') }}</el-button>
+        <el-button type="primary" @click="submitSelected(true)">{{
+          $t('ae01af00.aa7527')
+        }}</el-button>
       </span>
     </el-dialog>
     <linkSetter

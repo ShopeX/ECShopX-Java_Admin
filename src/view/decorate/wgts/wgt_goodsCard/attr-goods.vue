@@ -13,8 +13,8 @@
 </style>
 <template>
   <CompButton
-    placeholder="选择商品"
-    format="{0}件商品"
+    :placeholder="$t('1253b8e4.43d1e2')"
+    :format="$t('1253b8e4.156ada')"
     :value="goodsCount"
     @click="handleClickAdd"
     @remove="onRemoveItem"

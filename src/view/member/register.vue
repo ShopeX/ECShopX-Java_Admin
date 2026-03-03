@@ -44,7 +44,9 @@
             <el-table-column :label="$t('8da83775.9df451')" prop="alert_required_message" />
             <el-table-column :label="$t('8da83775.2b6bc0')">
               <template slot-scope="scope">
-                <el-button type="text" @click="showAddDialog(scope.row)"> {{ $t('8da83775.95b351') }} </el-button>
+                <el-button type="text" @click="showAddDialog(scope.row)">
+                  {{ $t('8da83775.95b351') }}
+                </el-button>
                 <el-button
                   v-if="!VERSION_SHUYUN() && !scope.row.is_default"
                   type="text"
@@ -146,7 +148,9 @@
             </div>
           </el-form>
           <div class="section-footer with-border content-center">
-            <el-button type="primary" @click="saveMedicineContent"> {{ $t('8da83775.be5fbb') }} </el-button>
+            <el-button type="primary" @click="saveMedicineContent">
+              {{ $t('8da83775.be5fbb') }}
+            </el-button>
           </div>
         </div>
       </el-tab-pane>
@@ -189,7 +193,12 @@
           class="select"
           prop="select"
         >
-          <el-input v-model="selectValue.label" :placeholder="$t('8da83775.2d711b')" type="text" show-word-limit>
+          <el-input
+            v-model="selectValue.label"
+            :placeholder="$t('8da83775.2d711b')"
+            type="text"
+            show-word-limit
+          >
             <template slot="append">
               <el-button type="primary" :disabled="!isSelectValue" @click="saveSelect">
                 {{ $t('8da83775.e83a25') }}
@@ -314,7 +323,9 @@ export default {
     editformRules() {
       return {
         label: [{ required: true, message: this.$t('8da83775.b91aba'), trigger: 'blur' }],
-        alert_required_message: [{ required: true, message: this.$t('8da83775.46ba1b'), trigger: 'blur' }],
+        alert_required_message: [
+          { required: true, message: this.$t('8da83775.46ba1b'), trigger: 'blur' }
+        ],
         range: [{ required: true, validator: this.validRange, trigger: 'blur' }],
         radio_list: [{ required: true, message: this.$t('8da83775.0c6dc4'), trigger: 'blur' }]
       }
@@ -322,9 +333,15 @@ export default {
     rules() {
       return {
         'privacy.title': [{ required: true, message: this.$t('8da83775.6d1a0f'), trigger: 'blur' }],
-        'member_register.title': [{ required: true, message: this.$t('8da83775.6d1a0f'), trigger: 'blur' }],
-        'privacy.content': [{ required: true, message: this.$t('8da83775.bb76f9'), trigger: 'blur' }],
-        'member_register.content': [{ required: true, message: this.$t('8da83775.78e455'), trigger: 'blur' }]
+        'member_register.title': [
+          { required: true, message: this.$t('8da83775.6d1a0f'), trigger: 'blur' }
+        ],
+        'privacy.content': [
+          { required: true, message: this.$t('8da83775.bb76f9'), trigger: 'blur' }
+        ],
+        'member_register.content': [
+          { required: true, message: this.$t('8da83775.78e455'), trigger: 'blur' }
+        ]
       }
     },
     rules2() {

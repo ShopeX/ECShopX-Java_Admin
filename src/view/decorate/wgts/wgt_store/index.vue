@@ -26,7 +26,7 @@
             :circle="6"
           />
           <div>
-            <div class="name">{{ value.distributor.name || '店铺名称' }}</div>
+            <div class="name">{{ value.distributor.name || $t('a7cc304b.0d4934') }}</div>
             <div class="tags">
               <div v-for="(item, index) in value.tags" :key="`tag__${index}`" class="tag">
                 {{ item.tag_name }}
@@ -60,7 +60,7 @@ import { getOuterStyle } from '../../comps/style-utils'
 const defaultShopLogo = require('@/assets/imgs/decorate/default-shop-logo.png')
 export default {
   name: 'Store',
-  wgtName: '推荐店铺',
+  wgtName: 'a7cc304b.089a3d',
   wgtDesc: '',
   wgtIcon: 'wgt-store',
   config: config,

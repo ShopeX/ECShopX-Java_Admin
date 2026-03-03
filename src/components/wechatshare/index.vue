@@ -9,14 +9,14 @@
       <div class="header">
         <div class="header_avatar" />
         <div class="header_shopname">
-          {{ name }}
+          {{ name || $t('b7f0c43b.d34f1f') }}
         </div>
       </div>
       <div class="title">
-        {{ title }}
+        {{ title || $t('b7f0c43b.84f067') }}
       </div>
       <div class="img" :style="{ height: calcHeight }">
-        <div v-if="!contentImgSrc">小程序图片</div>
+        <div v-if="!contentImgSrc">{{ $t('b7f0c43b.7471dd') }}</div>
         <img
           v-if="contentImgSrc"
           ref="contentImg"
@@ -28,7 +28,7 @@
         <div class="link">
           <img :src="link" />
         </div>
-        <div>小程序</div>
+        <div>{{ footerText || $t('b7f0c43b.0ed510') }}</div>
       </div>
     </div>
     <div class="wechat-share-avatar">
@@ -61,15 +61,15 @@ export default {
     },
     title: {
       type: String,
-      default: '小程序标题'
+      default: ''
     },
     name: {
       type: String,
-      default: '小程序名称'
+      default: ''
     },
     footerText: {
       type: String,
-      default: '小程序'
+      default: ''
     }
   },
   data() {

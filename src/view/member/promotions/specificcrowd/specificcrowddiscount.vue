@@ -75,8 +75,14 @@
             <el-table-column prop="discount" min-width="100" :label="$t('c69f23db.3045fe')">
               <template slot-scope="scope"> {{ scope.row.discount }}% </template>
             </el-table-column>
-            <el-table-column prop="limit_total_money" min-width="150" :label="$t('c69f23db.55db7f')">
-              <template slot-scope="scope"> {{ scope.row.limit_total_money }}{{ $t('c69f23db.c16655') }} </template>
+            <el-table-column
+              prop="limit_total_money"
+              min-width="150"
+              :label="$t('c69f23db.55db7f')"
+            >
+              <template slot-scope="scope">
+                {{ scope.row.limit_total_money }}{{ $t('c69f23db.c16655') }}
+              </template>
             </el-table-column>
             <el-table-column :label="$t('c69f23db.3fea7c')" min-width="200">
               <template slot-scope="scope">
@@ -128,7 +134,9 @@
               />
             </el-form-item>
             <el-form-item :label="$t('c69f23db.0832b7')">
-              <el-radio v-model="form.cycle_type" label="1" @change="cycleType"> {{ $t('c69f23db.cdfcf4') }} </el-radio>
+              <el-radio v-model="form.cycle_type" label="1" @change="cycleType">
+                {{ $t('c69f23db.cdfcf4') }}
+              </el-radio>
               <el-radio v-model="form.cycle_type" label="2" @change="cycleType">
                 {{ $t('c69f23db.f7ad46') }}
               </el-radio>
@@ -161,7 +169,11 @@
               </el-row>
             </el-form-item>
             <el-form-item :label="$t('c69f23db.763249')">
-              <el-input v-model="form.discount" :placeholder="$t('c69f23db.a11cc7')" style="width: 20%" />%
+              <el-input
+                v-model="form.discount"
+                :placeholder="$t('c69f23db.a11cc7')"
+                style="width: 20%"
+              />%
             </el-form-item>
             <el-form-item :label="$t('c69f23db.e7309b')">
               <el-input
@@ -177,7 +189,9 @@
             </el-form-item>
             <el-form-item>
               <el-button @click.native="handleCancel"> {{ $t('c69f23db.625fb2') }} </el-button>
-              <el-button type="primary" @click="submitAction"> {{ $t('c69f23db.be5fbb') }} </el-button>
+              <el-button type="primary" @click="submitAction">
+                {{ $t('c69f23db.be5fbb') }}
+              </el-button>
             </el-form-item>
           </el-form>
         </template>

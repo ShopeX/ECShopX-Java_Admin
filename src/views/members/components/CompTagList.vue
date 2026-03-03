@@ -8,13 +8,15 @@
       <el-input
         v-if="showInput"
         v-model="value"
-        placeholder="请输入内容"
+        :placeholder="$t('93ba5178.a11cc7')"
         size="mini"
         maxlength="10"
         show-word-limit
         @change="changeInput"
       />
-      <el-button v-else size="mini" type="info" plain @click="addLabel"> + 添加 </el-button>
+      <el-button v-else size="mini" type="info" plain @click="addLabel">{{
+        $t('93ba5178.ed7823')
+      }}</el-button>
     </div>
     <div
       v-for="(item, index) in list"

@@ -66,7 +66,11 @@
 
           <el-table-column width="220" prop="activity_process_msg" :label="$t('3306b52b.3fea7c')" />
 
-          <el-table-column width="200" prop="activity_delivery_status_msg" :label="$t('3306b52b.c3c7a1')" />
+          <el-table-column
+            width="200"
+            prop="activity_delivery_status_msg"
+            :label="$t('3306b52b.c3c7a1')"
+          />
 
           <!-- <el-table-column
               :label="$t('3306b52b.2b6bc0')"

@@ -73,7 +73,7 @@ import { getOuterStyle } from '../../comps/style-utils'
 
 export default {
   name: 'ContentPartition',
-  wgtName: '内容分区',
+  wgtName: 'dfa780ca.b3876f',
   wgtDesc: '',
   wgtIcon: 'app-switch',
   config: config,

@@ -23,7 +23,7 @@
                 ') no-repeat bottom; background-size: 100% auto;'
               "
             >
-              <span>标题</span>
+              <span>{{ $t('7f6bf178.32c65d') }}</span>
             </div>
           </div>
           <div class="components-wrap" :style="'height: ' + (wheight - 290) + 'px;'">

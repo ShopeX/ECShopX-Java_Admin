@@ -14,7 +14,11 @@
     <template v-if="$route.path.indexOf('detail') === -1 && $route.path.indexOf('editor') === -1">
       <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onReset">
         <SpFilterFormItem prop="form_element" :label="$t('1ad8a87f.921962')">
-          <el-select v-model="params.form_element" :placeholder="$t('c831a478.c2dba8')" style="width: 100%">
+          <el-select
+            v-model="params.form_element"
+            :placeholder="$t('c831a478.c2dba8')"
+            style="width: 100%"
+          >
             <el-option
               v-for="item in formElement"
               :key="item.value"
@@ -25,7 +29,11 @@
         </SpFilterFormItem>
 
         <SpFilterFormItem prop="field_title" :label="$t('1ad8a87f.eaaa50')">
-          <el-input v-model="params.field_title" :placeholder="$t('c831a478.32c65d')" style="width: 100%" />
+          <el-input
+            v-model="params.field_title"
+            :placeholder="$t('c831a478.32c65d')"
+            style="width: 100%"
+          />
         </SpFilterFormItem>
       </SpFilterForm>
 

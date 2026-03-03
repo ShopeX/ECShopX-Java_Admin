@@ -14,8 +14,8 @@
 <template>
   <div>
     <CompButton
-      placeholder="设置热区"
-      format="{0}个热区"
+      :placeholder="$t('819142e7.3d0b48')"
+      :format="$t('819142e7.74e431')"
       :value="hotZoneDisplayValue"
       :view-btn="false"
       @click="onSetHotZone"
@@ -27,16 +27,18 @@
       class="sp-dialog"
       append-to-body
       destroy-on-close
-      title="热区设置"
+      :title="$t('819142e7.c90f57')"
       width="800px"
       @close="onCancel"
     >
       <div v-if="dialog" class="">
         <div>
-          <el-button type="primary" size="small" plain @click="onSelectImage"> 选择图片 </el-button>
-          <span style="font-size: 12px; color: #888; margin-left: 4px"
-            >建议尺寸:（宽度640px，高度自适应）</span
-          >
+          <el-button type="primary" size="small" plain @click="onSelectImage">{{
+            $t('819142e7.ba9fc4')
+          }}</el-button>
+          <span style="font-size: 12px; color: #888; margin-left: 4px">{{
+            $t('819142e7.818403')
+          }}</span>
         </div>
 
         <div class="hot-content">
@@ -63,8 +65,8 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="onCancel">取 消</el-button>
-        <el-button type="primary" @click="onConfirm"> 确 定 </el-button>
+        <el-button @click="onCancel">{{ $t('819142e7.c08ab9') }}</el-button>
+        <el-button type="primary" @click="onConfirm">{{ $t('819142e7.aa7527') }}</el-button>
       </div>
     </el-dialog>
   </div>

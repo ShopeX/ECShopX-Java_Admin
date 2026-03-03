@@ -68,7 +68,11 @@
         </el-form-item>
         <el-form-item :label="$t('3aa73191.9ce624')" prop="place">
           <el-col :span="10">
-            <el-input v-model.trim="form.place" :maxlength="30" :placeholder="$t('3aa73191.90a1ac')" />
+            <el-input
+              v-model.trim="form.place"
+              :maxlength="30"
+              :placeholder="$t('3aa73191.90a1ac')"
+            />
           </el-col>
           <el-form-item :label="$t('3aa73191.63cd0e')" prop="is_activityplace_show">
             <el-switch
@@ -82,7 +86,11 @@
         </el-form-item>
         <el-form-item :label="$t('3aa73191.61a0ec')" prop="address">
           <el-col :span="10">
-            <el-input v-model.trim="form.address" :maxlength="30" :placeholder="$t('3aa73191.80d685')" />
+            <el-input
+              v-model.trim="form.address"
+              :maxlength="30"
+              :placeholder="$t('3aa73191.80d685')"
+            />
           </el-col>
           <el-form-item :label="$t('3aa73191.63cd0e')" prop="is_activityaddress_show">
             <el-switch
@@ -96,7 +104,11 @@
         </el-form-item>
         <el-form-item :label="$t('3aa73191.b1c2ae')" prop="intro">
           <el-col :span="10">
-            <el-input v-model.trim="form.intro" :maxlength="30" :placeholder="$t('3aa73191.76c101')" />
+            <el-input
+              v-model.trim="form.intro"
+              :maxlength="30"
+              :placeholder="$t('3aa73191.76c101')"
+            />
           </el-col>
         </el-form-item>
         <el-form-item :label="$t('3aa73191.0c3532')" prop="picsList">
@@ -242,7 +254,9 @@
             </el-radio-group>
           </el-form-item>
           <div v-if="!useAllDistributor">
-            <el-button type="primary" @click="addDistributorAction">{{ $t('3aa73191.afa2e6') }}</el-button>
+            <el-button type="primary" @click="addDistributorAction">{{
+              $t('3aa73191.afa2e6')
+            }}</el-button>
             <SpFinder
               v-if="distributor_list?.length > 0"
               ref="finder"
@@ -255,13 +269,13 @@
             />
           </div>
         </el-form-item>
-        <el-form-item
-          :label="$t('3aa73191.b0a4df')"
-          prop="temp_id"
-          :rules="tempIdRules"
-        >
+        <el-form-item :label="$t('3aa73191.b0a4df')" prop="temp_id" :rules="tempIdRules">
           <el-col :span="15">
-            <el-select v-model="form.temp_id" :placeholder="$t('ac2a6290.708c9d')" @change="selectTempId">
+            <el-select
+              v-model="form.temp_id"
+              :placeholder="$t('ac2a6290.708c9d')"
+              @change="selectTempId"
+            >
               <el-option
                 v-for="item in temp_options"
                 :key="item.value"
@@ -273,7 +287,11 @@
         </el-form-item>
         <el-form-item :label="$t('3aa73191.f6fd53')" prop="join_limit">
           <el-col :span="10">
-            <el-input v-model.trim="form.join_limit" type="number" :placeholder="$t('3aa73191.3640d2')" />
+            <el-input
+              v-model.trim="form.join_limit"
+              type="number"
+              :placeholder="$t('3aa73191.3640d2')"
+            />
           </el-col>
         </el-form-item>
         <el-form-item :label="$t('3aa73191.a667e2')" prop="join_tips">
@@ -490,9 +508,13 @@ export default {
     formRules() {
       return {
         activity_name: [{ required: true, message: this.$t('3aa73191.7528b3'), trigger: 'blur' }],
-        is_allow_duplicate: [{ required: true, message: this.$t('ac2a6290.708c9d'), trigger: 'change' }],
+        is_allow_duplicate: [
+          { required: true, message: this.$t('ac2a6290.708c9d'), trigger: 'change' }
+        ],
         is_need_check: [{ required: true, message: this.$t('ac2a6290.708c9d'), trigger: 'change' }],
-        is_offline_verify: [{ required: true, message: this.$t('ac2a6290.708c9d'), trigger: 'change' }],
+        is_offline_verify: [
+          { required: true, message: this.$t('ac2a6290.708c9d'), trigger: 'change' }
+        ],
         is_allow_cancel: [{ required: true, message: this.$t('ac2a6290.708c9d'), trigger: 'blur' }],
         is_white_list: [{ required: true, message: this.$t('ac2a6290.708c9d'), trigger: 'blur' }],
         join_limit: [{ required: true, message: this.$t('3aa73191.1fbfd9'), trigger: 'blur' }]

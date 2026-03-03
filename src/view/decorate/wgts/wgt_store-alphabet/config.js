@@ -5,12 +5,12 @@ const config = {
   name: 'storeAlphabet',
   setting: [
     {
-      label: '数据类型',
+      label: 'c6e0a96a.185f7b',
       key: 'dataType',
       component: 'select',
       options: [
-        { label: '所有店铺', value: 'all' },
-        { label: '指定店铺', value: 'specify' }
+        { label: 'c6e0a96a.fc689d', value: 'all' },
+        { label: 'c6e0a96a.fcf7d8', value: 'specify' }
       ],
       value: 'all',
       onchange: function (e, vm) {

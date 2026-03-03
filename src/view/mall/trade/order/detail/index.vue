@@ -105,7 +105,7 @@
             <el-table-column prop="item_holder" :label="$t('3cdfcea1.2af133')" width="100">
               <template slot-scope="scope">
                 <div class="ell3">
-                  {{ goodCategoryMap[scope.row.item_holder] }}
+                  {{ $t(goodCategoryMap[scope.row.item_holder]) }}
                 </div>
               </template>
             </el-table-column>
@@ -922,9 +922,11 @@ export default {
     },
     getFiledValue(key) {
       const { orderInfo } = this
-      if (orderInfo) {
-        return orderInfo[key]
-      }
+      if (!orderInfo) return ''
+      const v = orderInfo[key]
+      const i18nFields = ['payTypeTxt', 'tradeStateTxt', 'invoice_status', 'profit_type']
+      if (i18nFields.includes(key) && v) return this.$t(v)
+      return v
     },
     async getDetail() {
       this.loading = true
@@ -1018,7 +1020,7 @@ export default {
       this.orderInfo = {
         ...orderInfo,
         create_time: create_time ? moment(create_time * 1000).format('YYYY-MM-DD HH:mm:ss') : '',
-        order_class: `${fd ? fd.title : this.$t('3cdfcea1.7a83f9')}${crossOrderTxt}`,
+        order_class: `${fd ? this.$t(fd.title) : this.$t('3cdfcea1.7a83f9')}${crossOrderTxt}`,
         _order_class: orderInfo.order_class,
         invoice_status:
           OPEN_STATUS_ARR.find((el) => el.value === orderInfo.invoice_status)?.title || '',

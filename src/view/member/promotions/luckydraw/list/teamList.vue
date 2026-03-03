@@ -38,8 +38,12 @@
       <el-table-column :label="$t('d14d01a0.830d03')" width="120">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.lucky_status == 'wait'"> {{ $t('d14d01a0.67d31e') }} </el-tag>
-          <el-tag v-else-if="scope.row.lucky_status == 'lucky'" type="danger"> {{ $t('d14d01a0.c809f4') }} </el-tag>
-          <el-tag v-else-if="scope.row.lucky_status == 'unlucky'" type="info"> {{ $t('d14d01a0.1229c3') }} </el-tag>
+          <el-tag v-else-if="scope.row.lucky_status == 'lucky'" type="danger">
+            {{ $t('d14d01a0.c809f4') }}
+          </el-tag>
+          <el-tag v-else-if="scope.row.lucky_status == 'unlucky'" type="info">
+            {{ $t('d14d01a0.1229c3') }}
+          </el-tag>
           <el-tag v-else> - </el-tag>
           <el-button
             v-if="scope.row.lucky_status == 'lucky' && !scope.row.ship_code"
@@ -52,12 +56,18 @@
       </el-table-column>
       <el-table-column :label="$t('d14d01a0.510fa2')" width="100">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.payment_status == 'payed'" type="success"> {{ $t('d14d01a0.8d02a5') }} </el-tag>
-          <el-tag v-else-if="scope.row.payment_status == 'unpay'" type="info"> {{ $t('d14d01a0.608afd') }} </el-tag>
+          <el-tag v-if="scope.row.payment_status == 'payed'" type="success">
+            {{ $t('d14d01a0.8d02a5') }}
+          </el-tag>
+          <el-tag v-else-if="scope.row.payment_status == 'unpay'" type="info">
+            {{ $t('d14d01a0.608afd') }}
+          </el-tag>
           <el-tag v-else-if="scope.row.payment_status == 'refunded'" type="warning">
             {{ $t('d14d01a0.e85018') }}
           </el-tag>
-          <el-tag v-else-if="scope.row.payment_status == 'readyrefund'"> {{ $t('d14d01a0.12e196') }} </el-tag>
+          <el-tag v-else-if="scope.row.payment_status == 'readyrefund'">
+            {{ $t('d14d01a0.12e196') }}
+          </el-tag>
           <el-tag v-else> - </el-tag>
         </template>
       </el-table-column>
@@ -157,7 +167,9 @@
       </template>
       <div slot="footer" class="dialog-footer">
         <el-button @click.native="handleCancel"> {{ $t('d14d01a0.625fb2') }} </el-button>
-        <el-button type="primary" @click="submitDeliveryAction"> {{ $t('d14d01a0.38cf16') }} </el-button>
+        <el-button type="primary" @click="submitDeliveryAction">
+          {{ $t('d14d01a0.38cf16') }}
+        </el-button>
       </div>
     </el-dialog>
   </div>

@@ -6,10 +6,7 @@
 <template>
   <div>
     <el-form ref="form" :rules="rules" :model="form" label-width="200px">
-      <el-form-item
-        :label="$t('194e2303.eb2f99')"
-        :rules="purchaseNameRules"
-      >
+      <el-form-item :label="$t('194e2303.eb2f99')" :rules="purchaseNameRules">
         <el-input
           v-model="form.purchase_name"
           style="width: 400px"
@@ -18,10 +15,7 @@
           show-word-limit
         />
       </el-form-item>
-      <el-form-item
-        :label="$t('194e2303.af2830')"
-        :rules="adPicRules"
-      >
+      <el-form-item :label="$t('194e2303.af2830')" :rules="adPicRules">
         <div class="frm-tips">{{ $t('194e2303.639a69') }}</div>
         <div>
           <imgBox :img-url="form.ad_pic" inline @click="handleImgChange" />
@@ -33,10 +27,7 @@
           @closeImgDialog="closeImgDialog"
         />
       </el-form-item>
-      <el-form-item
-        :label="$t('194e2303.9e62e9')"
-        :rules="activityTimeRules"
-      >
+      <el-form-item :label="$t('194e2303.9e62e9')" :rules="activityTimeRules">
         <el-col :span="20">
           <el-date-picker
             v-model="activity_date"
@@ -64,10 +55,7 @@
         </el-checkbox-group>
       </el-form-item>
       <div style="display: flex">
-        <el-form-item
-          :label="$t('194e2303.aaf0b4')"
-          :rules="employeeLimitfeeRules"
-        >
+        <el-form-item :label="$t('194e2303.aaf0b4')" :rules="employeeLimitfeeRules">
           <el-input v-model="form.employee_limitfee" style="width: 240px">
             <template slot="append"> {{ $t('194e2303.c16655') }} </template>
           </el-input>
@@ -109,11 +97,7 @@
             <el-radio label="brand"> {{ $t('194e2303.8f5e18') }} </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item
-          v-if="!allHiden"
-          :label="$t('194e2303.798962')"
-          :rules="perLimitRules"
-        >
+        <el-form-item v-if="!allHiden" :label="$t('194e2303.798962')" :rules="perLimitRules">
           <el-input v-model="allLimit" style="width: 240px">
             <template slot="append"> {{ $t('194e2303.f7edf5') }} </template>
           </el-input>
@@ -367,12 +351,16 @@
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false"> {{ $t('194e2303.c08ab9') }} </el-button>
-            <el-button type="primary" @click="dialogFormConfirm()"> {{ $t('194e2303.aa7527') }} </el-button>
+            <el-button type="primary" @click="dialogFormConfirm()">
+              {{ $t('194e2303.aa7527') }}
+            </el-button>
           </div>
         </el-dialog>
       </el-card>
       <div class="content-center">
-        <el-button type="primary" @click="submitActivityAction()"> {{ $t('194e2303.be5fbb') }} </el-button>
+        <el-button type="primary" @click="submitActivityAction()">
+          {{ $t('194e2303.be5fbb') }}
+        </el-button>
       </div>
     </el-form>
   </div>

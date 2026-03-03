@@ -5,14 +5,14 @@
 
 <template>
   <el-dialog
-    title="选择小程序"
+    :title="$t('d88a20b4.28b1db')"
     :visible.sync="showDialog"
     :close-on-click-modal="false"
     style="min-width: 726px"
     :before-close="cancelAction"
   >
     <div class="menu_link_weapp">
-      <div class="link_weapp_desc">请选择已绑定的小程序</div>
+      <div class="link_weapp_desc">{{ $t('d88a20b4.5ea525') }}</div>
       <div class="link_weapp_wrp">
         <div class="link_weapp_box weapplinks_box">
           <ul class="wechat_list weapplink_list clearfix">
@@ -37,8 +37,8 @@
       </div>
     </div>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="cancelAction"> 取 消 </el-button>
-      <el-button type="primary" @click="saveAction"> 确 定 </el-button>
+      <el-button @click="cancelAction">{{ $t('d88a20b4.c08ab9') }}</el-button>
+      <el-button type="primary" @click="saveAction">{{ $t('d88a20b4.aa7527') }}</el-button>
     </div>
   </el-dialog>
 </template>

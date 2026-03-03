@@ -6,8 +6,8 @@
 <template>
   <div class="attr-category">
     <CompButton
-      placeholder="选择标签"
-      format="{0}个标签"
+      :placeholder="$t('5a06e75a.f9b05d')"
+      :format="$t('5a06e75a.d9dd77')"
       :value="value.length"
       :view-btn="false"
       @click="onAddLabel"

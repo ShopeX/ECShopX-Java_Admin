@@ -8,9 +8,9 @@ import AttrNavItem from './attr-imagepanel'
 const config = {
   name: 'navigation',
   setting: [
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
+    { label: 'ab472626.4707ba', key: 'padded', component: 'switch', value: true },
     {
-      label: 'lbs定位',
+      label: 'ab472626.1289f8',
       key: 'navigation',
       component: 'switch',
       value: false,
@@ -19,37 +19,17 @@ const config = {
       }
     },
     {
-      label: '导航项',
+      label: 'ab472626.ae5ff3',
       key: 'data',
       component: function (h, { key }) {
         return <AttrNavItem v-model={this.value[key]} isBusinessShow={this.value.navigation} />
       },
       value: [
-        {
-          content: '基础护肤',
-          seletedTags: [],
-          imgUrl: ''
-        },
-        {
-          content: '彩妆香水',
-          seletedTags: [],
-          imgUrl: ''
-        },
-        {
-          content: '营养保健',
-          seletedTags: [],
-          imgUrl: ''
-        },
-        {
-          content: '满减优惠',
-          seletedTags: [],
-          imgUrl: ''
-        },
-        {
-          content: '分享拼单',
-          seletedTags: [],
-          imgUrl: ''
-        }
+        { content: 'ab472626.4ed345', seletedTags: [], imgUrl: '' },
+        { content: 'ab472626.beee14', seletedTags: [], imgUrl: '' },
+        { content: 'ab472626.e80060', seletedTags: [], imgUrl: '' },
+        { content: 'ab472626.19b8ef', seletedTags: [], imgUrl: '' },
+        { content: 'ab472626.357b5f', seletedTags: [], imgUrl: '' }
       ]
     }
   ],

@@ -10,20 +10,26 @@
       <el-button type="primary" icon="iconfont icon-xinzengcaozuo-01" @click="AddRecommendLikeItem">
         {{ $t('59409905.fa3aee') }}
       </el-button>
-      <el-button type="primary" plain @click="DelItemData('true')"> {{ $t('59409905.c76eef') }} </el-button>
+      <el-button type="primary" plain @click="DelItemData('true')">
+        {{ $t('59409905.c76eef') }}
+      </el-button>
     </div>
 
     <el-table ref="multipleItemsTable" v-loading="loading" border :data="tableList">
       <el-table-column :label="$t('59409905.2b6bc0')" width="100">
         <template slot-scope="scope">
-          <el-button type="text" @click="DelItemData('false', scope.row)"> {{ $t('59409905.2a792e') }} </el-button>
+          <el-button type="text" @click="DelItemData('false', scope.row)">
+            {{ $t('59409905.2a792e') }}
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column type="selection" width="55" />
       <!-- <el-table-column prop="itemName" label="商品图片" width="300"></el-table-column> -->
       <el-table-column prop="itemName" :label="$t('59409905.1fd1d5')" />
       <el-table-column prop="price" :label="$t('59409905.9cf4c6')" width="120">
-        <template slot-scope="scope"> {{ scope.row.price / 100 }}{{ $t('59409905.c16655') }} </template>
+        <template slot-scope="scope">
+          {{ scope.row.price / 100 }}{{ $t('59409905.c16655') }}
+        </template>
       </el-table-column>
       <el-table-column prop="sort" :label="$t('59409905.35577a')" width="120">
         <template slot-scope="scope">
@@ -34,7 +40,9 @@
       </el-table-column>
       <el-table-column prop="approve_status" :label="$t('59409905.3fea7c')" width="100">
         <template slot-scope="scope">
-          <div v-if="scope.row.approve_status === 'onsale'" class="grid-content">{{ $t('59409905.9b7481') }}</div>
+          <div v-if="scope.row.approve_status === 'onsale'" class="grid-content">
+            {{ $t('59409905.9b7481') }}
+          </div>
           <div v-else-if="scope.row.approve_status === 'offline_sale'" class="grid-content">
             {{ $t('59409905.2c50a0') }}
           </div>
@@ -82,7 +90,9 @@
             </el-button>
           </el-col>
           <el-col :span="4">
-            <el-button size="mini" @click.native="handleCancel"> {{ $t('59409905.5f4112') }} </el-button>
+            <el-button size="mini" @click.native="handleCancel">
+              {{ $t('59409905.5f4112') }}
+            </el-button>
             <el-button type="primary" :loading="loading" size="mini" @click="submitActivityAction">
               {{ $t('59409905.be5fbb') }}
             </el-button>
@@ -251,10 +261,10 @@ export default {
     submitActivityAction() {
       saveRecommendLikeItem(this.form).then((res) => {
         this.fetchList()
-this.$message({
-        type: 'success',
-        message: this.$t('59409905.3b1083')
-      })
+        this.$message({
+          type: 'success',
+          message: this.$t('59409905.3b1083')
+        })
         this.show_sideBar = false
         this.itemVisible = false
         this.form.items = []

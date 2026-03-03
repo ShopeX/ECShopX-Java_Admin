@@ -43,7 +43,11 @@
         </el-select>
       </SpFilterFormItem>
       <SpFilterFormItem prop="distributor_id" :label="$t('63ede0f6.16f2bc')">
-        <SpSelectShop v-model="queryForm.distributor_id" clearable :placeholder="$t('63ede0f6.708c9d')" />
+        <SpSelectShop
+          v-model="queryForm.distributor_id"
+          clearable
+          :placeholder="$t('63ede0f6.708c9d')"
+        />
       </SpFilterFormItem>
     </SpFilterForm>
 
@@ -77,7 +81,11 @@
       @onSubmit="onCompanyFormSubmit"
     />
 
-    <el-dialog :title="$t('63ede0f6.897af2') + '-' + qrcodeName" :visible.sync="qrDialog" width="30%">
+    <el-dialog
+      :title="$t('63ede0f6.897af2') + '-' + qrcodeName"
+      :visible.sync="qrDialog"
+      width="30%"
+    >
       <span>{{ $t('63ede0f6.85d62d') }}</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="qrDialog = false">{{ $t('63ede0f6.c08ab9') }}</el-button>
@@ -478,8 +486,17 @@ export default {
   },
   computed: {
     validateTypeList() {
-      const keys = { '': '63ede0f6.a8b0c2', mobile: '63ede0f6.8098e2', account: '63ede0f6.bc1f2d', email: '63ede0f6.3bc5e6', qr_code: '63ede0f6.22b03c' }
-      return VALIDATE_TYPES.map((item) => ({ ...item, name: this.$t(keys[item.value] || '63ede0f6.a8b0c2') }))
+      const keys = {
+        '': '63ede0f6.a8b0c2',
+        mobile: '63ede0f6.8098e2',
+        account: '63ede0f6.bc1f2d',
+        email: '63ede0f6.3bc5e6',
+        qr_code: '63ede0f6.22b03c'
+      }
+      return VALIDATE_TYPES.map((item) => ({
+        ...item,
+        name: this.$t(keys[item.value] || '63ede0f6.a8b0c2')
+      }))
     }
   },
   created() {},

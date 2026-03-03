@@ -52,7 +52,9 @@
         </el-col>
         <el-col :md="12" :lg="10">
           <el-button type="primary" @click="exportData"> {{ $t('2e7c4418.f2718e') }} </el-button>
-          <el-button type="primary" @click="exportDeliveryorderInfo"> {{ $t('2e7c4418.e01ce3') }} </el-button>
+          <el-button type="primary" @click="exportDeliveryorderInfo">
+            {{ $t('2e7c4418.e01ce3') }}
+          </el-button>
         </el-col>
       </el-row>
       <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
@@ -73,10 +75,18 @@
           <el-table-column prop="delivery_bn" :label="$t('2e7c4418.51767c')" min-width="120" />
           <el-table-column prop="status" :label="$t('2e7c4418.3fea7c')" min-width="140">
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.status === 'PENDING'" type="info"> {{ $t('2e7c4418.d8476e') }} </el-tag>
-              <el-tag v-if="scope.row.status === 'SHIPPED'" type="primary"> {{ $t('2e7c4418.4933ca') }} </el-tag>
-              <el-tag v-if="scope.row.status === 'DONE'" type="success"> {{ $t('2e7c4418.f87f48') }} </el-tag>
-              <el-tag v-if="scope.row.status === 'BADDONE'" type="danger"> {{ $t('2e7c4418.5dc3f1') }} </el-tag>
+              <el-tag v-if="scope.row.status === 'PENDING'" type="info">
+                {{ $t('2e7c4418.d8476e') }}
+              </el-tag>
+              <el-tag v-if="scope.row.status === 'SHIPPED'" type="primary">
+                {{ $t('2e7c4418.4933ca') }}
+              </el-tag>
+              <el-tag v-if="scope.row.status === 'DONE'" type="success">
+                {{ $t('2e7c4418.f87f48') }}
+              </el-tag>
+              <el-tag v-if="scope.row.status === 'BADDONE'" type="danger">
+                {{ $t('2e7c4418.5dc3f1') }}
+              </el-tag>
             </template>
           </el-table-column>
           <el-table-column prop="activity_name" :label="$t('2e7c4418.39834b')" min-width="160" />
@@ -101,7 +111,12 @@
               <span>{{ scope.row.created_time | datetime('YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="status" :label="$t('2e7c4418.2b6bc0')" min-width="120" fixed="left">
+          <el-table-column
+            prop="status"
+            :label="$t('2e7c4418.2b6bc0')"
+            min-width="120"
+            fixed="left"
+          >
             <template slot-scope="scope">
               <el-button
                 v-if="scope.row.status == 'PENDING'"
@@ -128,7 +143,11 @@
           />
         </div>
       </el-tabs>
-      <el-dialog :title="$t('2e7c4418.95b655')" :visible.sync="downloadView" :close-on-click-modal="false">
+      <el-dialog
+        :title="$t('2e7c4418.95b655')"
+        :visible.sync="downloadView"
+        :close-on-click-modal="false"
+      >
         <template v-if="downloadUrl">
           <a :href="downloadUrl" download>{{ downloadName }}</a>
         </template>

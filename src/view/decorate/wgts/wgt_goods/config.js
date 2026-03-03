@@ -9,17 +9,17 @@ const config = {
   name: 'goods',
   setting: [
     {
-      group: '数据设置',
-      label: '数据类型',
+      group: '62d2fa27.e7af71',
+      label: '62d2fa27.185f7b',
       key: 'dataType',
       component: 'select',
-      placeholder: '请选择数据类型',
+      placeholder: '62d2fa27.86ec5f',
       options: [
-        { label: '按价格区间', value: 'price' },
-        { label: '按指定商品', value: 'items' },
-        { label: '按管理分类', value: 'main_category' },
-        { label: '按销售分类', value: 'category' },
-        { label: '按浏览记录', value: 'history' }
+        { label: '62d2fa27.5488d8', value: 'price' },
+        { label: '62d2fa27.728225', value: 'items' },
+        { label: '62d2fa27.64423b', value: 'main_category' },
+        { label: '62d2fa27.2fcd53', value: 'category' },
+        { label: '62d2fa27.edf51a', value: 'history' }
       ],
       value: 'main_category',
       onchange: function (v, self) {
@@ -34,8 +34,8 @@ const config = {
       }
     },
     {
-      group: '数据设置',
-      label: '数据设置',
+      group: '62d2fa27.e7af71',
+      label: '62d2fa27.e7af71',
       key: 'data',
       component: function (h, { key }) {
         return (
@@ -55,8 +55,8 @@ const config = {
       }
     },
     {
-      group: '数据设置',
-      label: '价格区间',
+      group: '62d2fa27.e7af71',
+      label: '62d2fa27.8d8376',
       key: 'data',
       component: function (h, { key }) {
         return (
@@ -76,8 +76,8 @@ const config = {
       }
     },
     {
-      group: '数据设置',
-      label: '数据数量',
+      group: '62d2fa27.e7af71',
+      label: '62d2fa27.87dfd7',
       key: 'dataCount',
       component: function (h, { key }) {
         const maxCount = this.value.dataType === 'history' ? 10 : 99
@@ -86,19 +86,19 @@ const config = {
       value: 4
     },
     {
-      group: '组件标题',
-      label: '标题类型',
+      group: '62d2fa27.6f3360',
+      label: '62d2fa27.c20c83',
       key: 'goodsTitleType',
       component: 'radiobutton',
       options: [
-        { name: '文字', label: 'text' },
-        { name: '图片', label: 'image' }
+        { name: '62d2fa27.ca746b', label: 'text' },
+        { name: '62d2fa27.20def7', label: 'image' }
       ],
       value: 'text'
     },
     {
-      group: '组件标题',
-      label: '标题图片',
+      group: '62d2fa27.6f3360',
+      label: '62d2fa27.264fe1',
       key: 'goodsTitleImage',
       component: function (h, { key }) {
         return <SpImagePicker v-model={this.value[key]} size='small' />
@@ -109,8 +109,8 @@ const config = {
       }
     },
     {
-      group: '组件标题',
-      label: '标题文字',
+      group: '62d2fa27.6f3360',
+      label: '62d2fa27.eded9e',
       key: 'goodsTitleText',
       component: 'input',
       value: '',
@@ -119,8 +119,8 @@ const config = {
       }
     },
     {
-      group: '组件标题',
-      label: '标题颜色',
+      group: '62d2fa27.6f3360',
+      label: '62d2fa27.94e391',
       key: 'goodsTitleColor',
       component: 'color',
       value: '#000000',
@@ -129,19 +129,19 @@ const config = {
       }
     },
     {
-      group: '更多按钮',
-      label: '展示类型',
+      group: '62d2fa27.90507a',
+      label: '62d2fa27.1711a8',
       key: 'goodsShowMoreBtn',
       component: 'radiobutton',
       options: [
-        { name: '显示', label: true },
-        { name: '隐藏', label: false }
+        { name: '62d2fa27.4d775d', label: true },
+        { name: '62d2fa27.dce537', label: false }
       ],
       value: true
     },
     {
-      group: '更多按钮',
-      label: '按钮颜色',
+      group: '62d2fa27.90507a',
+      label: '62d2fa27.351201',
       key: 'goodsMoreBtnColor',
       component: 'color',
       value: '#000000',
@@ -150,7 +150,7 @@ const config = {
       }
     },
     {
-      group: '更多按钮',
+      group: '62d2fa27.90507a',
       label: '',
       key: 'goodsMoreLink',
       component: function (h, { key }) {

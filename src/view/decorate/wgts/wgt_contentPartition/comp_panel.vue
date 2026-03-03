@@ -183,7 +183,10 @@ export default {
 
       setting.forEach((item) => {
         // 判断是否为样式设置：1. key 在 styleKeys 中，2. group 为 '样式设置'
-        const isStyle = this.styleKeys.includes(item.key) || item.group === '样式设置'
+        const isStyle =
+          this.styleKeys.includes(item.key) ||
+          item.group === '样式设置' ||
+          item.group === 'e7f2a1b3.8b2d10'
 
         // 如果没有 group，不进行分组，但需要展示
         if (!item.group || !item.group.trim()) {

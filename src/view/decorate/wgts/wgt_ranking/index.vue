@@ -42,7 +42,7 @@ import rankingdata from './mock/ranking.json'
 
 export default {
   name: 'Ranking',
-  wgtName: '品类榜单',
+  wgtName: 'b72c3a9a.4abc55',
   wgtDesc: '',
   wgtIcon: 'wgt-store',
   wgtType: 2,

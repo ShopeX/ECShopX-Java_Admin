@@ -24,7 +24,12 @@
           <el-input v-model="params.name" :placeholder="$t('41b41f1c.39834b')" />
         </SpFilterFormItem>
         <SpFilterFormItem prop="status" :label="$t('41b41f1c.1743c9')">
-          <el-select v-model="params.status" :placeholder="$t('41b41f1c.1181a5')" clearable style="width: 100%">
+          <el-select
+            v-model="params.status"
+            :placeholder="$t('41b41f1c.1181a5')"
+            clearable
+            style="width: 100%"
+          >
             <el-option :label="$t('41b41f1c.a8b0c2')" value="0" />
             <el-option :label="$t('41b41f1c.1568ba')" value="waiting" />
             <el-option :label="$t('41b41f1c.7e19ab')" value="in_the_notice" />
@@ -63,8 +68,10 @@
         <el-table-column prop="activity_release_date" :label="$t('41b41f1c.292b75')" width="160" />
         <el-table-column :label="$t('41b41f1c.c799f5')" width="190">
           <template slot-scope="scope">
-            {{ scope.row.activity_start_date }} <span class="text-muted">{{ $t('41b41f1c.a3e3b8') }}</span>
-            {{ scope.row.activity_end_date }} <span class="text-muted">{{ $t('41b41f1c.12f1d7') }}</span>
+            {{ scope.row.activity_start_date }}
+            <span class="text-muted">{{ $t('41b41f1c.a3e3b8') }}</span>
+            {{ scope.row.activity_end_date }}
+            <span class="text-muted">{{ $t('41b41f1c.12f1d7') }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="created_date" :label="$t('41b41f1c.eca37c')" width="160" />

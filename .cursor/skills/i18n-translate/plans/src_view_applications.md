@@ -7,27 +7,27 @@
 
 | 状态 | 数量 | 占比 |
 |------|------|------|
-| 未翻译完 | 10 | 100.0% |
-| 已翻译 | 0 | 0.0% |
+| 未翻译完 | 0 | 0.0% |
+| 已翻译 | 10 | 100% |
 | 无需翻译 | 0 | 0.0% |
 | **合计** | **10** | 100% |
 
 ## 未翻译完
 
-- `plugin/appDetail.vue`
-- `plugin/consts.js`
-- `plugin/index.vue`
-- `pointmall/add.vue`
-- `pointmall/goodsImport.vue`
-- `pointmall/list.vue`
-- `pointmall/orderDetail.vue`
-- `pointmall/orderList.vue`
-- `pointmall/setting.vue`
-- `pointmall/storeImport.vue`
+（无）
 
 ## 已翻译
 
-（无）
+- `pointmall/add.vue`
+- `plugin/appDetail.vue`
+- `plugin/consts.js`
+- `plugin/index.vue`
+- `pointmall/setting.vue`
+- `pointmall/goodsImport.vue`
+- `pointmall/storeImport.vue`
+- `pointmall/list.vue`
+- `pointmall/orderList.vue`
+- `pointmall/orderDetail.vue`
 
 ## 无需翻译
 

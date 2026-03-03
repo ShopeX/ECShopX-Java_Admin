@@ -11,7 +11,8 @@
         <div class="view-flex-item">
           <i class="iconfont icon-wallet" />
           <div>
-            <span>{{ $t('eaf690f0.521856') }}</span> <span class="money mark">{{ totalPoints }}</span>
+            <span>{{ $t('eaf690f0.521856') }}</span>
+            <span class="money mark">{{ totalPoints }}</span>
           </div>
         </div>
         <div class="view-flex-item">
@@ -49,7 +50,9 @@
           </el-select>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" @click="handleChangePoint(false)"> {{ $t('eaf690f0.979034') }} </el-button>
+          <el-button type="primary" @click="handleChangePoint(false)">
+            {{ $t('eaf690f0.979034') }}
+          </el-button>
         </el-col>
       </el-row>
       <el-table v-loading="loading" :data="dataList" :height="wheight - 320">
@@ -64,12 +67,12 @@
         <el-table-column prop="order_id" :label="$t('eaf690f0.b0780b')">
           <template slot-scope="scope">
             <span v-if="scope.row.order_id == '-1'">{{ $t('eaf690f0.33da57') }}</span>
-            <span v-else-if="scope.row.journal_type == '1' && scope.row.order_id.length !== 16"
-              >{{ $t('eaf690f0.10b552') }}</span
-            >
-            <span v-else-if="scope.row.journal_type != '1' && scope.row.order_id.length !== 16"
-              >{{ $t('eaf690f0.7a395c') }}</span
-            >
+            <span v-else-if="scope.row.journal_type == '1' && scope.row.order_id.length !== 16">{{
+              $t('eaf690f0.10b552')
+            }}</span>
+            <span v-else-if="scope.row.journal_type != '1' && scope.row.order_id.length !== 16">{{
+              $t('eaf690f0.7a395c')
+            }}</span>
             <span v-else>{{ scope.row.order_id }}</span>
           </template>
         </el-table-column>

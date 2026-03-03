@@ -31,7 +31,11 @@
           :rules="{ required: true, message: $t('3c26d461.813065'), trigger: 'blur' }"
         >
           <el-col :span="20">
-            <el-input v-model="form.activity_name" :maxlength="30" :placeholder="$t('3c26d461.39834b')" />
+            <el-input
+              v-model="form.activity_name"
+              :maxlength="30"
+              :placeholder="$t('3c26d461.39834b')"
+            />
           </el-col>
         </el-form-item>
         <el-form-item :label="$t('3c26d461.c799f5')">
@@ -89,7 +93,11 @@
                     </template>
                   </el-table-column>
                   <el-table-column prop="leader_name" :label="$t('3c26d461.07e57c')" />
-                  <el-table-column prop="leader_mobile" :label="$t('3c26d461.6621f6')" min-width="110" />
+                  <el-table-column
+                    prop="leader_mobile"
+                    :label="$t('3c26d461.6621f6')"
+                    min-width="110"
+                  />
                 </el-table>
                 <div
                   v-if="communitycount > communityParams.pageSize"
@@ -109,15 +117,14 @@
         </el-form-item>
         <el-form-item v-if="form.status == 'processing'">
           <el-col :span="20">
-            <el-alert
-              :title="$t('3c26d461.f4bf66')"
-              type="warning"
-            />
+            <el-alert :title="$t('3c26d461.f4bf66')" type="warning" />
           </el-col>
         </el-form-item>
         <el-form-item :label="$t('3c26d461.3b9737')">
           <el-col :span="23">
-            <el-button type="primary" class="el-icon-plus" @click="relItems">{{ $t('3c26d461.43d1e2') }}</el-button>
+            <el-button type="primary" class="el-icon-plus" @click="relItems">{{
+              $t('3c26d461.43d1e2')
+            }}</el-button>
             <el-table v-if="form.items.length > 0" :data="form.items" style="line-height: normal">
               <el-table-column label="ID" prop="item_id" width="60" />
               <el-table-column :label="$t('3c26d461.d7ec2d')" prop="item_name" />
@@ -128,7 +135,11 @@
                   </el-input>
                 </template>
               </el-table-column>
-              <el-table-column v-if="vipGrade.length == 1" :label="$t('3c26d461.627908')" width="150">
+              <el-table-column
+                v-if="vipGrade.length == 1"
+                :label="$t('3c26d461.627908')"
+                width="150"
+              >
                 <template slot-scope="scope">
                   <div v-if="vipGrade[0].lv_type == 'vip'">
                     <el-input v-model="scope.row.vip_price" class="member-price" size="mini">
@@ -142,7 +153,11 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column v-if="vipGrade.length == 2" :label="$t('3c26d461.627908')" width="120">
+              <el-table-column
+                v-if="vipGrade.length == 2"
+                :label="$t('3c26d461.627908')"
+                width="120"
+              >
                 <template slot-scope="scope">
                   <el-input v-model="scope.row.vip_price" class="member-price" size="mini">
                     <i slot="prefix" class="el-input__icon">vip:{{ cursymbol }}</i>
@@ -152,7 +167,11 @@
                   </el-input>
                 </template>
               </el-table-column>
-              <el-table-column v-if="vipGrade.length == 0" :label="$t('3c26d461.627908')" width="150">
+              <el-table-column
+                v-if="vipGrade.length == 0"
+                :label="$t('3c26d461.627908')"
+                width="150"
+              >
                 <template slot-scope="scope">{{ $t('3c26d461.5cbf39') }}</template>
               </el-table-column>
               <el-table-column :label="$t('3c26d461.0eac88')" width="90">

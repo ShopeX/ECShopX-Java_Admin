@@ -14,13 +14,13 @@
 <template>
   <div>
     <el-radio-group v-model="value.type" size="small" style="margin-bottom: 10px">
-      <el-radio label="normal">普通商品</el-radio>
-      <el-radio label="point">积分商品</el-radio>
+      <el-radio label="normal">{{ $t('46e04a5c.0f7a66') }}</el-radio>
+      <el-radio label="point">{{ $t('46e04a5c.fe0ea1') }}</el-radio>
     </el-radio-group>
     <CompButton
       v-if="value.type == 'point'"
-      placeholder="选择积分商品"
-      format="{0}件商品"
+      :placeholder="$t('46e04a5c.5d71c6')"
+      :format="$t('1253b8e4.156ada')"
       :value="value.pointGoods.length"
       @click="handleClickPointAdd"
       @remove="onRemovePointItem"
@@ -28,8 +28,8 @@
     />
     <CompButton
       v-else
-      placeholder="选择商品"
-      format="{0}件商品"
+      :placeholder="$t('1253b8e4.43d1e2')"
+      :format="$t('1253b8e4.156ada')"
       :value="value.data.length"
       @click="handleClickAdd"
       @remove="onRemoveItem"

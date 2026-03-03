@@ -26,7 +26,7 @@
             <el-option
               v-for="item in statusOption"
               :key="item.value"
-              :label="item.title"
+              :label="$t(item.title)"
               size="mini"
               :value="item.value"
             />
@@ -71,7 +71,7 @@
         <el-tab-pane
           v-for="item in activity_status"
           :key="item.value"
-          :label="item.title"
+          :label="$t(item.title)"
           :name="item.value"
         />
 

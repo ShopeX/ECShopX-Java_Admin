@@ -6,7 +6,7 @@
 <template>
   <el-dialog
     class="store-dialog"
-    :title="isSynchronize ? '同步模板到店铺' : '选择店铺'"
+    :title="isSynchronize ? $t('f15fc38a.b5c671') : $t('f15fc38a.afa2e6')"
     :visible.sync="showDialog"
     :close-on-click-modal="false"
     :before-close="cancelAction"
@@ -15,7 +15,7 @@
     <div style="margin-bottom: 15px">
       <el-input
         v-model="name"
-        :placeholder="isSynchronize ? '请选择店铺所在地' : '输入店铺名称'"
+        :placeholder="isSynchronize ? $t('f15fc38a.336865') : $t('f15fc38a.240fdb')"
         clearable
       >
         <el-button slot="append" icon="el-icon-search" @click="handleIconClick" />
@@ -32,10 +32,10 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" :reserve-selection="true" width="50" />
-      <el-table-column prop="name" label="店铺名称" />
-      <el-table-column prop="contact" label="联系人" />
-      <el-table-column prop="store_name" label="门店" />
-      <el-table-column prop="address" label="地址" show-overflow-tooltip />
+      <el-table-column prop="name" :label="$t('f15fc38a.0d4934')" />
+      <el-table-column prop="contact" :label="$t('f15fc38a.52409d')" />
+      <el-table-column prop="store_name" :label="$t('f15fc38a.a7da92')" />
+      <el-table-column prop="address" :label="$t('f15fc38a.765048')" show-overflow-tooltip />
     </el-table>
     <div v-if="total_count > params.pageSize" class="tr">
       <el-pagination
@@ -219,7 +219,7 @@ export default {
     saveStoreAction() {
       if (this.isSingle && this.multipleSelection.length > 1) {
         this.$message({
-          message: '最多选择一个店铺',
+          message: this.$t('f15fc38a.3c38b5'),
           type: 'error',
           duration: 5 * 1000
         })

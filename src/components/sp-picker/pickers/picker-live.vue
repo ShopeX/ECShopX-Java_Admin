@@ -54,12 +54,7 @@
       }"
       url="/promotions/liverooms"
       :fixed-row-action="true"
-      :setting="{
-        columns: [
-          { name: '房间ID', key: 'roomid', width: 80 },
-          { name: '直播活动', key: 'name' }
-        ]
-      }"
+      :setting="liveSetting"
       :hooks="{
         beforeSearch: beforeSearch,
         afterSearch: afterSearch
@@ -81,6 +76,17 @@ export default {
     title: '选择直播间'
   },
   props: ['value'],
+  computed: {
+    liveSetting() {
+      const t = this.$t.bind(this)
+      return {
+        columns: [
+          { name: t('7f395b54.e3778c'), key: 'roomid', width: 80 },
+          { name: t('7f395b54.abf66f'), key: 'name' }
+        ]
+      }
+    }
+  },
   data() {
     return {
       formData: {
@@ -89,7 +95,9 @@ export default {
       multiple: this.value?.multiple ?? true
     }
   },
-  created() {},
+  created() {
+    this.$options.config.title = this.$t('7f395b54.6e102c')
+  },
   methods: {
     beforeSearch(params) {
       params = {

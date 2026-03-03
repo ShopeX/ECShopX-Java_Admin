@@ -7,51 +7,51 @@
 
 | 状态 | 数量 | 占比 |
 |------|------|------|
-| 未翻译完 | 34 | 65.4% |
-| 已翻译 | 0 | 0.0% |
+| 未翻译完 | 0 | 0% |
+| 已翻译 | 34 | 65.4% |
 | 无需翻译 | 18 | 34.6% |
 | **合计** | **52** | 100% |
 
 ## 未翻译完
 
+（无）
+
+## 已翻译
+
 - `custompage.vue`
+- `custompage/default.vue`
 - `custompage/components/common/Footer.vue`
 - `custompage/components/common/Header.vue`
+- `pctemplate/index.vue`
 - `custompage/components/common/Nav.vue`
+- `pctemplate/login.vue`
 - `custompage/components/common/YButton.vue`
 - `custompage/components/plugins/floor/index.vue`
+- `footerPage/default.vue`
 - `custompage/components/plugins/floor/style.vue`
 - `custompage/components/plugins/goodsGrid/index.vue`
+- `tdk/givenset.vue`
+- `tdk/globalset.vue`
 - `custompage/components/plugins/imgHotzone/style.vue`
 - `custompage/components/plugins/nav/style.vue`
 - `custompage/components/plugins/panel/style.vue`
-- `custompage/default.vue`
 - `custompage/pluginscomponents/ProductMap.vue`
 - `footerPage/components/plugins/footer/style.vue`
-- `footerPage/default.vue`
 - `homePage/components/common/Footer.vue`
+- `homePage/default.vue`
 - `homePage/components/common/Header.vue`
 - `homePage/components/common/Nav.vue`
 - `homePage/components/common/YButton.vue`
 - `homePage/components/plugins/floor/index.vue`
-- `homePage/components/plugins/floor/style.vue`
 - `homePage/components/plugins/goodsGrid/index.vue`
 - `homePage/components/plugins/imgHotzone/style.vue`
 - `homePage/components/plugins/nav/style.vue`
 - `homePage/components/plugins/panel/style.vue`
 - `homePage/components/plugins/settings/style.vue`
-- `homePage/default.vue`
-- `homePage/pluginscomponents/ProductMap.vue`
-- `pctemplate/index.vue`
-- `pctemplate/login.vue`
-- `tdk/givenset.vue`
-- `tdk/globalset.vue`
 - `vipPage/components/plugins/poster/style.vue`
 - `vipPage/default.vue`
-
-## 已翻译
-
-（无）
+- `homePage/components/plugins/floor/style.vue`
+- `homePage/pluginscomponents/ProductMap.vue`
 
 ## 无需翻译
 

@@ -18,7 +18,7 @@
         :disabled="disabled"
         @click="handleSelect"
       >
-        选择人群
+        {{ $t('26b7f367.db64f9') }}
       </el-button>
       <slot />
     </div>
@@ -83,19 +83,17 @@ export default {
   },
   data() {
     return {
-      options: [
-        {
-          id: '2',
-          name: '适用人群'
-        }
-        // {
-        //   id: '1',
-        //   name: '不适用人群'
-        // }
-      ]
+      optionsValue: [{ id: '2' }],
+      optionNameKey: '26b7f367.188e1b'
     }
   },
   computed: {
+    options() {
+      return this.optionsValue.map((item) => ({
+        ...item,
+        name: this.$t(this.optionNameKey)
+      }))
+    },
     selectedCrowds: {
       get() {
         return this.value

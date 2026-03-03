@@ -86,7 +86,9 @@
               <div class="promotion-card">
                 <div class="promotion-card-header">
                   {{ $t('ff601efd.2f3635') }}
-                  <a class="promotion-card-btn" href="#" @click="showModal">{{ $t('ff601efd.66ab5e') }}</a>
+                  <a class="promotion-card-btn" href="#" @click="showModal">{{
+                    $t('ff601efd.66ab5e')
+                  }}</a>
                 </div>
                 <div class="promotion-card-body">
                   <ul class="promotion-card-list">

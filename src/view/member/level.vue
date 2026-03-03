@@ -27,13 +27,17 @@
           <el-button v-if="!VERSION_SHUYUN()" @click="addGrade('cardLevel')">
             {{ $t('c5e8d16d.0b369f') }}
           </el-button>
-          <el-button type="primary" @click="saveGrade('cardLevel')"> {{ $t('c5e8d16d.be5fbb') }} </el-button>
+          <el-button type="primary" @click="saveGrade('cardLevel')">
+            {{ $t('c5e8d16d.be5fbb') }}
+          </el-button>
         </template>
         <template v-if="activeName == 'thrid'">
           <el-button v-if="!VERSION_SHUYUN()" @click="addGrade('cardViplevel')">
             {{ $t('c5e8d16d.0b369f') }}
           </el-button>
-          <el-button type="primary" @click="saveGrade('cardViplevel')"> {{ $t('c5e8d16d.be5fbb') }} </el-button>
+          <el-button type="primary" @click="saveGrade('cardViplevel')">
+            {{ $t('c5e8d16d.be5fbb') }}
+          </el-button>
         </template>
       </div>
     </template>

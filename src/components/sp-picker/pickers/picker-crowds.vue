@@ -21,8 +21,8 @@
 <template>
   <div class="picker-crowds">
     <SpFilterForm :model="formData" @onSearch="onSearch" @onReset="onReset">
-      <SpFilterFormItem prop="tag_name" label="标签名称:">
-        <el-input v-model="formData.tag_name" clearable placeholder="标签名称" />
+      <SpFilterFormItem prop="tag_name" :label="$t('394573fc.266364')">
+        <el-input v-model="formData.tag_name" clearable :placeholder="$t('394573fc.341fe8')" />
       </SpFilterFormItem>
     </SpFilterForm>
     <SpFinder
@@ -35,12 +35,7 @@
       }"
       url="/member/tag"
       :fixed-row-action="true"
-      :setting="{
-        columns: [
-          { name: 'ID', key: 'tag_id', width: 80 },
-          { name: '标签名称', key: 'tag_name' }
-        ]
-      }"
+      :setting="crowdsSetting"
       :hooks="{
         beforeSearch: beforeSearch,
         afterSearch: afterSearch
@@ -63,6 +58,17 @@ export default {
     title: '选择人群标签'
   },
   props: ['value'],
+  computed: {
+    crowdsSetting() {
+      const t = this.$t.bind(this)
+      return {
+        columns: [
+          { name: 'ID', key: 'tag_id', width: 80 },
+          { name: t('394573fc.341fe8'), key: 'tag_name' }
+        ]
+      }
+    }
+  },
   data() {
     const { queryParams } = this.value
     const defaultParams = {
@@ -82,6 +88,7 @@ export default {
   },
   computed: {},
   created() {
+    this.$options.config.title = this.$t('394573fc.d2a769')
     this.localSelection = cloneDeep(this.value.data) || []
     this.rowKey = this.value?.rowKey || 'tag_id'
   },

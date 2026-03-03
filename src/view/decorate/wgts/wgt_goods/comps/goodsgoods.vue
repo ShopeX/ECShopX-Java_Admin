@@ -22,7 +22,7 @@
         class="header-more"
         :style="{ color: value.moreBtn.color }"
       >
-        查看更多<el-icon class="el-icon-arrow-right" />
+        {{ $t('e5a1185d.90ef7c') }}<el-icon class="el-icon-arrow-right" />
       </div>
     </div>
 

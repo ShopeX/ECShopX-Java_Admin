@@ -94,7 +94,12 @@
           :label="$t(item.labelKey)"
           :name="item.name"
         >
-          <el-table v-loading="loading" border :data="tableList" :element-loading-text="$t('731b7d26.f09b12')">
+          <el-table
+            v-loading="loading"
+            border
+            :data="tableList"
+            :element-loading-text="$t('731b7d26.f09b12')"
+          >
             <el-table-column prop="status" :label="$t('8da83775.2b6bc0')" width="150">
               <template slot-scope="scope">
                 <el-button
@@ -104,7 +109,9 @@
                 >
                   {{ $t('a0d7a294.cf13b1') }}
                 </el-button>
-                <el-button type="text" @click="onLinkChange(scope.row)">{{ $t('a0d7a294.f26225') }}</el-button>
+                <el-button type="text" @click="onLinkChange(scope.row)">{{
+                  $t('a0d7a294.f26225')
+                }}</el-button>
                 <el-button
                   type="text"
                   v-if="scope.row.status == 'passed'"

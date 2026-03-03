@@ -30,42 +30,51 @@
                   <el-form label-position="left" inline class="demo-table-expand">
                     <el-form-item :label="$t('857e74eb.65939c')">
                       <span v-if="props.row.activity_type == 'member_birthday'">
-                        <span v-if="props.row.trigger_condition.trigger_time == 'birthday_month'"
-                          >{{ $t('857e74eb.0b8db5') }}</span
-                        >
-                        <span v-if="props.row.trigger_condition.trigger_time == 'birthday_week'"
-                          >{{ $t('857e74eb.883212') }}</span
-                        >
-                        <span v-if="props.row.trigger_condition.trigger_time == 'birthday_day'"
-                          >{{ $t('857e74eb.503d48') }}</span
-                        >
+                        <span v-if="props.row.trigger_condition.trigger_time == 'birthday_month'">{{
+                          $t('857e74eb.0b8db5')
+                        }}</span>
+                        <span v-if="props.row.trigger_condition.trigger_time == 'birthday_week'">{{
+                          $t('857e74eb.883212')
+                        }}</span>
+                        <span v-if="props.row.trigger_condition.trigger_time == 'birthday_day'">{{
+                          $t('857e74eb.503d48')
+                        }}</span>
                       </span>
-                      <span v-if="props.row.activity_type == 'member_upgrade'"
-                        >{{ $t('857e74eb.e3e252') }}</span
-                      >
-                      <span v-if="props.row.activity_type == 'member_vip_upgrade'"
-                        >{{ $t('857e74eb.a2d14e') }}</span
-                      >
+                      <span v-if="props.row.activity_type == 'member_upgrade'">{{
+                        $t('857e74eb.e3e252')
+                      }}</span>
+                      <span v-if="props.row.activity_type == 'member_vip_upgrade'">{{
+                        $t('857e74eb.a2d14e')
+                      }}</span>
                       <span v-if="props.row.activity_type == 'member_anniversary'">
-                        <span v-if="props.row.trigger_condition.trigger_time == 'anniversary_month'"
+                        <span
+                          v-if="props.row.trigger_condition.trigger_time == 'anniversary_month'"
                           >{{ $t('857e74eb.ce21e7') }}</span
                         >
-                        <span v-if="props.row.trigger_condition.trigger_time == 'anniversary_week'"
+                        <span
+                          v-if="props.row.trigger_condition.trigger_time == 'anniversary_week'"
                           >{{ $t('857e74eb.e8667c') }}</span
                         >
-                        <span v-if="props.row.trigger_condition.trigger_time == 'anniversary_day'"
+                        <span
+                          v-if="props.row.trigger_condition.trigger_time == 'anniversary_day'"
                           >{{ $t('857e74eb.5446bf') }}</span
                         >
                       </span>
                       <span v-if="props.row.activity_type == 'member_day'">
                         <span v-if="props.row.trigger_condition.trigger_time.type == 'every_year'">
-                          {{ $t('857e74eb.4af3f8', [props.row.trigger_condition.trigger_time.month]) }}
+                          {{
+                            $t('857e74eb.4af3f8', [props.row.trigger_condition.trigger_time.month])
+                          }}
                         </span>
                         <span v-if="props.row.trigger_condition.trigger_time.type == 'every_month'">
-                          {{ $t('857e74eb.367ca2', [props.row.trigger_condition.trigger_time.day]) }}
+                          {{
+                            $t('857e74eb.367ca2', [props.row.trigger_condition.trigger_time.day])
+                          }}
                         </span>
                         <span v-if="props.row.trigger_condition.trigger_time.type == 'every_week'">
-                          {{ $t('857e74eb.2b8313', [props.row.trigger_condition.trigger_time.week]) }}
+                          {{
+                            $t('857e74eb.2b8313', [props.row.trigger_condition.trigger_time.week])
+                          }}
                         </span>
                       </span>
                     </el-form-item>
@@ -142,12 +151,18 @@
               </el-table-column>
               <el-table-column :label="$t('857e74eb.3fea7c')">
                 <template slot-scope="props">
-                  {{ props.row.status === 'processing' ? $t('857e74eb.fb852f') : $t('857e74eb.f76540') }}
+                  {{
+                    props.row.status === 'processing'
+                      ? $t('857e74eb.fb852f')
+                      : $t('857e74eb.f76540')
+                  }}
                 </template>
               </el-table-column>
               <el-table-column :label="$t('857e74eb.2d7288')">
                 <template slot-scope="props">
-                  {{ props.row.sms_isopen === 'false' ? $t('857e74eb.710ad0') : $t('857e74eb.7854b5') }}
+                  {{
+                    props.row.sms_isopen === 'false' ? $t('857e74eb.710ad0') : $t('857e74eb.7854b5')
+                  }}
                 </template>
               </el-table-column>
               <el-table-column :label="$t('857e74eb.3fea7c')">
@@ -179,42 +194,51 @@
                   <el-form label-position="left" inline class="demo-table-expand">
                     <el-form-item :label="$t('857e74eb.65939c')">
                       <span v-if="props.row.activity_type == 'member_birthday'">
-                        <span v-if="props.row.trigger_condition.trigger_time == 'birthday_month'"
-                          >{{ $t('857e74eb.0b8db5') }}</span
-                        >
-                        <span v-if="props.row.trigger_condition.trigger_time == 'birthday_week'"
-                          >{{ $t('857e74eb.883212') }}</span
-                        >
-                        <span v-if="props.row.trigger_condition.trigger_time == 'birthday_day'"
-                          >{{ $t('857e74eb.503d48') }}</span
-                        >
+                        <span v-if="props.row.trigger_condition.trigger_time == 'birthday_month'">{{
+                          $t('857e74eb.0b8db5')
+                        }}</span>
+                        <span v-if="props.row.trigger_condition.trigger_time == 'birthday_week'">{{
+                          $t('857e74eb.883212')
+                        }}</span>
+                        <span v-if="props.row.trigger_condition.trigger_time == 'birthday_day'">{{
+                          $t('857e74eb.503d48')
+                        }}</span>
                       </span>
-                      <span v-if="props.row.activity_type == 'member_upgrade'"
-                        >{{ $t('857e74eb.e3e252') }}</span
-                      >
-                      <span v-if="props.row.activity_type == 'member_vip_upgrade'"
-                        >{{ $t('857e74eb.a2d14e') }}</span
-                      >
+                      <span v-if="props.row.activity_type == 'member_upgrade'">{{
+                        $t('857e74eb.e3e252')
+                      }}</span>
+                      <span v-if="props.row.activity_type == 'member_vip_upgrade'">{{
+                        $t('857e74eb.a2d14e')
+                      }}</span>
                       <span v-if="props.row.activity_type == 'member_anniversary'">
-                        <span v-if="props.row.trigger_condition.trigger_time == 'anniversary_month'"
+                        <span
+                          v-if="props.row.trigger_condition.trigger_time == 'anniversary_month'"
                           >{{ $t('857e74eb.ce21e7') }}</span
                         >
-                        <span v-if="props.row.trigger_condition.trigger_time == 'anniversary_week'"
+                        <span
+                          v-if="props.row.trigger_condition.trigger_time == 'anniversary_week'"
                           >{{ $t('857e74eb.e8667c') }}</span
                         >
-                        <span v-if="props.row.trigger_condition.trigger_time == 'anniversary_day'"
+                        <span
+                          v-if="props.row.trigger_condition.trigger_time == 'anniversary_day'"
                           >{{ $t('857e74eb.5446bf') }}</span
                         >
                       </span>
                       <span v-if="props.row.activity_type == 'member_day'">
                         <span v-if="props.row.trigger_condition.trigger_time.type == 'every_year'">
-                          {{ $t('857e74eb.4af3f8', [props.row.trigger_condition.trigger_time.month]) }}
+                          {{
+                            $t('857e74eb.4af3f8', [props.row.trigger_condition.trigger_time.month])
+                          }}
                         </span>
                         <span v-if="props.row.trigger_condition.trigger_time.type == 'every_month'">
-                          {{ $t('857e74eb.367ca2', [props.row.trigger_condition.trigger_time.day]) }}
+                          {{
+                            $t('857e74eb.367ca2', [props.row.trigger_condition.trigger_time.day])
+                          }}
                         </span>
                         <span v-if="props.row.trigger_condition.trigger_time.type == 'every_week'">
-                          {{ $t('857e74eb.2b8313', [props.row.trigger_condition.trigger_time.week]) }}
+                          {{
+                            $t('857e74eb.2b8313', [props.row.trigger_condition.trigger_time.week])
+                          }}
                         </span>
                       </span>
                     </el-form-item>
@@ -291,7 +315,9 @@
               </el-table-column>
               <el-table-column :label="$t('857e74eb.2d7288')">
                 <template slot-scope="props">
-                  {{ props.row.sms_isopen === 'false' ? $t('857e74eb.710ad0') : $t('857e74eb.7854b5') }}
+                  {{
+                    props.row.sms_isopen === 'false' ? $t('857e74eb.710ad0') : $t('857e74eb.7854b5')
+                  }}
                 </template>
               </el-table-column>
             </el-table>

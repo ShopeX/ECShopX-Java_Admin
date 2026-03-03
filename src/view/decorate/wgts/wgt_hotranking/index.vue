@@ -42,7 +42,7 @@ import saledata from './mock/saledata.json'
 
 export default {
   name: 'hotranking',
-  wgtName: '热销榜单',
+  wgtName: 'f3e1de8d.f09c11',
   wgtDesc: '',
   wgtIcon: 'ranking-list',
   wgtType: 2,

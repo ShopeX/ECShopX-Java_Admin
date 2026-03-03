@@ -7,7 +7,9 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="4">
-        <el-button type="primary" icon="plus" @click="addLuckyDraw"> {{ $t('93d63a5d.cc7cc5') }} </el-button>
+        <el-button type="primary" icon="plus" @click="addLuckyDraw">
+          {{ $t('93d63a5d.cc7cc5') }}
+        </el-button>
       </el-col>
       <el-col :span="4">
         <el-button type="primary" icon="plus" @click="addLuckyDrawShow">
@@ -15,7 +17,9 @@
         </el-button>
       </el-col>
       <el-col :span="4">
-        <el-button type="primary" icon="plus" @click="addLuckyDrawRule"> {{ $t('93d63a5d.da5ae6') }} </el-button>
+        <el-button type="primary" icon="plus" @click="addLuckyDrawRule">
+          {{ $t('93d63a5d.da5ae6') }}
+        </el-button>
       </el-col>
     </el-row>
     <el-tabs v-model="activeName" type="border-card">

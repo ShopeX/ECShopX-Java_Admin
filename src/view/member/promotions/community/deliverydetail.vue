@@ -14,18 +14,28 @@
           <el-col :span="8"> {{ $t('b264361a.75f211') }}{{ detail.community_name }} </el-col>
           <el-col :span="8">
             {{ $t('b264361a.13b5c7') }}
-            <el-tag v-if="detail.status === 'PENDING'" type="info"> {{ $t('b264361a.d8476e') }} </el-tag>
-            <el-tag v-if="detail.status === 'SHIPPED'" type="primary"> {{ $t('b264361a.4933ca') }} </el-tag>
-            <el-tag v-if="detail.status === 'DONE'" type="success"> {{ $t('b264361a.f87f48') }} </el-tag>
-            <el-tag v-if="detail.status === 'BADDONE'" type="warning"> {{ $t('b264361a.5dc3f1') }} </el-tag>
+            <el-tag v-if="detail.status === 'PENDING'" type="info">
+              {{ $t('b264361a.d8476e') }}
+            </el-tag>
+            <el-tag v-if="detail.status === 'SHIPPED'" type="primary">
+              {{ $t('b264361a.4933ca') }}
+            </el-tag>
+            <el-tag v-if="detail.status === 'DONE'" type="success">
+              {{ $t('b264361a.f87f48') }}
+            </el-tag>
+            <el-tag v-if="detail.status === 'BADDONE'" type="warning">
+              {{ $t('b264361a.5dc3f1') }}
+            </el-tag>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <span> {{ $t('b264361a.4a3bb4') }}</span><span>{{ detail.shop_number }}</span>
+            <span> {{ $t('b264361a.4a3bb4') }}</span
+            ><span>{{ detail.shop_number }}</span>
           </el-col>
           <el-col :span="8">
-            <span> {{ $t('b264361a.dd2c11') }}</span><span>{{ detail.site_number }}</span>
+            <span> {{ $t('b264361a.dd2c11') }}</span
+            ><span>{{ detail.site_number }}</span>
           </el-col>
         </el-row>
         <el-row>
@@ -33,7 +43,8 @@
             {{ $t('b264361a.e74a08') }}{{ detail.created_time | datetime('YYYY-MM-DD HH:mm:ss') }}
           </el-col>
           <el-col :span="8">
-            {{ $t('b264361a.8fca68') }}<span v-if="detail.shipped_time">
+            {{ $t('b264361a.8fca68')
+            }}<span v-if="detail.shipped_time">
               {{ detail.shipped_time | datetime('YYYY-MM-DD HH:mm:ss') }}
             </span>
           </el-col>
@@ -46,7 +57,8 @@
         </el-row>
         <el-row>
           <el-col :span="16">
-            <span> {{ $t('b264361a.6e370f') }}</span><span>{{ detail.address }}</span>
+            <span> {{ $t('b264361a.6e370f') }}</span
+            ><span>{{ detail.address }}</span>
           </el-col>
           <el-col :span="8">
             {{ $t('b264361a.751ce6') }}

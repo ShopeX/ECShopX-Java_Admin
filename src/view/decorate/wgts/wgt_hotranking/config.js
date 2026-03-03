@@ -8,8 +8,8 @@ const config = {
   name: 'hotranking',
   setting: [
     {
-      group: '数据设置',
-      label: '数据数量',
+      group: '1d898622.e7af71',
+      label: '1d898622.87dfd7',
       key: 'dataCount',
       component: 'number',
       value: 4,
@@ -17,19 +17,19 @@ const config = {
       max: 99
     },
     {
-      group: '组件标题',
-      label: '标题类型',
+      group: '1d898622.6f3360',
+      label: '1d898622.c20c83',
       key: 'hotrankingTitleType',
       component: 'radiobutton',
       options: [
-        { name: '文字', label: 'text' },
-        { name: '图片', label: 'image' }
+        { name: '1d898622.ca746b', label: 'text' },
+        { name: '1d898622.20def7', label: 'image' }
       ],
       value: 'text'
     },
     {
-      group: '组件标题',
-      label: '标题图片',
+      group: '1d898622.6f3360',
+      label: '1d898622.264fe1',
       key: 'hotrankingTitleImage',
       component: function (h, { key }) {
         return <SpImagePicker v-model={this.value[key]} size='small' />
@@ -40,8 +40,8 @@ const config = {
       }
     },
     {
-      group: '组件标题',
-      label: '标题文字',
+      group: '1d898622.6f3360',
+      label: '1d898622.eded9e',
       key: 'hotrankingTitleText',
       component: 'input',
       value: '标题',
@@ -50,8 +50,8 @@ const config = {
       }
     },
     {
-      group: '组件标题',
-      label: '标题颜色',
+      group: '1d898622.6f3360',
+      label: '1d898622.94e391',
       key: 'hotrankingTitleColor',
       component: 'color',
       value: '#000000',
@@ -60,19 +60,19 @@ const config = {
       }
     },
     {
-      group: '更多按钮',
-      label: '展示类型',
+      group: '1d898622.90507a',
+      label: '1d898622.1711a8',
       key: 'hotrankingShowMoreBtn',
       component: 'radiobutton',
       options: [
-        { name: '显示', label: true },
-        { name: '隐藏', label: false }
+        { name: '1d898622.4d775d', label: true },
+        { name: '1d898622.dce537', label: false }
       ],
       value: true
     },
     {
-      group: '更多按钮',
-      label: '按钮颜色',
+      group: '1d898622.90507a',
+      label: '1d898622.351201',
       key: 'hotrankingMoreBtnColor',
       component: 'color',
       value: '#000000',
@@ -81,7 +81,7 @@ const config = {
       }
     },
     {
-      group: '更多按钮',
+      group: '1d898622.90507a',
       label: '',
       key: 'hotrankingMoreLink',
       component: function (h, { key }) {

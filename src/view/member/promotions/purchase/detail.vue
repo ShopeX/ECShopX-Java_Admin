@@ -43,7 +43,9 @@
           {{ detail.dependents_limit }}
         </el-form-item>
         <el-form-item :label="itemTypeTransform(detail.item_type) + $t('f60777f5.5ecbfa')">
-          <p v-if="detail.item_type == 'all'">{{ $t('f60777f5.343488') }}{{ detail.item_limit }}{{ $t('f60777f5.f7edf5') }}</p>
+          <p v-if="detail.item_type == 'all'">
+            {{ $t('f60777f5.343488') }}{{ detail.item_limit }}{{ $t('f60777f5.f7edf5') }}
+          </p>
           <el-table v-else :data="detail.item_limit">
             <el-table-column prop="item_id" label="ID" />
             <el-table-column prop="name" :label="$t('f60777f5.d7ec2d')" />
@@ -96,8 +98,12 @@ export default {
       if (role) {
         let transRole = eval(role)
         let textArr = []
-        transRole.length > 0 && transRole.indexOf('employee') > -1 && textArr.push(this.$t('f60777f5.2ed392'))
-        transRole.length > 0 && transRole.indexOf('dependents') > -1 && textArr.push(this.$t('f60777f5.4eca5b'))
+        transRole.length > 0 &&
+          transRole.indexOf('employee') > -1 &&
+          textArr.push(this.$t('f60777f5.2ed392'))
+        transRole.length > 0 &&
+          transRole.indexOf('dependents') > -1 &&
+          textArr.push(this.$t('f60777f5.4eca5b'))
         return textArr.toString()
       }
     },

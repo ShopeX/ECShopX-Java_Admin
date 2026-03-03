@@ -14,9 +14,13 @@
       <el-tab-pane v-for="item in pane_list" :key="item.name" :label="item.label" :name="item.name">
         <div class="tip-info">
           <p>
-            {{ $t('f4f9c6d7.7b5c77') }}<strong>{{ $t('f4f9c6d7.d99268') }}</strong>。
+            {{ $t('f4f9c6d7.7b5c77') }}<strong>{{ $t('f4f9c6d7.d99268') }}</strong
+            >。
           </p>
-          <p>{{ $t('f4f9c6d7.41c5ec') }}<strong>{{ $t('f4f9c6d7.d99268') }}</strong>{{ $t('f4f9c6d7.40d0ad') }}</p>
+          <p>
+            {{ $t('f4f9c6d7.41c5ec') }}<strong>{{ $t('f4f9c6d7.d99268') }}</strong
+            >{{ $t('f4f9c6d7.40d0ad') }}
+          </p>
         </div>
         <el-form ref="form" label-width="100px">
           <div class="content-bottom-padded">
@@ -42,11 +46,17 @@
           >
             <el-table-column prop="file_name" :label="$t('f4f9c6d7.a6fc9e')" min-width="100" />
             <el-table-column prop="created_date" :label="$t('f4f9c6d7.cae255')" min-width="80" />
-            <el-table-column prop="file_size_format" :label="$t('f4f9c6d7.396b7d')" min-width="60" />
+            <el-table-column
+              prop="file_size_format"
+              :label="$t('f4f9c6d7.396b7d')"
+              min-width="60"
+            />
             <el-table-column :label="$t('f4f9c6d7.21b314')" min-width="50">
               <template slot-scope="scope">
                 <span v-if="scope.row.handle_status == 'wait'">{{ $t('f4f9c6d7.1e57c1') }}</span>
-                <span v-if="scope.row.handle_status == 'processing'">{{ $t('f4f9c6d7.5d459d') }}</span>
+                <span v-if="scope.row.handle_status == 'processing'">{{
+                  $t('f4f9c6d7.5d459d')
+                }}</span>
                 <span v-if="scope.row.handle_status == 'finish'">{{ $t('f4f9c6d7.7be39b') }}</span>
               </template>
             </el-table-column>

@@ -40,7 +40,7 @@
               v-for="item in orderCategory"
               :key="item.value"
               size="mini"
-              :label="item.title"
+              :label="$t(item.title)"
               :value="item.value"
             />
           </el-select>
@@ -297,7 +297,11 @@
 
           <el-table-column :label="$t('8906cb64.350fd3')">
             <template slot-scope="scope">
-              {{ getOrderCategoryName(scope.row.order_holder) }}
+              {{
+                getOrderCategoryName(scope.row.order_holder)
+                  ? $t(getOrderCategoryName(scope.row.order_holder))
+                  : ''
+              }}
             </template>
           </el-table-column>
           <el-table-column :label="$t('8906cb64.edfe4c')">
@@ -568,7 +572,7 @@
                     v-for="item in DISTRIBUTION_STATUS"
                     :key="item.value"
                     size="mini"
-                    :label="item.title"
+                    :label="$t(item.title)"
                     :value="item.value"
                   />
                 </el-select>

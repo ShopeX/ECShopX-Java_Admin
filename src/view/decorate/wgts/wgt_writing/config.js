@@ -7,9 +7,9 @@ import { isArray, pickBy } from '@/utils'
 const config = {
   name: 'writing',
   setting: [
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
+    { label: '7794d7ee.4707ba', key: 'padded', component: 'switch', value: true },
     {
-      label: '文本内容',
+      label: '7794d7ee.cbc608',
       key: 'data',
       component: 'textarea',
       rows: 20,

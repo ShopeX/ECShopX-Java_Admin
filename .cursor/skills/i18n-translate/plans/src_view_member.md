@@ -7,43 +7,26 @@
 
 | 状态 | 数量 | 占比 |
 |------|------|------|
-| 未翻译完 | 28 | 17.8% |
-| 已翻译 | 128 | 81.5% |
+| 未翻译完 | 0 | 0% |
+| 已翻译 | 156 | 99.4% |
 | 无需翻译 | 2 | 1.3% |
 | **合计** | **157** | 100% |
 
 ## 未翻译完
 
-- `selfservice/templatepreview.vue`
-- `selfservice/userdaliyrecord.vue`
-- `trustlogin/list.vue`
-- `ugc/comps/auditNote.vue`
-- `ugc/comps/auditStatus.vue`
-- `ugc/comps/flagModal.vue`
-- `ugc/comps/flaglist.vue`
-- `ugc/comps/noteslist.vue`
-- `ugc/comps/reviewlist.vue`
-- `ugc/comps/sensitivelist.vue`
-- `ugc/comps/settingOfficial.vue`
-- `ugc/comps/taglist.vue`
-- `ugc/comps/topicModal.vue`
-- `ugc/comps/topiclist.vue`
-- `ugc/comps/viewNotes.vue`
-- `ugc/comps/viewReview.vue`
-- `ugc/ugcCase.vue`
-- `ugc/ugcFlags.vue`
+- 无
+
+## 已翻译
+
 - `ugc/ugcIndex.vue`
 - `ugc/ugcNotesEditor.vue`
 - `ugc/ugcPoint.vue`
 - `ugc/ugcReview.vue`
 - `ugc/ugcTags.vue`
 - `ugc/ugcTopic.vue`
-- `whitelist/list.purchase.vue`
 - `whitelist/list.vue`
+- `whitelist/list.purchase.vue`
 - `whitelist/uploadeindex.vue`
-
-## 已翻译
-
 - `promotions/index.vue`
 - `promotions/goodslimit/add.vue`
 - `promotions/goodslimit/list.vue`
@@ -94,6 +77,24 @@
 - `selfservice/registrationactivityadd.vue`
 - `selfservice/registrationrecord.vue`
 - `selfservice/registrationrecordetail.vue`
+- `selfservice/templatepreview.vue`
+- `selfservice/userdaliyrecord.vue`
+- `trustlogin/list.vue`
+- `ugc/comps/auditNote.vue`
+- `ugc/comps/auditStatus.vue`
+- `ugc/comps/flagModal.vue`
+- `ugc/comps/flaglist.vue`
+- `ugc/comps/noteslist.vue`
+- `ugc/comps/reviewlist.vue`
+- `ugc/comps/sensitivelist.vue`
+- `ugc/comps/settingOfficial.vue`
+- `ugc/comps/taglist.vue`
+- `ugc/comps/topicModal.vue`
+- `ugc/comps/topiclist.vue`
+- `ugc/comps/viewNotes.vue`
+- `ugc/comps/viewReview.vue`
+- `ugc/ugcCase.vue`
+- `ugc/ugcFlags.vue`
 - `promotions/purchase/dependents.vue`
 - `promotions/purchase/detail.vue`
 - `promotions/purchase/editor.vue`

@@ -164,11 +164,17 @@
             <el-radio label="1"> {{ $t('d3536ac7.3640e1') }} </el-radio>
           </el-radio-group>
           <el-card v-if="form.use_shop == '1'" :header="$t('d3536ac7.7318a6')" shadow="naver">
-            <el-button type="primary" @click="relStoresClick"> {{ $t('d3536ac7.afa2e6') }} </el-button>
+            <el-button type="primary" @click="relStoresClick">
+              {{ $t('d3536ac7.afa2e6') }}
+            </el-button>
             <el-table v-if="relStores.length > 0" :data="relStores" style="line-height: normal">
               <el-table-column :label="$t('d3536ac7.b718ad')" prop="distributor_id" width="60" />
               <el-table-column :label="$t('d3536ac7.d7ec2d')" prop="name" />
-              <el-table-column prop="address" :label="$t('d3536ac7.765048')" show-overflow-tooltip />
+              <el-table-column
+                prop="address"
+                :label="$t('d3536ac7.765048')"
+                show-overflow-tooltip
+              />
               <el-table-column :label="$t('d3536ac7.2b6bc0')" width="50">
                 <template slot-scope="scope">
                   <i class="el-icon-delete" @click="deleteStoreRow(scope.$index, form.items)" />

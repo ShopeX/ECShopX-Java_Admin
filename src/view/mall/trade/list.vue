@@ -48,7 +48,7 @@
               v-for="item in distributionType"
               :key="item.value"
               size="mini"
-              :label="item.title"
+              :label="$t(item.title)"
               :value="item.value"
             />
           </el-select>
@@ -101,7 +101,7 @@
                     <span v-else>{{ scope.row.orderId }}</span>
                   </el-form-item>
                   <el-form-item :label="$t('35ec026d.fc4d64')">
-                    <span>{{ fitlerPayType(scope.row.payChannel, scope.row.payType) }}</span>
+                    <span>{{ $t(fitlerPayType(scope.row.payChannel, scope.row.payType)) }}</span>
                     <!-- <span v-if="scope.row.payType == 'wxpay' || scope.row.payType == 'wxpayjs'"
                     >微信支付</span
                   >
@@ -217,7 +217,7 @@
             </el-table-column>
             <el-table-column :label="$t('35ec026d.0c9d2b')">
               <template slot-scope="scope">
-                <span>{{ fitlerPayType(scope.row.payChannel, scope.row.payType) }}</span>
+                <span>{{ $t(fitlerPayType(scope.row.payChannel, scope.row.payType)) }}</span>
                 <!-- <span v-if="scope.row.payType == 'wxpay' || scope.row.payType == 'wxpayjs'"
                 >微信支付</span
               >

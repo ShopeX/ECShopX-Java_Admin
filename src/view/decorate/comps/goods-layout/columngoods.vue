@@ -22,7 +22,7 @@
         class="header-more"
         :style="{ color: value.moreBtn.color }"
       >
-        查看更多<el-icon class="el-icon-arrow-right" />
+        {{ $t('16c372fc.90ef7c') }}<el-icon class="el-icon-arrow-right" />
       </div>
     </div>
 
@@ -40,7 +40,7 @@
             <img :src="item.main_img || item.pics?.[0] || ''" class="goods-image" alt="" />
             <!-- 已售罄标签 -->
             <div v-if="isSoldOut(item)" class="sold-out-mask">
-              <span class="sold-out-text">已售罄</span>
+              <span class="sold-out-text">{{ $t('16c372fc.b12876') }}</span>
             </div>
           </div>
 
@@ -77,7 +77,7 @@
               </div>
               <div class="discount-tag" v-if="getDiscount(item)">
                 {{ getDiscount(item) }}
-                <span class="discount-tag-text">折</span>
+                <span class="discount-tag-text">{{ $t('16c372fc.96c015') }}</span>
               </div>
             </div>
           </div>
@@ -96,7 +96,7 @@
             <img :src="item.main_img || item.pics?.[0] || ''" class="goods-image" alt="" />
             <!-- 已售罄标签 -->
             <div v-if="isSoldOut(item)" class="sold-out-mask">
-              <span class="sold-out-text">已售罄</span>
+              <span class="sold-out-text">{{ $t('16c372fc.b12876') }}</span>
             </div>
           </div>
 
@@ -133,7 +133,7 @@
               </div>
               <div class="discount-tag" v-if="getDiscount(item)">
                 {{ getDiscount(item) }}
-                <span class="discount-tag-text">折</span>
+                <span class="discount-tag-text">{{ $t('16c372fc.96c015') }}</span>
               </div>
             </div>
           </div>

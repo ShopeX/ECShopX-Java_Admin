@@ -63,7 +63,11 @@
 
     <SpFilterForm :model="params" @onSearch="searchData" @onReset="onSearch">
       <SpFilterFormItem prop="tag_name" :label="$t('45a63912.e33129')">
-        <el-input v-model="params.tag_name" :placeholder="$t('45a63912.0718bf')" style="width: 100%">
+        <el-input
+          v-model="params.tag_name"
+          :placeholder="$t('45a63912.0718bf')"
+          style="width: 100%"
+        >
           <!-- <el-button slot="append" icon="el-icon-search" @click="searchData" /> -->
         </el-input>
       </SpFilterFormItem>

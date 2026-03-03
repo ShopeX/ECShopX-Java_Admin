@@ -7,14 +7,23 @@
 
 | 状态 | 数量 | 占比 |
 |------|------|------|
-| 未翻译完 | 18 | 100.0% |
-| 已翻译 | 0 | 0.0% |
+| 未翻译完 | 0 | 0.0% |
+| 已翻译 | 19 | 100% |
 | 无需翻译 | 0 | 0.0% |
-| **合计** | **18** | 100% |
+| **合计** | **19** | 100% |
 
 ## 未翻译完
 
+（无）
+
+## 已翻译
+
 - `invoice/constants.js`
+- `invoice/list.vue`
+- `invoice/listSchema.js`
+- `invoice/setting.vue`
+- `invoice/settingSchema.js`
+- `invoice/process.vue`
 - `invoice/detail.vue`
 - `invoice/detailSchema.js`
 - `invoice/information.vue`
@@ -23,19 +32,10 @@
 - `invoice/invoiceConfirmationSchema.js`
 - `invoice/invoiceTax.vue`
 - `invoice/invoiceTaxSchema.js`
-- `invoice/list.vue`
-- `invoice/listSchema.js`
-- `invoice/process.vue`
-- `invoice/setting.vue`
-- `invoice/settingSchema.js`
-- `settlement/components/SettlementCycle.vue`
-- `settlement/configure.vue`
-- `settlement/detailed.vue`
 - `settlement/summary.vue`
-
-## 已翻译
-
-（无）
+- `settlement/detailed.vue`
+- `settlement/configure.vue`
+- `settlement/components/SettlementCycle.vue`
 
 ## 无需翻译
 

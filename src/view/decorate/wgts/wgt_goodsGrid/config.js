@@ -9,22 +9,22 @@ import CompPickerLink from '../../comps/comp-pickerLink'
 const config = {
   name: 'goodsGrid',
   setting: [
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
-    { label: '直接加购', key: 'addCart', component: 'switch', value: false },
+    { label: 'e3c7978b.4707ba', key: 'padded', component: 'switch', value: true },
+    { label: 'bfabc536.319337', key: 'addCart', component: 'switch', value: false },
     {
-      label: '样式',
+      label: 'bfabc536.390037',
       key: 'style',
       component: 'radiobutton',
       options: [
-        { name: '一行两个', label: 'grid' },
-        { name: '一行三个', label: 'grids' }
+        { name: 'bfabc536.412d79', label: 'grid' },
+        { name: 'bfabc536.41061c', label: 'grids' }
       ],
       value: 'grid'
     },
-    { label: '显示价格', key: 'showPrice', component: 'switch', value: false },
-    { label: '显示品牌', key: 'brand', component: 'switch', value: true },
+    { label: 'bfabc536.ba302e', key: 'showPrice', component: 'switch', value: false },
+    { label: 'bfabc536.02af2a', key: 'brand', component: 'switch', value: true },
     {
-      label: '商品类型',
+      label: 'bfabc536.2af133',
       key: 'goodsSetting',
       component: function (h, { key }) {
         return <AttrGoods v-model={this.value[key]} type={this.value[key].type} />
@@ -35,7 +35,7 @@ const config = {
             imgUrl: '',
             linkPage: '',
             content: '',
-            title: '商品名称',
+            title: 'bfabc536.1fd1d5',
             id: '',
             price: 0,
             market_price: 0
@@ -44,7 +44,7 @@ const config = {
             imgUrl: '',
             linkPage: '',
             content: '',
-            title: '商品名称',
+            title: 'bfabc536.1fd1d5',
             id: '',
             price: 0,
             market_price: 0
@@ -53,7 +53,7 @@ const config = {
             imgUrl: '',
             linkPage: '',
             content: '',
-            title: '商品名称',
+            title: 'bfabc536.1fd1d5',
             id: '',
             price: 0,
             market_price: 0
@@ -62,7 +62,7 @@ const config = {
             imgUrl: '',
             linkPage: '',
             content: '',
-            title: '商品名称',
+            title: 'bfabc536.1fd1d5',
             id: '',
             price: 0,
             market_price: 0
@@ -73,7 +73,7 @@ const config = {
             imgUrl: '',
             linkPage: '',
             content: '',
-            title: '商品名称',
+            title: 'bfabc536.1fd1d5',
             id: '',
             price: 0,
             market_price: 0,
@@ -83,7 +83,7 @@ const config = {
             imgUrl: '',
             linkPage: '',
             content: '',
-            title: '商品名称',
+            title: 'bfabc536.1fd1d5',
             id: '',
             price: 0,
             market_price: 0,
@@ -93,7 +93,7 @@ const config = {
             imgUrl: '',
             linkPage: '',
             content: '',
-            title: '商品名称',
+            title: 'bfabc536.1fd1d5',
             id: '',
             price: 0,
             market_price: 0,
@@ -103,7 +103,7 @@ const config = {
             imgUrl: '',
             linkPage: '',
             content: '',
-            title: '商品名称',
+            title: 'bfabc536.1fd1d5',
             id: '',
             price: 0,
             market_price: 0,
@@ -114,7 +114,7 @@ const config = {
       }
     },
     {
-      label: '查看更多',
+      label: 'bfabc536.90ef7c',
       key: 'moreLink',
       component: function (h, { key }) {
         return <CompPickerLink v-model={this.value[key]} style='margin-top: 7px;' />

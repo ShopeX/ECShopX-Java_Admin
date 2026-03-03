@@ -180,7 +180,9 @@
                 </template>
               </el-table-column>
             </el-table>
-            <el-button class="add-prize" type="primary" @click="handleClickAdd"> {{ $t('2619c1c8.d58dfa') }} </el-button>
+            <el-button class="add-prize" type="primary" @click="handleClickAdd">
+              {{ $t('2619c1c8.d58dfa') }}
+            </el-button>
           </div>
         </el-tab-pane>
         <el-tab-pane :label="$t('2619c1c8.8e1b94')" name="2">
@@ -257,7 +259,9 @@
                   </el-col>
                   <el-col :span="24">
                     <el-form-item :label="$t('2619c1c8.35c2c5')">
-                      <el-button size="mini" @click="handleClickAddPointer"> {{ $t('2619c1c8.d7548a') }} </el-button>
+                      <el-button size="mini" @click="handleClickAddPointer">
+                        {{ $t('2619c1c8.d7548a') }}
+                      </el-button>
                       <el-button
                         v-if="turntableData.pointer_img"
                         size="mini"

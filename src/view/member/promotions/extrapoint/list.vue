@@ -23,7 +23,9 @@
           />
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" icon="plus" @click="addActivityData"> {{ $t('c89b1fbd.23b46b') }} </el-button>
+          <el-button type="primary" icon="plus" @click="addActivityData">
+            {{ $t('c89b1fbd.23b46b') }}
+          </el-button>
         </el-col>
       </el-row>
       <el-table v-loading="loading" :data="activityLists" :height="wheight - 150">
@@ -40,7 +42,9 @@
         <el-table-column prop="status" :label="$t('c89b1fbd.1181a5')" width="150">
           <template slot-scope="scope">
             <span v-if="scope.row.activity_status == 'ready'">{{ $t('c89b1fbd.1568ba') }}</span>
-            <span v-else-if="scope.row.activity_status == 'processing'">{{ $t('c89b1fbd.fb852f') }}</span>
+            <span v-else-if="scope.row.activity_status == 'processing'">{{
+              $t('c89b1fbd.fb852f')
+            }}</span>
             <span v-else-if="scope.row.activity_status == 'end'">{{ $t('c89b1fbd.047fab') }}</span>
           </template>
         </el-table-column>

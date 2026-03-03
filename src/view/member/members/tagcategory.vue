@@ -31,8 +31,12 @@
     >
       <el-table-column :label="$t('81de93bd.2b6bc0')" width="150">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleEdit(scope.row)"> {{ $t('81de93bd.95b351') }} </el-button>
-          <el-button type="text" @click="handleDelete(scope)"> {{ $t('81de93bd.2f4aad') }} </el-button>
+          <el-button type="text" @click="handleEdit(scope.row)">
+            {{ $t('81de93bd.95b351') }}
+          </el-button>
+          <el-button type="text" @click="handleDelete(scope)">
+            {{ $t('81de93bd.2f4aad') }}
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column prop="category_name" :label="$t('81de93bd.04d7d8')" width="250">

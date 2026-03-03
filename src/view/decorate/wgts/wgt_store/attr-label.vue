@@ -43,8 +43,8 @@
 </style>
 <template>
   <CompButton
-    placeholder="选择标签"
-    format="{0}个标品"
+    :placeholder="$t('67c2899e.f9b05d')"
+    :format="$t('67c2899e.faa5a7')"
     :disabled="disabledBtn"
     :value="value.length"
     @click="handleClickAdd"

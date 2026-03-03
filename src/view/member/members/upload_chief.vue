@@ -13,9 +13,13 @@
     <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
       <div class="tip-info">
         <p>
-          {{ $t('f68ac74d.7b5c77') }}<strong>{{ $t('f68ac74d.d99268') }}</strong>。
+          {{ $t('f68ac74d.7b5c77') }}<strong>{{ $t('f68ac74d.d99268') }}</strong
+          >。
         </p>
-        <p>{{ $t('f68ac74d.41c5ec') }}<strong>{{ $t('f68ac74d.d99268') }}</strong>{{ $t('f68ac74d.40d0ad') }}</p>
+        <p>
+          {{ $t('f68ac74d.41c5ec') }}<strong>{{ $t('f68ac74d.d99268') }}</strong
+          >{{ $t('f68ac74d.40d0ad') }}
+        </p>
       </div>
       <el-form ref="form" label-width="100px">
         <div class="content-bottom-padded">
@@ -33,14 +37,20 @@
             {{ $t('f68ac74d.402a67') }}
           </el-button>
         </div>
-        <el-table v-loading="loading" :data="uploadList" :element-loading-text="$t('f68ac74d.f09b12')">
+        <el-table
+          v-loading="loading"
+          :data="uploadList"
+          :element-loading-text="$t('f68ac74d.f09b12')"
+        >
           <el-table-column prop="file_name" :label="$t('f68ac74d.a6fc9e')" min-width="100" />
           <el-table-column prop="created_date" :label="$t('f68ac74d.cae255')" min-width="80" />
           <el-table-column prop="file_size_format" :label="$t('f68ac74d.396b7d')" min-width="60" />
           <el-table-column :label="$t('f68ac74d.21b314')" min-width="50">
             <template slot-scope="scope">
               <span v-if="scope.row.handle_status == 'wait'">{{ $t('f68ac74d.1e57c1') }}</span>
-              <span v-if="scope.row.handle_status == 'processing'">{{ $t('f68ac74d.5d459d') }}</span>
+              <span v-if="scope.row.handle_status == 'processing'">{{
+                $t('f68ac74d.5d459d')
+              }}</span>
               <span v-if="scope.row.handle_status == 'finish'">{{ $t('f68ac74d.7be39b') }}</span>
             </template>
           </el-table-column>

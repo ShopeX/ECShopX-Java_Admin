@@ -22,7 +22,7 @@
         class="header-more"
         :style="{ color: value.moreBtn.color }"
       >
-        查看更多<el-icon class="el-icon-arrow-right" />
+        {{ $t('82f6b6da.90ef7c') }}<el-icon class="el-icon-arrow-right" />
       </div>
     </div>
 
@@ -38,7 +38,7 @@
           <img :src="item.main_img || item.pics?.[0] || ''" class="goods-image" alt="" />
           <!-- 已售罄标签 -->
           <div v-if="isSoldOut(item)" class="sold-out-mask">
-            <span class="sold-out-text">已售罄</span>
+            <span class="sold-out-text">{{ $t('82f6b6da.b12876') }}</span>
           </div>
         </div>
 

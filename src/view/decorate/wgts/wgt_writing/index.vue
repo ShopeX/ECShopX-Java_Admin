@@ -57,7 +57,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Writing',
-  wgtName: '文本内容',
+  wgtName: '9429f5cf.cbc608',
   wgtDesc: '',
   wgtIcon: 'wgt-content',
   config: config,

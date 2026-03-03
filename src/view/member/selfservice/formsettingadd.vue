@@ -14,11 +14,7 @@
         label-position="right"
         class="demo-ruleForm"
       >
-        <el-form-item
-          :label="$t('c831a478.32c65d')"
-          prop="field_title"
-          :rules="fieldTitleRules"
-        >
+        <el-form-item :label="$t('c831a478.32c65d')" prop="field_title" :rules="fieldTitleRules">
           <el-col :span="15">
             <el-input
               v-model.trim="form.field_title"
@@ -28,11 +24,7 @@
             />
           </el-col>
         </el-form-item>
-        <el-form-item
-          :label="$t('c831a478.08437e')"
-          prop="form_element"
-          :rules="formElementRules"
-        >
+        <el-form-item :label="$t('c831a478.08437e')" prop="form_element" :rules="formElementRules">
           <el-col :span="15">
             <el-radio-group v-model="form.form_element" @change="ElementChange">
               <el-radio label="text">{{ $t('c831a478.e00ed1') }}</el-radio>
@@ -66,7 +58,9 @@
               <el-input v-model="domain.value" width="20" />
             </el-col>
             <el-col v-if="index > 1" :span="5">
-              <el-button @click.prevent="removeDomain(domain)">{{ $t('8da83775.2f4aad') }}</el-button>
+              <el-button @click.prevent="removeDomain(domain)">{{
+                $t('8da83775.2f4aad')
+              }}</el-button>
             </el-col>
           </el-row>
           <el-row>
@@ -98,14 +92,13 @@
           "
         >
           <el-col :span="15">
-            <el-button type="primary" circle @click="addOption">{{ $t('c831a478.c0a0f2') }}</el-button>
+            <el-button type="primary" circle @click="addOption">{{
+              $t('c831a478.c0a0f2')
+            }}</el-button>
           </el-col>
         </el-form-item>
         <!-- field_name：{{form.field_name}} | defalutFileName:{{defalutFileName}} -->
-        <el-form-item
-          :label="$t('c831a478.7843a0')"
-          :rules="englishIdRules"
-        >
+        <el-form-item :label="$t('c831a478.7843a0')" :rules="englishIdRules">
           <el-col :span="15">
             <el-select
               v-model="defalutFileName"
@@ -172,7 +165,11 @@
           :rules="picNameRules"
         >
           <el-col :span="15">
-            <el-input v-model.trim="form.pic_name" :maxlength="30" :placeholder="$t('c831a478.9c05b1')" />
+            <el-input
+              v-model.trim="form.pic_name"
+              :maxlength="30"
+              :placeholder="$t('c831a478.9c05b1')"
+            />
           </el-col>
         </el-form-item>
         <el-form-item>

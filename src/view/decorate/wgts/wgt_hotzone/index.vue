@@ -61,7 +61,7 @@ import { getOuterStyle } from '../../comps/style-utils'
 import config from './config'
 export default {
   name: 'ImgHotzone',
-  wgtName: '热区图',
+  wgtName: '7f789849.0ad6ab',
   wgtDesc: '',
   wgtIcon: 'layers',
   wgtType: 1,

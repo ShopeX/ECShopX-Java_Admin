@@ -48,7 +48,9 @@
                 {{ $t('c17172ba.9ea8d6') }}
               </el-button>
             </el-tooltip>
-            <el-button :disabled="disabled" @click="pickHanle"> {{ $t('c17172ba.45bcee') }} </el-button>
+            <el-button :disabled="disabled" @click="pickHanle">
+              {{ $t('c17172ba.45bcee') }}
+            </el-button>
           </el-form-item>
           <el-form-item v-if="seletedCoupon.length > 0" label-width="20px">
             <cpn-table
@@ -88,7 +90,9 @@
       </el-card>
       <div>
         <el-button @click="back"> {{ $t('c17172ba.5f4112') }} </el-button>
-        <el-button type="primary" @click="confirmHandle('ruleForm')"> {{ $t('c17172ba.939d53') }} </el-button>
+        <el-button type="primary" @click="confirmHandle('ruleForm')">
+          {{ $t('c17172ba.939d53') }}
+        </el-button>
       </div>
     </el-form>
     <template v-if="visible">

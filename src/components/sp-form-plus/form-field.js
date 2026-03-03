@@ -121,7 +121,7 @@ export default {
           },
           props: {
             value: this.modelValue,
-            placeholder: `请选择${this.label}`,
+            placeholder: this.$t('1bb56920.708c9d') + (this.label || '').replace(/:$/, ''),
             ...props
           },
           on: {
@@ -211,7 +211,7 @@ export default {
             }
           }
         },
-        props.text || this.label || '按钮'
+        props.text || this.label || this.$t('1bb56920.fa9663')
       )
     },
     renderDatePicker(props = {}) {
@@ -236,12 +236,18 @@ export default {
             style='width: 100%'
             size={this.size || 'small'}
             type={this.componentProps.type}
-            startPlaceholder='开始日期/结束时间'
+            startPlaceholder={this.$t('1bb56920.ad93ed')}
             default-time={['00:00:00', '23:59:59']}
             // endPlaceholder="结束日期"
             rangeSeparator={`${this.modelValue.length > 1 ? '~' : ''}`}
             value={this.modelValue}
-            pickerOptions={PICKER_DATE_OPTIONS}
+            pickerOptions={{
+              ...PICKER_DATE_OPTIONS,
+              shortcuts: PICKER_DATE_OPTIONS.shortcuts.map((s) => ({
+                ...s,
+                text: this.$t(s.text)
+              }))
+            }}
             prefix-icon={false}
             onInput={this.handleInput}
           />
@@ -306,7 +312,7 @@ export default {
                   type: props.buttonType || 'primary'
                 }
               },
-              props.buttonText || '点击上传'
+              props.buttonText || this.$t('1bb56920.2c808b')
             )
           ]
         )

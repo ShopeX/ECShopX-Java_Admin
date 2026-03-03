@@ -8,8 +8,8 @@
 </style>
 <template>
   <CompButton
-    placeholder="选择商品"
-    format="{0}个商品"
+    :placeholder="$t('63df7e17.43d1e2')"
+    :format="$t('63df7e17.270474')"
     :disabled="disabledBtn"
     :value="value.length"
     @click="handleClickAdd"

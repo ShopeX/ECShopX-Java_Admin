@@ -120,7 +120,7 @@ import { getOuterStyle } from '../../comps/style-utils'
 
 export default {
   name: 'FullSlider',
-  wgtName: '整屏滑动',
+  wgtName: '9221ba28.e39be2',
   wgtDesc: '',
   wgtIcon: 'auto-height-one',
   wgtType: 1,

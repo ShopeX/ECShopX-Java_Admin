@@ -39,7 +39,12 @@
       <el-col>
         <!--distributors wxshops 需要哪个api传哪个-->
         <shop-select wxshops @update="shopHandle" />
-        <el-input v-model="searchMobile" class="input-m" :placeholder="$t('5e1e35aa.8098e2')" clearable>
+        <el-input
+          v-model="searchMobile"
+          class="input-m"
+          :placeholder="$t('5e1e35aa.8098e2')"
+          clearable
+        >
           <el-button slot="append" icon="el-icon-search" @click="numberSearch" />
         </el-input>
         <el-date-picker
@@ -49,7 +54,11 @@
           :placeholder="$t('5e1e35aa.4b8cb9')"
           @change="dateChange"
         />
-        <el-select v-model="rights_from" :placeholder="$t('5e1e35aa.d5c816')" @change="rightsFromHandle">
+        <el-select
+          v-model="rights_from"
+          :placeholder="$t('5e1e35aa.d5c816')"
+          @change="rightsFromHandle"
+        >
           <el-option
             v-for="(item, index) in rightsFrom"
             :key="index"
@@ -75,7 +84,11 @@
         </el-popover>
       </el-col>
     </el-row>
-    <el-dialog :title="$t('5e1e35aa.cc93e2')" :visible.sync="downloadView" :close-on-click-modal="false">
+    <el-dialog
+      :title="$t('5e1e35aa.cc93e2')"
+      :visible.sync="downloadView"
+      :close-on-click-modal="false"
+    >
       <template v-if="downloadUrl">
         <a :href="downloadUrl" download>{{ downloadName }}</a>
       </template>
@@ -125,14 +138,20 @@
             <template v-if="scope.row.is_not_limit_num == 1">
               <el-tag size="mini">{{ $t('5e1e35aa.53e5df') }}</el-tag>
             </template>
-            <el-tag v-else-if="scope.row.is_valid == '1'" size="mini" type="success">{{ $t('5e1e35aa.c6cc39') }}</el-tag>
+            <el-tag v-else-if="scope.row.is_valid == '1'" size="mini" type="success">{{
+              $t('5e1e35aa.c6cc39')
+            }}</el-tag>
             <el-tag v-else size="mini">{{ $t('5e1e35aa.4d5ccd') }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column :label="$t('5e1e35aa.2b6bc0')" min-width="200">
           <template slot-scope="scope">
-            <el-button size="mini" @click="delayAction(scope.row)">{{ $t('5e1e35aa.e6095e') }}</el-button>
-            <el-button size="mini" @click="transferAction(scope.row)">{{ $t('5e1e35aa.9aa883') }}</el-button>
+            <el-button size="mini" @click="delayAction(scope.row)">{{
+              $t('5e1e35aa.e6095e')
+            }}</el-button>
+            <el-button size="mini" @click="transferAction(scope.row)">{{
+              $t('5e1e35aa.9aa883')
+            }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -187,19 +206,20 @@
     <el-dialog :title="$t('5e1e35aa.86fe28')" class="delay-dialog" :visible.sync="delayDialog">
       <div class="alert-txt">
         <el-alert title="" type="warning" :closable="false">
-          <span>{{ $t('5e1e35aa.733e02') }}{{ rightsInfo.rights_name }} ,{{ $t('5e1e35aa.e65e93') }}{{ rightsInfo.end_time | datetime }}</span>
+          <span
+            >{{ $t('5e1e35aa.733e02') }}{{ rightsInfo.rights_name }} ,{{ $t('5e1e35aa.e65e93')
+            }}{{ rightsInfo.end_time | datetime }}</span
+          >
         </el-alert>
       </div>
       <el-row class="option-box">
         <el-col :span="8">
-          {{ $t('5e1e35aa.452983') }}<el-date-picker
-            v-model="form.delay_date"
-            type="date"
-            :picker-options="pickerOptions"
-          />
+          {{ $t('5e1e35aa.452983')
+          }}<el-date-picker v-model="form.delay_date" type="date" :picker-options="pickerOptions" />
         </el-col>
         <el-col :span="12">
-          {{ $t('5e1e35aa.751ce6') }}<el-input
+          {{ $t('5e1e35aa.751ce6')
+          }}<el-input
             v-model="form.remark"
             type="textarea"
             :placeholder="$t('5e1e35aa.3cac63')"
@@ -228,10 +248,12 @@
     <el-dialog :title="$t('5e1e35aa.ac692c')" class="delay-dialog" :visible.sync="transferDialog">
       <el-row class="option-box">
         <el-col :span="8">
-          {{ $t('5e1e35aa.d55a1a') }}<el-input v-model="transferForm.transfer_mobile" style="width: 200px" />
+          {{ $t('5e1e35aa.d55a1a')
+          }}<el-input v-model="transferForm.transfer_mobile" style="width: 200px" />
         </el-col>
         <el-col :span="12">
-          {{ $t('5e1e35aa.751ce6') }}<el-input
+          {{ $t('5e1e35aa.751ce6')
+          }}<el-input
             v-model="transferForm.remark"
             type="textarea"
             :placeholder="$t('5e1e35aa.3cac63')"

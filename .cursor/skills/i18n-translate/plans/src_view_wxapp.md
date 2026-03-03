@@ -7,19 +7,23 @@
 
 | 状态 | 数量 | 占比 |
 |------|------|------|
-| 未翻译完 | 71 | 85.5% |
-| 已翻译 | 0 | 0.0% |
+| 未翻译完 | 0 | 0.0% |
+| 已翻译 | 76 | 91.6% |
 | 无需翻译 | 12 | 14.5% |
 | **合计** | **83** | 100% |
 
 ## 未翻译完
 
+（无）
+
+## 已翻译
+
 - `aliapp/authorize/index.vue`
 - `aliapp/cartremind.vue`
-- `aliapp/category.vue`
 - `aliapp/color_style.vue`
-- `aliapp/custompage.vue`
 - `aliapp/floor_guide.vue`
+- `aliapp/category.vue`
+- `aliapp/custompage.vue`
 - `aliapp/index.vue`
 - `aliapp/messages.vue`
 - `aliapp/salespersonshelfindex.vue`
@@ -85,10 +89,6 @@
 - `theme/colorStyle.vue`
 - `wxappmanage/list.vue`
 - `wxappmanage/policy.vue`
-
-## 已翻译
-
-（无）
 
 ## 无需翻译
 

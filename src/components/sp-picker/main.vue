@@ -23,8 +23,8 @@
     />
 
     <span slot="footer" class="dialog-footer">
-      <el-button @click="isLocalShow = false">取 消</el-button>
-      <el-button type="primary" @click="handleConfirm">确 定</el-button>
+      <el-button @click="isLocalShow = false">{{ $t('8e248734.c08ab9') }}</el-button>
+      <el-button type="primary" @click="handleConfirm">{{ $t('8e248734.aa7527') }}</el-button>
     </span>
   </el-dialog>
 </template>

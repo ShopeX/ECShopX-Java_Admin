@@ -170,8 +170,12 @@
           :current-category="selectCatgory"
         />
 
-        <el-button @click="onAddGroup" class="h-[calc(1em+16px)]"> 添加分组 </el-button>
-        <el-button :disabled="disabledBtn" @click="onMoveGroup"> 移组 </el-button>
+        <el-button @click="onAddGroup" class="h-[calc(1em+16px)]">{{
+          $t('4c4bec01.ddceab')
+        }}</el-button>
+        <el-button :disabled="disabledBtn" @click="onMoveGroup">{{
+          $t('4c4bec01.af4be5')
+        }}</el-button>
         <!-- <el-button :disabled="disabledDeleteGroup" @click="onDeleteImageGroup">
           删除分组
         </el-button> -->
@@ -195,7 +199,9 @@
         >
           下载
         </el-button> -->
-        <el-button :disabled="disabledBtn" @click="handleCancelAll"> 全部取消 </el-button>
+        <el-button :disabled="disabledBtn" @click="handleCancelAll">{{
+          $t('4c4bec01.4c347e')
+        }}</el-button>
       </div>
       <!-- <div>
         <el-input size="small" placeholder="请输入图片名称" suffix-icon="el-icon-search" />
@@ -289,7 +295,7 @@
               </div>
             </div>
           </div>
-          <el-empty v-if="list.length == 0" description="暂无数据" />
+          <el-empty v-if="list.length == 0" :description="$t('4c4bec01.21efd8')" />
         </div>
         <el-pagination
           layout="total, prev, pager, next"
@@ -306,7 +312,7 @@
     <SpDialog
       ref="groupDialogRef"
       v-model="groupDialog"
-      title="添加分组"
+      :title="$t('4c4bec01.ddceab')"
       :modal="false"
       :form="groupForm"
       :form-list="groupFormList"
@@ -317,7 +323,7 @@
     <SpDialog
       ref="editDialogRef"
       v-model="editDialog"
-      title="移动分组"
+      :title="$t('4c4bec01.2ccbfe')"
       :modal="false"
       :form="editForm"
       :form-list="editFormList"
@@ -327,7 +333,7 @@
     <!-- 图片裁剪 -->
     <el-dialog
       class="cropper-dialog"
-      title="图片裁剪"
+      :title="$t('4c4bec01.1cb6db')"
       :modal="false"
       :visible.sync="cropperDialogShow"
       width="500px"
@@ -348,8 +354,10 @@
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="cropperDialogShow = false">取 消</el-button>
-        <el-button type="primary" @click="cropperDialogShow = false">确 定</el-button>
+        <el-button @click="cropperDialogShow = false">{{ $t('4c4bec01.c08ab9') }}</el-button>
+        <el-button type="primary" @click="cropperDialogShow = false">{{
+          $t('4c4bec01.aa7527')
+        }}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -380,6 +388,9 @@ export default {
   mixins: [PageMixin],
   config: {
     title: '我的图片'
+  },
+  created() {
+    this.$options.config.title = this.$t('4c4bec01.e757d0')
   },
   props: {
     value: {
@@ -437,32 +448,11 @@ export default {
         groupId: '',
         groupName: ''
       },
-      groupFormList: [
-        {
-          label: '分组名称',
-          key: 'groupName',
-          type: 'input',
-          maxlength: 20,
-          placeholder: '请输入分组名称',
-          required: true,
-          message: '不能为空'
-        }
-      ],
       editDialog: false,
       editForm: {
         groupId: ''
       },
-      editFormList: [
-        {
-          label: '图片分组',
-          key: 'groupId',
-          placeholder: '请选择图片分组',
-          type: 'select',
-          options: [],
-          required: true,
-          message: '不能为空'
-        }
-      ],
+      editFormListOptions: [],
       cropperDialogShow: false,
       localpostData: {
         token: '',
@@ -536,6 +526,32 @@ export default {
     }
   },
   computed: {
+    groupFormList() {
+      return [
+        {
+          label: this.$t('4c4bec01.1014b3'),
+          key: 'groupName',
+          type: 'input',
+          maxlength: 20,
+          placeholder: this.$t('4c4bec01.0c6416'),
+          required: true,
+          message: this.$t('4c4bec01.281bad')
+        }
+      ]
+    },
+    editFormList() {
+      return [
+        {
+          label: this.$t('4c4bec01.e26c8c'),
+          key: 'groupId',
+          placeholder: this.$t('4c4bec01.597997'),
+          type: 'select',
+          options: this.editFormListOptions,
+          required: true,
+          message: this.$t('4c4bec01.281bad')
+        }
+      ]
+    },
     disabledDeleteGroup() {
       return this.selectCatgory == -1
     },
@@ -562,7 +578,6 @@ export default {
       return this.multiple ? this.selected.length == 0 : !this.selected
     }
   },
-  created() {},
   mounted() {
     this.nextPage()
     this.getImageAllCatgory()
@@ -575,16 +590,16 @@ export default {
   },
   methods: {
     removeItem(item, index) {
-      this.$confirm('确定删除此图片吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('4c4bec01.5dab41'), this.$t('4c4bec01.02d981'), {
+        confirmButtonText: this.$t('4c4bec01.38cf16'),
+        cancelButtonText: this.$t('4c4bec01.625fb2'),
         type: 'warning'
       })
         .then(() => {
           deleteImage({ image_id: item.image_id }).then((response) => {
             this.refresh(true)
             this.$message({
-              message: '删除成功',
+              message: this.$t('4c4bec01.0007d1'),
               type: 'success',
               duration: 5 * 1000
             })
@@ -593,7 +608,7 @@ export default {
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: this.$t('4c4bec01.2111cc')
           })
         })
     },
@@ -602,7 +617,7 @@ export default {
       if (this.$refs.spCropperRef && item) {
         const currentIndex = this.list.findIndex((img) => img.image_id === item.image_id)
         if (currentIndex === -1) {
-          this.$message.warning('无法找到对应的图片')
+          this.$message.warning(this.$t('4c4bec01.fa3a23'))
           return
         }
         this.$refs.spCropperRef.showDialog({
@@ -615,7 +630,7 @@ export default {
 
     handleCropComplete(data) {
       this.refresh(true)
-      this.$message.success('图片已保存')
+      this.$message.success(this.$t('4c4bec01.6a0cb2'))
     },
 
     isActive({ image_id, url }) {
@@ -656,10 +671,14 @@ export default {
     },
     async onDeleteGroup({ image_cat_id, image_cat_name }) {
       try {
-        await this.$confirm(`确认删除分组【${image_cat_name}】？`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消'
-        })
+        await this.$confirm(
+          this.$t('4c4bec01.9b22f9') + `【${image_cat_name}】？`,
+          this.$t('4c4bec01.02d981'),
+          {
+            confirmButtonText: this.$t('4c4bec01.38cf16'),
+            cancelButtonText: this.$t('4c4bec01.625fb2')
+          }
+        )
         await this.$api.picker.deleteImageGroup(image_cat_id)
         this.getImageAllCatgory()
         this.refresh(true)
@@ -740,9 +759,12 @@ export default {
     },
     async getImageAllCatgory() {
       const { list } = await this.$api.picker.getImageAllCatgory({ image_cat_id: 0 })
-      this.catgoryList = [{ image_cat_id: -1, image_cat_name: '全部图片' }, ...list.reverse()]
+      this.catgoryList = [
+        { image_cat_id: -1, image_cat_name: this.$t('4c4bec01.a8982a') },
+        ...list.reverse()
+      ]
       console.log('catgoryList:', this.catgoryList)
-      this.editFormList[0].options = this.catgoryList.map((item) => {
+      this.editFormListOptions = this.catgoryList.map((item) => {
         return {
           title: item.image_cat_name,
           value: item.image_cat_id
@@ -783,7 +805,7 @@ export default {
           if (this.selected.length < maxSelect) {
             this.selected.push(_item)
           } else {
-            this.$message.error(`最多选择${maxSelect}张图片`)
+            this.$message.error(this.$t('4c4bec01.a0672e') + maxSelect + this.$t('4c4bec01.54aa1e'))
             return
           }
         }
@@ -802,7 +824,7 @@ export default {
     },
     async handleCopy(url) {
       await this.$copyText(url)
-      this.$message.success('链接复制成功')
+      this.$message.success(this.$t('4c4bec01.c13172'))
     },
     handleCancelAll() {
       const { multiple } = this

@@ -102,7 +102,8 @@
                     v-if="item.voucher_package !== undefined && item.voucher_package.length > 0"
                   >
                     <span style="margin-left: 30px"
-                      >{{ $t('da789d63.7bf54e') }} {{ item.voucher_package.length }} {{ $t('da789d63.6dd3e5') }}</span
+                      >{{ $t('da789d63.7bf54e') }} {{ item.voucher_package.length }}
+                      {{ $t('da789d63.6dd3e5') }}</span
                     >
                   </template>
                 </template>

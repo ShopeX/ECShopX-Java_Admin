@@ -56,7 +56,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Headline',
-  wgtName: '文字标题',
+  wgtName: 'ade966df.33a39d',
   wgtDesc: '',
   wgtIcon: 'wgt-headline',
   config: config,

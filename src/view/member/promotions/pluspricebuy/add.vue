@@ -17,7 +17,11 @@
           :rules="nameRules"
         >
           <el-col :span="20">
-            <el-input v-model="form.marketing_name" :maxlength="30" :placeholder="$t('4262458d.017ce7')" />
+            <el-input
+              v-model="form.marketing_name"
+              :maxlength="30"
+              :placeholder="$t('4262458d.017ce7')"
+            />
           </el-col>
         </el-form-item>
         <el-form-item :label="$t('4262458d.bb114a')">
@@ -53,7 +57,9 @@
                 >
                   <el-button type="primary"> {{ $t('4262458d.c3202e') }} </el-button>
                 </el-upload>
-                <el-button type="primary" @click="uploadHandleTemplate()"> {{ $t('4262458d.c3f9a1') }} </el-button>
+                <el-button type="primary" @click="uploadHandleTemplate()">
+                  {{ $t('4262458d.c3f9a1') }}
+                </el-button>
               </template>
             </SkuSelector>
           </div>
@@ -169,7 +175,11 @@
             <el-table v-if="relStores.length > 0" :data="relStores" style="line-height: normal">
               <el-table-column :label="$t('4262458d.b718ad')" prop="distributor_id" width="60" />
               <el-table-column :label="$t('4262458d.d7ec2d')" prop="name" />
-              <el-table-column prop="address" :label="$t('4262458d.765048')" show-overflow-tooltip />
+              <el-table-column
+                prop="address"
+                :label="$t('4262458d.765048')"
+                show-overflow-tooltip
+              />
               <el-table-column :label="$t('4262458d.2b6bc0')" width="50">
                 <template slot-scope="scope">
                   <i class="el-icon-delete" @click="deleteStoreRow(scope.$index, form.items)" />
@@ -181,8 +191,12 @@
         <el-form-item :label="$t('4262458d.0768ec')">
           <el-row :gutter="1">
             <el-col :span="7">
-              <el-radio v-model="form.condition_type" label="quantity"> {{ $t('4262458d.e4a84d') }} </el-radio>
-              <el-radio v-model="form.condition_type" label="totalfee"> {{ $t('4262458d.7b98f9') }} </el-radio>
+              <el-radio v-model="form.condition_type" label="quantity">
+                {{ $t('4262458d.e4a84d') }}
+              </el-radio>
+              <el-radio v-model="form.condition_type" label="totalfee">
+                {{ $t('4262458d.7b98f9') }}
+              </el-radio>
             </el-col>
             <el-col :span="6">
               <span
@@ -220,7 +234,8 @@
             <div v-for="(item, key) in purchaseRules" :key="key">
               <el-row>
                 <el-col :span="5">
-                  {{ $t('4262458d.7bbcdd') }}<el-input v-model="item.price" style="width: 100px" size="mini" />
+                  {{ $t('4262458d.7bbcdd')
+                  }}<el-input v-model="item.price" style="width: 100px" size="mini" />
                 </el-col>
                 <el-col :span="15">
                   <el-button

@@ -16,36 +16,40 @@
       />
       <el-row class="mb-10">
         <el-col :span="4">
-          <el-button type="primary" @click="deleteCer"> 删除证书 </el-button>
+          <el-button type="primary" @click="deleteCer">{{ $t('073515a8.7b49f4') }}</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="cer-box">
       <el-row>
-        <el-col :span="4" class="col-right"> 电商ERP关系绑定 </el-col>
+        <el-col :span="4" class="col-right">{{ $t('073515a8.8ad285') }}</el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="bindRelation"> 申请绑定 </el-button>
+          <el-button type="primary" @click="bindRelation">{{ $t('073515a8.1c5b43') }}</el-button>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="lookRelation"> 查看绑定关系 </el-button>
+          <el-button type="primary" @click="lookRelation">{{ $t('073515a8.4fc632') }}</el-button>
         </el-col>
       </el-row>
     </div>
-    <el-dialog title="申请绑定" :visible.sync="dialogBindVisible" fullscreen>
+    <el-dialog :title="$t('073515a8.1c5b43')" :visible.sync="dialogBindVisible" fullscreen>
       <div>
         <iframe :src="bindUrl" width="1200" height="980" frameborder="0" scrolling="auto" />
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogBindVisible = false"> 关 闭 </el-button>
+        <el-button type="primary" @click="dialogBindVisible = false">{{
+          $t('073515a8.9d2578')
+        }}</el-button>
       </div>
     </el-dialog>
 
-    <el-dialog title="查看绑定关系" :visible.sync="dialogLookVisible" fullscreen>
+    <el-dialog :title="$t('073515a8.4fc632')" :visible.sync="dialogLookVisible" fullscreen>
       <div>
         <iframe :src="lookUrl" width="1200" height="980" frameborder="0" scrolling="auto" />
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogLookVisible = false"> 关 闭 </el-button>
+        <el-button type="primary" @click="dialogLookVisible = false">{{
+          $t('073515a8.9d2578')
+        }}</el-button>
       </div>
     </el-dialog>
   </SpPage>
@@ -74,11 +78,11 @@ export default {
         {
           fieldName: '__group_title',
           component: 'group',
-          label: 'Shopex通行证书'
+          label: this.$t('073515a8.ac07a8')
         },
         {
           fieldName: 'cert_id',
-          label: '通行证账号：',
+          label: this.$t('073515a8.0a8cc4'),
           formItemClass: 'w-1/2',
           component: 'input',
           componentProps: {
@@ -88,11 +92,11 @@ export default {
         {
           fieldName: '__group_title2',
           component: 'group',
-          label: 'Shopex证书'
+          label: this.$t('073515a8.f5b1c6')
         },
         {
           fieldName: 'node_id',
-          label: '当前证书节点号：',
+          label: this.$t('073515a8.ce8c5c'),
           formItemClass: 'w-1/2',
           component: 'input',
           componentProps: {
@@ -101,7 +105,7 @@ export default {
         },
         {
           fieldName: 'shopex_uid',
-          label: '当前证书节点号：',
+          label: this.$t('073515a8.ce8c5c'),
           formItemClass: 'w-1/2',
           component: 'input',
           componentProps: {
@@ -127,19 +131,15 @@ export default {
       })
     },
     deleteCer() {
-      this.$confirm(
-        '删除订单后，将无法使用“云起物流”，“天工收银”,需要重新激活系统才能使用',
-        '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      )
+      this.$confirm(this.$t('073515a8.83eb97'), this.$t('073515a8.02d981'), {
+        confirmButtonText: this.$t('073515a8.38cf16'),
+        cancelButtonText: this.$t('073515a8.625fb2'),
+        type: 'warning'
+      })
         .then(() => {
           deleteCertificateInfo().then((response) => {
             this.$message({
-              message: '删除成功',
+              message: this.$t('073515a8.0007d1'),
               type: 'success',
               duration: 5 * 1000
             })

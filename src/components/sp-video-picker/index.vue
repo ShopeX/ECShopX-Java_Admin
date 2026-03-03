@@ -193,7 +193,7 @@ export default {
             src
           }
         ],
-        notSupportedMessage: '此视频暂无法播放，请稍后再试',
+        notSupportedMessage: this.$t('4a6afa54.01c0da'),
         controlBar: false
       }
     },
@@ -204,7 +204,7 @@ export default {
           <i class='el-icon-close-circle1' on-click={this.handleDeleteItem.bind(this, index)} />
           <video-player class='picker-video-player' options={this.getOptions(item?.url || item)} />
           <span class='image-meta' on-click={this.onUpdateImage.bind(this, index)}>
-            更换视频
+            {this.$t('4a6afa54.3b28f9')}
           </span>
         </div>
       )
@@ -220,7 +220,9 @@ export default {
         {max > 1 && value.length < max && (
           <div class='image-item add-video placeholder' on-click={this.handleSelectImage}>
             <i class='iconfont icon-video' />
-            <div class='add-text'>视频({`${value.length}/${max}`})</div>
+            <div class='add-text'>
+              {this.$t('4a6afa54.7fcf42')}({`${value.length}/${max}`})
+            </div>
           </div>
         )}
 
@@ -228,7 +230,7 @@ export default {
         {max == 1 && isEmpty(value) && (
           <div class='image-item add-video placeholder' on-click={this.handleSelectImage}>
             <i class='iconfont icon-video' />
-            <div class='add-text'>添加视频</div>
+            <div class='add-text'>{this.$t('4a6afa54.57e40c')}</div>
           </div>
         )}
       </div>

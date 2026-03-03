@@ -9,9 +9,13 @@
     <div class="decorate-hd">
       <div class="hd-lf">{{ localTitle }}</div>
       <div class="hd-rg">
-        <el-button v-if="mode == 'page'" plain @click="onExit">后退</el-button>
-        <el-button v-if="mode == 'dialog'" plain @click="onClose"> 关闭</el-button>
-        <el-button plain @click="onSaveTemplate"> 保存 </el-button>
+        <el-button v-if="mode == 'page'" plain @click="onExit">{{
+          $t('cb5715dd.5094c1')
+        }}</el-button>
+        <el-button v-if="mode == 'dialog'" plain @click="onClose">{{
+          $t('cb5715dd.b15d91')
+        }}</el-button>
+        <el-button plain @click="onSaveTemplate">{{ $t('cb5715dd.be5fbb') }}</el-button>
       </div>
     </div>
     <div class="decorate-bd">
@@ -23,7 +27,7 @@
       <div class="right-container">
         <div v-if="activeCompIndex !== null && contentComps[activeCompIndex] && hackReset">
           <div class="wgt-name">
-            {{ getComponentAttr(contentComps[activeCompIndex]).wgtName }}
+            {{ $t(getComponentAttr(contentComps[activeCompIndex]).wgtName) }}
           </div>
           <CompPanel
             v-model="contentComps[activeCompIndex]"
@@ -154,6 +158,7 @@ export default {
           rootDomClass: 'template-edit',
           bodyDomClass: 'template-body',
           iframe: iframe,
+          t: this.$t.bind(this),
           callback: (info) => {
             this.receiveInfo(info)
           }

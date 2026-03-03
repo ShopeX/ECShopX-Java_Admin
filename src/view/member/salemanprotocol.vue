@@ -218,7 +218,9 @@ export default {
     editformRules() {
       return {
         label: [{ required: true, message: this.$t('8da83775.b91aba'), trigger: 'blur' }],
-        alert_required_message: [{ required: true, message: this.$t('8da83775.46ba1b'), trigger: 'blur' }],
+        alert_required_message: [
+          { required: true, message: this.$t('8da83775.46ba1b'), trigger: 'blur' }
+        ],
         range: [{ required: true, validator: this.validRange, trigger: 'blur' }],
         radio_list: [{ required: true, message: this.$t('8da83775.0c6dc4'), trigger: 'blur' }]
       }
@@ -226,9 +228,15 @@ export default {
     rules() {
       return {
         'privacy.title': [{ required: true, message: this.$t('8da83775.6d1a0f'), trigger: 'blur' }],
-        'salesman_service.title': [{ required: true, message: this.$t('8da83775.6d1a0f'), trigger: 'blur' }],
-        'privacy.content': [{ required: true, message: this.$t('8da83775.bb76f9'), trigger: 'blur' }],
-        'salesman_service.content': [{ required: true, message: this.$t('8da83775.78e455'), trigger: 'blur' }]
+        'salesman_service.title': [
+          { required: true, message: this.$t('8da83775.6d1a0f'), trigger: 'blur' }
+        ],
+        'privacy.content': [
+          { required: true, message: this.$t('8da83775.bb76f9'), trigger: 'blur' }
+        ],
+        'salesman_service.content': [
+          { required: true, message: this.$t('8da83775.78e455'), trigger: 'blur' }
+        ]
       }
     },
     isSelectValue({ selectValue }) {

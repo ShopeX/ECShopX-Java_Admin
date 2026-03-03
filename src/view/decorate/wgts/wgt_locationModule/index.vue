@@ -69,7 +69,7 @@
       </div>
       <!-- 空状态 -->
       <div v-if="!navItems.length" class="empty-content">
-        <span>暂无内容</span>
+        <span>{{ $t('9a50f76c.4726ff') }}</span>
       </div>
     </div>
   </div>
@@ -82,7 +82,7 @@ import { getOuterStyle } from '../../comps/style-utils'
 
 export default {
   name: 'LocationModule',
-  wgtName: '电梯',
+  wgtName: '9a50f76c.61be0b',
   wgtDesc: '',
   wgtIcon: 'elevator',
   config: config,

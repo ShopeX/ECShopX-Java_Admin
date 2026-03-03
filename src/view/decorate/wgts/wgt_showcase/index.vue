@@ -35,7 +35,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Showcase',
-  wgtName: '橱窗',
+  wgtName: '0564c998.f1beaa',
   wgtDesc: '',
   wgtIcon: 'wgt-showcase',
   config: config,

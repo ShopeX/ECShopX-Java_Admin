@@ -7,29 +7,29 @@
 
 | 状态 | 数量 | 占比 |
 |------|------|------|
-| 未翻译完 | 12 | 100.0% |
-| 已翻译 | 0 | 0.0% |
+| 未翻译完 | 0 | 0.0% |
+| 已翻译 | 12 | 100% |
 | 无需翻译 | 0 | 0.0% |
 | **合计** | **12** | 100% |
 
 ## 未翻译完
 
-- `brokerageLog.vue`
-- `children.vue`
-- `data.vue`
-- `goods.vue`
-- `goodsAudit.vue`
-- `goodsStore.vue`
-- `list.vue`
-- `promoterSetting.vue`
-- `setting.vue`
-- `taskBrokerage.vue`
-- `taskBrokerageCount.vue`
-- `withdraw.vue`
+（无）
 
 ## 已翻译
 
-（无）
+- `goods.vue`
+- `goodsAudit.vue`
+- `goodsStore.vue`
+- `promoterSetting.vue`
+- `children.vue`
+- `taskBrokerage.vue`
+- `taskBrokerageCount.vue`
+- `brokerageLog.vue`
+- `data.vue`
+- `list.vue`
+- `withdraw.vue`
+- `setting.vue`
 
 ## 无需翻译
 

@@ -29,7 +29,7 @@
             v-for="item in distributionType"
             :key="item.value"
             size="mini"
-            :label="item.title"
+            :label="$t(item.title)"
             :value="item.value"
           />
         </el-select>
@@ -51,7 +51,7 @@
             v-for="item in orderType"
             :key="item.value"
             size="mini"
-            :label="item.title"
+            :label="$t(item.title)"
             :value="item.value"
           />
         </el-select>
@@ -92,7 +92,7 @@
             v-for="item in invoiceStatus"
             :key="item.value"
             size="mini"
-            :label="item.title"
+            :label="$t(item.title)"
             :value="item.value"
           />
         </el-select>
@@ -122,7 +122,7 @@
             v-for="item in orderCategory"
             :key="item.value"
             size="mini"
-            :label="item.title"
+            :label="$t(item.title)"
             :value="item.value"
           />
         </el-select>
@@ -202,7 +202,7 @@
       <el-tab-pane
         v-for="item in orderStatus"
         :key="item.value"
-        :label="item.title"
+        :label="$t(item.title)"
         :name="item.value"
       />
 

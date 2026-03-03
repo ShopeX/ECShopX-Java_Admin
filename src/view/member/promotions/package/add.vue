@@ -6,13 +6,13 @@
 <template>
   <el-form ref="form" :model="form" class="box-set page-package" label-width="120px">
     <el-card :header="$t('a7f95151.bfa895')" shadow="naver">
-      <el-form-item
-        :label="$t('a7f95151.d7ec2d')"
-        prop="package_name"
-        :rules="nameRules"
-      >
+      <el-form-item :label="$t('a7f95151.d7ec2d')" prop="package_name" :rules="nameRules">
         <el-col :span="20">
-          <el-input v-model="form.package_name" :maxlength="30" :placeholder="$t('a7f95151.017ce7')" />
+          <el-input
+            v-model="form.package_name"
+            :maxlength="30"
+            :placeholder="$t('a7f95151.017ce7')"
+          />
         </el-col>
       </el-form-item>
       <el-form-item :label="$t('a7f95151.8a35bb')">
@@ -35,7 +35,9 @@
           <el-table-column :label="$t('a7f95151.d7ec2d')" prop="item_name" min-width="200" />
           <el-table-column :label="$t('a7f95151.ea887b')" width="200">
             <template slot-scope="scope">
-              <div v-if="!scope.row.nospec && !scope.row.spec_items">{{ $t('a7f95151.5d60de') }}</div>
+              <div v-if="!scope.row.nospec && !scope.row.spec_items">
+                {{ $t('a7f95151.5d60de') }}
+              </div>
               <div
                 v-else-if="!scope.row.nospec && scope.row.spec_items"
                 class="goods-sku-check"

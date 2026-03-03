@@ -37,8 +37,8 @@
   <div class="comp-picker-link">
     <!-- {{ localValue }} -->
     <el-radio-group v-model="localValue.linkType" class="linktype-radio" @change="onChangeLinkType">
-      <el-radio :label="0"> {{ '选择路径' }} </el-radio>
-      <el-radio v-if="isShowH5Link" :label="1">{{ 'H5链接' }} </el-radio>
+      <el-radio :label="0">{{ $t('098e5620.e3cf91') }}</el-radio>
+      <el-radio v-if="isShowH5Link" :label="1">{{ $t('098e5620.4e99fd') }}</el-radio>
     </el-radio-group>
     <div v-if="localValue.linkType == 0" class="btn-linkpath" @click="onPickerPath">
       {{ getLabelName() }}
@@ -49,7 +49,7 @@
       class="h5-link"
       size="small"
       type="text"
-      :placeholder="'请填写自定义链接'"
+      :placeholder="$t('098e5620.11b162')"
       @change="onChangeLinkUrl"
     />
   </div>
@@ -148,7 +148,7 @@ export default {
       if (linkPage) {
         return `${LINK_PATH[linkPage]}: ${t}`
       } else {
-        return '选择路径'
+        return this.$t('098e5620.e3cf91')
       }
     }
   }

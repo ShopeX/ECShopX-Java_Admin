@@ -7,7 +7,7 @@
         <div v-for="(item, index) in brandList" :key="index" class="brand-group">
           <div class="category-header">
             <div class="letter-index">{{ item.title }}</div>
-            <span v-if="index == 0" class="all-category">全部品类</span>
+            <span v-if="index == 0" class="all-category">{{ $t('f5828e4d.93b01a') }}</span>
           </div>
           <div v-for="(brandItem, brandIndex) in item.items" :key="brandIndex" class="brand-items">
             <div class="brand-item">
@@ -41,7 +41,7 @@ import config from './config'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 export default {
   name: 'StoreAlphabet',
-  wgtName: '店铺字母表',
+  wgtName: 'f5828e4d.435fe2',
   wgtDesc: '',
   wgtIcon: 'list-alphabet',
   wgtType: 2,

@@ -42,7 +42,7 @@ import groupdata from './mock/group.json'
 
 export default {
   name: 'Group',
-  wgtName: '拼团',
+  wgtName: '5141b31a.0dc5dc',
   wgtDesc: '',
   wgtIcon: 'wgt-store',
   wgtType: 2,

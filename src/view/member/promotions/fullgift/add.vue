@@ -50,7 +50,9 @@
                   style="width: 100px"
                   size="mini"
                 />
-                {{ form.condition_type == 'quantity' ? $t('5c0a87f2.f7edf5') : $t('5c0a87f2.c16655') }}{{ $t('5c0a87f2.03ac8e') }}&nbsp;&nbsp;<i
+                {{
+                  form.condition_type == 'quantity' ? $t('5c0a87f2.f7edf5') : $t('5c0a87f2.c16655')
+                }}{{ $t('5c0a87f2.03ac8e') }}&nbsp;&nbsp;<i
                   v-if="key != 0"
                   class="el-icon-delete"
                   @click="delRules(key)"
@@ -226,7 +228,9 @@
             >
               <el-button type="primary"> {{ $t('5c0a87f2.c3202e') }} </el-button>
             </el-upload>
-            <el-button type="primary" @click="uploadHandleTemplate()"> {{ $t('5c0a87f2.c3f9a1') }} </el-button>
+            <el-button type="primary" @click="uploadHandleTemplate()">
+              {{ $t('5c0a87f2.c3f9a1') }}
+            </el-button>
           </template>
         </SkuSelector>
       </div>
@@ -305,7 +309,11 @@
         </div>
       </template>
     </el-card>
-    <el-card v-if="VERSION_STANDARD() && !is_distributor" :header="$t('5c0a87f2.7318a6')" shadow="naver">
+    <el-card
+      v-if="VERSION_STANDARD() && !is_distributor"
+      :header="$t('5c0a87f2.7318a6')"
+      shadow="naver"
+    >
       <el-button type="primary" @click="relStoresClick"> {{ $t('5c0a87f2.95a6ca') }} </el-button>
       <el-table v-if="relStores.length > 0" :data="relStores" style="line-height: normal">
         <el-table-column :label="$t('5c0a87f2.b718ad')" prop="distributor_id" width="60" />

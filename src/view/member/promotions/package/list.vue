@@ -41,7 +41,9 @@
                   >
                     {{ $t('7dd41c7e.625fb2') }}
                   </el-button>
-                  <el-button type="text" @click="showPackagePromotion(scope.row)"> {{ $t('7dd41c7e.607e7a') }} </el-button>
+                  <el-button type="text" @click="showPackagePromotion(scope.row)">
+                    {{ $t('7dd41c7e.607e7a') }}
+                  </el-button>
                   <el-button
                     v-if="editlActionVisible(scope.row)"
                     type="text"

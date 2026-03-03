@@ -12,24 +12,24 @@
         <div class="text">
           <img :src="normal" class="img" />
           <div>
-            为丰富小程序的服务能力，提高服务质量，微信为小程序提供客服消息能力，以便小程序用户可以方便快捷地与小程序服务提供方进行沟通。
+            {{ $t('91deb7ee.42e3da') }}
           </div>
         </div>
         <div class="button">
-          <el-button type="primary" @click="handleConfig"> 去配置 </el-button>
+          <el-button type="primary" @click="handleConfig">{{ $t('91deb7ee.a532be') }}</el-button>
         </div>
       </div>
 
       <div class="card">
         <div class="card-title">
           <i class="el-icon-question" />
-          <span class="text">如何配置</span>
+          <span class="text">{{ $t('91deb7ee.097490') }}</span>
         </div>
 
         <div class="card-info">
-          进入微信小程序管理端，进入“<span class="weight">功能</span>“<span class="weight"
-            >-客服菜单</span
-          >，进行客服添加绑定操作
+          {{ $t('91deb7ee.436174') }}“<span class="weight">{{ $t('91deb7ee.997c7a') }}</span
+          >“<span class="weight">{{ $t('91deb7ee.d519b8') }}</span
+          >{{ $t('91deb7ee.cfbd22') }}
 
           <img :src="wechat" class="img" />
         </div>
