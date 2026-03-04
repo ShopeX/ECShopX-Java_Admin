@@ -1,4 +1,5 @@
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import CompPickerLinkVue from '../../comps/comp-pickerLink.vue'
 import SpImagePicker from '@/components/sp-image-picker/index.vue'
 
@@ -8,8 +9,8 @@ const config = {
   name: 'hotranking',
   setting: [
     {
-      group: '1d898622.e7af71',
-      label: '1d898622.87dfd7',
+      group: i18n.t('1d898622.e7af71'),
+      label: i18n.t('1d898622.87dfd7'),
       key: 'dataCount',
       component: 'number',
       value: 4,
@@ -17,19 +18,19 @@ const config = {
       max: 99
     },
     {
-      group: '1d898622.6f3360',
-      label: '1d898622.c20c83',
+      group: i18n.t('1d898622.6f3360'),
+      label: i18n.t('1d898622.c20c83'),
       key: 'hotrankingTitleType',
       component: 'radiobutton',
       options: [
-        { name: '1d898622.ca746b', label: 'text' },
-        { name: '1d898622.20def7', label: 'image' }
+        { name: i18n.t('1d898622.ca746b'), label: 'text' },
+        { name: i18n.t('1d898622.20def7'), label: 'image' }
       ],
       value: 'text'
     },
     {
-      group: '1d898622.6f3360',
-      label: '1d898622.264fe1',
+      group: i18n.t('1d898622.6f3360'),
+      label: i18n.t('1d898622.264fe1'),
       key: 'hotrankingTitleImage',
       component: function (h, { key }) {
         return <SpImagePicker v-model={this.value[key]} size='small' />
@@ -40,8 +41,8 @@ const config = {
       }
     },
     {
-      group: '1d898622.6f3360',
-      label: '1d898622.eded9e',
+      group: i18n.t('1d898622.6f3360'),
+      label: i18n.t('1d898622.eded9e'),
       key: 'hotrankingTitleText',
       component: 'input',
       value: '标题',
@@ -50,8 +51,8 @@ const config = {
       }
     },
     {
-      group: '1d898622.6f3360',
-      label: '1d898622.94e391',
+      group: i18n.t('1d898622.6f3360'),
+      label: i18n.t('1d898622.94e391'),
       key: 'hotrankingTitleColor',
       component: 'color',
       value: '#000000',
@@ -60,19 +61,19 @@ const config = {
       }
     },
     {
-      group: '1d898622.90507a',
-      label: '1d898622.1711a8',
+      group: i18n.t('1d898622.90507a'),
+      label: i18n.t('1d898622.1711a8'),
       key: 'hotrankingShowMoreBtn',
       component: 'radiobutton',
       options: [
-        { name: '1d898622.4d775d', label: true },
-        { name: '1d898622.dce537', label: false }
+        { name: i18n.t('1d898622.4d775d'), label: true },
+        { name: i18n.t('1d898622.dce537'), label: false }
       ],
       value: true
     },
     {
-      group: '1d898622.90507a',
-      label: '1d898622.351201',
+      group: i18n.t('1d898622.90507a'),
+      label: i18n.t('1d898622.351201'),
       key: 'hotrankingMoreBtnColor',
       component: 'color',
       value: '#000000',
@@ -81,7 +82,7 @@ const config = {
       }
     },
     {
-      group: '1d898622.90507a',
+      group: i18n.t('1d898622.90507a'),
       label: '',
       key: 'hotrankingMoreLink',
       component: function (h, { key }) {

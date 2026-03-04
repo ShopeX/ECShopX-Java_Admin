@@ -15,15 +15,15 @@ const config = {
   name: 'page',
   setting: [
     {
-      group: 'f44e2c51.eeb8e8',
-      label: 'f44e2c51.d83110',
+      group: i18n.t('f44e2c51.eeb8e8'),
+      label: i18n.t('f44e2c51.d83110'),
       key: 'isImmersive',
       component: 'switch',
       value: false
     },
     {
-      group: 'f44e2c51.304e64',
-      label: 'f44e2c51.231901',
+      group: i18n.t('f44e2c51.304e64'),
+      label: i18n.t('f44e2c51.231901'),
       key: 'newNavigateStyle',
       component: function (h, { key }) {
         return <AttrItem v-model={this.value[key]} />
@@ -34,21 +34,21 @@ const config = {
       }
     },
     {
-      group: 'f44e2c51.eeb8e8',
-      label: 'f44e2c51.35b115',
+      group: i18n.t('f44e2c51.eeb8e8'),
+      label: i18n.t('f44e2c51.35b115'),
       key: 'titleStyle',
       component: 'radiobutton',
       options: [
-        { name: 'f44e2c51.006e01', label: '0' },
-        { name: 'f44e2c51.e5f71f', label: '3' },
-        { name: 'f44e2c51.b78454', label: '1' },
-        { name: 'f44e2c51.20def7', label: '2' }
+        { name: i18n.t('f44e2c51.006e01'), label: '0' },
+        { name: i18n.t('f44e2c51.e5f71f'), label: '3' },
+        { name: i18n.t('f44e2c51.b78454'), label: '1' },
+        { name: i18n.t('f44e2c51.20def7'), label: '2' }
       ],
       value: '1'
     },
     {
-      group: 'f44e2c51.53f200',
-      label: 'f44e2c51.94e391',
+      group: i18n.t('f44e2c51.53f200'),
+      label: i18n.t('f44e2c51.94e391'),
       key: 'titleColor',
       component: 'color',
       value: '#000',
@@ -58,7 +58,7 @@ const config = {
       tip: 'f44e2c51.a7a33e'
     },
     {
-      group: 'f44e2c51.53f200',
+      group: i18n.t('f44e2c51.53f200'),
       label: '',
       key: 'titleBackgroundImage',
       component: function (h, { key }) {
@@ -71,8 +71,8 @@ const config = {
       tip: 'f44e2c51.7ffc9e'
     },
     {
-      group: 'f44e2c51.53f200',
-      label: 'f44e2c51.172f1a',
+      group: i18n.t('f44e2c51.53f200'),
+      label: i18n.t('f44e2c51.172f1a'),
       key: 'showSearchButton',
       component: 'switch',
       value: true,
@@ -81,8 +81,8 @@ const config = {
       }
     },
     {
-      group: 'f44e2c51.53f200',
-      label: 'f44e2c51.351201',
+      group: i18n.t('f44e2c51.53f200'),
+      label: i18n.t('f44e2c51.351201'),
       key: 'searchButtonColor',
       component: function (h, { key }) {
         const vm = this
@@ -137,8 +137,8 @@ const config = {
       }
     },
     {
-      group: 'f44e2c51.eeb8e8',
-      label: 'f44e2c51.41b6e1',
+      group: i18n.t('f44e2c51.eeb8e8'),
+      label: i18n.t('f44e2c51.41b6e1'),
       key: 'pTitleHotSetting',
       component: function (h, { key }) {
         return <AttrFunctionArea v-model={this.value[key]} />
@@ -153,8 +153,8 @@ const config = {
       tip: scene != '1001' ? 'f44e2c51.5bc6b6' : 'f44e2c51.37a58e'
     },
     {
-      group: 'f44e2c51.eeb8e8',
-      label: 'f44e2c51.1dff74',
+      group: i18n.t('f44e2c51.eeb8e8'),
+      label: i18n.t('f44e2c51.1dff74'),
       key: 'newPageBackgroundStyle',
       component: function (h, { key }) {
         return <AttrItem v-model={this.value[key]} />

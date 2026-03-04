@@ -3,14 +3,15 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrNavItem from './attr-imagepanel'
 
 const config = {
   name: 'navigation',
   setting: [
-    { label: 'ab472626.4707ba', key: 'padded', component: 'switch', value: true },
+    { label: i18n.t('ab472626.4707ba'), key: 'padded', component: 'switch', value: true },
     {
-      label: 'ab472626.1289f8',
+      label: i18n.t('ab472626.1289f8'),
       key: 'navigation',
       component: 'switch',
       value: false,
@@ -19,7 +20,7 @@ const config = {
       }
     },
     {
-      label: 'ab472626.ae5ff3',
+      label: i18n.t('ab472626.ae5ff3'),
       key: 'data',
       component: function (h, { key }) {
         return <AttrNavItem v-model={this.value[key]} isBusinessShow={this.value.navigation} />

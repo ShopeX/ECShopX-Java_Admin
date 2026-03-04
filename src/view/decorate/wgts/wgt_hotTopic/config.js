@@ -3,14 +3,15 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrItem from './attr-item'
 
 const config = {
   name: 'hotTopic',
   setting: [
-    { label: '5a51588d.4707ba', key: 'padded', component: 'switch', value: true },
+    { label: i18n.t('5a51588d.4707ba'), key: 'padded', component: 'switch', value: true },
     {
-      label: '5a51588d.b00a65',
+      label: i18n.t('5a51588d.b00a65'),
       key: 'data',
       component: function (h, { key }) {
         return <AttrItem v-model={this.value[key]} />

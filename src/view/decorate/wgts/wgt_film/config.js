@@ -3,6 +3,7 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 export const proportions = [
@@ -31,9 +32,9 @@ export const proportions = [
 const config = {
   name: 'film',
   setting: [
-    { label: '735ae7b3.4707ba', key: 'padded', component: 'switch', value: true },
+    { label: i18n.t('735ae7b3.4707ba'), key: 'padded', component: 'switch', value: true },
     {
-      label: '735ae7b3.543018',
+      label: i18n.t('735ae7b3.543018'),
       key: 'data',
       component: function (h, { key }) {
         return <SpVideoPicker v-model={this.value[key]} size='small' />
@@ -41,7 +42,7 @@ const config = {
       value: {}
     },
     {
-      label: '735ae7b3.df0134',
+      label: i18n.t('735ae7b3.df0134'),
       key: 'proportion',
       component: 'radiobutton',
       options: proportions,

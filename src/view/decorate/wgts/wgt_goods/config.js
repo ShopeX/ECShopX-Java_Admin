@@ -1,4 +1,5 @@
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrDataVue from '../../comps/goods-attr/attr-data.vue'
 import CompPickerLinkVue from '../../comps/comp-pickerLink.vue'
 import SpImagePicker from '@/components/sp-image-picker/index.vue'
@@ -9,17 +10,17 @@ const config = {
   name: 'goods',
   setting: [
     {
-      group: '62d2fa27.e7af71',
-      label: '62d2fa27.185f7b',
+      group: i18n.t('62d2fa27.e7af71'),
+      label: i18n.t('62d2fa27.185f7b'),
       key: 'dataType',
       component: 'select',
-      placeholder: '62d2fa27.86ec5f',
+      placeholder: i18n.t('62d2fa27.86ec5f'),
       options: [
-        { label: '62d2fa27.5488d8', value: 'price' },
-        { label: '62d2fa27.728225', value: 'items' },
-        { label: '62d2fa27.64423b', value: 'main_category' },
-        { label: '62d2fa27.2fcd53', value: 'category' },
-        { label: '62d2fa27.edf51a', value: 'history' }
+        { label: i18n.t('62d2fa27.5488d8'), value: 'price' },
+        { label: i18n.t('62d2fa27.728225'), value: 'items' },
+        { label: i18n.t('62d2fa27.64423b'), value: 'main_category' },
+        { label: i18n.t('62d2fa27.2fcd53'), value: 'category' },
+        { label: i18n.t('62d2fa27.edf51a'), value: 'history' }
       ],
       value: 'main_category',
       onchange: function (v, self) {
@@ -34,8 +35,8 @@ const config = {
       }
     },
     {
-      group: '62d2fa27.e7af71',
-      label: '62d2fa27.e7af71',
+      group: i18n.t('62d2fa27.e7af71'),
+      label: i18n.t('62d2fa27.e7af71'),
       key: 'data',
       component: function (h, { key }) {
         return (
@@ -51,12 +52,13 @@ const config = {
         info: null
       },
       isShow: function () {
-        return !['price', 'history'].includes(this.value.dataType)
+        const dataType = this.value && this.value.dataType
+        return !['price', 'history'].includes(dataType)
       }
     },
     {
-      group: '62d2fa27.e7af71',
-      label: '62d2fa27.8d8376',
+      group: i18n.t('62d2fa27.e7af71'),
+      label: i18n.t('62d2fa27.8d8376'),
       key: 'data',
       component: function (h, { key }) {
         return (
@@ -72,12 +74,13 @@ const config = {
         info: null
       },
       isShow: function () {
-        return ['price'].includes(this.value.dataType)
+        const dataType = this.value && this.value.dataType
+        return dataType === 'price'
       }
     },
     {
-      group: '62d2fa27.e7af71',
-      label: '62d2fa27.87dfd7',
+      group: i18n.t('62d2fa27.e7af71'),
+      label: i18n.t('62d2fa27.87dfd7'),
       key: 'dataCount',
       component: function (h, { key }) {
         const maxCount = this.value.dataType === 'history' ? 10 : 99
@@ -86,19 +89,19 @@ const config = {
       value: 4
     },
     {
-      group: '62d2fa27.6f3360',
-      label: '62d2fa27.c20c83',
+      group: i18n.t('62d2fa27.6f3360'),
+      label: i18n.t('62d2fa27.c20c83'),
       key: 'goodsTitleType',
       component: 'radiobutton',
       options: [
-        { name: '62d2fa27.ca746b', label: 'text' },
-        { name: '62d2fa27.20def7', label: 'image' }
+        { name: i18n.t('62d2fa27.ca746b'), label: 'text' },
+        { name: i18n.t('62d2fa27.20def7'), label: 'image' }
       ],
       value: 'text'
     },
     {
-      group: '62d2fa27.6f3360',
-      label: '62d2fa27.264fe1',
+      group: i18n.t('62d2fa27.6f3360'),
+      label: i18n.t('62d2fa27.264fe1'),
       key: 'goodsTitleImage',
       component: function (h, { key }) {
         return <SpImagePicker v-model={this.value[key]} size='small' />
@@ -109,8 +112,8 @@ const config = {
       }
     },
     {
-      group: '62d2fa27.6f3360',
-      label: '62d2fa27.eded9e',
+      group: i18n.t('62d2fa27.6f3360'),
+      label: i18n.t('62d2fa27.eded9e'),
       key: 'goodsTitleText',
       component: 'input',
       value: '',
@@ -119,8 +122,8 @@ const config = {
       }
     },
     {
-      group: '62d2fa27.6f3360',
-      label: '62d2fa27.94e391',
+      group: i18n.t('62d2fa27.6f3360'),
+      label: i18n.t('62d2fa27.94e391'),
       key: 'goodsTitleColor',
       component: 'color',
       value: '#000000',
@@ -129,19 +132,19 @@ const config = {
       }
     },
     {
-      group: '62d2fa27.90507a',
-      label: '62d2fa27.1711a8',
+      group: i18n.t('62d2fa27.90507a'),
+      label: i18n.t('62d2fa27.1711a8'),
       key: 'goodsShowMoreBtn',
       component: 'radiobutton',
       options: [
-        { name: '62d2fa27.4d775d', label: true },
-        { name: '62d2fa27.dce537', label: false }
+        { name: i18n.t('62d2fa27.4d775d'), label: true },
+        { name: i18n.t('62d2fa27.dce537'), label: false }
       ],
       value: true
     },
     {
-      group: '62d2fa27.90507a',
-      label: '62d2fa27.351201',
+      group: i18n.t('62d2fa27.90507a'),
+      label: i18n.t('62d2fa27.351201'),
       key: 'goodsMoreBtnColor',
       component: 'color',
       value: '#000000',
@@ -150,7 +153,7 @@ const config = {
       }
     },
     {
-      group: '62d2fa27.90507a',
+      group: i18n.t('62d2fa27.90507a'),
       label: '',
       key: 'goodsMoreLink',
       component: function (h, { key }) {

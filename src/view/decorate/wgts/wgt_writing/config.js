@@ -3,13 +3,14 @@
  * See LICENSE file for license details.
  */
 import { isArray, pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 
 const config = {
   name: 'writing',
   setting: [
-    { label: '7794d7ee.4707ba', key: 'padded', component: 'switch', value: true },
+    { label: i18n.t('7794d7ee.4707ba'), key: 'padded', component: 'switch', value: true },
     {
-      label: '7794d7ee.cbc608',
+      label: i18n.t('7794d7ee.cbc608'),
       key: 'data',
       component: 'textarea',
       rows: 20,

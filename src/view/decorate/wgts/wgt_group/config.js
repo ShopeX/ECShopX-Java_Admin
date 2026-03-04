@@ -1,4 +1,5 @@
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrDataVue from '../../comps/goods-attr/attr-data.vue'
 import CompPickerLinkVue from '../../comps/comp-pickerLink.vue'
 import SpImagePicker from '@/components/sp-image-picker/index.vue'
@@ -9,8 +10,8 @@ const config = {
   name: 'group',
   setting: [
     {
-      group: '55fecc70.e7af71',
-      label: '55fecc70.e7af71',
+      group: i18n.t('55fecc70.e7af71'),
+      label: i18n.t('55fecc70.e7af71'),
       key: 'data',
       component: function (h, { key }) {
         return (
@@ -23,8 +24,8 @@ const config = {
       }
     },
     {
-      group: '55fecc70.e7af71',
-      label: '55fecc70.87dfd7',
+      group: i18n.t('55fecc70.e7af71'),
+      label: i18n.t('55fecc70.87dfd7'),
       key: 'dataCount',
       component: 'number',
       value: 4,
@@ -32,19 +33,19 @@ const config = {
       max: 99
     },
     {
-      group: '55fecc70.6f3360',
-      label: '55fecc70.c20c83',
+      group: i18n.t('55fecc70.6f3360'),
+      label: i18n.t('55fecc70.c20c83'),
       key: 'groupTitleType',
       component: 'radiobutton',
       options: [
-        { name: '55fecc70.ca746b', label: 'text' },
-        { name: '55fecc70.20def7', label: 'image' }
+        { name: i18n.t('55fecc70.ca746b'), label: 'text' },
+        { name: i18n.t('55fecc70.20def7'), label: 'image' }
       ],
       value: 'text'
     },
     {
-      group: '55fecc70.6f3360',
-      label: '55fecc70.264fe1',
+      group: i18n.t('55fecc70.6f3360'),
+      label: i18n.t('55fecc70.264fe1'),
       key: 'groupTitleImage',
       component: function (h, { key }) {
         return <SpImagePicker v-model={this.value[key]} size='small' />
@@ -55,8 +56,8 @@ const config = {
       }
     },
     {
-      group: '55fecc70.6f3360',
-      label: '55fecc70.eded9e',
+      group: i18n.t('55fecc70.6f3360'),
+      label: i18n.t('55fecc70.eded9e'),
       key: 'groupTitleText',
       component: 'input',
       value: '标题',
@@ -65,8 +66,8 @@ const config = {
       }
     },
     {
-      group: '55fecc70.6f3360',
-      label: '55fecc70.94e391',
+      group: i18n.t('55fecc70.6f3360'),
+      label: i18n.t('55fecc70.94e391'),
       key: 'groupTitleColor',
       component: 'color',
       value: '#000000',
@@ -75,19 +76,19 @@ const config = {
       }
     },
     {
-      group: '55fecc70.90507a',
-      label: '55fecc70.1711a8',
+      group: i18n.t('55fecc70.90507a'),
+      label: i18n.t('55fecc70.1711a8'),
       key: 'groupShowMoreBtn',
       component: 'radiobutton',
       options: [
-        { name: '55fecc70.4d775d', label: true },
-        { name: '55fecc70.dce537', label: false }
+        { name: i18n.t('55fecc70.4d775d'), label: true },
+        { name: i18n.t('55fecc70.dce537'), label: false }
       ],
       value: true
     },
     {
-      group: '55fecc70.90507a',
-      label: '55fecc70.351201',
+      group: i18n.t('55fecc70.90507a'),
+      label: i18n.t('55fecc70.351201'),
       key: 'groupMoreBtnColor',
       component: 'color',
       value: '#000000',
@@ -96,7 +97,7 @@ const config = {
       }
     },
     {
-      group: '55fecc70.90507a',
+      group: i18n.t('55fecc70.90507a'),
       label: '',
       key: 'groupMoreLink',
       component: function (h, { key }) {

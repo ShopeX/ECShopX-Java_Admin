@@ -3,17 +3,18 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrGoods from './attr-goods'
 import CompPickerLink from '../../comps/comp-pickerLink'
 
 const config = {
   name: 'goodsScroll',
   setting: [
-    { label: 'e6a33596.4707ba', key: 'padded', component: 'switch', value: true },
-    { label: 'e6a33596.319337', key: 'addCart', component: 'switch', value: false },
-    { label: 'e6a33596.ba302e', key: 'showPrice', component: 'switch', value: true },
+    { label: i18n.t('e6a33596.4707ba'), key: 'padded', component: 'switch', value: true },
+    { label: i18n.t('e6a33596.319337'), key: 'addCart', component: 'switch', value: false },
+    { label: i18n.t('e6a33596.ba302e'), key: 'showPrice', component: 'switch', value: true },
     {
-      label: 'e6a33596.2af133',
+      label: i18n.t('e6a33596.2af133'),
       key: 'goodsSetting',
       component: function (h, { key }) {
         return <AttrGoods type={this.value[key].type} v-model={this.value[key]} />
@@ -51,7 +52,7 @@ const config = {
       }
     },
     {
-      label: 'e6a33596.aaa49b',
+      label: i18n.t('e6a33596.aaa49b'),
       key: 'leaderboard',
       component: 'switch',
       value: true,
@@ -60,7 +61,7 @@ const config = {
       }
     },
     {
-      label: 'e6a33596.eec533',
+      label: i18n.t('e6a33596.eec533'),
       key: 'moreLink',
       component: function (h, { key }) {
         return <CompPickerLink v-model={this.value[key]} style='margin-top: 7px;' />
@@ -68,7 +69,7 @@ const config = {
       value: {}
     },
     {
-      label: 'e6a33596.0ecbd5',
+      label: i18n.t('e6a33596.0ecbd5'),
       key: 'backgroundImg',
       component: function (h, { key }) {
         return <SpImagePicker v-model={this.value[key]} size='small' style='margin-top: 10px;' />

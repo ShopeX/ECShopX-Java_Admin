@@ -1,4 +1,5 @@
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrDataVue from '../../comps/goods-attr/attr-data.vue'
 import CompPickerLinkVue from '../../comps/comp-pickerLink.vue'
 import SpImagePicker from '@/components/sp-image-picker/index.vue'
@@ -7,8 +8,8 @@ const config = {
   name: 'ranking',
   setting: [
     {
-      group: '5f12aa3b.e7af71',
-      label: '5f12aa3b.e7af71',
+      group: i18n.t('5f12aa3b.e7af71'),
+      label: i18n.t('5f12aa3b.e7af71'),
       key: 'data',
       component: function (h, { key }) {
         return (
@@ -25,8 +26,8 @@ const config = {
       }
     },
     {
-      group: '5f12aa3b.e7af71',
-      label: '5f12aa3b.87dfd7',
+      group: i18n.t('5f12aa3b.e7af71'),
+      label: i18n.t('5f12aa3b.87dfd7'),
       key: 'dataCount',
       component: 'number',
       value: 4,
@@ -34,19 +35,19 @@ const config = {
       max: 99
     },
     {
-      group: '5f12aa3b.6f3360',
-      label: '5f12aa3b.c20c83',
+      group: i18n.t('5f12aa3b.6f3360'),
+      label: i18n.t('5f12aa3b.c20c83'),
       key: 'rankingTitleType',
       component: 'radiobutton',
       options: [
-        { name: '5f12aa3b.ca746b', label: 'text' },
-        { name: '5f12aa3b.20def7', label: 'image' }
+        { name: i18n.t('5f12aa3b.ca746b'), label: 'text' },
+        { name: i18n.t('5f12aa3b.20def7'), label: 'image' }
       ],
       value: 'text'
     },
     {
-      group: '5f12aa3b.6f3360',
-      label: '5f12aa3b.264fe1',
+      group: i18n.t('5f12aa3b.6f3360'),
+      label: i18n.t('5f12aa3b.264fe1'),
       key: 'rankingTitleImage',
       component: function (h, { key }) {
         return <SpImagePicker v-model={this.value[key]} size='small' />
@@ -57,8 +58,8 @@ const config = {
       }
     },
     {
-      group: '5f12aa3b.6f3360',
-      label: '5f12aa3b.eded9e',
+      group: i18n.t('5f12aa3b.6f3360'),
+      label: i18n.t('5f12aa3b.eded9e'),
       key: 'rankingTitleText',
       component: 'input',
       value: '5f12aa3b.32c65d',
@@ -67,8 +68,8 @@ const config = {
       }
     },
     {
-      group: '5f12aa3b.6f3360',
-      label: '5f12aa3b.94e391',
+      group: i18n.t('5f12aa3b.6f3360'),
+      label: i18n.t('5f12aa3b.94e391'),
       key: 'rankingTitleColor',
       component: 'color',
       value: '#000000',
@@ -77,19 +78,19 @@ const config = {
       }
     },
     {
-      group: '5f12aa3b.90507a',
-      label: '5f12aa3b.1711a8',
+      group: i18n.t('5f12aa3b.90507a'),
+      label: i18n.t('5f12aa3b.1711a8'),
       key: 'rankingShowMoreBtn',
       component: 'radiobutton',
       options: [
-        { name: '5f12aa3b.4d775d', label: true },
-        { name: '5f12aa3b.dce537', label: false }
+        { name: i18n.t('5f12aa3b.4d775d'), label: true },
+        { name: i18n.t('5f12aa3b.dce537'), label: false }
       ],
       value: true
     },
     {
-      group: '5f12aa3b.90507a',
-      label: '5f12aa3b.351201',
+      group: i18n.t('5f12aa3b.90507a'),
+      label: i18n.t('5f12aa3b.351201'),
       key: 'rankingMoreBtnColor',
       component: 'color',
       value: '#000000',

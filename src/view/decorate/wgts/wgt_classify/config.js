@@ -1,4 +1,5 @@
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import Attrdata from './attr_data.vue'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
@@ -6,23 +7,23 @@ const config = {
   name: 'classify',
   setting: [
     {
-      label: 'd1229860.1e409f',
+      label: i18n.t('d1229860.1e409f'),
       key: 'animate',
       component: 'radiobutton',
       options: [
-        { name: 'd1229860.4f9974', label: 'horizontal' },
-        { name: 'd1229860.6875b7', label: 'vertical' }
+        { name: i18n.t('d1229860.4f9974'), label: 'horizontal' },
+        { name: i18n.t('d1229860.6875b7'), label: 'vertical' }
       ],
       value: 'vertical',
       module: ''
     },
     {
-      label: 'd1229860.185f7b',
+      label: i18n.t('d1229860.185f7b'),
       key: 'dataType',
       component: 'select',
       options: [
-        { label: 'd1229860.64423b', value: 'manage' },
-        { label: 'd1229860.2fcd53', value: 'sales' }
+        { label: i18n.t('d1229860.64423b'), value: 'manage' },
+        { label: i18n.t('d1229860.2fcd53'), value: 'sales' }
       ],
       value: 'manage',
       onchange: function (v, self) {
@@ -30,7 +31,7 @@ const config = {
       }
     },
     {
-      label: 'd1229860.e7af71',
+      label: i18n.t('d1229860.e7af71'),
       key: 'data',
       component: function (h, { key }) {
         return <Attrdata v-model={this.value[key]} dataType={this.value.dataType} />

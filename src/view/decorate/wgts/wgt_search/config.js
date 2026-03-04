@@ -3,12 +3,13 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 const config = {
   name: 'search',
   setting: [
-    { label: '043bd5c4.816458', key: 'fixTop', component: 'switch', value: false },
-    { label: '043bd5c4.4707ba', key: 'padded', component: 'switch', value: true },
-    { label: '043bd5c4.8ce1cd', key: 'placeholder', component: 'input', value: '043bd5c4.758b99' }
+    { label: i18n.t('043bd5c4.816458'), key: 'fixTop', component: 'switch', value: false },
+    { label: i18n.t('043bd5c4.4707ba'), key: 'padded', component: 'switch', value: true },
+    { label: i18n.t('043bd5c4.8ce1cd'), key: 'placeholder', component: 'input', value: '043bd5c4.758b99' }
   ],
   transformIn: (v) => {
     const { name, base, config, track, tagsType, meber_tags, no_meber_tags } = v

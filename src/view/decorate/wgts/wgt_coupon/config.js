@@ -9,7 +9,7 @@ const config = {
   name: 'couponCard',
   setting: [
     {
-      label: '7c96f122.aebb0a',
+      label: i18n.t('7c96f122.aebb0a'),
       key: 'wgtCustName',
       component: 'input',
       value: ''
@@ -33,7 +33,7 @@ const config = {
     //   }
     // },
     {
-      label: '7c96f122.e7af71',
+      label: i18n.t('7c96f122.e7af71'),
       key: 'data',
       component: function (h, { key }) {
         const self = this
@@ -145,13 +145,13 @@ const config = {
     //   value: { type: 'solid', color: '', startColor: '', endColor: '' }
     // },
     {
-      label: '7c96f122.5f2e38',
+      label: i18n.t('7c96f122.5f2e38'),
       key: 'amountColor',
       component: 'color',
       value: '#D4003B'
     },
     {
-      label: '7c96f122.2a5a4c',
+      label: i18n.t('7c96f122.2a5a4c'),
       key: 'receiveBtn',
       component: function (h, { key }) {
         return <CompBtn v-model={this.value[key]} showImage={false} />

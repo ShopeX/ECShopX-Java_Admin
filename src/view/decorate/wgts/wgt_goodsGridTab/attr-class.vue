@@ -64,7 +64,7 @@
 </template>
 
 <script>
-// import { i18n } from '@/i18n'
+import { i18n } from '@/i18n'
 import classifyDialog from "./classifyDialog.vue"
 import { cloneDeep } from 'lodash'
 import CompButton from '../../comps/comp-button'

@@ -3,14 +3,15 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrGoods from './attr-goods'
 
 const config = {
   name: 'goods',
   setting: [
-    { label: '8f58e7cb.4707ba', key: 'padded', component: 'switch', value: true },
+    { label: i18n.t('8f58e7cb.4707ba'), key: 'padded', component: 'switch', value: true },
     {
-      label: '8f58e7cb.43d1e2',
+      label: i18n.t('8f58e7cb.43d1e2'),
       key: 'data',
       component: function (h, { key }) {
         return <AttrGoods v-model={this.value[key]} />

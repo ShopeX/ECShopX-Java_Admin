@@ -1,4 +1,5 @@
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrHotSetting from './attr-hotsetting'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
@@ -6,20 +7,20 @@ const config = {
   name: 'imgHotzone',
   setting: [
     {
-      group: '7a0ee76a.eeb8e8',
-      label: '7a0ee76a.1e409f',
+      group: i18n.t('7a0ee76a.eeb8e8'),
+      label: i18n.t('7a0ee76a.1e409f'),
       key: 'animation',
       component: 'radiobutton',
       options: [
-        { name: '7a0ee76a.6875b7', label: 'horizontal' },
-        { name: '7a0ee76a.4f9974', label: 'vertical' }
+        { name: i18n.t('7a0ee76a.6875b7'), label: 'horizontal' },
+        { name: i18n.t('7a0ee76a.4f9974'), label: 'vertical' }
       ],
-      tips: '7a0ee76a.cc9f07',
+      tips: i18n.t('7a0ee76a.cc9f07'),
       value: 'horizontal'
     },
     {
-      group: '7a0ee76a.eeb8e8',
-      label: '7a0ee76a.b372fc',
+      group: i18n.t('7a0ee76a.eeb8e8'),
+      label: i18n.t('7a0ee76a.b372fc'),
       key: 'imgHeight',
       component: function (h, { key }) {
         return (
@@ -52,8 +53,8 @@ const config = {
       }
     },
     {
-      group: '7a0ee76a.eeb8e8',
-      label: '7a0ee76a.c90f57',
+      group: i18n.t('7a0ee76a.eeb8e8'),
+      label: i18n.t('7a0ee76a.c90f57'),
       key: 'data',
       component: function (h, { key }) {
         return <AttrHotSetting v-model={this.value[key]} />

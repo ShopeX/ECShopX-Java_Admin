@@ -3,18 +3,19 @@
  * See LICENSE file for license details.
  */
 import { pickBy, isObject } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrClass from './attr-class'
 import CompPickerLink from '../../comps/comp-pickerLink'
 
 const config = {
   name: 'goodsGridTab',
   setting: [
-    { label: '5e607dbd.4707ba', key: 'padded', component: 'switch', value: true },
-    { label: '5e607dbd.319337', key: 'addCart', component: 'switch', value: false },
-    { label: '5e607dbd.ba302e', key: 'showPrice', component: 'switch', value: true },
-    { label: '5e607dbd.02af2a', key: 'brand', component: 'switch', value: true },
+    { label: i18n.t('5e607dbd.4707ba'), key: 'padded', component: 'switch', value: true },
+    { label: i18n.t('5e607dbd.319337'), key: 'addCart', component: 'switch', value: false },
+    { label: i18n.t('5e607dbd.ba302e'), key: 'showPrice', component: 'switch', value: true },
+    { label: i18n.t('5e607dbd.02af2a'), key: 'brand', component: 'switch', value: true },
     {
-      label: '5e607dbd.c3ece5',
+      label: i18n.t('5e607dbd.c3ece5'),
       key: 'list',
       component: function (h, { key }) {
         return <AttrClass v-model={this.value[key]} />
@@ -107,7 +108,7 @@ const config = {
       ]
     },
     {
-      label: '5e607dbd.90ef7c',
+      label: i18n.t('5e607dbd.90ef7c'),
       key: 'moreLink',
       component: function (h, { key }) {
         return <CompPickerLink v-model={this.value[key]} style='margin-top: 7px;' />

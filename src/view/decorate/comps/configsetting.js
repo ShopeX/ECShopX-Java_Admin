@@ -4,7 +4,7 @@
  */
 import CompStyle from './comp_style.vue'
 import CrowdSelectV2 from '@/components/function/crowdSelectV2.vue'
-
+import { i18n } from '@/i18n'
 // 导出转换工具函数，供其他挂件使用
 export {
   transformInBase,
@@ -30,9 +30,9 @@ function processConfig(config) {
   // 获取分组名称的函数（i18n key）
   const getGroup = () => {
     if (['contentPart', 'locationModule'].includes(config.name)) {
-      return 'b370a342.8c94fa'
+      return i18n.t('b370a342.8c94fa')
     }
-    return 'b370a342.32789d'
+    return i18n.t('b370a342.32789d')
   }
 
   // 创建 CompStyle 配置项的函数
@@ -62,7 +62,7 @@ function processConfig(config) {
 
   // 默认的通用配置项（所有组件都自动包含）- 组件上下左右边距默认 16
   const defaultCommonSettings = [
-    createCompStyleItem('outerMargin', 'b370a342.e8ed49', {
+    createCompStyleItem('outerMargin', i18n.t('b370a342.e8ed49'), {
       paddedt: 16,
       paddedb: 16,
       paddedl: 16,
@@ -87,8 +87,8 @@ function processConfig(config) {
   ) {
     // 商品挂件自动添加组件内样式
     widgetSpecificSettings.push({
-      group: 'b370a342.dfc832',
-      label: 'b370a342.e8ed49',
+      group: i18n.t('b370a342.dfc832'),
+      label: i18n.t('b370a342.e8ed49'),
       key: 'innerPadding',
       component: function (h, { key }) {
         return (
@@ -113,8 +113,8 @@ function processConfig(config) {
   // 定位导航和内容部分自动添加组件样式
   if (['contentPart', 'locationModule'].includes(config.name)) {
     widgetSpecificSettings.push({
-      group: 'b370a342.480e08',
-      label: 'b370a342.e8ed49',
+      group: i18n.t('b370a342.480e08'),
+      label: i18n.t('b370a342.e8ed49'),
       key: 'navitemarea',
       component: function (h, { key }) {
         return <CompStyle v-model={this.value[key]} uuid={this.value.uuid} />
@@ -136,7 +136,7 @@ function processConfig(config) {
 
     if (shouldUseCompStyle) {
       const { component, ...rest } = item
-      let group = rest.group || 'b370a342.32789d'
+      let group = rest.group || i18n.t('b370a342.32789d') 
       return {
         ...rest,
         group: group,
@@ -162,9 +162,9 @@ function processConfig(config) {
   })
   if (!existingKeys.includes('tags')) {
     processedSetting.unshift({
-      label: 'b370a342.1b8a59',
+      label: i18n.t('b370a342.1b8a59'),
       key: 'tags',
-      group: 'b370a342.0aeca0',
+      group: i18n.t('b370a342.0aeca0'),
       component: function (h, { key }) {
         return <CrowdSelectV2 v-model={this.value[key]} />
       },
@@ -177,9 +177,9 @@ function processConfig(config) {
   }
   if (!existingKeys.includes('track')) {
     processedSetting.unshift({
-      label: 'b370a342.965470',
+      label: i18n.t('b370a342.965470'),
       key: 'track',
-      group: 'b370a342.0aeca0',
+      group: i18n.t('b370a342.0aeca0'),
       component: 'input',
       value: ''
     })

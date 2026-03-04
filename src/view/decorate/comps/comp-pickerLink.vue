@@ -183,7 +183,7 @@ export default {
     getLabelName() {
       const { linkPage, title } = this.localValue
       if (linkPage) {
-        return `${i18n.t(LINK_PATH[linkPage])}：${title}`
+        return `${LINK_PATH[linkPage]}：${title}`
       } else {
         return this.$t('4a0a5782.e3cf91')
       }

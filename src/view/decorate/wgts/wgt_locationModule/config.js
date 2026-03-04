@@ -1,4 +1,5 @@
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import NavItem from './nav-item.vue'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
@@ -6,41 +7,41 @@ const config = {
   name: 'locationModule',
   setting: [
     {
-      label: '046a3b70.7bcb8e',
-      group: '046a3b70.c6b063',
+      label: i18n.t('046a3b70.7bcb8e'),
+      group: i18n.t('046a3b70.c6b063'),
       key: 'navSticky',
       component: 'radiobutton',
       options: [
-        { name: '046a3b70.0a60ac', label: true },
-        { name: '046a3b70.c9744f', label: false }
+        { name: i18n.t('046a3b70.0a60ac'), label: true },
+        { name: i18n.t('046a3b70.c9744f'), label: false }
       ],
       value: true
     },
     {
-      label: '046a3b70.0103eb',
-      group: '046a3b70.480e08',
+      label: i18n.t('046a3b70.0103eb'),
+      group: i18n.t('046a3b70.480e08'),
       key: 'navitemradius',
       component: 'number',
       value: 0,
       module: 'navitemarea'
     },
     {
-      label: '046a3b70.c1df04',
-      group: '046a3b70.5f3c21',
+      label: i18n.t('046a3b70.c1df04'),
+      group: i18n.t('046a3b70.5f3c21'),
       key: 'navitemheight',
       component: 'number',
       value: 40
     },
     {
-      label: '046a3b70.35824c',
-      group: '046a3b70.5f3c21',
+      label: i18n.t('046a3b70.35824c'),
+      group: i18n.t('046a3b70.5f3c21'),
       key: 'navitemmargin',
       component: 'number',
       value: 0
     },
     {
-      label: '046a3b70.ebf1ca',
-      group: '046a3b70.5f3c21',
+      label: i18n.t('046a3b70.ebf1ca'),
+      group: i18n.t('046a3b70.5f3c21'),
       key: 'leftimgUrl',
       component: function (h, { key }) {
         return (
@@ -52,8 +53,8 @@ const config = {
       value: ''
     },
     {
-      label: '046a3b70.01569f',
-      group: '046a3b70.5f3c21',
+      label: i18n.t('046a3b70.01569f'),
+      group: i18n.t('046a3b70.5f3c21'),
       key: 'rightimgUrl',
       component: function (h, { key }) {
         return (
@@ -65,19 +66,19 @@ const config = {
       value: ''
     },
     {
-      label: '046a3b70.efcd04',
-      group: '046a3b70.5f3c21',
+      label: i18n.t('046a3b70.efcd04'),
+      group: i18n.t('046a3b70.5f3c21'),
       key: 'navitemborder',
       component: 'radiobutton',
       options: [
-        { name: '046a3b70.0a60ac', label: 'true' },
-        { name: '046a3b70.c9744f', label: 'false' }
+        { name: i18n.t('046a3b70.0a60ac'), label: 'true' },
+        { name: i18n.t('046a3b70.c9744f'), label: 'false' }
       ],
       value: false
     },
     {
-      label: '046a3b70.c33be8',
-      group: '046a3b70.5f3c21',
+      label: i18n.t('046a3b70.c33be8'),
+      group: i18n.t('046a3b70.5f3c21'),
       key: 'navitembordercolor',
       component: 'color',
       value: '#ffffff',
@@ -88,7 +89,7 @@ const config = {
     },
     {
       label: '',
-      group: '046a3b70.e7af71',
+      group: i18n.t('046a3b70.e7af71'),
       key: 'data',
       component: function (h, { key }) {
         return <NavItem v-model={this.value[key]} />

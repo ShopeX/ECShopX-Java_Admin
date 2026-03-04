@@ -3,6 +3,7 @@
  * See LICENSE file for license details.
  */
 import Vue from 'vue'
+import { i18n } from '@/i18n'
 import { pickBy, isObject } from '@/utils'
 import AttrItem from './attr-item.vue'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
@@ -29,15 +30,15 @@ const config = {
       module: 'slideritem'
     },
     {
-      label: '59022bdd.b73743',
-      group: '59022bdd.4c62d4',
+      label: i18n.t('59022bdd.b73743'),
+      group: i18n.t('59022bdd.4c62d4'),
       key: 'indicatorColor',
       component: 'color',
       value: '#f5f5f5'
     },
     {
-      label: '59022bdd.8fac75',
-      group: '59022bdd.4c62d4',
+      label: i18n.t('59022bdd.8fac75'),
+      group: i18n.t('59022bdd.4c62d4'),
       key: 'indicatorFontSize',
       component: 'number',
       value: 12,
@@ -47,8 +48,8 @@ const config = {
       tip: '59022bdd.8e6ead'
     },
     {
-      label: '59022bdd.1a5232',
-      group: '59022bdd.4c62d4',
+      label: i18n.t('59022bdd.1a5232'),
+      group: i18n.t('59022bdd.4c62d4'),
       key: 'dotbottom',
       component: 'number',
       value: 0,
@@ -58,14 +59,14 @@ const config = {
       tip: '59022bdd.8e6ead'
     },
     {
-      label: '59022bdd.1972a4',
-      group: '59022bdd.4c62d4',
+      label: i18n.t('59022bdd.1972a4'),
+      group: i18n.t('59022bdd.4c62d4'),
       key: 'indicatorText',
       component: 'input'
     },
     {
-      label: '59022bdd.8695d8',
-      group: '59022bdd.9f1cbe',
+      label: i18n.t('59022bdd.8695d8'),
+      group: i18n.t('59022bdd.9f1cbe'),
       key: 'interval',
       component: 'number',
       isShow: function () {
@@ -78,8 +79,8 @@ const config = {
       module: 'slidersetting'
     },
     {
-      label: '59022bdd.3dd185',
-      group: '59022bdd.9f1cbe',
+      label: i18n.t('59022bdd.3dd185'),
+      group: i18n.t('59022bdd.9f1cbe'),
       key: 'autoplay',
       component: 'switch',
       value: true,
@@ -87,7 +88,7 @@ const config = {
     },
     {
       label: '',
-      group: '59022bdd.9f1cbe',
+      group: i18n.t('59022bdd.9f1cbe'),
       key: 'height',
       component: 'input',
       value: 667,

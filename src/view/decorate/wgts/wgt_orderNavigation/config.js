@@ -3,6 +3,7 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrNavItem from './attr-imagepanel'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
@@ -10,22 +11,22 @@ const config = {
   name: 'orderNavigation',
   setting: [
     {
-      label: 'cff31093.4707ba',
-      group: 'cff31093.32789d',
+      label: i18n.t('cff31093.4707ba'),
+      group: i18n.t('cff31093.32789d'),
       key: 'padded',
       component: 'switch',
       value: true
     },
     {
-      label: 'cff31093.32c65d',
-      group: 'cff31093.0aeca0',
+      label: i18n.t('cff31093.32c65d'),
+      group: i18n.t('cff31093.0aeca0'),
       key: 'title',
       component: 'input',
       value: ''
     },
     {
-      label: 'cff31093.94e391',
-      group: 'cff31093.32789d',
+      label: i18n.t('cff31093.94e391'),
+      group: i18n.t('cff31093.32789d'),
       key: 'titleColor',
       component: 'color',
       value: '#000'

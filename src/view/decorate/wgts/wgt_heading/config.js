@@ -3,35 +3,36 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 
 const config = {
   name: 'heading',
   setting: [
-    { label: 'f08d652e.32c65d', key: 'title', component: 'textarea', rows: 6, value: '标题' },
+    { label: i18n.t('f08d652e.32c65d'), key: 'title', component: 'textarea', rows: 6, value: '标题' },
     {
-      label: 'f08d652e.d1b490',
+      label: i18n.t('f08d652e.d1b490'),
       key: 'align',
       component: 'radiobutton',
       options: [
-        { name: 'f08d652e.316a63', label: 'left' },
-        { name: 'f08d652e.0bbc2e', label: 'center' }
+        { name: i18n.t('f08d652e.316a63'), label: 'left' },
+        { name: i18n.t('f08d652e.0bbc2e'), label: 'center' }
       ],
       value: 'center'
     },
     {
-      label: 'f08d652e.3b8a43',
+      label: i18n.t('f08d652e.3b8a43'),
       key: 'weight',
       component: 'switch',
       value: false
     },
     {
-      label: 'f08d652e.81d6da',
+      label: i18n.t('f08d652e.81d6da'),
       key: 'italic',
       component: 'switch',
       value: false
     },
     {
-      label: 'f08d652e.fc55af',
+      label: i18n.t('f08d652e.fc55af'),
       key: 'fontSize',
       component: 'select',
       options: [
@@ -45,13 +46,13 @@ const config = {
       value: '16'
     },
     {
-      label: 'f08d652e.6b36c6',
+      label: i18n.t('f08d652e.6b36c6'),
       key: 'color',
       component: 'color',
       value: '#333'
     },
     {
-      label: 'f08d652e.17169f',
+      label: i18n.t('f08d652e.17169f'),
       key: 'lineHeight',
       component: 'select',
       options: [

@@ -3,16 +3,17 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrCategory from './attr-category'
 import ProductLabel from './product-label'
 
 const config = {
   name: 'nearbyShop',
   setting: [
-    { label: '9b7fb994.4707ba', key: 'padded', component: 'switch', value: false },
-    { label: '9b7fb994.319337', key: 'addCart', component: 'switch', value: false },
+    { label: i18n.t('9b7fb994.4707ba'), key: 'padded', component: 'switch', value: false },
+    { label: i18n.t('9b7fb994.319337'), key: 'addCart', component: 'switch', value: false },
     {
-      label: '9b7fb994.0f09a8',
+      label: i18n.t('9b7fb994.0f09a8'),
       key: 'seletedTags',
       component: function (h, { key }) {
         return <AttrCategory v-model={this.value[key]} />
@@ -20,7 +21,7 @@ const config = {
       value: []
     },
     {
-      label: '9b7fb994.0f394b',
+      label: i18n.t('9b7fb994.0f394b'),
       key: 'productLabel',
       component: function (h, { key }) {
         return <ProductLabel v-model={this.value[key]} />
@@ -28,20 +29,20 @@ const config = {
       value: []
     },
     {
-      label: '9b7fb994.8752e9',
+      label: i18n.t('9b7fb994.8752e9'),
       key: 'navigation_display',
       component: 'radiobutton',
       options: [
-        { name: '9b7fb994.a8b0c2', label: 'all' },
-        { name: '9b7fb994.0f09a8', label: 'business' },
-        { name: '9b7fb994.0f394b', label: 'productLabels' }
+        { name: i18n.t('9b7fb994.a8b0c2'), label: 'all' },
+        { name: i18n.t('9b7fb994.0f09a8'), label: 'business' },
+        { name: i18n.t('9b7fb994.0f394b'), label: 'productLabels' }
       ],
       value: 'all'
     },
-    { label: '9b7fb994.5ea469', key: 'show_coupon', component: 'switch', value: false },
-    { label: '9b7fb994.f417a5', key: 'show_nearby_merchants', component: 'switch', value: false },
+    { label: i18n.t('9b7fb994.5ea469'), key: 'show_coupon', component: 'switch', value: false },
+    { label: i18n.t('9b7fb994.f417a5'), key: 'show_nearby_merchants', component: 'switch', value: false },
     {
-      label: '9b7fb994.35f408',
+      label: i18n.t('9b7fb994.35f408'),
       key: 'merchantsNumber',
       component: 'number',
       value: 4,
@@ -49,7 +50,7 @@ const config = {
       max: 100
     },
     {
-      label: '9b7fb994.81756c',
+      label: i18n.t('9b7fb994.81756c'),
       key: 'quantityNumber',
       component: 'number',
       value: 4,

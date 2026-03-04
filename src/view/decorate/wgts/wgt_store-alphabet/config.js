@@ -1,16 +1,17 @@
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
 const config = {
   name: 'storeAlphabet',
   setting: [
     {
-      label: 'c6e0a96a.185f7b',
+      label: i18n.t('c6e0a96a.185f7b'),
       key: 'dataType',
       component: 'select',
       options: [
-        { label: 'c6e0a96a.fc689d', value: 'all' },
-        { label: 'c6e0a96a.fcf7d8', value: 'specify' }
+        { label: i18n.t('c6e0a96a.fc689d'), value: 'all' },
+        { label: i18n.t('c6e0a96a.fcf7d8'), value: 'specify' }
       ],
       value: 'all',
       onchange: function (e, vm) {

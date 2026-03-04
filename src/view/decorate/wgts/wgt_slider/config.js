@@ -3,6 +3,7 @@
  * See LICENSE file for license details.
  */
 import { pickBy, isObject } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrItem from './attr-item'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
@@ -11,8 +12,8 @@ const config = {
   setting: [
     // { label: '标题颜色', key: 'WordColor', component: 'color', value: '#333333' },
     {
-      group: '7bb603be.9f1cbe',
-      label: '7bb603be.8695d8',
+      group: i18n.t('7bb603be.9f1cbe'),
+      label: i18n.t('7bb603be.8695d8'),
       key: 'interval',
       component: 'number',
       value: 3000,
@@ -21,69 +22,69 @@ const config = {
       step: 1000
     },
     {
-      group: '7bb603be.9f1cbe',
-      label: '7bb603be.e33142',
+      group: i18n.t('7bb603be.9f1cbe'),
+      label: i18n.t('7bb603be.e33142'),
       key: 'rounded',
       component: 'radiobutton',
       value: false,
       options: [
-        { name: '7bb603be.0103eb', label: true },
-        { name: '7bb603be.bf307d', label: false }
+        { name: i18n.t('7bb603be.0103eb'), label: true },
+        { name: i18n.t('7bb603be.bf307d'), label: false }
       ]
     },
     {
-      group: '7bb603be.148c77',
-      label: '7bb603be.9a9056',
+      group: i18n.t('7bb603be.148c77'),
+      label: i18n.t('7bb603be.9a9056'),
       key: 'dot',
       component: 'radiobutton',
       options: [
-        { name: '7bb603be.be604f', label: true },
-        { name: '7bb603be.55d479', label: false }
+        { name: i18n.t('7bb603be.be604f'), label: true },
+        { name: i18n.t('7bb603be.55d479'), label: false }
       ],
       value: true
     },
     {
-      group: '7bb603be.148c77',
-      label: '7bb603be.175553',
+      group: i18n.t('7bb603be.148c77'),
+      label: i18n.t('7bb603be.175553'),
       key: 'dotCover',
       component: 'radiobutton',
       value: false,
       options: [
-        { name: '7bb603be.cc42dd', label: true },
-        { name: '7bb603be.b15d91', label: false }
+        { name: i18n.t('7bb603be.cc42dd'), label: true },
+        { name: i18n.t('7bb603be.b15d91'), label: false }
       ]
     },
     {
-      group: '7bb603be.148c77',
-      label: '7bb603be.a8a94d',
+      group: i18n.t('7bb603be.148c77'),
+      label: i18n.t('7bb603be.a8a94d'),
       key: 'dotLocation',
       component: 'radiobutton',
       options: [
-        { name: '7bb603be.316a63', label: 'left' },
-        { name: '7bb603be.0bbc2e', label: 'center' },
-        { name: '7bb603be.e2aaec', label: 'right' }
+        { name: i18n.t('7bb603be.316a63'), label: 'left' },
+        { name: i18n.t('7bb603be.0bbc2e'), label: 'center' },
+        { name: i18n.t('7bb603be.e2aaec'), label: 'right' }
       ],
       value: 'right'
     },
     {
-      group: '7bb603be.148c77',
-      label: '7bb603be.11333d',
+      group: i18n.t('7bb603be.148c77'),
+      label: i18n.t('7bb603be.11333d'),
       key: 'shape',
       component: 'radiobutton',
       options: [
-        { name: '7bb603be.2db0fc', label: 'circle' },
-        { name: '7bb603be.2fce58', label: 'rectangle' }
+        { name: i18n.t('7bb603be.2db0fc'), label: 'circle' },
+        { name: i18n.t('7bb603be.2fce58'), label: 'rectangle' }
       ],
       value: 'circle'
     },
     {
-      group: '7bb603be.148c77',
-      label: '7bb603be.14db62',
+      group: i18n.t('7bb603be.148c77'),
+      label: i18n.t('7bb603be.14db62'),
       key: 'dotColor',
       component: 'radiobutton',
       options: [
-        { name: '7bb603be.41e8e8', label: 'dark' },
-        { name: '7bb603be.a32b3b', label: 'light' }
+        { name: i18n.t('7bb603be.41e8e8'), label: 'dark' },
+        { name: i18n.t('7bb603be.a32b3b'), label: 'light' }
       ],
       value: 'dark'
     },
@@ -112,13 +113,13 @@ const config = {
       ]
     },
     {
-      label: '7bb603be.3dd185',
-      group: '7bb603be.9f1cbe',
+      label: i18n.t('7bb603be.3dd185'),
+      group: i18n.t('7bb603be.9f1cbe'),
       key: 'autoplay',
       component: 'radiobutton',
       options: [
-        { name: '7bb603be.cc42dd', label: true },
-        { name: '7bb603be.b15d91', label: false }
+        { name: i18n.t('7bb603be.cc42dd'), label: true },
+        { name: i18n.t('7bb603be.b15d91'), label: false }
       ],
       value: true
     }

@@ -1,4 +1,5 @@
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrDataVue from '../../comps/goods-attr/attr-data.vue'
 import CompPickerLinkVue from '../../comps/comp-pickerLink.vue'
 import SpImagePicker from '@/components/sp-image-picker/index.vue'
@@ -7,19 +8,19 @@ const config = {
   name: 'speedkill',
   setting: [
     {
-      group: 'e05e61da.e7af71',
-      label: 'e05e61da.185f7b',
+      group: i18n.t('e05e61da.e7af71'),
+      label: i18n.t('e05e61da.185f7b'),
       key: 'dataType',
       component: 'radiobutton',
       options: [
-        { name: 'e05e61da.35242c', label: 'seckill' },
-        { name: 'e05e61da.84bf84', label: 'promotion' }
+        { name: i18n.t('e05e61da.35242c'), label: 'seckill' },
+        { name: i18n.t('e05e61da.84bf84'), label: 'promotion' }
       ],
       value: 'seckill'
     },
     {
-      group: 'e05e61da.e7af71',
-      label: 'e05e61da.e7af71',
+      group: i18n.t('e05e61da.e7af71'),
+      label: i18n.t('e05e61da.e7af71'),
       key: 'data',
       component: function (h, { key }) {
         return (
@@ -36,8 +37,8 @@ const config = {
       }
     },
     {
-      group: 'e05e61da.e7af71',
-      label: 'e05e61da.87dfd7',
+      group: i18n.t('e05e61da.e7af71'),
+      label: i18n.t('e05e61da.87dfd7'),
       key: 'dataCount',
       component: 'number',
       value: 4,
@@ -45,19 +46,19 @@ const config = {
       max: 99
     },
     {
-      group: 'e05e61da.6f3360',
-      label: 'e05e61da.c20c83',
+      group: i18n.t('e05e61da.6f3360'),
+      label: i18n.t('e05e61da.c20c83'),
       key: 'speedkillTitleType',
       component: 'radiobutton',
       options: [
-        { name: 'e05e61da.ca746b', label: 'text' },
-        { name: 'e05e61da.20def7', label: 'image' }
+        { name: i18n.t('e05e61da.ca746b'), label: 'text' },
+        { name: i18n.t('e05e61da.20def7'), label: 'image' }
       ],
       value: 'text'
     },
     {
-      group: 'e05e61da.6f3360',
-      label: 'e05e61da.264fe1',
+      group: i18n.t('e05e61da.6f3360'),
+      label: i18n.t('e05e61da.264fe1'),
       key: 'speedkillTitleImage',
       component: function (h, { key }) {
         return <SpImagePicker v-model={this.value[key]} size='small' />
@@ -68,8 +69,8 @@ const config = {
       }
     },
     {
-      group: 'e05e61da.6f3360',
-      label: 'e05e61da.eded9e',
+      group: i18n.t('e05e61da.6f3360'),
+      label: i18n.t('e05e61da.eded9e'),
       key: 'speedkillTitleText',
       component: 'input',
       value: '标题',
@@ -78,8 +79,8 @@ const config = {
       }
     },
     {
-      group: 'e05e61da.6f3360',
-      label: 'e05e61da.94e391',
+      group: i18n.t('e05e61da.6f3360'),
+      label: i18n.t('e05e61da.94e391'),
       key: 'speedkillTitleColor',
       component: 'color',
       value: '#000000',
@@ -88,19 +89,19 @@ const config = {
       }
     },
     {
-      group: 'e05e61da.90507a',
-      label: 'e05e61da.1711a8',
+      group: i18n.t('e05e61da.90507a'),
+      label: i18n.t('e05e61da.1711a8'),
       key: 'speedkillShowMoreBtn',
       component: 'radiobutton',
       options: [
-        { name: 'e05e61da.4d775d', label: true },
-        { name: 'e05e61da.dce537', label: false }
+        { name: i18n.t('e05e61da.4d775d'), label: true },
+        { name: i18n.t('e05e61da.dce537'), label: false }
       ],
       value: true
     },
     {
-      group: 'e05e61da.90507a',
-      label: 'e05e61da.351201',
+      group: i18n.t('e05e61da.90507a'),
+      label: i18n.t('e05e61da.351201'),
       key: 'speedkillMoreBtnColor',
       component: 'color',
       value: '#000000',
