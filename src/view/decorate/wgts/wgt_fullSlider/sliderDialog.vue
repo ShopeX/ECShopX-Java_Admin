@@ -53,7 +53,7 @@
               src: sliderForm.videoUrl
             }
           ],
-          notSupportedMessage: this.$t('89c93d78.01c0da'),
+          notSupportedMessage: i18n.t('89c93d78.01c0da'),
           controlBar: false
         }"
       />
@@ -79,6 +79,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import hotzone from 'vue-hotzone'
 import CompPickerLink from '../../comps/comp-pickerLink'
 import { cloneDeep } from 'lodash'
@@ -102,7 +103,7 @@ export default {
     height: Number
   },
   data() {
-    return {
+    return {i18n,
       sliderForm: null,
       h: '0px'
     }
@@ -196,17 +197,17 @@ export default {
       const { media_type, hotData, overlayHotData } = this.sliderForm
       return [
         {
-          label: this.$t('89c93d78.701f7f'),
+          label: i18n.t('89c93d78.701f7f'),
           key: 'media_type',
           type: 'radio',
           options: [
             {
               label: 'img',
-              name: this.$t('89c93d78.20def7')
+              name: i18n.t('89c93d78.20def7')
             },
             {
               label: 'video',
-              name: this.$t('89c93d78.7fcf42')
+              name: i18n.t('89c93d78.7fcf42')
             }
           ],
           onChange: (e) => {
@@ -230,7 +231,7 @@ export default {
           }
         },
         {
-          label: media_type == 'video' ? this.$t('89c93d78.7fcf42') : this.$t('89c93d78.20def7'),
+          label: media_type == 'video' ? i18n.t('89c93d78.7fcf42') : i18n.t('89c93d78.20def7'),
           key: 'videoUrl',
           component: ({ key }) => {
             return (
@@ -246,15 +247,15 @@ export default {
                       class='video-link'
                       text={
                         media_type == 'video'
-                          ? this.$t('89c93d78.412310')
-                          : this.$t('89c93d78.20def7')
+                          ? i18n.t('89c93d78.412310')
+                          : i18n.t('89c93d78.20def7')
                       }
                     />
-                    <div>{this.$t('89c93d78.e76dee')}</div>
+                    <div>{i18n.t('89c93d78.e76dee')}</div>
                     {hotData?.map((item, index) => {
                       return (
                         <div class='zone-item'>
-                          <p class='zone-item-label'>{this.$t('89c93d78.704741', [index + 1])}</p>
+                          <p class='zone-item-label'>{i18n.t('89c93d78.704741', [index + 1])}</p>
                           <CompPickerLink
                             isShowH5Link={false}
                             value={item}
@@ -269,7 +270,7 @@ export default {
                               this.sliderForm.hotData.splice(index, 1)
                             }}
                           >
-                            {this.$t('89c93d78.2f4aad')}
+                            {i18n.t('89c93d78.2f4aad')}
                           </el-button>
                         </div>
                       )
@@ -281,7 +282,7 @@ export default {
           }
         },
         {
-          label: this.$t('89c93d78.b8cfcd'),
+          label: i18n.t('89c93d78.b8cfcd'),
           key: 'autoplay',
           type: 'switch',
           isShow: media_type == 'video'
@@ -299,17 +300,17 @@ export default {
           options: [
             {
               label: 'reset',
-              name: this.$t('89c93d78.4b9c32')
+              name: i18n.t('89c93d78.4b9c32')
             },
             {
               label: 'pause',
-              name: this.$t('89c93d78.8d63ef')
+              name: i18n.t('89c93d78.8d63ef')
             }
           ],
           isShow: media_type == 'video'
         },
         {
-          label: media_type == 'video' ? this.$t('89c93d78.17aaa3') : this.$t('89c93d78.680a76'),
+          label: media_type == 'video' ? i18n.t('89c93d78.17aaa3') : i18n.t('89c93d78.680a76'),
           key: 'overlay',
           component: ({ key }) => {
             return (
@@ -322,12 +323,12 @@ export default {
                     this.changeOverlay(e)
                   }}
                 />
-                <div>{this.$t('89c93d78.e76dee')}</div>
+                <div>{i18n.t('89c93d78.e76dee')}</div>
                 <div class='zone-list'>
                   {overlayHotData?.map((item, index) => {
                     return (
                       <div class='zone-item'>
-                        <p class='zone-item-label'>{this.$t('89c93d78.704741', [index + 1])}</p>
+                        <p class='zone-item-label'>{i18n.t('89c93d78.704741', [index + 1])}</p>
                         <CompPickerLink
                           isShowH5Link={false}
                           value={item}
@@ -342,7 +343,7 @@ export default {
                             this.sliderForm.overlayHotData.splice(index, 1)
                           }}
                         >
-                          {this.$t('89c93d78.7dd262')}
+                          {i18n.t('89c93d78.7dd262')}
                         </el-button>
                       </div>
                     )
@@ -353,36 +354,36 @@ export default {
           }
         },
         {
-          label: this.$t('89c93d78.68f333'),
+          label: i18n.t('89c93d78.68f333'),
           key: 'overlayWidth',
           isShow: this.sliderForm.overlay,
-          tip: this.$t('89c93d78.dddfd9'),
+          tip: i18n.t('89c93d78.dddfd9'),
           type: 'slider',
           maxlength: 10,
           showInput: true,
-          placeholder: this.$t('89c93d78.8bc93d')
+          placeholder: i18n.t('89c93d78.8bc93d')
         },
         {
-          label: this.$t('89c93d78.7c2c35'),
+          label: i18n.t('89c93d78.7c2c35'),
           key: 'overlaybuttom',
           isShow: this.sliderForm.overlay,
           type: 'slider',
-          tip: this.$t('89c93d78.dddfd9'),
+          tip: i18n.t('89c93d78.dddfd9'),
           showInput: true,
           maxlength: 10,
-          placeholder: this.$t('89c93d78.3505d3')
+          placeholder: i18n.t('89c93d78.3505d3')
         },
         {
-          label: this.$t('89c93d78.d1d8cd'),
+          label: i18n.t('89c93d78.d1d8cd'),
           key: 'overlayLeft',
           isShow: this.sliderForm.overlay,
           showInput: true,
-          tip: this.$t('89c93d78.dddfd9'),
+          tip: i18n.t('89c93d78.dddfd9'),
           type: 'slider',
           maxlength: 10
         },
         {
-          label: this.$t('89c93d78.392c8f'),
+          label: i18n.t('89c93d78.392c8f'),
           key: 'moreLink',
           component: ({ key }) => {
             return (

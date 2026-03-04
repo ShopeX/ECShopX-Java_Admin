@@ -7,7 +7,7 @@
         <div v-for="(item, index) in brandList" :key="index" class="brand-group">
           <div class="category-header">
             <div class="letter-index">{{ item.title }}</div>
-            <span v-if="index == 0" class="all-category">{{ $t('f5828e4d.93b01a') }}</span>
+            <span v-if="index == 0" class="all-category">{{ i18n.t('f5828e4d.93b01a') }}</span>
           </div>
           <div v-for="(brandItem, brandIndex) in item.items" :key="brandIndex" class="brand-items">
             <div class="brand-item">
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 export default {
@@ -50,7 +51,7 @@ export default {
     value: [Object, Array]
   },
   data() {
-    return {
+    return {i18n,
       defaultBrandList: [
         {
           imgUrl: '',

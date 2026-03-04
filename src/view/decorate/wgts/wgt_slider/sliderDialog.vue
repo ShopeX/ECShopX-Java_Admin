@@ -53,7 +53,7 @@
               src: videoUrlStr
             }
           ],
-          notSupportedMessage: $t('d7d37966.01c0da'),
+          notSupportedMessage: i18n.t('d7d37966.01c0da'),
           controlBar: false
         }"
       />
@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import hotzone from 'vue-hotzone'
 import CompPickerLink from '../../comps/comp-pickerLink'
 import { cloneDeep } from 'lodash'
@@ -100,7 +101,7 @@ export default {
     height: Number
   },
   data() {
-    return {
+    return {i18n,
       sliderForm: null,
       h: '0px',
       isRemoving: false,
@@ -211,6 +212,9 @@ export default {
         this.$set(this.sliderForm, 'overlay', '')
         this.$set(this.sliderForm, 'overlayHotData', [])
       }
+    },
+    onChangeVideoLink(e) {
+      this.$set(this.sliderForm, 'data', { ...(this.sliderForm.data || {}), ...e })
     }
   },
   computed: {
@@ -229,22 +233,22 @@ export default {
       const { media_type, hotData = [], overlayHotData = [] } = this.sliderForm
       return [
         {
-          label: this.$t('d7d37966.701f7f'),
+          label: i18n.t('d7d37966.701f7f'),
           key: 'media_type',
           type: 'radio',
           options: [
             {
               label: 'img',
-              name: this.$t('d7d37966.20def7')
+              name: i18n.t('d7d37966.20def7')
             },
             {
               label: 'video',
-              name: this.$t('d7d37966.7fcf42')
+              name: i18n.t('d7d37966.7fcf42')
             }
           ]
         },
         {
-          label: media_type == 'video' ? this.$t('d7d37966.7fcf42') : this.$t('d7d37966.20def7'),
+          label: media_type == 'video' ? i18n.t('d7d37966.7fcf42') : i18n.t('d7d37966.20def7'),
           key: 'videoUrl',
           component: ({ key }) => {
             return (
@@ -260,18 +264,18 @@ export default {
                       class='video-link'
                       text={
                         media_type == 'video'
-                          ? this.$t('d7d37966.412310')
-                          : this.$t('d7d37966.20def7')
+                          ? i18n.t('d7d37966.412310')
+                          : i18n.t('d7d37966.20def7')
                       }
                     />
-                    <div>{this.$t('d7d37966.e76dee')}</div>
+                    <div>{i18n.t('d7d37966.e76dee')}</div>
                     <div class='zone-list-hotdata'>
                       {hotData?.map((item, index) => {
                         return (
                           <div class='zone-item'>
                             <div class='zone-item-label'>
                               <span>
-                                {this.$t('d7d37966.50da72')}
+                                {i18n.t('d7d37966.50da72')}
                                 {index + 1}
                               </span>
 
@@ -282,7 +286,7 @@ export default {
                                   this.handleRemove(index, 'img')
                                 }}
                               >
-                                {this.$t('d7d37966.2f4aad')}
+                                {i18n.t('d7d37966.2f4aad')}
                               </el-button>
                             </div>
                             <CompPickerLink
@@ -303,29 +307,43 @@ export default {
           }
         },
         {
-          label: this.$t('d7d37966.b8cfcd'),
+          label: i18n.t('58595357.e3cf91'),
+          key: 'videoLinkPage',
+          component: () => (
+            <CompPickerLink
+              isShowH5Link={false}
+              value={this.sliderForm.data || {}}
+              wgtType='hotzone'
+              class='zone-item-picker'
+              on-change={(e) => this.onChangeVideoLink(e)}
+            />
+          ),
+          isShow: media_type == 'video'
+        },
+        {
+          label: i18n.t('d7d37966.b8cfcd'),
           key: 'autoplay',
           type: 'switch',
           isShow: media_type == 'video'
         },
         {
-          label: this.$t('d7d37966.b46893'),
+          label: i18n.t('d7d37966.b46893'),
           key: 'interact',
           type: 'radio',
           options: [
             {
               label: 'reset',
-              name: this.$t('d7d37966.4b9c32')
+              name: i18n.t('d7d37966.4b9c32')
             },
             {
               label: 'pause',
-              name: this.$t('d7d37966.8d63ef')
+              name: i18n.t('d7d37966.8d63ef')
             }
           ],
           isShow: media_type == 'video'
         },
         {
-          label: media_type == 'video' ? this.$t('d7d37966.17aaa3') : this.$t('d7d37966.680a76'),
+          label: media_type == 'video' ? i18n.t('d7d37966.17aaa3') : i18n.t('d7d37966.680a76'),
           key: 'overlay',
           component: ({ key }) => {
             return (
@@ -338,14 +356,14 @@ export default {
                     this.changeOverlay(e)
                   }}
                 />
-                <div>{this.$t('d7d37966.e76dee')}</div>
+                <div>{i18n.t('d7d37966.e76dee')}</div>
                 <div class='zone-list-overlaydata'>
                   {overlayHotData?.map((item, index) => {
                     return (
                       <div class='zone-item'>
                         <div class='zone-item-label'>
                           <span>
-                            {this.$t('d7d37966.5cefe9')}
+                            {i18n.t('d7d37966.5cefe9')}
                             {index + 1}
                           </span>
                           <el-button
@@ -355,7 +373,7 @@ export default {
                               this.handleRemove(index, 'overlay')
                             }}
                           >
-                            {this.$t('d7d37966.2f4aad')}
+                            {i18n.t('d7d37966.2f4aad')}
                           </el-button>
                         </div>
                         <CompPickerLink
@@ -374,27 +392,27 @@ export default {
           }
         },
         {
-          label: this.$t('d7d37966.68f333'),
+          label: i18n.t('d7d37966.68f333'),
           key: 'overlayWidth',
           isShow: this.sliderForm.overlay,
-          tip: this.$t('d7d37966.dddfd9'),
+          tip: i18n.t('d7d37966.dddfd9'),
           type: 'slider',
           maxlength: 10,
           showInput: true,
-          placeholder: this.$t('d7d37966.8bc93d')
+          placeholder: i18n.t('d7d37966.8bc93d')
         },
         {
-          label: this.$t('d7d37966.7c2c35'),
+          label: i18n.t('d7d37966.7c2c35'),
           key: 'overlaybuttom',
           isShow: this.sliderForm.overlay,
           type: 'slider',
-          tip: this.$t('d7d37966.dddfd9'),
+          tip: i18n.t('d7d37966.dddfd9'),
           showInput: true,
           maxlength: 10,
-          placeholder: this.$t('d7d37966.76c356')
+          placeholder: i18n.t('d7d37966.76c356')
         },
         {
-          label: this.$t('d7d37966.d1d8cd'),
+          label: i18n.t('d7d37966.d1d8cd'),
           key: 'overlayLeft',
           isShow: this.sliderForm.overlay,
           showInput: true,
@@ -421,6 +439,10 @@ export default {
         // 保证热区数组存在，避免后续访问 .length 或 .push 报错
         if (!Array.isArray(this.sliderForm.hotData)) this.sliderForm.hotData = []
         if (!Array.isArray(this.sliderForm.overlayHotData)) this.sliderForm.overlayHotData = []
+        // 视频类型保证 data（选择路径）存在
+        if (this.sliderForm.media_type === 'video' && !this.sliderForm.data) {
+          this.$set(this.sliderForm, 'data', { linkPage: '', title: '', id: '' })
+        }
         this.h = this.height || 375
       },
       deep: true,

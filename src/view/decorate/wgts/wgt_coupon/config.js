@@ -1,3 +1,4 @@
+import { i18n } from '@/i18n'
 import { pickBy } from '@/utils'
 import moment from 'moment'
 import CompBtn from '../../comps/comp_btn.vue'
@@ -38,8 +39,8 @@ const config = {
         const self = this
         return (
           <CompButton
-            placeholder={self.$t('7c96f122.45bcee')}
-            format={self.$t('7c96f122.9ff61b')}
+            placeholder={i18n.t('7c96f122.45bcee')}
+            format={i18n.t('7c96f122.9ff61b')}
             value={self.value[key]?.length || 0}
             viewBtn={false}
             on-click={async () => {

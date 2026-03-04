@@ -22,7 +22,7 @@
         class="header-more"
         :style="{ color: value.moreBtn.color }"
       >
-        {{ $t('e5a1185d.90ef7c') }}<el-icon class="el-icon-arrow-right" />
+        {{ i18n.t('e5a1185d.90ef7c') }}<el-icon class="el-icon-arrow-right" />
       </div>
     </div>
 
@@ -51,9 +51,13 @@
   </div>
 </template>
 
-<script>
+<script>import { i18n } from '@/i18n'
+
 export default {
   name: 'GoodsGoods',
+  data() {
+    return { i18n }
+  },
   props: {
     value: {
       type: Object,

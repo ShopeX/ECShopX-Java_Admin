@@ -109,6 +109,7 @@
 <script>
 import { cloneDeep } from 'lodash'
 import { LINK_PATH } from '@/consts'
+import { i18n } from '@/i18n'
 export default {
   name: 'CompPickerLink',
   props: {
@@ -182,7 +183,7 @@ export default {
     getLabelName() {
       const { linkPage, title } = this.localValue
       if (linkPage) {
-        return `${LINK_PATH[linkPage]}：${title}`
+        return `${i18n.t(LINK_PATH[linkPage])}：${title}`
       } else {
         return this.$t('4a0a5782.e3cf91')
       }

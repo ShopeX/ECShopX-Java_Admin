@@ -19,7 +19,7 @@
   <div class="attr-vertical">
     <CompTodoList v-model="value" :max="20" is-edit @onAddItem="handleAddItem" @edit="onEdit">
       <template slot="header" slot-scope="scope">
-        {{ $t('114eac0e.e8f87a') }}{{ scope.index + 1 }}
+        {{ i18n.t('114eac0e.e8f87a') }}{{ scope.index + 1 }}
       </template>
       <template slot="body" slot-scope="scope">
         <div class="cate-item">
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import Vue from 'vue'
 import CompTodoList from '../../comps/comp-todoList'
 
@@ -45,7 +46,7 @@ export default {
     }
   },
   data() {
-    return {}
+    return { i18n }
   },
   methods: {
     async handleAddItem() {

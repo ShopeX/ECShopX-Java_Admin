@@ -44,7 +44,7 @@
               size="mini"
               style="background-color: #fff"
             >
-              {{ $t('d2528a91.e8b7e1') }}
+              {{ i18n.t('d2528a91.e8b7e1') }}
             </el-tag>
             {{ item.title }}
           </div>
@@ -84,7 +84,7 @@
             "
             class="goods-more"
           >
-            {{ $t('d2528a91.90ef7c') }}
+            {{ i18n.t('d2528a91.90ef7c') }}
           </div>
         </div>
       </div>
@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 const subscript = require('@/assets/img/subscript.png')
@@ -108,7 +109,7 @@ export default {
     value: [Object, Array]
   },
   data() {
-    return {
+    return {i18n,
       subscriptImg: subscript,
       goodsList: []
     }

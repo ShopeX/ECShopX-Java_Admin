@@ -1,8 +1,8 @@
 <template>
   <div class="wgt-couponcard-attr-data">
     <CompButton
-      :placeholder="$t('dfd5d828.45bcee')"
-      :format="$t('dfd5d828.9ff61b')"
+      :placeholder="i18n.t('dfd5d828.45bcee')"
+      :format="i18n.t('dfd5d828.9ff61b')"
       :value="value.length"
       :view-btn="false"
       @remove="onRemoveCoupon"
@@ -11,11 +11,11 @@
     <el-dialog
       :modal="false"
       :visible.sync="dialogVisible"
-      :title="$t('dfd5d828.45bcee')"
+      :title="i18n.t('dfd5d828.45bcee')"
       width="80vw"
     >
       <el-button type="primary" size="small" @click="onAddCoupon">{{
-        $t('dfd5d828.45bcee')
+        i18n.t('dfd5d828.45bcee')
       }}</el-button>
       <SpFinder
         ref="finder"
@@ -27,14 +27,15 @@
         row-actions-fixed-align="left"
       />
       <span slot="footer" class="dialog-footer">
-        <el-button @click="onCancel">{{ $t('dfd5d828.c08ab9') }}</el-button>
-        <el-button type="primary" @click="onConfirm">{{ $t('dfd5d828.aa7527') }}</el-button>
+        <el-button @click="onCancel">{{ i18n.t('dfd5d828.c08ab9') }}</el-button>
+        <el-button type="primary" @click="onConfirm">{{ i18n.t('dfd5d828.aa7527') }}</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import { cloneDeep } from 'lodash-es'
 import { createSetting } from '@shopex-ui/finder'
 import { CARD_TYPE } from '@/consts'
@@ -52,7 +53,7 @@ export default {
     }
   },
   data() {
-    return {
+    return {i18n,
       couponList: [],
       mobCouponList: [],
       dialogVisible: false,
@@ -64,7 +65,7 @@ export default {
       return createSetting({
         actions: [
           {
-            name: this.$t('dfd5d828.2f4aad'),
+            name: i18n.t('dfd5d828.2f4aad'),
             key: 'delete',
             type: 'button',
             buttonType: 'text',
@@ -83,10 +84,10 @@ export default {
         columns:
           this.activeTab == 'pro'
             ? [
-                { name: this.$t('dfd5d828.3d8516'), key: 'id' },
-                { name: this.$t('dfd5d828.a15f31'), key: 'title' },
+                { name: i18n.t('dfd5d828.3d8516'), key: 'id' },
+                { name: i18n.t('dfd5d828.a15f31'), key: 'title' },
                 {
-                  name: this.$t('dfd5d828.63629e'),
+                  name: i18n.t('dfd5d828.63629e'),
                   key: 'card_type',
                   width: '100px',
                   render: (h, { row }) =>
@@ -101,14 +102,14 @@ export default {
                     )
                 },
                 {
-                  name: this.$t('dfd5d828.a1f570'),
+                  name: i18n.t('dfd5d828.a1f570'),
                   key: 'use_scenes',
                   formatter: (value, row, col) => {
                     return <span>{this.formatterCardType(value)}</span>
                   }
                 },
                 {
-                  name: this.$t('dfd5d828.bb114a'),
+                  name: i18n.t('dfd5d828.bb114a'),
                   key: 'valid_date',
                   formatter: (value, { takeEffect, begin_time, end_time }, col) => {
                     if (takeEffect) {
@@ -120,14 +121,14 @@ export default {
                 },
                 // { name: '领取时间', key: 'is_enabled' },
                 {
-                  name: this.$t('dfd5d828.3fea7c'),
+                  name: i18n.t('dfd5d828.3fea7c'),
                   key: 'is_enabled',
                   formatter: (value, row, col) => {
-                    return <span>{this.$t('dfd5d828.2390fa')}</span>
+                    return <span>{i18n.t('dfd5d828.2390fa')}</span>
                   }
                 },
                 {
-                  name: this.$t('dfd5d828.4b06cf'),
+                  name: i18n.t('dfd5d828.4b06cf'),
                   formatter: (value, { quantity, get_num }, col) => {
                     if (quantity > get_num) {
                       return quantity - get_num
@@ -137,46 +138,46 @@ export default {
                   }
                 },
                 {
-                  name: this.$t('dfd5d828.26ca20'),
+                  name: i18n.t('dfd5d828.26ca20'),
                   key: 'source',
                   formatter: (value, row, col) => {
                     return <span>AIO PRO</span>
                   }
                 },
-                { name: this.$t('dfd5d828.d3ce40'), key: 'regionauth_name' }
+                { name: i18n.t('dfd5d828.d3ce40'), key: 'regionauth_name' }
               ]
             : [
-                { name: this.$t('dfd5d828.3d8516'), key: 'id' },
-                { name: this.$t('dfd5d828.a15f31'), key: 'title' },
+                { name: i18n.t('dfd5d828.3d8516'), key: 'id' },
+                { name: i18n.t('dfd5d828.a15f31'), key: 'title' },
                 {
-                  name: this.$t('dfd5d828.63629e'),
+                  name: i18n.t('dfd5d828.63629e'),
                   key: 'card_type',
                   width: '100px'
                 },
                 {
-                  name: this.$t('dfd5d828.a1f570'),
+                  name: i18n.t('dfd5d828.a1f570'),
                   key: 'use_scenes',
                   formatter: (value, row, col) => {
                     return <span>{this.formatterCardType(value)}</span>
                   }
                 },
-                { name: this.$t('dfd5d828.bb114a'), key: 'valid_date' },
+                { name: i18n.t('dfd5d828.bb114a'), key: 'valid_date' },
                 {
-                  name: this.$t('dfd5d828.3fea7c'),
+                  name: i18n.t('dfd5d828.3fea7c'),
                   key: 'is_enabled',
                   formatter: (value, row, col) => {
-                    return <span>{this.$t('dfd5d828.2390fa')}</span>
+                    return <span>{i18n.t('dfd5d828.2390fa')}</span>
                   }
                 },
-                { name: this.$t('dfd5d828.4b06cf'), key: 'stockNum' },
+                { name: i18n.t('dfd5d828.4b06cf'), key: 'stockNum' },
                 {
-                  name: this.$t('dfd5d828.26ca20'),
+                  name: i18n.t('dfd5d828.26ca20'),
                   key: 'source',
                   formatter: (value, row, col) => {
                     return <span>AIO</span>
                   }
                 },
-                { name: this.$t('dfd5d828.d3ce40'), key: 'regionauth_name' }
+                { name: i18n.t('dfd5d828.d3ce40'), key: 'regionauth_name' }
               ]
       })
     },

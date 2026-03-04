@@ -26,7 +26,7 @@
             :circle="6"
           />
           <div>
-            <div class="name">{{ value.distributor.name || $t('a7cc304b.0d4934') }}</div>
+            <div class="name">{{ value.distributor.name || i18n.t('a7cc304b.0d4934') }}</div>
             <div class="tags">
               <div v-for="(item, index) in value.tags" :key="`tag__${index}`" class="tag">
                 {{ item.tag_name }}
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 const defaultShopLogo = require('@/assets/imgs/decorate/default-shop-logo.png')
@@ -68,7 +69,7 @@ export default {
     value: [Object, Array]
   },
   data() {
-    return {
+    return {i18n,
       currentIndex: 1,
       defaultShopLogo
     }

@@ -195,7 +195,7 @@
           </div>
           <!-- 功能区：附近门店 -->
           <div v-if="showFunctionArea && functionAreaType === 'nearby'" class="title-function nearby-function">
-            <p class="nearby-function-text">{{ $t('33e085f7.e94e8b') }}</p>
+            <p class="nearby-function-text">{{ i18n.t('33e085f7.e94e8b') }}</p>
             <i class="nearby-function-icon el-icon-arrow-down" />
             <!-- 附近门店组件，可根据需要添加 -->
           </div>
@@ -207,7 +207,7 @@
               <i class="el-icon-search search-icon" />
               <input type="text" class="search-input" placeholder="">
               <div class="search-button" :style="searchButtonStyle">
-                <span>{{ $t('33e085f7.e5f71f') }}</span>
+                <span>{{ i18n.t('33e085f7.e5f71f') }}</span>
               </div>
             </div>
           </div>
@@ -224,6 +224,7 @@
 <script>
 const weappHeaderDark = require('@/assets/imgs/weapp-header-dark.png')
 const weappHeaderLight = require('@/assets/imgs/weapp-header-light.png')
+import { i18n } from '@/i18n'
 import config from './config'
 export default {
   name: 'Page',
@@ -235,7 +236,7 @@ export default {
     value: [Object, Array]
   },
   data() {
-    return {}
+    return { i18n }
   },
   computed: {
     headerStyle() {

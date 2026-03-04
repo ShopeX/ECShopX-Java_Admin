@@ -35,13 +35,13 @@
                   size="mini"
                   style="background-color: #fff"
                 >
-                  {{ $t('e46faabb.e8b7e1') }}
+                  {{ i18n.t('e46faabb.e8b7e1') }}
                 </el-tag>
                 {{ item.title }}
               </div>
               <div v-if="value.showPrice" class="price">
                 <span v-if="item.point" class="item-price"
-                  >{{ item.point }}{{ $t('e46faabb.9f68a8') }}</span
+                  >{{ item.point }}{{ i18n.t('e46faabb.9f68a8') }}</span
                 >
                 <SpPrice class="item-price" :value="item.price / 100" :size="15" />
                 <SpPrice
@@ -72,13 +72,13 @@
                   size="mini"
                   style="background-color: #fff"
                 >
-                  {{ $t('e46faabb.e8b7e1') }}
+                  {{ i18n.t('e46faabb.e8b7e1') }}
                 </el-tag>
                 {{ item.title }}
               </div>
               <div v-if="value.showPrice" class="price">
                 <span v-if="item.point" class="item-price"
-                  >{{ item.point }}{{ $t('e46faabb.9f68a8') }}</span
+                  >{{ item.point }}{{ i18n.t('e46faabb.9f68a8') }}</span
                 >
                 <SpPrice class="item-price" :value="item.price / 100" :size="15" />
                 <SpPrice
@@ -112,7 +112,7 @@
             </div>
             <div v-if="value.showPrice" class="price">
               <span v-if="item.point" class="item-price"
-                >{{ item.point }}{{ $t('e46faabb.9f68a8') }}</span
+                >{{ item.point }}{{ i18n.t('e46faabb.9f68a8') }}</span
               >
               <SpPrice class="item-price" :value="item.price / 100" :size="15" />
               <SpPrice
@@ -178,6 +178,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
@@ -190,7 +191,7 @@ export default {
     value: [Object, Array]
   },
   data() {
-    return {
+    return {i18n,
       leftGoodsList: [],
       rightGoodsList: [],
       goodsList: []

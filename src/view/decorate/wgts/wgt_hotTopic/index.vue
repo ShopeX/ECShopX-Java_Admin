@@ -57,13 +57,14 @@
     >
       <!-- 挂件自定义部分 -->
       <div v-for="(item, index) in value.data" :key="index" class="topic-item">
-        <span>{{ $t(item.topic) }}</span>
+        <span>{{ i18n.t(item.topic) }}</span>
       </div>
       <!-- 挂件自定义部分 -->
     </div>
   </div>
 </template>
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
@@ -74,6 +75,9 @@ export default {
   config: config,
   props: {
     value: [Object, Array]
+  },
+  data() {
+    return { i18n }
   },
   computed: {
     outerStyle() {

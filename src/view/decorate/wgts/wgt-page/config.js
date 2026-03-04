@@ -2,6 +2,7 @@
  * Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
  * See LICENSE file for license details.
  */
+import { i18n } from '@/i18n'
 import { pickBy, isObject } from '@/utils'
 import AttrItem from './attr-item'
 import AttrFunctionArea from './attr-function-area'
@@ -97,7 +98,7 @@ const config = {
             <div
               style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}
             >
-              <span style={{ fontSize: '12px', color: '#999' }}>{vm.$t('f44e2c51.b53d6d')}</span>
+              <span style={{ fontSize: '12px', color: '#999' }}>{i18n.t('f44e2c51.b53d6d')}</span>
               <el-color-picker
                 value={bgColor}
                 size='small'
@@ -112,7 +113,7 @@ const config = {
             <div
               style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}
             >
-              <span style={{ fontSize: '12px', color: '#999' }}>{vm.$t('f44e2c51.ca746b')}</span>
+              <span style={{ fontSize: '12px', color: '#999' }}>{i18n.t('f44e2c51.ca746b')}</span>
               <el-color-picker
                 value={textColor}
                 size='small'

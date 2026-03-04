@@ -110,9 +110,9 @@
       v-model="localValue"
       @onAddItem="handleClickAdd"
       type="text"
-      :btn-text="$t('31fb3272.4cd62d')"
+      :btn-text="i18n.t('31fb3272.4cd62d')"
       :show-title="true"
-      :title="$t('31fb3272.3db933')"
+      :title="i18n.t('31fb3272.3db933')"
       @move="handleMove"
     >
       <template slot="body" slot-scope="scope">
@@ -141,7 +141,7 @@
               </p> -->
               <div>
                 {{
-                  scope.data.media_type == 'video' ? $t('31fb3272.7fcf42') : $t('31fb3272.20def7')
+                  scope.data.media_type == 'video' ? i18n.t('31fb3272.7fcf42') : i18n.t('31fb3272.20def7')
                 }}
               </div>
               <!-- <el-radio-group size="mini" v-model="scope.data.media_type"
@@ -159,7 +159,7 @@
                 class="zone-item-link-no"
                 @click="onSetHotZone(scope.data, scope.index)"
               >
-                {{ $t('31fb3272.e3cf91') }}
+                {{ i18n.t('31fb3272.e3cf91') }}
               </div>
               <div class="zone-item" v-if="scope.data.media_type === 'img'">
                 <span
@@ -198,6 +198,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import { cloneDeep } from 'lodash'
 import CompTodoList from '../../comps/comp-todoList'
 import CompButton from '../../comps/comp-button'
@@ -229,7 +230,7 @@ export default {
     height: Number
   },
   data() {
-    return {
+    return {i18n,
       localValue: [],
       dialog: false,
       currentIndex: 0,
@@ -257,7 +258,7 @@ export default {
   methods: {
     async onSetHotZone(item, index) {
       useDialog(null, {
-        title: this.$t('31fb3272.fc96a3', [index + 1]),
+        title: i18n.t('31fb3272.fc96a3', [index + 1]),
         width: '860px',
         top: '4vh',
         class: 'attr_slider_dialog',
@@ -269,12 +270,12 @@ export default {
         component: () => import('./sliderDialog.vue'),
         actions: [
           {
-            label: this.$t('31fb3272.b15d91'),
+            label: i18n.t('31fb3272.b15d91'),
             key: 'close',
             type: 'default',
             size: 'small'
           },
-          { label: this.$t('31fb3272.38cf16'), key: 'save', type: 'primary', size: 'small' }
+          { label: i18n.t('31fb3272.38cf16'), key: 'save', type: 'primary', size: 'small' }
         ]
       }).then(async (args) => {
         if (!args) return

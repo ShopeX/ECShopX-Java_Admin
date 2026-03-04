@@ -1,8 +1,8 @@
 <template>
   <div>
     <CompButton
-      :placeholder="$t('b6659c98.3d0b48')"
-      :format="$t('b6659c98.74e431')"
+      :placeholder="i18n.t('b6659c98.3d0b48')"
+      :format="i18n.t('b6659c98.74e431')"
       :value="localValue.data.length"
       :view-btn="false"
       @click="onSetHotZone"
@@ -15,7 +15,7 @@
       lock-scroll
       append-to-body
       destroy-on-close
-      :title="$t('b6659c98.c90f57')"
+      :title="i18n.t('b6659c98.c90f57')"
       width="800px"
       top="5vh"
       @close="onCancel"
@@ -23,7 +23,7 @@
       <div v-if="dialog">
         <div class="dialog-header">
           <el-button type="primary" size="small" plain @click="onSelectImage">
-            {{ $t('b6659c98.ba9fc4') }}
+            {{ i18n.t('b6659c98.ba9fc4') }}
           </el-button>
           <span class="dialog-tip">{{ desc || defaultDesc }}</span>
         </div>
@@ -45,7 +45,7 @@
                   class="zone-item"
                 >
                   <div class="zone-item-title">
-                    <span>{{ $t('b6659c98.50da72') }}{{ index + 1 }}</span>
+                    <span>{{ i18n.t('b6659c98.50da72') }}{{ index + 1 }}</span>
                   </div>
                   <CompPickerLink
                     :value="item"
@@ -59,14 +59,15 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="onCancel">{{ $t('b6659c98.c08ab9') }}</el-button>
-        <el-button type="primary" @click="onConfirm">{{ $t('b6659c98.aa7527') }}</el-button>
+        <el-button @click="onCancel">{{ i18n.t('b6659c98.c08ab9') }}</el-button>
+        <el-button type="primary" @click="onConfirm">{{ i18n.t('b6659c98.aa7527') }}</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import Vue from 'vue'
 import hotzone from 'vue-hotzone'
 import { cloneDeep } from 'lodash'
@@ -106,7 +107,7 @@ export default {
     }
   },
   data() {
-    return {
+    return {i18n,
       localValue: { ...DEFAULT_VALUE },
       dialog: false
     }
@@ -122,7 +123,7 @@ export default {
   computed: {
     // 默认描述文本
     defaultDesc() {
-      return this.$t(DEFAULT_DESC_KEY)
+      return i18n.t(DEFAULT_DESC_KEY)
     }
   },
   created() {

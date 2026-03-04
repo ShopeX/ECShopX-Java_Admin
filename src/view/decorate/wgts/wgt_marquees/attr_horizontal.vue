@@ -15,7 +15,7 @@
   <div class="attr-horizontal">
     <CompTodoList v-model="localValue" :max="20" @onAddItem="handleAddhorizontal">
       <template slot="header" slot-scope="scope">
-        {{ $t('bd41213a.97d076') }}{{ scope.index + 1 }}
+        {{ i18n.t('bd41213a.97d076') }}{{ scope.index + 1 }}
       </template>
       <template slot="body" slot-scope="scope">
         <div class="cate-item">
@@ -23,7 +23,7 @@
             v-model="scope.data.title"
             class="cate-input"
             size="small"
-            :placeholder="$t('bd41213a.cbc608')"
+            :placeholder="i18n.t('bd41213a.cbc608')"
           />
         </div>
       </template>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import CompTodoList from '../../comps/comp-todoList'
 
 export default {
@@ -48,7 +49,7 @@ export default {
     }
   },
   data() {
-    return {
+    return {i18n,
       localValue: []
     }
   },

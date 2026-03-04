@@ -24,7 +24,7 @@
             <div class="favorite-btn">
               <i class="el-icon-star-off" />
             </div>
-            <div class="enter-shop-btn">{{ $t('1d819fcf.0f2d3a') }}</div>
+            <div class="enter-shop-btn">{{ i18n.t('1d819fcf.0f2d3a') }}</div>
           </div>
         </div>
         <div class="shop-products">
@@ -37,7 +37,7 @@
                 <div slot="error" class="image-slot" />
               </el-image>
             </div>
-            <div class="product-title">{{ item?.item_name || $t('1d819fcf.1fd1d5') }}</div>
+            <div class="product-title">{{ item?.item_name || i18n.t('1d819fcf.1fd1d5') }}</div>
             <div class="product-tags">
               <span
                 v-for="(tag, tagIndex) in item?.tags || ['4折', '活动标']"
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 const defaultShopLogo = require('@/assets/imgs/decorate/default-shop-logo.png')
@@ -74,7 +75,7 @@ export default {
     value: [Object, Array]
   },
   data() {
-    return {
+    return {i18n,
       currentIndex: 1,
       defaultShopLogo,
       distributorData: null

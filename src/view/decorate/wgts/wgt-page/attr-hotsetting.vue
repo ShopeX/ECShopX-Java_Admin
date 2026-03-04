@@ -14,8 +14,8 @@
 <template>
   <div>
     <CompButton
-      :placeholder="$t('819142e7.3d0b48')"
-      :format="$t('819142e7.74e431')"
+      :placeholder="i18n.t('819142e7.3d0b48')"
+      :format="i18n.t('819142e7.74e431')"
       :value="hotZoneDisplayValue"
       :view-btn="false"
       @click="onSetHotZone"
@@ -27,17 +27,17 @@
       class="sp-dialog"
       append-to-body
       destroy-on-close
-      :title="$t('819142e7.c90f57')"
+      :title="i18n.t('819142e7.c90f57')"
       width="800px"
       @close="onCancel"
     >
       <div v-if="dialog" class="">
         <div>
           <el-button type="primary" size="small" plain @click="onSelectImage">{{
-            $t('819142e7.ba9fc4')
+            i18n.t('819142e7.ba9fc4')
           }}</el-button>
           <span style="font-size: 12px; color: #888; margin-left: 4px">{{
-            $t('819142e7.818403')
+            i18n.t('819142e7.818403')
           }}</span>
         </div>
 
@@ -65,14 +65,15 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="onCancel">{{ $t('819142e7.c08ab9') }}</el-button>
-        <el-button type="primary" @click="onConfirm">{{ $t('819142e7.aa7527') }}</el-button>
+        <el-button @click="onCancel">{{ i18n.t('819142e7.c08ab9') }}</el-button>
+        <el-button type="primary" @click="onConfirm">{{ i18n.t('819142e7.aa7527') }}</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import Vue from 'vue'
 import hotzone from 'vue-hotzone'
 import { cloneDeep } from 'lodash'
@@ -91,7 +92,7 @@ export default {
     }
   },
   data() {
-    return {
+    return {i18n,
       localValue: {
         imgUrl: '',
         data: []

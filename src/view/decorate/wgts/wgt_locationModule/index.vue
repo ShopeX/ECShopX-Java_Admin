@@ -69,13 +69,14 @@
       </div>
       <!-- 空状态 -->
       <div v-if="!navItems.length" class="empty-content">
-        <span>{{ $t('9a50f76c.4726ff') }}</span>
+        <span>{{ i18n.t('9a50f76c.4726ff') }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
 import gWgts from '../index'
 import { getOuterStyle } from '../../comps/style-utils'

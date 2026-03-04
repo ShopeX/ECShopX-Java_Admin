@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config, { proportions } from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
@@ -85,7 +86,7 @@ export default {
       return {
         aspectRatio: this.aspectRatio,
         sources: [{ type: 'video/mp4', src: this.sourceUrl }],
-        notSupportedMessage: this.$t('cd407b12.63ca71'),
+        notSupportedMessage: i18n.t('cd407b12.63ca71'),
         suppressNotSupportedError: true,
         controlBar: false
       }

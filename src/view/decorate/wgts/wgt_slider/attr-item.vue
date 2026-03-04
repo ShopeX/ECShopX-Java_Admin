@@ -95,12 +95,12 @@
       v-model="localValue"
       @onAddItem="handleClickAdd"
       type="text"
-      :btn-text="$t('58595357.4cd62d')"
+      :btn-text="i18n.t('58595357.4cd62d')"
       :show-title="true"
       @move="handleMove"
     >
       <template slot="header" slot-scope="scope">
-        {{ $t('58595357.a5987d') }} {{ scope.index + 1 }}
+        {{ i18n.t('58595357.a5987d') }} {{ scope.index + 1 }}
       </template>
       <template slot="body" slot-scope="scope">
         <div class="slider-item">
@@ -130,7 +130,7 @@
             <div class="slider-item-type">
               <div>
                 {{
-                  scope.data.media_type == 'video' ? $t('58595357.7fcf42') : $t('58595357.20def7')
+                  scope.data.media_type == 'video' ? i18n.t('58595357.7fcf42') : i18n.t('58595357.20def7')
                 }}
               </div>
             </div>
@@ -143,7 +143,7 @@
                 class="zone-item-link-no"
                 @click="onSetHotZone(scope.data, scope.index)"
               >
-                {{ $t('58595357.e3cf91') }}
+                {{ i18n.t('58595357.e3cf91') }}
               </div>
               <div class="zone-item" v-if="scope.data.media_type === 'img'">
                 <span
@@ -182,6 +182,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import { cloneDeep } from 'lodash'
 import CompTodoList from '../../comps/comp-todoList'
 import CompPickerLink from '../../comps/comp-pickerLink'
@@ -205,6 +206,7 @@ export default {
   },
   data() {
     return {
+      i18n,
       localValue: [],
       dialog: false,
       currentIndex: 0,
@@ -232,7 +234,7 @@ export default {
   methods: {
     async onSetHotZone(item, index) {
       useDialog(null, {
-        title: this.$t('58595357.3db933') + (index + 1),
+        title: i18n.t('58595357.3db933') + (index + 1),
         width: '860px',
         top: '4vh',
         class: 'attr_slider_dialog',
@@ -242,12 +244,12 @@ export default {
         component: () => import('./sliderDialog.vue'),
         actions: [
           {
-            label: this.$t('58595357.b15d91'),
+            label: i18n.t('58595357.b15d91'),
             key: 'close',
             type: 'default',
             size: 'small'
           },
-          { label: this.$t('58595357.38cf16'), key: 'save', type: 'primary', size: 'small' }
+          { label: i18n.t('58595357.38cf16'), key: 'save', type: 'primary', size: 'small' }
         ]
       }).then(async (args) => {
         if (!args) return

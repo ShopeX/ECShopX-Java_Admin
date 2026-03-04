@@ -14,13 +14,13 @@
 <template>
   <div>
     <el-radio-group v-model="value.type" size="small" style="margin-bottom: 10px">
-      <el-radio label="normal">{{ $t('46e04a5c.0f7a66') }}</el-radio>
-      <el-radio label="point">{{ $t('46e04a5c.fe0ea1') }}</el-radio>
+      <el-radio label="normal">{{ i18n.t('46e04a5c.0f7a66') }}</el-radio>
+      <el-radio label="point">{{ i18n.t('46e04a5c.fe0ea1') }}</el-radio>
     </el-radio-group>
     <CompButton
       v-if="value.type == 'point'"
-      :placeholder="$t('46e04a5c.5d71c6')"
-      :format="$t('1253b8e4.156ada')"
+      :placeholder="i18n.t('46e04a5c.5d71c6')"
+      :format="i18n.t('1253b8e4.156ada')"
       :value="value.pointGoods.length"
       @click="handleClickPointAdd"
       @remove="onRemovePointItem"
@@ -28,8 +28,8 @@
     />
     <CompButton
       v-else
-      :placeholder="$t('1253b8e4.43d1e2')"
-      :format="$t('1253b8e4.156ada')"
+      :placeholder="i18n.t('1253b8e4.43d1e2')"
+      :format="i18n.t('1253b8e4.156ada')"
       :value="value.data.length"
       @click="handleClickAdd"
       @remove="onRemoveItem"
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import Vue from 'vue'
 import { cloneDeep } from 'lodash'
 import CompButton from '../../comps/comp-button'
@@ -50,7 +51,7 @@ export default {
     distributor: Object
   },
   data() {
-    return {
+    return {i18n,
       localValue: {
         data: [],
         pointGoods: [],

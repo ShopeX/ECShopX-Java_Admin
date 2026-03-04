@@ -38,7 +38,7 @@
           <!-- shopList: {{ shopList }} -->
           <div v-if="shopList.length <= 0" class="default-shop">
             <SpImage :src="defaultShopImg" :width="160" />
-            <div>{{ $t('5e1ae7f2.d17ff7') }}</div>
+            <div>{{ i18n.t('5e1ae7f2.d17ff7') }}</div>
           </div>
           <div v-else class="shop-content">
             <div v-for="item in shopList" :key="item.distributor_id" class="shop-item">
@@ -58,7 +58,7 @@
                 <div class="name">
                   <span>{{ item.name }}</span>
                   <span v-if="item.is_self_delivery && item.selfDeliveryRule.is_open == 'true'">{{
-                    $t('5e1ae7f2.0e903e')
+                    i18n.t('5e1ae7f2.0e903e')
                   }}</span>
                 </div>
                 <div
@@ -117,7 +117,7 @@
           </div>
         </div>
         <div v-if="showMore" class="goods-more">
-          <p class="more-btn">{{ $t('e968027c.90ef7c') }}</p>
+          <p class="more-btn">{{ i18n.t('e968027c.90ef7c') }}</p>
         </div>
       </div>
     </div>
@@ -125,6 +125,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 const defaultShopImg = require('@/assets/imgs/decorate/default-shop.png')
@@ -141,7 +142,7 @@ export default {
     value: [Object, Array]
   },
   data() {
-    return {
+    return {i18n,
       defaultShopImg,
       defaultShopBanner,
       defaultShopLogo,

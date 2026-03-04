@@ -24,7 +24,7 @@
           <template v-if="countdownInfo.type === 'countdown'">
             <span class="countdown-item">
               <span class="countdown-number">{{ countdownInfo.days }}</span>
-              <span class="countdown-unit">{{ $t('12ac1b87.249aba') }}</span>
+              <span class="countdown-unit">{{ i18n.t('12ac1b87.249aba') }}</span>
             </span>
             <span class="countdown-item">
               <span class="countdown-number">{{ countdownInfo.hours }}</span>
@@ -41,7 +41,7 @@
           <!-- 状态2: 今明开抢 -->
           <template v-else-if="countdownInfo.type === 'todayOrTomorrow'">
             <div class="start-time-box">
-              {{ $t(countdownInfo.text) }}
+              {{ i18n.t(countdownInfo.text) }}
               <span class="start-time-text">{{ countdownInfo.time }}</span>
             </div>
           </template>
@@ -56,7 +56,7 @@
       </div>
       <!-- 查看更多 -->
       <div v-if="value.showMoreBtn" class="header-more" :style="{ color: value.moreBtnColor }">
-        {{ $t('12ac1b87.90ef7c') }}<el-icon class="el-icon-arrow-right" />
+        {{ i18n.t('12ac1b87.90ef7c') }}<el-icon class="el-icon-arrow-right" />
       </div>
     </div>
 
@@ -74,17 +74,17 @@
           <div v-if="getSubsidyAmount(item) > 0" class="subsidy-label">
             <el-image :src="seckillIcon" class="subsidy-icon" alt="" />
             <span
-              >{{ $t('12ac1b87.c2be5c') }}{{ getSubsidyAmount(item)
-              }}{{ $t('12ac1b87.c16655') }}</span
+              >{{ i18n.t('12ac1b87.c2be5c') }}{{ getSubsidyAmount(item)
+              }}{{ i18n.t('12ac1b87.c16655') }}</span
             >
           </div>
         </div>
 
         <!-- 商品信息 -->
         <div class="goods-info">
-          <div class="goods-name">{{ item.item_name || $t('12ac1b87.b20296') }}</div>
+          <div class="goods-name">{{ item.item_name || i18n.t('12ac1b87.b20296') }}</div>
           <div class="goods-price">
-            <span class="price-label">{{ $t('12ac1b87.c0a30e') }}</span>
+            <span class="price-label">{{ i18n.t('12ac1b87.c0a30e') }}</span>
             <span class="price-symbol">¥</span>
             <span class="price-value">{{ formatPrice(item.activity_price || item.price) }}</span>
           </div>
@@ -95,6 +95,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import seckillIcon from '@/assets/imgs/wgt/seckill.png'
 
 export default {
@@ -114,7 +115,7 @@ export default {
     }
   },
   data() {
-    return {
+    return {i18n,
       countdownInfo: null,
       countdownTimer: null,
       seckillIcon: seckillIcon
