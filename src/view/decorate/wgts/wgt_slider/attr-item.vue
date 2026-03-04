@@ -4,7 +4,7 @@
 -->
 
 <style lang="scss" scoped>
-.attr_slider {
+.wgt_slider_attr_item {
   width: 100%;
 
   .slider-item {
@@ -16,11 +16,21 @@
 
     .slider-item-img {
       display: flex;
+      width: 70px;
+      height: 70px;
+
+      img,
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
     .slider-item-info {
       flex: 1;
       margin-left: 10px;
+
       .slider-item-type {
         display: flex;
         align-items: center;
@@ -42,6 +52,22 @@
         flex-shrink: 0;
       }
 
+      .zone-group {
+        margin-top: 10px;
+
+        &:not(:first-child) {
+          margin-top: 12px;
+          padding-top: 8px;
+          border-top: 1px dashed #e8e8e8;
+        }
+      }
+
+      .zone-group-title {
+        font-size: 12px;
+        color: #909399;
+        margin-bottom: 6px;
+      }
+
       .zone-item {
         display: flex;
         flex-direction: column;
@@ -52,7 +78,7 @@
 }
 </style>
 <style lang="scss">
-.attr_slider {
+.wgt_slider_attr_item {
   .drag-list {
     padding: 10px;
     border: 1px dashed #e6e6e6;
@@ -63,16 +89,16 @@
   }
 
   .slider-item-link {
-    .zone-item-link-no {
-      height: 30px;
-      line-height: 30px;
-      border: 1px solid #e6e6e6;
-      border-radius: 2px;
-      padding: 0px 5px;
-      margin-top: 10px;
+    .zone-item-link-wrap {
       width: 100%;
-      text-align: center;
     }
+
+    .zone-group-title {
+      font-size: 12px;
+      color: #909399;
+      margin-bottom: 6px;
+    }
+
     .zone-item {
       .zone-item-link {
         margin-top: 10px;
@@ -81,7 +107,7 @@
   }
 }
 
-.attr_slider_dialog {
+.wgt_slider_attr_item_dialog {
   .el-dialog__body {
     max-height: 72vh;
     overflow-y: scroll;
@@ -90,41 +116,23 @@
 }
 </style>
 <template>
-  <div class="attr_slider" v-if="refresh">
-    <CompTodoList
-      v-model="localValue"
-      @onAddItem="handleClickAdd"
-      type="text"
-      :btn-text="i18n.t('58595357.4cd62d')"
-      :show-title="true"
-      @move="handleMove"
-    >
+  <div class="wgt_slider_attr_item" v-if="refresh">
+    <CompTodoList v-model="localValue" @onAddItem="handleClickAdd" type="text" :btn-text="i18n.t('58595357.4cd62d')"
+      :show-title="true" @move="handleMove">
       <template slot="header" slot-scope="scope">
         {{ i18n.t('58595357.a5987d') }} {{ scope.index + 1 }}
       </template>
       <template slot="body" slot-scope="scope">
         <div class="slider-item">
           <div class="slider-item-img">
-            <sp-image
-              v-if="scope.data.media_type == 'img'"
-              :src="scope.data.imgUrl"
-              width="70"
-              height="70"
-              @click.native="onSetHotZone(scope.data, scope.index)"
-            />
-            <video
-              v-else
-              :src="
-                scope.data.videoUrl &&
-                typeof scope.data.videoUrl === 'object' &&
-                scope.data.videoUrl.url
-                  ? scope.data.videoUrl.url
-                  : scope.data.videoUrl || ''
-              "
-              width="64"
-              height="64"
-              @click="onSetHotZone(scope.data, scope.index)"
-            />
+            <sp-image v-if="scope.data.media_type == 'img'" :src="scope.data.imgUrl" width="70" height="70"
+              @click.native="onSetHotZone(scope.data, scope.index)" />
+            <video v-else :src="scope.data.videoUrl &&
+              typeof scope.data.videoUrl === 'object' &&
+              scope.data.videoUrl.url
+              ? scope.data.videoUrl.url
+              : scope.data.videoUrl || ''
+              " width="70" height="70" @click="onSetHotZone(scope.data, scope.index)" />
           </div>
           <div class="slider-item-info">
             <div class="slider-item-type">
@@ -135,43 +143,41 @@
               </div>
             </div>
             <div class="slider-item-link">
-              <div
-                v-if="
-                  (scope.data.hotData || []).length == 0 &&
-                  (scope.data.overlayHotData || []).length == 0
-                "
-                class="zone-item-link-no"
-                @click="onSetHotZone(scope.data, scope.index)"
-              >
-                {{ i18n.t('58595357.e3cf91') }}
+              <!-- 选择路径（仅视频展示，使用 CompPickerLink 与热区一致） -->
+              <div v-if="scope.data.media_type === 'video'" class="zone-group zone-group-path">
+                <div class="zone-group-title">{{ i18n.t('58595357.e3cf91') }}</div>
+                <div class="zone-item">
+                  <span class="zone-item-link">
+                    <CompPickerLink
+                      :is-show-h5-link="false"
+                      :value="scope.data.data || {}"
+                      wgt-type="hotzone"
+                      @change="(e) => onChangeVideoPath(e, scope.index)"
+                    />
+                  </span>
+                </div>
               </div>
-              <div class="zone-item" v-if="scope.data.media_type === 'img'">
-                <span
-                  v-for="(item, index) in scope.data.hotData"
-                  :key="`copy-zone-item__${index}`"
-                  class="zone-item-link"
-                >
-                  <CompPickerLink
-                    :is-show-h5-link="false"
-                    :value="item"
-                    wgt-type="hotzone"
-                    @change="(e) => onChangeLocalhotDate(e, scope.index, index)"
-                  />
-                </span>
+              <!-- 图片/视频本身热区 -->
+              <div v-if="(scope.data.hotData || []).length > 0" class="zone-group">
+                <div class="zone-group-title">{{ i18n.t('d7d37966.50da72') }}</div>
+                <div class="zone-item">
+                  <span v-for="(item, index) in scope.data.hotData" :key="`hot-${scope.index}-${index}`"
+                    class="zone-item-link">
+                    <CompPickerLink :is-show-h5-link="false" :value="item" wgt-type="hotzone"
+                      @change="(e) => onChangeLocalhotDate(e, scope.index, index)" />
+                  </span>
+                </div>
               </div>
-              <div class="zone-item">
-                <span
-                  v-for="(item, index) in scope.data.overlayHotData"
-                  :key="`copy-zone-item__${index}`"
-                  class="zone-item-link"
-                >
-                  <CompPickerLink
-                    :is-show-h5-link="false"
-                    :value="item"
-                    wgt-type="hotzone"
-                    @change="(e) => onChangeLocaloverhotDate(e, scope.index, index)"
-                  />
-                </span>
+              <!-- 叠层热区 -->
+              <div v-if="(scope.data.overlayHotData || []).length > 0" class="zone-group">
+                <div class="zone-group-title">{{ i18n.t('d7d37966.5cefe9') }}</div>
+                <div class="zone-item">
+                  <span v-for="(item, index) in scope.data.overlayHotData" :key="`overlay-${scope.index}-${index}`"
+                    class="zone-item-link">
+                    <CompPickerLink :is-show-h5-link="false" :value="item" wgt-type="hotzone"
+                      @change="(e) => onChangeLocaloverhotDate(e, scope.index, index)" />
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -290,6 +296,10 @@ export default {
       let ele = cloneDeep(this.localValue[pid].overlayHotData[index])
       Object.assign(ele, e)
       this.$set(this.localValue[pid].overlayHotData, index, ele)
+    },
+    onChangeVideoPath(e, index) {
+      const item = this.localValue[index]
+      this.$set(this.localValue[index], 'data', { ...(item.data || {}), ...e })
     }
   }
 }

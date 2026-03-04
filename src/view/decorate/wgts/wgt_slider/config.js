@@ -147,6 +147,7 @@ const config = {
           linkPage,
           title,
           id,
+          trackingParams,
           hotData = [],
           videoUrl,
           overlayHotData = [],
@@ -164,7 +165,8 @@ const config = {
           data: {
             linkPage: linkPage,
             id: id,
-            title: title
+            title: title,
+            trackingParams: trackingParams
           },
           hotData,
           videoUrl: url,
@@ -216,6 +218,7 @@ const config = {
             ctoken: 'data.ctoken',
             id: 'data.id',
             title: 'data.title',
+            trackingParams: 'data.trackingParams',
             hotData: 'hotData',
             autoplay: 'autoplay',
             interact: 'interact',

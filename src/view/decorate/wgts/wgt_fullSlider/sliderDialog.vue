@@ -4,9 +4,9 @@
 -->
 
 <template>
-  <div class="wgts-slider-dialog">
+  <div class="wgts-full-slider-dialog">
     <div
-      class="wgts-slider-dialog-left"
+      class="wgts-full-slider-dialog-left"
       v-if="sliderForm.media_type === 'img'"
       :style="`height:${h}px;background:#f5f5f7`"
     >
@@ -462,7 +462,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wgts-slider-dialog {
+.wgts-full-slider-dialog {
   display: flex;
 
   .hotzone {
@@ -474,7 +474,7 @@ export default {
     margin-left: 20px;
   }
 
-  .wgts-slider-dialog-left {
+  .wgts-full-slider-dialog-left {
     overflow: hidden;
     position: relative;
     width: 375px;

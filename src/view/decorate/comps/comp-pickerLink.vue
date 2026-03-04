@@ -63,7 +63,7 @@
 <template>
   <div class="comp-picker-link-wrapper">
     <!-- {{ localValue }} -->
-    <div class="tracking-params-wrapper">
+    <div class="tracking-params-wrapper" v-if="isShowH5Link">
       <label class="tracking-params-label">{{ $t('4a0a5782.f0789e') }}</label>
       <el-radio-group
         v-model="localValue.linkType"
@@ -72,7 +72,7 @@
         size="small"
       >
         <el-radio-button :label="0">{{ $t('4a0a5782.e3cf91') }}</el-radio-button>
-        <el-radio-button v-if="isShowH5Link" :label="1">{{
+        <el-radio-button :label="1">{{
           $t('4a0a5782.4e99fd')
         }}</el-radio-button>
       </el-radio-group>
