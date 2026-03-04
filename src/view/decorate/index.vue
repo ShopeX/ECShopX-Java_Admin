@@ -167,7 +167,7 @@
             :info="getComponentAttr(contentComps[activeCompIndex])"
           />
         </div>
-        <div v-if="activeCompIndex == null && hackReset && headerAttr && localScene != '1007'">
+        <div v-if="activeCompIndex == null && hackReset && headerAttr && headerVisible">
           <div class="wgt-name">{{ $t(headerAttr.wgtName) }}</div>
           <attrPanel v-model="headerData" :info="headerAttr" />
         </div>
