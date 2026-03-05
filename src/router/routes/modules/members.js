@@ -49,18 +49,17 @@ const routes = [
         },
         component: () => import('@/view/member/members/uploade')
       },
-      // {
-      //   name: 'memberTags',
-      //   path: 'member-manage/member-tags',
-      //   meta: {
-      //     aliasName: 'Managetag',
-      //     icon: 'pay-circle',
-      //     title: '会员标签',
-      //     permissions: ['member.memberlmana.Managetag']
-      //   },
-      //   component: () => import('@/view/member/members/tags')
-      // },
-      // TODO: 补充会员路由
+      {
+        name: 'memberTags',
+        path: 'member-manage/member-tags',
+        meta: {
+          aliasName: 'Managetag',
+          icon: 'pay-circle',
+          title: 'd251b20e.3cc026',
+          permissions: ['member.memberlmana.Managetag']
+        },
+        component: () => import('@/view/member/members/tags')
+      },
       {
         name: 'memberLevel',
         path: 'member-benefit/member-level',
