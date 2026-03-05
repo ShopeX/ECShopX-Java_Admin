@@ -179,7 +179,7 @@
           :on-success="handleAvatarSuccess"
           :on-error="uploadError"
         >
-          <el-button>{{ $t('24acd55e.afddcb') }}</el-button>
+          <el-button>{{ i18n.t('24acd55e.afddcb') }}</el-button>
         </el-upload>
       </div>
       <!-- <div>
@@ -207,7 +207,7 @@
                       src: item.url
                     }
                   ],
-                  notSupportedMessage: this.$t('24acd55e.01c0da'),
+                  notSupportedMessage: i18n.t('24acd55e.01c0da'),
                   controlBar: false
                 }"
               />
@@ -231,7 +231,7 @@
               </div>
             </div>
           </div>
-          <el-empty v-if="list.length == 0" :description="$t('24acd55e.21efd8')" />
+          <el-empty v-if="list.length == 0" :description="i18n.t('24acd55e.21efd8')" /> 
         </div>
         <el-pagination
           layout="total, prev, pager, next"
@@ -248,6 +248,7 @@
 <script>
 import UploadUtil from '@/utils/uploadUtil'
 import { isObject, isArray } from '@/utils'
+import {i18n} from '@/i18n'
 import BasePicker from './base'
 import PageMixin from '../mixins/page'
 export default {
@@ -259,11 +260,12 @@ export default {
   },
   props: ['value'],
   created() {
-    this.$options.config.title = this.$t('24acd55e.718023')
+    this.$options.config.title = i18n.t('24acd55e.718023')
   },
   data() {
     const { multiple = false, data } = this.value
     return {
+      i18n,
       pageSize: 20,
       multiple,
       list: [],
@@ -363,11 +365,11 @@ export default {
       const isMP4 = file.type === 'video/mp4'
       const isLt5M = file.size / 1024 / 1024 < 50
       if (!isMP4) {
-        this.$message.error(this.$t('24acd55e.6c6cbc'))
+        this.$message.error(i18n.t('24acd55e.6c6cbc'))
         return
       }
       if (!isLt5M) {
-        this.$message.error(this.$t('24acd55e.9bdfc4'))
+        this.$message.error(i18n.t('24acd55e.9bdfc4'))
         return
       }
       this.localpostData.fname = file.name
@@ -382,7 +384,7 @@ export default {
         storage: 'videos' //图片id必填
       }
       await this.$api.qiniu.uploadQiniuPic(uploadParams)
-      this.$message.success(this.$t('24acd55e.a7699b'))
+      this.$message.success(i18n.t('24acd55e.a7699b'))
       this.refresh(true)
     },
     // 自定义上传
@@ -404,7 +406,7 @@ export default {
     async handleCopy(url) {
       await this.$copyText(url)
       this.$notify.success({
-        message: this.$t('24acd55e.c13172'),
+        message: i18n.t('24acd55e.c13172'),
         showClose: true
       })
     }
