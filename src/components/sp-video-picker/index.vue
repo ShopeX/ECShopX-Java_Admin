@@ -3,7 +3,7 @@
   See LICENSE file for license details.
 -->
 
-<style lang="scss">
+<style lang="scss" scoped>
 .sp-video-picker {
   display: flex;
   &.small {
@@ -83,9 +83,18 @@
   }
 
   .picker-video-player {
-    .vjs-big-play-button {
-      display: none;
-    }
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+</style>
+<style lang="scss">
+.picker-video-player {
+  .vjs-big-play-button {
+    display: none;
   }
 }
 </style>
