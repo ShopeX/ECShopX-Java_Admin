@@ -87,10 +87,12 @@ import CompPickerLink from '../../comps/comp-pickerLink'
 import { cloneDeep } from 'lodash'
 import { getImageAttribute, getVideoAttribute } from './utils'
 import SpForm from '@/components/sp-form'
+import SpImagePicker from '@/components/sp-image-picker/index.vue'
 export default {
   name: 'SliderDialog',
   components: {
     SpForm,
+    SpImagePicker,
     hotzone,
     CompPickerLink
   },
@@ -321,6 +323,18 @@ export default {
           isShow: media_type == 'video'
         },
         {
+          label: i18n.t('d7d37966.641cfa'),
+          key: 'imgUrl',
+          component: () => (
+            <SpImagePicker
+              v-model={this.sliderForm.imgUrl}
+              size='small'
+              class='video-link'
+            />
+          ),
+          isShow: media_type == 'video'
+        },
+        {
           label: i18n.t('d7d37966.b8cfcd'),
           key: 'autoplay',
           type: 'switch',
@@ -416,7 +430,7 @@ export default {
           key: 'overlayLeft',
           isShow: this.sliderForm.overlay,
           showInput: true,
-          tip: '单位为 %',
+          tip: i18n.t('d7d37966.dddfd9'),
           type: 'slider',
           maxlength: 10
         }
