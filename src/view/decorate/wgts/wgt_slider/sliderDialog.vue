@@ -238,6 +238,8 @@ export default {
           label: i18n.t('d7d37966.701f7f'),
           key: 'media_type',
           type: 'radio',
+          width:'100%',
+          inline: true,
           options: [
             {
               label: 'img',
@@ -252,6 +254,8 @@ export default {
         {
           label: media_type == 'video' ? i18n.t('d7d37966.7fcf42') : i18n.t('d7d37966.20def7'),
           key: 'videoUrl',
+          inline: true,
+          width:'100%',
           component: ({ key }) => {
             return (
               <div class='video-list'>
@@ -325,6 +329,8 @@ export default {
         {
           label: i18n.t('d7d37966.641cfa'),
           key: 'imgUrl',
+          width:'100%',
+          inline: true,
           component: () => (
             <SpImagePicker
               v-model={this.sliderForm.imgUrl}
@@ -337,12 +343,16 @@ export default {
         {
           label: i18n.t('d7d37966.b8cfcd'),
           key: 'autoplay',
+          width:'100%',
+          inline: true,
           type: 'switch',
           isShow: media_type == 'video'
         },
         {
           label: i18n.t('d7d37966.b46893'),
           key: 'interact',
+          width:'100%',
+          inline: true,
           type: 'radio',
           options: [
             {
@@ -359,6 +369,8 @@ export default {
         {
           label: media_type == 'video' ? i18n.t('d7d37966.17aaa3') : i18n.t('d7d37966.680a76'),
           key: 'overlay',
+          width:'100%',
+          inline: true,
           component: ({ key }) => {
             return (
               <div class='overlay-list'>
@@ -408,6 +420,8 @@ export default {
         {
           label: i18n.t('d7d37966.68f333'),
           key: 'overlayWidth',
+          width:'100%',
+          inline: true,
           isShow: this.sliderForm.overlay,
           tip: i18n.t('d7d37966.dddfd9'),
           type: 'slider',
@@ -418,6 +432,8 @@ export default {
         {
           label: i18n.t('d7d37966.7c2c35'),
           key: 'overlaybuttom',
+          width:'100%',
+          inline: true,
           isShow: this.sliderForm.overlay,
           type: 'slider',
           tip: i18n.t('d7d37966.dddfd9'),
@@ -428,6 +444,8 @@ export default {
         {
           label: i18n.t('d7d37966.d1d8cd'),
           key: 'overlayLeft',
+          width:'100%',
+          inline: true,
           isShow: this.sliderForm.overlay,
           showInput: true,
           tip: i18n.t('d7d37966.dddfd9'),
