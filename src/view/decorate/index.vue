@@ -150,7 +150,7 @@
                   <SpIcon name="copy" @click="onCopyComp(index, wgt)" />
                   <SpIcon name="delete" @click="onDeleteComp(index)" />
                 </div>
-                <component v-if="wgt && wgt.name" :is="wgt.name" :value="wgt" />
+                <component v-if="wgt && wgt.name" :is="getComponentName(wgt)" :value="wgt" />
               </div>
             </draggable>
           </div>
@@ -343,6 +343,12 @@ export default {
       })
     },
     resetDecorateTheme() {},
+    // 用 widgets 中注册的组件名（如 LocationModule）渲染，避免 config.name（如 locationModule）与 Vue 注册名大小写不一致导致预览不显示
+    getComponentName(item) {
+      if (!item?.name || !this.widgets.length) return item?.name || ''
+      const w = this.widgets.find((wgt) => (wgt.name || '').toLowerCase() === (item.name || '').toLowerCase())
+      return w ? w.name : item.name
+    },
     getComponentAttr(item) {
       if (!item) return { wgtName: '', config: {} }
       const wgt = this.widgets.find((wgt) => {

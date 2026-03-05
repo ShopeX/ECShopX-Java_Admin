@@ -61,7 +61,8 @@
   </div>
 </template>
 
-<script>import { i18n } from '@/i18n'
+<script>
+import { i18n } from '@/i18n'
 
 export default {
   name: 'HotRankingGoods',
@@ -78,6 +79,9 @@ export default {
       type: Object,
       default: () => ({})
     }
+  },
+  data() {
+    return { i18n }
   },
   computed: {
     topGoods() {

@@ -95,6 +95,7 @@ export default {
   },
   data() {
     return {
+      i18n,
       activeIndex: 0,
       showLeftIndicator: false,
       showRightIndicator: true,
@@ -283,6 +284,7 @@ export default {
 <style lang="scss" scoped>
 .wgt-location-module {
   width: 100%;
+  min-height: 100px;
 
   .nav-wrapper {
     position: relative;
