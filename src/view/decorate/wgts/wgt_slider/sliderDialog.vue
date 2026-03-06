@@ -613,7 +613,6 @@ export default {
       display: flex;
       flex-direction: column;
       gap: 5px;
-      margin-left: -80px;
 
       .zone-item {
         margin-bottom: 5px;
