@@ -28,7 +28,14 @@ git diff
 
 ### 2) 写出总结（中文）
 
-按下面结构写一段**本次变更总结**（可写入 `.cursor/commit-summary/last-summary.md`，便于留存）：
+按下面结构写一段**本次变更总结**，并**生成新的总结文档**（不覆盖旧文档）：
+
+**文档命名**：`YYYY-MM-DD-{tb号}.md`，保存到 `.cursor/commit-summary/` 目录。
+- 示例：`2026-03-06-ECX-8058.md`
+- 若用户当次对话中提供了 Teambition/需求单号（如 ECX-xxxx），则用该 tb 号作为文件名后半部分。
+- 若未提供 tb 号，则使用 `YYYY-MM-DD-summary.md`，或根据「一句话概括」生成简短英文标识（如 `coupon-list-i18n`）。
+
+**总结文档结构**：
 
 ```markdown
 ## 本次变更总结
@@ -50,6 +57,7 @@ git diff
 
 - 总结要基于实际 diff，不要编造。
 - 若用户有特殊要求（如按「功能/修复/文档」分类），按用户要求组织。
+- 每次总结都写入**新文件**，便于按日期和 tb 号追溯；可同时更新 `last-summary.md` 为本次内容（便于「最近一次」查看）。
 
 ### 3) 是否执行提交
 
@@ -82,6 +90,6 @@ git diff
 
 ## 示例对话
 
-- 用户：「帮我总结这次改了什么并提交」→ 执行完整流程：获取 diff → 写总结 → 写入 last-summary → git add → git commit。
-- 用户：「先总结一下我改了啥」→ 只执行获取 diff 与写总结，不 commit，可问「需要我帮你直接提交吗？」。
-- 用户：「记录一下然后 commit」→ 写总结并执行 commit。
+- 用户：「帮我总结这次改了什么并提交」→ 获取 diff → 写总结 → **新建** `.cursor/commit-summary/YYYY-MM-DD-{tb号}.md`（无 tb 号则用 `YYYY-MM-DD-summary.md`）→ 可选更新 last-summary.md → git add → git commit。
+- 用户：「先总结一下我改了啥」→ 只执行获取 diff 与写总结，并生成新的日期+tb号总结文档，不 commit，可问「需要我帮你直接提交吗？」。
+- 用户：「记录一下然后 commit」→ 写总结、生成新总结文档并执行 commit。
