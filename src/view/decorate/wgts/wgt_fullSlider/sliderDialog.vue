@@ -200,6 +200,7 @@ export default {
           label: i18n.t('89c93d78.701f7f'),
           key: 'media_type',
           type: 'radio',
+          flex: true,
           options: [
             {
               label: 'img',
@@ -233,6 +234,7 @@ export default {
         {
           label: media_type == 'video' ? i18n.t('89c93d78.7fcf42') : i18n.t('89c93d78.20def7'),
           key: 'videoUrl',
+          flex: true,
           component: ({ key }) => {
             return (
               <div class='video-list'>
@@ -284,6 +286,7 @@ export default {
         {
           label: i18n.t('89c93d78.b8cfcd'),
           key: 'autoplay',
+          flex: true,
           type: 'switch',
           isShow: media_type == 'video'
         },
@@ -296,6 +299,7 @@ export default {
         {
           label: '离场视频交互',
           key: 'interact',
+          flex: true,
           type: 'radio',
           options: [
             {
@@ -312,6 +316,7 @@ export default {
         {
           label: media_type == 'video' ? i18n.t('89c93d78.17aaa3') : i18n.t('89c93d78.680a76'),
           key: 'overlay',
+          flex: true,
           component: ({ key }) => {
             return (
               <div class='overlay-list'>
@@ -356,6 +361,7 @@ export default {
         {
           label: i18n.t('89c93d78.68f333'),
           key: 'overlayWidth',
+          flex: true,
           isShow: this.sliderForm.overlay,
           tip: i18n.t('89c93d78.dddfd9'),
           type: 'slider',
@@ -366,6 +372,7 @@ export default {
         {
           label: i18n.t('89c93d78.7c2c35'),
           key: 'overlaybuttom',
+          flex: true,
           isShow: this.sliderForm.overlay,
           type: 'slider',
           tip: i18n.t('89c93d78.dddfd9'),
@@ -376,6 +383,7 @@ export default {
         {
           label: i18n.t('89c93d78.d1d8cd'),
           key: 'overlayLeft',
+          flex: true,
           isShow: this.sliderForm.overlay,
           showInput: true,
           tip: i18n.t('89c93d78.dddfd9'),
@@ -385,6 +393,7 @@ export default {
         {
           label: i18n.t('89c93d78.392c8f'),
           key: 'moreLink',
+          flex: true,
           component: ({ key }) => {
             return (
               <div style={{ display: 'flex' }}>

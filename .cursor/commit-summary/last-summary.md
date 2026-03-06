@@ -1,13 +1,11 @@
 ## 本次变更总结
 
-**时间**: 2026-03-06  
-**TB**: ECX-8057
+**时间**: 2026-03-06
 
 **涉及文件**:
-- src/components/sp-form/index.vue (修改)
-- src/view/decorate/wgts/wgt_slider/sliderDialog.vue (修改)
+- src/view/decorate/wgts/wgt_fullSlider/sliderDialog.vue (修改)
 
 **主要改动**:
-- **sp-form**：表单项新增 `flex` 布局支持；轮播挂件弹窗表单项由 `inline` 改为 `flex`。
+- 全屏轮播挂件弹窗表单项增加 `flex: true`，与轮播挂件保持一致。
 
-**一句话概括**: feat: 表单项支持 flex 布局，轮播挂件弹窗改用 flex
+**一句话概括**: feat: 全屏轮播挂件弹窗表单项改用 flex 布局
