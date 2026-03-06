@@ -1,11 +1,12 @@
 ## 本次变更总结
 
-**时间**: 2026-03-06
+**时间**: 2026-03-06  
+**TB**: ECX-8057
 
 **涉及文件**:
-- src/view/decorate/wgts/wgt_fullSlider/sliderDialog.vue (修改)
+- src/components/sp-form/index.vue (修改)
 
 **主要改动**:
-- 全屏轮播挂件弹窗表单项增加 `flex: true`，与轮播挂件保持一致。
+- sp-form `.flex` 样式：align-items 改为 flex-start，增加 gap: 10px。
 
-**一句话概括**: feat: 全屏轮播挂件弹窗表单项改用 flex 布局
+**一句话概括**: style: 表单项 flex 布局对齐与间距微调 (ECX-8057)

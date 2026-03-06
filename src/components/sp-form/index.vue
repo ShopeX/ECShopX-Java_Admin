@@ -31,7 +31,8 @@
     }
     &.flex {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
+      gap: 10px;
       > .el-form-item__content {
         margin-left: 0 !important;
       }
