@@ -63,7 +63,7 @@ import config from './config'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 export default {
   name: 'CouponCard',
-  wgtName: '4e8312aa.2f3635',
+  wgtName: i18n.t('4e8312aa.2f3635'),
   wgtDesc: '',
   wgtIcon: 'ticket',
   wgtType: 2,

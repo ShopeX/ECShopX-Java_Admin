@@ -121,10 +121,11 @@
 import { i18n } from '@/i18n'
 import { cloneDeep } from 'lodash'
 import config from './config'
+import { i18n } from '@/i18n'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'GoodsGridTab',
-  wgtName: '5c0a1eb5.be92cb',
+  wgtName: i18n.t('5c0a1eb5.be92cb'),
   wgtDesc: '',
   wgtIcon: 'wgt-goods-grid-tab',
   config: config,

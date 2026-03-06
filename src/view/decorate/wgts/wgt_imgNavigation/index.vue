@@ -39,7 +39,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Navigation',
-  wgtName: '06a3fb4c.8ae4a2',
+  wgtName: i18n.t('06a3fb4c.8ae4a2'),
   wgtDesc: '',
   wgtIcon: 'wgt-img-navigation',
   config,

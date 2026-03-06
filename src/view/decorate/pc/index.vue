@@ -27,7 +27,7 @@
       <div class="right-container">
         <div v-if="activeCompIndex !== null && contentComps[activeCompIndex] && hackReset">
           <div class="wgt-name">
-            {{ $t(getComponentAttr(contentComps[activeCompIndex]).wgtName) }}
+            {{ getComponentAttr(contentComps[activeCompIndex]).wgtName }}
           </div>
           <CompPanel
             v-model="contentComps[activeCompIndex]"

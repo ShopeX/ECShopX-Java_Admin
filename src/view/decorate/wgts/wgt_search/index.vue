@@ -36,7 +36,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Search',
-  wgtName: '545d9787.e5f71f',
+  wgtName: i18n.t('545d9787.e5f71f'),
   wgtDesc: '',
   wgtIcon: 'wgt-search',
   config: config,

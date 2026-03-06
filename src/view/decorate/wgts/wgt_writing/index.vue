@@ -54,10 +54,11 @@
 
 <script>
 import config from './config'
+import { i18n } from '@/i18n'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Writing',
-  wgtName: '9429f5cf.cbc608',
+  wgtName: i18n.t('9429f5cf.cbc608'),
   wgtDesc: '',
   wgtIcon: 'wgt-content',
   config: config,

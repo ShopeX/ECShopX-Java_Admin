@@ -42,7 +42,7 @@ import config from './config'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 export default {
   name: 'StoreAlphabet',
-  wgtName: 'f5828e4d.435fe2',
+  wgtName: i18n.t('f5828e4d.435fe2'),
   wgtDesc: '',
   wgtIcon: 'list-alphabet',
   wgtType: 2,

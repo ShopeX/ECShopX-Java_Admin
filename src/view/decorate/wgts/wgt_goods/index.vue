@@ -39,10 +39,10 @@ import ColumnGoods from '../../comps/goods-layout/columngoods.vue'
 import GridGoods from '../../comps/goods-layout/gridgoods.vue'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 import saledata from './mock/saledata.json'
-
+import { i18n } from '@/i18n'
 export default {
   name: 'goods',
-  wgtName: '8865eba5.9897d8',
+  wgtName: i18n.t('8865eba5.9897d8'),
   wgtDesc: '',
   wgtIcon: 'waterfalls-h',
   wgtType: 2,

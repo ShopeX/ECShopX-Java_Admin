@@ -183,7 +183,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'GoodsGrid',
-  wgtName: 'e46faabb.cc1acf',
+  wgtName: i18n.t('e46faabb.cc1acf'),
   wgtDesc: '',
   wgtIcon: 'wgt-goodsgrid',
   config: config,

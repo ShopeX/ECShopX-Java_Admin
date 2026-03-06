@@ -69,7 +69,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'HotTopic',
-  wgtName: '758b56eb.b11dc3',
+  wgtName: i18n.t('758b56eb.b11dc3'),
   wgtDesc: '',
   wgtIcon: 'wgt-hotTopic',
   config: config,

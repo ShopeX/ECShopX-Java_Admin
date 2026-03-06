@@ -96,12 +96,13 @@
 <script>
 import { i18n } from '@/i18n'
 import config from './config'
+import { i18n } from '@/i18n'
 import { getOuterStyle } from '../../comps/style-utils'
 const subscript = require('@/assets/img/subscript.png')
 
 export default {
   name: 'GoodsScroll',
-  wgtName: 'd2528a91.67e128',
+  wgtName: i18n.t('d2528a91.67e128'),
   wgtDesc: '',
   wgtIcon: 'wgt-goods-scroll',
   config: config,

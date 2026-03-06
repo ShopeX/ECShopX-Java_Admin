@@ -42,7 +42,7 @@ import config from './config'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'OrderNavigation',
-  wgtName: 'c398c1c2.67a06f',
+  wgtName: i18n.t('c398c1c2.67a06f'),
   wgtDesc: '',
   wgtIcon: 'order',
   config,

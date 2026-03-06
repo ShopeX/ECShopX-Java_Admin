@@ -70,10 +70,10 @@
 import config from './config'
 import gWgts from '../index'
 import { getOuterStyle } from '../../comps/style-utils'
-
+import { i18n } from '@/i18n'
 export default {
   name: 'ContentPartition',
-  wgtName: 'dfa780ca.b3876f',
+  wgtName: i18n.t('dfa780ca.b3876f'),
   wgtDesc: '',
   wgtIcon: 'app-switch',
   config: config,

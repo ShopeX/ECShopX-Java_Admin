@@ -45,7 +45,7 @@
                 <SpIcon size="24" :name="wgt.wgtIcon" />
                 <!-- <div :class="['wgt-icon', wgt.wgtIcon]" /> -->
                 <div class="wgt-name">
-                  {{ $t(wgt.wgtName) }}
+                  {{ wgt.wgtName }}
                 </div>
                 <div class="wgt-placeholder">
                   <div class="placholder-txt">{{ $t('c3827da6.b3d296') }}</div>
@@ -77,7 +77,7 @@
               >
                 <SpIcon size="24" :name="wgt.wgtIcon" />
                 <div class="wgt-name">
-                  {{ $t(wgt.wgtName) }}
+                  {{ wgt.wgtName }}
                 </div>
                 <div class="wgt-placeholder">
                   <div class="placholder-txt">{{ $t('c3827da6.b3d296') }}</div>
@@ -110,7 +110,7 @@
                 <SpIcon size="24" :name="wgt.wgtIcon" />
 
                 <div class="wgt-name">
-                  {{ $t(wgt.wgtName) }}
+                  {{ wgt.wgtName }}
                 </div>
                 <div class="wgt-placeholder">
                   <div class="placholder-txt">{{ $t('c3827da6.b3d296') }}</div>
@@ -141,7 +141,7 @@
                 @click="handleClickWgtItem(index)"
               >
                 <div class="wgt-tip">
-                  {{ (wgt && wgt.wgtName && $t(wgt.wgtName)) || '' }}
+                  {{ (wgt && wgt.wgtName) || '' }}
                 </div>
                 <div
                   class="wgt-tools flex flex-col gap-1"
@@ -159,7 +159,7 @@
       <div class="right-container">
         <div v-if="activeCompIndex !== null && contentComps[activeCompIndex] && hackReset">
           <div class="wgt-name">
-            {{ $t((getComponentAttr(contentComps[activeCompIndex]) || {}).wgtName) }}
+            {{ (getComponentAttr(contentComps[activeCompIndex]) || {}).wgtName }}
           </div>
           <attrPanel
             v-model="contentComps[activeCompIndex]"
@@ -168,7 +168,7 @@
           />
         </div>
         <div v-if="activeCompIndex == null && hackReset && headerAttr && headerVisible">
-          <div class="wgt-name">{{ $t(headerAttr.wgtName) }}</div>
+          <div class="wgt-name">{{ headerAttr.wgtName }}</div>
           <attrPanel v-model="headerData" :info="headerAttr" />
         </div>
       </div>

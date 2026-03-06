@@ -66,7 +66,7 @@ import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 const defaultShopLogo = require('@/assets/imgs/decorate/default-shop-logo.png')
 export default {
   name: 'Shop',
-  wgtName: '1d819fcf.295713',
+  wgtName: i18n.t('1d819fcf.295713'),
   wgtDesc: '',
   wgtIcon: 'application',
   wgtType: 2,

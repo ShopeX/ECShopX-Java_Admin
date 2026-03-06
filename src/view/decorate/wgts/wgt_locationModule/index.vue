@@ -83,7 +83,7 @@ import { getOuterStyle } from '../../comps/style-utils'
 
 export default {
   name: 'LocationModule',
-  wgtName: '9a50f76c.61be0b',
+  wgtName: i18n.t('9a50f76c.61be0b'),
   wgtDesc: '',
   wgtIcon: 'elevator',
   config: config,

@@ -117,10 +117,11 @@
 
 <script>
 import config from './config'
+import { i18n } from '@/i18n'
 import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Slider',
-  wgtName: 'ac4e1949.a5987d',
+  wgtName: i18n.t('ac4e1949.a5987d'),
   wgtDesc: '',
   wgtIcon: 'multi-picture-carousel',
   config: config,

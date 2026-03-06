@@ -134,7 +134,7 @@ const defaultShopLogo = require('@/assets/imgs/decorate/default-shop-logo.png')
 
 export default {
   name: 'NearbyShop',
-  wgtName: '5e1ae7f2.0c0d95',
+  wgtName: i18n.t('5e1ae7f2.0c0d95'),
   wgtDesc: '',
   wgtIcon: 'wgt-nearby-shop',
   config: config,

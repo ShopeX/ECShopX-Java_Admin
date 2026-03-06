@@ -57,11 +57,12 @@
 <script>
 import { i18n } from '@/i18n'
 import config from './config'
+import { i18n } from '@/i18n'
 import { getOuterStyle } from '../../comps/style-utils'
 const defaultShopLogo = require('@/assets/imgs/decorate/default-shop-logo.png')
 export default {
   name: 'Store',
-  wgtName: 'a7cc304b.089a3d',
+  wgtName: i18n.t('a7cc304b.089a3d'),
   wgtDesc: '',
   wgtIcon: 'wgt-store',
   config: config,
