@@ -646,6 +646,7 @@ export default {
             autoUpload: false,
             multiple: false,
             onChange: (file, fileList) => {
+              if (!file?.raw) return
               this.paymentForms.wxpay.cert = file.raw
             }
           },
@@ -661,6 +662,7 @@ export default {
             autoUpload: false,
             multiple: false,
             onChange: (file, fileList) => {
+              if (!file?.raw) return
               this.paymentForms.wxpay.cert_key = file.raw
             }
           },
@@ -1132,8 +1134,12 @@ export default {
       this.loading = true
       try {
         const formData = this.paymentForms[payType]
-        // 使用深拷贝避免引用问题
+        // 使用深拷贝避免引用问题（File 无法被 JSON 序列化，需单独保留）
         const params = JSON.parse(JSON.stringify(formData))
+        if (payType === 'wxpay') {
+          if (formData.cert instanceof File) params.cert = formData.cert
+          if (formData.cert_key instanceof File) params.cert_key = formData.cert_key
+        }
         params.pay_type = payType
         params.is_open = formData.is_open ? 'true' : 'false'
         params.isUploadFile = true
