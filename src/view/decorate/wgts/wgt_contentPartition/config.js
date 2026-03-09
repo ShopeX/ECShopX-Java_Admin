@@ -18,6 +18,16 @@ const config = {
       value: true
     },
     {
+      label: i18n.t('85b49e49.158f11'),
+      group: i18n.t('85b49e49.c6b063'),
+      key: 'statusBarBgColor',
+      component: 'color',
+      value: '#ffffff',
+      isShow: function () {
+        return this.value.navSticky
+      }
+    },
+    {
       label: i18n.t('85b49e49.0103eb'),
       group: i18n.t('85b49e49.480e08'),
       key: 'navitemradius',
@@ -228,6 +238,7 @@ const config = {
           track: 'track',
           animate: () => 'horizontal', // 固定为横向
           navSticky: 'navSticky',
+          statusBarBgColor: 'statusBarBgColor',
           navitemheight: (v) => (v.navitemheight || 0) * 2,
           navitemmargin: (v) => (v.navitemmargin || 0) * 2,
           leftimgUrl: 'leftimgUrl',

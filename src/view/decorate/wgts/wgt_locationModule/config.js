@@ -18,6 +18,16 @@ const config = {
       value: true
     },
     {
+      label: i18n.t('046a3b70.158f11'),
+      group: i18n.t('046a3b70.c6b063'),
+      key: 'statusBarBgColor',
+      component: 'color',
+      value: '#ffffff',
+      isShow: function () {
+        return this.value.navSticky
+      }
+    },
+    {
       label: i18n.t('046a3b70.0103eb'),
       group: i18n.t('046a3b70.480e08'),
       key: 'navitemradius',
@@ -225,6 +235,7 @@ const config = {
           wgtCustName: 'wgtCustName',
           track: 'track',
           navSticky: 'navSticky',
+          statusBarBgColor: 'statusBarBgColor',
           navitemheight: (v) => (v.navitemheight || 0) * 2,
           navitemmargin: (v) => (v.navitemmargin || 0) * 2,
           leftimgUrl: 'leftimgUrl',
