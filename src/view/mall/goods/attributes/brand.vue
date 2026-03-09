@@ -61,7 +61,7 @@ import {
 import sideBar from '@/components/element/sideBar'
 import { createSetting } from '@shopex-ui/finder'
 import { useForm } from '@/composables'
-import i18n from '@/i18n'
+import { i18n } from '@/i18n'
 
 const [BrandForm, BrandFormApi] = useForm({
   formType: 'normalForm',

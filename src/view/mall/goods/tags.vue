@@ -50,7 +50,7 @@ import { saveTag, getTagList, getTagInfo, updateTag, deleteTag } from '../../../
 import sideBar from '@/components/element/sideBar'
 import { createSetting } from '@shopex-ui/finder'
 import { useForm } from '@/composables'
-import i18n from '@/i18n'
+import { i18n } from '@/i18n'
 
 // 预定义颜色常量
 const PREDEFINE_COLORS = [

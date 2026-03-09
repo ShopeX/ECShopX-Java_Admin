@@ -13,7 +13,7 @@
       @submit="onSearch"
     />
     <div class="action-container mt-4">
-      <el-button type="primary" @click="handleNew"> {{ $t('5db1387d.ac469a') }} </el-button>
+      <el-button type="primary" @click="handleNew"> {{ i18n.t('5db1387d.ac469a') }} </el-button>  
     </div>
     <!-- <div class="action-container">
       <el-button
@@ -44,23 +44,23 @@
           >
         </template>
       </el-table-column>
-      <el-table-column :label="$t('5db1387d.2b6bc0')" width="150">
+      <el-table-column :label="i18n.t('5db1387d.2b6bc0')" width="150">
         <template slot-scope="scope">
           <el-button type="text" @click="handleEdit(scope.row)">
-            {{ $t('5db1387d.95b351') }}
+            {{ i18n.t('5db1387d.95b351') }} 
           </el-button>
           <el-button type="text" @click="handleDelete(scope)">
-            {{ $t('5db1387d.2f4aad') }}
+            {{ i18n.t('5db1387d.2f4aad') }}
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('5db1387d.226b09')" width="150">
+      <el-table-column :label="i18n.t('5db1387d.226b09')" width="150">
         <template slot-scope="props">
-          {{ normalizeIsImage(props.row.is_image) ? $t('5db1387d.20def7') : $t('5db1387d.ca746b') }}
+          {{ normalizeIsImage(props.row.is_image) ? i18n.t('5db1387d.20def7') : i18n.t('5db1387d.ca746b') }}
         </template>
       </el-table-column>
-      <el-table-column prop="attribute_name" :label="$t('5db1387d.023809')" width="200" />
-      <el-table-column prop="attribute_memo" :label="$t('5db1387d.bfe414')" />
+      <el-table-column prop="attribute_name" :label="i18n.t('5db1387d.023809')" width="200" />
+      <el-table-column prop="attribute_memo" :label="i18n.t('5db1387d.bfe414')" />
     </el-table>
     <div class="mt-4 text-right">
       <el-pagination
@@ -82,12 +82,12 @@
     />
     <sideBar
       :visible.sync="show_sideBar"
-      :title="form.attribute_id ? $t('5db1387d.6dccdf') : $t('5db1387d.ac469a')"
+      :title="form.attribute_id ? i18n.t('5db1387d.6dccdf') : i18n.t('5db1387d.ac469a')"
     >
       <component :is="SpecForm" :value="form" @submit="onFormSubmit" />
       <div slot="footer">
         <el-button type="primary" @click="handleFormSubmit">
-          {{ $t('5db1387d.939d53') }}
+          {{ i18n.t('5db1387d.939d53') }} 
         </el-button>
       </div>
     </sideBar>
@@ -107,7 +107,7 @@ import { pageMixin } from '@/mixins'
 import sideBar from '@/components/element/sideBar'
 import { useForm } from '@/composables'
 import Vue from 'vue'
-import i18n from '@/i18n'
+import { i18n } from '@/i18n'
 
 let SpecFormApi = null
 
@@ -124,6 +124,7 @@ export default {
       labelWidth: '80px',
       labelInline: true,
       showDefaultActions: false,
+      i18n: i18n,
       formItems: [
         {
           fieldName: 'attribute_name',
@@ -248,6 +249,7 @@ export default {
     SpecFormApi = SpecFormApiInstance
 
     return {
+      i18n,
       SpecForm,
       currentIndex: '',
       form: {
