@@ -70,6 +70,7 @@
 import district from '@/common/district.json'
 import { CARD_TYPE } from '@/consts'
 import moment from 'moment'
+import { i18n } from '@/i18n'
 import BasePicker from './base'
 import PageMixin from '../mixins/page'
 export default {
@@ -77,7 +78,7 @@ export default {
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
-    title: '7039e9c5.45bcee'
+    title: i18n.t('7039e9c5.45bcee')
   },
   props: ['value'],
   created() {
