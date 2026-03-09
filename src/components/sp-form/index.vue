@@ -29,14 +29,6 @@
       display: inline-block;
       vertical-align: top;
     }
-    &.flex {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      > .el-form-item__content {
-        margin-left: 0 !important;
-      }
-    }
     &.no-label {
       > .el-form-item__content {
         margin-left: 0 !important;
@@ -480,7 +472,6 @@ export default {
                     'custom-error': typeof item.component != 'undefined',
                     'is-required': item.required || item.validator,
                     inline: typeof item.inline != 'undefined' ? item.inline : false,
-                    flex: typeof item.flex != 'undefined' ? item.flex : false
                   }
                 ]}
                 style={{
@@ -488,6 +479,7 @@ export default {
                 }}
                 showMessage={typeof item.showMessage == 'undefined' ? true : item.showMessage}
                 v-show={this.getItemShow(item)}
+                label-width={item.labelWidth ? item.labelWidth : labelWidth}
               >
                 {getComponentByType(item)}
                 <div class='form-item-tip' domPropsInnerHTML={item.tip}></div>
