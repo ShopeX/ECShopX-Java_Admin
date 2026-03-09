@@ -77,7 +77,7 @@ export default {
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
-    title: '选择优惠券'
+    title: '7039e9c5.45bcee'
   },
   props: ['value'],
   created() {
@@ -147,7 +147,23 @@ export default {
           },
           { name: t('7039e9c5.5d5aac'), key: 'get_num', width: '80px' },
           { name: t('7039e9c5.ce2ed8'), key: 'use_num', width: '80px' },
-          { name: t('7039e9c5.295713'), key: 'source_name', width: '160px' }
+          {
+            name: t('9cc0c982.fea789'),
+            width: '120px',
+            formatter: (value, row) => {
+              const id = parseInt(row.source_id)
+              const name = row.source_name || row.store_name || row.shop_name
+              if (id <= 0 || !name) return t('9cc0c982.498128')
+              return name
+            }
+          },
+          {
+            name: t('9cc0c982.eb4307'),
+            width: '120px',
+            formatter: (value, row) => {
+              return row.use_all_shops == 1 ? t('9cc0c982.77678b') : t('9cc0c982.fcf7d8')
+            }
+          }
         ]
       }
     }
