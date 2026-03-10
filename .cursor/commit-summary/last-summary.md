@@ -1,25 +1,16 @@
 ## 本次变更总结
 
-**时间**: 2026-03-09
+**时间**: 2026-03-09  
+**TB**: ECX-8064
 
 **涉及文件**:
-- src/view/decorate/wgts/wgt_classify/config.js (修改)
-- src/view/decorate/wgts/wgt_contentPartition/config.js (修改)
-- src/view/decorate/wgts/wgt_coupon/config.js (修改)
-- src/view/decorate/wgts/wgt_goods/config.js (修改)
-- src/view/decorate/wgts/wgt_group/config.js (修改)
-- src/view/decorate/wgts/wgt_hotranking/config.js (修改)
-- src/view/decorate/wgts/wgt_hotzone/config.js (修改)
-- src/view/decorate/wgts/wgt_locationModule/config.js (修改)
-- src/view/decorate/wgts/wgt_ranking/config.js (修改)
-- src/view/decorate/wgts/wgt_shop/config.js (修改)
-- src/view/decorate/wgts/wgt_speedkill/config.js (修改)
-- src/view/decorate/wgts/wgt_store-alphabet/config.js (修改)
+- src/i18n/locales/zh-CN.json (修改)
+- src/i18n/locales/en.json (修改)
+- src/i18n/locales/ar.json (修改)
 
 **主要改动**:
-- 装修挂件（decorate/wgts）：在 12 个 wgt 的 config.js 中，为 transformIn 与 transformOut 统一补全 id 透传。
-  - transformIn：在返回对象中增加 `id: v?.id`，保证入参 id 带入组件内部。
-  - transformOut：在 pickBy 映射中增加 `id: 'id'`，保证保存/上报数据带 id。
-- 涉及 wgt：contentPartition、locationModule、classify、coupon、goods、group、hotranking、hotzone、ranking、speedkill、store-alphabet、shop。
+- i18n：补全普通订单列表导出成功提示的翻译 key。
+  - 在 zh-CN、en、ar 中新增 `c95ea121.3e1ddd`，对应「已加入执行队列，请在设置-导出列表中下载」及英/阿译文。
+  - 用于 `src/view/mall/trade/normalorders/list.vue` 中导出成功提示，修复该 key 未翻译的问题。
 
-**一句话概括**: feat(decorate): 装修挂件 transformIn/transformOut 统一透传 id
+**一句话概括**: i18n: 补全 c95ea121.3e1ddd 翻译 (ECX-8064)
