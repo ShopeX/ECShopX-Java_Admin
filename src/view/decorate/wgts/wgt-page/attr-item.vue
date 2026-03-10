@@ -155,9 +155,11 @@
           <div class="color-controls">
             <span class="color-code">{{ displayColor }}</span>
             <div class="color-controls-item">
-              <el-button type="text" size="mini" class="reset-btn" @click="onClickReset">{{
+              <el-button type="text" size="mini" class="reset-btn" @click="onClickReset">
+{{
                 i18n.t('4d3484f7.4b9c32')
-              }}</el-button>
+              }}
+</el-button>
               <div class="color-swatch" :style="{ backgroundColor: displayColor }">
                 <el-color-picker v-model="localValue.color" size="small" @change="handleChange" />
               </div>

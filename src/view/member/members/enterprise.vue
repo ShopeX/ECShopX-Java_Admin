@@ -47,9 +47,11 @@
       </el-table-column>
       <el-table-column :label="$t('7e801404.2b6bc0')">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleEdit(scope.row)">{{
+          <el-button type="text" @click="handleEdit(scope.row)">
+{{
             $t('7e801404.95b351')
-          }}</el-button>
+          }}
+</el-button>
         </template>
       </el-table-column>
     </el-table>

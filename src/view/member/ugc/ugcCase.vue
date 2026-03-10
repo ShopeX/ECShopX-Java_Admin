@@ -10,7 +10,7 @@
         <div class="p-title">{{ $t('5a009ac5.4d4c0d') }}</div>
       </el-col>
       <el-col :span="22">
-        <div class="tips" v-html="$t('5a009ac5.977ec6')"></div>
+        <div class="tips" v-html="$t('5a009ac5.977ec6')" />
       </el-col>
     </el-row>
     <el-row class="margin-col">
@@ -47,7 +47,7 @@
       :show-close="false"
       width="30%"
     >
-      <div class="dialog-tips" v-html="$t('5a009ac5.ad25de')"></div>
+      <div class="dialog-tips" v-html="$t('5a009ac5.ad25de')" />
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="80px">
         <el-form-item prop="text" :label="$t('4e0e02bc.39791b')">
           <el-input

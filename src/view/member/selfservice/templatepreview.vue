@@ -67,9 +67,11 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item class="content-center">
-              <el-button type="primary" @click="onSubmitFormwork">{{
+              <el-button type="primary" @click="onSubmitFormwork">
+{{
                 $t('db2d7b44.b04fcb')
-              }}</el-button>
+              }}
+</el-button>
             </el-form-item>
           </el-form>
         </template>

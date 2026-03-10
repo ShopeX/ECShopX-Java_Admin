@@ -130,7 +130,7 @@
                     @mouseenter="picsEnter(index)"
                     @mouseleave="picsLeave"
                   >
-                    <img :src="wximageurl + item" />
+                    <img :src="wximageurl + item">
                     <div class="goodspic-mask" :class="picsCurrent == index ? 'on' : ''">
                       <div class="el-icon-delete" @click="removePicsImg(index)" />
                       <div class="el-icon-rank" />
@@ -254,9 +254,11 @@
             </el-radio-group>
           </el-form-item>
           <div v-if="!useAllDistributor">
-            <el-button type="primary" @click="addDistributorAction">{{
+            <el-button type="primary" @click="addDistributorAction">
+{{
               $t('3aa73191.afa2e6')
-            }}</el-button>
+            }}
+</el-button>
             <SpFinder
               v-if="distributor_list?.length > 0"
               ref="finder"

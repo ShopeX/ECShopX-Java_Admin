@@ -78,7 +78,7 @@
       </div>
     </draggable>
     <div class="rule-item">
-      <div class="holder"></div>
+      <div class="holder" />
       <div class="flex leading-normal p-3">
         <el-switch v-model="shop_lbs" />
         <div class="ml-4">

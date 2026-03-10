@@ -6,9 +6,11 @@
 <template>
   <SpPage :title="$t('ca74325b.1e5200')">
     <div slot="page-footer" class="text-center">
-      <el-button :loading="submitLoading" type="primary" @click="handleSave">{{
+      <el-button :loading="submitLoading" type="primary" @click="handleSave">
+{{
         $t('ca74325b.be5fbb')
-      }}</el-button>
+      }}
+</el-button>
     </div>
 
     <SpFormPlus

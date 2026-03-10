@@ -41,7 +41,7 @@ import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 import saledata from './mock/saledata.json'
 import { i18n } from '@/i18n'
 export default {
-  name: 'hotranking',
+  name: 'Hotranking',
   wgtName: i18n.t('f3e1de8d.f09c11'),
   wgtDesc: '',
   wgtIcon: 'ranking-list',

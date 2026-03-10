@@ -32,9 +32,11 @@
           />
         </el-form-item>
         <div class="section-footer with-border content-center">
-          <el-button v-loading="loading" type="primary" @click="onSubmit">{{
+          <el-button v-loading="loading" type="primary" @click="onSubmit">
+{{
             $t('ef95ad08.be5fbb')
-          }}</el-button>
+          }}
+</el-button>
         </div>
       </el-form>
     </el-tab-pane>

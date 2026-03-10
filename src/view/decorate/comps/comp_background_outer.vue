@@ -10,9 +10,11 @@
       <div v-if="backgroundType === 'color'" class="color-section">
         <div class="color-picker-wrapper">
           <span class="color-code">{{ displayColor }}</span>
-          <el-button type="text" size="mini" class="reset-btn" @click="handleResetColor">{{
+          <el-button type="text" size="mini" class="reset-btn" @click="handleResetColor">
+{{
             $t('272c17f4.4b9c32')
-          }}</el-button>
+          }}
+</el-button>
           <div class="color-swatch" :style="{ backgroundColor: displayColor }">
             <el-color-picker v-model="localValue.color" size="small" @change="handleChange" />
           </div>

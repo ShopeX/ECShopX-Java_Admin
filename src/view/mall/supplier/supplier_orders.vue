@@ -70,13 +70,16 @@
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="exportInvoice"
-              >{{ $t('60de5de3.019aea') }}
+              >
+{{ $t('60de5de3.019aea') }}
             </el-dropdown-item>
             <el-dropdown-item command="exportSupplierOrders"
-              >{{ $t('60de5de3.d4d21f') }}
+              >
+{{ $t('60de5de3.d4d21f') }}
             </el-dropdown-item>
             <el-dropdown-item command="exportOrderItems"
-              >{{ $t('60de5de3.a19dd9') }}
+              >
+{{ $t('60de5de3.a19dd9') }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>

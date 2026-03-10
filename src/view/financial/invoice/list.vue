@@ -88,7 +88,7 @@
         @select-all="handleSelectionChange"
         @selection-change="handleSelectionChange"
       >
-        <template v-slot:tableTop>
+        <template #tableTop>
           <!-- 选择tab -->
           <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
             <el-tab-pane

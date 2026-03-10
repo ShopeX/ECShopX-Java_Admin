@@ -661,7 +661,7 @@ $txt-placeholder: #f5f5f7;
                           : 'https://fakeimg.pl/250x100/EFEFEF/CCC/'
                       "
                       alt=""
-                    />
+                    >
                     <div
                       v-for="(sitem, sidx) in editableData[currentFidx].children"
                       :key="sidx"
@@ -676,7 +676,7 @@ $txt-placeholder: #f5f5f7;
                             class="child-img"
                             :src="litem.img ? litem.img : 'https://fakeimg.pl/50x50/EFEFEF/CCC/'"
                             alt=""
-                          />
+                          >
                           <div>{{ litem.name ? litem.name : $t('c7aab301.3b150c') }}</div>
                         </div>
                       </div>
@@ -708,10 +708,10 @@ $txt-placeholder: #f5f5f7;
                           : 'https://fakeimg.pl/250x100/EFEFEF/CCC/'
                       "
                       alt=""
-                    />
+                    >
                     <div v-for="item in 3" class="child-goods-view">
                       <div class="child-item">
-                        <img class="item-img" src="https://fakeimg.pl/70x70/EFEFEF/CCC/" alt="" />
+                        <img class="item-img" src="https://fakeimg.pl/70x70/EFEFEF/CCC/" alt="">
                         <div class="item-caption">
                           <div>
                             <div class="item-title">{{ $t('c7aab301.670f73') }}</div>
@@ -741,7 +741,7 @@ $txt-placeholder: #f5f5f7;
                       :src="item.img ? item.img : 'https://fakeimg.pl/320x120/EFEFEF/CCC/'"
                       alt=""
                       @click="switchTab(index)"
-                    />
+                    >
                     <div v-for="(sitem, sidx) in item.children" :key="sidx" class="child">
                       <div v-if="sitem.name" class="second-title">
                         {{ sitem.name }}
@@ -752,7 +752,7 @@ $txt-placeholder: #f5f5f7;
                             class="child-img"
                             :src="litem.img ? litem.img : 'https://fakeimg.pl/70x70/EFEFEF/CCC/'"
                             alt=""
-                          />
+                          >
                           <div>{{ litem.name ? litem.name : $t('c7aab301.3b150c') }}</div>
                         </div>
                       </div>
@@ -821,18 +821,18 @@ $txt-placeholder: #f5f5f7;
                       v-if="item.img"
                       :src="item.img ? item.img : 'https://fakeimg.pl/50x50'"
                       alt=""
-                    />
+                    >
                     <div v-else>
-                      <i class="el-icon-pictures"></i>
+                      <i class="el-icon-pictures" />
                     </div>
                   </div>
                   <el-input v-model="item.name" :placeholder="$t('c7aab301.d7ec2d')" />
                   <div v-if="form.name === 'fresh'" class="bind-btn" @click="showCategory(fidx)">
-                    <i class="el-icon-link"></i>
+                    <i class="el-icon-link" />
                     {{ item.category_name ? item.category_name : $t('c7aab301.f66037') }}
                   </div>
                   <div class="bind-btn" @click="openPageDialog(fidx)">
-                    <i class="el-icon-link"></i>
+                    <i class="el-icon-link" />
                     {{ item.page_name ? item.page_name : $t('c7aab301.70b948') }}
                   </div>
                   <el-checkbox v-model="item.hot"> {{ $t('c7aab301.ae6540') }} </el-checkbox>
@@ -848,9 +848,9 @@ $txt-placeholder: #f5f5f7;
                             v-if="sitem.img"
                             :src="sitem.img ? sitem.img : 'https://fakeimg.pl/50x50'"
                             alt=""
-                          />
+                          >
                           <div v-else>
-                            <i class="el-icon-pictures"></i>
+                            <i class="el-icon-pictures" />
                           </div>
                         </div>
                         <el-input v-model="sitem.name" :placeholder="$t('c7aab301.d7ec2d')" />
@@ -858,7 +858,7 @@ $txt-placeholder: #f5f5f7;
                           <i
                             class="el-icon-link"
                             v-if="!sitem.main_category_id && !sitem.category_id"
-                          ></i>
+                          />
                           {{ sitem.main_category_id ? $t('c7aab301.ca079c') : ''
                           }}{{ sitem.category_id ? $t('c7aab301.919e4d') : ''
                           }}{{ sitem.category_name ? sitem.category_name : $t('c7aab301.f66037') }}
@@ -882,9 +882,9 @@ $txt-placeholder: #f5f5f7;
                                   v-if="litem.img"
                                   :src="litem.img ? litem.img : 'https://fakeimg.pl/50x50'"
                                   alt=""
-                                />
+                                >
                                 <div v-else>
-                                  <i class="el-icon-pictures"></i>
+                                  <i class="el-icon-pictures" />
                                 </div>
                               </div>
                               <el-input v-model="litem.name" :placeholder="$t('c7aab301.d7ec2d')" />
@@ -892,7 +892,7 @@ $txt-placeholder: #f5f5f7;
                                 <i
                                   class="el-icon-link"
                                   v-if="!litem.main_category_id && !litem.category_id"
-                                ></i>
+                                />
                                 {{ litem.main_category_id ? $t('c7aab301.ca079c') : ''
                                 }}{{ litem.category_id ? $t('c7aab301.919e4d') : ''
                                 }}{{

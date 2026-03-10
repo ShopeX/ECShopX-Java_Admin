@@ -16,9 +16,11 @@
       />
 
       <div class="action-container mt-5">
-        <el-button type="primary" icon="plus" @click="showEditModal('')">{{
+        <el-button type="primary" icon="plus" @click="showEditModal('')">
+{{
           $t('f06fa37c.66ab5e')
-        }}</el-button>
+        }}
+</el-button>
       </div>
 
       <SpFinder

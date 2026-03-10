@@ -15,9 +15,11 @@
   <div>
     <el-row>
       <el-col :span="4" :offset="20">
-        <el-button size="medium" type="primary" @click="onShowTimeList">{{
+        <el-button size="medium" type="primary" @click="onShowTimeList">
+{{
           $t('365b5a6a.19fcb9')
-        }}</el-button>
+        }}
+</el-button>
       </el-col>
     </el-row>
     <el-row>
@@ -64,9 +66,11 @@
             />
           </div>
           <el-form-item class="content-center marginTop">
-            <el-button type="primary" @click="onSubmitTimeChoosed">{{
+            <el-button type="primary" @click="onSubmitTimeChoosed">
+{{
               $t('365b5a6a.e01fab')
-            }}</el-button>
+            }}
+</el-button>
           </el-form-item>
         </el-form>
       </template>

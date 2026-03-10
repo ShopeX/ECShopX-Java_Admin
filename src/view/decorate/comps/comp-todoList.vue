@@ -81,9 +81,11 @@
           <slot name="body" :data="item" :index="index" />
         </div>
       </div>
-      <el-button slot="footer" type="primary" @click="handleAddItem" class="add-btn">{{
+      <el-button slot="footer" type="primary" @click="handleAddItem" class="add-btn">
+{{
         btnText || $t('e266b10e.b58c75')
-      }}</el-button>
+      }}
+</el-button>
     </draggable>
   </div>
 </template>

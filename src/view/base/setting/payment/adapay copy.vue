@@ -27,9 +27,11 @@
       />
     </el-form-item>
     <div class="section-footer with-border content-center">
-      <el-button v-loading="loading" type="primary" @click="onSubmit('form')">{{
+      <el-button v-loading="loading" type="primary" @click="onSubmit('form')">
+{{
         $t('9a737107.be5fbb')
-      }}</el-button>
+      }}
+</el-button>
     </div>
   </el-form>
 </template>

@@ -146,7 +146,7 @@
                           </div>
                         </div>
                         <div v-else class="h-full flex items-center">
-                          <span class="no-data-text"></span>
+                          <span class="no-data-text" />
                         </div>
                       </td>
                     </tr>
@@ -167,10 +167,10 @@
                         </div>
                       </td>
                       <td class="border-r border-[#ebeef5]">
-                        <div class="no-data-text"></div>
+                        <div class="no-data-text" />
                       </td>
                       <td class="third-menu-cell">
-                        <div class="no-data-text"></div>
+                        <div class="no-data-text" />
                       </td>
                     </tr>
                   </template>

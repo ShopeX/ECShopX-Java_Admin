@@ -37,9 +37,11 @@
       </el-row>
       <el-row class="margin-col">
         <el-col>
-          <el-button type="primary" @click="auditHandle(false)">{{
+          <el-button type="primary" @click="auditHandle(false)">
+{{
             $t('a88979f1.67cc91')
-          }}</el-button>
+          }}
+</el-button>
 
           <el-button type="primary" plain @click="addNote">{{ $t('a88979f1.4727b5') }}</el-button>
 
@@ -51,9 +53,11 @@
             删除笔记(测试用)
           </el-button> -->
 
-          <el-button type="primary" plain @click="handleNotesFlag">{{
+          <el-button type="primary" plain @click="handleNotesFlag">
+{{
             $t('a88979f1.9ead93')
-          }}</el-button>
+          }}
+</el-button>
           <span class="marbor" />
           <el-select
             v-model="filt_badge"

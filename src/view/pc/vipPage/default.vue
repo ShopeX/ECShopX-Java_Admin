@@ -46,7 +46,7 @@
             >
               <transition name="el-fade-in-linear">
                 <div v-if="k == editorIndex" @click="removeCurrent">
-                  <i class="el-icon-delete-solid"></i>
+                  <i class="el-icon-delete-solid" />
                 </div>
               </transition>
             </component>
@@ -69,9 +69,11 @@
       </div>
     </section>
     <section class="content-padded-s section-white content-center">
-      <el-button class="btn-save" type="primary" @click="saveConfig">{{
+      <el-button class="btn-save" type="primary" @click="saveConfig">
+{{
         $t('583f92dd.be5fbb')
-      }}</el-button>
+      }}
+</el-button>
     </section>
   </div>
 </template>

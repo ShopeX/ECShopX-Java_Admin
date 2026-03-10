@@ -24,7 +24,7 @@
                   :src="wximageurl + scope.row.url"
                   class="banner-uploader"
                   @click="handleImgChange(scope.$index, 'banner')"
-                />
+                >
                 <i
                   v-else
                   class="el-icon-plus banner-uploader"
@@ -49,9 +49,11 @@
             </el-table-column>
             <el-table-column :label="$t('823bb520.2b6bc0')">
               <template slot-scope="scope">
-                <el-button icon="delete" @click="handleDelBanner(scope.$index)">{{
+                <el-button icon="delete" @click="handleDelBanner(scope.$index)">
+{{
                   $t('823bb520.2f4aad')
-                }}</el-button>
+                }}
+</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -65,7 +67,7 @@
                   :src="wximageurl + scope.row.url"
                   class="banner-uploader"
                   @click="handleImgChange(scope.$index, 'hotGoods')"
-                />
+                >
                 <i
                   v-else
                   class="el-icon-plus banner-uploader"
@@ -125,9 +127,11 @@
           </div>
         </el-transfer>
         <div class="section-footer with-border content-center" style="width: 100%">
-          <el-button type="primary" @click="handleGoodsDialog">{{
+          <el-button type="primary" @click="handleGoodsDialog">
+{{
             $t('823bb520.38cf16')
-          }}</el-button>
+          }}
+</el-button>
         </div>
       </template>
     </el-dialog>

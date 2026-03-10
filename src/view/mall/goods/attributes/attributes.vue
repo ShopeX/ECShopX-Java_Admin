@@ -38,7 +38,7 @@
             v-for="(item, index) in props.row.attribute_values.list"
             :key="index"
             class="sku-value"
-            ><img v-if="item.image_url" class="sku-img" :src="item.image_url" />{{
+            ><img v-if="item.image_url" class="sku-img" :src="item.image_url">{{
               item.attribute_value
             }}</span
           >

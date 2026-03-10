@@ -18,7 +18,7 @@
       />
 
     <div class="action-container mt-4">
-      <el-button type="primary" @click="onAddChange"> 新建标签组 </el-button>
+      <el-button type="primary" @click="onAddChange">{{ $t('45a63912.19214e') }}</el-button>
     </div>
 
     <SpFinder
@@ -64,18 +64,6 @@ export default {
       params: {
         keyword: ''
       },
-      searchFormItems: [
-        {
-          formItemClass: 'w-2/4',
-          component: 'input',
-          componentProps: {
-            placeholder: '请输入标签组/标签',
-            clearable: true
-          },
-          fieldName: 'keyword',
-          label: '标签组/标签'
-        }
-      ],
       form: {
         group_id: '',
         group_name: '',
@@ -89,7 +77,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['wheight'])
+    ...mapGetters(['wheight']),
+    searchFormItems() {
+      return [
+        {
+          formItemClass: 'w-2/4',
+          component: 'input',
+          componentProps: {
+            placeholder: this.$t('45a63912.3605b8'),
+            clearable: true
+          },
+          fieldName: 'keyword',
+          label: this.$t('45a63912.60224e')
+        }
+      ]
+    }
   },
   mounted() {
     this.initFinderSetting()
@@ -100,7 +102,7 @@ export default {
       this.finderSetting = createSetting({
         columns: [
           {
-            name: '标签组',
+            name: this.$t('45a63912.6c805e'),
             key: 'group_name',
             width: 200,
             render: (h, { row }) => {
@@ -121,14 +123,14 @@ export default {
                       fontSize: '12px',
                       marginLeft: '8px'
                     }
-                  }, '企')
+                  }, this.$t('45a63912.97401c'))
                 )
               }
               return h('div', children)
             }
           },
           {
-            name: '标签',
+            name: this.$t('45a63912.14d342'),
             key: 'tags',
             minWidth: 400,
             render: (h, { row }) => {
@@ -144,7 +146,7 @@ export default {
             }
           },
           {
-            name: '操作',
+            name: this.$t('45a63912.2b6bc0'),
             key: 'action',
             width: 150,
             fixed: 'right',
@@ -157,7 +159,7 @@ export default {
                   on: {
                     click: () => vm.handleEdit(row)
                   }
-                }, '编辑'),
+                }, vm.$t('45a63912.95b351')),
                 h('el-button', {
                   props: {
                     type: 'text',
@@ -166,7 +168,7 @@ export default {
                   on: {
                     click: () => vm.handleDelete(row)
                   }
-                }, '删除')
+                }, vm.$t('45a63912.2f4aad'))
               ]
               return h('div', actions)
             }
@@ -247,17 +249,21 @@ export default {
       this.addGroupVisible = true
     },
     handleDelete(row) {
-      this.$confirm('此操作将永久删除该标签组,是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
+      this.$confirm(
+        this.$t('45a63912.dda238'),
+        this.$t('45a63912.02d981'),
+        {
+          confirmButtonText: this.$t('45a63912.38cf16'),
+          cancelButtonText: this.$t('45a63912.625fb2'),
+          type: 'warning'
+        }
+      )
         .then(async () => {
           try {
             await this.$api.member.deleteTagGroup(row.group_id)
             this.$message({
               type: 'success',
-              message: '删除成功'
+              message: this.$t('45a63912.0007d1')
             })
             this.$refs.finder.refresh()
           } catch (error) {
@@ -267,7 +273,7 @@ export default {
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: this.$t('45a63912.c34281')
           })
         })
     },
@@ -280,7 +286,9 @@ export default {
         }
         this.$message({
           type: 'success',
-          message: this.isEdit ? '编辑成功' : '创建成功'
+          message: this.isEdit
+            ? this.$t('45a63912.3bb47b')
+            : this.$t('45a63912.04a691')
         })
         this.addGroupVisible = false
         this.$refs.finder.refresh(true)
@@ -299,7 +307,7 @@ export default {
         await this.$api.member.saveTag(params)
         this.$message({
           type: 'success',
-          message: '添加标签成功'
+          message: this.$t('45a63912.78ec37')
         })
         this.$refs.finder.refresh(true)
       } catch (error) {

@@ -63,7 +63,7 @@
             >
               <transition name="el-fade-in-linear">
                 <div v-if="editorIndex === index" @click="removeCurrent">
-                  <i class="el-icon-delete"></i>
+                  <i class="el-icon-delete" />
                 </div>
               </transition>
               <navigation
@@ -105,14 +105,14 @@
                       item.selectedIconPath ||
                       'https://fakeimg.pl/60x60/EFEFEF/CCC/?text=icofont=lobster'
                     "
-                  />
+                  >
                   <img
                     v-else
                     class="svg-icon"
                     :src="
                       item.iconPath || 'https://fakeimg.pl/60x60/EFEFEF/CCC/?text=icon&font=lobster'
                     "
-                  />
+                  >
                 </template>
                 <div class="tab-text">
                   {{ item.text }}
@@ -133,9 +133,11 @@
       </div>
     </section>
     <section class="content-padded-s section-white content-center">
-      <el-button class="btn-save" type="primary" @click="saveConfig">{{
+      <el-button class="btn-save" type="primary" @click="saveConfig">
+{{
         $t('902732c4.be5fbb')
-      }}</el-button>
+      }}
+</el-button>
     </section>
     <imgPicker
       :dialog-visible="imgsVisible"

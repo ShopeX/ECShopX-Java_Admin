@@ -78,7 +78,7 @@
                           width="50"
                           :src="wximageurl + scope.row.pic"
                           :alt="scope.row.item_name"
-                      /></span>
+                      ></span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -121,9 +121,11 @@
               <el-tag v-else-if="scope.row.order_status == 'PAYED'" type="primary" size="mini">
                 {{ $t('9d49798d.64729d') }}
               </el-tag>
-              <el-tag v-else-if="scope.row.order_status == 'NOTPAY'" size="mini">{{
+              <el-tag v-else-if="scope.row.order_status == 'NOTPAY'" size="mini">
+{{
                 $t('9d49798d.608afd')
-              }}</el-tag>
+              }}
+</el-tag>
               <el-tag v-else-if="scope.row.order_status == 'CANCEL'" type="danger" size="mini">
                 {{ $t('9d49798d.2111cc') }}
               </el-tag>

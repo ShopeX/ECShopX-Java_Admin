@@ -9,9 +9,11 @@
       <el-row>
         <el-col :span="6">
           <el-form-item label="">
-            <el-button type="primary" @click="handleClickUpload">{{
+            <el-button type="primary" @click="handleClickUpload">
+{{
               $t('3d687e9b.979179')
-            }}</el-button>
+            }}
+</el-button>
           </el-form-item>
         </el-col>
         <el-col :span="18">

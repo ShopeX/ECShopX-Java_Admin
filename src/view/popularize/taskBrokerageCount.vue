@@ -28,9 +28,11 @@
       </SpFilterFormItem>
     </SpFilterForm>
     <div class="action-container">
-      <el-button type="primary" size="mini" @click="exportData">{{
+      <el-button type="primary" size="mini" @click="exportData">
+{{
         $t('434cdeb7.066ffd')
-      }}</el-button>
+      }}
+</el-button>
     </div>
     <el-table
       v-loading="loading"

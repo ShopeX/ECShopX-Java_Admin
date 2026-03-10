@@ -5,7 +5,7 @@
 
 <template>
   <el-dialog
-    :title="isEdit ? '编辑标签组' : '新建标签组'"
+    :title="isEdit ? $t('ec391ebb.d3a197') : $t('ec391ebb.19214e')"
     :visible.sync="dialogVisible"
     width="700px"
     :close-on-click-modal="false"
@@ -14,16 +14,16 @@
     @close="handleClose"
   >
     <el-form ref="tagForm" :model="formData" :rules="formRules" label-width="120px">
-      <el-form-item label="标签组名称" prop="group_name">
+      <el-form-item :label="$t('ec391ebb.af6126')" prop="group_name">
         <el-input
           v-model="formData.group_name"
-          placeholder="请输入标签组名称"
+          :placeholder="$t('ec391ebb.1ce7ca')"
           maxlength="15"
           show-word-limit
           class="w-[300px]"
         />
       </el-form-item>
-      <el-form-item label="标签" prop="tags" required>
+      <el-form-item :label="$t('ec391ebb.14d342')" prop="tags" required>
         <div
           v-for="(tagItem, index) in formData.tags"
           :key="index"
@@ -31,7 +31,7 @@
         >
           <el-input
             v-model="tagItem.tag_name"
-            placeholder="请输入内容"
+            :placeholder="$t('ec391ebb.a11cc7')"
             maxlength="10"
             show-word-limit
             class="flex-1 mr-2.5"
@@ -43,12 +43,12 @@
             :disabled="formData.tags.length <= 1"
             class="text-[#F56C6C] text-base"
           />
-          <span class="text-sm ml-2">标签颜色：</span>
+          <span class="text-sm ml-2">{{ $t('ec391ebb.391c76') }}</span>
           <el-color-picker
             v-model="tagItem.tag_color"
             size="small"
           />
-          <span class="text-sm ml-2">字体颜色：</span>
+          <span class="text-sm ml-2">{{ $t('ec391ebb.9facbf') }}</span>
           <el-color-picker
             v-model="tagItem.font_color"
             size="small"
@@ -60,13 +60,13 @@
           @click="addTag"
           class="text-[#409EFF] pl-0"
         >
-          添加标签
+          {{ $t('ec391ebb.736eaa') }}
         </el-button>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="handleClose">取 消</el-button>
-      <el-button type="primary" @click="handleSubmit">确 定</el-button>
+      <el-button @click="handleClose">{{ $t('ec391ebb.c08ab9') }}</el-button>
+      <el-button type="primary" @click="handleSubmit">{{ $t('ec391ebb.aa7527') }}</el-button>
     </div>
   </el-dialog>
 </template>
@@ -99,14 +99,14 @@ export default {
       deleteTagList: [],
       formRules: {
         group_name: [
-          { required: true, message: '请输入标签组名称', trigger: 'blur' },
-          { max: 15, message: '标签组名称不能超过15个字符', trigger: 'blur' }
+          { required: true, message: this.$t('ec391ebb.1ce7ca'), trigger: 'blur' },
+          { max: 15, message: this.$t('ec391ebb.9b1a67'), trigger: 'blur' }
         ],
         tags: [
           {
             validator: (rule, value, callback) => {
               const tags = value.filter(tag => tag?.tag_name !== '')
-              callback(tags.length === 0 ? new Error('至少需要一个标签') : undefined)
+              callback(tags.length === 0 ? new Error(this.$t('ec391ebb.cdb31f')) : undefined)
             },
             trigger: 'blur'
           }

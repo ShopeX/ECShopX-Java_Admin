@@ -67,7 +67,8 @@
             <div class="keywords">
               <div>
                 <el-button @click="addNewKeyword(item, index)">
-                  {{ $t('ff123105.1c85b8') }} </el-button
+                  {{ $t('ff123105.1c85b8') }}
+</el-button
                 >&nbsp;
                 <span class="frm-tips">{{ $t('ff123105.5677de') }}</span>
               </div>

@@ -11,7 +11,7 @@
       form-type="normalForm"
       :form-items="formItems"
       label-width="100px"
-      :showDefaultActions="false"
+      :show-default-actions="false"
       @submit="handleSubmit"
     />
   </div>

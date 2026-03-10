@@ -14,9 +14,11 @@
           <el-input v-model="form.aftersales" />
         </el-form-item>
         <div class="section-footer with-border content-center">
-          <el-button v-loading="loading" type="primary" @click="onSubmit">{{
+          <el-button v-loading="loading" type="primary" @click="onSubmit">
+{{
             $t('13240208.be5fbb')
-          }}</el-button>
+          }}
+</el-button>
         </div>
       </el-form>
     </el-tab-pane>

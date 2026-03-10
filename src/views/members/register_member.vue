@@ -9,9 +9,11 @@
     <el-tabs v-model="activeName" type="card">
       <el-tab-pane :label="$t('f7e8c15b.3a4128')" name="first">
         <div class="action-container">
-          <el-button type="primary" plain @click="showAddDialog()">{{
+          <el-button type="primary" plain @click="showAddDialog()">
+{{
             $t('f7e8c15b.80e2ca')
-          }}</el-button>
+          }}
+</el-button>
         </div>
         <SpFinder
           ref="configFinder"

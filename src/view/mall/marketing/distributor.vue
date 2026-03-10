@@ -419,7 +419,7 @@
               class="el-icon-edit cursor-pointer"
               style="color: var(--primary)"
               @click="editPaymentSubject(scope.row)"
-            ></i>
+            />
           </template>
         </el-table-column>
 
@@ -633,7 +633,7 @@
             </el-tag>
           </div>
         </div>
-        <hr />
+        <hr>
         <div>
           <div class="label">{{ $t('b2fe051e.d0c49d') }}</div>
           <el-tag

@@ -49,15 +49,21 @@
         </el-table-column>
         <el-table-column :label="$t('a1788ba0.c11ddb')">
           <template slot-scope="scope">
-            <el-tag size="mini" v-if="scope.row.pay_type === 'wechat'" type="success">{{
+            <el-tag size="mini" v-if="scope.row.pay_type === 'wechat'" type="success">
+{{
               $t('a1788ba0.cfbf6f')
-            }}</el-tag>
-            <el-tag size="mini" v-if="scope.row.pay_type === 'alipay'">{{
+            }}
+</el-tag>
+            <el-tag size="mini" v-if="scope.row.pay_type === 'alipay'">
+{{
               $t('a1788ba0.ccd097')
-            }}</el-tag>
-            <el-tag size="mini" v-if="scope.row.pay_type === 'hfpay'" type="warning">{{
+            }}
+</el-tag>
+            <el-tag size="mini" v-if="scope.row.pay_type === 'hfpay'" type="warning">
+{{
               $t('a1788ba0.4c7d29')
-            }}</el-tag>
+            }}
+</el-tag>
             <el-tag size="mini" v-if="scope.row.pay_type === 'bankcard'" type="warning">
               {{ $t('a1788ba0.774267') }}
             </el-tag>
@@ -84,12 +90,16 @@
             <el-tag type="success" v-if="scope.row.status == 'success'" size="mini">
               {{ $t('a1788ba0.42b524') }}
             </el-tag>
-            <el-tag type="info" v-if="scope.row.status == 'reject'" size="mini">{{
+            <el-tag type="info" v-if="scope.row.status == 'reject'" size="mini">
+{{
               $t('a1788ba0.940fe3')
-            }}</el-tag>
-            <el-tag type="danger" v-if="scope.row.status == 'failed'" size="mini">{{
+            }}
+</el-tag>
+            <el-tag type="danger" v-if="scope.row.status == 'failed'" size="mini">
+{{
               $t('a1788ba0.f285c5')
-            }}</el-tag>
+            }}
+</el-tag>
           </template>
         </el-table-column>
         <el-table-column :label="$t('a1788ba0.e679e8')" width="120">

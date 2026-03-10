@@ -44,9 +44,11 @@
                 :show-default-actions="false"
               />
               <div class="section-footer with-border content-center" style="width: 100%">
-                <el-button type="primary" @click="closeDialog">{{
+                <el-button type="primary" @click="closeDialog">
+{{
                   $t('2bd394ad.38cf16')
-                }}</el-button>
+                }}
+</el-button>
               </div>
             </div>
           </el-dialog>
@@ -79,9 +81,11 @@
                     <el-button v-if="row.is_open == 'true'" type="default" size="small">
                       {{ $t('2bd394ad.c16e2e') }}
                     </el-button>
-                    <el-button v-else type="default" size="small">{{
+                    <el-button v-else type="default" size="small">
+{{
                       $t('2bd394ad.463776')
-                    }}</el-button>
+                    }}
+</el-button>
                   </div>
                 </div>
               </div>
@@ -157,18 +161,20 @@
       >
         <div class="section-body">
           <div class="message-tip">
-            {{ $t('2bd394ad.357adc') }}<br />
+            {{ $t('2bd394ad.357adc') }}<br>
             {{ $t('2bd394ad.8c4a87')
-            }}<el-button type="text" @click="handleInquireVariable">{{
+            }}<el-button type="text" @click="handleInquireVariable">
+{{
               $t('2bd394ad.4513e2')
-            }}</el-button
-            ><br />
-            {{ $t('2bd394ad.b08012') }}<br />
-            {{ $t('2bd394ad.24021c') }}<br />
-            {{ $t('2bd394ad.4bf9ae') }}<br />
-            {{ $t('2bd394ad.1eeea8') }}<br />
-            {{ $t('2bd394ad.8305ba') }}<br />
-            {{ $t('2bd394ad.d0c481') }}<br />
+            }}
+</el-button
+            ><br>
+            {{ $t('2bd394ad.b08012') }}<br>
+            {{ $t('2bd394ad.24021c') }}<br>
+            {{ $t('2bd394ad.4bf9ae') }}<br>
+            {{ $t('2bd394ad.1eeea8') }}<br>
+            {{ $t('2bd394ad.8305ba') }}<br>
+            {{ $t('2bd394ad.d0c481') }}<br>
           </div>
           <div class="message-content">
             <div class="message-content-left">
@@ -200,9 +206,11 @@
             </div>
           </div>
           <div class="section-footer with-border content-center" style="width: 100%">
-            <el-button type="primary" @click="closeDialog" :loading="loading">{{
+            <el-button type="primary" @click="closeDialog" :loading="loading">
+{{
               $t('2bd394ad.38cf16')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </div>
       </el-dialog>

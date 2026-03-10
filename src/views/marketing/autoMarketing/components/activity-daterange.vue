@@ -13,9 +13,11 @@
       :start-placeholder="$t('5629ff10.b44c0f')"
       :end-placeholder="$t('5629ff10.1d468b')"
     />
-    <el-checkbox v-model="localValue.is_forever" class="ml-4">{{
+    <el-checkbox v-model="localValue.is_forever" class="ml-4">
+{{
       $t('5629ff10.9eb15d')
-    }}</el-checkbox>
+    }}
+</el-checkbox>
   </div>
 </template>
 

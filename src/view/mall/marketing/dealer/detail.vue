@@ -9,7 +9,7 @@
       <el-card>
         <el-row>
           <el-col :span="3">
-            <img class="cus-details-img" src="@/assets/img/adapay/dealer.png" alt="" />
+            <img class="cus-details-img" src="@/assets/img/adapay/dealer.png" alt="">
           </el-col>
           <el-col :span="20">
             <div class="cus-details-flex">
@@ -133,9 +133,11 @@
           <el-button type="primary" size="small" plain @click="handleModalConfirm(false)">
             {{ $t('9d04916c.625fb2') }}
           </el-button>
-          <el-button type="primary" size="small" @click="handleModalConfirm(true)">{{
+          <el-button type="primary" size="small" @click="handleModalConfirm(true)">
+{{
             $t('9d04916c.e83a25')
-          }}</el-button>
+          }}
+</el-button>
         </el-row>
       </el-dialog>
     </div>

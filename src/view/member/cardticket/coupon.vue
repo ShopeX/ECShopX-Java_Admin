@@ -67,7 +67,7 @@
                   <!-- <el-popover v-if="appID" placement="top" width="200" trigger="click"> -->
                   <el-popover placement="top" width="200" trigger="click">
                     <div>
-                      <img class="page-code" :src="appCodeUrl" />
+                      <img class="page-code" :src="appCodeUrl">
                       <div class="page-btns">
                         <el-button
                           type="primary"

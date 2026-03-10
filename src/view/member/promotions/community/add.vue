@@ -21,9 +21,11 @@
           </el-col>
           <el-col :span="1" class="content-center"> &nbsp; </el-col>
           <el-col :span="3">
-            <el-button type="primary" @click="searchKeyword()">{{
+            <el-button type="primary" @click="searchKeyword()">
+{{
               $t('7d527d35.83546a')
-            }}</el-button>
+            }}
+</el-button>
           </el-col>
         </div>
       </el-form-item>
@@ -141,9 +143,11 @@
         </div>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="large" @click="onSubmit">{{
+        <el-button type="primary" size="large" @click="onSubmit">
+{{
           $t('7d527d35.939d53')
-        }}</el-button>
+        }}
+</el-button>
         <el-button size="large" @click.native.prevent>{{ $t('7d527d35.625fb2') }}</el-button>
       </el-form-item>
     </el-form>

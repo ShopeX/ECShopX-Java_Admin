@@ -69,9 +69,11 @@
         </template>
       </div>
       <div class="section-footer content-center">
-        <el-button type="primary" :loading="loading" @click="onSubmit">{{
+        <el-button type="primary" :loading="loading" @click="onSubmit">
+{{
           $t('b0145cf3.be5fbb')
-        }}</el-button>
+        }}
+</el-button>
       </div>
     </el-form>
   </el-card>

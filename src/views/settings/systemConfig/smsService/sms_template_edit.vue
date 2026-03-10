@@ -126,9 +126,11 @@
           </ul>
         </template>
         <template slot="extra">
-          <el-button type="primary" size="medium" @click="fnBack">{{
+          <el-button type="primary" size="medium" @click="fnBack">
+{{
             $t('16099248.adcd1d')
-          }}</el-button>
+          }}
+</el-button>
           <el-button v-if="!$route.query.type" size="medium" @click="fnAgain">
             {{ $t('16099248.dcd9bd') }}
           </el-button>

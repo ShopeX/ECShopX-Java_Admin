@@ -18,9 +18,11 @@
       </el-form-item>
     </el-form>
     <div slot="page-footer" class="section-footer with-border text-center">
-      <el-button v-loading="loading" type="primary" @click="onSubmit">{{
+      <el-button v-loading="loading" type="primary" @click="onSubmit">
+{{
         $t('cce7f45b.be5fbb')
-      }}</el-button>
+      }}
+</el-button>
     </div>
     <!-- <SpPlatformTip h5 app alipay />
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">

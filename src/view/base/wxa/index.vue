@@ -7,9 +7,11 @@
   <div class="section section-white">
     <el-row :gutter="20">
       <el-col :span="12">
-        <el-button type="primary" icon="plus" @click="handleEditWeapp">{{
+        <el-button type="primary" icon="plus" @click="handleEditWeapp">
+{{
           $t('bba767c5.512e5d')
-        }}</el-button>
+        }}
+</el-button>
       </el-col>
     </el-row>
     <el-table
@@ -51,7 +53,7 @@
       <el-table-column :label="$t('bba767c5.75688e')" width="120">
         <template slot-scope="img">
           <div v-if="img.row.head_img">
-            <img :src="img.row.head_img" height="60" />
+            <img :src="img.row.head_img" height="60">
           </div>
           <div v-else>
             <i class="el-icon-picture fa-3x" aria-hidden="true" />
@@ -142,9 +144,11 @@
           </el-form-item>
         </div>
         <div class="section-footer with-border content-center">
-          <el-button type="primary" @click="handleSubmitWxapp">{{
+          <el-button type="primary" @click="handleSubmitWxapp">
+{{
             $t('bba767c5.56df61')
-          }}</el-button>
+          }}
+</el-button>
         </div>
       </el-form>
     </el-dialog>

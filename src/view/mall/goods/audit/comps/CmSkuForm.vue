@@ -400,9 +400,11 @@
             </el-table-column>
             <el-table-column width="80">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="fillSku">{{
+                <el-button type="primary" size="mini" @click="fillSku">
+{{
                   $t('d0549016.756e44')
-                }}</el-button>
+                }}
+</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -521,9 +523,11 @@
             </el-table-column>
             <el-table-column width="80">
               <template slot-scope="scope">
-                <el-button type="text" @click="clearSku(scope.$index)">{{
+                <el-button type="text" @click="clearSku(scope.$index)">
+{{
                   $t('d0549016.4403fc')
-                }}</el-button>
+                }}
+</el-button>
               </template>
             </el-table-column>
           </el-table>

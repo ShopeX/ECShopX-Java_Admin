@@ -13,7 +13,7 @@
       width="30%"
     >
       <div>
-        <div class="result" v-html="$t('09b91dec.8cda63')"></div>
+        <div class="result" v-html="$t('09b91dec.8cda63')" />
 
         <div v-loading="modalLoad" class="flag-list">
           <el-radio
@@ -38,12 +38,16 @@
           @current-change="handleCurrentChange"
         />
 
-        <el-button type="primary" size="small" @click="modalHandle">{{
+        <el-button type="primary" size="small" @click="modalHandle">
+{{
           $t('09b91dec.e83a25')
-        }}</el-button>
-        <el-button size="small" @click="handleCancelLabelsDialog">{{
+        }}
+</el-button>
+        <el-button size="small" @click="handleCancelLabelsDialog">
+{{
           $t('09b91dec.625fb2')
-        }}</el-button>
+        }}
+</el-button>
       </div>
     </el-dialog>
   </div>

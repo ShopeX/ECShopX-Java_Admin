@@ -164,9 +164,11 @@
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer content-center">
-            <el-button type="primary" @click="handleAddSalesmanRole">{{
+            <el-button type="primary" @click="handleAddSalesmanRole">
+{{
               $t('f73abcb8.38cf16')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </el-dialog>
         <el-dialog
@@ -219,15 +221,19 @@
             </el-form-item>
             <el-form-item v-if="activeName == 'invalid'" :label="$t('f73abcb8.53c3dd')">
               <el-radio v-model="form.is_valid" label="true">{{ $t('f73abcb8.7854b5') }}</el-radio>
-              <el-radio v-model="form.is_valid" label="delete">{{
+              <el-radio v-model="form.is_valid" label="delete">
+{{
                 $t('f73abcb8.710ad0')
-              }}</el-radio>
+              }}
+</el-radio>
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer content-center">
-            <el-button type="primary" @click="handleAddSalesman">{{
+            <el-button type="primary" @click="handleAddSalesman">
+{{
               $t('f73abcb8.38cf16')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </el-dialog>
         <el-dialog

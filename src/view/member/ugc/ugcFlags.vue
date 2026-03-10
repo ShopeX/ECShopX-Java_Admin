@@ -10,7 +10,7 @@
         <div class="p-title">{{ $t('4add4f82.eaa5bb') }}</div>
       </el-col>
       <el-col :span="22">
-        <div class="tips" v-html="$t('4add4f82.f9313e')"></div>
+        <div class="tips" v-html="$t('4add4f82.f9313e')" />
       </el-col>
     </el-row>
     <el-row class="margin-col">

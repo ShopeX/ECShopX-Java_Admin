@@ -14,9 +14,11 @@
       :show-tool-bar="false"
     />
 
-    <el-button v-loading="loading" type="primary" @click="onSubmit">{{
+    <el-button v-loading="loading" type="primary" @click="onSubmit">
+{{
       $t('9662e704.be5fbb')
-    }}</el-button>
+    }}
+</el-button>
   </SpPage>
 </template>
 <script>

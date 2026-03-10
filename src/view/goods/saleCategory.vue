@@ -33,7 +33,7 @@
         :load="load"
         width="100%"
       >
-        <el-table-column label="" width="60"></el-table-column>
+        <el-table-column label="" width="60" />
         <el-table-column :label="$t('0e7dabe2.2b6bc0')" width="450">
           <template slot-scope="scope">
             <el-button type="text">
@@ -60,7 +60,7 @@
             </el-button>
             <el-popover v-if="appID" placement="top" width="200" trigger="click">
               <div>
-                <img class="page-code" :src="appCodeUrl" />
+                <img class="page-code" :src="appCodeUrl">
                 <div class="page-btns">
                   <el-button
                     type="primary"

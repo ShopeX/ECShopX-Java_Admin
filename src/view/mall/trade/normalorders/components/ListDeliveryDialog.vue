@@ -185,9 +185,11 @@
       </template>
       <div slot="footer" class="dialog-footer">
         <el-button @click.native="handleCancel">{{ $t('9d6ebbf1.625fb2') }}</el-button>
-        <el-button type="primary" @click="submitDeliveryAction">{{
+        <el-button type="primary" @click="submitDeliveryAction">
+{{
           $t('9d6ebbf1.38cf16')
-        }}</el-button>
+        }}
+</el-button>
       </div>
     </el-dialog>
   </div>

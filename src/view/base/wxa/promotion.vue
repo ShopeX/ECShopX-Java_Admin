@@ -103,12 +103,16 @@
                           {{ $t('680103fe.2a0fc2') }}
                         </p>
                         <div class="content-center">
-                          <el-button @click="item.popVisible = false">{{
+                          <el-button @click="item.popVisible = false">
+{{
                             $t('680103fe.625fb2')
-                          }}</el-button>
-                          <el-button type="primary" @click="remove(index)">{{
+                          }}
+</el-button>
+                          <el-button type="primary" @click="remove(index)">
+{{
                             $t('680103fe.38cf16')
-                          }}</el-button>
+                          }}
+</el-button>
                         </div>
                         <a
                           v-if="!isEditting"

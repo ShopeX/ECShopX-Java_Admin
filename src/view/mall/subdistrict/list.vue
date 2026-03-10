@@ -11,9 +11,11 @@
       </SpFilterFormItem>
     </SpFilterForm>
     <div class="action-container">
-      <el-button type="primary" plain @click="appendTop(categoryList)">{{
+      <el-button type="primary" plain @click="appendTop(categoryList)">
+{{
         $t('92b45fc2.6fe2de')
-      }}</el-button>
+      }}
+</el-button>
     </div>
     <el-card>
       <el-dialog
@@ -132,9 +134,11 @@
             <el-button v-if="scope.row.parent_id === '0'" type="text" @click="append(scope.row)">
               {{ $t('92b45fc2.a8348b') }}
             </el-button>
-            <el-button type="text" @click="editCategory(scope.row)">{{
+            <el-button type="text" @click="editCategory(scope.row)">
+{{
               $t('92b45fc2.95b351')
-            }}</el-button>
+            }}
+</el-button>
             <el-button type="text" @click.native.prevent="deleteCategory(scope.row)">
               {{ $t('92b45fc2.2f4aad') }}
             </el-button>

@@ -11,7 +11,7 @@
       <el-input
         v-if="showInput"
         v-model="value"
-        placeholder="请输入内容"
+        :placeholder="$t('a2bf2d04.a11cc7')"
         size="mini"
         maxlength="10"
         show-word-limit
@@ -24,7 +24,7 @@
         plain
         @click="addLabel"
       >
-        + 添加
+        {{ $t('a2bf2d04.ed7823') }}
       </el-button>
     </div>
     <div

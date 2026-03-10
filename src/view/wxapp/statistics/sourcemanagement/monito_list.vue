@@ -13,9 +13,11 @@
           </el-form-item>
           <div class="flex-right">
             <el-button size="small" @click="handleReset">{{ $t('7b552e7b.4b9c32') }}</el-button>
-            <el-button size="small" type="primary" @click="getSearchDataList()">{{
+            <el-button size="small" type="primary" @click="getSearchDataList()">
+{{
               $t('7b552e7b.e5f71f')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </el-form>
         <el-row>
@@ -169,9 +171,11 @@
           </el-transfer>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogVisibleSources = false">{{ $t('7b552e7b.c08ab9') }}</el-button>
-            <el-button v-debounce="saveSources" type="primary">{{
+            <el-button v-debounce="saveSources" type="primary">
+{{
               $t('7b552e7b.aa7527')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </template>
       </el-dialog>

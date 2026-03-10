@@ -11,16 +11,18 @@
       :percentage="exportPercent"
       type="circle"
       width="40"
-    ></el-progress>
+    />
 
     <div>
       <span v-if="exportPercent < 100" style="color: #e6a23c; line-height: 40px">{{
         $t('089d6e70.45893e')
       }}</span>
       <span v-else style="color: #67c23a; line-height: 40px">{{ $t('089d6e70.498a19') }}</span>
-      <el-button v-if="exportPercent < 100" size="mini" type="warning" @click="hanleStop">{{
+      <el-button v-if="exportPercent < 100" size="mini" type="warning" @click="hanleStop">
+{{
         $t('089d6e70.84fac4')
-      }}</el-button>
+      }}
+</el-button>
     </div>
   </div>
 </template>

@@ -96,7 +96,7 @@
                     />
                     <span
                       v-html="highlightText(menu.name, keyword, selectedIndex === index)"
-                    ></span>
+                    />
                   </div>
                   <div v-if="menu.path" class="text-xs text-gray-400 mt-1">{{ menu.path }}</div>
                 </div>

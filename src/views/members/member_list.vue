@@ -220,9 +220,11 @@
       </SpFilterForm>
 
       <div class="action-container">
-        <el-button type="primary" @click="showTagDialog = true">{{
+        <el-button type="primary" @click="showTagDialog = true">
+{{
           $t('ff557c54.fedbca')
-        }}</el-button>
+        }}
+</el-button>
         <el-button v-if="!VERSION_IN_PURCHASE()" type="primary" @click="onSelectCoupon">
           {{ $t('ff557c54.afa583') }}
         </el-button>
@@ -243,9 +245,11 @@
         >
           {{ $t('ff557c54.1eaeee') }}
         </el-button>
-        <el-button type="primary" @click="batchActionDialog('change_shop')">{{
+        <el-button type="primary" @click="batchActionDialog('change_shop')">
+{{
           $t('ff557c54.2b518f')
-        }}</el-button>
+        }}
+</el-button>
         <el-button type="primary" @click="exportData">{{ $t('ff557c54.55405e') }}</el-button>
       </div>
 
@@ -351,9 +355,11 @@
               </el-row>
             </el-form-item>
             <el-form-item class="content-center">
-              <el-button type="primary" @click="handleVipGradeDelay(true)">{{
+              <el-button type="primary" @click="handleVipGradeDelay(true)">
+{{
                 $t('ff557c54.bb47cb')
-              }}</el-button>
+              }}
+</el-button>
             </el-form-item>
           </el-form>
         </template>
@@ -382,9 +388,11 @@
               </el-row>
             </el-form-item>
             <el-form-item class="content-center">
-              <el-button type="primary" @click="gradeUpdateSubmit">{{
+              <el-button type="primary" @click="gradeUpdateSubmit">
+{{
                 $t('ff557c54.49d2ff')
-              }}</el-button>
+              }}
+</el-button>
             </el-form-item>
           </el-form>
         </template>
@@ -430,12 +438,16 @@
             @current-change="handleCurrentChange"
           />
           <div class="content-padded content-center">
-            <el-button type="default" @click="dialogIsShow = false">{{
+            <el-button type="default" @click="dialogIsShow = false">
+{{
               $t('ff557c54.625fb2')
-            }}</el-button>
-            <el-button type="primary" @click="setSalesman(true)">{{
+            }}
+</el-button>
+            <el-button type="primary" @click="setSalesman(true)">
+{{
               $t('ff557c54.38cf16')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </template>
 
@@ -519,9 +531,11 @@
               </template>
             </el-form-item>
             <el-form-item class="content-center">
-              <el-button type="primary" @click="infoUpdateSubmit">{{
+              <el-button type="primary" @click="infoUpdateSubmit">
+{{
                 $t('ff557c54.49d2ff')
-              }}</el-button>
+              }}
+</el-button>
             </el-form-item>
           </el-form>
         </template>
@@ -545,9 +559,11 @@
               <el-input v-model="form.newMobile" :placeholder="$t('ff557c54.8098e2')" />
             </el-form-item>
             <el-form-item class="content-center ml-[30px]">
-              <el-button type="primary" @click="onEditMobileSubmit">{{
+              <el-button type="primary" @click="onEditMobileSubmit">
+{{
                 $t('ff557c54.b04fcb')
-              }}</el-button>
+              }}
+</el-button>
             </el-form-item>
           </el-form>
         </template>
@@ -577,9 +593,11 @@
               <el-input v-model="remarksForm.input" :placeholder="remarksForm.placeholder" />
             </el-form-item>
             <el-form-item class="content-center ml-[50px]">
-              <el-button type="primary" @click="editRemarks()">{{
+              <el-button type="primary" @click="editRemarks()">
+{{
                 $t('ff557c54.38cf16')
-              }}</el-button>
+              }}
+</el-button>
             </el-form-item>
           </el-form>
         </template>
@@ -613,9 +631,11 @@
           <el-table-column prop="mobile" :label="$t('ff557c54.8098e2')" />
           <el-table-column prop="disabled" :label="$t('ff557c54.3fea7c')">
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.disabled == '0'" type="success" size="mini">{{
+              <el-tag v-if="scope.row.disabled == '0'" type="success" size="mini">
+{{
                 $t('ff557c54.c6cc39')
-              }}</el-tag>
+              }}
+</el-tag>
               <el-tag v-else type="info" size="mini">{{ $t('ff557c54.1abbb1') }}</el-tag>
             </template>
           </el-table-column>
@@ -631,9 +651,11 @@
         </div>
         <div slot="footer" class="dialog-footer content-center">
           <el-button @click.native="handleCancelSuperior">{{ $t('ff557c54.625fb2') }}</el-button>
-          <el-button type="primary" @click="submitSuperiorAction">{{
+          <el-button type="primary" @click="submitSuperiorAction">
+{{
             $t('ff557c54.38cf16')
-          }}</el-button>
+          }}
+</el-button>
         </div>
       </el-dialog>
 

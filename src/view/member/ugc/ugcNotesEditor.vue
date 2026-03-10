@@ -28,9 +28,11 @@
       <el-form-item :label="$t('509e5e05.6df5ba')" prop="p_order" class="notMBot">
         <el-row>
           <el-col :span="4">
-            <el-checkbox v-model="is_top" @change="serialChanges">{{
+            <el-checkbox v-model="is_top" @change="serialChanges">
+{{
               $t('509e5e05.1b8e54')
-            }}</el-checkbox>
+            }}
+</el-checkbox>
           </el-col>
           <el-col :span="20">
             <span class="text text-ml">{{ $t('509e5e05.bd797f') }}</span>

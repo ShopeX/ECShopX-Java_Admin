@@ -239,9 +239,11 @@
                 <span class="tipinfo">
                   <i class="el-alert__icon el-icon-info" />{{ $t('a2236866.db2e07') }}
                 </span>
-                <el-checkbox :value="isAllCheck" @change="handleAllSelect">{{
+                <el-checkbox :value="isAllCheck" @change="handleAllSelect">
+{{
                   $t('a2236866.66eeac')
-                }}</el-checkbox>
+                }}
+</el-checkbox>
               </div>
               <div class="goodsimages-bd pics-box">
                 <ul class="goodspic-wrap">

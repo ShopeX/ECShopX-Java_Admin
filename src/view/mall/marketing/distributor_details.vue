@@ -9,7 +9,7 @@
       <el-card>
         <el-row>
           <el-col :span="3">
-            <img class="cus-details-img" src="@/assets/img/adapay/store.png" alt="" />
+            <img class="cus-details-img" src="@/assets/img/adapay/store.png" alt="">
           </el-col>
           <el-col :span="20">
             <div class="cus-details-flex">
@@ -118,9 +118,11 @@
               <el-button v-if="accountInfo.audit_state != 'A'" type="primary" @click="editHandle">
                 {{ $t('d7f0eef5.95b351') }}
               </el-button>
-              <el-button v-if="accountInfo.audit_state == 'A'">{{
+              <el-button v-if="accountInfo.audit_state == 'A'">
+{{
                 $t('d7f0eef5.b720a6')
-              }}</el-button>
+              }}
+</el-button>
             </div>
           </el-tab-pane>
           <el-tab-pane

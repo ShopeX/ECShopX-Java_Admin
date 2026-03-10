@@ -27,12 +27,16 @@
       <el-table-column :label="$t('31921bc0.2b6bc0')">
         <template slot-scope="scope">
           <div class="operating-icons gap-2">
-            <el-button type="text" @click="editRoleAction(scope.$index, scope.row)">{{
+            <el-button type="text" @click="editRoleAction(scope.$index, scope.row)">
+{{
               $t('31921bc0.95b351')
-            }}</el-button>
-            <el-button type="text" @click="deleteRoleAction(scope.$index, scope.row)">{{
+            }}
+</el-button>
+            <el-button type="text" @click="deleteRoleAction(scope.$index, scope.row)">
+{{
               $t('31921bc0.2f4aad')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </template>
       </el-table-column>

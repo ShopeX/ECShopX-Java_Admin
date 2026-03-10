@@ -168,7 +168,7 @@
                               @mouseenter="picsEnter(index)"
                               @mouseleave="picsLeave"
                             >
-                              <img :src="wximageurl + item" />
+                              <img :src="wximageurl + item">
                               <div class="goodspic-mask" :class="picsCurrent == index ? 'on' : ''">
                                 <!-- <div class="el-icon-delete" /> -->
                                 <SpIcon name="delete" @click="removePicsImg(index)" />

@@ -9,12 +9,16 @@
     <div class="decorate-hd">
       <div class="hd-lf">{{ localTitle }}</div>
       <div class="hd-rg">
-        <el-button v-if="mode == 'page'" plain @click="onExit">{{
+        <el-button v-if="mode == 'page'" plain @click="onExit">
+{{
           $t('c3827da6.5094c1')
-        }}</el-button>
-        <el-button v-if="mode == 'dialog'" plain @click="onClose">{{
+        }}
+</el-button>
+        <el-button v-if="mode == 'dialog'" plain @click="onClose">
+{{
           $t('c3827da6.b15d91')
-        }}</el-button>
+        }}
+</el-button>
         <el-button type="primary" @click="onSaveTemplate">{{ $t('c3827da6.be5fbb') }}</el-button>
       </div>
     </div>

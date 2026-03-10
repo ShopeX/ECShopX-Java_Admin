@@ -7,9 +7,11 @@
   <SpPage :title="$t('fe5e608b.2efe2e')">
     <template slot="page-footer">
       <div class="text-center">
-        <el-button type="primary" :loading="loading" @click="onSubmit">{{
+        <el-button type="primary" :loading="loading" @click="onSubmit">
+{{
           $t('fe5e608b.be5fbb')
-        }}</el-button>
+        }}
+</el-button>
       </div>
     </template>
     <Form />

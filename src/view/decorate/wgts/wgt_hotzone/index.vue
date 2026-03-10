@@ -48,7 +48,7 @@
         }"
       >
         <div slot="error" class="wgt-hotzone-error">
-          <img :src="dImage" width="100%" height="100%" style="object-fit: cover" />
+          <img :src="dImage" width="100%" height="100%" style="object-fit: cover">
         </div>
       </el-image>
     </div>

@@ -8,7 +8,7 @@
           :src="value.titleText.image"
           class="header-image"
           alt=""
-        />
+        >
         <span
           v-if="value.titleText && value.titleText.type === 'text' && value.titleText.text"
           :style="{ color: value.titleColor }"
@@ -31,7 +31,7 @@
       <div v-for="(item, index) in goodsList" :key="`goods-${index}`" class="goods-goods-item">
         <!-- 商品图片 -->
         <div class="goods-img-wrapper">
-          <img :src="item.main_img || item.pics?.[0] || ''" class="goods-image" alt="" />
+          <img :src="item.main_img || item.pics?.[0] || ''" class="goods-image" alt="">
           <!-- 满减标签 -->
           <div v-if="getPromotionText(item)" class="promotion-label">
             {{ getPromotionText(item) }}

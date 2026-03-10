@@ -34,7 +34,7 @@
               v-for="(item, index) in props.row.attribute_values.list"
               :key="index"
               class="sku-value"
-              ><img v-if="item.image_url" class="sku-img" :src="item.image_url" />{{
+              ><img v-if="item.image_url" class="sku-img" :src="item.image_url">{{
                 item.attribute_value
               }}</span
             >
@@ -102,7 +102,7 @@
             class="view-flex view-flex-middle key-item"
           >
             <div v-if="form.is_image" class="upload-box" @click="handleImgPicker(index)">
-              <img v-if="item.image_url" :src="item.image_url" class="avatar" />
+              <img v-if="item.image_url" :src="item.image_url" class="avatar">
               <i v-else class="el-icon-camera avatar-uploader-icon" />
             </div>
             <div
@@ -112,7 +112,7 @@
               <el-input v-model="item.attribute_value" :placeholder="$t('0712913a.2690c2')" />
             </div>
             <div @click="removeItem(index)">
-              <i class="el-icon-delete-solid"></i>
+              <i class="el-icon-delete-solid" />
             </div>
           </div>
           <el-button type="default" size="small" @click="addItem">

@@ -94,9 +94,11 @@
       </div>
     </section>
     <section class="content-padded-s section-white content-center">
-      <el-button class="btn-save" type="primary" @click="saveConfig">{{
+      <el-button class="btn-save" type="primary" @click="saveConfig">
+{{
         $t('ff3539e3.be5fbb')
-      }}</el-button>
+      }}
+</el-button>
     </section>
   </div>
 </template>

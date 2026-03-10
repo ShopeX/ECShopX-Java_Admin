@@ -10,12 +10,16 @@
         <el-col :span="12">
           {{ $t('3919fa23.69fc26') }}
           <el-select v-model="store_type" @change="storeChange">
-            <el-option :label="$t('3919fa23.4b940c')" :value="1">{{
+            <el-option :label="$t('3919fa23.4b940c')" :value="1">
+{{
               $t('3919fa23.4b940c')
-            }}</el-option>
-            <el-option :label="$t('3919fa23.c26325')" :value="2">{{
+            }}
+</el-option>
+            <el-option :label="$t('3919fa23.c26325')" :value="2">
+{{
               $t('3919fa23.c26325')
-            }}</el-option>
+            }}
+</el-option>
           </el-select>
         </el-col>
         <el-col :span="12" class="content-right">
@@ -77,9 +81,11 @@
             >
               {{ $t('3919fa23.95b351') }}
             </el-button>
-            <el-button v-else size="mini" type="text" :disabled="true">{{
+            <el-button v-else size="mini" type="text" :disabled="true">
+{{
               $t('3919fa23.95b351')
-            }}</el-button>
+            }}
+</el-button>
           </template>
         </el-table-column>
       </el-table>

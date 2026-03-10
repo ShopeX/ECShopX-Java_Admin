@@ -39,9 +39,11 @@
     </el-form>
     <template slot="page-footer">
       <div class="text-center">
-        <el-button v-loading="loading" type="primary" @click="onSubmit">{{
+        <el-button v-loading="loading" type="primary" @click="onSubmit">
+{{
           $t('5ccb7b76.be5fbb')
-        }}</el-button>
+        }}
+</el-button>
       </div>
     </template>
   </SpPage>

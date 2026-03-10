@@ -39,11 +39,15 @@
               v-if="activeCollapse.length === 0"
               size="small"
               @click="expandAll"
-              >{{ $t('b0eef2c3.699371') }}</el-button
+              >
+{{ $t('b0eef2c3.699371') }}
+</el-button
             >
-            <el-button type="text" v-else size="small" @click="collapseAll">{{
+            <el-button type="text" v-else size="small" @click="collapseAll">
+{{
               $t('b0eef2c3.b77295')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </div>
         <el-collapse v-model="activeCollapse">
@@ -130,7 +134,7 @@
                       v-if="isEditMode"
                       class="el-icon-close cursor-pointer text-[#909399] hover:text-[#f56c6c]"
                       @click="removeCharacteristicByItem(item)"
-                    ></i>
+                    />
                   </div>
                   <div class="p-4">
                     <!-- 渲染子条件表单 -->
@@ -160,7 +164,9 @@
               size="small"
               :disabled="!isEditMode"
               @click="onSearchChange"
-              >{{ $t('b0eef2c3.bee912') }}</el-button
+              >
+{{ $t('b0eef2c3.bee912') }}
+</el-button
             >
           </div>
         </div>
@@ -176,7 +182,9 @@
               size="small"
               @click="showTagDialog = true"
               :disabled="!isEditMode"
-              >{{ $t('b0eef2c3.d2a769') }}</el-button
+              >
+{{ $t('b0eef2c3.d2a769') }}
+</el-button
             >
 
             <!-- 已选标签展示 -->
@@ -208,12 +216,16 @@
     </div>
     <template slot="page-footer">
       <div class="text-center">
-        <el-button @click="handleCancel">{{
+        <el-button @click="handleCancel">
+{{
           isEditMode ? $t('b0eef2c3.625fb2') : $t('b0eef2c3.5f4112')
-        }}</el-button>
-        <el-button v-if="isEditMode" type="primary" @click="handleSave">{{
+        }}
+</el-button>
+        <el-button v-if="isEditMode" type="primary" @click="handleSave">
+{{
           $t('b0eef2c3.be5fbb')
-        }}</el-button>
+        }}
+</el-button>
       </div>
     </template>
   </SpPage>

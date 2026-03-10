@@ -14,9 +14,11 @@
       :title="i18n.t('dfd5d828.45bcee')"
       width="80vw"
     >
-      <el-button type="primary" size="small" @click="onAddCoupon">{{
+      <el-button type="primary" size="small" @click="onAddCoupon">
+{{
         i18n.t('dfd5d828.45bcee')
-      }}</el-button>
+      }}
+</el-button>
       <SpFinder
         ref="finder"
         no-selection

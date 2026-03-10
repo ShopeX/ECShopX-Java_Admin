@@ -57,9 +57,11 @@
         </el-form-item>
       </div>
       <div class="section-footer content-center">
-        <el-button v-loading="loading" type="primary" @click="saveConfig">{{
+        <el-button v-loading="loading" type="primary" @click="saveConfig">
+{{
           $t('ae282f25.be5fbb')
-        }}</el-button>
+        }}
+</el-button>
       </div>
     </el-form>
   </div>

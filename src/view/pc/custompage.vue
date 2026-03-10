@@ -8,9 +8,11 @@
     <div v-if="$route.path.indexOf('detail') === -1">
       <el-row :gutter="20">
         <el-col :span="4">
-          <el-button type="primary" icon="plus" @click="openDialog()">{{
+          <el-button type="primary" icon="plus" @click="openDialog()">
+{{
             $t('44440ad6.4c503b')
-          }}</el-button>
+          }}
+</el-button>
         </el-col>
       </el-row>
       <el-table v-loading="loading" :data="list" :height="wheight - 140">

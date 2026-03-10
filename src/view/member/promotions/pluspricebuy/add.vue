@@ -294,7 +294,7 @@
                 v-if="form.activity_background"
                 :src="wximageurl + form.activity_background"
                 class="avatar"
-              />
+              >
               <i v-else class="el-icon-plus avatar-uploader-icon" />
             </div>
           </div>

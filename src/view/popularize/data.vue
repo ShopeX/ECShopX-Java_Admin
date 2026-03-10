@@ -42,7 +42,8 @@
           </el-button>
 
           <el-button type="primary" plain @click="exportPopularizeOrder">
-            {{ $t('b03b1d5f.bf0b43') }} </el-button
+            {{ $t('b03b1d5f.bf0b43') }}
+</el-button
           >* {{ $t('b03b1d5f.1a1ed0') }}
         </div>
 

@@ -6,9 +6,11 @@
 <template>
   <div class="section-white content-padded">
     <div class="content-bottom-padded">
-      <el-button type="primary" @click="showDialog">{{
+      <el-button type="primary" @click="showDialog">
+{{
         $t('4171686f.5b102f', [dataList.length])
-      }}</el-button>
+      }}
+</el-button>
     </div>
     <el-table v-loading="loading" :data="dataList" :height="wheight - 200">
       <el-table-column prop="money" :label="$t('4171686f.3df354')" />

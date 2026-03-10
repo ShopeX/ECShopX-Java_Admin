@@ -32,8 +32,10 @@
           :show-file-list="false"
         >
           <el-button type="primary"
-            >{{ $t('22d29d8e.8d9a07') }}<i class="el-icon-upload el-icon--right"
-          /></el-button>
+            >
+{{ $t('22d29d8e.8d9a07') }}<i class="el-icon-upload el-icon--right"
+          />
+</el-button>
         </el-upload>
       </div>
       <div
@@ -43,13 +45,13 @@
         <div class="el-table__header-wrapper">
           <table cellspacing="0" cellpadding="0" border="0" class="el-table__header">
             <colgroup>
-              <col name="el-table_5_column_31" width="220" />
-              <col name="el-table_5_column_32" width="230" />
-              <col name="el-table_5_column_33" width="100" />
-              <col name="el-table_5_column_34" width="100" />
-              <col name="el-table_5_column_35" width="100" />
-              <col name="el-table_5_column_36" width="100" />
-              <col name="el-table_5_column_37" width="927" />
+              <col name="el-table_5_column_31" width="220">
+              <col name="el-table_5_column_32" width="230">
+              <col name="el-table_5_column_33" width="100">
+              <col name="el-table_5_column_34" width="100">
+              <col name="el-table_5_column_35" width="100">
+              <col name="el-table_5_column_36" width="100">
+              <col name="el-table_5_column_37" width="927">
             </colgroup>
             <thead class="">
               <tr class="">
@@ -89,13 +91,13 @@
               <div class="el-table__body-wrapper">
                 <table cellspacing="0" cellpadding="0" border="0" class="el-table__body">
                   <colgroup>
-                    <col name="el-table_5_column" width="220" />
-                    <col name="el-table_5_column" width="230" />
-                    <col name="el-table_5_column" width="100" />
-                    <col name="el-table_5_column" width="100" />
-                    <col name="el-table_5_column" width="100" />
-                    <col name="el-table_5_column" width="100" />
-                    <col name="el-table_5_column" width="927" />
+                    <col name="el-table_5_column" width="220">
+                    <col name="el-table_5_column" width="230">
+                    <col name="el-table_5_column" width="100">
+                    <col name="el-table_5_column" width="100">
+                    <col name="el-table_5_column" width="100">
+                    <col name="el-table_5_column" width="100">
+                    <col name="el-table_5_column" width="927">
                   </colgroup>
                   <thead class="">
                     <tr class="" style="font-size: 12px; color: #606266; font-weight: 400">
@@ -162,19 +164,27 @@
                           style="width: 80px"
                           class="cell"
                         >
-                          <template v-if="item_menu_type === 'b2c'">{{
+                          <template v-if="item_menu_type === 'b2c'">
+{{
                             $t('22d29d8e.34e314')
-                          }}</template>
+                          }}
+</template>
                           <template v-if="item_menu_type === 'platform'">ECX</template>
-                          <template v-if="item_menu_type === 'standard'">{{
+                          <template v-if="item_menu_type === 'standard'">
+{{
                             $t('22d29d8e.8adeba')
-                          }}</template>
-                          <template v-if="item_menu_type === 'in_purchase'">{{
+                          }}
+</template>
+                          <template v-if="item_menu_type === 'in_purchase'">
+{{
                             $t('22d29d8e.9e498b')
-                          }}</template>
-                          <template v-if="item_menu_type === 'all'">{{
+                          }}
+</template>
+                          <template v-if="item_menu_type === 'all'">
+{{
                             $t('22d29d8e.aa05fd')
-                          }}</template>
+                          }}
+</template>
                         </div>
                       </td>
                       <td colspan="1" rowspan="1" class="el-table_5_column_37 is-leaf">

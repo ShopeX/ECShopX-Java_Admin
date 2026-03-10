@@ -6,9 +6,11 @@
 <template>
   <div class="section-white content-padded">
     <div>
-      <el-button size="small" type="text" @click="handleBack">{{
+      <el-button size="small" type="text" @click="handleBack">
+{{
         $t('e0ae4653.5f4112')
-      }}</el-button>
+      }}
+</el-button>
       {{ $t('e0ae4653.e3a8a6') }}：<a href="#" class="page-name"
         >{{ detail.monitor_path
         }}<span v-show="detail.monitor_path_params != ''"
@@ -147,7 +149,7 @@
             <div class="grid-content">{{ $t('e0ae4653.a73d17') }}</div>
           </el-col>
           <el-col :span="15">
-            <img :src="wxaCodeInfo.code_src" style="width: 100%; height: 100%" />
+            <img :src="wxaCodeInfo.code_src" style="width: 100%; height: 100%">
           </el-col>
         </el-row>
         <el-row class="row-bg-btn">

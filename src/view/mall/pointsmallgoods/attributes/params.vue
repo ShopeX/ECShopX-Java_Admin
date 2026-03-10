@@ -94,7 +94,7 @@
               <el-input v-model="item.attribute_value" :placeholder="$t('54b88254.a0386a')" />
             </div>
             <div @click="removeItem(index)">
-              <i class="el-icon-delete-solid"></i>
+              <i class="el-icon-delete-solid" />
             </div>
           </div>
           <el-button type="default" size="small" @click="addItem">

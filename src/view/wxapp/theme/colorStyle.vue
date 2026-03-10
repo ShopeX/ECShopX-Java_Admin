@@ -59,9 +59,11 @@
               <el-color-picker v-model="form.data[0].marketing" />
             </el-form-item> -->
         </el-form>
-        <el-button class="btn-save" type="primary" @click="saveConfig">{{
+        <el-button class="btn-save" type="primary" @click="saveConfig">
+{{
           $t('7b3cf89a.be5fbb')
-        }}</el-button>
+        }}
+</el-button>
       </div>
       <div class="pages-view-warp">
         <div class="pages-view" :style="'width: ' + Math.floor((wwidth - 250) / 268) * 268 + 'px'">
@@ -75,7 +77,7 @@
                 : 'background:' + form.data[0].marketing
             "
           >
-            <img :src="item.img" />
+            <img :src="item.img">
           </div>
         </div>
       </div>

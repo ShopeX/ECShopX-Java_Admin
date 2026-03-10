@@ -58,9 +58,11 @@
               <el-input v-model="domain.value" width="20" />
             </el-col>
             <el-col v-if="index > 1" :span="5">
-              <el-button @click.prevent="removeDomain(domain)">{{
+              <el-button @click.prevent="removeDomain(domain)">
+{{
                 $t('8da83775.2f4aad')
-              }}</el-button>
+              }}
+</el-button>
             </el-col>
           </el-row>
           <el-row>
@@ -92,9 +94,11 @@
           "
         >
           <el-col :span="15">
-            <el-button type="primary" circle @click="addOption">{{
+            <el-button type="primary" circle @click="addOption">
+{{
               $t('c831a478.c0a0f2')
-            }}</el-button>
+            }}
+</el-button>
           </el-col>
         </el-form-item>
         <!-- field_name：{{form.field_name}} | defalutFileName:{{defalutFileName}} -->

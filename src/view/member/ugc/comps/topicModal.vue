@@ -77,12 +77,16 @@
         </div>
       </div>
       <div slot="footer">
-        <el-button type="primary" size="small" @click="modalHandle">{{
+        <el-button type="primary" size="small" @click="modalHandle">
+{{
           $t('09b91dec.e83a25')
-        }}</el-button>
-        <el-button size="small" @click="handleCancelLabelsDialog">{{
+        }}
+</el-button>
+        <el-button size="small" @click="handleCancelLabelsDialog">
+{{
           $t('09b91dec.625fb2')
-        }}</el-button>
+        }}
+</el-button>
       </div>
     </el-dialog>
   </div>

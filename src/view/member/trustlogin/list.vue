@@ -11,9 +11,11 @@
           <el-table :data="list.standard">
             <el-table-column :label="$t('8da83775.2b6bc0')" width="150">
               <template slot-scope="scope">
-                <el-button type="text" @click="handleEdit(scope.row, 'standard')">{{
+                <el-button type="text" @click="handleEdit(scope.row, 'standard')">
+{{
                   $t('b64b502c.224e2c')
-                }}</el-button>
+                }}
+</el-button>
               </template>
             </el-table-column>
             <el-table-column :label="$t('b64b502c.d7ec2d')" width="150">
@@ -47,9 +49,11 @@
           <el-table :data="list.touch">
             <el-table-column :label="$t('8da83775.2b6bc0')" width="150">
               <template slot-scope="scope">
-                <el-button type="text" @click="handleEdit(scope.row, 'touch')">{{
+                <el-button type="text" @click="handleEdit(scope.row, 'touch')">
+{{
                   $t('b64b502c.224e2c')
-                }}</el-button>
+                }}
+</el-button>
               </template>
             </el-table-column>
             <el-table-column :label="$t('b64b502c.d7ec2d')" width="150">
@@ -94,9 +98,11 @@
             <el-switch v-model="form.status" />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="statusChange(form)">{{
+            <el-button type="primary" @click="statusChange(form)">
+{{
               $t('b64b502c.939d53')
-            }}</el-button>
+            }}
+</el-button>
           </el-form-item>
         </el-form>
       </sideBar>

@@ -109,9 +109,11 @@
                 >
                   {{ $t('a0d7a294.cf13b1') }}
                 </el-button>
-                <el-button type="text" @click="onLinkChange(scope.row)">{{
+                <el-button type="text" @click="onLinkChange(scope.row)">
+{{
                   $t('a0d7a294.f26225')
-                }}</el-button>
+                }}
+</el-button>
                 <el-button
                   type="text"
                   v-if="scope.row.status == 'passed'"

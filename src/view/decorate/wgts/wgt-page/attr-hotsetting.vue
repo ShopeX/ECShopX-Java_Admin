@@ -33,9 +33,11 @@
     >
       <div v-if="dialog" class="">
         <div>
-          <el-button type="primary" size="small" plain @click="onSelectImage">{{
+          <el-button type="primary" size="small" plain @click="onSelectImage">
+{{
             i18n.t('819142e7.ba9fc4')
-          }}</el-button>
+          }}
+</el-button>
           <span style="font-size: 12px; color: #888; margin-left: 4px">{{
             i18n.t('819142e7.818403')
           }}</span>

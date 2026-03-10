@@ -250,9 +250,11 @@
       </el-table-column>
       <el-table-column width="80">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="onFillSpecItems">{{
+          <el-button type="primary" size="mini" @click="onFillSpecItems">
+{{
             $t('20da51cd.756e44')
-          }}</el-button>
+          }}
+</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -364,9 +366,11 @@
       </el-table-column>
       <el-table-column width="80">
         <template slot-scope="scope">
-          <el-button type="text" @click="onClearSpecItem(scope.$index)">{{
+          <el-button type="text" @click="onClearSpecItem(scope.$index)">
+{{
             $t('20da51cd.4403fc')
-          }}</el-button>
+          }}
+</el-button>
         </template>
       </el-table-column>
     </el-table>

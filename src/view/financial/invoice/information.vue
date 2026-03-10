@@ -19,13 +19,15 @@
         @select-all="handleSelectionChange"
         @selection-change="handleSelectionChange"
       >
-        <template v-slot:tableTop>
+        <template #tableTop>
           <el-button
             class="add-btn"
             type="primary"
             icon="iconfont icon-xinzengcaozuo-01"
             @click="handleAdd"
-            >{{ $t('1c61c845.cf0b06') }}</el-button
+            >
+{{ $t('1c61c845.cf0b06') }}
+</el-button
           >
         </template>
       </SpFinder>

@@ -9,7 +9,7 @@
       <el-col v-for="(item, index) in goods" :key="index" :xs="24" :sm="12" :md="8" :lg="6">
         <div class="goods">
           <div class="goods-thumbnail">
-            <img :src="item.pics[0]" alt="" />
+            <img :src="item.pics[0]" alt="">
           </div>
           <div class="goods-caption">
             <div class="goods-title">
@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="goods-remove" @click="handleSkuRemove(index)">
-            <i class="el-icon-delete"></i>
+            <i class="el-icon-delete" />
           </div>
         </div>
       </el-col>
@@ -38,7 +38,7 @@
       <el-button type="primary" @click="handleGoodsDialogShow" :disabled="disabled">
         {{ $t('029be014.43d1e2') }}
       </el-button>
-      <slot name="selectGoodsButton"></slot>
+      <slot name="selectGoodsButton" />
     </div>
     <el-dialog :title="$t('029be014.8aa2c1')" :visible.sync="dialogVisible" width="50%">
       <el-table ref="skuTable" v-loading="loading" :data="skus" @selection-change="handleSkuChange">

@@ -36,9 +36,11 @@
         <iframe :src="bindUrl" width="1200" height="980" frameborder="0" scrolling="auto" />
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogBindVisible = false">{{
+        <el-button type="primary" @click="dialogBindVisible = false">
+{{
           $t('073515a8.9d2578')
-        }}</el-button>
+        }}
+</el-button>
       </div>
     </el-dialog>
 
@@ -47,9 +49,11 @@
         <iframe :src="lookUrl" width="1200" height="980" frameborder="0" scrolling="auto" />
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogLookVisible = false">{{
+        <el-button type="primary" @click="dialogLookVisible = false">
+{{
           $t('073515a8.9d2578')
-        }}</el-button>
+        }}
+</el-button>
       </div>
     </el-dialog>
   </SpPage>

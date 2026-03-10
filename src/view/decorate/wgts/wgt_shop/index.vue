@@ -16,7 +16,7 @@
         <div class="shop-header">
           <div class="shop-info">
             <div class="shop-logo">
-              <img :src="value.distributor?.logo || defaultShopLogo" alt="店铺logo" />
+              <img :src="value.distributor?.logo || defaultShopLogo" alt="店铺logo">
             </div>
             <div class="shop-name">{{ item?.name || 'ADIDAS' }}</div>
           </div>

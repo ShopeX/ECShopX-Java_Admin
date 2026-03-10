@@ -46,7 +46,7 @@
                   @mouseenter="picsEnter(index)"
                   @mouseleave="picsLeave"
                 >
-                  <img :src="wximageurl + item" />
+                  <img :src="wximageurl + item">
                   <div class="goodspic-mask" :class="picsCurrent == index ? 'on' : ''">
                     <div class="el-icon-delete" @click="removePicsImg(index)" />
                     <div class="el-icon-rank" />
@@ -82,9 +82,11 @@
           </el-radio-group>
         </el-form-item>
         <div v-if="!zdShopHidden">
-          <el-button type="primary" @click="addDistributorAction">{{
+          <el-button type="primary" @click="addDistributorAction">
+{{
             $t('d8306401.afa2e6')
-          }}</el-button>
+          }}
+</el-button>
           <el-table
             v-if="distributor_info.length > 0"
             :data="distributor_info"

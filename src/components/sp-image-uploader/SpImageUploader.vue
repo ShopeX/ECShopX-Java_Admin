@@ -11,8 +11,7 @@
       :before-upload="beforeAvatarUpload"
       :on-success="handleAvatarSuccess"
       :on-error="uploadError"
-    >
-    </el-upload>
+    />
 
     <el-button
       v-if="!isPasteMode"

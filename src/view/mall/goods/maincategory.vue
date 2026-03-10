@@ -98,18 +98,22 @@
             <el-button v-if="scope.row.category_level < 3" type="text" @click="append(scope.row)">
               {{ $t('649bc56c.82537d') }}
             </el-button>
-            <el-button type="text" @click="editCategory(scope.row)">{{
+            <el-button type="text" @click="editCategory(scope.row)">
+{{
               $t('649bc56c.95b351')
-            }}</el-button>
+            }}
+</el-button>
             <!-- <el-button
               type="text"
               @click="taxRateSet(scope.row)"
             >
               跨境税率设置
             </el-button> -->
-            <el-button type="text" @click="deleteCategory(scope.row)">{{
+            <el-button type="text" @click="deleteCategory(scope.row)">
+{{
               $t('649bc56c.2f4aad')
-            }}</el-button>
+            }}
+</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -294,9 +298,11 @@
         {{ $t('649bc56c.041e89') }}{{ current.category_name }}
         <el-table v-loading="categoryLoading" :data="profitSpecCategory" height="100%" size="small">
           <el-table-column :label="$t('649bc56c.04d7d8')" prop="category_name" min-width="120" />
-          <el-table-column :label="$t('649bc56c.3d074c')">{{
+          <el-table-column :label="$t('649bc56c.3d074c')">
+{{
             $t('649bc56c.81522a')
-          }}</el-table-column>
+          }}
+</el-table-column>
           <el-table-column :label="$t('649bc56c.a38cb4')">
             <template slot-scope="scope">
               <el-input v-model="scope.row.profit_conf_profit" size="mini" type="number">

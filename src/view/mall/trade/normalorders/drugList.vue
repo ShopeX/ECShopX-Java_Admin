@@ -49,9 +49,11 @@
           </el-input>
         </el-col>
         <el-col :span="3">
-          <el-button size="mini" type="primary" @click="exportData">{{
+          <el-button size="mini" type="primary" @click="exportData">
+{{
             $t('a19ec3b5.55405e')
-          }}</el-button>
+          }}
+</el-button>
           <el-popover
             placement="top-start"
             width="200"

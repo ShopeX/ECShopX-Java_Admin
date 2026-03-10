@@ -7,8 +7,8 @@
   <div>
     <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
       <div class="tip-info">
-        <p v-html="$t('01fa6885.08f306')"></p>
-        <p v-html="$t('01fa6885.4f6279')"></p>
+        <p v-html="$t('01fa6885.08f306')" />
+        <p v-html="$t('01fa6885.4f6279')" />
       </div>
       <div v-for="item in pane_list" :key="item.name">
         <el-tab-pane :label="item.label" :name="item.name">

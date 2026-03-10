@@ -17,12 +17,16 @@
             class="appName"
             :placeholder="$t('965e5755.7d5cc3')"
           />
-          <el-button class="button" type="primary" @click="getList">{{
+          <el-button class="button" type="primary" @click="getList">
+{{
             $t('965e5755.bee912')
-          }}</el-button>
-          <el-button class="button" type="default" @click="reset">{{
+          }}
+</el-button>
+          <el-button class="button" type="default" @click="reset">
+{{
             $t('965e5755.4b9c32')
-          }}</el-button>
+          }}
+</el-button>
         </div>
         <el-button type="primary" @click="showEditModal()">{{ $t('965e5755.66ab5e') }}</el-button>
       </div>

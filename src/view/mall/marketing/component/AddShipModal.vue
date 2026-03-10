@@ -33,12 +33,16 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" size="small" @click="handleDialogChange">{{
+      <el-button type="primary" size="small" @click="handleDialogChange">
+{{
         $t('9c4b2ce5.aa7527')
-      }}</el-button>
-      <el-button type="primary" size="small" plain @click="handleDialogClose">{{
+      }}
+</el-button>
+      <el-button type="primary" size="small" plain @click="handleDialogClose">
+{{
         $t('9c4b2ce5.c08ab9')
-      }}</el-button>
+      }}
+</el-button>
     </div>
   </el-dialog>
 </template>

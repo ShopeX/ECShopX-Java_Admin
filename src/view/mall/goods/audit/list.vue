@@ -61,9 +61,11 @@
 
         <div class="action-container">
           <el-button type="primary" plain @click="Examine">{{ $t('c43c7afc.9fface') }}</el-button>
-          <el-button type="primary" plain @click="batchItemsStatus('onsale')">{{
+          <el-button type="primary" plain @click="batchItemsStatus('onsale')">
+{{
             $t('c43c7afc.644c0d')
-          }}</el-button>
+          }}
+</el-button>
           <el-button type="primary" plain @click="batchItemsStatus('instock')">
             {{ $t('c43c7afc.72aa38') }}
           </el-button>
@@ -96,9 +98,11 @@
               <el-table-column prop="itemName" :label="$t('c43c7afc.1fd1d5')" width="200">
                 <template slot-scope="scope">
                   {{ scope.row.item_name }}
-                  <el-tag v-if="scope.row.special_type == 'drug'" type="danger">{{
+                  <el-tag v-if="scope.row.special_type == 'drug'" type="danger">
+{{
                     $t('c43c7afc.e8b7e1')
-                  }}</el-tag>
+                  }}
+</el-tag>
 
                   <div style="color: #888; font-size: 12px">
                     {{ $t('c43c7afc.2c8af9') }}{{ scope.row.goods_bn }}

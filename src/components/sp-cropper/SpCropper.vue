@@ -48,7 +48,7 @@
                 @click="goToImage(currentIndex + 1)"
               >
                 {{ $t('a696d8cc.78374b') }}
-                <i class="el-icon-arrow-right"></i>
+                <i class="el-icon-arrow-right" />
               </el-button>
             </div>
 
@@ -117,8 +117,7 @@
                 :max="maxWidth"
                 size="small"
                 @change="handleWidthChange"
-              >
-              </el-input>
+              />
             </div>
 
             <div>
@@ -130,23 +129,20 @@
                 :max="maxHeight"
                 size="small"
                 @change="handleHeightChange"
-              >
-              </el-input>
+              />
             </div>
 
             <div v-if="cropCoordinates">
               <label class="text-sm mb-1 block">{{ $t('a696d8cc.f30659') }}</label>
               <div class="flex space-x-2">
-                <el-input :value="currentX" type="number" readonly size="small" class="flex-1">
-                </el-input>
+                <el-input :value="currentX" type="number" readonly size="small" class="flex-1" />
               </div>
             </div>
 
             <div v-if="cropCoordinates">
               <label class="text-sm mb-1 block">{{ $t('a696d8cc.17a0bb') }}</label>
               <div class="flex space-x-2">
-                <el-input :value="currentY" type="number" readonly size="small" class="flex-1">
-                </el-input>
+                <el-input :value="currentY" type="number" readonly size="small" class="flex-1" />
               </div>
             </div>
           </div>

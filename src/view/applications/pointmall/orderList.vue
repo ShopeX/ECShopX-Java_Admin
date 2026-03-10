@@ -62,9 +62,11 @@
               <el-button type="primary" @click="exportData('normal_master_order')">
                 {{ $t('829ad9f2.538414') }}
               </el-button>
-              <el-button type="primary" @click="exportData('normal_order')">{{
+              <el-button type="primary" @click="exportData('normal_order')">
+{{
                 $t('829ad9f2.82b914')
-              }}</el-button>
+              }}
+</el-button>
             </el-button-group>
             <el-popover
               placement="top-start"
@@ -463,9 +465,11 @@
           </template>
           <div slot="footer" class="dialog-footer">
             <el-button @click.native="handleCancel">{{ $t('829ad9f2.625fb2') }}</el-button>
-            <el-button type="primary" @click="submitDeliveryAction">{{
+            <el-button type="primary" @click="submitDeliveryAction">
+{{
               $t('829ad9f2.38cf16')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </el-dialog>
         <el-dialog
@@ -560,9 +564,11 @@
           </template>
           <div slot="footer" class="dialog-footer">
             <el-button @click.native="handleCancel">{{ $t('829ad9f2.625fb2') }}</el-button>
-            <el-button type="primary" @click="submitDeliveryAction">{{
+            <el-button type="primary" @click="submitDeliveryAction">
+{{
               $t('829ad9f2.38cf16')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </el-dialog>
 
@@ -638,12 +644,16 @@
                 <el-row>
                   <el-col :span="20">
                     <template>
-                      <el-radio v-model="cancelForm.check_cancel" label="0">{{
+                      <el-radio v-model="cancelForm.check_cancel" label="0">
+{{
                         $t('829ad9f2.1bf19c')
-                      }}</el-radio>
-                      <el-radio v-model="cancelForm.check_cancel" label="1">{{
+                      }}
+</el-radio>
+                      <el-radio v-model="cancelForm.check_cancel" label="1">
+{{
                         $t('829ad9f2.e61f2c')
-                      }}</el-radio>
+                      }}
+</el-radio>
                     </template>
                   </el-col>
                 </el-row>
@@ -663,12 +673,16 @@
             </el-form>
           </template>
           <div slot="footer" class="dialog-footer">
-            <el-button @click.native="handleCancelOrderCancel">{{
+            <el-button @click.native="handleCancelOrderCancel">
+{{
               $t('829ad9f2.625fb2')
-            }}</el-button>
-            <el-button type="primary" @click="submitCancelConfirmAction">{{
+            }}
+</el-button>
+            <el-button type="primary" @click="submitCancelConfirmAction">
+{{
               $t('829ad9f2.38cf16')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </el-dialog>
         <!-- 取消订单 -->
@@ -719,9 +733,11 @@
           </template>
           <div slot="footer" class="dialog-footer">
             <el-button @click.native="handleCancelOrder">{{ $t('829ad9f2.625fb2') }}</el-button>
-            <el-button type="primary" @click="submitCancelOrderConfirmAction">{{
+            <el-button type="primary" @click="submitCancelOrderConfirmAction">
+{{
               $t('829ad9f2.38cf16')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </el-dialog>
         <!-- 自提订单核销 -->
@@ -759,9 +775,11 @@
           </template>
           <div slot="footer" class="dialog-footer">
             <el-button @click.native="handleWriteoffOrder">{{ $t('829ad9f2.625fb2') }}</el-button>
-            <el-button type="primary" @click="submitWriteoffOrderConfirmAction">{{
+            <el-button type="primary" @click="submitWriteoffOrderConfirmAction">
+{{
               $t('829ad9f2.38cf16')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </el-dialog>
         <!-- 自提订单核销完成 -->
@@ -775,9 +793,11 @@
             <span>{{ writeoffOrderSucc.msg }}</span>
           </template>
           <div slot="footer" class="dialog-footer">
-            <el-button @click.native="handleWriteoffOrderSucc">{{
+            <el-button @click.native="handleWriteoffOrderSucc">
+{{
               $t('829ad9f2.ce2695')
-            }}</el-button>
+            }}
+</el-button>
           </div>
         </el-dialog>
       </div>
