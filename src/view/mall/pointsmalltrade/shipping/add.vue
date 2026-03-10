@@ -20,10 +20,10 @@
                 {{ $t('d41d8cd9.b2c3d4') }}
               </el-radio>
               <el-radio v-if="templatesId" v-model="form.is_free" disabled label="1">
-                {{ $t('d41d8cd9.e5f6g7') }}
+                {{ $t('d41d8cd9.f8g9h0') }}
               </el-radio>
               <el-radio v-else v-model="form.is_free" label="1">
-                {{ $t('d41d8cd9.e5f6g7') }}
+                {{ $t('d41d8cd9.f8g9h0') }}
               </el-radio>
               <p class="frm-tips">{{ $t('d41d8cd9.h8i9j0') }}</p>
             </el-form-item>
