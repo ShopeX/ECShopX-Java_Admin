@@ -169,6 +169,7 @@ const config = {
     }
 
     return {
+      id: v?.id,
       name,
       uuid,
       animate: 'horizontal', // 固定为横向
@@ -217,6 +218,7 @@ const config = {
   },
   transformOut: (v, wgtList) => {
     return pickBy(v, {
+      id: 'id',
       name: 'name',
       meber_tags: 'tags.meber_tags',
       no_meber_tags: 'tags.no_meber_tags',

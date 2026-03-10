@@ -86,6 +86,7 @@ const config = {
         : base?.imgHeight
 
     return {
+      id: v?.id,
       name,
       ...transformedBase,
       imgHeight: convertedBaseImgHeight,
@@ -105,6 +106,7 @@ const config = {
   },
   transformOut: (v) => {
     return pickBy(v, {
+      id: 'id',
       name: 'name',
       base: (v) => {
         // 使用公共函数处理 outerMargin 转换

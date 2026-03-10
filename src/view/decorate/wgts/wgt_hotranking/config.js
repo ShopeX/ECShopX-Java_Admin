@@ -118,6 +118,7 @@ const config = {
     }
 
     return {
+      id: v?.id,
       name: v.name,
       ...baseRest,
       // 数据数量：支持从顶层或 base 回显，预览/iframe 更新后能正确显示
@@ -142,6 +143,7 @@ const config = {
   },
   transformOut: (v, wgtList, regionauth_id) => {
     return pickBy(v, {
+      id: 'id',
       name: 'name',
       base: (v) => {
         // 使用公共函数处理 base 中的样式数据转换

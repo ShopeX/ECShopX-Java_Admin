@@ -168,6 +168,7 @@ const config = {
     // 使用公共函数处理 base 中的样式数据转换
     const transformedBase = transformInBase(base, ['outerMargin', 'innerPadding'])
     return {
+      id: v?.id,
       name,
       ...transformedBase,
       data,
@@ -180,6 +181,7 @@ const config = {
   },
   transformOut: (v) => {
     return pickBy(v, {
+      id: 'id',
       name: 'name',
       base: (v) => {
         // 使用公共函数处理 outerMargin 转换，同时保留其他字段

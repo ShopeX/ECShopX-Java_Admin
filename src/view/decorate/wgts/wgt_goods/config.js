@@ -186,6 +186,7 @@ const config = {
     }
 
     return {
+      id: v?.id,
       name: v.name,
       ...rest,
       // 数据设置：保存后回显必须带回 data、dataType、dataCount（data 在顶层，dataType/dataCount 可能在 base 内）
@@ -212,6 +213,7 @@ const config = {
   },
   transformOut: (v, wgtList, regionauth_id) => {
     return pickBy(v, {
+      id: 'id',
       name: 'name',
       base: (v) => {
         // 使用公共函数处理 base 中的样式数据转换

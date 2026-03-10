@@ -168,6 +168,7 @@ const config = {
       processedRestBase.navitemmargin = processedRestBase.navitemmargin / 2
     }
     return {
+      id: v?.id,
       name,
       uuid,
       ...processedRestBase,
@@ -215,6 +216,7 @@ const config = {
   },
   transformOut: (v, wgtList) => {
     return pickBy(v, {
+      id: 'id',
       name: 'name',
       meber_tags: 'tags.meber_tags',
       no_meber_tags: 'tags.no_meber_tags',

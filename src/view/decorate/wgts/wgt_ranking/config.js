@@ -130,6 +130,7 @@ const config = {
     }
 
     return {
+      id: v?.id,
       name: v.name,
       ...rest,
       data: v.data,
@@ -153,6 +154,7 @@ const config = {
   },
   transformOut: (v, wgtList, regionauth_id) => {
     return pickBy(v, {
+      id: 'id',
       name: 'name',
       base: (v) => {
         const baseData = pickBy(v, {
