@@ -73,13 +73,18 @@
     font-size: 12px;
     cursor: default;
   }
-  .icon-times-circle1 {
+  .icon-times-circle1,
+  .el-icon-circle-close {
     position: absolute;
     right: -7px;
     z-index: 99;
-    top: -17px;
+    top: -7px;
     font-size: 18px;
     color: #666;
+    cursor: pointer;
+  }
+  .el-icon-circle-close:hover {
+    color: #f56c6c;
   }
 
   .picker-video-player {
@@ -210,7 +215,13 @@ export default {
     _renderImage(item, index = 0) {
       return (
         <div class='image-item' key={`image-item__${index}`}>
-          <i class='el-icon-close-circle1' on-click={this.handleDeleteItem.bind(this, index)} />
+          <i
+            class='el-icon-circle-close'
+            on-click={(e) => {
+              e.stopPropagation()
+              this.handleDeleteItem(index)
+            }}
+          />
           <video-player class='picker-video-player' options={this.getOptions(item?.url || item)} />
           <span class='image-meta' on-click={this.onUpdateImage.bind(this, index)}>
             {this.$t('4a6afa54.3b28f9')}
@@ -222,7 +233,6 @@ export default {
   render() {
     const { value, max, size } = this
     const multiple = isArray(value)
-    console.log('value:', value)
     return (
       <div class={['sp-video-picker', size]}>
         {max > 1 && value.map((item, index) => this._renderImage(item, index))}

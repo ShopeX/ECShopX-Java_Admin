@@ -50,7 +50,8 @@
         border
         @selection-change="handleSelectionChange"
       >
-        <el-table-column :label="$t('7f673091.2b6bc0')">
+        <el-table-column type="selection" align="center" width="55" :reserve-selection="false" />
+        <el-table-column :label="$t('7f673091.2b6bc0')" width="120" fixed="left">
           <template slot-scope="scope">
             <el-button type="text" @click="editShopWhite(scope.row)">
               {{ $t('7f673091.95b351') }}
@@ -60,7 +61,6 @@
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column type="selection" align="center" :label="$t('7f673091.66eeac')" />
         <el-table-column prop="mobile" :label="$t('7f673091.8098e2')" />
         <el-table-column prop="username" :label="$t('7f673091.60d045')" />
         <el-table-column prop="distributor_info" :label="$t('7f673091.baad7e')">
@@ -129,7 +129,7 @@ export default {
     }
 
     return {
-      tableList: null,
+      tableList: [],
       loading: false,
       params: {
         ...initialParams
@@ -219,7 +219,7 @@ export default {
           }
         }
       ],
-      selectMobile: '' // 已选中row
+      selectMobile: [] // 已选中行的 mobile 列表，用于导出
     }
   },
   computed: {
@@ -229,29 +229,20 @@ export default {
     this.fetchList()
   },
   methods: {
-    // 导出白名单
+    // 导出白名单：有勾选则导出选中项，无勾选则按当前筛选条件导出全部
     async handleWhitelistExport() {
-      if (this.selectMobile.length) {
-        const exportData = {
-          search_mobile: this.selectMobile,
-          ...this.getParams()
-        }
-        console.log(
-          '🚀🚀🚀 ~ file: storewhitelist.vue:205 ~ whitelistExport ~ exportData:',
-          exportData
-        )
-        const { status } = await this.$api.company.whitelistExport(exportData)
-        if (status) {
-          this.$message.success(this.$t('7f673091.3e1ddd'))
-          this.$export_open('distributor_white_list')
-        } else {
-          this.$message.error(this.$t('7f673091.dd51ab'))
-        }
+      const exportData = {
+        ...this.getParams()
+      }
+      if (this.selectMobile && this.selectMobile.length > 0) {
+        exportData.search_mobile = this.selectMobile
+      }
+      const { status } = await this.$api.company.whitelistExport(exportData)
+      if (status) {
+        this.$message.success(this.$t('7f673091.3e1ddd'))
+        this.$export_open('distributor_white_list')
       } else {
-        this.$message({
-          type: 'warning',
-          message: this.$t('7f673091.e02487')
-        })
+        this.$message.error(this.$t('7f673091.dd51ab'))
       }
     },
     // 点击添加白名单
