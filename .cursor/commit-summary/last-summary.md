@@ -1,13 +1,15 @@
 ## 本次变更总结
 
 **时间**: 2026-03-09  
-**TB**: ECX-8086
+**TB**: ECX-8089
 
 **涉及文件**:
-- src/view/decorate/index.vue (修改)
+- src/i18n/locales/zh-CN.json (修改)
+- src/i18n/locales/en.json (修改)
+- src/i18n/locales/ar.json (修改)
 
 **主要改动**:
-- 装修：店铺装修(scene=1003) 也展示「页面设置」挂件。
-  - 将 headerVisible 从仅 1001 展示改为 1001、1003 均展示页面设置，1007 分类模版等仍不展示。
+- i18n：模版装修「设置路径」弹窗中，将「秒杀」改为「限时特惠」。
+  - 文案 key：d81d8932.55c758。zh-CN 改为「限时特惠」，en 改为「Limited-time offer」，ar 改为「عرض محدود الوقت」。仅展示文案调整，逻辑与接口未改。
 
-**一句话概括**: feat(decorate): 店铺装修 scene=1003 支持页面设置 (ECX-8086)
+**一句话概括**: i18n: 设置路径弹窗「秒杀」改为「限时特惠」(ECX-8089)
