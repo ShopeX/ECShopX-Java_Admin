@@ -52,7 +52,7 @@
       :other-config="{
         'max-height': 460
       }"
-      url="/selfhelp/registrationActivity/easylist"
+      url="/selfhelp/registrationActivity/list"
       :fixed-row-action="true"
       :setting="regactivitySetting"
       :hooks="{
@@ -73,7 +73,7 @@ export default {
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
-    title: '选择活动报名'
+    title: 'ffeca7a9.4bc060'
   },
   props: ['value'],
   data() {
@@ -91,7 +91,8 @@ export default {
         columns: [
           { name: 'ID', key: 'activity_id', width: 80 },
           { name: t('ffeca7a9.39834b'), key: 'activity_name' },
-          { name: t('ffeca7a9.a5d1c5'), key: 'tem_name' },
+          // { name: t('ffeca7a9.a5d1c5'), key: 'tem_name' },
+          { name: t('ffeca7a9.1181a5'), key: 'status_name', width: 100 },
           {
             name: t('ffeca7a9.295713'),
             key: 'distributor_name',
@@ -102,7 +103,7 @@ export default {
     }
   },
   created() {
-    this.$options.config.title = this.$t('ffeca7a9.4bc060')
+    this.$options.config.title = this.$t(this.$options.config.title)
   },
   methods: {
     beforeSearch(params) {
@@ -110,7 +111,7 @@ export default {
       const distributor_id = urlParams.get('distributor_id')
       params = {
         ...params,
-        is_valid: true
+        // is_valid: true
       }
       if (distributor_id) {
         params['distributor_id'] = distributor_id
