@@ -137,7 +137,8 @@ function getOptions(t) {
           },
           methods: {
             async onUpload() {
-              const { data } = await Vue.prototype.$picker.image({
+              // 必须从当前实例的 $root 取 $picker，避免 Vue.prototype.$picker 导致 parent 非组件实例引发 initLifecycle 报错
+              const { data } = await this.$root.$picker.image({
                 multiple: true
               })
               let imgHtml = ''
