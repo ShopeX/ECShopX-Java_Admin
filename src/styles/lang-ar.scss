@@ -16,6 +16,11 @@ html[dir='rtl'] {
   .el-radio-group{
     direction: ltr;
   }
+  .hd-rg{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
 
   .sp-form {
     .el-form-item {
