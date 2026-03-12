@@ -149,8 +149,12 @@ export default {
         parent_name: '',
         image_url: '',
         customize_page_id: ''
-      },
-      categoryFormList: [
+      }
+    }
+  },
+  computed: {
+    categoryFormList() {
+      return [
         {
           label: this.$t('0e7dabe2.04d7d8'),
           key: 'category_name',
@@ -176,14 +180,6 @@ export default {
           key: 'image_url',
           component: ({ key }, value) => <SpImagePicker v-model={value[key]} />
         }
-        // {
-        //   label: '一级分类模版',
-        //   key: 'customize_page_id',
-        //   type: 'select',
-        //   options: [],
-        //   placeholder: '请选择一级分类模版',
-        //   display: 'inline'
-        // }
       ]
     }
   },
