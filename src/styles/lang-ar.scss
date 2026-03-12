@@ -13,6 +13,9 @@ html[dir='rtl'] {
       margin-right: 0;
     }
   }
+  .el-radio-group{
+    direction: ltr;
+  }
 
   .sp-form {
     .el-form-item {
@@ -23,6 +26,37 @@ html[dir='rtl'] {
     .el-form-item__label {
       text-align: right;
     }
+  }
+  .wgts-slider-dialog {
+    .el-form-item__content {
+      margin-left: 0 !important;
+      flex-shrink: 0;
+      flex-grow: 0;
+      flex-basis: auto;
+      width: fit-content;
+      max-width: 100%;
+      .el-radio-group{
+        min-width: 240px;
+        display: flex;
+      }
+      .el-slider{
+        width: 280px!important;
+      }
+      .el-slider__bar{
+        width: 120px!important;
+      }
+    }
+    .el-form--label-left{
+      .el-form-item{
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+    }
+  }
+  .hot-content-inner-right{
+    left: 0!important;
+    right: auto!important;
   }
 
   *:not(.el-tabs__item,
@@ -185,7 +219,7 @@ html[dir='rtl'] {
   // 处理图标和按钮的定位
   .el-icon-close,
   .el-icon-circle-close {
-    right: 15px !important;
+    right: -7px !important;
     left: auto !important;
   }
 
@@ -194,6 +228,14 @@ html[dir='rtl'] {
   .el-tooltip__popper {
     direction: rtl;
   }
+  .icon-qingchuFilled{
+    right: -7px !important;
+    left: auto !important;
+    top: -7px!important;
+  }
+
+
+  
 
   // 处理步骤条中的定位
   .el-step__line {
