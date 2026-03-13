@@ -30,6 +30,12 @@
       <i class="el-icon-arrow-right" />
     </div>
 
+    <!-- 积分商品 -->
+    <div v-if="type === 'pointsmall_items'" class="attr-data-specified" @click="handleSelectPointGoods">
+      <span class="specified-text">{{ pointGoodsDisplayText }}</span>
+      <i class="el-icon-arrow-right" />
+    </div>
+
     <!-- 品类热销榜单 -->
     <CompButton
       v-if="type === 'category_ranking'"
@@ -120,6 +126,10 @@ export default {
     itemsDisplayText() {
       const count = this.localValue?.info?.length
       return count > 0 ? this.$t('40718fc5.e1a5c2', { count }) : this.$t('40718fc5.c5c5f2')
+    },
+    pointGoodsDisplayText() {
+      const count = this.localValue?.info?.length
+      return count > 0 ? this.$t('40718fc5.e1a5c2', { count }) : this.$t('46e04a5c.5d71c6')
     }
   },
   watch: {
@@ -139,6 +149,14 @@ export default {
                 length: this.value?.id ? this.value?.id?.split(',')?.length : 0,
                 type: ''
               }
+            }
+          }
+        } else if (newVal === 'pointsmall_items') {
+          this.localValue = {
+            id: this.value?.id || '',
+            info: {
+              length: this.value?.id ? this.value.id.split(',').length : 0,
+              type: 'pointsmall_items'
             }
           }
         } else {
@@ -211,6 +229,30 @@ export default {
         }
       }
       this.$emit('input', { id: data, info: { length, type: 'group_id' } })
+    },
+    // 选择积分商品
+    async handleSelectPointGoods() {
+      const idStr = this.localValue?.info?.type === 'point' ? this.localValue?.id || '' : ''
+      const list = idStr ? idStr.split(',').map((id) => ({ item_id: id, itemId: id })) : []
+      const result = await this.$picker.goodsitem({
+        isPointGoods: true,
+        multiple: true,
+        rowKey: 'item_id',
+        data: list,
+        regionauth_id: this.$route.query.regionauth_id,
+        distributor_id: this.$route.query.distributor_id,
+        distributor_name: this.$route.query.distributor_name
+      })
+      if (!result || !result.data) return
+      const selected = result.data || []
+      const ids = selected.map((item) => item.item_id || item.itemId).filter(Boolean)
+      const data = ids.join(',')
+      const length = ids.length
+      this.localValue = {
+        id: data,
+        info: { length, type: 'point' }
+      }
+      this.$emit('input', { id: data, info: { length, type: 'point' } })
     },
     // 选择拼团活动
     async handleSelectGroup() {

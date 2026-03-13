@@ -18,6 +18,7 @@ const config = {
       options: [
         { label: i18n.t('62d2fa27.5488d8'), value: 'price' },
         { label: i18n.t('62d2fa27.728225'), value: 'items' },
+        { label: i18n.t('46e04a5c.fe0ea1'), value: 'pointsmall_items' },
         { label: i18n.t('62d2fa27.64423b'), value: 'main_category' },
         { label: i18n.t('62d2fa27.2fcd53'), value: 'category' },
         { label: i18n.t('62d2fa27.edf51a'), value: 'history' }

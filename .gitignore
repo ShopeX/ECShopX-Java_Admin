@@ -23,6 +23,5 @@ openspec/
 .claude/
 dist/
 .cursor/
-.f2e-ai/
 .agent/
 .codex/

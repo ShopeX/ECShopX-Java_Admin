@@ -72,7 +72,9 @@ export default {
     'value.data': {
       handler() {
         if (
-          ['price', 'items', 'main_category', 'category', 'history'].includes(this.value.dataType)
+          ['price', 'items', 'pointsmall_items', 'main_category', 'category', 'history'].includes(
+            this.value.dataType
+          )
         ) {
           this.getGoodsList()
         }
@@ -101,7 +103,7 @@ export default {
       const dataType = this.value.dataType
 
       // 对于需要 data 参数的类型，检查是否有参数
-      if (['price', 'items', 'main_category', 'category'].includes(dataType)) {
+      if (['price', 'items', 'pointsmall_items', 'main_category', 'category'].includes(dataType)) {
         if (!this.hasDataParam()) {
           this.list = []
           return
@@ -122,6 +124,7 @@ export default {
           params.data_value = this.value?.data.id.split(',')
           break
         case 'items':
+        case 'pointsmall_items':
           params.data_value = this.value?.data.id.split(',')
           break
       }
