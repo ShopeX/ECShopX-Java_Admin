@@ -81,7 +81,7 @@
           :value="value"
         />
       </el-tab-pane>
-      <el-tab-pane :label="$t('d81d8932.55c758')" name="seckill">
+      <el-tab-pane v-if="false" :label="$t('d81d8932.55c758')" name="seckill">
         <PickerSeckill v-if="tabValue == 'seckill'" ref="seckill" :value="value" />
       </el-tab-pane>
       <el-tab-pane :label="$t('d81d8932.cee6eb')" name="custom_page">
