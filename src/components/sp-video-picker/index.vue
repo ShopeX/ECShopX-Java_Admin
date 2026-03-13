@@ -77,7 +77,7 @@
     position: absolute;
     right: -7px;
     z-index: 99;
-    top: -7px;
+    top: -17px;
     font-size: 18px;
     color: #666;
     cursor: pointer;
