@@ -135,7 +135,7 @@
           v-model="activityRule"
           class="base-form"
           show-message
-          :form-list="activityRuleList"
+          :form-list="activityRuleListComputed"
           :submit="false"
         />
       </el-card>
@@ -146,6 +146,7 @@
 <script>
 import { isEmpty } from '@/utils'
 import moment from 'moment'
+import { i18n } from '@/i18n'
 
 const ActionsButton = {
   name: 'ActionsButton',
@@ -216,8 +217,25 @@ export default {
         discount_description: ''
       },
 
+      /** 活动规则表单项列表，在 created 中赋值避免 render 阶段访问 $i18n */
       activityRuleList: [],
+      /** 编辑时活动规则表单项的 disabled 覆盖，key 为索引 */
+      activityRuleDisabledOverrides: {},
       activityStatus: ''
+    }
+  },
+  computed: {
+    /** 活动规则列表合并 disabled 覆盖后传给表单 */
+    activityRuleListComputed() {
+      const list = this.activityRuleList
+      const overrides = this.activityRuleDisabledOverrides
+      if (!list.length || !Object.keys(overrides).length) return list
+      const result = list.slice()
+      Object.keys(overrides).forEach((i) => {
+        const idx = parseInt(i, 10)
+        if (result[idx]) result[idx] = { ...result[idx], disabled: overrides[i] }
+      })
+      return result
     }
   },
   created() {
@@ -230,77 +248,79 @@ export default {
   },
   methods: {
     buildFormBaseList() {
+      const self = this
+      const t = (key) => i18n.t(key)
       return [
         {
-          label: this.$t('39e3acc2.39834b'),
+          label: t('39e3acc2.39834b'),
           className: 'activity-name',
           key: 'name',
           type: 'input',
           required: true,
           maxlength: 30,
           disabled: false,
-          placeholder: this.$t('39e3acc2.5d602a'),
-          message: this.$t('39e3acc2.19e116')
+          placeholder: t('39e3acc2.5d602a'),
+          message: t('39e3acc2.19e116')
         },
         {
-          label: this.$t('39e3acc2.902a3d'),
+          label: t('39e3acc2.902a3d'),
           className: 'activity-title',
           key: 'title',
           type: 'input',
           required: true,
           maxlength: 16,
           disabled: false,
-          placeholder: this.$t('39e3acc2.3154a4'),
-          message: this.$t('39e3acc2.f1529d'),
-          tip: this.$t('39e3acc2.198849')
+          placeholder: t('39e3acc2.3154a4'),
+          message: t('39e3acc2.f1529d'),
+          tip: t('39e3acc2.198849')
         },
         {
-          label: this.$t('39e3acc2.c4750a'),
+          label: t('39e3acc2.c4750a'),
           key: 'linkHome',
           component: ({ disabled }) => (
             <div>
               <span class='link-home'>
-                {this.formBase?.linkHome && this.formBase.linkHome.template_title}
+                {self.formBase?.linkHome && self.formBase.linkHome.template_title}
               </span>
-              <el-button type='text' disabled={disabled} on-click={this.onPickerTemp}>
-                {this.$t('39e3acc2.dc38dd')}
+              <el-button type='text' disabled={disabled} on-click={self.onPickerTemp}>
+                {t('39e3acc2.dc38dd')}
               </el-button>
             </div>
           ),
           disabled: false,
           validator: (rule, value, callback) => {
-            if (!this.formBase.linkHome) {
-              callback(new Error(this.$t('39e3acc2.747456')))
+            if (!self.formBase.linkHome) {
+              callback(new Error(t('39e3acc2.747456')))
             } else {
               callback()
             }
           }
         },
         {
-          label: this.$t('39e3acc2.45394d'),
+          label: t('39e3acc2.45394d'),
           key: 'share_pic',
           component: () => (
             <div class='activity-pic-field'>
-              <div class='form-item-tip'>{this.$t('39e3acc2.5925d6')}</div>
-              <SpImagePicker v-model={this.formBase.share_pic} />
+              <div class='form-item-tip'>{t('39e3acc2.5925d6')}</div>
+              <SpImagePicker v-model={self.formBase.share_pic} />
             </div>
           ),
           validator: (rule, value, callback) => {
-            if (isEmpty(this.formBase.share_pic)) {
-              callback(new Error(this.$t('39e3acc2.9742f1')))
+            if (isEmpty(self.formBase.share_pic)) {
+              callback(new Error(t('39e3acc2.9742f1')))
             } else {
               callback()
             }
           }
         },
         {
-          label: this.$t('39e3acc2.98fbb0'),
+          label: t('39e3acc2.98fbb0'),
           key: 'pic',
-          component: () => <SpImagePicker v-model={this.formBase.pic} />,
-          tip: this.$t('39e3acc2.818403'),
+          component: () => <SpImagePicker v-model={self.formBase.pic} />,
+          tip: t('39e3acc2.818403'),
           validator: (rule, value, callback) => {
-            if (isEmpty(this.formBase.pic)) {
-              callback(new Error(this.$t('39e3acc2.90a4b4')))
+            if (isEmpty(self.formBase.pic)) {
+              callback(new Error(t('39e3acc2.90a4b4')))
             } else {
               callback()
             }
@@ -309,7 +329,8 @@ export default {
       ]
     },
     buildActivityRuleList() {
-      const t = this.$t
+      const self = this
+      const t = (key) => i18n.t(key)
       const activePriceList = [
         { name: t('39e3acc2.e29575'), label: 'sale_price', disabled: true },
         { name: t('39e3acc2.08ee55'), label: 'activity_price' }
@@ -321,25 +342,25 @@ export default {
           type: 'input',
           component: ({ disabled }) => (
             <div class='company-list'>
-              {this.activityRule.companyList.map((item, index) => (
+              {self.activityRule.companyList.map((item, index) => (
                 <el-tag
                   closable
                   disable-transitions
                   key={item.id}
                   type={item.id}
-                  on-close={this.closeCompany.bind(this, index)}
+                  on-close={self.closeCompany.bind(self, index)}
                 >
                   {item.name}
                 </el-tag>
               ))}
-              <el-button type='text' disabled={disabled} on-click={this.onPickerCompany}>
+              <el-button type='text' disabled={disabled} on-click={self.onPickerCompany}>
                 {t('39e3acc2.0067d7')}
               </el-button>
             </div>
           ),
           disabled: false,
           validator: (rule, value, callback) => {
-            if (this.activityRule.companyList.length == 0) {
+            if (self.activityRule.companyList.length == 0) {
               callback(new Error(t('39e3acc2.6004b3')))
             } else {
               callback()
@@ -353,7 +374,7 @@ export default {
             <div class='preheat-time'>
               {t('39e3acc2.0cc05f')}
               <el-date-picker
-                v-model={this.activityRule.preheatTime}
+                v-model={self.activityRule.preheatTime}
                 disabled={disabled}
                 type='datetime'
                 placeholder={t('39e3acc2.a42ae4')}
@@ -363,7 +384,7 @@ export default {
           ),
           disabled: false,
           validator: (rule, value, callback) => {
-            if (this.activityRule.preheatTime.length == 0) {
+            if (self.activityRule.preheatTime.length == 0) {
               callback(new Error(t('39e3acc2.257e33')))
             } else {
               callback()
@@ -379,7 +400,7 @@ export default {
                 <div class='content-item'>
                   <label>{t('39e3acc2.059c1e')}</label>
                   <el-date-picker
-                    v-model={this.activityRule.employee.datetime}
+                    v-model={self.activityRule.employee.datetime}
                     disabled={datetime}
                     type='daterange'
                     range-separator={t('bea3f44a.981cbe')}
@@ -393,7 +414,7 @@ export default {
                 <div class='content-item'>
                   <label>{t('39e3acc2.769491')}</label>
                   <SpInput
-                    v-model={this.activityRule.employee.quota}
+                    v-model={self.activityRule.employee.quota}
                     width='120px'
                     disabled={quota}
                     placeholder={t('39e3acc2.ea6c91')}
@@ -409,9 +430,9 @@ export default {
             quota: false
           },
           validator: (rule, value, callback) => {
-            if (this.activityRule.employee.datetime.length == 0) {
+            if (self.activityRule.employee.datetime.length == 0) {
               callback(new Error(t('39e3acc2.77a141')))
-            } else if (!this.activityRule.employee.quota) {
+            } else if (!self.activityRule.employee.quota) {
               callback(new Error(t('39e3acc2.6a99d7')))
             } else {
               callback()
@@ -425,17 +446,17 @@ export default {
             <div class='activity-relatives-field'>
               <div class='form-item-content'>
                 <div class='content-item'>
-                  <el-switch v-model={this.activityRule.relatives.join} disabled={join} />
+                  <el-switch v-model={self.activityRule.relatives.join} disabled={join} />
                   <span class='form-item-tip'>{t('39e3acc2.735d97')}</span>
                 </div>
               </div>
-              {this.activityRule.relatives.join ? (
+              {self.activityRule.relatives.join ? (
                 <div>
                   <div class='form-item-content'>
                     <div class='content-item'>
                       <label>{t('39e3acc2.ff47b7')}</label>
                       <SpInput
-                        v-model={this.activityRule.relatives.num}
+                        v-model={self.activityRule.relatives.num}
                         width='120px'
                         disabled={num}
                         placeholder={t('39e3acc2.ea6c91')}
@@ -448,7 +469,7 @@ export default {
                     <div class='content-item'>
                       <label>{t('39e3acc2.059c1e')}</label>
                       <el-date-picker
-                        v-model={this.activityRule.relatives.datetime}
+                        v-model={self.activityRule.relatives.datetime}
                         disabled={datetime}
                         type='daterange'
                         range-separator={t('bea3f44a.981cbe')}
@@ -463,13 +484,13 @@ export default {
                       <div class='content-item-field'>
                         <div class='item-wrap'>
                           <el-radio
-                            v-model={this.activityRule.relatives.type}
+                            v-model={self.activityRule.relatives.type}
                             disabled={type}
                             label='1'
-                            onChange={this.onRadioChange}
+                            onChange={self.onRadioChange}
                           >
                             <SpInput
-                              v-model={this.activityRule.relatives.shareLimit}
+                              v-model={self.activityRule.relatives.shareLimit}
                               width='120px'
                               disabled={shareLimit}
                               placeholder={t('39e3acc2.ea6c91')}
@@ -480,10 +501,10 @@ export default {
                         </div>
                         <div class='item-wrap'>
                           <el-radio
-                            v-model={this.activityRule.relatives.type}
+                            v-model={self.activityRule.relatives.type}
                             disabled={type}
                             label='2'
-                            onChange={this.onRadioChange}
+                            onChange={self.onRadioChange}
                           >
                             {t('39e3acc2.3fe064')}
                           </el-radio>
@@ -511,7 +532,7 @@ export default {
           key: 'orderMiniAmount',
           component: ({ disabled }) => (
             <SpInput
-              v-model={this.activityRule.orderMiniAmount}
+              v-model={self.activityRule.orderMiniAmount}
               disabled={disabled}
               width='120px'
               placeholder={t('39e3acc2.ea6c91')}
@@ -526,7 +547,7 @@ export default {
           key: 'modifyReceiveAddress',
           component: ({ disabled }) => (
             <SpInput
-              v-model={this.activityRule.modifyReceiveAddress}
+              v-model={self.activityRule.modifyReceiveAddress}
               disabled={disabled}
               width='140px'
               placeholder={t('39e3acc2.977246')}
@@ -588,38 +609,38 @@ export default {
 
       // 进行中、已暂停
       if (res.status == 'ongoing' || res.status == 'pending') {
-        this.activityRuleList[2].disabled = {
+        this.$set(this.activityRuleDisabledOverrides, 2, {
           datetime: false,
           quota: true
-        }
-        this.activityRuleList[3]['disabled'] = {
+        })
+        this.$set(this.activityRuleDisabledOverrides, 3, {
           join: false,
           num: true,
           datetime: false,
           type: false,
           shareLimit: true
-        }
+        })
       } else if (res.status == 'cancel' || res.status == 'over') {
         // 已取消、已结束
         this.formBaseList[0].disabled = true
         this.formBaseList[1].disabled = true
         this.formBaseList[2].disabled = true
 
-        this.activityRuleList[0].disabled = true
-        this.activityRuleList[1].disabled = true
-        this.activityRuleList[2].disabled = {
+        this.$set(this.activityRuleDisabledOverrides, 0, true)
+        this.$set(this.activityRuleDisabledOverrides, 1, true)
+        this.$set(this.activityRuleDisabledOverrides, 2, {
           datetime: true,
           quota: true
-        }
-        this.activityRuleList[3]['disabled'] = {
+        })
+        this.$set(this.activityRuleDisabledOverrides, 3, {
           join: true,
           num: true,
           datetime: true,
           type: true,
           shareLimit: true
-        }
-        this.activityRuleList[4].disabled = true
-        this.activityRuleList[5].disabled = true
+        })
+        this.$set(this.activityRuleDisabledOverrides, 4, true)
+        this.$set(this.activityRuleDisabledOverrides, 5, true)
       }
       this.activityStatus = res.status
 
@@ -775,15 +796,12 @@ export default {
       }
     },
     onRadioChange(e) {
+      const prev = this.activityRuleDisabledOverrides[3] || {}
       if (e == '1') {
-        this.activityRuleList[3]['disabled'] = {
-          shareLimit: false
-        }
+        this.$set(this.activityRuleDisabledOverrides, 3, { ...prev, shareLimit: false })
       } else {
         this.activityRule.relatives.shareLimit = 0
-        this.activityRuleList[3]['disabled'] = {
-          shareLimit: true
-        }
+        this.$set(this.activityRuleDisabledOverrides, 3, { ...prev, shareLimit: true })
       }
     }
   }

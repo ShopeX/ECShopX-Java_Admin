@@ -114,20 +114,23 @@
 import { createSetting } from '@shopex-ui/finder'
 import { getUrlPathByLoginType } from '@/utils'
 import { VALIDATE_TYPES } from './consts'
+import { i18n } from '@/i18n'
 
 export default {
   name: '',
   data() {
+    const t = (key) => i18n.t(key)
+    const self = this
     const isShow = () => {
-      return this.companyForm.auth_type == 'email'
+      return self.companyForm.auth_type == 'email'
     }
 
     const validator = (rule, value, callback) => {
-      const { auth_type } = this.companyForm
+      const { auth_type } = self.companyForm
       if (auth_type != 'email' || (auth_type == 'email' && !!value)) {
         callback()
       } else {
-        callback(this.$t('63ede0f6.281bad'))
+        callback(t('63ede0f6.281bad'))
       }
     }
 
@@ -152,7 +155,7 @@ export default {
           component: () => {
             return (
               <el-alert
-                title={this.$t('63ede0f6.639e7b')}
+                title={t('63ede0f6.639e7b')}
                 type='warning'
                 closable={false}
               ></el-alert>
@@ -160,18 +163,18 @@ export default {
           }
         },
         {
-          label: this.$t('63ede0f6.b5f0bd'),
+          label: t('63ede0f6.b5f0bd'),
           key: 'email',
           type: 'input',
-          placeholder: this.$t('63ede0f6.a18c29'),
+          placeholder: t('63ede0f6.a18c29'),
           required: true,
-          message: this.$t('63ede0f6.211d59')
+          message: t('63ede0f6.211d59')
         }
       ],
       setting: createSetting({
         actions: [
           {
-            name: () => this.$t('63ede0f6.95b351'),
+            name: () => t('63ede0f6.95b351'),
             key: 'modify',
             type: 'button',
             buttonType: 'text',
@@ -189,7 +192,7 @@ export default {
             }
           },
           {
-            name: () => this.$t('63ede0f6.607e7a'),
+            name: () => t('63ede0f6.607e7a'),
             key: 'modify',
             type: 'button',
             buttonType: 'text',
@@ -207,7 +210,7 @@ export default {
             }
           },
           {
-            name: () => this.$t('63ede0f6.eed806'),
+            name: () => t('63ede0f6.eed806'),
             key: 'modify',
             type: 'button',
             buttonType: 'text',
@@ -225,7 +228,7 @@ export default {
             }
           },
           {
-            name: () => this.$t('63ede0f6.22b03c'),
+            name: () => t('63ede0f6.22b03c'),
             key: 'modify',
             type: 'button',
             buttonType: 'text',
@@ -247,7 +250,7 @@ export default {
             }
           },
           {
-            name: () => this.$t('63ede0f6.a6b8e9'),
+            name: () => t('63ede0f6.a6b8e9'),
             key: 'modify',
             type: 'button',
             buttonType: 'text',
@@ -267,9 +270,9 @@ export default {
           }
         ],
         columns: [
-          { name: () => this.$t('63ede0f6.5a83cb'), key: 'id' },
+          { name: () => t('63ede0f6.5a83cb'), key: 'id' },
           {
-            name: () => this.$t('63ede0f6.390b03'),
+            name: () => t('63ede0f6.390b03'),
             key: 'logo',
             render: (h, { row }) => {
               if (row.logo) {
@@ -291,15 +294,15 @@ export default {
             }
           },
           {
-            name: () => this.$t('63ede0f6.f47e27'),
+            name: () => t('63ede0f6.f47e27'),
             key: 'name'
           },
           {
-            name: () => this.$t('63ede0f6.705f0a'),
+            name: () => t('63ede0f6.705f0a'),
             key: 'enterprise_sn'
           },
           {
-            name: () => this.$t('63ede0f6.c360e9'),
+            name: () => t('63ede0f6.c360e9'),
             key: 'sort',
             showType: 'pop-editable',
             componentProps: {
@@ -315,15 +318,15 @@ export default {
             }
           },
           {
-            name: () => this.$t('63ede0f6.78cbe8'),
+            name: () => t('63ede0f6.78cbe8'),
             key: 'auth_type',
             formatter: (value, { auth_type }, col) => {
-              const authType = this.validateTypeList.find((item) => item.value == auth_type)
+              const authType = self.validateTypeList.find((item) => item.value == auth_type)
               return authType ? authType.name : ''
             }
           },
           {
-            name: () => this.$t('63ede0f6.3fea7c'),
+            name: () => t('63ede0f6.3fea7c'),
             key: 'disabled',
             render: (h, { row }) =>
               h('el-switch', {
@@ -334,7 +337,7 @@ export default {
                 },
                 on: {
                   change: async (e) => {
-                    await this.$api.member.updateCompanyStatus({
+                    await self.$api.member.updateCompanyStatus({
                       enterprise_id: row.id,
                       disabled: e
                     })
@@ -344,7 +347,7 @@ export default {
               })
           },
           {
-            name: () => this.$t('63ede0f6.16f2bc'),
+            name: () => t('63ede0f6.16f2bc'),
             key: 'distributor_name'
           }
         ]
@@ -370,116 +373,116 @@ export default {
       },
       companyFormList: [
         {
-          label: this.$t('63ede0f6.f47e27'),
+          label: t('63ede0f6.f47e27'),
           key: 'name',
           type: 'input',
-          placeholder: this.$t('63ede0f6.8ded4d'),
+          placeholder: t('63ede0f6.8ded4d'),
           required: true,
-          message: this.$t('63ede0f6.281bad')
+          message: t('63ede0f6.281bad')
         },
         {
-          label: this.$t('63ede0f6.705f0a'),
+          label: t('63ede0f6.705f0a'),
           key: 'enterprise_sn',
           type: 'input',
-          placeholder: this.$t('63ede0f6.5ee937'),
+          placeholder: t('63ede0f6.5ee937'),
           required: true,
-          message: this.$t('63ede0f6.281bad')
+          message: t('63ede0f6.281bad')
         },
         {
-          label: this.$t('63ede0f6.c360e9'),
+          label: t('63ede0f6.c360e9'),
           key: 'sort',
           component: () => (
             <SpInput
-              v-model={this.companyForm.sort}
+              v-model={self.companyForm.sort}
               class='sort-input'
               width='100px'
-              suffix={this.$t('63ede0f6.916a52')}
+              suffix={t('63ede0f6.916a52')}
             />
           )
         },
         {
-          label: this.$t('63ede0f6.78cbe8'),
+          label: t('63ede0f6.78cbe8'),
           key: 'auth_type',
           type: 'radio',
           options: [
-            { label: 'mobile', name: this.$t('63ede0f6.8098e2') },
-            { label: 'account', name: this.$t('63ede0f6.7035c6') },
-            { label: 'email', name: this.$t('63ede0f6.3bc5e6') },
-            { label: 'qr_code', name: this.$t('63ede0f6.22b03c') }
+            { label: 'mobile', name: t('63ede0f6.8098e2') },
+            { label: 'account', name: t('63ede0f6.7035c6') },
+            { label: 'email', name: t('63ede0f6.3bc5e6') },
+            { label: 'qr_code', name: t('63ede0f6.22b03c') }
           ],
           validator: (rule, value, callback) => {
             if (value) {
               callback()
             } else {
-              callback(this.$t('63ede0f6.281bad'))
+              callback(t('63ede0f6.281bad'))
             }
           }
         },
         {
-          label: this.$t('63ede0f6.5fbb35'),
+          label: t('63ede0f6.5fbb35'),
           key: 'email_user',
           type: 'input',
-          placeholder: this.$t('63ede0f6.27044b'),
+          placeholder: t('63ede0f6.27044b'),
           isShow,
           validator
         },
         {
-          label: this.$t('63ede0f6.4723b1'),
+          label: t('63ede0f6.4723b1'),
           key: 'relay_host',
           type: 'input',
-          placeholder: this.$t('63ede0f6.90ca32'),
+          placeholder: t('63ede0f6.90ca32'),
           isShow,
           validator
         },
         {
-          label: this.$t('63ede0f6.c76cfe'),
+          label: t('63ede0f6.c76cfe'),
           key: 'smtp_port',
           type: 'input',
-          placeholder: this.$t('63ede0f6.4a0798'),
+          placeholder: t('63ede0f6.4a0798'),
           isShow,
           validator
         },
         {
-          label: this.$t('63ede0f6.a81052'),
+          label: t('63ede0f6.a81052'),
           key: 'email_password',
           type: 'input',
-          placeholder: this.$t('63ede0f6.f35263'),
+          placeholder: t('63ede0f6.f35263'),
           isShow,
           validator
         },
         {
-          label: this.$t('63ede0f6.9c53cd'),
+          label: t('63ede0f6.9c53cd'),
           key: 'email_suffix',
           type: 'input',
-          placeholder: this.$t('63ede0f6.d3b119'),
+          placeholder: t('63ede0f6.d3b119'),
           isShow,
           validator
         },
         {
-          label: this.$t('63ede0f6.487b6c'),
+          label: t('63ede0f6.487b6c'),
           key: 'is_employee_check_enabled',
           type: 'switch',
-          isShow: () => this.companyForm.auth_type == 'qr_code'
+          isShow: () => self.companyForm.auth_type == 'qr_code'
         },
         {
-          label: this.$t('63ede0f6.390b03'),
+          label: t('63ede0f6.390b03'),
           key: 'logo',
-          component: () => <SpImagePicker v-model={this.companyForm.logo} />,
+          component: () => <SpImagePicker v-model={self.companyForm.logo} />,
           validator: (rule, value, callback) => {
             if (value) {
               callback()
             } else {
-              callback(this.$t('63ede0f6.321fa5'))
+              callback(t('63ede0f6.321fa5'))
             }
           },
-          tip: this.$t('63ede0f6.203143')
+          tip: t('63ede0f6.203143')
         },
         {
-          label: this.$t('63ede0f6.fbf272'),
+          label: t('63ede0f6.fbf272'),
           key: 'qr_code_bg_image',
-          component: () => <SpImagePicker v-model={this.companyForm.qr_code_bg_image} />,
-          isShow: () => this.companyForm.auth_type == 'qr_code',
-          tip: this.$t('63ede0f6.9ce120')
+          component: () => <SpImagePicker v-model={self.companyForm.qr_code_bg_image} />,
+          isShow: () => self.companyForm.auth_type == 'qr_code',
+          tip: t('63ede0f6.9ce120')
         }
       ]
     }

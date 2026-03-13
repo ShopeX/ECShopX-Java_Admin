@@ -85,10 +85,13 @@
 import { createSetting } from '@shopex-ui/finder'
 import Pages from '@/utils/pages'
 import { VALIDATE_TYPES } from './consts'
+import { i18n } from '@/i18n'
 
 export default {
   name: '',
   data() {
+    const t = (key) => i18n.t(key)
+    const self = this
     return {
       queryForm: {
         mobile: '',
@@ -102,61 +105,61 @@ export default {
       setting: createSetting({
         actions: [
           {
-            name: () => this.$t('5a5739e5.95b351'),
+            name: () => t('5a5739e5.95b351'),
             key: 'edit',
             type: 'button',
             buttonType: 'text',
             visible: (row) => {
               //平台：来源店铺是非平台则隐藏
-              return !(this.IS_ADMIN() && row.distributor_id != '0')
+              return !(self.IS_ADMIN() && row.distributor_id != '0')
             },
             action: {
               handler: async ([row]) => {
-                Object.keys(this.employeeForm).forEach((key) => (this.employeeForm[key] = row[key]))
-                this.addDialog = true
+                Object.keys(self.employeeForm).forEach((key) => (self.employeeForm[key] = row[key]))
+                self.addDialog = true
               }
             }
           },
           {
-            name: () => this.$t('5a5739e5.2f4aad'),
+            name: () => t('5a5739e5.2f4aad'),
             key: 'delete',
             type: 'button',
             buttonType: 'text',
             //平台：来源店铺是非平台则隐藏
             visible: (row) => {
-              return !(this.IS_ADMIN() && row.distributor_id != '0')
+              return !(self.IS_ADMIN() && row.distributor_id != '0')
             },
             action: {
               handler: async ([row]) => {
-                await this.$confirm(this.$t('5a5739e5.f29cc1'), this.$t('5a5739e5.02d981'), {
-                  confirmButtonText: this.$t('5a5739e5.38cf16'),
-                  cancelButtonText: this.$t('5a5739e5.625fb2')
+                await self.$confirm(t('5a5739e5.f29cc1'), t('5a5739e5.02d981'), {
+                  confirmButtonText: t('5a5739e5.38cf16'),
+                  cancelButtonText: t('5a5739e5.625fb2')
                 })
-                await this.$api.member.deleteEmployee(row.id)
-                this.$refs['finder'].refresh()
+                await self.$api.member.deleteEmployee(row.id)
+                self.$refs['finder'].refresh()
               }
             }
           }
         ],
         columns: [
-          { name: () => this.$t('5a5739e5.8098e2'), key: 'mobile' },
-          { name: () => this.$t('5a5739e5.60d045'), key: 'name' },
+          { name: () => t('5a5739e5.8098e2'), key: 'mobile' },
+          { name: () => t('5a5739e5.60d045'), key: 'name' },
           {
-            name: () => this.$t('5a5739e5.78cbe8'),
+            name: () => t('5a5739e5.78cbe8'),
             key: 'auth_type',
             formatter: (value, { auth_type }, col) => {
-              const authType = this.validateTypeList.find((item) => item.value == auth_type)
+              const authType = self.validateTypeList.find((item) => item.value == auth_type)
               return authType ? authType.name : ''
             }
           },
-          { name: () => this.$t('5a5739e5.7035c6'), key: 'account' },
-          { name: () => this.$t('5a5739e5.a81052'), key: 'auth_code' },
-          { name: () => this.$t('5a5739e5.3bc5e6'), key: 'email' },
-          { name: () => this.$t('5a5739e5.53cc55'), key: 'distributor_name' },
-          { name: () => this.$t('5a5739e5.5a83cb'), key: 'enterprise_id' },
-          { name: () => this.$t('5a5739e5.f47e27'), key: 'enterprise_name' },
-          { name: () => this.$t('5a5739e5.705f0a'), key: 'enterprise_sn' },
-          { name: () => this.$t('5a5739e5.6a52ee'), key: 'member_mobile' }
+          { name: () => t('5a5739e5.7035c6'), key: 'account' },
+          { name: () => t('5a5739e5.a81052'), key: 'auth_code' },
+          { name: () => t('5a5739e5.3bc5e6'), key: 'email' },
+          { name: () => t('5a5739e5.53cc55'), key: 'distributor_name' },
+          { name: () => t('5a5739e5.5a83cb'), key: 'enterprise_id' },
+          { name: () => t('5a5739e5.f47e27'), key: 'enterprise_name' },
+          { name: () => t('5a5739e5.705f0a'), key: 'enterprise_sn' },
+          { name: () => t('5a5739e5.6a52ee'), key: 'member_mobile' }
         ]
       }),
       addDialog: false,
@@ -173,76 +176,76 @@ export default {
       },
       employeeFormList: [
         {
-          label: this.$t('5a5739e5.0067d7'),
+          label: t('5a5739e5.0067d7'),
           key: 'enterprise_id',
           component: () => (
             <el-select
-              v-model={this.employeeForm.enterprise_id}
-              v-scroll={() => this.pages.nextPage()}
+              v-model={self.employeeForm.enterprise_id}
+              v-scroll={() => self.pages.nextPage()}
               filterable
             >
-              {this.companyList.map((item, index) => (
+              {self.companyList.map((item, index) => (
                 <el-option key={`company-item__${index}`} label={item.name} value={item.id} />
               ))}
             </el-select>
           ),
           validator: (rule, value, callback) => {
             if (value) callback()
-            else callback(this.$t('5a5739e5.321fa5'))
+            else callback(t('5a5739e5.321fa5'))
           }
         },
         {
-          label: this.$t('5a5739e5.60d045'),
+          label: t('5a5739e5.60d045'),
           key: 'name',
           type: 'input',
           required: true,
-          message: this.$t('5a5739e5.281bad')
+          message: t('5a5739e5.281bad')
         },
         {
-          label: this.$t('5a5739e5.8098e2'),
+          label: t('5a5739e5.8098e2'),
           key: 'mobile',
           type: 'input',
-          isShow: () => this.authType == 'mobile' || this.authType == 'qr_code',
+          isShow: () => self.authType == 'mobile' || self.authType == 'qr_code',
           validator: (rule, value, callback) => {
-            if (this.authType == 'mobile' || this.authType == 'qr_code') {
+            if (self.authType == 'mobile' || self.authType == 'qr_code') {
               if (value) callback()
-              else callback(this.$t('5a5739e5.281bad'))
+              else callback(t('5a5739e5.281bad'))
             } else callback()
           }
         },
         {
-          label: this.$t('5a5739e5.7035c6'),
+          label: t('5a5739e5.7035c6'),
           key: 'account',
           type: 'input',
-          isShow: () => this.authType == 'account',
+          isShow: () => self.authType == 'account',
           validator: (rule, value, callback) => {
-            if (this.authType == 'account') {
+            if (self.authType == 'account') {
               if (value) callback()
-              else callback(this.$t('5a5739e5.281bad'))
+              else callback(t('5a5739e5.281bad'))
             } else callback()
           }
         },
         {
-          label: this.$t('5a5739e5.a81052'),
+          label: t('5a5739e5.a81052'),
           key: 'auth_code',
           type: 'input',
-          isShow: () => this.authType == 'account',
+          isShow: () => self.authType == 'account',
           validator: (rule, value, callback) => {
-            if (this.authType == 'account') {
+            if (self.authType == 'account') {
               if (value) callback()
-              else callback(this.$t('5a5739e5.281bad'))
+              else callback(t('5a5739e5.281bad'))
             } else callback()
           }
         },
         {
-          label: this.$t('5a5739e5.cc8ae2'),
+          label: t('5a5739e5.cc8ae2'),
           key: 'email',
           type: 'input',
-          isShow: () => this.authType == 'email',
+          isShow: () => self.authType == 'email',
           validator: (rule, value, callback) => {
-            if (this.authType == 'email') {
+            if (self.authType == 'email') {
               if (value) callback()
-              else callback(this.$t('5a5739e5.281bad'))
+              else callback(t('5a5739e5.281bad'))
             } else callback()
           }
         }
