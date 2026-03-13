@@ -73,8 +73,7 @@
     font-size: 12px;
     cursor: default;
   }
-  .icon-times-circle1,
-  .el-icon-circle-close {
+  .icon-qingchuFilled{
     position: absolute;
     right: -7px;
     z-index: 99;
@@ -82,9 +81,6 @@
     font-size: 18px;
     color: #666;
     cursor: pointer;
-  }
-  .el-icon-circle-close:hover {
-    color: #f56c6c;
   }
 
   .picker-video-player {
@@ -216,7 +212,7 @@ export default {
       return (
         <div class='image-item' key={`image-item__${index}`}>
           <i
-            class='el-icon-circle-close'
+            class='ecx-icon icon-qingchuFilled'
             on-click={(e) => {
               e.stopPropagation()
               this.handleDeleteItem(index)
