@@ -101,6 +101,16 @@
             <div>{{ scope.row.sort }}</div>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('0e7dabe2.e8f9a1')" width="120" align="center">
+          <template slot-scope="scope">
+            <el-switch
+              :value="scope.row.is_show_front"
+              active-value="1"
+              inactive-value="0"
+              @change="(val) => onIsShowFrontChange(scope.row, val)"
+            />
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('0e7dabe2.b34dc8')" width="200">
           <template slot-scope="scope">
             <div class="img-container">
@@ -148,7 +158,8 @@ export default {
         parent_id: 0,
         parent_name: '',
         image_url: '',
-        customize_page_id: ''
+        customize_page_id: '',
+        is_show_front: '1'
       }
     }
   },
@@ -167,6 +178,13 @@ export default {
           label: this.$t('0e7dabe2.53eb44'),
           key: 'sort',
           type: 'number'
+        },
+        {
+          label: this.$t('0e7dabe2.e8f9a1'),
+          key: 'is_show_front',
+          type: 'switch',
+          activeValue: '1',
+          inactiveValue: '0'
         },
         {
           label: this.$t('0e7dabe2.dc1eed'),
@@ -224,19 +242,29 @@ export default {
         parent_id: 0,
         parent_name: '',
         image_url: '',
-        customize_page_id: ''
+        customize_page_id: '',
+        is_show_front: '1'
       }
       this.categoryDialog = true
     },
     // 编辑分类
-    editCategory({ parent_id, category_id, category_name, sort, image_url, customize_page_id }) {
+    editCategory({
+      parent_id,
+      category_id,
+      category_name,
+      sort,
+      image_url,
+      customize_page_id,
+      is_show_front
+    }) {
       this.categoryForm = {
         category_id,
         category_name,
         sort,
         parent_id,
         image_url,
-        customize_page_id: customize_page_id == 0 ? '' : customize_page_id
+        customize_page_id: customize_page_id == 0 ? '' : customize_page_id,
+        is_show_front: is_show_front === undefined || is_show_front === null ? '1' : String(is_show_front)
       }
       this.categoryDialog = true
     },
@@ -251,9 +279,22 @@ export default {
         parent_id: category_id,
         parent_name: category_name,
         image_url: '',
-        customize_page_id: ''
+        customize_page_id: '',
+        is_show_front: '1'
       }
       this.categoryDialog = true
+    },
+    async onIsShowFrontChange(row, val) {
+      try {
+        await this.$api.goods.editCategory({
+          category_id: row.category_id,
+          is_show_front: val
+        })
+        this.$set(row, 'is_show_front', val)
+        this.$message.success(this.$t('0e7dabe2.3bb47b'))
+      } catch (e) {
+        this.$message.error(e?.message || this.$t('0e7dabe2.02d981'))
+      }
     },
 
     async handleClick(cat_id) {
@@ -295,15 +336,23 @@ export default {
       resolve(list)
     },
     async onCategoryFormSubmit() {
-      const { category_name, sort, image_url, customize_page_id, parent_id, category_id } =
-        this.categoryForm
+      const {
+        category_name,
+        sort,
+        image_url,
+        customize_page_id,
+        parent_id,
+        category_id,
+        is_show_front
+      } = this.categoryForm
       if (category_id) {
         await this.$api.goods.editCategory({
           category_name,
           sort,
           image_url,
           category_id,
-          customize_page_id
+          customize_page_id,
+          is_show_front
         })
         this.$message.success(this.$t('0e7dabe2.3bb47b'))
       } else {
@@ -312,6 +361,7 @@ export default {
           sort,
           image_url,
           customize_page_id,
+          is_show_front,
           parent_id: parent_id != '0' ? parent_id : undefined
         })
         this.$message.success(this.$t('0e7dabe2.3fdaea'))
