@@ -24,3 +24,4 @@
 ## 遗留问题与后续建议
 
 - 无
+- 已补写 `plan.md`，便于 f2e-ai-execute-plan 追溯。
