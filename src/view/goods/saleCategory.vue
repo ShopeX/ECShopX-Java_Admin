@@ -264,7 +264,7 @@ export default {
         parent_id,
         image_url,
         customize_page_id: customize_page_id == 0 ? '' : customize_page_id,
-        is_show_front: is_show_front === undefined || is_show_front === null ? '1' : String(is_show_front)
+        is_show_front: String(is_show_front)
       }
       this.categoryDialog = true
     },
