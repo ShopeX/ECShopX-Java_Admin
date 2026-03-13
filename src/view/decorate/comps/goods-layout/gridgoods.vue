@@ -35,7 +35,7 @@
       >
         <!-- 商品图片 -->
         <div class="goods-img-wrapper">
-          <img :src="item.main_img || item.pics?.[0] || ''" class="goods-image" alt="">
+          <img :src="getItemImg(item)" class="goods-image" alt="">
           <!-- 已售罄标签 -->
           <div v-if="isSoldOut(item)" class="sold-out-mask">
             <span class="sold-out-text">{{ $t('82f6b6da.b12876') }}</span>
@@ -58,13 +58,19 @@
             </span>
           </div>
           <div class="goods-price-wrapper">
-            <div class="current-price">
-              <span class="price-symbol">¥</span>
-              <span class="price-value">{{ formatPrice(item.price) }}</span>
+            <div class="current-price" v-if="item.pay_class === 'point'">
+              <span class="price-value">{{ item.point != null ? item.point : 0 }}</span>
+              <span class="price-symbol">{{ $t('5c0a1eb5.9f68a8') }}</span>
             </div>
-            <div class="original-price" v-if="item.market_price && item.market_price > item.price">
-              {{ formatPrice(item.market_price) }}
-            </div>
+            <template v-else>
+              <div class="current-price">
+                <span class="price-symbol">¥</span>
+                <span class="price-value">{{ formatPrice(item.price) }}</span>
+              </div>
+              <div class="original-price" v-if="item.market_price && item.market_price > item.price">
+                {{ formatPrice(item.market_price) }}
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -98,6 +104,11 @@ export default {
     }
   },
   methods: {
+    getItemImg(item) {
+      if (item.main_img) return item.main_img
+      const first = item.pics && item.pics[0]
+      return first ? (typeof first === 'string' ? first : first.url || '') : ''
+    },
     // 格式化价格（除以100）
     formatPrice(price) {
       if (!price) return '0.00'

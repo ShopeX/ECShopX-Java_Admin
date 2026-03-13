@@ -31,7 +31,7 @@
       <div v-for="(item, index) in goodsList" :key="`goods-${index}`" class="goods-goods-item">
         <!-- 商品图片 -->
         <div class="goods-img-wrapper">
-          <img :src="item.main_img || item.pics?.[0] || ''" class="goods-image" alt="">
+          <img :src="getItemImg(item)" class="goods-image" alt="">
           <!-- 满减标签 -->
           <div v-if="getPromotionText(item)" class="promotion-label">
             {{ getPromotionText(item) }}
@@ -42,8 +42,14 @@
         <div class="goods-info">
           <div class="goods-name">{{ item.item_name || '' }}</div>
           <div class="goods-price">
-            <span class="price-unit">¥</span>
-            <span class="price-text">{{ formatPrice(item.price) }}</span>
+            <template v-if="item.pay_class === 'point'">
+              <span class="price-text">{{ item.point != null ? item.point : 0 }}</span>
+              <span class="price-unit">{{ i18n.t('5c0a1eb5.9f68a8') }}</span>
+            </template>
+            <template v-else>
+              <span class="price-unit">¥</span>
+              <span class="price-text">{{ formatPrice(item.price) }}</span>
+            </template>
           </div>
         </div>
       </div>
@@ -81,6 +87,11 @@ export default {
     }
   },
   methods: {
+    getItemImg(item) {
+      if (item.main_img) return item.main_img
+      const first = item.pics && item.pics[0]
+      return first ? (typeof first === 'string' ? first : first.url || '') : ''
+    },
     // 格式化价格（除以100）
     formatPrice(price) {
       if (!price) return '0.00'
