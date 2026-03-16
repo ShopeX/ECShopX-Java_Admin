@@ -9,8 +9,8 @@
       <SpPlatformTip v-if="!VERSION_SHUYUN()" h5 app alipay />
 
       <el-tabs v-model="activeTab" type="card" @tab-click="fetchPageList">
-        <el-tab-pane :label="$t('0255d436.cee6eb')" name="normal" />
         <el-tab-pane :label="$t('0255d436.d7bc07')" name="my" />
+        <el-tab-pane :label="$t('0255d436.cee6eb')" name="normal" />
       </el-tabs>
 
       <div class="action-container">
@@ -222,7 +222,7 @@ export default {
         { label: '自定义', value: 'normal' },
         { label: '个人中心', value: 'my' }
       ],
-      activeTab: 'normal' // 添加activeTab
+      activeTab: 'my' // 默认「我的页面」
     }
   },
   computed: {
