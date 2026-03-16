@@ -135,6 +135,7 @@ export default {
         'bgPic',
         'backgroundImg',
         'newNavigateStyle',
+        'immersiveScrollBgColor',
         'newPageBackgroundStyle',
         'limitedTimeBackground',
         'navitembordercolor',

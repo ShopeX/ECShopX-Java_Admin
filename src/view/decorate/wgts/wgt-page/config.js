@@ -34,6 +34,16 @@ const config = {
       }
     },
     {
+      group: i18n.t('f44e2c51.304e64'),
+      label: i18n.t('f44e2c51.c8d9e0'),
+      key: 'immersiveScrollBgColor',
+      component: 'color',
+      value: '#ffffff',
+      isShow: function () {
+        return scene === '1008' && this.value.isImmersive === true
+      }
+    },
+    {
       group: i18n.t('f44e2c51.eeb8e8'),
       label: i18n.t('f44e2c51.35b115'),
       key: 'titleStyle',
@@ -200,6 +210,7 @@ const config = {
       pageBackgroundImage,
       pTitleHotSetting = { imgUrl: '', data: [] },
       isImmersive,
+      immersiveScrollBgColor,
       showSearchButton,
       searchButtonColor
     } = base || {}
@@ -251,6 +262,7 @@ const config = {
       newPageBackgroundStyle,
       pTitleHotSetting,
       isImmersive,
+      immersiveScrollBgColor: immersiveScrollBgColor || '#ffffff',
       showSearchButton: showSearchButton !== undefined ? showSearchButton : true,
       searchButtonColor,
       track,
@@ -279,6 +291,7 @@ const config = {
           pageBackgroundColor: 'newPageBackgroundStyle.color',
           pageBackgroundImage: 'newPageBackgroundStyle.image',
           isImmersive: 'isImmersive',
+          immersiveScrollBgColor: 'immersiveScrollBgColor',
           pTitleHotSetting: 'pTitleHotSetting'
         })
       },
