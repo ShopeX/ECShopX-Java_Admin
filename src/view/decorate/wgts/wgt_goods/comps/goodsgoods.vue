@@ -42,9 +42,8 @@
         <div class="goods-info">
           <div class="goods-name">{{ item.item_name || '' }}</div>
           <div class="goods-price">
-            <template v-if="item.pay_class === 'point'">
-              <span class="price-text">{{ item.point != null ? item.point : 0 }}</span>
-              <span class="price-unit">{{ i18n.t('5c0a1eb5.9f68a8') }}</span>
+            <template v-if="value.dataType === 'pointsmall_items'">
+              <span class="price-text">{{ formatPointPrice(item) }}</span>
             </template>
             <template v-else>
               <span class="price-unit">¥</span>
@@ -91,6 +90,14 @@ export default {
       if (item.main_img) return item.main_img
       const first = item.pics && item.pics[0]
       return first ? (typeof first === 'string' ? first : first.url || '') : ''
+    },
+    /** 积分商品展示：纯积分显示「5000积分」，积分+现金显示「5000积分+0.1元」 */
+    formatPointPrice(item) {
+      const point = item.point != null ? item.point : 0
+      const pointStr = point + i18n.t('5c0a1eb5.9f68a8')
+      const price = item.price != null && item.price !== '' ? Number(item.price) : 0
+      if (!price || price === 0) return pointStr
+      return pointStr + '+' + this.formatPrice(price) + '元'
     },
     // 格式化价格（除以100）
     formatPrice(price) {

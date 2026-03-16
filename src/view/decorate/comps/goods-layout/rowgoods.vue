@@ -63,9 +63,8 @@
 
           <!-- 价格区域 -->
           <div class="goods-price-wrapper">
-            <div class="current-price" v-if="item.pay_class === 'point'">
-              <span class="price-value">{{ item.point != null ? item.point : 0 }}</span>
-              <span class="price-symbol">{{ $t('5c0a1eb5.9f68a8') }}</span>
+            <div class="current-price" v-if="value.dataType === 'pointsmall_items'">
+              <span class="price-value">{{ formatPointPrice(item) }}</span>
             </div>
             <template v-else>
               <div class="current-price">
@@ -118,6 +117,14 @@ export default {
       if (item.main_img) return item.main_img
       const first = item.pics && item.pics[0]
       return first ? (typeof first === 'string' ? first : first.url || '') : ''
+    },
+    /** 积分商品：纯积分显示「5000积分」，积分+现金显示「5000积分+0.1元」 */
+    formatPointPrice(item) {
+      const point = item.point != null ? item.point : 0
+      const pointStr = point + this.$t('5c0a1eb5.9f68a8')
+      const price = item.price != null && item.price !== '' ? Number(item.price) : 0
+      if (!price || price === 0) return pointStr
+      return pointStr + '+' + this.formatPrice(price) + '元'
     },
     // 格式化价格（除以100）
     formatPrice(price) {

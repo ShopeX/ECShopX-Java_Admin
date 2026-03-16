@@ -247,7 +247,7 @@ export default {
       }
       this.categoryDialog = true
     },
-    // 编辑分类
+    // 编辑分类（与列表「前台是否显示」开关保持一致：统一为 '1'/'0'）
     editCategory({
       parent_id,
       category_id,
@@ -257,6 +257,10 @@ export default {
       customize_page_id,
       is_show_front
     }) {
+      const showFront =
+        is_show_front === 1 ||
+        is_show_front === '1' ||
+        is_show_front === true
       this.categoryForm = {
         category_id,
         category_name,
@@ -264,7 +268,7 @@ export default {
         parent_id,
         image_url,
         customize_page_id: customize_page_id == 0 ? '' : customize_page_id,
-        is_show_front: String(is_show_front)
+        is_show_front: showFront ? '1' : '0'
       }
       this.categoryDialog = true
     },
@@ -322,9 +326,14 @@ export default {
         parent_id: pid
       })
       const list = res.map((item) => {
+        const showFront =
+          item.is_show_front === 1 ||
+          item.is_show_front === '1' ||
+          item.is_show_front === true
         return {
           ...item,
-          hasChildren: item.has_children == '1'
+          hasChildren: item.has_children == '1',
+          is_show_front: showFront ? '1' : '0'
         }
       })
       return list
