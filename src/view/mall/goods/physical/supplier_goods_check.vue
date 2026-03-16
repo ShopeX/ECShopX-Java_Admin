@@ -254,7 +254,7 @@
         <SpDialog
           ref="saleCategoryDialogRef"
           v-model="saleCategoryDialog"
-          :title="$t('d41d8cd9.x4y5z6')"
+          :title="$t('dc9cefd6.51af77')"
           :form="saleCategoryForm"
           :form-list="saleCategoryFormList"
           @onSubmit="onSaleCategorySubmit"
@@ -562,7 +562,7 @@ export default {
       },
       saleCategoryFormList: [
         {
-          label: this.$t('d41d8cd9.a52e1c'),
+          label: this.$t('dc9cefd6.392d49'),
           key: 'category_id',
           component: ({ key }, value) => (
             <el-cascader
@@ -1016,7 +1016,7 @@ export default {
         this.saleCategoryForm.item_id = this.selectionItems.map((item) => item.item_id)
         this.saleCategoryDialog = true
       } else {
-        this.$message.error(this.$t('58789194.ace302'))
+        this.$message.error(this.$t('dc9cefd6.ace302'))
       }
     },
     async onSaleCategorySubmit() {
@@ -1025,7 +1025,7 @@ export default {
         return item[item.length - 1]
       })
       await this.$api.goods.setItemsCategory({ item_id, category_id: _category_id })
-      this.$message.success(this.$t('58789194.33130f'))
+      this.$message.success(this.$t('dc9cefd6.33130f'))
       this.saleCategoryDialog = false
       this.$refs['finder'].refresh()
     },

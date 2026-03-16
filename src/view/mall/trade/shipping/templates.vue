@@ -17,16 +17,16 @@
             <buyerTemplates ref="buyerTemplates" :get-status="buyerTemplates" />
           </el-tab-pane>
           <el-tab-pane :label="$t('c8abf6d9.843135')" name="second">
-            <weightTemplates :get-status="weightTemplates" />
+            <weightTemplates ref="weightTemplates" :get-status="weightTemplates" />
           </el-tab-pane>
           <el-tab-pane :label="$t('c8abf6d9.5555b9')" name="third">
-            <numberTemplates :get-status="numberTemplates" />
+            <numberTemplates ref="numberTemplates" :get-status="numberTemplates" />
           </el-tab-pane>
           <el-tab-pane :label="$t('c8abf6d9.877ec9')" name="fourth">
-            <priceTemplates :get-status="priceTemplates" />
+            <priceTemplates ref="priceTemplates" :get-status="priceTemplates" />
           </el-tab-pane>
           <el-tab-pane :label="$t('c8abf6d9.a95569')" name="fifth">
-            <volumeTemplates :get-status="volumeTemplates" />
+            <volumeTemplates ref="volumeTemplates" :get-status="volumeTemplates" />
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -71,6 +71,13 @@ export default {
       this.activeName = this.$route.query.activeName
     }
   },
+  watch: {
+    $route(to, from) {
+      if (from && from.path.includes('editor') && to && !to.path.includes('editor')) {
+        this.$nextTick(() => this.getList())
+      }
+    }
+  },
   methods: {
     addTemplates() {
       this.$router.push({ path: this.matchRoutePath('editor') })
@@ -89,7 +96,18 @@ export default {
       }
     },
     getList() {
-      this.$refs.getShippingTemplatesList
+      const refs = [
+        this.$refs.buyerTemplates,
+        this.$refs.weightTemplates,
+        this.$refs.numberTemplates,
+        this.$refs.priceTemplates,
+        this.$refs.volumeTemplates
+      ]
+      refs.forEach((ref) => {
+        if (ref && typeof ref.getShippingTemplatesList === 'function') {
+          ref.getShippingTemplatesList()
+        }
+      })
     }
   }
 }

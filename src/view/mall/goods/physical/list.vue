@@ -1662,7 +1662,7 @@ export default {
         this.saleCategoryForm.item_id = this.selectionItems.map((item) => item.item_id)
         this.saleCategoryDialog = true
       } else {
-        this.$message.error(this.$t('d41d8cd9.a7b8c9'))
+        this.$message.error(this.$t('dc9cefd6.ace302'))
       }
     },
     async onSaleCategorySubmit() {
@@ -1671,7 +1671,7 @@ export default {
         return item[item.length - 1]
       })
       await this.$api.goods.setItemsCategory({ item_id, category_id: _category_id })
-      this.$message.success(this.$t('d41d8cd9.j4k5l6'))
+      this.$message.success(this.$t('dc9cefd6.33130f'))
       this.saleCategoryDialog = false
       this.$refs['finder'].refresh()
     },
@@ -1680,7 +1680,7 @@ export default {
         this.freightTemplateForm.item_id = this.selectionItems.map((item) => item.item_id)
         this.freightTemplateDialog = true
       } else {
-        this.$message.error(this.$t('d41d8cd9.a7b8c9'))
+        this.$message.error(this.$t('dc9cefd6.ace302'))
       }
     },
     handleAuditReason(data) {
@@ -1702,7 +1702,7 @@ export default {
         this.storeItemForm.item_id = this.selectionItems.map((item) => item.item_id)
         this.storeItemDialog = true
       } else {
-        this.$message.error(this.$t('d41d8cd9.a7b8c9'))
+        this.$message.error(this.$t('dc9cefd6.ace302'))
       }
     },
     batchGifts(status) {
@@ -1812,7 +1812,7 @@ export default {
       if (this.selectionItems.length > 0) {
         this.changePriceDialog = true
       } else {
-        this.$message.error(this.$t('d41d8cd9.a7b8c9'))
+        this.$message.error(this.$t('dc9cefd6.ace302'))
       }
     },
     async onChangePriceSubmit() {},
@@ -1835,7 +1835,7 @@ export default {
         // })
         this.labelDialog = true
       } else {
-        this.$message.error(this.$t('d41d8cd9.a7b8c9'))
+        this.$message.error(this.$t('dc9cefd6.ace302'))
       }
     },
     async commissionSubmit() {
@@ -1894,7 +1894,7 @@ export default {
     // 批量提交
     async onBatchSubmitItems() {
       if (this.selectionItems.length == 0) {
-        this.$message.error(this.$t('d41d8cd9.a7b8c9'))
+        this.$message.error(this.$t('dc9cefd6.ace302'))
         return
       }
       await this.$confirm(this.$t('d41d8cd9.b2c3d4'), this.$t('d41d8cd9.298be1'), {
