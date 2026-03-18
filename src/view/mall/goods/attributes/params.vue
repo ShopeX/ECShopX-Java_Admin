@@ -14,7 +14,7 @@
     />
 
     <div class="action-container mt-4">
-      <el-button type="primary" @click="handleNew"> {{ $t('07504bf6.4c0eea') }} </el-button>
+      <el-button type="primary" @click="handleNew">{{ $t('07504bf6.4c0eea') }}</el-button>
     </div>
 
     <SpFinder
@@ -36,9 +36,7 @@
     >
       <ParamsForm :value="form" @submit="onFormSubmit" />
       <div slot="footer">
-        <el-button type="primary" @click="handleFormSubmit">
-          {{ $t('07504bf6.939d53') }}
-        </el-button>
+        <el-button type="primary" @click="handleFormSubmit">{{ $t('07504bf6.939d53') }}</el-button>
       </div>
     </sideBar>
   </SpPage>
@@ -93,35 +91,36 @@ const [ParamsForm, ParamsFormApi] = useForm({
       fieldName: 'attribute_values',
       label: i18n.t('07504bf6.bfed49'),
       component: ({ h, value, onInput, formData }) => {
+        const list = Array.isArray(value) ? value : []
         return (
           <div>
-            {value.map((item, index) => (
-              <div key={index} class='flex items-center mb-2 bg-gray-50 rounded'>
-                <div class='flex-1 mr-2.5'>
+            {list.map((item, index) => (
+              <div key={index} class="flex items-center mb-2 bg-gray-50 rounded">
+                <div class="flex-1 mr-2.5">
                   <el-input
                     value={item.attribute_value}
-                    placeholder={Vue.prototype.$t('07504bf6.a0386a')}
+                    placeholder={i18n.t('07504bf6.a0386a')}
                     on-input={(val) => {
-                      const newValues = [...value]
-                      newValues[index].attribute_value = val
+                      const newValues = [...list]
+                      newValues[index] = { ...item, attribute_value: val }
                       onInput(newValues)
                     }}
                   />
                 </div>
                 <div
-                  class='cursor-pointer flex items-center text-gray-500 p-1 rounded'
+                  class="cursor-pointer flex items-center text-gray-500 p-1 rounded"
                   onClick={async () => {
                     try {
                       await Vue.prototype.$confirm(
-                        Vue.prototype.$t('07504bf6.167628'),
-                        Vue.prototype.$t('07504bf6.02d981'),
+                        i18n.t('07504bf6.167628'),
+                        i18n.t('07504bf6.02d981'),
                         {
-                          confirmButtonText: Vue.prototype.$t('07504bf6.38cf16'),
-                          cancelButtonText: Vue.prototype.$t('07504bf6.625fb2'),
+                          confirmButtonText: i18n.t('07504bf6.38cf16'),
+                          cancelButtonText: i18n.t('07504bf6.625fb2'),
                           type: 'warning'
                         }
                       )
-                      const newValues = [...value]
+                      const newValues = [...list]
                       newValues.splice(index, 1)
                       onInput(newValues)
                     } catch (e) {
@@ -129,28 +128,28 @@ const [ParamsForm, ParamsFormApi] = useForm({
                     }
                   }}
                 >
-                  <SpIcon name='delete' size={22} />
+                  <SpIcon name="delete" size={22} />
                 </div>
               </div>
             ))}
-            <div class='w-[110px] ml-0.8 border-gray-200'>
+            <div class="w-[110px] ml-0.8 border-gray-200">
               <el-button
-                type='default'
-                size='small'
-                class='border-dashed'
+                type="default"
+                size="small"
+                class="border-dashed"
                 onClick={() => {
-                  if (value.length >= 50) {
+                  if (list.length >= 50) {
                     Vue.prototype.$message({
                       type: 'warning',
-                      message: Vue.prototype.$t('07504bf6.94360c')
+                      message: i18n.t('07504bf6.94360c')
                     })
                     return
                   }
-                  const newValues = [...value, { attribute_value: '' }]
+                  const newValues = [...list, { attribute_value: '' }]
                   onInput(newValues)
                 }}
               >
-                {Vue.prototype.$t('07504bf6.308c56')}
+                {i18n.t('07504bf6.308c56')}
               </el-button>
             </div>
           </div>
@@ -234,7 +233,6 @@ export default {
     handleEdit(data) {
       this.show_sideBar = true
       this.$nextTick(() => {
-        // 安全地解析 is_show
         let isShow = data.is_show
         if (typeof data.is_show === 'string') {
           try {
@@ -244,12 +242,10 @@ export default {
               isShow = JSON.parse(data.is_show)
             }
           } catch (e) {
-            // 如果解析失败，尝试直接比较字符串
             isShow = data.is_show === 'true' || data.is_show === true
           }
         }
 
-        // 安全地处理 attribute_values
         let attributeValues = []
         if (data.attribute_values) {
           if (typeof data.attribute_values === 'string') {
@@ -302,7 +298,6 @@ export default {
       }
       const params = JSON.parse(JSON.stringify(submitData))
       params.attribute_values = JSON.stringify(params.attribute_values)
-      // 如果没有id，则表示为新增
       if (!submitData.attribute_id) {
         addGoodsAttr(params).then((res) => {
           this.$message({ type: 'success', message: this.$t('07504bf6.33130f') })
@@ -321,7 +316,6 @@ export default {
   },
   computed: {
     ...mapGetters(['wheight']),
-    // 搜索表单配置
     searchFormItems() {
       return [
         {
@@ -336,7 +330,6 @@ export default {
         }
       ]
     },
-    // 表格配置
     tableSetting() {
       return createSetting({
         actions: [
