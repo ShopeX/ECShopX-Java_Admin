@@ -7,7 +7,7 @@
 <template>
   <div
     :class="{
-      'wgt-slider': true,
+      'wgt-slider': true
     }"
     :style="outerStyle"
   >
@@ -15,7 +15,7 @@
       ref="sliderWrap"
       class="wgt-bd"
       :class="{
-        spaced: value.spaced,
+        spaced: value.spaced
       }"
     >
       <!-- 挂件自定义部分：占位图撑开第一屏高度，加载后重新测量 -->
@@ -39,7 +39,7 @@
           :key="index"
           class="slider-item"
           :class="{
-            rounded: value.rounded,
+            rounded: value.rounded
           }"
         >
           <div class="slider-item-content">
@@ -58,7 +58,7 @@
               muted="muted"
               objectFit="cover"
             >
-              <source :src="item.videoUrl">
+              <source :src="item.videoUrl" />
             </video>
             <SpImage
               :src="item.overlay"
@@ -69,11 +69,7 @@
             />
           </div>
           <!-- 叠层内容区域（用于热区交互） -->
-          <div
-            v-if="item.overlay"
-            class="overlay-content"
-            :style="overlayStyle(item, index)"
-          >
+          <div v-if="item.overlay" class="overlay-content" :style="overlayStyle(item, index)">
             <SpImage
               :class="{
                 'transparent-transition': currentIndex !== index,
@@ -93,7 +89,7 @@
           value.shape,
           value.dotColor,
           {
-            cover: value.dotCover,
+            cover: value.dotCover
           }
         ]"
       >
@@ -197,7 +193,11 @@ export default {
       const ref = `swiperVideo_${e}`
       const preref = `swiperVideo_${preIndex}`
       this.currentIndex = e
-      if (this.value.data[preIndex] && this.value.data[preIndex].media_type == 'video' && this.value.data[preIndex].autoplay) {
+      if (
+        this.value.data[preIndex] &&
+        this.value.data[preIndex].media_type == 'video' &&
+        this.value.data[preIndex].autoplay
+      ) {
         this.$refs[preref] && this.$refs[preref][0].pause()
         if (this.value.data[preIndex].interact == 'reset') {
           this.$refs[preref][0].currentTime = 0
