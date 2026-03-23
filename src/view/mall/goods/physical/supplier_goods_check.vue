@@ -22,6 +22,17 @@
   }
 }
 </style>
+<style lang="scss">
+.supplier-goods-check {
+  .edittext-col {
+    display: flex;
+    align-items: center;
+    .edit-box {
+      display: block;
+    }
+  }
+}
+</style>
 <template>
   <div class="supplier-goods-check">
     <SpRouterView>
@@ -236,7 +247,7 @@
         >
           <el-table v-loading="skuLoading" border :data="storeItemsList" height="100%">
             <el-table-column :label="$t('d41d8cd9.c3d4e5')" prop="item_spec_desc" min-width="120" />
-            <el-table-column :label="$t('d41d8cd9.u1v2w3')">
+            <el-table-column :label="$t('d41d8cd9.k8s9t0u')">
               <template slot-scope="scope">
                 <el-input-number
                   v-model="scope.row.store"
@@ -606,7 +617,7 @@ export default {
       },
       storeItemFormList: [
         {
-          label: this.$t('d41d8cd9.u1v2w3'),
+          label: this.$t('d41d8cd9.k8s9t0u'),
           key: 'storeNum',
           component: ({ key }, value) => (
             <el-input-number
@@ -671,14 +682,12 @@ export default {
           {
             name: this.$t('d41d8cd9.c2d3e4'),
             key: 'item_id',
-            width: 120,
             align: 'right',
             headerAlign: 'center'
           },
           {
             name: this.$t('d41d8cd9.f5g6h7'),
             key: 'main_item_id',
-            width: 120,
             align: 'right',
             headerAlign: 'center'
           },
@@ -731,8 +740,8 @@ export default {
               )
             }
           },
-          { name: this.$t('d41d8cd9.0888fc'), key: 'item_bn', width: 120 },
-          { name: this.$t('d41d8cd9.w1x2y3'), key: 'supplier_name', width: 120 },
+          { name: this.$t('d41d8cd9.0888fc'), key: 'item_bn' },
+          { name: this.$t('d41d8cd9.w1x2y3'), key: 'supplier_name' },
           {
             name: this.$t('d41d8cd9.g4h5i6'),
             key: 'tagList',
@@ -777,7 +786,7 @@ export default {
               }
             }
           },
-          { name: this.$t('d41d8cd9.u1v2w3'), key: 'store', align: 'right', headerAlign: 'center' },
+          { name: this.$t('d41d8cd9.k8s9t0u'), key: 'store', align: 'right', headerAlign: 'center' },
           {
             name: this.$t('d41d8cd9.u0v1w2'),
             key: 'market_price',
