@@ -110,6 +110,28 @@ const routes = [
         component: () => import('@/views/store/storeRules/store-rules')
       },
       {
+        name: 'storeManageStoreCategory',
+        path: 'store-manage/store-category',
+        meta: {
+          aliasName: 'storecategory',
+          icon: 'icon-address',
+          title: '6478e260.2419d0',
+          permissions: ['store.storemanager.storecategory']
+        },
+        component: () => import('@/views/store/store-category')
+      },
+      {
+        name: 'storeManageNearbyStoreInfo',
+        path: 'store-manage/nearby-store-info',
+        meta: {
+          aliasName: 'nearbystoreinfo',
+          icon: 'icon-address',
+          title: '6478e260.84b1aa',
+          permissions: ['store.storemanager.nearbystoreinfo']
+        },
+        component: () => import('@/views/store/nearby-store-info')
+      },
+      {
         name: 'storeManageRefundAddress',
         path: 'store-manage/refund-address',
         meta: {

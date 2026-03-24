@@ -286,6 +286,28 @@
           <el-button type="primary" @click="onSubmit">{{ $t('e748f88a.be5fbb') }}</el-button>
         </div>
       </el-tab-pane>
+      <el-tab-pane :label="$t('e748f88a.a56156')" name="third">
+        <div class="list">
+          <div class="title">{{ $t('e748f88a.80d2ca') }}</div>
+          <div class="formBox">
+            <el-form ref="form" label-width="150px">
+              <el-card shadow="never">
+                <el-form-item :label="$t('e748f88a.6a37ea')">
+                  <SpImagePicker v-model="form.avatar_url" />
+                  <div class="tips">{{ $t('e748f88a.0f1410') }}</div>
+                </el-form-item>
+                <el-form-item :label="$t('e748f88a.8fe9a8')">
+                  <SpImagePicker v-model="form.bg_avatar_url" />
+                  <div class="tips">{{ $t('e748f88a.4b1f0b') }}</div>
+                </el-form-item>
+              </el-card>
+            </el-form>
+          </div>
+        </div>
+        <div class="page-btn">
+          <el-button type="primary" @click="onSubmit"> {{ $t('e748f88a.be5fbb') }} </el-button>
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -304,6 +326,8 @@ export default {
       activeName: 'first',
       form: {
         corpid: '', //企业ID
+        avatar_url: '', // 导购服务头像图
+        bg_avatar_url: '', // 添加导购背景图
         agents: {
           // 小程序配置
           app: {

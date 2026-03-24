@@ -34,6 +34,13 @@
       <el-table-column type="selection" :reserve-selection="true" width="50" />
       <el-table-column prop="name" :label="$t('f15fc38a.0d4934')" />
       <el-table-column prop="contact" :label="$t('f15fc38a.52409d')" />
+      <el-table-column prop="is_valid" :label="$t('f15fc38a.3fea7c')">
+        <template slot-scope="scope">
+          <span v-if="scope.row.is_valid === 'true'">{{ $t('f15fc38a.7854b5') }}</span>
+          <span v-else-if="scope.row.is_valid === 'false'">{{ $t('f15fc38a.710ad0') }}</span>
+          <span v-else-if="scope.row.is_valid === 'delete'">{{ $t('f15fc38a.0044f6') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="store_name" :label="$t('f15fc38a.a7da92')" />
       <el-table-column prop="address" :label="$t('f15fc38a.765048')" show-overflow-tooltip />
     </el-table>
@@ -46,11 +53,13 @@
       />
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="cancelAction">取 消</el-button>
-      <el-button v-if="!isSynchronize" type="primary" @click="saveStoreAction">确 定</el-button>
-      <el-button v-else type="primary" @click="saveStoreAction">确 定 同 步</el-button>
+      <el-button @click="cancelAction">{{ $t('f15fc38a.c08ab9') }}</el-button>
+      <el-button v-if="!isSynchronize" type="primary" @click="saveStoreAction">{{
+        $t('f15fc38a.aa7527')
+      }}</el-button>
+      <el-button v-else type="primary" @click="saveStoreAction">{{ $t('f15fc38a.38ee33') }}</el-button>
       <el-button v-if="isSynchronize" type="primary" @click="saveAllStoreAction"
-        >同 步 所 有 门 店</el-button
+        >{{ $t('f15fc38a.90d8ec') }}</el-button
       >
     </span>
   </el-dialog>

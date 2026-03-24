@@ -1034,11 +1034,11 @@ export default {
     },
     submitForm(formName) {
       if (this.form.days <= 0) {
-        this.$message.error('有效天数必须大于0')
+        this.$message.error(this.$t('dba53da0.ea1a0b'))
         return
       }
       if (typeof this.form.days !== 'number') {
-        this.$message.error('请输入有效的数字')
+        this.$message.error(this.$t('dba53da0.fde53c'))
         return
       }
 
@@ -1049,21 +1049,21 @@ export default {
       }
       if (this.form.use_scenes == 'SELF' && this.self_rcode == '1') {
         if (!this.form.self_consume_code) {
-          this.$message.error('选择自助核销并开启验证码后，验证码必填')
+          this.$message.error(this.$t('dba53da0.88ce76'))
           return
         }
         if (this.form.self_consume_code && this.form.self_consume_code.length != 4) {
-          this.$message.error('验证码必须为4个数字')
+          this.$message.error(this.$t('dba53da0.5c37f6'))
           return
         }
         let reg = /^\d*$/
         if (this.form.self_consume_code && !reg.test(this.form.self_consume_code)) {
-          this.$message.error('验证码必须为纯数字')
+          this.$message.error(this.$t('dba53da0.2f523c'))
           return
         }
       }
       if (this.form.use_all_shops === 'false' && !this.form.rel_shops_ids) {
-        this.$message.error('请添加适用门店')
+        this.$message.error(this.$t('dba53da0.ed4945'))
         return
       }
       if (this.form.use_scenes == 'SELF' && this.self_rcode == '0') {
@@ -1106,14 +1106,14 @@ export default {
               .then((res) => {
                 if (res.data.data && res.data.data.status) {
                   this.$message({
-                    message: '更新成功',
+                    message: this.$t('dba53da0.55aa63'),
                     type: 'success',
                     duration: 2 * 1000
                   })
                   this.refresh()
                   this.$router.go(-1)
                 } else {
-                  this.$message.error('更新优惠券失败!')
+                  this.$message.error(this.$t('dba53da0.445eb0'))
                   this.submitDisabled = false
                   return false
                 }
@@ -1126,14 +1126,14 @@ export default {
               .then((res) => {
                 if (res.data.data.status) {
                   this.$message({
-                    message: '添加成功',
+                    message: this.$t('dba53da0.3fdaea'),
                     type: 'success',
                     duration: 2 * 1000
                   })
                   this.refresh()
                   this.$router.go(-1)
                 } else {
-                  this.$message.error('添加优惠券失败!')
+                  this.$message.error(this.$t('dba53da0.be28db'))
                   this.submitDisabled = false
                   return false
                 }
@@ -1298,7 +1298,7 @@ export default {
       } else {
         this.$message({
           type: 'error',
-          message: '请选择至少一个商品!'
+          message: this.$t('dba53da0.c5f66d')
         })
       }
     },
@@ -1390,7 +1390,7 @@ export default {
      * 下载模板
      * */
     uploadHandleTemplate() {
-      let params = { file_type: 'marketing_goods', file_name: '商品模板' }
+      let params = { file_type: 'marketing_goods', file_name: this.$t('dba53da0.e07423') }
       exportUploadTemplate(params).then((response) => {
         let { data } = response.data
         if (data.file) {
@@ -1403,7 +1403,7 @@ export default {
         } else {
           this.$message({
             type: 'error',
-            message: '没有相关数据可导出'
+            message: this.$t('dba53da0.bfd8d5')
           })
         }
       })
@@ -1416,7 +1416,7 @@ export default {
       handleUploadFile(params).then((response) => {
         this.$message({
           type: 'success',
-          message: '上传成功'
+          message: this.$t('dba53da0.a7699b')
         })
 
         let { data } = response.data
@@ -1429,7 +1429,7 @@ export default {
           setTimeout(() => {
             this.$message({
               showClose: true,
-              message: `以下商品编号不存在：${str}`,
+              message: `${this.$t('dba53da0.ef474d')}${str}`,
               type: 'error',
               duration: 5000
             })

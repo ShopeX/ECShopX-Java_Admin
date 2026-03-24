@@ -99,6 +99,13 @@
       <el-tab-pane :label="$t('d81d8932.787963')" name="share_page">
         <PickerSharePage v-if="tabValue == 'share_page'" ref="share_page" :value="value" />
       </el-tab-pane>
+      <el-tab-pane :label="$t('d81d8932.e7dea7')" name="customer_service">
+        <PickerCustomerService
+          v-if="tabValue == 'customer_service'"
+          ref="customer_service"
+          :value="value"
+        />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -127,6 +134,7 @@ import PickerShopTag from './picker-shoptag'
 import PickerLottery from './picker-lottery'
 import PickerSharePage from './picker-share-page'
 import PickerCoupon from './picker-coupon'
+import PickerCustomerService from './picker-customer-service'
 
 export default {
   name: 'PickerPath',
@@ -150,11 +158,12 @@ export default {
     PickerShopTag,
     PickerLottery,
     PickerSharePage,
-    PickerCoupon
+    PickerCoupon,
+    PickerCustomerService
   },
   // extends: BasePicker,
   config: {
-    title: '设置路径'
+    title: 'd81d8932.4f2c29'
   },
   props: ['value'],
   created() {
@@ -233,6 +242,12 @@ export default {
           })
         },
         link: () => {
+          return pickBy(data, {
+            id: 'id',
+            title: 'title'
+          })
+        },
+        customer_service: () => {
           return pickBy(data, {
             id: 'id',
             title: 'title'

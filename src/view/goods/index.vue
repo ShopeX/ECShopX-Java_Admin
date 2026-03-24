@@ -1150,7 +1150,8 @@ export default {
         max_num
       }
       const { goods_params, goods_spec = [] } = await this.$api.goods.getCategoryInfo(
-        item_main_cat_id
+        item_main_cat_id,
+        { item_id: itemId ? itemId : '' }
       )
       this.mainCategorySpec = goods_spec
       this.resolveParamsData(goods_params, item_params)

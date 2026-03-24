@@ -41,7 +41,21 @@
       <SpFilterFormItem prop="shop_code">
         <el-input v-model="formData.shop_code" :placeholder="$t('3a1ca73b.68f04a')" />
       </SpFilterFormItem>
-      <SpFilterFormItem prop="is_valid">
+      <SpFilterFormItem prop="distributor_category_id">
+        <el-select
+          v-model="formData.distributor_category_id"
+          clearable
+          :placeholder="$t('3a1ca73b.459c3e')"
+        >
+          <el-option
+            v-for="item in categoryList"
+            :key="item.category_id"
+            :label="item.category_name"
+            :value="item.category_id"
+          />
+        </el-select>
+      </SpFilterFormItem>
+      <SpFilterFormItem v-if="!isValidFixed" prop="is_valid">
         <el-select v-model="formData.is_valid" clearable :placeholder="$t('3a1ca73b.3fea7c')">
           <el-option value="true" :label="$t('3a1ca73b.7854b5')" />
           <el-option value="false" :label="$t('3a1ca73b.710ad0')" />
@@ -73,6 +87,7 @@
 
 <script>
 import { createSetting } from '@shopex-ui/finder'
+import { i18n } from '@/i18n'
 import district from '@/common/district.json'
 import BasePicker from './base'
 import PageMixin from '../mixins/page'
@@ -81,7 +96,7 @@ export default {
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
-    title: '选择店铺'
+    title: i18n.t('3a1ca73b.afa2e6')
   },
   props: ['value'],
   created() {
@@ -93,19 +108,26 @@ export default {
         region: [],
         keywords: '',
         shop_code: '',
+        distributor_category_id: '',
         is_valid: ''
       },
       district,
+      categoryList: [],
       regionArea: [],
       loading: false,
       multiple: this.value?.multiple ?? true
     }
   },
   computed: {
+    // 调用方通过 queryParams 指定了 is_valid 时，不再展示状态筛选
+    isValidFixed() {
+      return this.value?.queryParams?.is_valid !== undefined && this.value?.queryParams?.is_valid !== ''
+    },
     setting() {
       const t = this.$t.bind(this)
       const columns = [
         { name: t('3a1ca73b.0d4934'), key: 'name' },
+        { name: t('3a1ca73b.2419d0'), key: 'distributor_category_name', width: 120 },
         {
           name: t('3a1ca73b.1dbb0d'),
           key: 'distribution_type',
@@ -141,6 +163,10 @@ export default {
       })
     }
   },
+  created() {
+    // this.fetch()
+    this.getCategoryList()
+  },
   methods: {
     beforeSearch(params) {
       const queryParams = this.value?.queryParams || {}
@@ -162,6 +188,7 @@ export default {
         ...params,
         name: this.formData.keywords,
         shop_code: this.formData.shop_code,
+        distributor_category_id: this.formData.distributor_category_id,
         province: province,
         city: city,
         area: area,
@@ -199,6 +226,17 @@ export default {
     },
     onSelectionChange(selection) {
       this.updateVal(selection)
+    },
+    async getCategoryList() {
+      try {
+        const res = await this.$api.store.getStoreCategoryList({
+          page: 1,
+          pageSize: 1000
+        })
+        this.categoryList = res.list || []
+      } catch (error) {
+        console.error('获取门店分类列表失败:', error)
+      }
     }
   }
 }

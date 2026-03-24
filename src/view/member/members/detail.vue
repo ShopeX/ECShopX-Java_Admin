@@ -93,12 +93,12 @@
 
           <!--  -->
           <div v-if="member.salesperson_info?.employee_number" class="info-item">
-            <span class="txt">{{ $t('f14acdc9.e2093f') }}</span>
+            <span class="txt">{{ $t('f14acdc9.8d1f18') }}</span>
             <span v-if="member.created">{{ member.salesperson_info?.employee_number }}</span>
             <span v-else>--</span>
           </div>
           <div v-if="member.salesperson_info?.store_name" class="info-item">
-            <span class="txt">{{ $t('f14acdc9.2bb441') }}</span>
+            <span class="txt">{{ $t('f14acdc9.343ce4') }}</span>
             <span v-if="member.created">{{ member.salesperson_info?.store_name }}</span>
             <span v-else>--</span>
           </div>
@@ -286,7 +286,7 @@ export default {
           background_pic_url: '',
           company_id: '',
           default_grade: true,
-          grade_name: '普通',
+          grade_name: this.$t('f14acdc9.35242c'),
           privileges: {
             discount: '',
             discount_desc: ''

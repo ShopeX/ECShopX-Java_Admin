@@ -107,6 +107,9 @@
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+        <el-button size="small" type="primary" @click="updateBatchGoods">
+          {{ $t('dc9cefd6.0904d7') }}
+        </el-button>
       </div>
 
       <SpPageUpload />
@@ -510,6 +513,7 @@ export default {
         goods_bn: '',
         operator_name: '',
         cat_id: '',
+        created_time: [],
         main_cat_id: null
       },
       auditStatusMap: {
@@ -1478,8 +1482,11 @@ export default {
         item_type: 'normal',
         operate_source: IS_SUPPLIER() ? 'supplier' : 'platform',
         ...this.searchParams,
-        item_source: 'platform'
+        item_source: 'platform',
+        created_time_start: this.searchParams.created_time.length > 0 ? this.searchParams.created_time[0] / 1000 : '',
+        created_time_end: this.searchParams.created_time.length > 0 ? this.searchParams.created_time[1] / 1000 : ''
       }
+      delete params.created_time
       if (Array.isArray(params.main_cat_id)) {
         params.main_cat_id = params.main_cat_id.filter(
           (item) => item != null && item != undefined && item != ''
@@ -1870,7 +1877,9 @@ export default {
     async syncToShop(isAll) {
       let distributorIds = '_all'
       if (!isAll) {
-        const { data } = await this.$picker.shop()
+        const { data } = await this.$picker.shop({
+          queryParams: { is_valid: 'true' }
+        })
         distributorIds = data.map((item) => item.distributor_id)
       }
       if (this.selectionItems.length == 0) {
@@ -2120,6 +2129,12 @@ export default {
             message: this.$t('d41d8cd9.t0u1v2')
           })
         }
+      })
+    },
+    updateBatchGoods() {
+      this.$api.goods.updateBatchGoods().then((res) => {
+        this.$message.success(this.$t('dc9cefd6.bbdee9'))
+        this.$refs['finder'].refresh()
       })
     }
   }

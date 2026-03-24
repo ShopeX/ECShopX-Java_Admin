@@ -60,6 +60,7 @@
 
 <script>
 import { createSetting } from '@shopex-ui/finder'
+import { i18n } from '@/i18n'
 import BasePicker from './base'
 import PageMixin from '../mixins/page'
 export default {
@@ -67,7 +68,7 @@ export default {
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
-    title: '选择店铺'
+    title: i18n.t('f4806533.afa2e6')
   },
   props: ['value'],
   data() {
@@ -155,11 +156,9 @@ export default {
       const { list } = response.data.data
       if (this.value.data) {
         // 统一转换为字符串类型 不然incluses匹配不到
-        let dataArrayString = this.value.data.map((item) => String(item))
-
-        const selectRows = list.filter((item) =>
-          dataArrayString.includes(String(item.attribute_id))
-        )
+        let dataArrayString = this.value.data.map(item => String(item))
+        
+        const selectRows = list.filter(item => dataArrayString.includes(String(item.attribute_id)))
         const { finderTable } = this.$refs.finder.$refs
         setTimeout(() => {
           finderTable.$refs.finderTable.setSelection(selectRows)

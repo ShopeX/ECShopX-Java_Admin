@@ -289,22 +289,24 @@ export const FORM_COMP = {
 }
 
 export const LINK_PATH = {
-  goods: i18n.t('e3a5dbf4.9897d8'),
-  store: i18n.t('e3a5dbf4.295713'),
-  sale_category: i18n.t('e3a5dbf4.392d49'),
-  category: i18n.t('e3a5dbf4.b3ed9f'),
-  tag: i18n.t('e3a5dbf4.0f394b'),
-  article: i18n.t('e3a5dbf4.c75625'),
-  planting: i18n.t('e3a5dbf4.e8f87a'),
-  link: i18n.t('e3a5dbf4.59ceff'),
-  regactivity: i18n.t('e3a5dbf4.2bc045'),
-  purchase_activity: i18n.t('e3a5dbf4.dc7202'),
-  seckill: i18n.t('e3a5dbf4.55c758'),
-  custom_page: i18n.t('e3a5dbf4.cee6eb'),
-  liverooms: i18n.t('e3a5dbf4.7bbe8e'),
-  other_wxapp: i18n.t('e3a5dbf4.f5a0d7'),
-  shop_tag: i18n.t('e3a5dbf4.0f09a8'),
-  lottery: i18n.t('e3a5dbf4.283be6')
+  'goods': i18n.t('e3a5dbf4.9897d8'),
+  'store': i18n.t('e3a5dbf4.295713'),
+  'sale_category': i18n.t('e3a5dbf4.392d49'),
+  'category': i18n.t('e3a5dbf4.b3ed9f'),
+  'tag': i18n.t('e3a5dbf4.0f394b'),
+  'article': i18n.t('e3a5dbf4.c75625'),
+  'planting': i18n.t('e3a5dbf4.e8f87a'),
+  'link': i18n.t('e3a5dbf4.59ceff'),
+  // 'marketing': '营销',
+  'regactivity': i18n.t('e3a5dbf4.2bc045'),
+  'purchase_activity': i18n.t('e3a5dbf4.dc7202'),
+  'seckill': i18n.t('e3a5dbf4.55c758'),
+  'custom_page': i18n.t('e3a5dbf4.cee6eb'),
+  'liverooms': i18n.t('e3a5dbf4.7bbe8e'),
+  'other_wxapp': i18n.t('e3a5dbf4.f5a0d7'),
+  'shop_tag': i18n.t('e3a5dbf4.0f09a8'),
+  'lottery': i18n.t('e3a5dbf4.283be6'),
+  'customer_service': i18n.t('e3a5dbf4.e7dea7')
 }
 
 export const CARD_TYPE = {

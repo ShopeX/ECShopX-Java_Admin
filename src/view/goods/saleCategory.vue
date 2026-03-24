@@ -19,8 +19,17 @@
 <template>
   <SpPage>
     <div class="page-goods-salecategory">
-      <div class="action-container">
+      <div class="action-container flex items-center gap-4">
         <el-button type="primary" @click="addCategory"> {{ $t('0e7dabe2.c171b3') }} </el-button>
+        <div class="flex items-center gap-2">
+          <span>{{ $t('0e7dabe2.63cd0e') }}</span>
+          <el-switch
+            v-model="saleableEnabled"
+            :active-value="true"
+            :inactive-value="false"
+            @change="handleSaleableChange"
+          />
+        </div>
       </div>
 
       <el-table
@@ -151,6 +160,7 @@ export default {
       mapData: null,
       cacheRowData: null,
       categoryDialog: false,
+      saleableEnabled: true,
       categoryForm: {
         category_id: '',
         category_name: '',
@@ -205,6 +215,7 @@ export default {
   mounted() {
     this.init()
     this.fetchWechatList()
+    this.fetchSaleableFilter()
     // this.classification()
   },
   methods: {
@@ -231,6 +242,24 @@ export default {
       const { authorizer = {} } = list.find((item) => item.key_name == 'yykweishop') || {}
       const { authorizer_appid } = authorizer
       this.appID = authorizer_appid
+    },
+    async fetchSaleableFilter() {
+      try {
+        const res = await this.$api.goods.getSaleableFilter()
+        this.saleableEnabled = res.enabled ?? true
+      } catch (e) {
+        console.error(this.$t('0e7dabe2.976500'), e)
+      }
+    },
+    async handleSaleableChange(value) {
+      try {
+        await this.$api.goods.setSaleableFilter({ enabled: value })
+        this.$message.success(value ? this.$t('0e7dabe2.164ac5') : this.$t('0e7dabe2.819f29'))
+      } catch (e) {
+        // 如果失败，恢复原值
+        this.saleableEnabled = !value
+        this.$message.error(this.$t('0e7dabe2.9f9603'))
+      }
     },
     addCategory() {
       this.categoryForm = {

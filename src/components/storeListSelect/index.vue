@@ -12,7 +12,7 @@
     :before-close="cancelAction"
   >
     <div style="margin-bottom: 15px">
-      <el-input v-model="name" placeholder="输入店铺名称" clearable>
+      <el-input v-model="name" :placeholder="$t('1e6dbbf7.240fdb')" clearable>
         <el-button slot="append" icon="el-icon-search" @click="handleIconClick" />
       </el-input>
       <!-- <el-switch v-model="is_distributor" active-text="店铺" inactive-text="门店" @change="handleIconClick"></el-switch> -->
@@ -30,7 +30,15 @@
     >
       <el-table-column type="selection" :reserve-selection="true" width="50" />
       <el-table-column prop="name" :label="$t('1e6dbbf7.d7ec2d')" />
+      <el-table-column prop="distributor_category_name" :label="$t('1e6dbbf7.2419d0')" />
       <el-table-column prop="contact" :label="$t('1e6dbbf7.52409d')" />
+      <el-table-column prop="is_valid" :label="$t('1e6dbbf7.3fea7c')">
+        <template slot-scope="scope">
+          <span v-if="scope.row.is_valid === 'true'">{{ $t('1e6dbbf7.7854b5') }}</span>
+          <span v-else-if="scope.row.is_valid === 'false'">{{ $t('1e6dbbf7.710ad0') }}</span>
+          <span v-else-if="scope.row.is_valid === 'delete'">{{ $t('1e6dbbf7.0044f6') }}</span>
+        </template>
+      </el-table-column>
       <!-- <el-table-column prop="store_name" label="门店"></el-table-column> -->
       <el-table-column prop="address" :label="$t('1e6dbbf7.765048')" show-overflow-tooltip />
     </el-table>
@@ -124,6 +132,7 @@ export default {
     sourceType(newVal, oldVal) {
       console.log(newVal)
       if (newVal) {
+        // Handle sourceType change if needed
       }
     }
   },
