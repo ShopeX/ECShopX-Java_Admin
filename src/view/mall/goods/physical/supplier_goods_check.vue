@@ -59,8 +59,8 @@
           <SpFilterFormItem prop="goods_bn" :label="$t('d41d8cd9.c3a815') + ':'">
             <el-input v-model="searchParams.goods_bn" :placeholder="$t('d41d8cd9.7d3a61')" />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="supplier_name" :label="$t('d41d8cd9.w1x2y3') + ':'">
-            <el-input v-model="searchParams.supplier_name" :placeholder="$t('d41d8cd9.z4a5b6')" />
+          <SpFilterFormItem prop="supplier_name" :label="$t('d41d8cd9.55c61d') + ':'">
+            <el-input v-model="searchParams.supplier_name" :placeholder="$t('d41d8cd9.s8p9l1p')" />
           </SpFilterFormItem>
           <!--        <SpFilterFormItem prop="approve_status" label="商品状态:">-->
           <!--          <el-select v-model="searchParams.approve_status" clearable placeholder="请选择">-->
@@ -741,7 +741,7 @@ export default {
             }
           },
           { name: this.$t('d41d8cd9.0888fc'), key: 'item_bn' },
-          { name: this.$t('d41d8cd9.w1x2y3'), key: 'supplier_name' },
+          { name: this.$t('d41d8cd9.55c61d'), key: 'supplier_name' },
           {
             name: this.$t('d41d8cd9.g4h5i6'),
             key: 'tagList',
