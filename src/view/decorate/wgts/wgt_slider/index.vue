@@ -5,101 +5,51 @@
 
 <style lang="scss" src="./index.scss"></style>
 <template>
-  <div
-    :class="{
-      'wgt-slider': true,
-      'cover-slider': value.dotCover
-    }"
-    :style="outerStyle"
-  >
-    <div
-      ref="sliderWrap"
-      class="wgt-bd"
-      :class="{
-        spaced: value.spaced
-      }"
-    >
-      <!-- 挂件自定义部分：占位图撑开第一屏高度，加载后重新测量 -->
-      <SpImage
-        class="placeholder-item"
-        :src="value.data.length > 0 ? value.data[0].imgUrl : null"
-        fit="contain"
-        @load="measureFirstScreenHeight"
-      />
-      <!-- <img class="placeholder-item" style="display: block;" :src="value.data.length > 0 ? value.data[0].imgUrl : null" width="100%" /> -->
-      <el-carousel
-        class="slider-container"
-        arrow="never"
-        indicator-position="none"
-        :interval="value.interval"
-        :autoplay="value.autoplay"
-        @change="changeSlider"
-      >
-        <el-carousel-item
-          v-for="(item, index) in value.data"
-          :key="index"
-          class="slider-item"
-          :class="{
+  <div class="wgt-slider" :style="outerStyle">
+    <div class="wgt-bd">
+      <div class="wgt-bd-content" ref="sliderWrap">
+        <!-- 挂件自定义部分：占位图撑开第一屏高度，加载后重新测量 -->
+        <SpImage class="placeholder-item" :src="value.data.length > 0 ? value.data[0].imgUrl : null" fit="contain"
+          @load="measureFirstScreenHeight" />
+        <!-- <img class="placeholder-item" style="display: block;" :src="value.data.length > 0 ? value.data[0].imgUrl : null" width="100%" /> -->
+        <el-carousel class="slider-container" arrow="never" indicator-position="none" :interval="value.interval"
+          :autoplay="value.autoplay" @change="changeSlider">
+          <el-carousel-item v-for="(item, index) in value.data" :key="index" class="slider-item" :class="{
             rounded: value.rounded
-          }"
-        >
-          <div class="slider-item-content">
-            <SpImage
-              :src="item.imgUrl"
-              fit="contain"
-              v-if="!item.videoUrl || item.media_type !== 'video'"
-              class="image-item-img"
-            />
-            <video
-              :ref="`swiperVideo_${index}`"
-              :poster="item.imgUrl"
-              :src="item.videoUrl"
-              v-if="item.media_type == 'video' && item.videoUrl"
-              class="image-item-video"
-              muted="muted"
-              objectFit="cover"
-            >
-              <source :src="item.videoUrl">
-            </video>
-            <SpImage
-              :src="item.overlay"
-              class="overlay-item"
-              fit="contain"
-              v-if="item.overlay"
-              :style="overlayStyle(item, index)"
-            />
-          </div>
-          <!-- 叠层内容 -->
-          <div v-if="item.overlay" class="overlay-content" :style="overlayStyle(item, index)">
-            <SpImage
-              :class="{
+          }">
+            <div class="slider-item-content">
+              <SpImage :src="item.imgUrl" fit="contain" v-if="!item.videoUrl || item.media_type !== 'video'"
+                class="image-item-img" />
+              <video :ref="`swiperVideo_${index}`" :poster="item.imgUrl" :src="item.videoUrl"
+                v-if="item.media_type == 'video' && item.videoUrl" class="image-item-video" muted="muted"
+                objectFit="cover">
+                <source :src="item.videoUrl">
+              </video>
+              <SpImage :src="item.overlay" class="overlay-item" fit="contain" v-if="item.overlay"
+                :style="overlayStyle(item, index)" />
+            </div>
+            <!-- 叠层内容 -->
+            <div v-if="item.overlay" class="overlay-content" :style="overlayStyle(item, index)">
+              <SpImage :class="{
                 'transparent-transition': currentIndex !== index,
                 'transparent-transition-active': currentIndex == index
-              }"
-              :src="item.overlay"
-              class="over-lay"
-              fit="contain"
-            />
-          </div>
-        </el-carousel-item>
-      </el-carousel>
-      <div
-        :class="[
-          'slider-pagination',
-          value.dotLocation,
-          value.shape,
-          value.dotColor,
-          {
-            cover: value.dotCover
-          }
-        ]"
-      >
+              }" :src="item.overlay" class="over-lay" fit="contain" />
+            </div>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+      <div :class="[
+        'slider-pagination',
+        value.dotLocation,
+        value.shape,
+        value.dotColor,
+        {
+          'cover-slider': value.dotCover
+        }
+      ]">
         <template v-if="value.dot">
-          <div
-            v-for="(item, index) in value.data.length > 0 ? value.data : [1]"
-            :key="`dot-item__${index}`"
-            :class="['dot-item', { active: currentIndex == index }]"
-          />
+          <div v-for="(item, index) in value.data.length > 0 ? value.data : [1]" :key="`dot-item__${index}`"
+            :class="['dot-item', { active: currentIndex == index }]" />
         </template>
         <template v-else>
           <div class="pagination-count">
@@ -154,7 +104,7 @@ export default {
       immediate: true
     }
   },
-  created() {},
+  created() { },
   mounted() {
     this.measureFirstScreenHeight()
   },
@@ -162,20 +112,23 @@ export default {
     this.$nextTick(this.measureFirstScreenHeight)
   },
   methods: {
-    /** 测量第一屏高度并写入 value，宽固定 375；高度 = 内容高 + 上边距(paddedt) + 下边距(paddedb) */
+    /**
+     * 测量第一屏高度并写入 value，宽固定 375；高度 = 内容高 + 上边距(paddedt) + 下边距(paddedb)。
+     * 返回 Promise，便于在保存前 await，确保 firstScreenHeight 落盘。
+     */
     measureFirstScreenHeight() {
-      this.$nextTick(() => {
-      const el = this.$refs.sliderWrap
-      if (!el || !this.value) return
-      const contentHeight = el.clientHeight || el.offsetHeight
-      if (contentHeight <= 0) return
-      const outer = this.value.outerMargin || {}
-      const paddedt = Number(outer.paddedt) || 0
-      const paddedb = Number(outer.paddedb) || 0
-      const totalHeight = contentHeight + paddedt + paddedb
-      this.$set(this.value, 'firstScreenWidth', 375)
-      this.$set(this.value, 'firstScreenHeight', totalHeight)
-    })
+      return this.$nextTick().then(() => {
+        const el = this.$refs.sliderWrap
+        if (!el || !this.value) return
+        const contentHeight = el.clientHeight || el.offsetHeight
+        if (contentHeight <= 0) return
+        const outer = this.value.outerMargin || {}
+        const paddedt = Number(outer.paddedt) || 0
+        const paddedb = Number(outer.paddedb) || 0
+        const totalHeight = contentHeight + paddedt + paddedb
+        this.$set(this.value, 'firstScreenWidth', 375)
+        this.$set(this.value, 'firstScreenHeight', totalHeight)
+      })
     },
     overlayStyle(item, index) {
       const { overlaybuttom, overlayLeft, overlayWidth } = item

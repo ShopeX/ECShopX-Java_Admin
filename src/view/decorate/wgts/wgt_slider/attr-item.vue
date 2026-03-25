@@ -157,8 +157,8 @@
                   </span>
                 </div>
               </div>
-              <!-- 图片/视频本身热区 -->
-              <div v-if="(scope.data.hotData || []).length > 0" class="zone-group">
+              <!-- 仅图片展示热区配置，视频不展示 -->
+              <div v-if="scope.data.media_type !== 'video' && (scope.data.hotData || []).length > 0" class="zone-group">
                 <div class="zone-group-title">{{ i18n.t('d7d37966.50da72') }}</div>
                 <div class="zone-item">
                   <span v-for="(item, index) in scope.data.hotData" :key="`hot-${scope.index}-${index}`"
@@ -168,8 +168,8 @@
                   </span>
                 </div>
               </div>
-              <!-- 叠层热区 -->
-              <div v-if="(scope.data.overlayHotData || []).length > 0" class="zone-group">
+              <!-- 仅图片展示叠层热区配置，视频不展示 -->
+              <div v-if="scope.data.media_type !== 'video' && (scope.data.overlayHotData || []).length > 0" class="zone-group">
                 <div class="zone-group-title">{{ i18n.t('d7d37966.5cefe9') }}</div>
                 <div class="zone-item">
                   <span v-for="(item, index) in scope.data.overlayHotData" :key="`overlay-${scope.index}-${index}`"
