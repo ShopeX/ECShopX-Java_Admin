@@ -277,7 +277,7 @@ export default {
             preview-src-list={this.showViewer}
           />
           <span class='image-meta' on-click={this.onUpdateImage.bind(this, index)}>
-            更换图片
+            {this.$t('967e77ce.7c543f')}
           </span>
         </div>
       )
@@ -309,7 +309,9 @@ export default {
         {max > 1 && value.length < max && (
           <div class='image-item placeholder' on-click={this.handleSelectImage}>
             <i class='el-icon-camera' />
-            <div class='add-text'>图片({`${value.length}/${max}`})</div>
+            <div class='add-text'>
+              {this.$t('967e77ce.20def7')}({`${value.length}/${max}`})
+            </div>
           </div>
         )}
 
@@ -317,7 +319,7 @@ export default {
         {max == 1 && isEmpty(value) && (
           <div class='image-item placeholder' on-click={this.handleSelectImage}>
             <i class='el-icon-camera' />
-            <div class='add-text'>添加图片</div>
+            <div class='add-text'>{this.$t('967e77ce.b89fb3')}</div>
           </div>
         )}
       </div>

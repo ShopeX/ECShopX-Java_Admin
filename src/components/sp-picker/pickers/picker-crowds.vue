@@ -21,17 +21,16 @@
         />
       </div>
       <div v-if="!loading && tagCategories.length === 0" class="text-gray-400 text-sm py-4">
-        暂无标签组
+        {{ emptyText }}
       </div>
-      <div v-if="loading" class="text-gray-400 text-sm py-4">
-        加载中...
-      </div>
+      <div v-if="loading" class="text-gray-400 text-sm py-4">{{ loadingText }}</div>
     </div>
   </div>
 </template>
 
 <script>
 import { cloneDeep } from 'lodash'
+import { i18n } from '@/i18n'
 import BasePicker from './base'
 import CompTagList from '@/views/members/components/CompTagList'
 
@@ -42,9 +41,25 @@ export default {
     CompTagList
   },
   config: {
-    title: '选择人群标签'
+    title: ''
   },
   props: ['value'],
+  computed: {
+    emptyText() {
+      return i18n.t('394573fc.f44b57')
+    },
+    loadingText() {
+      return i18n.t('394573fc.26b5bd')
+    },
+    crowdsSetting() {
+      return {
+        columns: [
+          { name: 'ID', key: 'tag_id', width: 80 },
+          { name: i18n.t('394573fc.341fe8'), key: 'tag_name' }
+        ]
+      }
+    }
+  },
   data() {
     return {
       tagCategories: [],
@@ -53,6 +68,7 @@ export default {
     }
   },
   created() {
+    this.$options.config.title = i18n.t('394573fc.d2a769')
     this.initSelectedFromValue()
   },
   mounted() {
@@ -61,7 +77,7 @@ export default {
   methods: {
     initSelectedFromValue() {
       this.selectedTagMap = {}
-      const data = (this.value && this.value.data) ? cloneDeep(this.value.data) : []
+      const data = this.value && this.value.data ? cloneDeep(this.value.data) : []
       if (Array.isArray(data) && data.length > 0) {
         data.forEach((tag) => {
           const groupId = tag.group_id
@@ -118,7 +134,7 @@ export default {
           font_color: '#ffffff'
         })
         await this.loadTagCategories()
-        this.$message.success('添加标签成功')
+        this.$message.success(i18n.t('394573fc.78ec37'))
       } catch (error) {
         console.error(error)
       }
@@ -146,7 +162,7 @@ export default {
     flushSelection() {
       const all = []
       Object.keys(this.selectedTagMap).forEach((groupId) => {
-        (this.selectedTagMap[groupId] || []).forEach((tag) => {
+        ;(this.selectedTagMap[groupId] || []).forEach((tag) => {
           all.push({ ...tag, group_id: groupId })
         })
       })

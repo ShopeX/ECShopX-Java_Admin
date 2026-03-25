@@ -3,6 +3,7 @@
  * See LICENSE file for license details.
  */
 import { pickBy, isObject } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrItem from './attr-item'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
@@ -11,8 +12,8 @@ const config = {
   setting: [
     // { label: '标题颜色', key: 'WordColor', component: 'color', value: '#333333' },
     {
-      group: '内容样式',
-      label: '轮播时间',
+      group: i18n.t('7bb603be.9f1cbe'),
+      label: i18n.t('7bb603be.8695d8'),
       key: 'interval',
       component: 'number',
       value: 3000,
@@ -21,69 +22,69 @@ const config = {
       step: 1000
     },
     {
-      group: '内容样式',
-      label: '图片边角',
+      group: i18n.t('7bb603be.9f1cbe'),
+      label: i18n.t('7bb603be.e33142'),
       key: 'rounded',
       component: 'radiobutton',
       value: false,
       options: [
-        { name: '圆角', label: true },
-        { name: '直角', label: false }
+        { name: i18n.t('7bb603be.0103eb'), label: true },
+        { name: i18n.t('7bb603be.bf307d'), label: false }
       ]
     },
     {
-      group: '指示点设置',
-      label: '指示点样式',
+      group: i18n.t('7bb603be.148c77'),
+      label: i18n.t('7bb603be.9a9056'),
       key: 'dot',
       component: 'radiobutton',
       options: [
-        { name: '点', label: true },
-        { name: '数字', label: false }
+        { name: i18n.t('7bb603be.be604f'), label: true },
+        { name: i18n.t('7bb603be.55d479'), label: false }
       ],
       value: true
     },
     {
-      group: '指示点设置',
-      label: '指示点覆盖',
+      group: i18n.t('7bb603be.148c77'),
+      label: i18n.t('7bb603be.175553'),
       key: 'dotCover',
       component: 'radiobutton',
       value: false,
       options: [
-        { name: '开启', label: true },
-        { name: '关闭', label: false }
+        { name: i18n.t('7bb603be.cc42dd'), label: true },
+        { name: i18n.t('7bb603be.b15d91'), label: false }
       ]
     },
     {
-      group: '指示点设置',
-      label: '指示点位置',
+      group: i18n.t('7bb603be.148c77'),
+      label: i18n.t('7bb603be.a8a94d'),
       key: 'dotLocation',
       component: 'radiobutton',
       options: [
-        { name: '居左', label: 'left' },
-        { name: '居中', label: 'center' },
-        { name: '居右', label: 'right' }
+        { name: i18n.t('7bb603be.316a63'), label: 'left' },
+        { name: i18n.t('7bb603be.0bbc2e'), label: 'center' },
+        { name: i18n.t('7bb603be.e2aaec'), label: 'right' }
       ],
       value: 'right'
     },
     {
-      group: '指示点设置',
-      label: '指示点形状',
+      group: i18n.t('7bb603be.148c77'),
+      label: i18n.t('7bb603be.11333d'),
       key: 'shape',
       component: 'radiobutton',
       options: [
-        { name: '圆形', label: 'circle' },
-        { name: '长方型', label: 'rectangle' }
+        { name: i18n.t('7bb603be.2db0fc'), label: 'circle' },
+        { name: i18n.t('7bb603be.2fce58'), label: 'rectangle' }
       ],
       value: 'circle'
     },
     {
-      group: '指示点设置',
-      label: '指示点颜色',
+      group: i18n.t('7bb603be.148c77'),
+      label: i18n.t('7bb603be.14db62'),
       key: 'dotColor',
       component: 'radiobutton',
       options: [
-        { name: '深色', label: 'dark' },
-        { name: '亮色', label: 'light' }
+        { name: i18n.t('7bb603be.41e8e8'), label: 'dark' },
+        { name: i18n.t('7bb603be.a32b3b'), label: 'light' }
       ],
       value: 'dark'
     },
@@ -112,13 +113,13 @@ const config = {
       ]
     },
     {
-      label: '自动切换',
-      group: '内容样式',
+      label: i18n.t('7bb603be.3dd185'),
+      group: i18n.t('7bb603be.9f1cbe'),
       key: 'autoplay',
       component: 'radiobutton',
       options: [
-        { name: '开启', label: true },
-        { name: '关闭', label: false }
+        { name: i18n.t('7bb603be.cc42dd'), label: true },
+        { name: i18n.t('7bb603be.b15d91'), label: false }
       ],
       value: true
     }
@@ -147,6 +148,7 @@ const config = {
           linkPage,
           title,
           id,
+          trackingParams,
           hotData = [],
           videoUrl,
           overlayHotData = [],
@@ -164,7 +166,8 @@ const config = {
           data: {
             linkPage: linkPage,
             id: id,
-            title: title
+            title: title,
+            trackingParams: trackingParams
           },
           hotData,
           videoUrl: url,
@@ -216,6 +219,7 @@ const config = {
             ctoken: 'data.ctoken',
             id: 'data.id',
             title: 'data.title',
+            trackingParams: 'data.trackingParams',
             hotData: 'hotData',
             autoplay: 'autoplay',
             interact: 'interact',

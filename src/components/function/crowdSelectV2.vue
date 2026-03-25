@@ -6,9 +6,11 @@
       style="margin-bottom: 10px"
       @change="handleTypeChange"
     >
-      <el-radio-button v-for="item in options" :key="item.id" :label="item.id" :value="item.id">{{
+      <el-radio-button v-for="item in options" :key="item.id" :label="item.id" :value="item.id">
+{{
         item.name
-      }}</el-radio-button>
+      }}
+</el-radio-button>
     </el-radio-group>
     <div class="crowd-select-header">
       <el-button
@@ -18,7 +20,7 @@
         :disabled="disabled"
         @click="handleSelect"
       >
-        选择人群
+        {{ $t('26b7f367.db64f9') }}
       </el-button>
       <slot />
     </div>
@@ -62,6 +64,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 export default {
   props: {
     value: {
@@ -83,19 +86,17 @@ export default {
   },
   data() {
     return {
-      options: [
-        {
-          id: '2',
-          name: '适用人群'
-        }
-        // {
-        //   id: '1',
-        //   name: '不适用人群'
-        // }
-      ]
+      optionsValue: [{ id: '2' }],
+      optionNameKey: i18n.t('26b7f367.188e1b')
     }
   },
   computed: {
+    options() {
+      return this.optionsValue.map((item) => ({
+        ...item,
+        name: this.optionNameKey
+      }))
+    },
     selectedCrowds: {
       get() {
         return this.value

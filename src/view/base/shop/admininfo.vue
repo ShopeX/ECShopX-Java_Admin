@@ -5,14 +5,14 @@
 
 <template>
   <div>
-    <SpPageHeader title="账号信息" />
+    <SpPageHeader :title="$t('41eeee23.53cab4')" />
     <SpForm
       ref="form"
       v-model="form"
       submit
       :form-list="formList"
       :reset-btn="false"
-      submit-btn-text="保存"
+      :submit-btn-text="$t('41eeee23.be5fbb')"
       @onSubmit="onSubmit"
     />
   </div>
@@ -32,36 +32,36 @@ export default {
       },
       formList: [
         {
-          label: '账户',
+          label: '41eeee23.7116e7',
           key: 'mobile',
           type: 'text'
         },
         {
-          label: '昵称',
+          label: '41eeee23.23eb0e',
           key: 'username',
           type: 'input'
         },
         {
-          label: '头像',
+          label: '41eeee23.4c50ee',
           key: 'head_portrait',
           component: ({ key }, form) => {
             return <SpImagePicker v-model={form[key]} />
           }
         },
         {
-          label: '修改密码',
+          label: '41eeee23.7fc88a',
           key: 'pwd',
           type: 'input',
           isShow: () => this.changePwdEnabled && !this.VERSION_SHUYUN()
         },
         {
-          label: '确认密码',
+          label: '41eeee23.3fbdde',
           key: 'repwd',
           type: 'input',
           isShow: () => this.changePwdEnabled && !this.VERSION_SHUYUN()
         },
         {
-          label: '修改密码',
+          label: '41eeee23.7fc88a',
           key: 'changePwd',
           type: 'button',
           component: () => {
@@ -71,11 +71,11 @@ export default {
                 href='https://account.shopex.cn/account/security'
                 target='_blank'
               >
-                商派账号中心
+                {this.$t('41eeee23.af20fa')}
               </el-link>
             )
           },
-          tip: '超级管理员需通过商派账号中心进行修改密码',
+          tip: '41eeee23.505176',
           isShow: () => !this.changePwdEnabled && !this.VERSION_SHUYUN()
         }
       ]
@@ -98,7 +98,7 @@ export default {
       this.$api.login.updateAdminInfo(this.form).then((response) => {
         if (response.status) {
           this.$message({
-            message: '更新成功',
+            message: this.$t('41eeee23.55aa63'),
             type: 'success',
             onClose() {
               that.$router.go(-1)
