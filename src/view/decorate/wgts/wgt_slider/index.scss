@@ -3,22 +3,9 @@
  * See LICENSE file for license details.
  */
 .wgt-slider {
-  &.padded {
-    padding: 10px 0;
-  }
-
-  .wgt-hd {
-    padding: 10px;
-
-    .title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #333;
-    }
-
-    .sub-title {
-      color: #666;
-      margin-left: 4px;
+  &.cover-slider {
+    .slider-container{
+      padding-bottom: 20px;
     }
   }
 
@@ -138,18 +125,10 @@
     display: flex;
     margin: 0 4px;
     padding: 8px 0;
-
-    &.cover {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: 0 14px;
-    }
-
-    &.cover-padded {
-      margin-top: 0;
-    }
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
 
     &.left {
       justify-content: flex-start;
@@ -213,7 +192,7 @@
         margin: 0 4px;
 
         &.active {
-          background: #d42f29;
+          background: var(--primary);
         }
       }
 
