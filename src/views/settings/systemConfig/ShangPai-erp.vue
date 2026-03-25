@@ -18,6 +18,11 @@
         <el-col :span="4">
           <el-button type="primary" @click="deleteCer">{{ $t('073515a8.7b49f4') }}</el-button>
         </el-col>
+        <el-col :span="4">
+          <el-button v-if="showShopexBindBtn" type="primary" @click="dialogShopexBindVisible = true">
+            {{ $t('073515a8.06cc65') }}
+          </el-button>
+        </el-col>
       </el-row>
     </div>
     <div class="cer-box">
@@ -56,11 +61,34 @@
 </el-button>
       </div>
     </el-dialog>
+    <el-dialog :title="$t('073515a8.06cc65')" :visible.sync="dialogShopexBindVisible" width="480px">
+      <el-form ref="shopexBindForm" :model="shopexBindForm" :rules="shopexBindRules" label-width="100px">
+        <el-form-item :label="$t('073515a8.4c7a7a')" prop="username">
+          <el-input v-model="shopexBindForm.username" />
+        </el-form-item>
+        <el-form-item :label="$t('073515a8.a81052')" prop="password">
+          <el-input v-model="shopexBindForm.password" type="password" show-password />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogShopexBindVisible = false">{{ $t('073515a8.625fb2') }}</el-button>
+        <el-button type="primary" :loading="shopexBindLoading" @click="submitShopexBind">
+          {{ $t('073515a8.939d53') }}
+        </el-button>
+      </div>
+    </el-dialog>
   </SpPage>
 </template>
 <script>
 import { Message } from 'element-ui'
-import { getCertificate, deleteCertificateInfo, bindRelation, acceptRelation } from '@/api/company'
+import {
+  getCertificate,
+  deleteCertificateInfo,
+  bindRelation,
+  acceptRelation,
+  getShopexBindStatus,
+  bindShopexAccount
+} from '@/api/company'
 export default {
   data() {
     return {
@@ -73,7 +101,18 @@ export default {
       dialogBindVisible: false,
       bindUrl: '',
       dialogLookVisible: false,
-      lookUrl: ''
+      lookUrl: '',
+      showShopexBindBtn: false,
+      dialogShopexBindVisible: false,
+      shopexBindLoading: false,
+      shopexBindForm: {
+        username: '',
+        password: ''
+      },
+      shopexBindRules: {
+        username: [{ required: true, message: this.$t('073515a8.95aecd'), trigger: 'blur' }],
+        password: [{ required: true, message: this.$t('073515a8.f00483'), trigger: 'blur' }]
+      }
     }
   },
   computed: {
@@ -121,8 +160,22 @@ export default {
   },
   mounted() {
     this.getCerInfo()
+    this.getShopexBindStatus()
   },
   methods: {
+    async getAgreementId() {
+      try {
+        const { agreement_id } = await this.$api.auth.getAgreementContent()
+        return agreement_id
+      } catch (error) {
+        return ''
+      }
+    },
+    getShopexBindStatus() {
+      getShopexBindStatus().then((response) => {
+        this.showShopexBindBtn = response?.data?.data?.bound === false
+      })
+    },
     getCerInfo() {
       this.loading = true
       getCertificate().then((response) => {
@@ -163,6 +216,40 @@ export default {
       acceptRelation().then((response) => {
         this.lookUrl = response.data.data.url
         this.dialogLookVisible = true
+      })
+    },
+    submitShopexBind() {
+      this.$refs.shopexBindForm.validate(async (valid) => {
+        if (!valid) return
+        this.shopexBindLoading = true
+        try {
+          const agreement_id = await this.getAgreementId()
+          await bindShopexAccount({
+            username: this.shopexBindForm.username,
+            password: this.shopexBindForm.password,
+            agreement_id,
+            product_model: this.VUE_APP_PRODUCT_MODEL
+          })
+          this.dialogShopexBindVisible = false
+          this.$message.success({
+            message: this.$t('073515a8.1974fe'),
+            duration: 1500,
+            onClose: () => {
+              window.location.reload()
+            }
+          })
+        } catch (error) {
+          const errMsg =
+            error?.data?.data?.message ||
+            error?.data?.message ||
+            error?.response?.data?.data?.message ||
+            error?.response?.data?.message ||
+            error?.message ||
+            this.$t('1f7b7edc.f50bf4')
+          this.$message.error(errMsg)
+        } finally {
+          this.shopexBindLoading = false
+        }
       })
     }
   }
