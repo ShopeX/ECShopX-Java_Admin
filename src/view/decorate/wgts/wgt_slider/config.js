@@ -128,7 +128,7 @@ const config = {
     const { name, base, config, data, track, tagsType, meber_tags, no_meber_tags } = v
     // 使用公共函数处理 base 中的样式数据转换
     const transformedBase = transformInBase(base, ['outerMargin'])
-    // 第一屏尺寸：宽固定 375，高从保存数据回显，渲染后再由 measureFirstScreenHeight 更新
+    // 第一屏尺寸：宽固定 375，高从保存数据回显；保存前测量并在 transformOut 再兜底
     const { firstScreenWidth, firstScreenHeight } = config || {}
     return {
       id: v?.id,
@@ -190,6 +190,8 @@ const config = {
       name: 'name',
       base: createTransformOutBase(['outerMargin'], ['outerMargin']),
       config: (v) => {
+        const firstScreenWidth = Number(v.firstScreenWidth) > 0 ? Number(v.firstScreenWidth) : 375
+        const firstScreenHeight = Number(v.firstScreenHeight) > 0 ? Number(v.firstScreenHeight) : 667
         return pickBy(v, {
           interval: 'interval',
           dot: 'dot',
@@ -201,8 +203,8 @@ const config = {
           rounded: 'rounded',
           content: 'content',
           autoplay: 'autoplay',
-          firstScreenWidth: 'firstScreenWidth',
-          firstScreenHeight: 'firstScreenHeight'
+          firstScreenWidth: { key: 'firstScreenWidth', default: firstScreenWidth },
+          firstScreenHeight: { key: 'firstScreenHeight', default: firstScreenHeight }
         })
       },
       data: ({ data }) => {
@@ -220,14 +222,16 @@ const config = {
             id: 'data.id',
             title: 'data.title',
             trackingParams: 'data.trackingParams',
-            hotData: 'hotData',
+            // 视频不需要热区配置，保存时不落库
+            hotData: ({ media_type, hotData }) => (media_type === 'video' ? undefined : hotData),
             autoplay: 'autoplay',
             interact: 'interact',
             overlay: 'overlay',
             overlayWidth: 'overlayWidth',
             overlaybuttom: 'overlaybuttom',
             overlayLeft: 'overlayLeft',
-            overlayHotData: 'overlayHotData',
+            overlayHotData: ({ media_type, overlayHotData }) =>
+              media_type === 'video' ? undefined : overlayHotData,
             moreLink: 'moreLink'
           })
         })

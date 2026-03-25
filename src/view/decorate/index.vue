@@ -154,7 +154,12 @@
                   <SpIcon name="copy" @click="onCopyComp(index, wgt)" />
                   <SpIcon name="delete" @click="onDeleteComp(index)" />
                 </div>
-                <component v-if="wgt && wgt.name" :is="getComponentName(wgt)" :value="wgt" />
+                <component
+                  v-if="wgt && wgt.name"
+                  ref="previewWgts"
+                  :is="getComponentName(wgt)"
+                  :value="wgt"
+                />
               </div>
             </draggable>
           </div>
@@ -612,7 +617,19 @@ export default {
     getMutualExclusiveMessage(wgtName) {
       return this.$t('c3827da6.e6e7eb')
     },
+    async syncSliderFirstScreenHeights() {
+      await this.$nextTick()
+      const refs = this.$refs.previewWgts
+      const list = Array.isArray(refs) ? refs : refs ? [refs] : []
+      await Promise.all(
+        list
+          .filter((c) => c && typeof c.measureFirstScreenHeight === 'function')
+          .map((c) => Promise.resolve(c.measureFirstScreenHeight()))
+      )
+      await this.$nextTick()
+    },
     async onSaveTemplate() {
+      await this.syncSliderFirstScreenHeights()
       // console.log('onSaveTemplate:', JSON.stringify(data))
       if (this.mode == 'dialog') {
         this.$emit('change', this.contentComps)
