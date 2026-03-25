@@ -7,7 +7,8 @@
 <template>
   <div
     :class="{
-      'wgt-slider': true
+      'wgt-slider': true,
+      'cover-slider': value.dotCover
     }"
     :style="outerStyle"
   >
@@ -58,7 +59,7 @@
               muted="muted"
               objectFit="cover"
             >
-              <source :src="item.videoUrl" />
+              <source :src="item.videoUrl">
             </video>
             <SpImage
               :src="item.overlay"
@@ -68,7 +69,7 @@
               :style="overlayStyle(item, index)"
             />
           </div>
-          <!-- 叠层内容区域（用于热区交互） -->
+          <!-- 叠层内容 -->
           <div v-if="item.overlay" class="overlay-content" :style="overlayStyle(item, index)">
             <SpImage
               :class="{
@@ -172,10 +173,6 @@ export default {
       const paddedt = Number(outer.paddedt) || 0
       const paddedb = Number(outer.paddedb) || 0
       const totalHeight = contentHeight + paddedt + paddedb
-      console.log(totalHeight,'totalHeight')
-      console.log(paddedt,'paddedt')
-      console.log(paddedb,'paddedb')
-      console.log(contentHeight,'contentHeight')
       this.$set(this.value, 'firstScreenWidth', 375)
       this.$set(this.value, 'firstScreenHeight', totalHeight)
     })
