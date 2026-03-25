@@ -539,7 +539,7 @@ export default {
           label: this.$t('027707af.6a9e57'),
           type: 'group',
           tip: this.$t('027707af.408f9b'),
-          isShow: this.dadaEnable
+          isShow: () => this.dadaEnable
         },
         {
           label: this.$t('027707af.6a9e57'),
@@ -547,7 +547,7 @@ export default {
           type: 'switch',
           width: 'auto',
           tip: this.$t('027707af.ed46b7'),
-          isShow: this.dadaEnable
+          isShow: () => this.dadaEnable
         },
         {
           label: this.$t('027707af.c3bf69'),

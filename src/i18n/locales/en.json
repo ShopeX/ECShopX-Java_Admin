@@ -22549,5 +22549,20 @@
   "cc5110aa.107a88": "Mini-program customer service",
   "cc5110aa.6f33a3": "Enterprise WeCom Guide Service",
   "6478e260.2419d0": "Store Category",
-  "6478e260.84b1aa": "Nearby Store Information"
+  "6478e260.84b1aa": "Nearby Store Information",
+  "027707af.2419d0": "Store category",
+  "027707af.459c3e": "Please select a store category",
+  "027707af.6d7cb8": "Store status",
+  "027707af.3c751e": "Enabled: New stores are enabled by default and sell normally online.<br>Disabled: Not available for online sales; shown only in the mobile nearby-store list.<br>Deprecated: Store is voided, hidden on the storefront, and cannot be re-enabled normally.",
+  "027707af.7854b5": "Enabled",
+  "027707af.710ad0": "Disabled",
+  "027707af.0044f6": "Abandon",
+  "027707af.0581a1": "Show shopping guide",
+  "027707af.9cbc57": "When enabled, show the WeChat consultant entry on the nearby-store list; when disabled, hide it.",
+  "027707af.32d834": "Code type",
+  "027707af.371f30": "Show contact information",
+  "027707af.80384a": "Upload WeCom QR code image",
+  "027707af.9cfec5": "Upload WeCom QR code",
+  "027707af.29189f": "Shopping guide code (requires the guide app)",
+  "027707af.e90339": "Please upload the WeCom QR code image"
 }
