@@ -82,10 +82,8 @@
         </div>
       </div>
       <el-button slot="footer" type="primary" @click="handleAddItem" class="add-btn">
-{{
-        btnText || $t('e266b10e.b58c75')
-      }}
-</el-button>
+        {{ btnText || $t('e266b10e.b58c75') }}
+      </el-button>
     </draggable>
   </div>
 </template>
@@ -135,8 +133,8 @@ export default {
   },
   watch: {
     value: {
-      handler(nVal) {
-        this.localValue = this.value
+      handler() {
+        this.localValue = Array.isArray(this.value) ? this.value : []
       },
       deep: true,
       immediate: true

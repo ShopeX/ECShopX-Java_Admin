@@ -8,7 +8,7 @@
     <CompTodoList v-model="value" :max="5" @onAddItem="handleClickAdd">
       <template slot="body" slot-scope="scope">
         <div class="nav-item--wrap">
-          <el-input v-model="scope.data.content" :placeholder="i18n.t('73d80883.8585af')" />
+          <el-input v-model="scope.data.content" :placeholder="$t('73d80883.8585af')" />
           <div class="nav-item--picker">
             <SpImagePicker v-model="scope.data.imgUrl" size="small" />
             <CompPickerLink
@@ -21,17 +21,17 @@
             />
           </div>
           <div v-if="isBusinessShow" class="cell-value-tip">
-            {{ i18n.t('73d80883.52458a') }}
+            {{ $t('73d80883.52458a') }}
             <CompButton
-              :placeholder="i18n.t('73d80883.f5ddb8')"
-              :format="i18n.t('73d80883.4a3a7c')"
+              :placeholder="$t('73d80883.f5ddb8')"
+              :format="$t('73d80883.4a3a7c')"
               :value="scope.data.seletedTags.length"
               :view-btn="false"
               @remove="onRemoveItem(scope.index)"
               @click="onAddLabel(scope.index)"
             />
           </div>
-          <div class="cell-value-tip">{{ i18n.t('73d80883.c7e1f0') }}</div>
+          <div class="cell-value-tip">{{ $t('73d80883.c7e1f0') }}</div>
         </div>
       </template>
     </CompTodoList>

@@ -486,7 +486,10 @@ export default {
         this.$message.error(this.getMutualExclusiveMessage(wgt.name))
         return
       }
-      this.contentComps.splice(index + 1, 0, cloneDeep(wgt))
+      const copy = cloneDeep(wgt)
+      // 与原件共用同一服务端 id 时，保存后后端会按 id 合并/覆盖，再次进入装修页副本会丢失
+      delete copy.id
+      this.contentComps.splice(index + 1, 0, copy)
     },
     onDeleteComp(index) {
       if (this.contentComps.length == index + 1) {
@@ -623,6 +626,7 @@ export default {
       })
       data.unshift(this.headerAttr.transformOut(this.headerData, this.widgets))
       const { id } = this.$route.query
+      console.log('onSaveTemplate data:', data)
       if (
         this.localScene == '1004' ||
         this.localScene == '1006' ||

@@ -65,7 +65,7 @@ const config = {
       name,
       ...transformedBase,
       ...(cfg || {}),
-      data,
+      data: Array.isArray(data) ? data : [],
       track,
       tags: {
         type: tagsType || '2',
