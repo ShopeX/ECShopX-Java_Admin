@@ -127,6 +127,9 @@ function createRequestClient() {
       return response
     },
     rejected: async (error) => {
+      const config = error?.config || error?.response?.config
+      const showError = config?.showError !== false
+
       const err = error?.toString?.() ?? ''
       let errMsg = ''
       if (err?.includes('Network Error')) {
@@ -136,12 +139,13 @@ function createRequestClient() {
       }
 
       if (errMsg) {
-        Vue.prototype.$message.error(errMsg, error)
+        if (showError) {
+          Vue.prototype.$message.error(errMsg, error)
+        }
         return Promise.reject(error)
       }
 
       const status = error?.response?.status
-      const config = error.config
 
       // 处理401错误
       if (status === 401) {
@@ -227,7 +231,10 @@ function createRequestClient() {
       //     refreshTokenPromise = null
       //     return Promise.reject(error)
       //   })
-      // 处理其他错误
+      // 处理其他错误（可由单请求 showError: false 关闭默认 toast，由业务自行提示）
+      if (!showError) {
+        return Promise.reject(error)
+      }
       const responseData = error?.response?.data ?? {}
       Vue.prototype.$message.error(
         (responseData?.data?.error ?? responseData?.data?.message ?? '') ||
