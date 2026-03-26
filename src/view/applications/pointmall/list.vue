@@ -778,7 +778,7 @@ export default {
       this.ItemsList.forEach((item) => {
         item.price = item.price / 100
         item.market_price = item.market_price / 100
-        item.link = `pages/item/espier-detail?gid=${item.goods_id}&id=${item.item_id}`
+        item.link = `subpages/item/espier-detail?gid=${item.goods_id}&id=${item.item_id}`
       })
       this.total_count = total_count
       this.warning_store = warning_store

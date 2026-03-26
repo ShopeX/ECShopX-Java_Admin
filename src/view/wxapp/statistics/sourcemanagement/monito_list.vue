@@ -278,7 +278,7 @@ export default {
       let info = {}
       switch (type) {
         case 'goods':
-          info = { url: 'pages/item/espier-detail?id=' + id, page_name: '商品详情页' }
+          info = { url: 'subpages/item/espier-detail?id=' + id, page_name: '商品详情页' }
           break
         case 'custom_page':
           info = { url: 'pages/custom/custom-page?id=' + id, page_name: '自定义页面' }
