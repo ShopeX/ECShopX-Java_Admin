@@ -1225,7 +1225,7 @@ export default {
       })
     },
     handleShow(id) {
-      const page = 'pages/item/espier-detail'
+      const page = 'subpages/item/espier-detail'
       this.curPageUrl = `${page}?id=${id}`
       let params = {
         wxaAppId: this.appID,
@@ -1850,7 +1850,7 @@ export default {
       list.forEach((item) => {
         item.price = item.price / 100
         item.market_price = item.market_price / 100
-        item.link = `pages/item/espier-detail?gid=${item.goods_id}&id=${item.item_id}`
+        item.link = `subpages/item/espier-detail?gid=${item.goods_id}&id=${item.item_id}`
       })
       this.ItemsList = list
       this.page.total = parseInt(total_count)
@@ -2059,7 +2059,7 @@ export default {
     },
     onClickLink(row) {
       this.$copyText(
-        `${process.env.VUE_APP_H5_HOST}/pages/item/espier-detail?id=${row.item_id}&dtid=${row.distributor_id}`
+        `${process.env.VUE_APP_H5_HOST}/subpages/item/espier-detail?id=${row.item_id}&dtid=${row.distributor_id}`
       ).then(() => {
         this.$message.success(this.$t('b7aea01d.20a495'))
       })

@@ -907,7 +907,7 @@ export default {
               type: 'link',
               handler: async ([row]) => {
                 this.$copyText(
-                  `${process.env.VUE_APP_H5_HOST}/pages/item/espier-detail?id=${row.item_id}`
+                  `${process.env.VUE_APP_H5_HOST}/subpages/item/espier-detail?id=${row.item_id}`
                 ).then(() => {
                   this.$message.success(this.$t('dc9cefd6.20a495'))
                 })
@@ -1543,7 +1543,7 @@ export default {
       this.skuLoading = false
     },
     handleShow({ goods_id, itemName }) {
-      const page = 'pages/item/espier-detail'
+      const page = 'subpages/item/espier-detail'
       this.curPageUrl = `${page}?id=${goods_id}`
       let params = {
         wxaAppId: this.appID,

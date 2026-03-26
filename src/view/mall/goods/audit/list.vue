@@ -486,7 +486,7 @@ export default {
       const { list, total_count } = await this.$api.goods.getItemsList(params)
       list.forEach((item) => {
         item.price = item.price / 100
-        item.link = `pages/item/espier-detail?gid=${item.goods_id}&id=${item.item_id}`
+        item.link = `subpages/item/espier-detail?gid=${item.goods_id}&id=${item.item_id}`
       })
       this.tableList = list
       this.page.total = total_count

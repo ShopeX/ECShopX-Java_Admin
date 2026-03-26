@@ -185,7 +185,7 @@ export default {
 
       switch (type) {
         case 'goods':
-          url = '/pages/item/espier-detail?id=' + id
+          url = '/subpages/item/espier-detail?id=' + id
           break
         case 'category':
           url = '/pages/item/list?cat_id=' + id
