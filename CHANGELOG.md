@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.6...v4.4.0) (2026-03-27)
+
+### [4.3.6](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.5...v4.3.6) (2026-03-26)
+
+
+### Features
+
+* configurable document title via VUE_APP_PAGE_TITLE ([0bc82d3](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/0bc82d3b8cbf0122541c8bae25648e03d19e7292))
+
+### [4.3.5](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.4...v4.3.5) (2026-03-23)
+
+
+### Bug Fixes
+
+* **decorate:** cap slider dialog preview height with viewport-based max-height ([2f20aeb](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/2f20aeb5d11fb84ce9d2afdf5a117ef4fb50ae25))
+* **decorate:** show page settings header for custom page scene (1004) ([32bf2ae](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/32bf2ae4948f37bc52b7c997567610959fbc0e22))
+
+### [4.3.4](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.3...v4.3.4) (2026-03-17)
+
+
+### Bug Fixes
+
+* shipping template form encoding and sale category customize_page_id ([281b471](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/281b471e4357d047d7d30cc7f09e69a887214a62))
+
 ### [4.3.3](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.2...v4.3.3) (2026-02-06)
 
 ### [4.3.2](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.1...v4.3.2) (2026-02-06)
