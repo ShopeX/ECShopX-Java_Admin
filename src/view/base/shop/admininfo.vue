@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 export default {
   data() {
     return {
@@ -32,36 +33,36 @@ export default {
       },
       formList: [
         {
-          label: '41eeee23.7116e7',
+          label: i18n.t('41eeee23.7116e7'),
           key: 'mobile',
           type: 'text'
         },
         {
-          label: '41eeee23.23eb0e',
+          label: i18n.t('41eeee23.23eb0e'),
           key: 'username',
           type: 'input'
         },
         {
-          label: '41eeee23.4c50ee',
+          label: i18n.t('41eeee23.4c50ee'),
           key: 'head_portrait',
           component: ({ key }, form) => {
             return <SpImagePicker v-model={form[key]} />
           }
         },
         {
-          label: '41eeee23.7fc88a',
+          label: i18n.t('41eeee23.7fc88a'),
           key: 'pwd',
           type: 'input',
           isShow: () => this.changePwdEnabled && !this.VERSION_SHUYUN()
         },
         {
-          label: '41eeee23.3fbdde',
+          label: i18n.t('41eeee23.3fbdde'),
           key: 'repwd',
           type: 'input',
           isShow: () => this.changePwdEnabled && !this.VERSION_SHUYUN()
         },
         {
-          label: '41eeee23.7fc88a',
+          label: i18n.t('41eeee23.7fc88a'),
           key: 'changePwd',
           type: 'button',
           component: () => {
@@ -71,11 +72,11 @@ export default {
                 href='https://account.shopex.cn/account/security'
                 target='_blank'
               >
-                {this.$t('41eeee23.af20fa')}
+                {i18n.t('41eeee23.af20fa')}
               </el-link>
             )
           },
-          tip: '41eeee23.505176',
+          tip: i18n.t('41eeee23.505176'),
           isShow: () => !this.changePwdEnabled && !this.VERSION_SHUYUN()
         }
       ]
@@ -86,11 +87,23 @@ export default {
   },
   methods: {
     async getAdminInfo() {
-      const res = await this.$api.login.getAdminInfo()
-      this.changePwdEnabled = res.logintype !== 'admin1'
-      this.form.mobile = res.mobile
-      this.form.username = res.username
-      this.form.head_portrait = res.head_portrait
+      try {
+        const res = await this.$api.login.getAdminInfo()
+        this.changePwdEnabled = res.logintype !== 'admin1'
+        this.form.mobile = res.mobile
+        this.form.username = res.username
+        this.form.head_portrait = res.head_portrait
+      } catch (e) {
+        let msg = ''
+        if (e && e.response && e.response.data && e.response.data.message) {
+          msg = e.response.data.message
+        } else if (e && e.message) {
+          msg = e.message
+        } else {
+          msg = i18n.t('1f7b7edc.f50bf4')
+        }
+        this.$message.error(msg)
+      }
     },
     onSubmit() {
       console.log(this.form)

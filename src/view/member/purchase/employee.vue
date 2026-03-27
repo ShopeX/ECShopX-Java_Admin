@@ -142,24 +142,24 @@ export default {
           }
         ],
         columns: [
-          { name: () => t('5a5739e5.8098e2'), key: 'mobile' },
-          { name: () => t('5a5739e5.60d045'), key: 'name' },
+          { name: t('5a5739e5.8098e2'), key: 'mobile' },
+          { name: t('5a5739e5.60d045'), key: 'name' },
           {
-            name: () => t('5a5739e5.78cbe8'),
+            name: t('5a5739e5.78cbe8'),
             key: 'auth_type',
             formatter: (value, { auth_type }, col) => {
               const authType = self.validateTypeList.find((item) => item.value == auth_type)
               return authType ? authType.name : ''
             }
           },
-          { name: () => t('5a5739e5.7035c6'), key: 'account' },
-          { name: () => t('5a5739e5.a81052'), key: 'auth_code' },
-          { name: () => t('5a5739e5.3bc5e6'), key: 'email' },
-          { name: () => t('5a5739e5.53cc55'), key: 'distributor_name' },
-          { name: () => t('5a5739e5.5a83cb'), key: 'enterprise_id' },
-          { name: () => t('5a5739e5.f47e27'), key: 'enterprise_name' },
-          { name: () => t('5a5739e5.705f0a'), key: 'enterprise_sn' },
-          { name: () => t('5a5739e5.6a52ee'), key: 'member_mobile' }
+          { name: t('5a5739e5.7035c6'), key: 'account' },
+          { name: t('5a5739e5.a81052'), key: 'auth_code' },
+          { name: t('5a5739e5.3bc5e6'), key: 'email' },
+          { name: t('5a5739e5.53cc55'), key: 'distributor_name' },
+          { name: t('5a5739e5.5a83cb'), key: 'enterprise_id' },
+          { name: t('5a5739e5.f47e27'), key: 'enterprise_name' },
+          { name: t('5a5739e5.705f0a'), key: 'enterprise_sn' },
+          { name: t('5a5739e5.6a52ee'), key: 'member_mobile' }
         ]
       }),
       addDialog: false,

@@ -149,6 +149,7 @@
 <script>
 import Vue from 'vue'
 import { isArray, isEmpty, isString, isObject } from '@/utils'
+import { i18n } from '@/i18n'
 import draggable from 'vuedraggable'
 export default {
   name: 'SpImagePicker',
@@ -271,13 +272,13 @@ export default {
           />
           <el-image
             class='img-content'
-            src={item?.url || item}
+            src={(item && item.url) || item}
             fit='cover'
             id='imageRef'
             preview-src-list={this.showViewer}
           />
           <span class='image-meta' on-click={this.onUpdateImage.bind(this, index)}>
-            {this.$t('967e77ce.7c543f')}
+            {i18n.t('967e77ce.7c543f')}
           </span>
         </div>
       )
@@ -310,7 +311,7 @@ export default {
           <div class='image-item placeholder' on-click={this.handleSelectImage}>
             <i class='el-icon-camera' />
             <div class='add-text'>
-              {this.$t('967e77ce.20def7')}({`${value.length}/${max}`})
+              {i18n.t('967e77ce.20def7')}({`${value.length}/${max}`})
             </div>
           </div>
         )}
@@ -319,7 +320,7 @@ export default {
         {max == 1 && isEmpty(value) && (
           <div class='image-item placeholder' on-click={this.handleSelectImage}>
             <i class='el-icon-camera' />
-            <div class='add-text'>{this.$t('967e77ce.b89fb3')}</div>
+            <div class='add-text'>{i18n.t('967e77ce.b89fb3')}</div>
           </div>
         )}
       </div>

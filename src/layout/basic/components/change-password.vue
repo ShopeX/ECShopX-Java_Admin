@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
+
 export default {
   data() {
     return {
@@ -34,13 +36,13 @@ export default {
         {
           fieldName: 'newPassword',
           formItemClass: 'w-2/3',
-          label: this.$t('a70b3bb4.7fc88a'),
+          label: i18n.t('a70b3bb4.7fc88a'),
           component: ({ value, onInput }) => {
             return (
               <el-input
                 v-model={value}
                 type={this.showPassword ? 'text' : 'password'}
-                placeholder={this.$t('a70b3bb4.abdd7e')}
+                placeholder={i18n.t('a70b3bb4.abdd7e')}
                 on-input={onInput}
               >
                 <div
@@ -56,8 +58,8 @@ export default {
             )
           },
           rules: [
-            { required: true, message: this.$t('a70b3bb4.abdd7e'), trigger: 'blur' },
-            { min: 6, message: this.$t('a70b3bb4.b12b49'), trigger: 'blur' }
+            { required: true, message: i18n.t('a70b3bb4.abdd7e'), trigger: 'blur' },
+            { min: 6, message: i18n.t('a70b3bb4.b12b49'), trigger: 'blur' }
           ]
         },
         {
@@ -66,7 +68,7 @@ export default {
               <el-input
                 v-model={value}
                 type={this.showConfirmPassword ? 'text' : 'password'}
-                placeholder={this.$t('a70b3bb4.a7a9a2')}
+                placeholder={i18n.t('a70b3bb4.a7a9a2')}
                 on-input={onInput}
               >
                 <div
@@ -86,15 +88,15 @@ export default {
           },
           fieldName: 'confirmPassword',
           formItemClass: 'w-2/3',
-          label: this.$t('a70b3bb4.3fbdde'),
+          label: i18n.t('a70b3bb4.3fbdde'),
           rules: [
             {
               validator: (rule, value, callback) => {
                 if (!value) {
-                  callback(new Error(this.$t('a70b3bb4.a7a9a2')))
+                  callback(new Error(i18n.t('a70b3bb4.a7a9a2')))
                   return
                 } else if (value !== this.formData.newPassword) {
-                  callback(new Error(this.$t('a70b3bb4.6046d6')))
+                  callback(new Error(i18n.t('a70b3bb4.6046d6')))
                 } else {
                   callback()
                 }
@@ -130,9 +132,9 @@ export default {
           pwd: formData.newPassword,
           repwd: formData.confirmPassword
         })
-        this.$message.success(this.$t('a70b3bb4.0259a1'))
+        this.$message.success(i18n.t('a70b3bb4.0259a1'))
       } catch (error) {
-        throw new Error(this.$t('a70b3bb4.e0cd5c'))
+        throw new Error(i18n.t('a70b3bb4.e0cd5c'))
       }
     }
   }

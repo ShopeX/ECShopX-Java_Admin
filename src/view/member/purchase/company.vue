@@ -270,9 +270,9 @@ export default {
           }
         ],
         columns: [
-          { name: () => t('63ede0f6.5a83cb'), key: 'id' },
+          { name: t('63ede0f6.5a83cb'), key: 'id' },
           {
-            name: () => t('63ede0f6.390b03'),
+            name: t('63ede0f6.390b03'),
             key: 'logo',
             render: (h, { row }) => {
               if (row.logo) {
@@ -294,15 +294,15 @@ export default {
             }
           },
           {
-            name: () => t('63ede0f6.f47e27'),
+            name: t('63ede0f6.f47e27'),
             key: 'name'
           },
           {
-            name: () => t('63ede0f6.705f0a'),
+            name: t('63ede0f6.705f0a'),
             key: 'enterprise_sn'
           },
           {
-            name: () => t('63ede0f6.c360e9'),
+            name: t('63ede0f6.c360e9'),
             key: 'sort',
             showType: 'pop-editable',
             componentProps: {
@@ -318,7 +318,7 @@ export default {
             }
           },
           {
-            name: () => t('63ede0f6.78cbe8'),
+            name: t('63ede0f6.78cbe8'),
             key: 'auth_type',
             formatter: (value, { auth_type }, col) => {
               const authType = self.validateTypeList.find((item) => item.value == auth_type)
@@ -326,7 +326,7 @@ export default {
             }
           },
           {
-            name: () => t('63ede0f6.3fea7c'),
+            name: t('63ede0f6.3fea7c'),
             key: 'disabled',
             render: (h, { row }) =>
               h('el-switch', {
@@ -347,7 +347,7 @@ export default {
               })
           },
           {
-            name: () => t('63ede0f6.16f2bc'),
+            name: t('63ede0f6.16f2bc'),
             key: 'distributor_name'
           }
         ]

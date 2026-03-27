@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 export default {
   props: {
     value: {
@@ -48,29 +49,29 @@ export default {
             )
           },
           fieldName: 'account',
-          label: this.$t('97f0b47f.7116e7')
+          label: i18n.t('97f0b47f.7116e7')
         },
         {
           component: 'input',
           componentProps: {
-            placeholder: this.$t('97f0b47f.916ff9'),
+            placeholder: i18n.t('97f0b47f.916ff9'),
             clearable: true,
             maxlength: 20,
             showWordLimit: true
           },
           fieldName: 'nickname',
           formItemClass: 'w-2/3',
-          label: this.$t('97f0b47f.23eb0e'),
+          label: i18n.t('97f0b47f.23eb0e'),
           rules: [
-            { required: true, message: this.$t('97f0b47f.916ff9'), trigger: 'blur' },
-            { min: 2, max: 20, message: this.$t('97f0b47f.f15f1e'), trigger: 'blur' }
+            { required: true, message: i18n.t('97f0b47f.916ff9'), trigger: 'blur' },
+            { min: 2, max: 20, message: i18n.t('97f0b47f.f15f1e'), trigger: 'blur' }
           ]
         },
         {
           component: 'imagepicker',
           fieldName: 'avatar',
           formItemClass: 'w-2/3',
-          label: this.$t('97f0b47f.4c50ee')
+          label: i18n.t('97f0b47f.4c50ee')
         }
       ]
     }

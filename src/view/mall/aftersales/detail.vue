@@ -347,7 +347,12 @@
         </el-row>
         <el-row>
           <el-col :span="3" class="col-3 content-right">
-            <el-button type="primary" plain @click="submitAftersalesInfo">
+            <el-button
+              type="primary"
+              plain
+              :loading="submitSendbackLoading"
+              @click="submitAftersalesInfo"
+            >
               {{ $t('e67351f7.939d53') }}
             </el-button>
           </el-col>
@@ -971,6 +976,7 @@ export default {
         corp_code: '',
         logi_no: ''
       },
+      submitSendbackLoading: false,
       logisticsList: [],
       isJuishuitan: false
     }
@@ -1039,26 +1045,43 @@ export default {
       this.aftersalesInfo.distributor_remark = remark
     },
     submitAftersalesInfo() {
+      if (!this.sendbackInfo.corp_code) {
+        this.$message.error(this.$t('e67351f7.7ba15c'))
+        return false
+      }
+      if (!this.sendbackInfo.logi_no || !this.sendbackInfo.logi_no.trim()) {
+        this.$message.error(this.$t('e67351f7.5cc10a'))
+        return false
+      }
+      this.sendbackInfo.logi_no = this.sendbackInfo.logi_no.trim()
+      this.submitSendbackLoading = true
       this.sendbackInfo['aftersales_bn'] = this.aftersales_bn
-      updateAftersalesSendBack(this.sendbackInfo).then((response) => {
-        this.$message.success(this.$t('e67351f7.e6d936'))
-        let data = response.data.data
-        this.aftersalesInfo = data
-        this.orderInfo = data.order_info
-        if (data.aftersales_address) {
-          this.aftersales_address = data.aftersales_address.aftersales_address
-          this.aftersales_contact = data.aftersales_address.aftersales_contact
-          this.aftersales_mobile = data.aftersales_address.aftersales_mobile
-          this.aftersales_address_id = data.aftersales_address.aftersales_address_id
-          this.is_default = data.aftersales_address.is_default
-        }
-        if (data.sendback_data.length == 0) {
-          this.aftersalesInfo.sendback_data = null
-        }
-        if (data.sendconfirm_data.length == 0) {
-          this.aftersalesInfo.sendconfirm_data = null
-        }
-      })
+      updateAftersalesSendBack(this.sendbackInfo)
+        .then((response) => {
+          this.$message.success(this.$t('e67351f7.e6d936'))
+          let data = response.data.data
+          this.aftersalesInfo = data
+          this.orderInfo = data.order_info
+          if (data.aftersales_address) {
+            this.aftersales_address = data.aftersales_address.aftersales_address
+            this.aftersales_contact = data.aftersales_address.aftersales_contact
+            this.aftersales_mobile = data.aftersales_address.aftersales_mobile
+            this.aftersales_address_id = data.aftersales_address.aftersales_address_id
+            this.is_default = data.aftersales_address.is_default
+          }
+          if (data.sendback_data.length == 0) {
+            this.aftersalesInfo.sendback_data = null
+          }
+          if (data.sendconfirm_data.length == 0) {
+            this.aftersalesInfo.sendconfirm_data = null
+          }
+        })
+        .catch(() => {
+          this.$message.error(this.$t('e67351f7.adcf44'))
+        })
+        .finally(() => {
+          this.submitSendbackLoading = false
+        })
     },
     handleOrderClick(order_id) {
       window.open(
