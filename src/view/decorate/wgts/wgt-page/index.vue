@@ -54,6 +54,15 @@
       min-width: 0;
     }
 
+    .title-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+      flex: 1;
+      min-width: 0;
+    }
+
     &.has-nearby {
       justify-content: flex-start;
 
@@ -217,6 +226,7 @@
           <sp-image v-if="value.titleStyle == '2'" class="title-image" :src="value.titleBackgroundImage" />
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>
