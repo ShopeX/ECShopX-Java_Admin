@@ -101,3 +101,29 @@ export function setKujialeSetting(query) {
     params: query
   })
 }
+
+export function getShuyunCrmSetting() {
+  return fetch({
+    url: '/shuyun/open-platform/config',
+    method: 'get',
+    showError: false
+  })
+}
+
+export function setShuyunCrmSetting(query) {
+  return fetch({
+    url: '/shuyun/open-platform/config',
+    method: 'put',
+    params: query,
+    showError: false
+  })
+}
+
+export function createShuyunCrmPlatform(query) {
+  return fetch({
+    url: '/shuyun/open-platform/platform/register',
+    method: 'post',
+    params: query,
+    showError: false
+  })
+}

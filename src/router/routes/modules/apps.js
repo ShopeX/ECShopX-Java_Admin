@@ -426,6 +426,17 @@ const routes = [
           permissions: ['applications.kujiale.kujiale-products']
         },
         component: () => import('@/views/applications/kujiale/list')
+      },
+      {
+        name: 'shuyunCrmSetting',
+        path: 'shuyun-data-winner/crm-setting',
+        meta: {
+          aliasName: 'crm-setting',
+          title: '9d1e03c7.e8a301',
+          icon: 'pay-circle',
+          permissions: ['applications.shuyun-data-winner.crm-setting']
+        },
+        component: () => import('@/views/applications/shuyun/crm-setting')
       }
     ]
   }
