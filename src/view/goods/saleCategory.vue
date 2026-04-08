@@ -150,11 +150,25 @@
         @onSubmit="onCategoryFormSubmit"
       />
     </div>
+
+    <SpTranslatePopup
+      ref="translatePopup"
+      table-name="items_category"
+      :data-id="translateContext.dataId"
+      :fields="translateContext.fields"
+      :values="translateContext.values"
+      :source-language="translateContext.sourceLang"
+      @done="onTranslateDone"
+    />
   </SpPage>
 </template>
 <script>
 import Vue from 'vue'
+import SpTranslatePopup from '@/components/sp-translate-popup'
+import translateMixin from '@/mixins/translateMixin'
 export default {
+  components: { SpTranslatePopup },
+  mixins: [translateMixin],
   data() {
     return {
       loading: false,
@@ -394,6 +408,9 @@ export default {
           is_show_front
         })
         this.$message.success(this.$t('0e7dabe2.3bb47b'))
+        this.refreshNode(parent_id)
+        this.categoryDialog = false
+        this.openTranslate(category_id, ['category_name'], [category_name || ''])
       } else {
         await this.$api.goods.addCategory({
           category_name,
@@ -404,10 +421,11 @@ export default {
           parent_id: parent_id != '0' ? parent_id : undefined
         })
         this.$message.success(this.$t('0e7dabe2.3fdaea'))
+        this.refreshNode(parent_id)
+        this.categoryDialog = false
       }
-      this.refreshNode(parent_id)
-      this.categoryDialog = false
     },
+    onTranslateDone() {},
     async deleteCategory(row) {
       await this.$confirm(this.$t('0e7dabe2.442ecc'), this.$t('0e7dabe2.02d981'), {
         confirmButtonText: this.$t('0e7dabe2.38cf16'),

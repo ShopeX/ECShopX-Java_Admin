@@ -304,6 +304,15 @@
       </el-button>
       <el-button @click.native="handleCancel"> {{ $t('118844d3.5f4112') }} </el-button>
     </div>
+    <SpTranslatePopup
+      ref="translatePopup"
+      table-name="promotions_marketing_activity"
+      :data-id="translateContext.dataId"
+      :fields="translateContext.fields"
+      :values="translateContext.values"
+      :source-language="translateContext.sourceLang"
+      @done="onTranslateDone"
+    />
   </el-form>
 </template>
 
@@ -324,12 +333,16 @@ import { getItemsList, getCategory, getTagList, getGoodsAttr } from '@/api/goods
 import { handleUploadFile, exportUploadTemplate } from '../../../../api/common'
 import store from '@/store'
 import { transformTree } from '@/utils'
+import SpTranslatePopup from '@/components/sp-translate-popup'
+import translateMixin from '@/mixins/translateMixin'
 export default {
   components: {
     StoreSelect,
     SkuSelector,
-    Treeselect
+    Treeselect,
+    SpTranslatePopup
   },
+  mixins: [translateMixin],
   inject: ['refresh'],
   data() {
     return {
@@ -539,15 +552,9 @@ export default {
         updateMarketingActivity(thisform).then((res) => {
           if (res.data.data.marketing_id) {
             this.loading = false
-            this.$message({
-              message: this.$t('118844d3.55aa63'),
-              type: 'success',
-              duration: 2 * 1000,
-              onClose() {
-                that.refresh()
-                that.$router.go(-1)
-              }
-            })
+            this.$message({ message: this.$t('118844d3.55aa63'), type: 'success', duration: 2 * 1000 })
+            that.refresh()
+            this.openTranslate(res.data.data.marketing_id, ['marketing_name', 'marketing_desc'], [this.form.marketing_name || '', this.form.marketing_desc || ''])
           } else {
             this.$message.error(this.$t('118844d3.73b0d9'))
             return false
@@ -573,6 +580,7 @@ export default {
         })
       }
     },
+    
     getActivityDetail(id) {
       getMarketingActivityInfo({ marketing_id: id }).then((res) => {
         let response = res.data.data

@@ -426,6 +426,28 @@ const routes = [
           permissions: ['applications.kujiale.kujiale-products']
         },
         component: () => import('@/views/applications/kujiale/list')
+      },
+      {
+        name: 'aiTranslateTasks',
+        path: 'ai/translate-tasks',
+        meta: {
+          aliasName: 'ai-translate-tasks',
+          title: '9d1e03c7.c62103',
+          icon: 'ordered-list',
+          permissions: ['applications.ai-translate.translate-tasks']
+        },
+        component: () => import('@/views/ai/translate-tasks')
+      },
+      {
+        name: 'aiTranslateSetting',
+        path: 'ai/translate-setting',
+        meta: {
+          aliasName: 'ai-translate-setting',
+          title: '9d1e03c7.851905',
+          icon: 'setting',
+          permissions: ['applications.ai-translate.translate-setting']
+        },
+        component: () => import('@/views/settings/ai-translate-setting')
       }
     ]
   }

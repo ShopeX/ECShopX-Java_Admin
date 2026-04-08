@@ -47,6 +47,16 @@
         </el-button>
       </div>
     </sideBar>
+
+    <SpTranslatePopup
+      ref="translatePopup"
+      table-name="items_attributes"
+      :data-id="translateContext.dataId"
+      :fields="translateContext.fields"
+      :values="translateContext.values"
+      :source-language="translateContext.sourceLang"
+      @done="onTranslateDone"
+    />
   </SpPage>
 </template>
 <script>
@@ -62,6 +72,8 @@ import sideBar from '@/components/element/sideBar'
 import { createSetting } from '@shopex-ui/finder'
 import { useForm } from '@/composables'
 import { i18n } from '@/i18n'
+import SpTranslatePopup from '@/components/sp-translate-popup'
+import translateMixin from '@/mixins/translateMixin'
 
 const [BrandForm, BrandFormApi] = useForm({
   formType: 'normalForm',
@@ -96,8 +108,10 @@ const [BrandForm, BrandFormApi] = useForm({
 export default {
   components: {
     sideBar,
-    BrandForm
+    BrandForm,
+    SpTranslatePopup
   },
+  mixins: [translateMixin],
   data() {
     return {
       form: {
@@ -205,9 +219,11 @@ export default {
           this.$message({ type: 'success', message: this.$t('6ec569f9.33130f') })
           this.show_sideBar = false
           this.$refs.finder.refresh()
+          this.openTranslate(submitData.attribute_id, ['attribute_name'], [submitData.attribute_name || ''])
         })
       }
     },
+    onTranslateDone() {},
     syncBrand() {
       syncBrand().then((res) => {
         if (res.data.data.status == true) {

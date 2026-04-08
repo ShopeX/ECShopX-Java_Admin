@@ -543,6 +543,16 @@
       @chooseStore="chooseDistributorAction"
       @closeStoreDialog="closeDistributorDialogAction"
     />
+
+    <SpTranslatePopup
+      ref="translatePopup"
+      table-name="kaquan_discount_cards"
+      :data-id="translateContext.dataId"
+      :fields="translateContext.fields"
+      :values="translateContext.values"
+      :source-language="translateContext.sourceLang"
+      @done="onTranslateDone"
+    />
   </SpPage>
 </template>
 
@@ -558,13 +568,17 @@ import { getWxShopsList } from '@/api/shop'
 import { getItemsList, getCategory, getTagList, getGoodsAttr } from '@/api/goods'
 import { handleUploadFile, exportUploadTemplate } from '../../../api/common'
 import GiftCoupon from './coupon/gift.vue'
+import SpTranslatePopup from '@/components/sp-translate-popup'
+import translateMixin from '@/mixins/translateMixin'
 export default {
+  mixins: [translateMixin],
   components: {
     StoreSelect,
     SkuSelector,
     DistributorSelect,
     Treeselect,
-    GiftCoupon
+    GiftCoupon,
+    SpTranslatePopup
   },
   inject: ['refresh'],
   data() {
@@ -1099,7 +1113,7 @@ export default {
                     duration: 2 * 1000
                   })
                   this.refresh()
-                  this.$router.go(-1)
+                  this.openTranslate(this.form.card_id, ['title', 'description'], [this.form.title || '', this.form.description || ''])
                 } else {
                   this.$message.error(this.$t('dba53da0.445eb0'))
                   this.submitDisabled = false
@@ -1135,6 +1149,7 @@ export default {
         }
       })
     },
+    
     addStoreAction() {
       this.storeVisible = true
       this.setStatus = true
