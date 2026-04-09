@@ -1,7 +1,5 @@
-## 最近一次变更
+## 最近一次变更（2026-04-02）
 
-**时间**: 2026-04-02
+多规格：至少一组规格勾选规格值；商城 add/standard/audit 笛卡尔积与 item_spec 与 physical add 对齐；i18n 更新 `de022579.d78fc6`。
 
-**文件**: `src/view/mall/trade/order/detail/index.vue`
-
-**简述**: 移除订单详情中某 el-card 表头与面板的 `!IS_SUPPLIER()` 条件，供应商账号也可看到该区块。
+**Commit 标题**: feat: 多规格仅需至少一组勾选规格值并修正商城 SKU 组合逻辑
