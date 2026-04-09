@@ -787,6 +787,18 @@ export default {
           : this.selectedMainCategory[this.selectedMainCategory.length - 1]
       }
 
+      // 多规格：至少一组规格需勾选规格值（不要求每组都选）
+      if (!nospec) {
+        const hasAnySpecGroupChecked = this.skuData.skus.some(
+          (s) => s.checked_sku && s.checked_sku.length > 0
+        )
+        if (!hasAnySpecGroupChecked) {
+          this.$message({ type: 'error', message: this.$t('de022579.d78fc6') })
+          this.submitLoading = false
+          return
+        }
+      }
+
       // 多规格
       if (!nospec) {
         const specImages = this.skuData.specImages.map((item) => {

@@ -1,15 +1,5 @@
-## 最近一次变更总结
+## 最近一次变更（2026-04-02）
 
-**时间**: 2026-03-25
+多规格：至少一组规格勾选规格值；商城 add/standard/audit 笛卡尔积与 item_spec 与 physical add 对齐；i18n 更新 `de022579.d78fc6`。
 
-**涉及文件**:
-- `src/view/merchant/store.vue` (修改)
-- `src/i18n/locales/zh-CN.json` (修改)
-- `src/i18n/locales/en.json` (修改)
-- `src/i18n/locales/ar.json` (修改)
-
-**主要改动**:
-- 补全商户店铺页 15 个缺失的 `027707af.*` 多语言词条（zh/en/ar）。
-- 修复达达相关表单项 `isShow` 在初始化时被固定为 `false` 的问题。
-
-**一句话概括**: fix(i18n): 补全商户店铺页缺失词条并修复达达区块 isShow
+**Commit 标题**: feat: 多规格仅需至少一组勾选规格值并修正商城 SKU 组合逻辑
