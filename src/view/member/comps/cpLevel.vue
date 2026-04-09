@@ -13,7 +13,12 @@
             ><span v-else>{{ getLevelLabel(index) }}</span>
           </h3>
           <span
-            v-if="!item.default_grade && item.member_count == 0 && levelData.length - 1 == index"
+            v-if="
+              !shuyunOpenPlatformEnabled &&
+              !item.default_grade &&
+              item.member_count == 0 &&
+              levelData.length - 1 == index
+            "
             class="el-icon-close f_r"
             @click="remove(index)"
           />
@@ -184,6 +189,12 @@ export default {
   components: {
     imgPicker,
     couponSelect
+  },
+  props: {
+    shuyunOpenPlatformEnabled: {
+      type: Boolean,
+      default: false
+    }
   },
   filters: {
     numberToCharacter(val) {

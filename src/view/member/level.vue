@@ -14,10 +14,16 @@
           <card-setting />
         </el-tab-pane> -->
         <el-tab-pane :label="$t('c5e8d16d.795682')" name="second">
-          <card-level ref="cardLevel" />
+          <card-level
+            ref="cardLevel"
+            :shuyun-open-platform-enabled="shuyunOpenPlatformEnabled"
+          />
         </el-tab-pane>
         <el-tab-pane :label="$t('c5e8d16d.de2408')" name="thrid">
-          <card-viplevel ref="cardViplevel" />
+          <card-viplevel
+            ref="cardViplevel"
+            :shuyun-open-platform-enabled="shuyunOpenPlatformEnabled"
+          />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -31,7 +37,7 @@
           >
             {{ $t('c5e8d16d.511c58') }}
           </el-button>
-          <el-button v-if="!VERSION_SHUYUN()" @click="addGrade('cardLevel')">
+          <el-button v-if="!shuyunOpenPlatformEnabled" @click="addGrade('cardLevel')">
             {{ $t('c5e8d16d.0b369f') }}
           </el-button>
           <el-button type="primary" @click="saveGrade('cardLevel')">
@@ -39,7 +45,7 @@
           </el-button>
         </template>
         <template v-if="activeName == 'thrid'">
-          <el-button v-if="!VERSION_SHUYUN()" @click="addGrade('cardViplevel')">
+          <el-button v-if="!shuyunOpenPlatformEnabled" @click="addGrade('cardViplevel')">
             {{ $t('c5e8d16d.0b369f') }}
           </el-button>
           <el-button type="primary" @click="saveGrade('cardViplevel')">
@@ -87,6 +93,16 @@ export default {
     saveGrade(val) {
       this.$refs[val].saveGrade()
     },
+    getSyncLoyaltyGradeErrorMessage(err) {
+      if (err == null || typeof err === 'boolean') return ''
+      if (typeof err === 'string') return err
+      const payload = err.response?.data != null ? err.response.data : err
+      if (!payload || typeof payload !== 'object') return ''
+      const inner =
+        payload.data != null && typeof payload.data === 'object' ? payload.data : payload
+      const msg = inner.message || inner.error || payload.message || payload.error
+      return msg != null && msg !== '' ? String(msg) : ''
+    },
     handleSyncLoyaltyGrade() {
       this.syncLoyaltyGradeLoading = true
       syncLoyaltyGradeApi()
@@ -106,6 +122,10 @@ export default {
           } else if (d.message) {
             this.$message.error(d.message)
           }
+        })
+        .catch((err) => {
+          const msg = this.getSyncLoyaltyGradeErrorMessage(err)
+          this.$message.error(msg || this.$t('1f7b7edc.f50bf4'))
         })
         .finally(() => {
           this.syncLoyaltyGradeLoading = false

@@ -37,7 +37,8 @@ export function updateGrade(query) {
 export function syncLoyaltyGrade() {
   return fetch({
     url: '/shuyun/open-platform/loyalty/grade/sync',
-    method: 'post'
+    method: 'post',
+    showError: false
   })
 }
 
