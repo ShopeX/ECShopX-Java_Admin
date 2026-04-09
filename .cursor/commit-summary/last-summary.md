@@ -1,5 +1,5 @@
-## 最近一次变更（2026-04-09）
+## Latest change (2026-04-09)
 
-企业购活动管理列表首列展示活动 ID（`id`）；i18n `bea3f44a.7a9e2d`。
+Platform account list (`normalstaff.vue`): added a column for related stores (`distributor_ids`), reusing i18n `f3a67ede.5c16c5`.
 
-**Commit 标题**: feat(企业购): 活动管理列表展示活动ID
+**Commit title**: feat(settings): show related stores on platform account list
