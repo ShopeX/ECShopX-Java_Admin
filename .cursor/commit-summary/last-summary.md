@@ -1,5 +1,5 @@
-## Latest change (2026-04-09)
+## 最近一次变更（2026-04-09）
 
-Platform account list (`normalstaff.vue`): added a column for related stores (`distributor_ids`), reusing i18n `f3a67ede.5c16c5`.
+开票税率弹窗/列表：`7350de2d.1a7503`、`7350de2d.9f7160` 改为全部管理分类、指定管理分类（zh/en/ar）。
 
-**Commit title**: feat(settings): show related stores on platform account list
+**Commit**: i18n(财务开票税率): 税率配置选项改为全部/指定管理分类
