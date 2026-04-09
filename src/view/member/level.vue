@@ -24,6 +24,13 @@
     <template>
       <div class="text-center">
         <template v-if="activeName == 'second'">
+          <el-button
+            v-if="shuyunOpenPlatformEnabled"
+            :loading="syncLoyaltyGradeLoading"
+            @click="handleSyncLoyaltyGrade"
+          >
+            {{ $t('c5e8d16d.511c58') }}
+          </el-button>
           <el-button v-if="!VERSION_SHUYUN()" @click="addGrade('cardLevel')">
             {{ $t('c5e8d16d.0b369f') }}
           </el-button>
@@ -44,6 +51,7 @@
   </SpPage>
 </template>
 <script>
+import { syncLoyaltyGrade as syncLoyaltyGradeApi } from '@/api/membercard'
 import cardViplevel from './comps/cpViplevel.vue'
 import cardLevel from './comps/cpLevel.vue'
 export default {
@@ -53,15 +61,55 @@ export default {
   },
   data() {
     return {
-      activeName: 'second'
+      activeName: 'second',
+      syncLoyaltyGradeLoading: false,
+      shuyunOpenPlatformEnabled: false
     }
   },
+  mounted() {
+    this.loadShuyunOpenPlatformFlag()
+  },
+  activated() {
+    this.loadShuyunOpenPlatformFlag()
+  },
   methods: {
+    async loadShuyunOpenPlatformFlag() {
+      try {
+        const data = await this.$api.third.getShuyunCrmSetting()
+        this.shuyunOpenPlatformEnabled = Boolean(data && data.is_enabled)
+      } catch (e) {
+        this.shuyunOpenPlatformEnabled = false
+      }
+    },
     addGrade(val) {
       this.$refs[val].addGrade()
     },
     saveGrade(val) {
       this.$refs[val].saveGrade()
+    },
+    handleSyncLoyaltyGrade() {
+      this.syncLoyaltyGradeLoading = true
+      syncLoyaltyGradeApi()
+        .then((res) => {
+          const d = res.data && res.data.data ? res.data.data : {}
+          const ok =
+            d.ok === true ||
+            d.status === true ||
+            (d.ok !== false && d.synced_count != null)
+          if (ok) {
+            const n = d.synced_count != null ? d.synced_count : 0
+            this.$message.success(this.$t('c5e8d16d.8b6161', [n]))
+            const ref = this.$refs.cardLevel
+            if (ref && typeof ref.getGradeList === 'function') {
+              ref.getGradeList()
+            }
+          } else if (d.message) {
+            this.$message.error(d.message)
+          }
+        })
+        .finally(() => {
+          this.syncLoyaltyGradeLoading = false
+        })
     }
   }
 }
