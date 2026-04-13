@@ -337,7 +337,7 @@ export default {
     },
 
     async handleClick(cat_id) {
-      const page = 'pages/item/list'
+      const page = 'subpages/item/list'
       this.curPageUrl = `${page}?cat_id=${cat_id}`
       let params = {
         wxaAppId: this.appID,

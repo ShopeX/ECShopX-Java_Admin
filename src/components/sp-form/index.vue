@@ -475,7 +475,8 @@ export default {
                   }
                 ]}
                 style={{
-                  width: item.width ? item.width : 'auto'
+                  width: item.width ? item.width : 'auto',
+                  ...(item.style && typeof item.style === 'object' ? item.style : {})
                 }}
                 showMessage={typeof item.showMessage == 'undefined' ? true : item.showMessage}
                 v-show={this.getItemShow(item)}

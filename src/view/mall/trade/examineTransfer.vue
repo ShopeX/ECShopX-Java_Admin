@@ -445,19 +445,16 @@ export default {
         {
           label: this.$t('77050e4f.d64589'),
           component: () => <span>{this.addForm.bank_name || '-'}</span>,
-          display: 'inline'
         },
         {
           label: this.$t('77050e4f.27d6ee'),
           key: 'bank_name',
           component: () => <span>{this.addForm.bank_account_no || '-'}</span>,
-          display: 'inline'
         },
         {
           label: this.$t('77050e4f.efce56'),
           key: 'china_ums_no',
           component: () => <span>{this.addForm.china_ums_no || '-'}</span>,
-          display: 'inline'
         },
 
         {
@@ -505,7 +502,7 @@ export default {
         //搜索银行选项label，bank_name
         label: `${item.bank_name}:${item.bank_account_no}`,
         //弹框下拉选项value，title
-        value: item.id,
+        value: item.id.toString(),
         title: item.bank_account_name
       }))
       this.bankList = _list
