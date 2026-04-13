@@ -5,7 +5,7 @@
 
 <template>
   <el-dialog
-    title="选择商品"
+    :title="$t('1fcaacff.43d1e2')"
     class="select-goods-box"
     :visible="goodsVisible"
     width="732px"
@@ -14,13 +14,13 @@
   >
     <StoreFilter v-if="!filter" class="store" :data="store" @change="handleStoreChange" />
     <el-form label-position="left" label-width="70px">
-      <el-form-item label="商品名： ">
+      <el-form-item :label="$t('1fcaacff.c9a87c')">
         <el-row :gutter="10">
           <el-col :span="10">
             <el-input
               v-model="params.keywords"
               clearable
-              placeholder="请输入商品名称"
+              :placeholder="$t('1fcaacff.d83187')"
               @clear="searchByKey"
             />
           </el-col>
@@ -33,8 +33,8 @@
         <el-transfer
           v-model="selectedGoods"
           v-loading="loading"
-          :titles="['商品列表', '已选中']"
-          :button-texts="['移除选择', '添加选择']"
+          :titles="[$t('1fcaacff.437974'), $t('1fcaacff.543b04')]"
+          :button-texts="[$t('1fcaacff.be4911'), $t('1fcaacff.93d369')]"
           :data="goodsList"
           @change="goodsSelector"
         >
@@ -52,8 +52,8 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="closeDialog">取 消</el-button>
-      <el-button type="primary" @click="goodsComfirm">确 定</el-button>
+      <el-button @click="closeDialog">{{ $t('1fcaacff.c08ab9') }}</el-button>
+      <el-button type="primary" @click="goodsComfirm">{{ $t('1fcaacff.aa7527') }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -123,8 +123,8 @@ export default {
     // 选择商品触发事件
     goodsSelector(value, direction, movedKeys) {
       let list = []
-      this.goodsList.forEach(item => {
-        this.selectedGoods.forEach(itemKey => {
+      this.goodsList.forEach((item) => {
+        this.selectedGoods.forEach((itemKey) => {
           if (item.key === itemKey) {
             list.push(item)
           }
@@ -133,7 +133,7 @@ export default {
       this.selected = list
       if (value.length > 12) {
         this.$message({
-          message: '最多选择12个商品',
+          message: this.$t('1fcaacff.aac090'),
           type: 'error',
           duration: 5 * 1000
         })
@@ -144,8 +144,8 @@ export default {
     goodsComfirm() {
       let values = []
       if (this.selectedGoods.length > 0) {
-        this.goodsList.forEach(item => {
-          this.selectedGoods.forEach(key => {
+        this.goodsList.forEach((item) => {
+          this.selectedGoods.forEach((key) => {
             if (item.key == key) {
               let obj = {
                 imgUrl: item.imgUrl,
@@ -162,7 +162,7 @@ export default {
         })
       } else {
         this.$message({
-          message: '请选择商品',
+          message: this.$t('1fcaacff.c5c5f2'),
           type: 'error'
         })
         return
@@ -181,9 +181,9 @@ export default {
       }
     },
     _getItemsList() {
-      getItemsList(this.params).then(response => {
+      getItemsList(this.params).then((response) => {
         let list = []
-        response.data.data.list.forEach(item => {
+        response.data.data.list.forEach((item) => {
           list.push({
             key: item.itemId,
             label: item.itemName,
@@ -199,9 +199,9 @@ export default {
       })
     },
     _getPcItemsList() {
-      getPcItemsList(Object.assign({}, this.params, { item_type: 'normal' })).then(response => {
+      getPcItemsList(Object.assign({}, this.params, { item_type: 'normal' })).then((response) => {
         let list = []
-        response.data.data.list.forEach(item => {
+        response.data.data.list.forEach((item) => {
           let imgUrl = ''
           if (typeof item.pics === 'string' && item.pics !== '') {
             imgUrl = JSON.parse(item.pics)[0]

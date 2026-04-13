@@ -27,7 +27,19 @@ export default {
       type: String,
       default: ''
     },
+    cellWidth: {
+      type: Number,
+      default: 1
+    },
+    computedCellWidth: {
+      type: Number,
+      default: null
+    },
     formData: Object,
+    formType: {
+      type: String,
+      default: 'searchForm'
+    },
     hideFieldRequiredMark: {
       type: Boolean,
       default: false
@@ -109,7 +121,7 @@ export default {
           },
           props: {
             value: this.modelValue,
-            placeholder: `请选择${this.label}`,
+            placeholder: this.$t('1bb56920.708c9d') + (this.label || '').replace(/:$/, ''),
             ...props
           },
           on: {
@@ -148,9 +160,10 @@ export default {
         radios
       )
     },
-    // 渲染 checkbox 组件
+    // 渲染 checkbox 组件（el-checkbox-group 的 value 必须为数组，否则会出现勾选一个则全部勾选等问题）
     renderCheckbox(props = {}) {
-      const checkboxes = (props.options || []).map((option) =>
+      const { options = [], ...restProps } = props
+      const checkboxes = options.map((option) =>
         h(
           'el-checkbox',
           {
@@ -162,13 +175,18 @@ export default {
           option.label
         )
       )
+      const groupValue = Array.isArray(this.modelValue)
+        ? this.modelValue
+        : this.modelValue != null && this.modelValue !== ''
+        ? [].concat(this.modelValue)
+        : []
 
       return h(
         'el-checkbox-group',
         {
           props: {
-            value: this.modelValue,
-            ...props
+            ...restProps,
+            value: groupValue
           },
           on: {
             input: this.handleInput
@@ -199,15 +217,17 @@ export default {
             }
           }
         },
-        props.text || this.label || '按钮'
+        props.text || this.label || this.$t('1bb56920.fa9663')
       )
     },
     renderDatePicker(props = {}) {
       return (
         <div class='el-date-picker__wrapper'>
           <el-date-picker
+            size={this.size || 'small'}
             type='date'
             value={this.modelValue}
+            prefix-icon={false}
             {...props}
             on-input={this.handleInput}
           />
@@ -220,13 +240,21 @@ export default {
         <div class='el-datetime-picker__wrapper'>
           <el-date-picker
             style='width: 100%'
+            size={this.size || 'small'}
             type={this.componentProps.type}
-            startPlaceholder='开始日期/结束时间'
+            startPlaceholder={this.$t('1bb56920.ad93ed')}
             default-time={['00:00:00', '23:59:59']}
             // endPlaceholder="结束日期"
-            rangeSeparator={`${this.modelValue.length > 1 ? '至' : ''}`}
+            rangeSeparator={`${this.modelValue.length > 1 ? '~' : ''}`}
             value={this.modelValue}
-            pickerOptions={PICKER_DATE_OPTIONS}
+            pickerOptions={{
+              ...PICKER_DATE_OPTIONS,
+              shortcuts: PICKER_DATE_OPTIONS.shortcuts.map((s) => ({
+                ...s,
+                text: this.$t(s.text)
+              }))
+            }}
+            prefix-icon={false}
             onInput={this.handleInput}
           />
         </div>
@@ -235,7 +263,24 @@ export default {
     renderImagePicker(props = {}) {
       return <SpImagePicker value={this.modelValue} {...props} on-onChange={this.handleInput} />
     },
-
+    renderCascader(props = {}) {
+      return h('el-cascader', {
+        attrs: {
+          ...props,
+          size: this.size || 'small'
+        },
+        props: {
+          value: this.modelValue,
+          options: props.options || [],
+          props: props.props,
+          clearable: props.clearable,
+          placeholder: props.placeholder
+        },
+        on: {
+          change: this.handleInput
+        }
+      })
+    },
     renderSwitch() {
       const props = {
         ...this.componentProps,
@@ -273,7 +318,7 @@ export default {
                   type: props.buttonType || 'primary'
                 }
               },
-              props.buttonText || '点击上传'
+              props.buttonText || this.$t('1bb56920.2c808b')
             )
           ]
         )
@@ -294,7 +339,8 @@ export default {
           radio: this.renderRadio,
           select: this.renderSelect,
           switch: this.renderSwitch,
-          upload: this.renderUpload
+          upload: this.renderUpload,
+          cascader: this.renderCascader
         }
         return renderMap[type] || this.renderInput
       }
@@ -326,10 +372,32 @@ export default {
       return <div class='form-field-group'>{this.label}</div>
     }
 
+    // 检查是否应该显示该字段
+    const shouldShow = this.isShow ? this.isShow(this.modelValue) : true
+    if (!shouldShow) {
+      // 如果不需要显示，直接返回 null，不占据任何空间
+      return null
+    }
+
     // 获取对应的渲染函数
     const renderComponent = this.getComponentRender()
+
     // 渲染表单项
-    return h('div', { class: ['form-field', this.formItemClass] }, [
+    const divProps = {
+      class: ['form-field', this.formItemClass],
+      attrs: {
+        'data-cell-width': this.cellWidth
+      }
+    }
+    if (this.computedCellWidth) {
+      divProps.style = {
+        flex: `0 0 ${this.computedCellWidth}px`,
+        maxWidth: `${this.computedCellWidth}px`,
+        width: `${this.computedCellWidth}px`
+      }
+    }
+
+    return h('div', divProps, [
       h(
         'el-form-item',
         {
@@ -339,12 +407,6 @@ export default {
             prop: this.fieldName,
             rules: this.rules
           },
-          directives: [
-            {
-              name: 'show',
-              value: this.isShow ? this.isShow(this.modelValue) : true
-            }
-          ],
           class: [
             { 'label-inline': this.labelInline },
             { 'hide-field-required-mark': this.hideFieldRequiredMark }

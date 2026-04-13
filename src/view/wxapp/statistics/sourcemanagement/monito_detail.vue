@@ -6,46 +6,51 @@
 <template>
   <div class="section-white content-padded">
     <div>
-      <el-button size="small" type="text" @click="handleBack"> < 返回 </el-button>
-      页面路径：<a
-        href="#"
-        class="page-name"
-      >{{ detail.monitor_path
-      }}<span
-        v-show="detail.monitor_path_params != ''"
-      >?{{ detail.monitor_path_params }}</span></a><span>小程序：{{ detail.nick_name }}</span>
+      <el-button size="small" type="text" @click="handleBack">
+{{
+        $t('e0ae4653.5f4112')
+      }}
+</el-button>
+      {{ $t('e0ae4653.e3a8a6') }}：<a href="#" class="page-name"
+        >{{ detail.monitor_path
+        }}<span v-show="detail.monitor_path_params != ''"
+          >?{{ detail.monitor_path_params }}</span
+        ></a
+      ><span>{{ $t('e0ae4653.0ed510') }}：{{ detail.nick_name }}</span>
     </div>
     <div class="time-box">
       <div>
-        <span>日期筛选：</span>
+        <span>{{ $t('e0ae4653.c51d21') }}：</span>
         <el-select v-model="timeType" @change="timeTypeChange">
           <el-option
             v-for="item in timeTypeOptions"
             :key="item.value"
-            :label="item.label"
+            :label="$t(item.label)"
             :value="item.value"
           />
         </el-select>
         <span v-if="isNeardate"
           >{{ typeText
-          }}<span v-if="isRealTime" class="refresh" @click="getRealTime">&nbsp;刷新</span></span
+          }}<span v-if="isRealTime" class="refresh" @click="getRealTime"
+            >&nbsp;{{ $t('e0ae4653.694fc5') }}</span
+          ></span
         >
         <el-date-picker
           v-if="ischooseDay"
           v-model="chooseDate"
           type="date"
-          placeholder="选择日期"
+          :placeholder="$t('e0ae4653.2bebdd')"
           :picker-options="pickerOptions"
         />
         <el-date-picker
           v-if="iscustom"
           v-model="customDate"
           type="daterange"
-          placeholder="选择日期范围"
+          :placeholder="$t('e0ae4653.4b8cb9')"
           :picker-options="pickerOptions2"
         />
         <el-button type="primary" size="small" style="margin: 0 10px" @click="searchStats">
-          查询
+          {{ $t('e0ae4653.bee912') }}
         </el-button>
       </div>
     </div>
@@ -55,158 +60,85 @@
         <!-- <el-col :span="6"
           >新客访问量:&nbsp;<span>{{ statstotal.total_fans_num }}</span></el-col
         > -->
-        <el-col
-          :span="2"
-        >
+        <el-col :span="2">
           PV:&nbsp;<span>{{ statstotal.total_pv }}</span>
         </el-col>
-        <el-col
-          :span="2"
-        >
+        <el-col :span="2">
           UV:&nbsp;<span>{{ statstotal.total_uv }}</span>
         </el-col>
-        <el-col
-          :span="3"
-        >
-          会员访客量:&nbsp;<span>{{ statstotal.total_member_visitor }}</span>
+        <el-col :span="3">
+          {{ $t('e0ae4653.c350e0') }}:&nbsp;<span>{{ statstotal.total_member_visitor }}</span>
         </el-col>
-        <el-col
-          :span="3"
-        >
-          游客访问量:&nbsp;<span>{{ statstotal.total_visitor }}</span>
+        <el-col :span="3">
+          {{ $t('e0ae4653.65526a') }}:&nbsp;<span>{{ statstotal.total_visitor }}</span>
         </el-col>
-        <el-col
-          :span="2"
-        >
-          注册量:&nbsp;<span>{{ statstotal.total_register_num }}</span>
+        <el-col :span="2">
+          {{ $t('e0ae4653.dcf37c') }}:&nbsp;<span>{{ statstotal.total_register_num }}</span>
         </el-col>
-        <el-col
-          :span="3"
-        >
-          支付人数:&nbsp;<span>{{ statstotal.total_pay_num }}</span>
+        <el-col :span="3">
+          {{ $t('e0ae4653.c6a5f4') }}:&nbsp;<span>{{ statstotal.total_pay_num }}</span>
         </el-col>
-        <el-col
-          :span="3"
-        >
-          支付单数:&nbsp;<span>{{ statstotal.total_entries_num }}</span>
+        <el-col :span="3">
+          {{ $t('e0ae4653.afa42b') }}:&nbsp;<span>{{ statstotal.total_entries_num }}</span>
         </el-col>
-        <el-col
-          :span="3"
-        >
-          支付总价:&nbsp;<span>{{ statstotal.total_pay_amount / 100 }}</span>
+        <el-col :span="3">
+          {{ $t('e0ae4653.16a88d') }}:&nbsp;<span>{{ statstotal.total_pay_amount / 100 }}</span>
         </el-col>
-        <el-col
-          :span="2"
-        >
-          转化率:&nbsp;<span>{{ statstotal.total_conversion_rate }}</span>
+        <el-col :span="2">
+          {{ $t('e0ae4653.715054') }}:&nbsp;<span>{{ statstotal.total_conversion_rate }}</span>
         </el-col>
       </el-row>
     </div>
     <div>
       <div class="content-bottom-padded">
-        <el-button type="primary" @click="codePack"> 二维码打包 </el-button>
+        <el-button type="primary" @click="codePack">{{ $t('e0ae4653.5b8a6c') }}</el-button>
       </div>
-      <el-table
-        v-loading="loading"
-        :data="dataList"
-        style="width: 100%"
-        :row-key="handleRowKey"
-      >
-        <el-table-column
-          prop="source_id"
-          label="来源ID"
-        />
-        <el-table-column
-          prop="monitor_id"
-          label="监控ID"
-        />
-        <el-table-column
-          prop="source_name"
-          label="来源名称"
-        />
-        <el-table-column
-          prop="total_pv"
-          label="PV"
-        />
-        <el-table-column
-          prop="total_uv"
-          label="UV"
-        />
-        <el-table-column
-          prop="total_member_visitor"
-          label="会员访客数"
-        />
+      <el-table v-loading="loading" :data="dataList" style="width: 100%" :row-key="handleRowKey">
+        <el-table-column prop="source_id" :label="$t('e0ae4653.338267')" />
+        <el-table-column prop="monitor_id" :label="$t('e0ae4653.de2b88')" />
+        <el-table-column prop="source_name" :label="$t('e0ae4653.19f373')" />
+        <el-table-column prop="total_pv" label="PV" />
+        <el-table-column prop="total_uv" label="UV" />
+        <el-table-column prop="total_member_visitor" :label="$t('e0ae4653.0b0cfe')" />
         <!-- <el-table-column prop="view_num" label="浏览人数"></el-table-column> -->
-        <el-table-column
-          prop="total_visitor"
-          label="游客访问量"
-        />
-        <el-table-column
-          prop="register_num"
-          label="注册量"
-        />
-        <el-table-column
-          prop="total_pay_num"
-          label="支付人数"
-        />
-        <el-table-column
-          prop="entries_num"
-          label="支付单数"
-        />
-        <el-table-column
-          prop="total_pay_amount"
-          label="支付总价"
-          >
+        <el-table-column prop="total_visitor" :label="$t('e0ae4653.65526a')" />
+        <el-table-column prop="register_num" :label="$t('e0ae4653.dcf37c')" />
+        <el-table-column prop="total_pay_num" :label="$t('e0ae4653.c6a5f4')" />
+        <el-table-column prop="entries_num" :label="$t('e0ae4653.afa42b')" />
+        <el-table-column prop="total_pay_amount" :label="$t('e0ae4653.16a88d')">
           <template slot-scope="scope">
             {{ scope.row.total_pay_amount / 100 }}
           </template>
         </el-table-column>
-        <el-table-column
-          prop="conversion_rate"
-          label="转化率"
-        />
-        <el-table-column label="操作">
+        <el-table-column prop="conversion_rate" :label="$t('e0ae4653.715054')" />
+        <el-table-column :label="$t('e0ae4653.2b6bc0')">
           <template slot-scope="scope">
-            <a
-              href="#"
-              @click="showlink(scope.row)"
-            >链接</a> &nbsp;
-            <a
-              href="#"
-              @click="remove(scope.row)"
-            >删除</a> &nbsp;
-            <a
-              href="#"
-              @click="viewOrder(scope.row)"
-            >查看订单</a>
+            <a href="#" @click="showlink(scope.row)">{{ $t('e0ae4653.bfe68d') }}</a> &nbsp;
+            <a href="#" @click="remove(scope.row)">{{ $t('e0ae4653.2f4aad') }}</a> &nbsp;
+            <a href="#" @click="viewOrder(scope.row)">{{ $t('e0ae4653.27a3ff') }}</a>
             <a
               href="#"
               v-clipboard:copy="getLinkPath(scope.row)"
               v-clipboard:success="onCopySuccess"
             >
-            复制链接
+              {{ $t('e0ae4653.879058') }}
             </a>
-            
           </template>
         </el-table-column>
       </el-table>
     </div>
 
     <el-dialog
-      title="二维码信息"
+      :title="$t('e0ae4653.f34887')"
       :visible="dialogVisible"
       :close-on-click-modal="false"
       :before-close="cancelDialog"
     >
       <template>
-        <el-alert
-          title="将此链接或二维码进行投放，获取对应跟踪数据"
-          type="warning"
-          :closeable="false"
-        />
+        <el-alert :title="$t('e0ae4653.f92438')" type="warning" :closeable="false" />
         <el-row class="row-bg">
           <el-col :span="4">
-            <div class="grid-content">来源名称</div>
+            <div class="grid-content">{{ $t('e0ae4653.19f373') }}</div>
           </el-col>
           <el-col :span="15">
             {{ wxaCodeInfo.source_name }}
@@ -214,31 +146,37 @@
         </el-row>
         <el-row class="row-bg">
           <el-col :span="4">
-            <div class="grid-content">跟踪二维码</div>
+            <div class="grid-content">{{ $t('e0ae4653.a73d17') }}</div>
           </el-col>
           <el-col :span="15">
             <img :src="wxaCodeInfo.code_src" style="width: 100%; height: 100%">
           </el-col>
         </el-row>
         <el-row class="row-bg-btn">
-          <el-col
-            :span="12"
-          >
-          <el-button type="primary" plain @click="downloadCode(wxaCodeInfo.source_name, wxaCodeInfo.code_src)">
-            下载二维码
+          <el-col :span="12">
+            <el-button
+              type="primary"
+              plain
+              @click="downloadCode(wxaCodeInfo.source_name, wxaCodeInfo.code_src)"
+            >
+              {{ $t('e0ae4653.feea92') }}
             </el-button>
           </el-col>
           <el-col :span="12">
-            <el-button type="primary" v-clipboard:copy="linkPathStr"
-            v-clipboard:success="onCopySuccess" plain>
-            复制链接
-          </el-button>
+            <el-button
+              type="primary"
+              v-clipboard:copy="linkPathStr"
+              v-clipboard:success="onCopySuccess"
+              plain
+            >
+              {{ $t('e0ae4653.879058') }}
+            </el-button>
           </el-col>
         </el-row>
       </template>
     </el-dialog>
     <el-dialog
-      title="二维码打包下载"
+      :title="$t('e0ae4653.f78c9e')"
       :visible.sync="codeDialogVisible"
       :close-on-click-modal="false"
     >
@@ -284,17 +222,17 @@ import {
   getRelSources
 } from '../../../../api/datacube'
 
-const getWxaCodeImg = url => {
+const getWxaCodeImg = (url) => {
   return new Promise((resolve, reject) => {
     axios({
       method: 'get',
       url,
       responseType: 'arraybuffer'
     })
-      .then(data => {
+      .then((data) => {
         resolve(data.data)
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error.toString())
       })
   })
@@ -305,7 +243,7 @@ export default {
     timeChoose
   },
   mixins: [mixin, remarkMixin, pageMixin],
-  data () {
+  data() {
     return {
       monitor_id: '',
       detail: {
@@ -317,7 +255,7 @@ export default {
       dialogVisible: false,
       loading: false,
       statstotal: {
-        'total_pv':0,
+        'total_pv': 0,
         'total_uv': 0,
         'total_member_visitor': 0,
         'total_visitor': 0,
@@ -346,26 +284,11 @@ export default {
         }
       },
       timeTypeOptions: [
-        {
-          value: '1',
-          label: '最近7天'
-        },
-        {
-          value: '2',
-          label: '最近30天'
-        },
-        {
-          value: '3',
-          label: '自然天'
-        },
-        {
-          value: '4',
-          label: '今日实时'
-        },
-        {
-          value: '5',
-          label: '自定义'
-        }
+        { value: '1', label: 'e0ae4653.73bef6' },
+        { value: '2', label: 'e0ae4653.63f66f' },
+        { value: '3', label: 'e0ae4653.457a6d' },
+        { value: '4', label: 'e0ae4653.4e2196' },
+        { value: '5', label: 'e0ae4653.f1d4ff' }
       ],
       chooseDate: '',
       customDate: '',
@@ -384,7 +307,7 @@ export default {
       codeSpanMax: -1,
       codeSpanMin: -1,
       isdownloadOk: false,
-      linkPathStr:''
+      linkPathStr: ''
     }
   },
   mounted() {
@@ -395,16 +318,16 @@ export default {
   },
   methods: {
     remove(row) {
-      this.$confirm('确定是否删除该监控来源?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('e0ae4653.9c5a54'), this.$t('e0ae4653.02d981'), {
+        confirmButtonText: this.$t('e0ae4653.38cf16'),
+        cancelButtonText: this.$t('e0ae4653.625fb2'),
         type: 'warning'
       })
         .then(() => {
           deleteRelSources(row.monitor_id, row.source_id)
-            .then(response => {
+            .then((response) => {
               this.$message({
-                message: '删除监控来源成功',
+                message: this.$t('e0ae4653.353c1d'),
                 type: 'success',
                 duration: 2 * 1000
               })
@@ -414,36 +337,55 @@ export default {
             .catch(() => {
               this.$message({
                 type: 'error',
-                message: '删除监控来源失败'
+                message: this.$t('e0ae4653.8daea6')
               })
             })
         })
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: this.$t('e0ae4653.2111cc')
           })
         })
     },
-    viewOrder(row){
-       window.open(`/order/entitytrade/tradenormalorders?sourceId=${row.source_id}&monitorId=${row.monitor_id}`, '_blank')
+    viewOrder(row) {
+      window.open(
+        `/order/entitytrade/tradenormalorders?sourceId=${row.source_id}&monitorId=${row.monitor_id}`,
+        '_blank'
+      )
     },
-    showlink (row) {
+    showlink(row) {
       var that = this
       that.wxaCodeInfo.source_name = row.source_name
       that.wxaCodeInfo.source_id = row.source_id
       that.wxaCodeInfo.monitor_id = row.monitor_id
       let params = { monitor_id: row.monitor_id, source_id: row.source_id }
-      getMonitorsWxaCode64(params).then(response => {
+      getMonitorsWxaCode64(params).then((response) => {
         that.wxaCodeInfo.code_src = response.data.data.base64Image
       })
-      that.linkPathStr = this.detail?.monitor_path_params ? this.detail?.monitor_path + '?' + this.detail?.monitor_path_params + '&m=' + row?.monitor_id + '&s=' + row?.source_id : this.detail?.monitor_path + '?m=' + row?.monitor_id + '&s=' + row?.source_id
+      that.linkPathStr = this.detail?.monitor_path_params
+        ? this.detail?.monitor_path +
+          '?' +
+          this.detail?.monitor_path_params +
+          '&m=' +
+          row?.monitor_id +
+          '&s=' +
+          row?.source_id
+        : this.detail?.monitor_path + '?m=' + row?.monitor_id + '&s=' + row?.source_id
       that.dialogVisible = true
     },
-    getLinkPath(row){
-      return  this.detail?.monitor_path_params ? this.detail?.monitor_path + '?' + this.detail?.monitor_path_params + '&m=' + row?.monitor_id + '&s=' + row?.source_id : this.detail?.monitor_path + '?m=' + row?.monitor_id + '&s=' + row?.source_id
+    getLinkPath(row) {
+      return this.detail?.monitor_path_params
+        ? this.detail?.monitor_path +
+            '?' +
+            this.detail?.monitor_path_params +
+            '&m=' +
+            row?.monitor_id +
+            '&s=' +
+            row?.source_id
+        : this.detail?.monitor_path + '?m=' + row?.monitor_id + '&s=' + row?.source_id
     },
-    cancelDialog () {
+    cancelDialog() {
       this.dialogVisible = false
     },
     downloadCode(source_name, code_src) {
@@ -453,7 +395,7 @@ export default {
       a.click()
     },
     getPageInfo() {
-      getMonitorsDetail(this.monitor_id).then(response => {
+      getMonitorsDetail(this.monitor_id).then((response) => {
         this.detail = response.data.data
       })
     },
@@ -470,7 +412,7 @@ export default {
         case '3':
           params.date_type = 'custom'
           if (!this.chooseDate) {
-            this.$message.error('请选择日期')
+            this.$message.error(this.$t('e0ae4653.aa2fb1'))
             return false
           }
           params.begin_date = this.getTaskTime(this.chooseDate, true)
@@ -482,7 +424,7 @@ export default {
         case '5':
           params.date_type = 'custom'
           if (!this.customDate) {
-            this.$message.error('请选择日期范围')
+            this.$message.error(this.$t('e0ae4653.a2847d'))
             return false
           }
           params.begin_date = this.getTaskTime(this.customDate[0], true)
@@ -490,7 +432,7 @@ export default {
           break
       }
       this.dataSpan = []
-      getMonitorsStats(params).then(response => {
+      getMonitorsStats(params).then((response) => {
         this.dataList = response.data.data.stats_list
         this.statstotal = response.data.data.stats_total
         var codeSpan = (this.dataList.length / this.codeInterval + '').indexOf('.')
@@ -578,14 +520,14 @@ export default {
       if (this.checkedSource.length <= 0) {
         this.$message({
           type: 'error',
-          message: '请至少选择一条数据!'
+          message: this.$t('e0ae4653.12858e')
         })
         return
       }
       if (this.checkedSource.length > 20) {
         this.$message({
           type: 'error',
-          message: '每次最多可选择20条数据!否则可能导致浏览器崩溃！'
+          message: this.$t('e0ae4653.14bdb9')
         })
         return
       }
@@ -593,26 +535,29 @@ export default {
       const cache = {}
       const promises = []
       var that = this
-      this.checkedSource.forEach(item => {
+      this.checkedSource.forEach((item) => {
         var url =
           this.BASE_API +
           '/datacube/monitorsWxaCodeStream?monitor_id=' +
           item.monitor_id +
           '&source_id=' +
           item.source_id
-        const promise = getWxaCodeImg(url).then(result_file => {
+        const promise = getWxaCodeImg(url).then((result_file) => {
           // 下载文件, 并存成ArrayBuffer对象
           const file_name = item.source_name + '(' + item.source_id + ')' + '.png' // 获取文件名
-          zip.file(file_name, result_file, { binary: true,date: new Date( Date.now() +  (8 * 60 * 60 * 1000)) }) // 逐个添加文件
+          zip.file(file_name, result_file, {
+            binary: true,
+            date: new Date(Date.now() + 8 * 60 * 60 * 1000)
+          }) // 逐个添加文件
           cache[file_name] = result_file
         })
         promises.push(promise)
       })
       this.checkedSource = []
       Promise.all(promises).then(() => {
-        zip.generateAsync({ type: 'blob' }).then(content => {
+        zip.generateAsync({ type: 'blob' }).then((content) => {
           // 生成二进制流
-          FileSaver.saveAs(content, '小程序码(批量).zip') // 利用file-saver保存文件
+          FileSaver.saveAs(content, this.$t('e0ae4653.b887e0')) // 利用file-saver保存文件
           that.isdownloadOk = true
         })
       })
@@ -644,7 +589,7 @@ export default {
       }
       this.handleBatchDownload()
     },
-    handleBack () {
+    handleBack() {
       this.$router.back()
     }
   }
@@ -715,7 +660,7 @@ export default {
     font-size: 12px;
   }
 }
-.row-bg-btn{
+.row-bg-btn {
   text-align: center;
 }
 </style>

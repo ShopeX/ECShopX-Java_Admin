@@ -6,10 +6,10 @@
 <template>
   <div class="template">
     <div class="content-bottom-padded view-flex view-flex-middle view-flex-justify">
-      <h2>效果预览</h2>
+      <h2>{{ $t('df4287f5.a48ac1') }}</h2>
       <div>
         <!-- <el-button type="primary" @click="handlerView">浏览站点</el-button> -->
-        <el-button type="primary" @click="handlerLayout"> 编辑模版 </el-button>
+        <el-button type="primary" @click="handlerLayout">{{ $t('df4287f5.a23b2d') }}</el-button>
       </div>
     </div>
     <div class="template-show">
@@ -30,14 +30,26 @@
             :usage="usage"
           >
             <div v-if="widget.base.title" class="component-title">
-              <h2>{{ widget.base.title }}</h2>
+              <h2>
+                {{
+                  /^[a-f0-9]{8}\.[a-f0-9]{6}$/.test(widget.base.title)
+                    ? $t(widget.base.title)
+                    : widget.base.title
+                }}
+              </h2>
               <h5>{{ widget.base.subtitle }}</h5>
             </div>
           </component>
         </div>
       </div>
     </div>
-    <el-dialog :visible.sync="template_dialog" width="80%" title="编辑首页" fullscreen lock-scroll>
+    <el-dialog
+      :visible.sync="template_dialog"
+      width="80%"
+      :title="$t('df4287f5.d73247')"
+      fullscreen
+      lock-scroll
+    >
       <section class="section section-white view-warp">
         <div class="components-widget">
           <draggable
@@ -53,31 +65,31 @@
                 <svg class="svg-icon" aria-hidden="true">
                   <use xlink:href="icon-loucengtupian" />
                 </svg>
-                轮播
+                {{ $t('df4287f5.a5987d') }}
               </template>
               <template v-if="item.name === 'goodsGrid'">
                 <svg class="svg-icon" aria-hidden="true">
                   <use xlink:href="#icon-grid" />
                 </svg>
-                商品栅格
+                {{ $t('df4287f5.cc1acf') }}
               </template>
               <template v-if="item.name === 'imgHotzone'">
                 <svg class="svg-icon" aria-hidden="true">
                   <use xlink:href="#icon-hotzone" />
                 </svg>
-                热区图
+                {{ $t('df4287f5.0ad6ab') }}
               </template>
               <template v-if="item.name === 'panel'">
                 <svg class="svg-icon" aria-hidden="true">
                   <use xlink:href="#icon-navigation" />
                 </svg>
-                图片导航
+                {{ $t('df4287f5.8ae4a2') }}
               </template>
               <template v-if="item.name === 'floor'">
                 <svg class="svg-icon" aria-hidden="true">
                   <use xlink:href="#icon-floor" />
                 </svg>
-                楼层挂件
+                {{ $t('df4287f5.3128bc') }}
               </template>
             </div>
           </draggable>
@@ -85,7 +97,7 @@
             <svg class="svg-icon" aria-hidden="true">
               <use xlink:href="#icon-settings" />
             </svg>
-            设置
+            {{ $t('df4287f5.e366cc') }}
           </div>
         </div>
         <div class="template-view">
@@ -109,11 +121,7 @@
                 @click="setCurrent(k)"
               >
                 <transition name="el-fade-in-linear">
-                  <div
-                    v-if="k == editorIndex"
-                    class="iconfont icon-trash-alt"
-                    @click="removeCurrent"
-                  />
+                  <div v-if="k == editorIndex" class="el-icon-delete" @click="removeCurrent" />
                 </transition>
                 <component
                   :is="widget.name"
@@ -123,7 +131,13 @@
                   :usage="usage"
                 >
                   <div v-if="widget.base.title" class="component-title">
-                    <h2>{{ widget.base.title }}</h2>
+                    <h2>
+                      {{
+                        /^[a-f0-9]{8}\.[a-f0-9]{6}$/.test(widget.base.title)
+                          ? $t(widget.base.title)
+                          : widget.base.title
+                      }}
+                    </h2>
                     <h5>{{ widget.base.subtitle }}</h5>
                   </div>
                 </component>
@@ -153,12 +167,16 @@
           </template>
           <div v-else class="view-placeholder">
             <i class="iconfont icon-shapes" />
-            请选择左侧挂件
+            {{ $t('df4287f5.f646bd') }}
           </div>
         </div>
       </section>
       <section class="section-white content-center">
-        <el-button class="btn-save" round type="primary" @click="saveConfig"> 保存设置 </el-button>
+        <el-button class="btn-save" round type="primary" @click="saveConfig">
+{{
+          $t('df4287f5.4323be')
+        }}
+</el-button>
       </section>
     </el-dialog>
   </div>
@@ -219,7 +237,7 @@ export default {
           uuid: '',
           name: 'banner',
           base: {
-            title: '轮播',
+            title: 'df4287f5.a5987d',
             subtitle: '',
             padded: 0
           },
@@ -253,7 +271,7 @@ export default {
           uuid: '',
           name: 'goodsGrid',
           base: {
-            title: '商品列表',
+            title: 'df4287f5.437974',
             subtitle: '',
             padded: 0
           },
@@ -268,7 +286,7 @@ export default {
           uuid: '',
           name: 'imgHotzone',
           base: {
-            title: '热区图',
+            title: 'df4287f5.0ad6ab',
             subtitle: '',
             padded: 0
           },
@@ -281,7 +299,7 @@ export default {
           uuid: '',
           name: 'panel',
           base: {
-            title: '图片导航',
+            title: 'df4287f5.8ae4a2',
             subtitle: '',
             padded: 0
           },
@@ -329,7 +347,7 @@ export default {
           uuid: '',
           name: 'floor',
           base: {
-            title: '楼层导航',
+            title: 'df4287f5.a27f48',
             subtitle: '',
             padded: 0
           },
@@ -383,7 +401,7 @@ export default {
     // }
   },
   created() {
-    Object.keys(plugins).forEach(key => {
+    Object.keys(plugins).forEach((key) => {
       let widget = plugins[key].widget
       // console.log('widget', widget)
       Vue.component(key, widget)
@@ -441,17 +459,17 @@ export default {
       // console.log('editorData', this.editorData)
     },
     removeCurrent() {
-      this.$confirm('确认删除当前组件？')
-        .then(_ => {
+      this.$confirm(this.$t('df4287f5.815e89'))
+        .then((_) => {
           this.editorData = {}
           this.components.splice(this.editorIndex, 1)
           this.editorIndex = null
           this.editorDataIndex = null
         })
-        .catch(_ => {})
+        .catch((_) => {})
     },
     saveConfig() {
-      const tmp = this.components.find(v => v.name === 'navbar')
+      const tmp = this.components.find((v) => v.name === 'navbar')
       this.components = tmp ? this.components : [...this.components, ...[this.navConfig]]
       // this.components.forEach((v, i) => {
       //   v.name == 'nav' && this.components.splice(i, 1)
@@ -467,10 +485,10 @@ export default {
           version: `v1.0.1_${this.id}`,
           page_name: 'store_index'
         }) // 店铺
-      savePageParams(filter).then(res => {
+      savePageParams(filter).then((res) => {
         if (res.data.data.status) {
           this.$message({
-            message: '保存成功',
+            message: this.$t('df4287f5.3b1083'),
             type: 'success'
           })
           this._getParamByTempName() // 店铺装修弹框 该页面作为组件，保存后需要更新下数据，否则再次打开弹窗不走mounted
@@ -484,10 +502,10 @@ export default {
           config: JSON.stringify([this.settings]),
           page_name: 'settings'
         }
-        savePageParams(setting).then(res => {
+        savePageParams(setting).then((res) => {
           if (res.data.data.status) {
             this.$message({
-              message: '保存成功',
+              message: this.$t('df4287f5.3b1083'),
               type: 'success'
             })
             this._getParamByTempName() // 店铺装修弹框 该页面作为组件，保存后需要更新下数据，否则再次打开弹窗不走mounted
@@ -507,11 +525,11 @@ export default {
           version: `v1.0.1_${this.id}`,
           page_name: 'store_index'
         }) // 店铺
-      getParamByTempName(filter).then(res => {
-        let components = res.data.data.config.filter(item => {
+      getParamByTempName(filter).then((res) => {
+        let components = res.data.data.config.filter((item) => {
           return item.name != 'navbar' && item.name != 'nav'
         })
-        let navbar = res.data.data.config.filter(item => {
+        let navbar = res.data.data.config.filter((item) => {
           return item.name == 'navbar' || item.name == 'nav'
         })
         if (navbar.name == 'nav') {
@@ -530,7 +548,7 @@ export default {
           version: 'v1.0.1',
           page_name: 'settings'
         }
-        getParamByTempName(setting).then(res => {
+        getParamByTempName(setting).then((res) => {
           if (res.data.data.config.length > 0) {
             this.settings = res.data.data.config[0]
           }

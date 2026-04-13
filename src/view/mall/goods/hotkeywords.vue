@@ -5,7 +5,7 @@
 
 <template>
   <el-col class="section section-white" :span="24">
-    <div class="section-header with-border">热门关键词配置</div>
+    <div class="section-header with-border">{{ $t('dd43ad36.9473fa') }}</div>
     <div class="section-white content-padded">
       <el-tag
         v-for="tag in form_content"
@@ -30,7 +30,7 @@
       </el-button>
     </div>
     <div class="section-footer content-center">
-      <el-button type="primary" @click="saveContent"> 保存 </el-button>
+      <el-button type="primary" @click="saveContent"> {{ $t('dd43ad36.be5fbb') }} </el-button>
     </div>
     <br>
   </el-col>
@@ -59,7 +59,7 @@ export default {
 
     showInput() {
       this.inputVisible = true
-      this.$nextTick(_ => {
+      this.$nextTick((_) => {
         this.$refs.saveTagInput.$refs.input.focus()
       })
     },
@@ -73,16 +73,16 @@ export default {
       this.inputValue = ''
     },
     saveContent() {
-      setHotKeywords({ content: this.form_content }).then(res => {
+      setHotKeywords({ content: this.form_content }).then((res) => {
         this.$message({
-          message: '保存成功',
+          message: this.$t('dd43ad36.3b1083'),
           type: 'success',
           duration: 5 * 1000
         })
       })
     },
     getContent() {
-      getHotKeywords().then(res => {
+      getHotKeywords().then((res) => {
         this.form_content = res.data.data.content || []
       })
     }

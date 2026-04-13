@@ -7,7 +7,7 @@
   <el-dialog
     class="store-dialog"
     width="900px"
-    title="选择商品"
+    :title="$t('8f572562.43d1e2')"
     :visible.sync="showDialog"
     :close-on-click-modal="false"
     :before-close="cancelAction"
@@ -18,7 +18,7 @@
         <el-col :span="6">
           <el-input
             v-model="params.keywords"
-            placeholder="输入商品名称"
+            :placeholder="$t('8f572562.c205b4')"
             clearable
             class="input-with-select"
           />
@@ -26,13 +26,17 @@
         <el-col :span="6">
           <el-input
             v-model="params.item_bn"
-            placeholder="输入商品编码"
+            :placeholder="$t('8f572562.90a71e')"
             clearable
             class="input-with-select"
           />
         </el-col>
         <el-col :span="2">
-          <el-button class="fl" type="primary" @click="searchByKey"> 搜索 </el-button>
+          <el-button class="fl" type="primary" @click="searchByKey">
+{{
+            $t('8f572562.e5f71f')
+          }}
+</el-button>
         </el-col>
       </el-row>
     </div>
@@ -53,12 +57,12 @@
         :reserve-selection="true"
         width="80"
       />
-      <el-table-column prop="itemId" label="商品ID" />
-      <el-table-column prop="itemName" label="商品名称" />
-      <el-table-column prop="itemBn" label="商品编码" />
+      <el-table-column prop="itemId" :label="$t('8f572562.858526')" />
+      <el-table-column prop="itemName" :label="$t('8f572562.1fd1d5')" />
+      <el-table-column prop="itemBn" :label="$t('8f572562.f9d8b1')" />
       <el-table-column
         prop="price"
-        label="价格"
+        :label="$t('8f572562.0e9fd9')"
         width="80"
         :formatter="priceformatter"
         show-overflow-tooltip
@@ -73,8 +77,8 @@
       />
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="cancelAction">取 消</el-button>
-      <el-button type="primary" @click="saveGoodsAction">确 定</el-button>
+      <el-button @click="cancelAction">{{ $t('8f572562.c08ab9') }}</el-button>
+      <el-button type="primary" @click="saveGoodsAction">{{ $t('8f572562.aa7527') }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -133,7 +137,7 @@ export default {
       return row.itemId
     },
     getCurrencyInfo() {
-      getDefaultCurrency().then(res => {
+      getDefaultCurrency().then((res) => {
         this.currency = res.data.data
         this.cursymbol = this.currency.symbol
       })
@@ -149,10 +153,10 @@ export default {
     },
     handleSelectAll(val) {
       if (this.limitNum) {
-        this.$message({ message: '当前组件不支持全选', type: 'warning' })
+        this.$message({ message: this.$t('8f572562.4f180d'), type: 'warning' })
         this.$refs.multipleTable.clearSelection()
-        this.itemsData.forEach(item => {
-          let checked = this.selectRows.find(n => n.itemId === item.itemId)
+        this.itemsData.forEach((item) => {
+          let checked = this.selectRows.find((n) => n.itemId === item.itemId)
           if (checked) {
             this.$refs.multipleTable.toggleRowSelection(item)
           }
@@ -160,15 +164,15 @@ export default {
         return
       }
       if (val.length > 0) {
-        val.forEach(item => {
-          let inChecked = this.selectRows.findIndex(n => item.itemId === n.itemId)
+        val.forEach((item) => {
+          let inChecked = this.selectRows.findIndex((n) => item.itemId === n.itemId)
           if (inChecked === -1) {
             this.selectRows.push(item)
           }
         })
       } else {
         this.itemsData.forEach((item, index) => {
-          let inChecked = this.selectRows.findIndex(n => item.itemId === n.itemId)
+          let inChecked = this.selectRows.findIndex((n) => item.itemId === n.itemId)
           if (inChecked !== -1) {
             this.selectRows.splice(inChecked, 1)
           }
@@ -176,7 +180,7 @@ export default {
       }
     },
     handleSelectChange(val, row) {
-      let inChecked = this.selectRows.findIndex(item => row.itemId === item.itemId)
+      let inChecked = this.selectRows.findIndex((item) => row.itemId === item.itemId)
       if (inChecked !== -1) {
         this.selectRows.splice(inChecked, 1)
       } else {
@@ -184,14 +188,17 @@ export default {
           this.selectRows = []
           this.selectRows.push(row)
           this.$refs.multipleTable.clearSelection()
-          this.selectRows.forEach(item => {
+          this.selectRows.forEach((item) => {
             this.$refs.multipleTable.toggleRowSelection(item)
           })
           return
         } else if (this.limitNum && this.selectRows.length >= this.limitNum) {
-          this.$message({ message: `最多选择${this.limitNum}件商品`, type: 'warning' })
+          this.$message({
+            message: this.$t('8f572562.49e280', { n: this.limitNum }),
+            type: 'warning'
+          })
           this.$refs.multipleTable.clearSelection()
-          this.selectRows.forEach(item => {
+          this.selectRows.forEach((item) => {
             this.$refs.multipleTable.toggleRowSelection(item)
           })
           return

@@ -44,7 +44,11 @@ export default {
       type: Boolean,
       default: false
     },
-    size: String
+    size: String,
+    queryParams: {
+      type: Object,
+      default: () => ({})
+    }
   },
   provide() {
     return {
@@ -90,13 +94,16 @@ export default {
         params.data = []
       }
       const { data } = await this.$picker.shop({
-        ...params
+        ...params,
+        queryParams: {
+          ...this.queryParams
+        }
       })
       if (data) {
         if (data.length > 1) {
-          const distributorIds = data.map(item => item.distributor_id)
+          const distributorIds = data.map((item) => item.distributor_id)
           this.onChange({
-            name: `已选择${data.length}个店铺`,
+            name: this.$t('d6d1dfc8.013ecd', { n: data.length }),
             value: distributorIds
           })
         } else {

@@ -7,7 +7,9 @@
   <div>
     <!--添加-->
     <div class="action-container">
-      <el-button type="primary" icon="el-icon-circle-plus" @click="handleNew"> 新增区域 </el-button>
+      <el-button type="primary" icon="el-icon-circle-plus" @click="handleNew">
+        {{ $t('3526e299.aa9286') }}
+      </el-button>
     </div>
 
     <el-table
@@ -15,20 +17,24 @@
       border
       :data="list"
       :height="wheight - 300"
-      element-loading-text="数据加载中"
+      :element-loading-text="$t('3526e299.f09b12')"
     >
-      <el-table-column label="操作">
+      <el-table-column :label="$t('3526e299.2b6bc0')">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleEdit(scope.row)"> 编辑 </el-button>
-          <el-button type="text" @click="handleDelete(scope)"> 删除 </el-button>
+          <el-button type="text" @click="handleEdit(scope.row)">
+            {{ $t('3526e299.95b351') }}
+          </el-button>
+          <el-button type="text" @click="handleDelete(scope)">
+            {{ $t('3526e299.2f4aad') }}
+          </el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="attribute_name" label="区域">
+      <el-table-column prop="attribute_name" :label="$t('3526e299.d3ce40')">
         <template slot-scope="scope">
           <div>{{ scope.row.regionauth_name }}</div>
         </template>
 </el-table-column
-      ><el-table-column prop="attribute_name" label="状态">
+      ><el-table-column prop="attribute_name" :label="$t('3526e299.3fea7c')">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.state === '1' ? true : false"
@@ -53,13 +59,13 @@
     </div>
 
     <!--新增修改-->
-    <sideBar :visible.sync="show_sideBar" :title="'区域编辑'">
+    <sideBar :visible.sync="show_sideBar" :title="$t('3526e299.3c2de1')">
       <el-form>
-        <el-form-item label="区域名称">
+        <el-form-item :label="$t('3526e299.faffe5')">
           <el-input v-model="form.regionauth_name" maxlength="20" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="save"> 提交 </el-button>
+          <el-button type="primary" @click="save"> {{ $t('3526e299.939d53') }} </el-button>
         </el-form-item>
       </el-form>
     </sideBar>
@@ -123,36 +129,36 @@ export default {
     },
     // 删除
     handleDelete(data) {
-      this.$confirm('确认删除该区域么？')
-        .then(_ => {
-          delRegionauth(data.row.regionauth_id, []).then(res => {
+      this.$confirm(this.$t('3526e299.d75e0c'))
+        .then((_) => {
+          delRegionauth(data.row.regionauth_id, []).then((res) => {
             this.list.splice(data.$index, 1)
-            this.$message({ type: 'success', message: '操作成功' })
+            this.$message({ type: 'success', message: this.$t('3526e299.33130f') })
           })
         })
-        .catch(_ => {})
+        .catch((_) => {})
     },
 
     // 启用&禁用
     handleEnable(data) {
-      let tip = ''
+      let confirmKey = ''
       let query = {}
       if (data.state === '1') {
-        tip = '禁用'
+        confirmKey = '3526e299.c5feac'
         query = { enable: 0 }
       } else {
-        tip = '启用'
+        confirmKey = '3526e299.99cb03'
         query = { enable: 1 }
       }
 
-      this.$confirm('确认' + tip + '该区域么？')
-        .then(_ => {
-          enableRegionauth(data.regionauth_id, query).then(res => {
-            this.$message({ type: 'success', message: '操作成功' })
+      this.$confirm(this.$t(confirmKey))
+        .then((_) => {
+          enableRegionauth(data.regionauth_id, query).then((res) => {
+            this.$message({ type: 'success', message: this.$t('3526e299.33130f') })
             this.getList()
           })
         })
-        .catch(_ => {})
+        .catch((_) => {})
     },
     // 初始化
     resetData() {
@@ -164,15 +170,15 @@ export default {
     // 保存数据
     save() {
       if (!this.form.regionauth_id) {
-        addRegionauth(this.form).then(res => {
-          this.$message({ type: 'success', message: '操作成功' })
+        addRegionauth(this.form).then((res) => {
+          this.$message({ type: 'success', message: this.$t('3526e299.33130f') })
           this.params.page = 1
           this.resetData()
           this.getList()
         })
       } else {
-        updateRegionauth(this.form.regionauth_id, this.form).then(res => {
-          this.$message({ type: 'success', message: '操作成功' })
+        updateRegionauth(this.form.regionauth_id, this.form).then((res) => {
+          this.$message({ type: 'success', message: this.$t('3526e299.33130f') })
           this.getList()
         })
       }
@@ -191,7 +197,7 @@ export default {
     getList() {
       console.log('获取数据')
       this.loading = true
-      getRegionauth(this.params).then(res => {
+      getRegionauth(this.params).then((res) => {
         console.log('返回数据', res)
         this.list = res.data.data.list
         this.total_count = res.data.data.total_count

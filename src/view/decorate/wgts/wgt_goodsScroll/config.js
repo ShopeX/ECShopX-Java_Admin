@@ -3,19 +3,18 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrGoods from './attr-goods'
 import CompPickerLink from '../../comps/comp-pickerLink'
 
-export default {
+const config = {
   name: 'goodsScroll',
   setting: [
-    { label: '标题', key: 'title', component: 'input', value: '当地必买' },
-    { label: '副标题', key: 'subtitle', component: 'input', value: '看看大家都在买什么' },
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
-    { label: '直接加购', key: 'addCart', component: 'switch', value: false },
-    { label: '显示价格', key: 'showPrice', component: 'switch', value: true },
+    { label: i18n.t('e6a33596.4707ba'), key: 'padded', component: 'switch', value: true },
+    { label: i18n.t('e6a33596.319337'), key: 'addCart', component: 'switch', value: false },
+    { label: i18n.t('e6a33596.ba302e'), key: 'showPrice', component: 'switch', value: true },
     {
-      label: '商品类型',
+      label: i18n.t('e6a33596.2af133'),
       key: 'goodsSetting',
       component: function (h, { key }) {
         return <AttrGoods type={this.value[key].type} v-model={this.value[key]} />
@@ -25,7 +24,7 @@ export default {
           {
             imgUrl: '',
             content: '',
-            title: '商品名称',
+            title: 'e6a33596.1fd1d5',
             id: '',
             price: 8888,
             market_price: 10
@@ -34,7 +33,7 @@ export default {
         secKillGoods: [
           {
             imgUrl: '',
-            title: '商品名称',
+            title: 'e6a33596.1fd1d5',
             id: '',
             price: 8888
           }
@@ -42,7 +41,7 @@ export default {
         limitSecKillGoods: [
           {
             imgUrl: '',
-            title: '商品名称',
+            title: 'e6a33596.1fd1d5',
             id: '',
             price: 8888
           }
@@ -53,7 +52,7 @@ export default {
       }
     },
     {
-      label: '开启排行榜',
+      label: i18n.t('e6a33596.aaa49b'),
       key: 'leaderboard',
       component: 'switch',
       value: true,
@@ -62,7 +61,7 @@ export default {
       }
     },
     {
-      label: '更多链接',
+      label: i18n.t('e6a33596.eec533'),
       key: 'moreLink',
       component: function (h, { key }) {
         return <CompPickerLink v-model={this.value[key]} style='margin-top: 7px;' />
@@ -70,17 +69,17 @@ export default {
       value: {}
     },
     {
-      label: '更多图片',
+      label: i18n.t('e6a33596.0ecbd5'),
       key: 'backgroundImg',
       component: function (h, { key }) {
         return <SpImagePicker v-model={this.value[key]} size='small' style='margin-top: 10px;' />
       },
       value: '',
-      tip: `建议尺寸:（宽度130px，高度200px）`
+      tip: 'e6a33596.f1e36f'
     }
   ],
   transformIn: (v) => {
-    const { name, base, config, data } = v
+    const { name, base, config, data, track, tagsType, meber_tags, no_meber_tags } = v
     const { type, seckillId, lastSeconds, status } = config
     let list = []
     let secKillId = '',
@@ -110,6 +109,12 @@ export default {
       name,
       ...base,
       ...config,
+      track,
+      tags: {
+        type: tagsType || '2',
+        meber_tags: meber_tags || [],
+        no_meber_tags: no_meber_tags || []
+      },
       goodsSetting: {
         type: type,
         data: list,
@@ -163,7 +168,18 @@ export default {
         } else {
           return data
         }
-      }
+      },
+      track: 'track',
+      tags: 'tags',
+      tagsType: 'tags.type',
+      meber_tags: 'tags.meber_tags',
+      no_meber_tags: 'tags.no_meber_tags'
     })
   }
 }
+
+// 自动处理 compStyle 配置（初始化全局处理函数）
+import '../../comps/configsetting'
+export default typeof globalThis !== 'undefined' && globalThis.__processConfig__
+  ? globalThis.__processConfig__(config)
+  : config

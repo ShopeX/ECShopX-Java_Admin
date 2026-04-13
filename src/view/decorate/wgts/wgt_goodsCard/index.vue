@@ -68,6 +68,7 @@
       'wgt-goods-card': true,
       padded: value.padded
     }"
+    :style="outerStyle"
   >
     <div v-if="value.title || value.subtitle" class="wgt-hd">
       <span class="title">{{ value.title }}</span>
@@ -83,13 +84,15 @@
             <div class="goods-card__info-price">
               <SpPrice :value="item.price / 100" />
             </div>
-            <div v-if="item.sales > 0" class="goods-card__info-sales">销量：{{ item.sales }}</div>
+            <div v-if="item.sales > 0" class="goods-card__info-sales">
+              {{ i18n.t('1ab937c7.44e7eb') }}：{{ item.sales }}
+            </div>
           </div>
         </div>
         <div class="goods-card__footer">
-          <el-button type="text-default"> 加入心愿 </el-button>
+          <el-button type="text-default">{{ i18n.t('1ab937c7.56d0b8') }}</el-button>
           <div class="gap-line" />
-          <el-button type="text-default"> 加入购买 </el-button>
+          <el-button type="text-default">{{ i18n.t('1ab937c7.2971f7') }}</el-button>
         </div>
       </div>
     </div>
@@ -97,7 +100,9 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Goods',
   wgtName: '商品卡片',
@@ -108,11 +113,14 @@ export default {
     value: [Object, Array]
   },
   data() {
-    return {
+    return {i18n,
       currentIndex: 1
     }
   },
   computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    },
     sourceUrl() {
       const { data } = this.value
       return data?.url || ''

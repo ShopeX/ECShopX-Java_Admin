@@ -32,7 +32,7 @@
 <template>
   <div>
     <template v-if="!isEditor">
-      <el-card v-loading="mainCateLoader" shadow="never" header="选择管理分类">
+      <el-card v-loading="mainCateLoader" shadow="never" :header="$t('7504d59b.c50637')">
         <el-cascader
           v-model="selectedMainCategory"
           :options="mainCategory"
@@ -43,7 +43,7 @@
     </template>
     <template v-else>
       <div class="form-block-head clearfix">
-        <div class="block-head-hd">商品管理分类</div>
+        <div class="block-head-hd">{{ $t('d41d8cd9.53413a') }}</div>
       </div>
       <div class="form-block-body">
         <el-breadcrumb separator-class="el-icon-arrow-right" class="inline">
@@ -76,19 +76,19 @@
 
       <div class="comp-tdk">
         <div class="form-block-head clearfix">
-          <div class="block-head-hd">PC关键词搜索引擎</div>
+          <div class="block-head-hd">{{ $t('d41d8cd9.b02a70') }}</div>
         </div>
         <div class="form-block-body">
           <el-form label-position="right" label-width="80px">
-            <el-form-item label="页面标题" style="margin-bottom: 20px; width: 600px">
+            <el-form-item :label="$t('7504d59b.8d6b59')" style="margin-bottom: 20px; width: 600px">
               <el-input v-model="tdk_info.title" type="text" />
             </el-form-item>
-            <el-form-item label="页面描述" style="margin-bottom: 20px; width: 600px">
+            <el-form-item :label="$t('7504d59b.abf8f4')" style="margin-bottom: 20px; width: 600px">
               <el-input v-model="tdk_info.mate_description" type="textarea" />
             </el-form-item>
-            <el-form-item label="关键词" style="width: 600px">
+            <el-form-item :label="$t('7504d59b.9699a5')" style="width: 600px">
               <el-input v-model="tdk_info.mate_keywords" type="textarea" />
-              <span class="tip">关键词之间请用半角”,”分隔</span>
+              <span class="tip">{{ $t('7504d59b.c0a63b') }}</span>
             </el-form-item>
           </el-form>
         </div>
@@ -96,19 +96,19 @@
 
       <div class="comp-desc">
         <div class="form-block-head clearfix">
-          <div class="block-head-hd">图文详情</div>
+          <div class="block-head-hd">{{ $t('d41d8cd9.7db2d6') }}</div>
         </div>
         <div class="form-block-body">
           <el-radio-group v-model="mode" class="mode-text">
-            <el-radio :label="'richText'"> 富文本 </el-radio>
-            <el-radio :label="'component'"> 组件式 </el-radio>
+            <el-radio :label="'richText'"> {{ $t('d41d8cd9.e2591e') }} </el-radio>
+            <el-radio :label="'component'"> {{ $t('d41d8cd9.b09ce9') }} </el-radio>
           </el-radio-group>
           <div v-if="mode === 'richText'" class="richText-block">
             <div class="ricktext-con">
               <SpRichText v-model="intro" />
             </div>
             <!-- <span class="tpl-btn" @click="addImgPreview" style="">
-              <i class="iconfont icon-image"></i>图片
+              <i class="el-icon-picture"></i>图片
             </span> -->
           </div>
           <div v-else class="component-block">
@@ -116,7 +116,7 @@
               :data="content"
               :control="['film', 'slider', 'heading', 'writing']"
               @change="
-                data => {
+                (data) => {
                   content = data
                 }
               "
@@ -133,14 +133,14 @@
       </div>
 
       <div class="footer-container">
-        <el-button @click.native="handleCancel"> 取消 </el-button>
+        <el-button @click.native="handleCancel"> {{ $t('d41d8cd9.625fb2') }} </el-button>
         <el-button
           v-if="!VERSION_STANDARD() || (!IS_DISTRIBUTOR() && VERSION_STANDARD())"
           type="primary"
           :loading="submitLoading"
           @click="handleSave"
         >
-          {{ submitLoading ? '提交中' : '保存' }}
+          {{ submitLoading ? $t('7504d59b.7ef44a') : $t('7504d59b.be5fbb') }}
         </el-button>
       </div>
     </template>
@@ -171,12 +171,12 @@ export default {
   inject: ['refresh'],
   beforeRouteLeave(to, from, next) {
     if (!this.isLeave) {
-      this.$confirm('确定要离开当前页面，您将丢失已编辑的数据？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('7504d59b.3ba67c'), this.$t('7504d59b.02d981'), {
+        confirmButtonText: this.$t('7504d59b.38cf16'),
+        cancelButtonText: this.$t('7504d59b.625fb2'),
         type: 'warning'
       })
-        .then(res => {
+        .then((res) => {
           next()
         })
         .catch(() => {
@@ -237,7 +237,7 @@ export default {
       },
       modules: [
         {
-          icon: 'iconfont icon-image',
+          icon: 'el-icon-picture',
           name: 'uploader'
         }
       ],
@@ -325,7 +325,7 @@ export default {
     addUploaderEventListener() {
       const self = this
       setTimeout(() => {
-        const uploaderDom = document.getElementsByClassName('icon iconfont icon-image')[0]
+        const uploaderDom = document.getElementsByClassName('icon el-icon-picture')[0]
         uploaderDom &&
           uploaderDom.addEventListener('click', () => {
             self.addImgPreview()
@@ -348,7 +348,7 @@ export default {
         ...resTax.data.data.list,
         {
           id: '0',
-          taxstrategy_name: '不使用策略',
+          taxstrategy_name: this.$t('7504d59b.01aba9'),
           created: '0',
           updated: '0'
         }
@@ -409,7 +409,7 @@ export default {
       this.getGoodsParams(goodsDetail.item_params_list, goodsDetail.item_params)
 
       if (!goodsDetail.nospec) {
-        goodsDetail.spec_items.forEach(item => {
+        goodsDetail.spec_items.forEach((item) => {
           item.price = item.price / 100
           item.cost_price = item.cost_price / 100
           item.market_price = item.market_price / 100
@@ -418,7 +418,7 @@ export default {
         this.getGoodsSkus(goodsDetail.item_spec_list, goodsDetail.spec_items)
         this.getSkuItems()
 
-        goodsDetail.spec_items.forEach(item => {
+        goodsDetail.spec_items.forEach((item) => {
           item['sku_id'] = item.custom_spec_id
           item['spec_name'] = item.custom_spec_name
         })
@@ -462,7 +462,7 @@ export default {
     },
     // 商品参数
     getGoodsParams(list, value) {
-      list.forEach(item => {
+      list.forEach((item) => {
         const temp = {
           value: item.attribute_id,
           label: item.attribute_name,
@@ -476,7 +476,7 @@ export default {
             label: attribute_value
           })
         })
-        const fd = value.find(sitem => sitem.attribute_id == item.attribute_id)
+        const fd = value.find((sitem) => sitem.attribute_id == item.attribute_id)
         if (fd) {
           temp.attribute_value_id = fd.attribute_value_id
           temp.attribute_value_name = fd.attribute_value_name
@@ -489,9 +489,9 @@ export default {
       this.skuData.skus = []
 
       if (list) {
-        list.forEach(item => {
+        list.forEach((item) => {
           const specs = []
-          item.attribute_values.list.forEach(attr => {
+          item.attribute_values.list.forEach((attr) => {
             specs.push({
               image_url: attr.image_url ? attr.image_url : '',
               attribute_value_id: attr.attribute_value_id,
@@ -500,8 +500,8 @@ export default {
             })
           })
           const checked_sku = []
-          value.forEach(spec => {
-            spec.item_spec.forEach(sitem => {
+          value.forEach((spec) => {
+            spec.item_spec.forEach((sitem) => {
               if (item.attribute_id == sitem.spec_id) {
                 if (checked_sku.indexOf(sitem.spec_value_id) < 0) {
                   checked_sku.push(sitem.spec_value_id)
@@ -523,7 +523,7 @@ export default {
     getSkuItems() {
       const { is_new } = this.$route.query
       const skuMartix = []
-      this.skuData.skus.forEach(sku => {
+      this.skuData.skus.forEach((sku) => {
         skuMartix.push(sku.checked_sku)
       })
       console.log('skuMartix:', skuMartix)
@@ -531,15 +531,15 @@ export default {
       const cacheItems = {}
       console.log('specItems:', this.skuData.specItems)
       console.log('this.skuData:', this.skuData)
-      this.skuData.specItems.forEach(sitem => {
-        const itemSpecs = sitem.item_spec.map(k => {
+      this.skuData.specItems.forEach((sitem) => {
+        const itemSpecs = sitem.item_spec.map((k) => {
           return k.spec_value_id
         })
         cacheItems[itemSpecs.join('_')] = sitem
       })
       console.log('_specItmes:', _specItmes)
       console.log('cacheItems:', cacheItems)
-      this.skuData.specItems = _specItmes.map(item => {
+      this.skuData.specItems = _specItmes.map((item) => {
         console.log('item:', item)
         const key = item.join('_')
         const temp = {
@@ -560,8 +560,8 @@ export default {
             ? cacheItems[key].item_spec
             : item.map((m, n) => {
                 let sub_sku_id, sub_fd
-                this.skuData.skus.forEach(skuItem => {
-                  let fd = skuItem.sku_value.find(sv => sv.attribute_value_id == m)
+                this.skuData.skus.forEach((skuItem) => {
+                  let fd = skuItem.sku_value.find((sv) => sv.attribute_value_id == m)
                   if (fd) {
                     sub_fd = fd
                     sub_sku_id = skuItem.sku_id
@@ -586,14 +586,14 @@ export default {
       console.log('specItems:', this.skuData.specItems)
       // 查找规格图片, 取最后一行
       const skus = JSON.parse(JSON.stringify(this.skuData.skus))
-      const imgSkus = skus.reverse().find(item => item.is_image == 'true')
+      const imgSkus = skus.reverse().find((item) => item.is_image == 'true')
       if (imgSkus) {
         const checkedImgSkus = imgSkus.sku_value.filter(
-          item => imgSkus.checked_sku.indexOf(item.attribute_value_id) > -1
+          (item) => imgSkus.checked_sku.indexOf(item.attribute_value_id) > -1
         )
-        this.skuData.specImages = checkedImgSkus.map(skuItem => {
+        this.skuData.specImages = checkedImgSkus.map((skuItem) => {
           const fd = this.skuData.specImages.find(
-            item => item.spec_value_id == skuItem.attribute_value_id
+            (item) => item.spec_value_id == skuItem.attribute_value_id
           )
           return {
             spec_value_id: skuItem.attribute_value_id,
@@ -633,8 +633,10 @@ export default {
       const specNames = []
       var fd
       keys.forEach((key, index) => {
-        this.skuData.itemSpecList.forEach(outerItem => {
-          var sub_fd = outerItem.attribute_values.list.find(item => item.attribute_value_id == key)
+        this.skuData.itemSpecList.forEach((outerItem) => {
+          var sub_fd = outerItem.attribute_values.list.find(
+            (item) => item.attribute_value_id == key
+          )
           if (sub_fd) {
             fd = sub_fd
           }
@@ -653,7 +655,7 @@ export default {
       const res = await getCategory({ is_main_category: true })
       const category = res.data.data
       function deepMainCategory(cate, temp) {
-        cate.forEach(item => {
+        cate.forEach((item) => {
           const _temp = {
             label: item.category_name,
             value: item.category_id
@@ -698,9 +700,9 @@ export default {
       this.getGoodsSkus(this.cacheCreateDetail.goods_spec, [])
     },
     clearSku(index) {
-      this.$confirm('确定清除当前规格的数据吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('7504d59b.3dd6cf'), this.$t('7504d59b.02d981'), {
+        confirmButtonText: this.$t('7504d59b.38cf16'),
+        cancelButtonText: this.$t('7504d59b.625fb2'),
         type: 'warning'
       }).then(() => {
         console.log(this.specItems)
@@ -772,7 +774,7 @@ export default {
         distributor_id: distributor_id,
         nospec,
         is_show_specimg: isShowSpecimg,
-        item_params: this.paramsData.map(item => {
+        item_params: this.paramsData.map((item) => {
           return {
             attribute_id: item.value,
             attribute_value_id: item.attribute_value_id,
@@ -785,9 +787,21 @@ export default {
           : this.selectedMainCategory[this.selectedMainCategory.length - 1]
       }
 
+      // 多规格：至少一组规格需勾选规格值（不要求每组都选）
+      if (!nospec) {
+        const hasAnySpecGroupChecked = this.skuData.skus.some(
+          (s) => s.checked_sku && s.checked_sku.length > 0
+        )
+        if (!hasAnySpecGroupChecked) {
+          this.$message({ type: 'error', message: this.$t('de022579.d78fc6') })
+          this.submitLoading = false
+          return
+        }
+      }
+
       // 多规格
       if (!nospec) {
-        const specImages = this.skuData.specImages.map(item => {
+        const specImages = this.skuData.specImages.map((item) => {
           return {
             spec_value_id: item.spec_value_id,
             item_spec: item.spec_custom_value_name || item.spec_value_name,
@@ -802,7 +816,7 @@ export default {
         // 编辑
         if (item_id) {
           params['spec_items'] = JSON.stringify(
-            this.skuData.specItems.filter(item => !!item.approve_status)
+            this.skuData.specItems.filter((item) => !!item.approve_status)
           )
         } else {
           const specItems = this.skuData.specItems.map((item, index) => {
@@ -817,10 +831,10 @@ export default {
             //     spec_custom_value_name: t.custom_attribute_value
             //   })
             // })
-            skuIds.forEach(outer_m => {
+            skuIds.forEach((outer_m) => {
               let m, t
-              this.skuData.skus.forEach(sub_m => {
-                let sub_t = sub_m.sku_value.find(k => k.attribute_value_id == outer_m)
+              this.skuData.skus.forEach((sub_m) => {
+                let sub_t = sub_m.sku_value.find((k) => k.attribute_value_id == outer_m)
                 if (sub_t) {
                   t = sub_t
                   m = sub_m
@@ -873,7 +887,7 @@ export default {
         params['intro'] = this.intro
       }
       if (Number(params.store) < 0) {
-        this.$message({ type: 'error', message: '库存需为正整数' })
+        this.$message({ type: 'error', message: this.$t('7504d59b.9a4078') })
         this.submitLoading = false
         return
       }
@@ -885,7 +899,7 @@ export default {
           }
           await updateItems(item_id, params)
           this.$message({
-            message: '更新成功',
+            message: this.$t('7504d59b.55aa63'),
             type: 'success',
             duration: 2 * 1000,
             onClose: () => {
@@ -902,7 +916,7 @@ export default {
         try {
           await createItems(params)
           this.$message({
-            message: '添加成功',
+            message: this.$t('7504d59b.3fdaea'),
             type: 'success',
             duration: 2 * 1000,
             onClose: () => {
@@ -924,7 +938,7 @@ export default {
     },
     pickThumb: function (arr) {
       if (arr.length != 0) {
-        arr.forEach(data => {
+        arr.forEach((data) => {
           if (data && data.url !== '') {
             this.thumbDialog = false
             var index = this.$refs.editor.$el.id

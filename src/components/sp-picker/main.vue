@@ -23,13 +23,14 @@
     />
 
     <span slot="footer" class="dialog-footer">
-      <el-button @click="isLocalShow = false">取 消</el-button>
-      <el-button type="primary" @click="handleConfirm">确 定</el-button>
+      <el-button @click="isLocalShow = false">{{ cancelText }}</el-button>
+      <el-button type="primary" @click="handleConfirm">{{ confirmText }}</el-button>
     </span>
   </el-dialog>
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import PickerType from './picker-type'
 
 export default {
@@ -49,11 +50,24 @@ export default {
   },
 
   data() {
-    const { title } = PickerType.resolvePickerConfig(this.type)
-    const { dialogTitle } = this.value
+    const { title: configTitle } = PickerType.resolvePickerConfig(this.type)
+    const { dialogTitle } = this.value || {}
+    // resolvePickerConfig 读到的是各 picker 静态 config.title（i18n key），此处必须翻译，否则弹窗显示 d81d8932.xxx
+    const resolved =
+      dialogTitle ||
+      (configTitle != null && configTitle !== '' ? i18n.t(String(configTitle)) : configTitle)
     return {
-      title: dialogTitle || title,
+      title: resolved,
       isLocalShow: false
+    }
+  },
+
+  computed: {
+    cancelText() {
+      return i18n.t('8e248734.c08ab9')
+    },
+    confirmText() {
+      return i18n.t('8e248734.aa7527')
     }
   },
 

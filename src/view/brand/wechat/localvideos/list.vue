@@ -6,14 +6,16 @@
 <template>
   <div class="video_pick_panel section-white">
     <div class="upload_box">
-      <el-button type="primary" icon="plus" @click="addVideo"> 上传视频 </el-button>
+      <el-button type="primary" icon="plus" @click="addVideo">
+        {{ $t('22d092f5.afddcb') }}
+      </el-button>
     </div>
     <div v-loading="loading" class="video_pick">
       <ul class="clearfix">
         <li v-for="(videoitem, index) in localvideosList.list" :key="index" class="video_item">
           <div class="video_item_bd">
             <video class="video-html" :src="videoitem.image_full_url" controls="controls">
-              您的浏览器不支持 video 标签。
+              {{ $t('22d092f5.4cacc1') }}
             </video>
             <div class="check_content">
               <span class="video_name" :title="videoitem.name">{{ videoitem.image_name }}</span>
@@ -23,7 +25,12 @@
             <el-row>
               <el-col :span="VERSION_IN_PURCHASE() ? 12 : 24">
                 <div class="opr_item" @click="removeItem(videoitem, index)">
-                  <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    :content="$t('22d092f5.2f4aad')"
+                    placement="top"
+                  >
                     <i class="el-icon-delete" />
                   </el-tooltip>
                 </div>
@@ -61,20 +68,24 @@
         @size-change="handleSizeChange"
       />
     </div>
-    <el-dialog title="上传视频文件" :visible.sync="uploadDialog" :before-close="handleCancel">
+    <el-dialog
+      :title="$t('22d092f5.ce87fd')"
+      :visible.sync="uploadDialog"
+      :before-close="handleCancel"
+    >
       <template>
         <el-form ref="form" :model="videoForm" class="demo-ruleForm" label-width="90px">
-          <el-form-item label="视频标题">
+          <el-form-item :label="$t('22d092f5.3226c4')">
             <el-col :span="14">
               <el-input v-model="videoForm.title" maxlength="20" />
             </el-col>
           </el-form-item>
-          <el-form-item label="视频描述">
+          <el-form-item :label="$t('22d092f5.8ce215')">
             <el-col :span="14">
               <el-input v-model="videoForm.description" maxlength="20" />
             </el-col>
           </el-form-item>
-          <el-form-item label="视频文件">
+          <el-form-item :label="$t('22d092f5.32651e')">
             <el-col :span="14">
               <el-upload
                 class="upload-demo"
@@ -87,8 +98,8 @@
                 :before-upload="beforeVideoUpload"
                 :on-success="handleVideoSuccess"
               >
-                <el-button type="primary"> 本地上传 </el-button>
-                <div slot="tip" class="el-upload__tip">只能上传mp4文件，且不超过50M</div>
+                <el-button type="primary"> {{ $t('22d092f5.b4af78') }} </el-button>
+                <div slot="tip" class="el-upload__tip">{{ $t('22d092f5.a0fe56') }}</div>
               </el-upload>
             </el-col>
           </el-form-item>
@@ -147,28 +158,28 @@ export default {
     beforeVideoUpload(file) {
       if (this.videoForm.title.length <= 0) {
         this.$message({
-          message: '视频标题必填',
+          message: this.$t('22d092f5.06955b'),
           type: 'error'
         })
         return
       }
       if (this.videoForm.description.length <= 0) {
         this.$message({
-          message: '视频描述必填',
+          message: this.$t('22d092f5.717049'),
           type: 'error'
         })
         return
       }
 
       const isMP4 = file.type === 'video/mp4'
-      const isLt2M = file.size / 1024 / 1024 < 50
+      const isLt400M = file.size / 1024 / 1024 < 400
 
       if (!isMP4) {
-        this.$message.error('上传视频只能是 mp4 格式!')
+        this.$message.error(this.$t('22d092f5.6c6cbc'))
         return
       }
-      if (!isLt2M) {
-        this.$message.error('上传视频大小不能超过 50MB!')
+      if (!isLt400M) {
+        this.$message.error(this.$t('22d092f5.a028ad'))
         return
       }
 
@@ -187,9 +198,9 @@ export default {
         storage: 'videos' //视频id必填
       }
       // if (res.key) {
-      uploadQiniuVideo(uploadParams).then(res => {
+      uploadQiniuVideo(uploadParams).then((res) => {
         this.$message({
-          message: '上传成功',
+          message: this.$t('22d092f5.a7699b'),
           type: 'success',
           duration: 5 * 1000
         })
@@ -203,7 +214,7 @@ export default {
       if (!this.isLoadData) {
         this.loading = true
         getQiniuVideoList(this.params)
-          .then(response => {
+          .then((response) => {
             this.localvideosList = response.data.data
             this.isLoadData = true
             this.loading = false
@@ -225,16 +236,16 @@ export default {
       this.getList()
     },
     removeItem(item, index) {
-      this.$confirm('确定删除此视频吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('22d092f5.378a60'), this.$t('22d092f5.02d981'), {
+        confirmButtonText: this.$t('22d092f5.38cf16'),
+        cancelButtonText: this.$t('22d092f5.625fb2'),
         type: 'warning'
       })
         .then(() => {
-          deleteVideo({ image_id: item.image_id }).then(response => {
+          deleteVideo({ image_id: item.image_id }).then((response) => {
             this.localvideosList.list.splice(index, 1)
             this.$message({
-              message: '删除成功',
+              message: this.$t('22d092f5.0007d1'),
               type: 'success',
               duration: 5 * 1000
             })
@@ -243,7 +254,7 @@ export default {
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: this.$t('22d092f5.2111cc')
           })
         })
     },
@@ -260,10 +271,10 @@ export default {
       upload
         .uploadImg(e.file, e.file.name)
         .then(
-          res => e.onSuccess(res),
-          err => e.onError(err)
+          (res) => e.onSuccess(res),
+          (err) => e.onError(err)
         )
-        .catch(err => e.onError(err))
+        .catch((err) => e.onError(err))
     },
     // 上传错误回调
     uploadError: function (e) {
@@ -318,6 +329,11 @@ export default {
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     }
   }
+}
+.tc {
+  clear: both;
+  text-align: right;
+  margin-top: 10px;
 }
 .msg_card {
   background-color: #f4f5f9;

@@ -6,8 +6,8 @@
 <template>
   <div>
     <el-table v-loading="loading" :data="logisticsList" :height="wheight - 160">
-      <el-table-column prop="corp_name" label="物流公司简称" />
-      <el-table-column prop="is_default" label="是否启用">
+      <el-table-column prop="corp_name" :label="$t('1dae6bd2.e38114')" />
+      <el-table-column prop="is_default" :label="$t('1dae6bd2.53c3dd')">
         <template slot-scope="scope">
           <el-switch v-model="scope.row.is_enable" @change="setEnable(scope.row)" />
         </template>
@@ -61,7 +61,7 @@ export default {
     },
     getLogisticsListData() {
       this.loading = true
-      getLogisticsLists(this.params).then(response => {
+      getLogisticsLists(this.params).then((response) => {
         this.logisticsList = response.data.data.list
         this.total_count = response.data.data.total_count
         this.loading = false
@@ -69,11 +69,11 @@ export default {
     },
     setEnable(row) {
       if (row.is_enable) {
-        createCompanyLogistics(row).then(response => {
+        createCompanyLogistics(row).then((response) => {
           this.getLogisticsListData()
         })
       } else {
-        deleteCompanyLogistics(row.corp_id).then(response => {
+        deleteCompanyLogistics(row.corp_id).then((response) => {
           this.getLogisticsListData()
         })
       }

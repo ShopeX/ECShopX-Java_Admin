@@ -33,11 +33,11 @@
     <el-card
       v-if="is_normal && baseForm.distributor_self == 0"
       class="el-card--normal"
-      header="店铺类型"
+      :header="$t('cc667c72.1dbb0d')"
     >
       <el-form ref="form" label-width="120px" :model="baseForm" :rules="rules">
-        <el-form-item label="店铺类型" prop="distribution_type">
-          <el-select v-model="baseForm.distribution_type" placeholder="请选择">
+        <el-form-item :label="$t('cc667c72.1dbb0d')" prop="distribution_type">
+          <el-select v-model="baseForm.distribution_type" :placeholder="$t('cc667c72.708c9d')">
             <el-option
               v-for="item in distributionTypeList"
               :key="item.value"
@@ -47,13 +47,17 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item v-if="baseForm.distribution_type === 1" label="所属商户" prop="merchant_id">
+        <el-form-item
+          v-if="baseForm.distribution_type === 1"
+          :label="$t('cc667c72.1eaa17')"
+          prop="merchant_id"
+        >
           <el-select
             v-model="baseForm.merchant_id"
             filterable
             remote
             reserve-keyword
-            placeholder="请输入商户名称"
+            :placeholder="$t('cc667c72.18213b')"
             :remote-method="remoteMerchantList"
             :loading="merchantLoading"
           >
@@ -76,21 +80,22 @@
 
     <DadaForm ref="dadaFormRef" @onChange="onChangeData" />
 
-    <el-card class="el-card--normal" header="到店自提">
+    <el-card class="el-card--normal" :header="$t('cc667c72.93ab28')">
       <el-form class="ziti-form" label-width="120px">
-        <el-form-item label="到店自提">
+        <el-form-item :label="$t('cc667c72.93ab28')">
           <el-switch v-model="baseForm.is_ziti" />
           <div class="form-item-tip">
-            启用到店自提功能后，买家下单时可选择下方地址自提，下单后你需要尽快将商品配送至指定自提点；下方自提地址共享该店铺库存。
+            {{ $t('cc667c72.c3a20c') }}
           </div>
         </el-form-item>
         <el-form-item v-if="baseForm.is_ziti">
-          <el-button type="text" @click="onSelectZiti">选择自提点</el-button>
+          <el-button type="text" @click="onSelectZiti">{{ $t('cc667c72.47c2de') }}</el-button>
           <!-- url="/pickuplocation/list" -->
           <!-- {{finderData}}, finderUrl: {{finderUrl}} -->
           <SpFinder
             ref="finder"
             no-selection
+            row-actions-align="left"
             :data="finderData"
             :url="finderUrl"
             :setting="setting"
@@ -108,9 +113,9 @@
     <IntroduceForm ref="introduceFormRef" />
 
     <div class="footer-container">
-      <el-button size="large" @click="cancelSubmit"> 取消 </el-button>
+      <el-button size="large" @click="cancelSubmit"> {{ $t('cc667c72.625fb2') }} </el-button>
       <el-button type="primary" :loading="submitLoading" @click="submitItemsActionConfirm">
-        {{ submitLoading ? '提交中' : '保存' }}
+        {{ submitLoading ? $t('cc667c72.7ef44a') : $t('cc667c72.be5fbb') }}
       </el-button>
     </div>
   </div>
@@ -191,48 +196,10 @@ export default {
           hours: ''
         }
       },
-      setting: createSetting({
-        actions: [
-          {
-            name: '移除',
-            key: 'apply',
-            type: 'button',
-            buttonType: 'text',
-            action: {
-              handler: async ([row]) => {
-                if (this.distributor_id) {
-                  await this.$api.pickuplocation.unbindZitiLocation({
-                    id: row.id,
-                    rel_distributor_id: this.distributor_id
-                  })
-                  this.$refs['finder'].refresh()
-                } else {
-                  const index = this.finderData.findIndex(item => item.id == row.id)
-                  this.finderData.splice(index, 1)
-                  this.zitiList = this.finderData
-                  this.$nextTick(() => {
-                    this.$refs['finder'].refresh()
-                  })
-                }
-              }
-            }
-          }
-        ],
-        columns: [
-          { name: '自提点名称', key: 'name' },
-          {
-            name: '地址',
-            render: (h, { row }) =>
-              h('span', {}, `${row.province}${row.city}${row.area}${row.address}`)
-          },
-          { name: '联系电话', key: 'contract_phone' }
-        ]
-      }),
+      setting: null,
       distributor_id: 0,
-      rules: {
-        merchant_id: [{ message: '请选择商户', required: true }]
-      },
-      distributionTypeList: [{ value: 0, label: '自营' }],
+      rules: {},
+      distributionTypeList: [],
       merchantList: [],
       merchantLoading: false,
       zitiList: [],
@@ -245,6 +212,45 @@ export default {
       return (
         this.$store.getters.login_type === 'normal' || this.$store.getters.login_type === 'admin'
       )
+    },
+    setting() {
+      return createSetting({
+        actions: [
+          {
+            name: this.$t('cc667c72.86048b'),
+            key: 'apply',
+            type: 'button',
+            buttonType: 'text',
+            action: {
+              handler: async ([row]) => {
+                if (this.distributor_id) {
+                  await this.$api.pickuplocation.unbindZitiLocation({
+                    id: row.id,
+                    rel_distributor_id: this.distributor_id
+                  })
+                  this.$refs['finder'].refresh()
+                } else {
+                  const index = this.finderData.findIndex((item) => item.id == row.id)
+                  this.finderData.splice(index, 1)
+                  this.zitiList = this.finderData
+                  this.$nextTick(() => {
+                    this.$refs['finder'].refresh()
+                  })
+                }
+              }
+            }
+          }
+        ],
+        columns: [
+          { name: this.$t('cc667c72.6b88c4'), key: 'name' },
+          {
+            name: this.$t('cc667c72.765048'),
+            render: (h, { row }) =>
+              h('span', {}, `${row.province}${row.city}${row.area}${row.address}`)
+          },
+          { name: this.$t('cc667c72.09a1f6'), key: 'contract_phone' }
+        ]
+      })
     }
   },
   created() {
@@ -252,8 +258,12 @@ export default {
     this.distributor_id = distributor_id
   },
   mounted() {
+    this.distributionTypeList = [{ value: 0, label: this.$t('cc667c72.491c0c') }]
+    this.rules = {
+      merchant_id: [{ message: this.$t('cc667c72.24a64e'), required: true }]
+    }
     if (!this.VERSION_STANDARD()) {
-      this.distributionTypeList.push({ value: 1, label: '加盟' })
+      this.distributionTypeList.push({ value: 1, label: this.$t('cc667c72.059670') })
     }
 
     this.getShopInfo()
@@ -282,9 +292,9 @@ export default {
       const { distributor_id } = this.$route.query
       if (distributor_id || IS_DISTRIBUTOR()) {
         const res = await this.$api.marketing.getDistributorInfo({ distributor_id })
-        const [startTime, endTime] = res.hour.split('-')
+        const [startTime, endTime] = res.hour?.split('-') || []
         const [offline_startTime, offline_endTime] = res.offline_aftersales_address.hours
-          ? res.offline_aftersales_address.hours.split('-')
+          ? res.offline_aftersales_address.hours?.split('-') || []
           : ['', '']
         let area_code = ''
         let mobile = ''
@@ -293,7 +303,7 @@ export default {
           res.offline_aftersales_address.mobile.indexOf('-') > -1
         ) {
           ;[area_code, mobile] = res.offline_aftersales_address.mobile
-            ? res.offline_aftersales_address.mobile.split('-')
+            ? res.offline_aftersales_address.mobile?.split('-') || []
             : ['', '']
         } else {
           mobile = res.offline_aftersales_address.mobile
@@ -319,8 +329,8 @@ export default {
           distributor_self: res.distributor_self,
           logo: res.logo,
           banner: res.banner,
-          lng: res.lng,
-          lat: res.lat,
+          lng: res.lng || 116.397128,
+          lat: res.lat || 39.916527,
           regions_id: res.regions_id,
           address: res.address,
           is_dada: res.is_dada,
@@ -357,14 +367,14 @@ export default {
     },
     async onSelectZiti() {
       const { data } = await this.$picker.zitiList({
-        data: this.zitiList.map(item => item.id)
+        data: this.zitiList.map((item) => item.id)
       })
 
-      console.log(this.zitiList.map(item => item.id))
+      console.log(this.zitiList.map((item) => item.id))
       console.log(data)
 
       if (this.distributor_id) {
-        const ids = data.map(item => item.id)
+        const ids = data.map((item) => item.id)
         await this.$api.pickuplocation.bindZitiLocation({
           id: ids,
           rel_distributor_id: this.distributor_id
@@ -383,7 +393,7 @@ export default {
     },
     formValidate() {
       return new Promise((resolve, reject) => {
-        return this.$refs.form.validate(valid => {
+        return this.$refs.form.validate((valid) => {
           if (valid) {
             resolve()
           } else {
@@ -403,7 +413,7 @@ export default {
         }
       } catch (e) {
         console.error(e)
-        this.$message.error('店铺信息未填写完整')
+        this.$message.error(this.$t('cc667c72.742f99'))
         return
       }
       this.submitLoading = true
@@ -423,7 +433,7 @@ export default {
           area: aftersales_regions[2]
         },
         offline_aftersales_distributor_id: this.$refs['returnGoodsFormRef'].finderData.map(
-          item => item.distributor_id
+          (item) => item.distributor_id
         )
       }
       if (this.baseForm.distribution_type == 0) {
@@ -439,15 +449,15 @@ export default {
         if (distributor_id) {
           await this.$api.marketing.updateDistributorInfo(distributor_id, params)
           this.submitLoading = false
-          this.$message.success('修改店铺成功')
+          this.$message.success(this.$t('cc667c72.c83614'))
         } else {
-          const ids = this.finderData.map(item => item.id)
+          const ids = this.finderData.map((item) => item.id)
           await this.$api.marketing.saveDistributorInfo({
             ...params,
             pickup_location: ids
           })
           this.submitLoading = false
-          this.$message.success('保存店铺成功')
+          this.$message.success(this.$t('cc667c72.931e30'))
         }
         if (!IS_DISTRIBUTOR()) {
           this.$router.go(-1)
@@ -463,7 +473,7 @@ export default {
         page: 1,
         merchant_name: name
       })
-      this.merchantList = list.map(item => ({ value: item.id, label: item.merchant_name }))
+      this.merchantList = list.map((item) => ({ value: item.id, label: item.merchant_name }))
       this.merchantLoading = false
     }
   }

@@ -7,7 +7,9 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="12">
-        <el-button type="primary" icon="plus" @click="articleAdd"> 添加待机广告 </el-button>
+        <el-button type="primary" icon="plus" @click="articleAdd">
+          {{ $t('59eedf32.ca273b') }}
+        </el-button>
       </el-col>
     </el-row>
     <section v-loading="loading" class="articles">
@@ -40,26 +42,30 @@
             <div class="footer">
               <div class="footer-item" @click="handlePublish(item.id, item.release_status)">
                 <template v-if="item.release_status">
-                  <i class="iconfont icon-undo-alt" /> 撤回
+                  <i class="iconfont icon-undo-alt" /> {{ $t('59eedf32.230505') }}
                 </template>
-                <template v-else> <i class="iconfont icon-broadcast-tower" /> 发布 </template>
+                <template v-else>
+                  <i class="iconfont icon-broadcast-tower" /> {{ $t('59eedf32.83611a') }}
+                </template>
               </div>
               <el-popover v-model="item.visible" class="footer-item" placement="top" width="160">
                 <div class="content-bottom-padded">
-                  <el-input v-model="item.sort" size="mini" placeholder="请输入排序" />
+                  <el-input v-model="item.sort" size="mini" :placeholder="$t('59eedf32.215aaa')" />
                 </div>
                 <div style="text-align: right; margin: 0">
                   <el-button size="mini" type="text" @click="item.visible = false">
-                    取消
+                    {{ $t('59eedf32.625fb2') }}
                   </el-button>
                   <el-button type="primary" size="mini" @click="handleSort(item.id)">
-                    确定
+                    {{ $t('59eedf32.38cf16') }}
                   </el-button>
                 </div>
-                <div slot="reference"><i class="iconfont icon-sort-amount-up" /> 排序</div>
+                <div slot="reference">
+                  <i class="iconfont icon-sort-amount-up" /> {{ $t('59eedf32.c360e9') }}
+                </div>
               </el-popover>
               <div class="footer-item" @click="articleDelete(item.id)">
-                <i class="iconfont icon-trash-alt" /> 删除
+                <i class="el-icon-delete" /> {{ $t('59eedf32.2f4aad') }}
               </div>
             </div>
           </div>
@@ -83,10 +89,10 @@
             <el-option v-for="(item, index) in distributorList" :key="index" :label="item.name" :value="item.distributor_id"> </el-option>
           </el-select>
         </el-form-item> -->
-        <el-form-item label="标题">
-          <el-input v-model="edit.title" placeholder="请输入标题" />
+        <el-form-item :label="$t('59eedf32.32c65d')">
+          <el-input v-model="edit.title" :placeholder="$t('59eedf32.96641a')" />
         </el-form-item>
-        <el-form-item label="缩略图 ">
+        <el-form-item :label="$t('59eedf32.febc19')">
           <template>
             <img
               v-if="edit.thumb_img"
@@ -95,15 +101,19 @@
               @click="handleImgChange('thumb_img')"
             >
             <div v-else class="banner-uploader" @click="handleImgChange('thumb_img')">
-              <i class="iconfont icon-camera" />
-              上传图片
+              <i class="el-icon-camera" />
+              {{ $t('59eedf32.ce6855') }}
             </div>
           </template>
         </el-form-item>
-        <el-form-item label="广告图/视频">
-          <el-select v-model="edit.media_type" placeholder="请选择类型" @change="changeType">
-            <el-option label="图片" value="image" />
-            <el-option label="视频" value="video" />
+        <el-form-item :label="$t('59eedf32.765096')">
+          <el-select
+            v-model="edit.media_type"
+            :placeholder="$t('59eedf32.95f11c')"
+            @change="changeType"
+          >
+            <el-option :label="$t('59eedf32.20def7')" value="image" />
+            <el-option :label="$t('59eedf32.7fcf42')" value="video" />
           </el-select>
           <div class="addImageVideo">
             <template v-if="edit.media_type == 'image'">
@@ -114,21 +124,21 @@
                 @click="handleImgChange('media_url')"
               >
               <div v-else class="banner-uploader" @click="handleImgChange('media_url')">
-                <i class="iconfont icon-camera" />
-                上传图片
+                <i class="el-icon-camera" />
+                {{ $t('59eedf32.ce6855') }}
               </div>
             </template>
             <template v-else>
               <videoPicker :data="itemVideo" :multiple="false" @change="pickVideo" />
               <el-button v-if="itemVideo.media_id" type="text" @click="deleteVideo">
-                删除
+                {{ $t('59eedf32.2f4aad') }}
               </el-button>
             </template>
           </div>
         </el-form-item>
       </el-form>
       <div class="section-footer with-border content-center" style="width: 100%">
-        <el-button type="primary" @click="sumbit"> 保存 </el-button>
+        <el-button type="primary" @click="sumbit"> {{ $t('59eedf32.be5fbb') }} </el-button>
       </div>
     </el-dialog>
     <imgPicker
@@ -199,7 +209,7 @@ export default {
   methods: {
     getDistributor() {
       var params = { page: 1, pageSize: 500 }
-      getDistributorList(params).then(response => {
+      getDistributorList(params).then((response) => {
         if (response.data.data.list) {
           this.distributorList = response.data.data.list
         }
@@ -233,23 +243,23 @@ export default {
     },
     sumbit() {
       let obj = JSON.parse(JSON.stringify(this.edit))
-      postShopScreenAd(obj).then(res => {
+      postShopScreenAd(obj).then((res) => {
         this.showDialog = false
         this.edit = {}
         this.fetchList()
         this.$message({
-          message: '保存成功',
+          message: this.$t('59eedf32.3b1083'),
           type: 'success'
         })
       })
     },
     articleDelete(id) {
       const _self = this
-      this.$confirm('确认删除当前选项？').then(_ => {
-        delShopScreenAd(id).then(res => {
+      this.$confirm(this.$t('59eedf32.8ccb24')).then((_) => {
+        delShopScreenAd(id).then((res) => {
           if (res.data.data.status) {
             this.$message({
-              message: '删除成功',
+              message: this.$t('59eedf32.0007d1'),
               type: 'success',
               onClose() {
                 _self.fetchList()
@@ -262,7 +272,7 @@ export default {
 
     handleSort(id) {
       const _self = this
-      let index = this.list.findIndex(item => item.id === id)
+      let index = this.list.findIndex((item) => item.id === id)
       this.list[index].visible = false
       let param = {
         inputdata: [
@@ -272,20 +282,15 @@ export default {
           }
         ]
       }
-      putShopScreenAd(param).then(res => {
+      putShopScreenAd(param).then((res) => {
         _self.fetchList()
       })
     },
     handlePublish(id, status) {
-      let msg = ''
-      if (status) {
-        msg = '确定撤吗？'
-      } else {
-        msg = '确定发布吗？'
-      }
+      const msgKey = status ? '59eedf32.825e14' : '59eedf32.9831c2'
       const _self = this
-      this.$confirm(msg)
-        .then(res => {
+      this.$confirm(this.$t(msgKey))
+        .then((res) => {
           let param = {
             inputdata: [
               {
@@ -294,7 +299,7 @@ export default {
               }
             ]
           }
-          putShopScreenAd(param).then(res => {
+          putShopScreenAd(param).then((res) => {
             _self.fetchList()
           })
         })
@@ -308,7 +313,7 @@ export default {
     },
     fetchList() {
       this.loading = true
-      getShopScreenAd(this.params).then(res => {
+      getShopScreenAd(this.params).then((res) => {
         if (res.data.data.total_count === 0) {
           this.showPlaceholder = true
         }

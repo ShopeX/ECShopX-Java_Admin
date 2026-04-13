@@ -12,9 +12,16 @@
     }
   }
   .filter-tools {
-    display: flex;
-    align-items: center;
-    padding: 8px;
+    padding: 0 16px 12px;
+    .el-tabs__header {
+      margin-bottom: 0;
+    }
+    .el-tabs__item {
+      font-size: 14px;
+    }
+    .el-tabs__nav-wrap::after {
+      display: none;
+    }
     .el-cascader,
     .el-input {
       width: 196px;
@@ -33,23 +40,13 @@
 </style>
 <template>
   <div class="picker-coupon">
-    <!-- multiple：{{ multiple }}, {{ value }} -->
-    <!-- <SpFilterForm :model="formData" @onSearch="onSearch" @onReset="onSearch">
-      <SpFilterFormItem prop="region">
-        <el-cascader
-          ref="region"
-          v-model="formData.region"
-          filterable
-          clearable
-          placeholder="选择地区筛选店铺"
-          :options="district"
-        />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="keywords">
-        <el-input v-model="formData.keywords" placeholder="请输入店铺名称搜索" />
-      </SpFilterFormItem>
-    </SpFilterForm> -->
-
+    <div class="filter-tools">
+      <el-tabs v-model="statusFilter" @tab-click="onStatusFilterChange">
+        <el-tab-pane :label="$t('7039e9c5.30ce10')" name="2" />
+        <el-tab-pane :label="$t('7039e9c5.996aab')" name="1" />
+        <el-tab-pane :label="$t('7039e9c5.4d5ccd')" name="3" />
+      </el-tabs>
+    </div>
     <SpFinder
       ref="finder"
       :other-config="{
@@ -58,49 +55,7 @@
       }"
       url="/discountcard/list"
       :fixed-row-action="true"
-      :setting="{
-        columns: [
-          {
-            name: '卡券类型',
-            key: 'card_type',
-            width: '100px',
-            render: (h, { row }) =>
-              h(
-                'el-tag',
-                {
-                  props: {
-                    size: 'mini'
-                  }
-                },
-                cardTypeFormatter(row)
-              )
-          },
-          { name: '卡券名称', key: 'title' },
-          {
-            name: '卡券有效期',
-            formatter: (value, { takeEffect, begin_time, end_time }, col) => {
-              if (takeEffect) {
-                return takeEffect
-              } else {
-                return getCardValidate(begin_time, end_time)
-              }
-            }
-          },
-          {
-            name: '可领取库存',
-            formatter: (value, { quantity, get_num }, col) => {
-              if (quantity > get_num) {
-                return quantity - get_num
-              } else {
-                return 0
-              }
-            },
-            width: '100px'
-          },
-          { name: '领取量', key: 'get_num', width: '80px' },
-          { name: '使用量', key: 'use_num', width: '80px' }
-        ]
-      }"
+      :setting="finderSetting"
       :hooks="{
         beforeSearch: beforeSearch,
         afterSearch: afterSearch
@@ -115,6 +70,7 @@
 import district from '@/common/district.json'
 import { CARD_TYPE } from '@/consts'
 import moment from 'moment'
+import { i18n } from '@/i18n'
 import BasePicker from './base'
 import PageMixin from '../mixins/page'
 export default {
@@ -122,9 +78,12 @@ export default {
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
-    title: '选择优惠券'
+    title: i18n.t('7039e9c5.45bcee')
   },
   props: ['value'],
+  created() {
+    this.$options.config.title = this.$t('7039e9c5.45bcee')
+  },
   data() {
     return {
       formData: {
@@ -134,27 +93,112 @@ export default {
       district,
       regionArea: [],
       loading: false,
-      multiple: this.value?.multiple ?? true
+      multiple: this.value?.multiple ?? true,
+      statusFilter: '2'
     }
   },
-  created() {
-    // this.fetch()
+  computed: {
+    finderSetting() {
+      const t = this.$t.bind(this)
+      return {
+        columns: [
+          {
+            name: t('7039e9c5.f47182'),
+            key: 'card_type',
+            width: '100px',
+            render: (h, { row }) =>
+              h(
+                'el-tag',
+                {
+                  props: {
+                    size: 'mini'
+                  }
+                },
+                this.cardTypeFormatter(row)
+              )
+          },
+          { name: t('7039e9c5.b7fef7'), key: 'title' },
+
+          {
+            name: t('7039e9c5.36166e'),
+            key: '_coupon_status',
+            width: '100px',
+            formatter: (value, row) => this.getCouponStatus(row)
+          },
+          {
+            name: t('7039e9c5.d48a7a'),
+            formatter: (value, { takeEffect, begin_time, end_time }, col) => {
+              if (takeEffect) {
+                return takeEffect
+              } else {
+                return this.getCardValidate(begin_time, end_time)
+              }
+            }
+          },
+          {
+            name: t('7039e9c5.4b06cf'),
+            formatter: (value, { quantity, get_num }, col) => {
+              if (quantity > get_num) {
+                return quantity - get_num
+              } else {
+                return 0
+              }
+            },
+            width: '100px'
+          },
+          { name: t('7039e9c5.5d5aac'), key: 'get_num', width: '80px' },
+          { name: t('7039e9c5.ce2ed8'), key: 'use_num', width: '80px' },
+          {
+            name: t('9cc0c982.fea789'),
+            width: '120px',
+            formatter: (value, row) => {
+              const id = parseInt(row.source_id)
+              const name = row.source_name || row.store_name || row.shop_name
+              if (id <= 0 || !name) return t('9cc0c982.498128')
+              return name
+            }
+          },
+          {
+            name: t('9cc0c982.eb4307'),
+            width: '120px',
+            formatter: (value, row) => {
+              return row.use_all_shops == 1 ? t('9cc0c982.77678b') : t('9cc0c982.fcf7d8')
+            }
+          }
+        ]
+      }
+    }
   },
   methods: {
+    // date_status: 1=待生效 2=已生效 3=已失效
+    getCouponStatus(row) {
+      const t = this.$t.bind(this)
+      const statusMap = {
+        1: t('7039e9c5.996aab'),
+        2: t('7039e9c5.30ce10'),
+        3: t('7039e9c5.4d5ccd')
+      }
+      const s = row?.date_status
+      return s != null ? statusMap[s] || '-' : '-'
+    },
+    onStatusFilterChange() {
+      this.$refs.finder && this.$refs.finder.refresh()
+    },
     beforeSearch(params) {
       params = {
-        ...params,
         page_no: params.page,
         page_size: params.pageSize,
         end_date: 1,
-        from: 'btn'
+        // from: 'btn',
+        date_status: this.statusFilter,
+        is_guide: 0
       }
       return params
     },
     afterSearch(response) {
       const { list } = response.data.data
       if (this.value.data) {
-        const selectRows = list.filter(item => this.value?.data.includes(item.card_id))
+        const selectRows = list.filter((item) => this.value?.data.includes(item.card_id))
         const { finderTable } = this.$refs.finder.$refs
         setTimeout(() => {
           finderTable.$refs.finderTable.setSelection(selectRows)

@@ -3,6 +3,7 @@
  * See LICENSE file for license details.
  */
 import log from './log'
+import { i18n } from '@/i18n'
 import CommonUtil from '@/common/js/util'
 import _pickBy from 'lodash/pickBy'
 import _get from 'lodash/get'
@@ -250,7 +251,7 @@ export function pickBy(arr = [], keyMaps = {}) {
 
 export function hex2rgb(hex) {
   if (![4, 7].includes(hex.length)) {
-    throw new Error('格式错误')
+    throw new Error(i18n.t('8968c625.0257f0'))
   }
   let result = hex.slice(1)
   // 如果是颜色叠值, 统一转换成6位颜色值
@@ -330,6 +331,14 @@ export const transformTree = (tree, obj = {}) => {
   }
 
   return transformedTree
+}
+
+/**
+ * 检测是否为 Mac 系统
+ * @returns {boolean} 如果是 Mac 系统返回 true，否则返回 false
+ */
+export function isMac() {
+  return /Mac|iPhone|iPod|iPad/i.test(navigator.platform) || /Mac/i.test(navigator.userAgent)
 }
 
 export { log, isEmpty }

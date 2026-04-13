@@ -43,16 +43,10 @@
       'wgt-marquees': true,
       padded: value.padded
     }"
+    :style="outerStyle"
   >
-    <div v-if="value.title || value.subtitle" class="wgt-hd">
-      <span class="title">{{ value.title }}</span>
-      <span class="sub-title">{{ value.subtitle }}</span>
-    </div>
     <div
       class="wgt-bd"
-      :class="{
-        spaced: value.spaced
-      }"
       :style="{
         background: value.bgcolor
       }"
@@ -93,17 +87,24 @@
 
 <script>
 import config from './config'
+import { i18n } from '@/i18n'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Marquees',
-  wgtName: '文字轮播',
+  wgtName: i18n.t('17b1b213.917617'),
   wgtDesc: '',
-  wgtIcon: 'wgt-marquees',
+  wgtIcon: 'announcement',
   config: config,
   props: {
     value: [Object, Array]
   },
   data() {
     return {}
+  },
+  computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    }
   },
   created() {},
   methods: {}

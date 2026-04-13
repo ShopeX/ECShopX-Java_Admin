@@ -10,6 +10,7 @@
       'wgt-img-navigation': true,
       padded: value.padded
     }"
+    :style="outerStyle"
   >
     <div v-if="value.title || value.subtitle" class="wgt-hd">
       <span class="title">{{ value.title }}</span>
@@ -26,24 +27,32 @@
         <div class="nav-image">
           <SpImage :src="item.imgUrl" :circle="8" :style="getNavItemImageStyle" />
         </div>
-        <div v-if="item.content" class="nav-item--content">{{ item.content }}</div>
+        <div v-if="item.content" class="nav-item--content">{{ i18n.t(item.content) }}</div>
       </div>
       <!-- 挂件自定义部分 -->
     </div>
   </div>
 </template>
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Navigation',
-  wgtName: '图片导航',
+  wgtName: i18n.t('06a3fb4c.8ae4a2'),
   wgtDesc: '',
   wgtIcon: 'wgt-img-navigation',
   config,
   props: {
     value: []
   },
+  data() {
+    return { i18n }
+  },
   computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    },
     getNavItemStyle() {
       const { length } = this.value.data
       return {

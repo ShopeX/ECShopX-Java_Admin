@@ -11,31 +11,47 @@
     :before-close="handleBeforeClose"
     @close="handleClose"
   >
-    <slot />
+    <template v-if="$slots.title" slot="title">
+      <slot name="title" />
+    </template>
+
+    <template v-if="$slots.body">
+      <slot name="body" />
+    </template>
+    <template v-else>
+      <slot />
+    </template>
 
     <span slot="footer" class="dialog-footer">
-      <el-button
-        v-if="computedButtonCancel.visible"
-        icon="el-icon-circle-close"
-        @click="handleCancel"
-      >
-        {{ computedButtonCancel.text }}
-      </el-button>
+      <div>
+        <slot name="footer" />
+      </div>
+      <div>
+        <el-button
+          v-if="computedButtonCancel.visible"
+          icon="el-icon-circle-close"
+          @click="handleCancel"
+        >
+          {{ computedButtonCancel.text }}
+        </el-button>
 
-      <el-button
-        v-if="computedButtonConfirm.visible"
-        type="primary"
-        icon="el-icon-circle-check"
-        :loading="loading"
-        @click="handleConfirm"
-      >
-        {{ computedButtonConfirm.text }}
-      </el-button>
+        <el-button
+          v-if="computedButtonConfirm.visible"
+          type="primary"
+          icon="el-icon-circle-check"
+          :loading="loading"
+          @click="handleConfirm"
+        >
+          {{ computedButtonConfirm.text }}
+        </el-button>
+      </div>
     </span>
   </el-dialog>
 </template>
 
 <script>
+import { i18n } from '@/i18n'
+
 export default {
   name: 'SpDialogPlus',
 
@@ -43,15 +59,13 @@ export default {
     buttonCancel: {
       type: Object,
       default: () => ({
-        visible: true,
-        text: '取消'
+        visible: true
       })
     },
     buttonConfirm: {
       type: Object,
       default: () => ({
-        visible: true,
-        text: '确定'
+        visible: true
       })
     },
     width: {
@@ -80,14 +94,14 @@ export default {
     computedButtonCancel() {
       return {
         visible: true,
-        text: '取消',
+        text: i18n.t('d6ce3fc7.625fb2'),
         ...this.buttonCancel
       }
     },
     computedButtonConfirm() {
       return {
         visible: true,
-        text: '确定',
+        text: i18n.t('d6ce3fc7.38cf16'),
         ...this.buttonConfirm
       }
     }

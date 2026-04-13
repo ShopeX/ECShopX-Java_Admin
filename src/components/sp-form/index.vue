@@ -89,7 +89,7 @@ export default {
     },
     resetBtnText: {
       type: String,
-      default: '重置'
+      default: null
     },
     submitBtn: {
       type: Boolean,
@@ -97,7 +97,7 @@ export default {
     },
     submitBtnText: {
       type: String,
-      default: '确定'
+      default: null
     },
     size: {
       type: String,
@@ -136,6 +136,15 @@ export default {
   //     }
   //   }
   // },
+  computed: {
+    formLabelPosition() {
+      if (this.labelPosition !== '') {
+        return this.labelPosition
+      }
+      const lang = this.$store?.state?.system?.lang
+      return ['en', 'ar'].includes(lang) ? 'top' : ''
+    }
+  },
   created() {},
   methods: {
     handleCancel() {
@@ -194,7 +203,7 @@ export default {
         <el-input
           clearable
           type='textarea'
-          placeholder={placeholder || '请输入内容'}
+          placeholder={placeholder || this.$t('9f19bb67.a11cc7')}
           rows={5}
           maxlength={maxlength}
           v-model={value[key]}
@@ -213,7 +222,7 @@ export default {
           disabled={isFunction(disabled) ? disabled() : disabled}
           maxlength={maxlength}
           showWordLimit={!!maxlength}
-          placeholder={placeholder || '请输入内容'}
+          placeholder={placeholder || this.$t('9f19bb67.a11cc7')}
           v-model={value[key]}
         >
           <template slot='append'>{append}</template>
@@ -240,7 +249,7 @@ export default {
         //   min={min}
         //   max={max}
         //   disabled={disabled}
-        //   placeholder={placeholder || '请输入内容'}
+        //   placeholder={placeholder || this.$t('9f19bb67.a11cc7')}
         //   v-model={value[key]}
         // >
         //   <template slot='append'>{append}</template>
@@ -268,7 +277,7 @@ export default {
           clearable={clearable ?? true}
           filterable
           v-model={value[key]}
-          placeholder={placeholder || '请选择'}
+          placeholder={placeholder || this.$t('9f19bb67.708c9d')}
           onChange={onChange}
           disabled={isFunction(disabled) ? disabled() : disabled}
         >
@@ -372,7 +381,7 @@ export default {
               value[key] = initValue
             }}
           >
-            重置
+            {this.$t('9f19bb67.4b9c32')}
           </el-button>
         </div>
       )
@@ -421,7 +430,7 @@ export default {
       if (item.validator) {
         rules[item.key] = [{ validator: item.validator }]
       } else if (item.required) {
-        rules[item.key] = [{ required: true, message: item.message || '不能为空' }]
+        rules[item.key] = [{ required: true, message: item.message || this.$t('9f19bb67.281bad') }]
       }
     })
     this.localComps = localComps
@@ -441,7 +450,7 @@ export default {
         label-width={labelWidth}
         validate-on-rule-change={false}
         inline-message
-        label-position={this.labelPosition !== '' ? this.labelPosition : (this.$store.state.system?.lang !== 'en' ? '' : 'top')}
+        label-position={this.formLabelPosition}
       >
         {formList.map((item, index) => {
           if (item.type == 'group') {
@@ -462,14 +471,16 @@ export default {
                     'no-label': typeof item.label == 'undefined',
                     'custom-error': typeof item.component != 'undefined',
                     'is-required': item.required || item.validator,
-                    inline: typeof item.inline != 'undefined' ? item.inline : false
+                    inline: typeof item.inline != 'undefined' ? item.inline : false,
                   }
                 ]}
                 style={{
-                  width: item.width ? item.width : 'auto'
+                  width: item.width ? item.width : 'auto',
+                  ...(item.style && typeof item.style === 'object' ? item.style : {})
                 }}
                 showMessage={typeof item.showMessage == 'undefined' ? true : item.showMessage}
                 v-show={this.getItemShow(item)}
+                label-width={item.labelWidth ? item.labelWidth : labelWidth}
               >
                 {getComponentByType(item)}
                 <div class='form-item-tip' domPropsInnerHTML={item.tip}></div>
@@ -481,12 +492,12 @@ export default {
           <el-form-item>
             {this.resetBtn && (
               <el-button class='mr-5' type='default' onClick={this.resetForm}>
-                {this.resetBtnText}
+                {this.resetBtnText != null ? this.resetBtnText : this.$t('9f19bb67.4b9c32')}
               </el-button>
             )}
             {this.submitBtn && (
               <el-button type='primary' onClick={this.onSubmit}>
-                {this.submitBtnText}
+                {this.submitBtnText != null ? this.submitBtnText : this.$t('9f19bb67.38cf16')}
               </el-button>
             )}
           </el-form-item>

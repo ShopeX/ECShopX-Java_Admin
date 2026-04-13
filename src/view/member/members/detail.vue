@@ -4,7 +4,7 @@
 -->
 
 <template>
-  <div>
+  <SpPage>
     <div class="section section-white content-padded">
       <div class="clearfix heade-box">
         <div class="f_l member-card-box">
@@ -39,7 +39,7 @@
               {{ member.vipgrade.grade_name }}
             </div>
             <div v-if="member.vipgrade && member.vipgrade.is_vip">
-              截止{{ member.vipgrade.end_time }}到期
+              {{ $t('f14acdc9.cd8fbf') }}{{ member.vipgrade.end_time }}{{ $t('f14acdc9.851824') }}
             </div>
             <div v-else class="level-txt">
               {{ member.gradeInfo.grade_name }}
@@ -48,43 +48,43 @@
         </div>
         <div class="f_l member-info">
           <div class="info-item">
-            <span class="txt">手机号</span>
+            <span class="txt">{{ $t('f14acdc9.8098e2') }}</span>
             <span>{{ member.mobile }}</span>
           </div>
           <div v-if="!VERSION_SHUYUN()" class="info-item">
-            <span class="txt">会员卡号</span>
+            <span class="txt">{{ $t('f14acdc9.15f7b0') }}</span>
             <span v-if="member.user_card_code">{{ member.user_card_code }}</span>
             <span v-else>--</span>
           </div>
           <div class="info-item">
-            <span class="txt">出生日期</span>
+            <span class="txt">{{ $t('f14acdc9.abbe4b') }}</span>
             <span v-if="member.birthday">{{ member.birthday }}</span>
             <span v-else>--</span>
           </div>
           <div v-if="!VERSION_SHUYUN()" class="info-item">
-            <span class="txt">所在城市</span>
+            <span class="txt">{{ $t('f14acdc9.4773d0') }}</span>
             <span v-if="member.wechatUserInfo.country || member.wechatUserInfo.province"
               >{{ member.wechatUserInfo.country }}&nbsp;{{ member.wechatUserInfo.province }}</span
             >
             <span v-else>--</span>
           </div>
           <div class="info-item">
-            <span v-if="!VERSION_SHUYUN()" class="txt">真实姓名</span>
+            <span v-if="!VERSION_SHUYUN()" class="txt">{{ $t('f14acdc9.7eacb4') }}</span>
             <span v-if="member.username">{{ member.username }}</span>
             <span v-else>--</span>
           </div>
           <div class="info-item">
-            <span class="txt">微信昵称</span>
+            <span class="txt">{{ $t('f14acdc9.285f2c') }}</span>
             <span v-if="member.wechatUserInfo.nickname">{{ member.wechatUserInfo.nickname }}</span>
             <span v-else>--</span>
           </div>
           <div v-if="!VERSION_SHUYUN()" class="info-item">
-            <span class="txt">常用地址</span>
+            <span class="txt">{{ $t('f14acdc9.de3c55') }}</span>
             <span v-if="member.address">{{ member.address }}</span>
             <span v-else>--</span>
           </div>
           <div class="info-item">
-            <span class="txt">注册时间</span>
+            <span class="txt">{{ $t('f14acdc9.87d5eb') }}</span>
             <span v-if="member.created">{{
               member.created | datetime('YYYY-MM-DD HH:mm:ss')
             }}</span>
@@ -92,24 +92,20 @@
           </div>
 
           <!--  -->
-          <div v-if="member.salesperson_info?.employee_number"  class="info-item">
-            <span class="txt">绑定导购</span>
-            <span v-if="member.created">{{
-              member.salesperson_info?.employee_number
-            }}</span>
+          <div v-if="member.salesperson_info?.employee_number" class="info-item">
+            <span class="txt">{{ $t('f14acdc9.8d1f18') }}</span>
+            <span v-if="member.created">{{ member.salesperson_info?.employee_number }}</span>
             <span v-else>--</span>
           </div>
           <div v-if="member.salesperson_info?.store_name" class="info-item">
-            <span class="txt">绑定门店</span>
-            <span v-if="member.created">{{
-              member.salesperson_info?.store_name
-            }}</span>
+            <span class="txt">{{ $t('f14acdc9.343ce4') }}</span>
+            <span v-if="member.created">{{ member.salesperson_info?.store_name }}</span>
             <span v-else>--</span>
           </div>
         </div>
         <div v-if="!VERSION_IN_PURCHASE()" class="f_r member-right">
           <div class="right-item point-box">
-            <div class="item-title">积分</div>
+            <div class="item-title">{{ $t('f14acdc9.9f68a8') }}</div>
             <div>
               <span v-if="member.point">{{ member.point }}</span
               ><span v-else>0</span>
@@ -118,7 +114,7 @@
           </div>
           <!-- <div class="right-item point-box" v-if="!VERSION_PLATFORM()">
             <div class="item-title">
-              储值
+              {{ $t('f14acdc9.0ae749') }}
             </div>
             <div>
               ¥<span v-if="member.deposit">{{ member.deposit / 100 }}</span><span v-else>0</span>
@@ -126,7 +122,7 @@
             <span class="item-footer" />
           </div> -->
           <div class="right-item discount-box">
-            <div class="item-title">折扣</div>
+            <div class="item-title">{{ $t('f14acdc9.4091e2') }}</div>
             <div>
               <span v-if="member.vipgrade && member.vipgrade.is_vip == true">{{
                 (100 - member.vipgrade.discount) / 10
@@ -136,7 +132,7 @@
                 >{{ member.gradeInfo.privileges.discount_desc }}</span
               >
               <span v-else>10</span>
-              折
+              {{ $t('f14acdc9.96c015') }}
             </div>
           </div>
         </div>
@@ -144,7 +140,7 @@
     </div>
 
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-      <el-tab-pane v-if="!VERSION_SHUYUN()" label="会员详情" name="info">
+      <el-tab-pane v-if="!VERSION_SHUYUN()" :label="$t('f14acdc9.9fee8f')" name="info">
         <member-info :user-info="member" :register-setting="registerSetting" :is-load="infoLoad" />
       </el-tab-pane>
       <!-- <el-tab-pane
@@ -157,7 +153,7 @@
           :is-load="quanyiLoad"
         />
       </el-tab-pane> -->
-      <el-tab-pane label="交易订单" name="order">
+      <el-tab-pane :label="$t('f14acdc9.765b8b')" name="order">
         <order-list :user-id="user_id" :is-load="orderLoad" />
       </el-tab-pane>
       <!-- <el-tab-pane
@@ -190,7 +186,7 @@
           :is-load="rightslogLoad"
         />
       </el-tab-pane> -->
-      <el-tab-pane v-if="!VERSION_IN_PURCHASE()" label="付费会员卡记录" name="membercard">
+      <el-tab-pane v-if="!VERSION_IN_PURCHASE()" :label="$t('f14acdc9.923133')" name="membercard">
         <!-- <membercard-list
           :user-id="user_id"
           :user-mobile="member.mobile"
@@ -198,7 +194,11 @@
         /> -->
         <membercardList :info="member" />
       </el-tab-pane>
-      <el-tab-pane v-if="!VERSION_IN_PURCHASE() && !VERSION_SHUYUN()" label="积分记录" name="point">
+      <el-tab-pane
+        v-if="!VERSION_IN_PURCHASE() && !VERSION_SHUYUN()"
+        :label="$t('f14acdc9.dc8c37')"
+        name="point"
+      >
         <pointList />
       </el-tab-pane>
       <el-tab-pane v-if="VUE_APP_CHUZHI" label="充值记录" name="chuzhi">
@@ -218,9 +218,9 @@
     </el-tabs>
 
     <div class="text-center mt-4">
-      <el-button type="primary" @click="goBack"> 返回 </el-button>
+      <el-button type="primary" @click="goBack">{{ $t('f14acdc9.5f4112') }}</el-button>
     </div>
-  </div>
+  </SpPage>
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -258,7 +258,6 @@ export default {
       preMobile: '',
       orderRecords: '',
       grade_id: '',
-      currentPage: 1,
       member: {
         user_id: '',
         company_id: '',
@@ -287,7 +286,7 @@ export default {
           background_pic_url: '',
           company_id: '',
           default_grade: true,
-          grade_name: '普通',
+          grade_name: this.$t('f14acdc9.35242c'),
           privileges: {
             discount: '',
             discount_desc: ''
@@ -348,20 +347,17 @@ export default {
     if (this.$route.query.orderRecords) {
       this.orderRecords = this.$route.query.orderRecords
     }
-    if (this.$route.query.currentPage) {
-      this.currentPage = this.$route.query.currentPage
-    }
     this.getMember({ user_id: this.user_id })
     this.getRegisterSetting()
   },
   methods: {
     getMember(filter) {
-      getMember(filter).then(response => {
+      getMember(filter).then((response) => {
         this.member = response.data.data
       })
     },
     getRegisterSetting() {
-      getMemberRegisterSetting().then(response => {
+      getMemberRegisterSetting().then((response) => {
         delete response.data.data.content_agreement
         this.registerSetting = response.data.data.setting
       })

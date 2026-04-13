@@ -26,7 +26,7 @@
   <div class="picker-shop-tag">
     <SpFilterForm :model="formData" size="small" @onSearch="onSearch" @onReset="onSearch">
       <SpFilterFormItem prop="keywords">
-        <el-input v-model="formData.keywords" placeholder="请输入标签名称" />
+        <el-input v-model="formData.keywords" :placeholder="$t('113fd97a.6f81f3')" />
       </SpFilterFormItem>
     </SpFilterForm>
     <SpFinder
@@ -67,6 +67,9 @@ export default {
     title: '选择店铺标签'
   },
   props: ['value'],
+  created() {
+    this.$options.config.title = this.$t('113fd97a.e85f5e')
+  },
   data() {
     return {
       formData: {
@@ -99,7 +102,7 @@ export default {
     afterSearch(response) {
       const { list } = response.data.data
       if (this.localSelection.length > 0) {
-        const selectRows = list.filter(item => this.localSelection.includes(item.tag_id))
+        const selectRows = list.filter((item) => this.localSelection.includes(item.tag_id))
         const { finderTable } = this.$refs.finder.$refs
         setTimeout(() => {
           finderTable.$refs.finderTable.setSelection(selectRows)

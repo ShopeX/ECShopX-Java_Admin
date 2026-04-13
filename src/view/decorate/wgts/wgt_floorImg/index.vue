@@ -51,7 +51,7 @@
       'wgt-floor-img': true,
       padded: value.padded
     }"
-    :style="{ backgroundImage: `url(${value.openBackImg && value.backgroundImg})` }"
+    :style="{ ...outerStyle, backgroundImage: `url(${value.openBackImg && value.backgroundImg})` }"
   >
     <div v-if="value.title || value.subtitle" class="wgt-hd">
       <span class="title">{{ value.title }}</span>
@@ -75,9 +75,11 @@
 
 <script>
 import config from './config'
+import { i18n } from '@/i18n'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'FloorImg',
-  wgtName: '楼层图片',
+  wgtName: i18n.t('917cea90.e9eabc'),
   wgtDesc: '',
   wgtIcon: 'wgt-floorImg',
   config: config,
@@ -88,7 +90,9 @@ export default {
     return {}
   },
   computed: {
-    // sliderHeight() {}
+    outerStyle() {
+      return getOuterStyle(this.value)
+    }
   },
   created() {},
   methods: {}

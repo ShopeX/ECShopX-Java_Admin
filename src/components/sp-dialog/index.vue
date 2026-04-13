@@ -67,7 +67,7 @@ export default {
     },
     confirmBtnText: {
       type: String,
-      default: '确定'
+      default: null
     }
   },
   data() {
@@ -101,6 +101,7 @@ export default {
       isShowFooter,
       confirmBtnText
     } = this
+    const confirmText = confirmBtnText != null ? confirmBtnText : this.$t('ac7ddd5c.38cf16')
 
     if (!value) {
       return null
@@ -108,7 +109,7 @@ export default {
 
     return (
       <el-dialog
-        class="sp-dialog"
+        class='sp-dialog'
         title={title}
         visible={value}
         width={width}
@@ -117,7 +118,7 @@ export default {
         close-on-click-modal={false}
       >
         <SpForm
-          ref="form"
+          ref='form'
           value={form}
           formList={formList}
           submit={false}
@@ -125,16 +126,16 @@ export default {
           on-onSubmit={this.onFormSubmit}
         />
         {isShowFooter && (
-          <div slot="footer" class="dialog-footer">
-            <el-button onClick={this.handleCancel}>取 消</el-button>
+          <div slot='footer' class='dialog-footer'>
+            <el-button onClick={this.handleCancel}>{this.$t('ac7ddd5c.c08ab9')}</el-button>
             <el-button
               loading={confirmStatus}
-              type="primary"
+              type='primary'
               onClick={() => {
                 this.$refs['form'].handleSubmit()
               }}
             >
-              {confirmBtnText}
+              {confirmText}
             </el-button>
           </div>
         )}

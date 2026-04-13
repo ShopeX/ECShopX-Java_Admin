@@ -5,20 +5,20 @@
 
 <template>
   <el-form ref="form" :model="form" class="box-set page-package" label-width="120px">
-    <el-card header="设置规则名称" shadow="naver">
-      <el-form-item
-        label="名称"
-        prop="package_name"
-        :rules="{ required: true, message: '促销名称不能为空', trigger: 'blur' }"
-      >
+    <el-card :header="$t('a7f95151.bfa895')" shadow="naver">
+      <el-form-item :label="$t('a7f95151.d7ec2d')" prop="package_name" :rules="nameRules">
         <el-col :span="20">
-          <el-input v-model="form.package_name" :maxlength="30" placeholder="最多30个字" />
+          <el-input
+            v-model="form.package_name"
+            :maxlength="30"
+            :placeholder="$t('a7f95151.017ce7')"
+          />
         </el-col>
       </el-form-item>
-      <el-form-item label="选择主商品">
+      <el-form-item :label="$t('a7f95151.8a35bb')">
         <el-col :span="20">
           <el-button type="primary" class="el-icon-plus" size="mini" round @click="relMainClick">
-            主商品选择
+            {{ $t('a7f95151.1e72b1') }}
           </el-button>
           <GoodsSelect
             :items-visible="mainVisible"
@@ -31,34 +31,36 @@
           />
         </el-col>
         <el-table :data="relMain" style="line-height: normal">
-          <el-table-column label="ID" prop="item_id" width="60" />
-          <el-table-column label="名称" prop="item_name" min-width="200" />
-          <el-table-column label="规格" width="200">
+          <el-table-column :label="$t('a7f95151.b718ad')" prop="item_id" width="60" />
+          <el-table-column :label="$t('a7f95151.d7ec2d')" prop="item_name" min-width="200" />
+          <el-table-column :label="$t('a7f95151.ea887b')" width="200">
             <template slot-scope="scope">
-              <div v-if="!scope.row.nospec && !scope.row.spec_items">多规格</div>
+              <div v-if="!scope.row.nospec && !scope.row.spec_items">
+                {{ $t('a7f95151.5d60de') }}
+              </div>
               <div
                 v-else-if="!scope.row.nospec && scope.row.spec_items"
                 class="goods-sku-check"
                 @click="handleSkuDialogShow(scope.row.spec_items.length)"
               >
-                选择规格
+                {{ $t('a7f95151.a0f99d') }}
               </div>
-              <div v-else>单规格</div>
+              <div v-else>{{ $t('a7f95151.048df4') }}</div>
             </template>
           </el-table-column>
         </el-table>
       </el-form-item>
     </el-card>
-    <el-card header="设置主商品" shadow="naver">
+    <el-card :header="$t('a7f95151.fbd7cb')" shadow="naver">
       <el-table
         v-if="form.main_items.length > 0"
         :data="form.main_items"
         style="line-height: normal"
       >
-        <el-table-column label="ID" prop="item_id" width="60" />
-        <el-table-column label="名称" prop="item_title" />
-        <el-table-column label="规格" prop="item_spec_desc" />
-        <el-table-column label="活动价" width="100">
+        <el-table-column :label="$t('a7f95151.b718ad')" prop="item_id" width="60" />
+        <el-table-column :label="$t('a7f95151.d7ec2d')" prop="item_title" />
+        <el-table-column :label="$t('a7f95151.ea887b')" prop="item_spec_desc" />
+        <el-table-column :label="$t('a7f95151.08ee55')" width="100">
           <template slot-scope="scope">
             <el-input
               v-model="scope.row.item_price"
@@ -70,17 +72,14 @@
             </el-input>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="50">
+        <el-table-column :label="$t('a7f95151.2b6bc0')" width="50">
           <template slot-scope="scope">
-            <i
-              class="iconfont icon-trash-alt"
-              @click="deleteMainItemRow(scope.$index, form.main_items)"
-            />
+            <i class="el-icon-delete" @click="deleteMainItemRow(scope.$index, form.main_items)" />
           </template>
         </el-table-column>
       </el-table>
     </el-card>
-    <el-card header="选择适用商品 (最大选择10个商品)" shadow="naver">
+    <el-card :header="$t('a7f95151.912bd1')" shadow="naver">
       <SkuSelector
         :data="relItems"
         :is-input-show="false"
@@ -92,12 +91,12 @@
         @change="getItems"
       />
     </el-card>
-    <el-card header="设置商品" shadow="naver">
+    <el-card :header="$t('a7f95151.8ab0d7')" shadow="naver">
       <el-table v-if="form.items.length > 0" :data="form.items" style="line-height: normal">
-        <el-table-column label="ID" prop="item_id" width="60" />
-        <el-table-column label="名称" prop="item_title" />
-        <el-table-column label="规格" prop="item_spec_desc" />
-        <el-table-column label="活动价" width="100">
+        <el-table-column :label="$t('a7f95151.b718ad')" prop="item_id" width="60" />
+        <el-table-column :label="$t('a7f95151.d7ec2d')" prop="item_title" />
+        <el-table-column :label="$t('a7f95151.ea887b')" prop="item_spec_desc" />
+        <el-table-column :label="$t('a7f95151.08ee55')" width="100">
           <template slot-scope="scope">
             <el-input
               v-model="scope.row.new_price"
@@ -109,40 +108,40 @@
             </el-input>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="50">
+        <el-table-column :label="$t('a7f95151.2b6bc0')" width="50">
           <template slot-scope="scope">
-            <i class="iconfont icon-trash-alt" @click="deleteItemRow(scope.$index, form.items)" />
+            <i class="el-icon-delete" @click="deleteItemRow(scope.$index, form.items)" />
           </template>
         </el-table-column>
       </el-table>
     </el-card>
-    <el-card header="设置商品组合" shadow="naver">
+    <el-card :header="$t('a7f95151.2a30f7')" shadow="naver">
       <!--<el-form-item label="组合价">-->
       <!--{{form.new_price}}元-->
       <!--</el-form-item>-->
-      <el-form-item label="适用会员">
+      <el-form-item :label="$t('a7f95151.6dbb6f')">
         <el-checkbox-group v-model="validGrade">
           <el-checkbox v-for="grade in memberGrade" :key="grade.grade_id" :label="grade.grade_id">
             {{ grade.grade_name }}
           </el-checkbox>
           <el-checkbox v-for="vipdata in vipGrade" :key="vipdata.lv_type" :label="vipdata.lv_type">
-            付费{{ vipdata.grade_name }}
+            {{ $t('a7f95151.310f84') }}{{ vipdata.grade_name }}
           </el-checkbox>
         </el-checkbox-group>
       </el-form-item>
-      <el-form-item v-if="usePlatformVisiable" label="适用平台">
+      <el-form-item v-if="usePlatformVisiable" :label="$t('a7f95151.b90304')">
         <el-radio-group v-model="form.used_platform">
-          <el-radio :label="0"> 全场可用 </el-radio>
+          <el-radio :label="0"> {{ $t('a7f95151.6e78ce') }} </el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="有效期">
+      <el-form-item :label="$t('a7f95151.bb114a')">
         <el-col :span="20">
           <el-date-picker
             v-model="activity_date"
             type="datetimerange"
-            range-separator="至"
-            start-placeholder="生效时间"
-            end-placeholder="过期时间"
+            :range-separator="$t('a7f95151.981cbe')"
+            :start-placeholder="$t('a7f95151.fc92e9')"
+            :end-placeholder="$t('a7f95151.1fa23f')"
             format="yyyy/MM/dd HH:mm:ss"
             value-format="timestamp"
             :default-time="['00:00:00', '23:59:59']"
@@ -150,29 +149,29 @@
         </el-col>
       </el-form-item>
     </el-card>
-    <el-dialog title="选择sku选择sku" :visible.sync="dialogVisible" width="50%">
+    <el-dialog :title="$t('a7f95151.c07cd5')" :visible.sync="dialogVisible" width="50%">
       <el-table ref="skuTable" :data="skus" @selection-change="handleSkuChange">
         <el-table-column type="selection" width="55" />
-        <el-table-column label="规格名称">
+        <el-table-column :label="$t('a7f95151.023809')">
           <template slot-scope="scope">
             {{ scope.row.item_spec_desc }}
           </template>
         </el-table-column>
-        <el-table-column label="价格">
+        <el-table-column :label="$t('a7f95151.0e9fd9')">
           <template slot-scope="scope"> ¥{{ scope.row.price / 100 }} </template>
         </el-table-column>
       </el-table>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleSkuSubmit">确 定</el-button>
+        <el-button @click="dialogVisible = false">{{ $t('a7f95151.c08ab9') }}</el-button>
+        <el-button type="primary" @click="handleSkuSubmit">{{ $t('a7f95151.aa7527') }}</el-button>
       </span>
     </el-dialog>
 
     <div class="content-center">
       <el-button v-if="hasSaveButton" type="primary" @click="submitActivityAction()">
-        保存
+        {{ $t('a7f95151.be5fbb') }}
       </el-button>
-      <el-button @click.native="handleCancel"> 返回 </el-button>
+      <el-button @click.native="handleCancel"> {{ $t('a7f95151.5f4112') }} </el-button>
     </div>
   </el-form>
 </template>
@@ -234,6 +233,9 @@ export default {
     }
   },
   computed: {
+    nameRules() {
+      return [{ required: true, message: this.$t('a7f95151.3efe7f'), trigger: 'blur' }]
+    },
     usePlatformVisiable() {
       if (this.IS_ADMIN() && this.form.source_id != '0') {
         return false
@@ -276,10 +278,10 @@ export default {
 
       if (this.$route.params.package_id) {
         updatePackagePromotions(this.$route.params.package_id, this.form)
-          .then(response => {
+          .then((response) => {
             this.loading = false
             this.$message({
-              message: '修改成功',
+              message: this.$t('a7f95151.69be67'),
               type: 'success',
               duration: 2 * 1000,
               onClose() {
@@ -291,10 +293,10 @@ export default {
           .catch()
       } else {
         createPackagePromotions(this.form)
-          .then(response => {
+          .then((response) => {
             this.loading = false
             this.$message({
-              message: '添加成功',
+              message: this.$t('a7f95151.3fdaea'),
               type: 'success',
               duration: 2 * 1000,
               onClose() {
@@ -310,7 +312,7 @@ export default {
     getItems(data) {
       let items = []
       this.relItemsTemp = JSON.parse(JSON.stringify(data))
-      data.forEach(item => {
+      data.forEach((item) => {
         items.push({
           item_id: item.itemId,
           item_title: item.itemName,
@@ -325,14 +327,14 @@ export default {
       this.form.items = items
     },
     getListVipGrade() {
-      listVipGrade().then(response => {
+      listVipGrade().then((response) => {
         if (response != undefined && response.data.data && response.data.data.length > 0) {
           this.vipGrade = response.data.data
         }
       })
     },
     getGradeList() {
-      getGradeList().then(response => {
+      getGradeList().then((response) => {
         if (response != undefined && response.data.data && response.data.data.length > 0) {
           var result = response.data.data
           if (result) {
@@ -342,15 +344,15 @@ export default {
       })
     },
     getPackagePromotionsInfo(id) {
-      getPackagePromotionsInfo(id).then(response => {
+      getPackagePromotionsInfo(id).then((response) => {
         this.form.used_platform = response.data.data.used_platform
         this.form.free_postage = response.data.data.free_postage
         this.form.package_name = response.data.data.package_name
         this.form.source_id = response.data.data.source_id
         this.validGrade = response.data.data.valid_grade
-        response.data.data.itemTreeLists.forEach(item => {
+        response.data.data.itemTreeLists.forEach((item) => {
           if (item.spec_items && item.spec_items.length > 0) {
-            item.spec_items.map(specItem => {
+            item.spec_items.map((specItem) => {
               for (let n in response.data.data.new_price) {
                 if (n === specItem.item_id) {
                   specItem.price = response.data.data.new_price[n]
@@ -362,7 +364,7 @@ export default {
           }
         })
 
-        response.data.data.main_items.forEach(item => {
+        response.data.data.main_items.forEach((item) => {
           item.item_price = Number(item.item_price) / 100
         })
 
@@ -397,7 +399,7 @@ export default {
         this.relMain[0].spec_items = this.relMain[0].spec_items
       }
       this.relMain[0].price = this.relMain[0].price / 100
-      let index = this.relItemsTemp.findIndex(n => n.itemId === this.relMain[0].itemId)
+      let index = this.relItemsTemp.findIndex((n) => n.itemId === this.relMain[0].itemId)
       this.relItemsTemp.splice(index, 1)
       this.relItems = JSON.parse(JSON.stringify(this.relItemsTemp))
       if (store.id) {
@@ -413,8 +415,8 @@ export default {
     getMainItemList(id) {
       this.skuParams.item_id = id
       let items = []
-      getItemsList(this.skuParams).then(res => {
-        res.data.data.list.forEach(item => {
+      getItemsList(this.skuParams).then((res) => {
+        res.data.data.list.forEach((item) => {
           items.push({
             item_id: item.itemId,
             item_title: item.itemName,
@@ -437,11 +439,11 @@ export default {
       this.skuParams.item_id = this.relMain[0].item_id
       this.dialogVisible = true
       let checked = this.relMain[0].spec_items
-      getItemsList(this.skuParams).then(res => {
+      getItemsList(this.skuParams).then((res) => {
         this.skus = res.data.data.list
         this.$nextTick(() => {
-          that.skus.forEach(item => {
-            let index = checked.findIndex(n => item.item_id === n.item_id)
+          that.skus.forEach((item) => {
+            let index = checked.findIndex((n) => item.item_id === n.item_id)
             if (index !== -1) {
               that.$refs.skuTable.toggleRowSelection(item)
             }
@@ -454,7 +456,7 @@ export default {
       this.relMain[0].spec_items = this.checkedSkus
       let items = []
       if (this.checkedSkus.length > 0) {
-        this.checkedSkus.forEach(item => {
+        this.checkedSkus.forEach((item) => {
           items.push({
             item_id: item.itemId,
             item_title: item.itemName,
@@ -469,7 +471,7 @@ export default {
         this.relMain[0].spec_items = items
         this.form.main_items = items
       } else {
-        this.skus.forEach(item => {
+        this.skus.forEach((item) => {
           items.push({
             item_id: item.itemId,
             item_title: item.itemName,

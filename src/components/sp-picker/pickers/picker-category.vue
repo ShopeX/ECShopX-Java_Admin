@@ -28,9 +28,9 @@
 <template>
   <div class="picker-category">
     <div class="cascader-header">
-      <div class="hd">一级</div>
-      <div class="hd">二级</div>
-      <div class="hd">三级</div>
+      <div class="hd">{{ headerCol1 }}</div>
+      <div class="hd">{{ headerCol2 }}</div>
+      <div class="hd">{{ headerCol3 }}</div>
     </div>
     <el-cascader-panel
       v-model="localValue"
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import BasePicker from './base'
 import PageMixin from '../mixins/page'
 export default {
@@ -49,9 +50,20 @@ export default {
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
-    title: '选择管理分类'
+    title: ''
   },
   props: ['value'],
+  computed: {
+    headerCol1() {
+      return i18n.t('90951772.117bf1')
+    },
+    headerCol2() {
+      return i18n.t('90951772.301d4d')
+    },
+    headerCol3() {
+      return i18n.t('90951772.3ba8ac')
+    }
+  },
   data() {
     return {
       props: {
@@ -66,45 +78,44 @@ export default {
     }
   },
   created() {
+    this.$options.config.title = i18n.t('90951772.c50637')
     this.fetch()
   },
   methods: {
     async fetch() {
-      const { data } = this.value
+      const { data } = this.value || {}
       const res = await this.$api.goods.getCategory({
         is_main_category: true
       })
-      this.options = res
-      this.localValue = this.findPathById(res, data)
+      this.options = Array.isArray(res) ? res : res?.data || res?.list || []
+      this.localValue = this.findPathById(this.options, data) || []
     },
     findPathById(list, v, path) {
-      if (typeof path === 'undefined') {
-        path = []
-      }
+      if (!list || !Array.isArray(list) || v == null || v === '') return []
+      if (typeof path === 'undefined') path = []
       for (let i = 0; i < list.length; i++) {
-        let tempPath = [...path]
-        tempPath.push(list[i].category_id)
-        if (list[i].category_id == v) {
-          return tempPath
-        }
-        if (list[i].children) {
-          const result = this.findPathById(list[i].children, v, tempPath)
-          if (result) {
-            return result
-          }
+        const nodeId = list[i].category_id ?? list[i].id
+        const tempPath = [...path, nodeId]
+        if (nodeId == v) return tempPath
+        const children = list[i].children
+        if (children && Array.isArray(children)) {
+          const result = this.findPathById(children, v, tempPath)
+          if (result && result.length) return result
         }
       }
+      return []
     },
     getNodeInfo(list, e, index) {
-      const node = list.find(({ category_id }) => category_id == e[index])
+      const node = list.find((n) => (n.category_id ?? n.id) == e[index])
+      if (!node) return null
       if (index < e.length - 1) {
-        return this.getNodeInfo(node.children, e, ++index)
-      } else {
-        const { category_id, category_name } = node
-        return {
-          id: category_id,
-          title: category_name
-        }
+        return this.getNodeInfo(node.children || [], e, ++index)
+      }
+      const id = node.category_id ?? node.id
+      return {
+        id,
+        title: node.category_name ?? node.title,
+        image_url: node.image_url || ''
       }
     },
     onChangeCascader(e) {

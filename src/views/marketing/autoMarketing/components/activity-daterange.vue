@@ -9,42 +9,44 @@
       v-model="localValue.date"
       :disabled="localValue.is_forever"
       type="daterange"
-      range-separator="至"
-      start-placeholder="开始日期"
-      end-placeholder="结束日期"
+      :range-separator="$t('5629ff10.981cbe')"
+      :start-placeholder="$t('5629ff10.b44c0f')"
+      :end-placeholder="$t('5629ff10.1d468b')"
     />
-    <el-checkbox v-model="localValue.is_forever" class="ml-4">永久有效</el-checkbox>
+    <el-checkbox v-model="localValue.is_forever" class="ml-4">
+{{
+      $t('5629ff10.9eb15d')
+    }}
+</el-checkbox>
   </div>
 </template>
 
 <script>
-  export default {
-    props: {
-      value: {
-        type: Object,
-        default: () => ({})
-      }
-    },
-    data() {
-      return {
-        localValue: {
-          date: this.value.date,
-          is_forever: this.value.is_forever
-        }
-      }
-    },
-    watch: {
+export default {
+  props: {
+    value: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  data() {
+    return {
       localValue: {
-        handler(val) {
-          this.$emit('change', val)
-        },
-        deep: true,
-        immediate: false
+        date: this.value.date,
+        is_forever: this.value.is_forever
       }
     }
+  },
+  watch: {
+    localValue: {
+      handler(val) {
+        this.$emit('change', val)
+      },
+      deep: true,
+      immediate: false
+    }
   }
+}
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

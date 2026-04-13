@@ -17,35 +17,44 @@
             </div>
             <div class="goods-sku">
               <template v-if="!item.nospec">
-                {{ item.spec_items.length > 0 ? '已选' + item.spec_items.length : '全规格' }}
+                {{
+                  item.spec_items.length > 0
+                    ? $t('029be014.b9037f', { n: item.spec_items.length })
+                    : $t('029be014.f46aac')
+                }}
                 <div v-if="!isHidenSku" class="goods-sku-check" @click="handleSkuDialogShow(index)">
-                  选择规格
+                  {{ $t('029be014.a0f99d') }}
                 </div>
               </template>
             </div>
           </div>
-          <div class="goods-remove iconfont icon-trash-alt" @click="handleSkuRemove(index)" />
+          <div class="goods-remove" @click="handleSkuRemove(index)">
+            <i class="el-icon-delete" />
+          </div>
         </div>
       </el-col>
     </el-row>
-    <div>
-      <el-button type="primary" @click="handleGoodsDialogShow" :disabled="disabled"> 选择商品 </el-button>
+    <div class="flex gap-3">
+      <el-button type="primary" @click="handleGoodsDialogShow" :disabled="disabled">
+        {{ $t('029be014.43d1e2') }}
+      </el-button>
+      <slot name="selectGoodsButton" />
     </div>
-    <el-dialog title="选择sku" :visible.sync="dialogVisible" width="50%">
+    <el-dialog :title="$t('029be014.8aa2c1')" :visible.sync="dialogVisible" width="50%">
       <el-table ref="skuTable" v-loading="loading" :data="skus" @selection-change="handleSkuChange">
         <el-table-column type="selection" width="55" />
-        <el-table-column label="规格名称">
+        <el-table-column :label="$t('029be014.023809')">
           <template slot-scope="scope">
             {{ scope.row.item_spec_desc }}
           </template>
         </el-table-column>
-        <el-table-column label="价格">
+        <el-table-column :label="$t('029be014.0e9fd9')">
           <template slot-scope="scope"> ¥{{ scope.row.price / 100 }} </template>
         </el-table-column>
       </el-table>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleSkuSubmit">确 定</el-button>
+        <el-button @click="dialogVisible = false">{{ $t('029be014.c08ab9') }}</el-button>
+        <el-button type="primary" @click="handleSkuSubmit">{{ $t('029be014.aa7527') }}</el-button>
       </span>
     </el-dialog>
     <GoodsSelector
@@ -84,7 +93,7 @@ export default {
     },
     isHidenSku: {
       type: Boolean,
-      default:false
+      default: false
     },
     disabled: {
       type: Boolean,
@@ -135,11 +144,11 @@ export default {
       this.skuParams.item_id = this.goods[index].default_item_id
       this.dialogVisible = true
       let checked = this.goods[index].spec_items
-      getItemsList(this.skuParams).then(res => {
+      getItemsList(this.skuParams).then((res) => {
         this.skus = res.data.data.list
         this.$nextTick(() => {
-          that.skus.forEach(item => {
-            let index = checked.findIndex(n => item.itemId === n.itemId)
+          that.skus.forEach((item) => {
+            let index = checked.findIndex((n) => item.itemId === n.itemId)
             if (index !== -1) {
               that.$refs.skuTable.toggleRowSelection(item)
             }
@@ -165,7 +174,7 @@ export default {
       if (data === null || data.length <= 0) return
       this.relItems = data
       let list = []
-      data.forEach(item => {
+      data.forEach((item) => {
         if (!item.nospec) {
           list.push(Object.assign(item, { spec_items: [] }))
         } else {
@@ -173,8 +182,8 @@ export default {
         }
       })
       if (this.goods.length > 0) {
-        list.forEach(item => {
-          let goodsItem = this.goods.find(n => item.itemId === n.item_id)
+        list.forEach((item) => {
+          let goodsItem = this.goods.find((n) => item.itemId === n.item_id)
           if (goodsItem && goodsItem.spec_items && goodsItem.spec_items.length > 0) {
             item.spec_items = goodsItem.spec_items
           }
@@ -187,7 +196,7 @@ export default {
       let noSkuItem = []
       let response = []
       let goodsList = JSON.parse(JSON.stringify(this.goods))
-      goodsList.forEach(item => {
+      goodsList.forEach((item) => {
         if (!item.nospec && item.spec_items.length === 0) {
           noSkuItem.push(item.default_item_id)
         }
@@ -195,17 +204,17 @@ export default {
       if (noSkuItem.length > 0) {
         let param = this.skuParams
         param.item_id = noSkuItem
-        getItemsList(this.skuParams).then(res => {
-          goodsList.forEach(item => {
+        getItemsList(this.skuParams).then((res) => {
+          goodsList.forEach((item) => {
             if (!item.nospec) {
-              res.data.data.list.forEach(sku => {
+              res.data.data.list.forEach((sku) => {
                 if (item.item_id === sku.default_item_id) {
                   item.spec_items.push(sku)
                 }
               })
             }
           })
-          goodsList.forEach(item => {
+          goodsList.forEach((item) => {
             if (!item.nospec) {
               response = [...response, ...item.spec_items]
             } else {
@@ -215,7 +224,7 @@ export default {
           this.$emit('change', response)
         })
       } else {
-        goodsList.forEach(item => {
+        goodsList.forEach((item) => {
           if (!item.nospec) {
             response = [...response, ...item.spec_items]
           } else {

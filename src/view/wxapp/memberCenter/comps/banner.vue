@@ -7,33 +7,35 @@
   <div>
     <el-form ref="form" :model="form" label-position="left" label-width="160px">
       <div class="section-body">
-        <el-form-item label="未登录BANNER：">
+        <el-form-item :label="$t('0ef749ff.0cfe1a')">
           <imgBox
             :img-url="form.data.no_login_banner"
             inline
             @click="handleImgChange('no_login')"
           />
         </el-form-item>
-        <el-form-item label="已登录BANNER：">
+        <el-form-item :label="$t('0ef749ff.f5df5e')">
           <imgBox :img-url="form.data.login_banner" inline @click="handleImgChange('login')" />
         </el-form-item>
-        <el-form-item label="会员中心是否展示：">
+        <el-form-item :label="$t('0ef749ff.e8adc3')">
           <el-switch v-model="form.data.is_show" />
         </el-form-item>
         <div v-if="$route.path.indexOf('aliapp') === -1">
-          <el-form-item label="外部链接是否开启：">
+          <el-form-item :label="$t('0ef749ff.de0720')">
             <el-switch v-model="form.data.url_is_open" />
           </el-form-item>
-          <el-form-item label="外部链接小程序appid：">
+          <el-form-item :label="$t('0ef749ff.c23968')">
             <el-input v-model="form.data.app_id" type="text" style="width: 300px" />
           </el-form-item>
-          <el-form-item label="外部链接路径：">
+          <el-form-item :label="$t('0ef749ff.86a389')">
             <el-input v-model="form.data.page" type="text" style="width: 300px" />
           </el-form-item>
         </div>
       </div>
       <div class="section-footer content-center">
-        <el-button v-loading="loading" type="primary" @click="saveConfig"> 保存 </el-button>
+        <el-button v-loading="loading" type="primary" @click="saveConfig">
+          {{ $t('0ef749ff.be5fbb') }}
+        </el-button>
       </div>
     </el-form>
     <imgPicker
@@ -90,7 +92,7 @@ export default {
       page_name: 'member_center_setting'
     }
     if (this.$route.path.indexOf('aliapp') === -1) {
-      getParamByTempName(filter).then(res => {
+      getParamByTempName(filter).then((res) => {
         if (res.data.data.list.length !== 0) {
           if (typeof res.data.data.list[0].params.data != 'undefined') {
             this.form = res.data.data.list[0].params
@@ -98,7 +100,7 @@ export default {
         }
       })
     } else {
-      getALiParamByTempName(filter).then(res => {
+      getALiParamByTempName(filter).then((res) => {
         if (res.data.data.list.length !== 0) {
           if (typeof res.data.data.list[0].params.data != 'undefined') {
             this.form = res.data.data.list[0].params
@@ -118,19 +120,19 @@ export default {
         page_name: 'member_center_setting'
       }
       if (this.$route.path.indexOf('aliapp') === -1) {
-        savePageParams(param).then(res => {
+        savePageParams(param).then((res) => {
           if (res.data.data.status) {
             this.$message({
-              message: '保存成功',
+              message: this.$t('0ef749ff.3b1083'),
               type: 'success'
             })
           }
         })
       } else {
-        saveALiPageParams(param).then(res => {
+        saveALiPageParams(param).then((res) => {
           if (res.data.data.status) {
             this.$message({
-              message: '保存成功',
+              message: this.$t('0ef749ff.3b1083'),
               type: 'success'
             })
           }

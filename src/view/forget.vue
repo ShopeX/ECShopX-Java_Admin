@@ -10,7 +10,7 @@
         <div class="brand">
           <img :src="brand" alt="">
         </div>
-        <div class="log-welcome">找回密码</div>
+        <div class="log-welcome">{{ $t('d0d0e09f.ab978c') }}</div>
       </div>
     </div>
     <div
@@ -38,7 +38,7 @@
                 :to="path_prefixes ? '/' + path_prefixes + '/login' : '/login'"
                 class="signup"
               >
-                返回登录
+                {{ $t('d0d0e09f.977deb') }}
               </router-link>
             </h3>
             <el-form-item prop="account">
@@ -47,7 +47,7 @@
                 type="text"
                 name="account"
                 auto-complete="new-account"
-                placeholder="请输入手机号"
+                :placeholder="$t('d0d0e09f.6e4f4b')"
               />
             </el-form-item>
             <el-form-item class="imageyzm" prop="yzm">
@@ -56,7 +56,7 @@
                 type="text"
                 name="yzm"
                 auto-complete="new-yzm"
-                placeholder="图片验证码"
+                :placeholder="$t('d0d0e09f.fcbe6f')"
               >
                 <img
                   slot="append"
@@ -72,7 +72,7 @@
                 type="text"
                 name="code"
                 autocomplete="new-code"
-                placeholder="请输入手机6位验证码"
+                :placeholder="$t('d0d0e09f.189b60')"
               >
                 <el-button slot="append" :disabled="yzmbutton" @click="sendSmsCode">
                   {{ yzmcontent }}
@@ -85,7 +85,7 @@
                 type="password"
                 name="newpassword"
                 auto-complete="new-password"
-                placeholder="密码"
+                :placeholder="$t('d0d0e09f.a81052')"
                 show-password
               />
             </el-form-item>
@@ -97,7 +97,7 @@
                 :disabled="submitDisabled"
                 @click.native.prevent="handleResetPassword"
               >
-                修改密码
+                {{ $t('d0d0e09f.7fc88a') }}
               </el-button>
             </el-form-item>
           </el-form>
@@ -105,12 +105,12 @@
       </div>
     </div>
     <div class="log-footer">
-      <span>友情链接：</span>
-      <a href="https://www.shopex.cn" target="_blank">商派</a>
+      <span>{{ $t('d0d0e09f.f6f50c') }}</span>
+      <a href="https://www.shopex.cn" target="_blank">{{ $t('d0d0e09f.a7cac2') }}</a>
       <span>|</span>
-      <a href="https://mp.weixin.qq.com" target="_blank">微信公众平台</a>
+      <a href="https://mp.weixin.qq.com" target="_blank">{{ $t('d0d0e09f.285113') }}</a>
       <span>|</span>
-      <a href="https://open.weixin.qq.com" target="_blank">微信开放平台</a>
+      <a href="https://open.weixin.qq.com" target="_blank">{{ $t('d0d0e09f.d4bf6e') }}</a>
     </div>
   </div>
 </template>
@@ -124,21 +124,21 @@ export default {
   data() {
     const validateEmail = (rule, value, callback) => {
       if (!isMobile(value)) {
-        callback(new Error('请输入正确的合法手机号'))
+        callback(new Error(this.$t('d0d0e09f.e56e22')))
       } else {
         callback()
       }
     }
     const validatePass = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('密码不能小于6位'))
+        callback(new Error(this.$t('d0d0e09f.395316')))
       } else {
         callback()
       }
     }
     const validateCode = (rule, value, callback) => {
       if (value.length != 6) {
-        callback(new Error('请输入手机6位验证码'))
+        callback(new Error(this.$t('d0d0e09f.189b60')))
       } else {
         callback()
       }
@@ -151,7 +151,7 @@ export default {
       yzm: '',
       yzmbutton: false,
       yzmTotalTime: 60,
-      yzmcontent: '发送验证码',
+      yzmcontent: '',
       ruleForm: {
         account: '',
         code: '',
@@ -185,34 +185,35 @@ export default {
     this.brand = require('@/assets/img/' + this.companyBrandImg + '/logo.svg')
     this.login_bg = require('@/assets/img/' + this.companyBrandImg + '/login_bg.jpg')
     this.getImageCode()
+    this.yzmcontent = this.$t('d0d0e09f.c5c358')
   },
   methods: {
     getSmsCode() {
       getSmsCode(this.smsData)
-        .then(response => {
+        .then((response) => {
           if (response.data.data.status == true) {
-            Message({ message: '验证码发送成功', type: 'success', duration: 2 * 1000 })
+            Message({ message: this.$t('d0d0e09f.2a9dbf'), type: 'success', duration: 2 * 1000 })
             this.countDown()
           } else {
-            Message({ message: '验证码发送失败，请重试', type: 'error', duration: 2 * 1000 })
+            Message({ message: this.$t('d0d0e09f.804fb8'), type: 'error', duration: 2 * 1000 })
             this.yzmbutton = false
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.yzmbutton = false
         })
     },
     getImageCode() {
-      getImageCode().then(response => {
+      getImageCode().then((response) => {
         this.yzmcode = response.data.data.imageData
         this.smsData.token = response.data.data.imageToken
       })
     },
     handleResetPassword() {
       const loginPath = this.path_prefixes ? `/${this.path_prefixes}/login` : '/login'
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          resetPassword(this.ruleForm).then(response => {
+          resetPassword(this.ruleForm).then((response) => {
             Message({ message: response.data.data.message, type: 'success', duration: 2 * 1000 })
             this.$router.push({ path: loginPath })
           })
@@ -229,13 +230,13 @@ export default {
     },
     countDown() {
       if (!this.yzmbutton) return //改动的是这两行代码
-      this.yzmcontent = this.yzmTotalTime + 's后重新发送'
+      this.yzmcontent = this.yzmTotalTime + this.$t('d0d0e09f.b8f021')
       let clock = window.setInterval(() => {
         this.yzmTotalTime--
-        this.yzmcontent = this.yzmTotalTime + 's后重新发送'
+        this.yzmcontent = this.yzmTotalTime + this.$t('d0d0e09f.b8f021')
         if (this.yzmTotalTime < 0) {
           window.clearInterval(clock)
-          this.yzmcontent = '重新发送验证码'
+          this.yzmcontent = this.$t('d0d0e09f.8e1f29')
           this.yzmTotalTime = 60
           this.yzmbutton = false //这里重新开启
         }

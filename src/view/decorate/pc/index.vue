@@ -9,9 +9,17 @@
     <div class="decorate-hd">
       <div class="hd-lf">{{ localTitle }}</div>
       <div class="hd-rg">
-        <el-button v-if="mode == 'page'" plain @click="onExit">后退</el-button>
-        <el-button v-if="mode == 'dialog'" plain @click="onClose"> 关闭</el-button>
-        <el-button plain @click="onSaveTemplate"> 保存 </el-button>
+        <el-button v-if="mode == 'page'" plain @click="onExit">
+{{
+          $t('cb5715dd.5094c1')
+        }}
+</el-button>
+        <el-button v-if="mode == 'dialog'" plain @click="onClose">
+{{
+          $t('cb5715dd.b15d91')
+        }}
+</el-button>
+        <el-button plain @click="onSaveTemplate">{{ $t('cb5715dd.be5fbb') }}</el-button>
       </div>
     </div>
     <div class="decorate-bd">
@@ -88,9 +96,9 @@ export default {
     contentComps: {
       handler: function (val, oldVal) {
         console.log('contentComps-change', val)
-        const data = val.map(item => {
+        const data = val.map((item) => {
           const { transformOut } = this.widgets.find(
-            wgt => wgt.config.name.toLowerCase() == item.name.toLowerCase()
+            (wgt) => wgt.config.name.toLowerCase() == item.name.toLowerCase()
           )?.config
           return transformOut(cloneDeep(item), cloneDeep(this.widgets))
         })
@@ -140,7 +148,7 @@ export default {
       })
       if (data) {
         this.contentComps = this.getSettingConfig(
-          data.map(item => {
+          data.map((item) => {
             const citem = { ...item.config, uuid: uuidv4() }
             return citem
           })
@@ -154,7 +162,8 @@ export default {
           rootDomClass: 'template-edit',
           bodyDomClass: 'template-body',
           iframe: iframe,
-          callback: info => {
+          t: this.$t.bind(this),
+          callback: (info) => {
             this.receiveInfo(info)
           }
         })
@@ -164,10 +173,10 @@ export default {
     },
     getSettingConfig(list) {
       return list
-        .filter(item => item.name !== 'page')
-        .map(item => {
+        .filter((item) => item.name !== 'page')
+        .map((item) => {
           console.log('item', item)
-          const wgts = this.widgets.find(iitem => {
+          const wgts = this.widgets.find((iitem) => {
             return iitem.config.name == item.name
           })
           const { transformIn } = wgts.config
@@ -183,7 +192,9 @@ export default {
           this.contentComps = this.getSettingConfig(list)
           break
         case ACTIONS.CHECKED:
-          this.activeCompIndex = this.contentComps.findIndex(item => item.uuid == info.payload.uuid)
+          this.activeCompIndex = this.contentComps.findIndex(
+            (item) => item.uuid == info.payload.uuid
+          )
           console.log('this.contentComps', this.contentComps)
           console.log('activeCompIndex', this.activeCompIndex)
           break
@@ -247,7 +258,7 @@ export default {
       )
     },
     getComponentAttr(item, pick) {
-      const { wgtName, config, example } = this.widgets.find(wgt => {
+      const { wgtName, config, example } = this.widgets.find((wgt) => {
         return wgt.config.name.toLowerCase() == item.name.toLowerCase()
       })
       const obj = {
@@ -259,9 +270,9 @@ export default {
     },
 
     async onSaveTemplate() {
-      const data = this.contentComps.map(item => {
+      const data = this.contentComps.map((item) => {
         const { transformOut } = this.widgets.find(
-          wgt => wgt.config.name.toLowerCase() == item.name.toLowerCase()
+          (wgt) => wgt.config.name.toLowerCase() == item.name.toLowerCase()
         )?.config
         return transformOut(cloneDeep(item), this.widgets)
       })

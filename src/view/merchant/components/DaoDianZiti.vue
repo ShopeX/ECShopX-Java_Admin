@@ -11,7 +11,8 @@
 </style>
 <template>
   <div class="daodianziti">
-    <el-button type="text" @click="onSelectZiti">选择自提点</el-button>
+    <div class="tip">{{ $t('e18035cd.f3240d') }}</div>
+    <el-button type="text" @click="onSelectZiti">{{ $t('e18035cd.47c2de') }}</el-button>
     <SpFinder
       ref="finder"
       no-selection
@@ -19,6 +20,8 @@
       :data="finderData"
       :url="finderUrl"
       :setting="setting"
+      row-actions-align="left"
+      row-actions-width="100px"
       :hooks="{
         beforeSearch: beforeSearch,
         afterSearch: afterSearch
@@ -41,7 +44,7 @@ export default {
       setting: createSetting({
         actions: [
           {
-            name: '移除',
+            name: this.$t('e18035cd.86048b'),
             key: 'apply',
             type: 'button',
             buttonType: 'text',
@@ -54,7 +57,7 @@ export default {
                   })
                   this.$refs['finder'].refresh()
                 } else {
-                  const index = this.finderData.findIndex(item => item.id == row.id)
+                  const index = this.finderData.findIndex((item) => item.id == row.id)
                   this.finderData.splice(index, 1)
                   this.zitiList = this.finderData
                   this.$nextTick(() => {
@@ -66,13 +69,13 @@ export default {
           }
         ],
         columns: [
-          { name: '自提点名称', key: 'name' },
+          { name: this.$t('e18035cd.6b88c4'), key: 'name' },
           {
-            name: '地址',
+            name: this.$t('e18035cd.765048'),
             render: (h, { row }) =>
               h('span', {}, `${row.province}${row.city}${row.area}${row.address}`)
           },
-          { name: '联系电话', key: 'contract_phone', width: '150px' }
+          { name: this.$t('e18035cd.09a1f6'), key: 'contract_phone', width: '170px' }
         ]
       })
     }
@@ -100,11 +103,11 @@ export default {
     },
     async onSelectZiti() {
       const { data } = await this.$picker.zitiList({
-        data: this.zitiList.map(item => item.id)
+        data: this.zitiList.map((item) => item.id)
       })
 
       if (this.distributor_id) {
-        const ids = data.map(item => item.id)
+        const ids = data.map((item) => item.id)
         await this.$api.pickuplocation.bindZitiLocation({
           id: ids,
           rel_distributor_id: this.distributor_id

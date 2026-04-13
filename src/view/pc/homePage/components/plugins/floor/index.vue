@@ -14,7 +14,7 @@
           <el-tab-pane
             v-for="(item, index) in dataForm.data.tabList"
             :key="item.id"
-            :label="item.title || `标签${index}`"
+            :label="item.title || $t('916b1bb9.14d342') + index"
             :name="index + ''"
           />
         </el-tabs>
@@ -62,7 +62,7 @@
                     <p>{{ item.price | price }}</p>
                   </div>
                   <div class="goods-footer__submit">
-                    <el-button size="mini" type="danger"> 加入购物车 </el-button>
+                    <el-button size="mini" type="danger">{{ $t('916b1bb9.62d369') }}</el-button>
                   </div>
                 </div>
               </div>

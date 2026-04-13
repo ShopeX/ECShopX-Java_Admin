@@ -43,7 +43,13 @@
   <div class="picker-pages">
     <SpFilterForm :model="formData" size="small" @onSearch="onSearch" @onReset="onSearch">
       <SpFilterFormItem prop="keywords">
-        <el-input v-model="formData.keywords" placeholder="请输入页面名称" />
+        <el-input v-model="formData.keywords" :placeholder="$t('ba37de2c.7d5cc3')" />
+      </SpFilterFormItem>
+      <SpFilterFormItem prop="is_open">
+        <el-select v-model="formData.is_open" clearable :placeholder="$t('ba37de2c.53c3dd')">
+          <el-option value="1" :label="$t('ba37de2c.0a60ac')" />
+          <el-option value="0" :label="$t('ba37de2c.c9744f')" />
+        </el-select>
       </SpFilterFormItem>
     </SpFilterForm>
     <SpFinder
@@ -57,8 +63,8 @@
       :setting="{
         columns: [
           { name: 'ID', key: 'id', width: 80 },
-          { name: '页面名称', key: 'page_name' },
-          { name: '页面描述', key: 'page_description' }
+          { name: $t('ba37de2c.b78454'), key: 'page_name' },
+          { name: $t('ba37de2c.abf8f4'), key: 'page_description' }
         ]
       }"
       :hooks="{
@@ -82,15 +88,18 @@ export default {
     title: '选择自定义页面'
   },
   props: ['value'],
+  created() {
+    this.$options.config.title = this.$t('ba37de2c.2f227a')
+  },
   data() {
     return {
       formData: {
-        keywords: ''
+        keywords: '',
+        is_open: ''
       },
       multiple: this.value?.multiple ?? true
     }
   },
-  created() {},
   methods: {
     beforeSearch(params) {
       params = {
@@ -104,12 +113,18 @@ export default {
           page_name: keywords
         }
       }
+      if (this.formData.is_open) {
+        params = {
+          ...params,
+          is_open: this.formData.is_open
+        }
+      }
       return params
     },
     afterSearch(response) {
       const { list } = response.data.data
       if (this.value.data) {
-        const selectRows = list.filter(item => this.value.data.includes(item.id))
+        const selectRows = list.filter((item) => this.value.data.includes(item.id))
         const { finderTable } = this.$refs.finder.$refs
         setTimeout(() => {
           finderTable.$refs.finderTable.setSelection(selectRows)

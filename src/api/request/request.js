@@ -48,18 +48,28 @@ class RequestClient {
 
   async request(url, config) {
     try {
+      const skipCountryCode = config.skipCountryCode
+      if (config.skipCountryCode) {
+        delete config.skipCountryCode
+      }
       const lang = window.localStorage.getItem('lang')
       const langMap = {
         zhcn: 'zh-CN',
         en: 'en-CN',
-        zhtw: 'zh-TW'
+        zhtw: 'zh-TW',
+        ar: 'ar-SA'
       }
-      if (lang) {
+      if (lang && !skipCountryCode) {
+        const countryCode = langMap[lang]
         if (config.data) {
-          config.data.country_code = langMap[lang]
+          if (typeof config.data === 'string') {
+            config.data = config.data + (config.data ? '&' : '') + 'country_code=' + encodeURIComponent(countryCode)
+          } else {
+            config.data.country_code = countryCode
+          }
         } else {
           config.data = {
-            country_code: langMap[lang]
+            country_code: countryCode
           }
         }
       }

@@ -5,7 +5,7 @@
 
 <template>
   <el-dialog
-    title="请选择标签"
+    :title="$t('debc18ae.ce7cf5')"
     :visible.sync="dialogVisible"
     width="400px"
     :before-close="dialogBeforeClose"
@@ -24,8 +24,16 @@
       </div>
     </div>
     <div slot="footer" class="tag-footer">
-      <el-button type="primary" plain size="medium" @click="selectAll"> 选择全部 </el-button>
-      <el-button type="primary" size="medium" @click="submitTags"> 确 定 </el-button>
+      <el-button type="primary" plain size="medium" @click="selectAll">
+{{
+        $t('debc18ae.296a44')
+      }}
+</el-button>
+      <el-button type="primary" size="medium" @click="submitTags">
+{{
+        $t('debc18ae.aa7527')
+      }}
+</el-button>
     </div>
   </el-dialog>
 </template>
@@ -63,7 +71,7 @@ export default {
       getTagList({
         page: 1,
         page_size: 500
-      }).then(response => {
+      }).then((response) => {
         let tagsList = response.data.data.list
         tagsList.map((v, i) => {
           v.type = this.tagTypes[(i + 1) % 4]
@@ -80,13 +88,13 @@ export default {
     },
     // 选择全部
     selectAll() {
-      this.tagsList.map(v => {
+      this.tagsList.map((v) => {
         v.selected = true
       })
     },
     // 确定选择
     submitTags() {
-      let selectTagsList = this.tagsList.filter(v => v.selected)
+      let selectTagsList = this.tagsList.filter((v) => v.selected)
       this.$emit('selectTags', selectTagsList)
     }
   }

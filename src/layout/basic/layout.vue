@@ -54,6 +54,7 @@
 <script>
 import DEFAULT_CONFIG from '@/config'
 import { getSystemTitle } from '@/utils'
+import { getMenuDisplayName } from '@/utils/menuI18n'
 import { micrApp } from '@/utils/micr-app'
 import LayoutSidebar from './layout-sidebar.vue'
 import LayoutContent from './layout-content.vue'
@@ -85,21 +86,21 @@ export default {
     systemTitle() {
       // 如果有选中的一级菜单，返回该菜单的title
       if (this.activeMainMenu) {
-        const activeMenu = this.mainMenus?.find(item => item.alias_name === this.activeMainMenu)
+        const activeMenu = this.mainMenus?.find((item) => item.alias_name === this.activeMainMenu)
         if (activeMenu) {
-          return activeMenu.name
+          return getMenuDisplayName(this, activeMenu)
         }
       }
       // 否则返回默认系统标题
-      return getSystemTitle()
-    },
+      return this.$t(getSystemTitle())
+    }
   },
 
   mounted() {
     this.mainMenus = this.$store.state.user.accessMenus || []
     const [mainRoute] = this.$route.matched
     this.subMenus =
-      this.mainMenus.find(item => item.alias_name === mainRoute?.meta?.aliasName)?.children || []
+      this.mainMenus.find((item) => item.alias_name === mainRoute?.meta?.aliasName)?.children || []
     this.getSystemSetting()
     micrApp.init()
   },

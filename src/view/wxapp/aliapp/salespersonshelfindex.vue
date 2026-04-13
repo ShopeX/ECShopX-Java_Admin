@@ -9,7 +9,7 @@
       <el-dialog
         :visible.sync="template_dialog"
         width="80%"
-        title="编辑页面"
+        :title="$t('8312e9a5.49bcb8')"
         fullscreen
         lock-scroll
       >
@@ -51,7 +51,7 @@ export default {
     fetchPageData() {
       this.loading = true
       Object.assign(this.params, { template_name: this.template_name })
-      getCustomSalesperson(this.params).then(response => {
+      getCustomSalesperson(this.params).then((response) => {
         if (response.data.data.id) {
           this.pageForm.id = response.data.data.id
           this.template_dialog = true

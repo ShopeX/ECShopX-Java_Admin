@@ -5,19 +5,19 @@
 
 <template>
   <section v-if="name === 'store'" class="section">
-    <div class="section-header with-border">设置</div>
+    <div class="section-header with-border">{{ $t('43c29e65.e366cc') }}</div>
     <div class="section-body">
       <el-form label-width="100px">
-        <el-form-item label="标题">
+        <el-form-item :label="$t('43c29e65.32c65d')">
           <el-input v-model="base.title" />
         </el-form-item>
-        <el-form-item label="副标题">
+        <el-form-item :label="$t('43c29e65.72cf37')">
           <el-input v-model="base.subtitle" />
         </el-form-item>
-        <el-form-item label="组件间距">
+        <el-form-item :label="$t('43c29e65.4707ba')">
           <el-switch v-model="base.padded" active-color="#27cc6a" inactive-color="#efefef" />
         </el-form-item>
-        <el-form-item label="推荐店铺">
+        <el-form-item :label="$t('43c29e65.089a3d')">
           <draggable
             v-model="data"
             class="content-bottom-padded"
@@ -83,22 +83,22 @@
                   </div>
                 </template>
                 <div class="setting-modal">
-                  <!-- <div class="iconfont icon-arrows-alt"></div> -->
+                  <!-- <div class="el-icon-rank"></div> -->
                   <div class="iconfont icon-cog" @click="handleGoods(index)" />
-                  <!-- <div class="iconfont icon-trash-alt1" @click="handleRemove(index)"></div> -->
+                  <!-- <div class="el-icon-delete-solid" @click="handleRemove(index)"></div> -->
                 </div>
               </div>
             </div>
           </draggable>
         </el-form-item>
-        <el-form-item label="背景色">
+        <el-form-item :label="$t('43c29e65.2f97db')">
           <el-color-picker v-model="base.backgroundColor" />
         </el-form-item>
-        <el-form-item label="商品边框色">
+        <el-form-item :label="$t('43c29e65.38496d')">
           <el-color-picker v-model="base.borderColor" />
         </el-form-item>
-        <el-form-item label="宣传图">
-          <span>点击图片可更换，图片大小不能超过 2MB（建议尺寸：700px*116px）</span>
+        <el-form-item :label="$t('43c29e65.691d9d')">
+          <span>{{ $t('43c29e65.70297d') }}</span>
           <div class="setting-item slider">
             <div v-if="base.imgUrl" class="upload-box">
               <img
@@ -109,18 +109,18 @@
               >
             </div>
             <div v-else class="banner-uploader" @click="handleImgChange">
-              <i class="iconfont icon-camera" />上传图片
+              <i class="el-icon-camera" />{{ $t('43c29e65.ce6855') }}
             </div>
           </div>
         </el-form-item>
-        <el-form-item v-if="data[0].id != 0" label="设置标签">
+        <el-form-item v-if="data[0].id != 0" :label="$t('43c29e65.32c2f5')">
           <el-button
             size="mini"
             type="default"
             class="iconfont icon-plus-circle banner-button-uploader"
             @click="setTag"
           >
-            设置标签
+            {{ $t('43c29e65.32c2f5') }}
           </el-button>
           <p>
             <span v-for="(item, index) in seletedTags" :key="item.tag_id" class="tag"
@@ -156,7 +156,7 @@ export default {
         animation: 300,
         forceFallback: false,
         scroll: true,
-        handle: '.icon-arrows-alt',
+        handle: '.el-icon-rank',
         draggable: '.setting-item'
       }
     }
@@ -245,7 +245,7 @@ export default {
       font-size: 28px;
       color: #fff;
     }
-    .icon-arrows-alt {
+    .el-icon-rank {
       cursor: move;
     }
   }

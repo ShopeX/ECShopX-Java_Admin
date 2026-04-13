@@ -8,10 +8,10 @@ const routes = [
   {
     component: BasicLayout,
     meta: {
-      aliasName: 'setting',
+      aliasName: 'suppliersetting',
       icon: 'setting-config',
       keepAlive: true,
-      title: '设置'
+      title: '37753f39.e366cc'
     },
     name: 'supplierSetting',
     path: '/supplier/setting',
@@ -22,8 +22,8 @@ const routes = [
         meta: {
           aliasName: 'baseexport',
           icon: 'icon-products',
-          title: '导出列表',
-          permissions: ['setting.baseexport']
+          title: '37753f39.d12fb1',
+          permissions: ['suppliersetting.baseexport']
         },
         component: () => import('@/view/base/exportlog/index')
       },
@@ -33,10 +33,10 @@ const routes = [
         meta: {
           aliasName: 'datapass',
           icon: 'icon-products',
-          title: '脱敏数据申请',
-          permissions: ['setting.datapass']
+          title: '37753f39.1fb869',
+          permissions: ['suppliersetting.datapass']
         },
-        component: () => import('@/view/base/encrypt/authAdmin.vue')
+        component: () => import('@/views/settings/systemConfig/encrypt/authAdmin.vue')
       },
       {
         name: `systemConfigSupplierRegister`,
@@ -44,8 +44,8 @@ const routes = [
         meta: {
           aliasName: 'supplier_register',
           icon: 'icon-products',
-          title: '供应商入驻',
-          permissions: ['setting.supplier_register']
+          title: '37753f39.1daa33',
+          permissions: ['suppliersetting.supplier_register']
         },
         component: () => import('@/view/auth/certify')
       }

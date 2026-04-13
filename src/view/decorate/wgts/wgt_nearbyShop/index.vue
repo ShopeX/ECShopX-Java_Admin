@@ -10,6 +10,7 @@
       'wgt-nearby-shop': true,
       padded: value.padded
     }"
+    :style="outerStyle"
   >
     <div v-if="value.title || value.subtitle" class="wgt-hd">
       <span class="title">{{ value.title }}</span>
@@ -37,7 +38,7 @@
           <!-- shopList: {{ shopList }} -->
           <div v-if="shopList.length <= 0" class="default-shop">
             <SpImage :src="defaultShopImg" :width="160" />
-            <div>更多商家接入中，敬请期待</div>
+            <div>{{ i18n.t('5e1ae7f2.d17ff7') }}</div>
           </div>
           <div v-else class="shop-content">
             <div v-for="item in shopList" :key="item.distributor_id" class="shop-item">
@@ -56,9 +57,9 @@
               <div class="store-details">
                 <div class="name">
                   <span>{{ item.name }}</span>
-                  <span v-if="item.is_self_delivery && item.selfDeliveryRule.is_open == 'true'"
-                    >商家自配送</span
-                  >
+                  <span v-if="item.is_self_delivery && item.selfDeliveryRule.is_open == 'true'">{{
+                    i18n.t('5e1ae7f2.0e903e')
+                  }}</span>
                 </div>
                 <div
                   v-if="item.is_self_delivery && item.selfDeliveryRule.is_open == 'true'"
@@ -116,7 +117,7 @@
           </div>
         </div>
         <div v-if="showMore" class="goods-more">
-          <p class="more-btn">查看更多</p>
+          <p class="more-btn">{{ i18n.t('e968027c.90ef7c') }}</p>
         </div>
       </div>
     </div>
@@ -124,14 +125,16 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 const defaultShopImg = require('@/assets/imgs/decorate/default-shop.png')
 const defaultShopBanner = require('@/assets/imgs/decorate/default-shop-banner.png')
 const defaultShopLogo = require('@/assets/imgs/decorate/default-shop-logo.png')
 
 export default {
   name: 'NearbyShop',
-  wgtName: '附近商家',
+  wgtName: i18n.t('5e1ae7f2.0c0d95'),
   wgtDesc: '',
   wgtIcon: 'wgt-nearby-shop',
   config: config,
@@ -139,7 +142,7 @@ export default {
     value: [Object, Array]
   },
   data() {
-    return {
+    return {i18n,
       defaultShopImg,
       defaultShopBanner,
       defaultShopLogo,
@@ -148,12 +151,17 @@ export default {
       showMore: true
     }
   },
+  computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    }
+  },
   watch: {
     'value.seletedTags': {
       handler: function (nVal, oVal) {
         if (nVal.length > 0) {
           const [{ tag_id }] = nVal
-          let item_tag_id = this.value.productLabel.map(item => item.tag_id)
+          let item_tag_id = this.value.productLabel.map((item) => item.tag_id)
           this.activeIndex = 0
           let params = {
             tag_id: tag_id,
@@ -170,7 +178,7 @@ export default {
     'value.productLabel': {
       handler: function (nVal, oVal) {
         if (this.value.seletedTags.length > 0) {
-          let item_tag_id = nVal.map(item => item.tag_id)
+          let item_tag_id = nVal.map((item) => item.tag_id)
           let params = {
             tag_id: this.value.seletedTags[this.activeIndex].tag_id,
             item_tag_id,
@@ -198,7 +206,7 @@ export default {
       this.shopList = list.slice(0, this.value.merchantsNumber)
     },
     handleClickTag(item, index) {
-      let item_tag_id = this.value.productLabel.map(item => item.tag_id)
+      let item_tag_id = this.value.productLabel.map((item) => item.tag_id)
       let params = {
         tag_id: item.tag_id,
         item_tag_id,

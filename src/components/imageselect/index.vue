@@ -6,7 +6,7 @@
 <template>
   <el-dialog
     class="img_dialog"
-    title="选择图片"
+    :title="$t('70861180.ba9fc4')"
     :visible="showDialog"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
@@ -18,7 +18,7 @@
       <el-row>
         <el-col>
           <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="本地上传" name="localimages">
+            <el-tab-pane :label="$t('70861180.b4af78')" name="localimages">
               <div v-loading="loading" class="inner_main">
                 <div class="img_pick_area">
                   <div class="sub_title_bar in_dialog">
@@ -35,7 +35,7 @@
                         :on-success="handleAvatarSuccess"
                         :on-error="uploadError"
                       >
-                        <el-button type="primary"> 本地上传 </el-button>
+                        <el-button type="primary"> {{ $t('70861180.b4af78') }} </el-button>
                       </el-upload>
                     </div>
                   </div>
@@ -87,8 +87,10 @@
                 </div>
 
                 <div slot="footer" class="dialog-footer">
-                  <el-button @click="cancelAction"> 取 消 </el-button>
-                  <el-button type="primary" @click="localsaveAction"> 确 定 </el-button>
+                  <el-button @click="cancelAction"> {{ $t('70861180.c08ab9') }} </el-button>
+                  <el-button type="primary" @click="localsaveAction">
+                    {{ $t('70861180.aa7527') }}
+                  </el-button>
                 </div>
               </div>
             </el-tab-pane>
@@ -191,7 +193,7 @@ export default {
         return
       }
       let params = { isUploadFile: true, file: file.raw, type: 'image' }
-      uploadMaterial(params).then(res => {
+      uploadMaterial(params).then((res) => {
         this.getImageList()
       })
     },
@@ -199,7 +201,7 @@ export default {
       this.$emit('chooseImg', this.checkedItem)
       if (this.isMost) {
         this.checkedItem = []
-        this.imgList.forEach(v => {
+        this.imgList.forEach((v) => {
           v.selected = false
         })
       }
@@ -266,7 +268,7 @@ export default {
         storage: 'image' //图片id必填
       }
       // if (res.key) {
-      uploadQiniuPic(uploadParams).then(res => {
+      uploadQiniuPic(uploadParams).then((res) => {
         this.$message({
           message: '上传成功',
           type: 'success',
@@ -284,11 +286,11 @@ export default {
       if (!this.localisLoadData) {
         that.localloading = true
         getQiniuPicList(that.localparams)
-          .then(response => {
+          .then((response) => {
             that.localimgData = response.data.data
             this.localimgList = response.data.data.list
             if (that.isMost) {
-              that.localimgList.forEach(v => {
+              that.localimgList.forEach((v) => {
                 that.$set(v, 'selected', false)
               })
             }
@@ -316,7 +318,7 @@ export default {
       this.$emit('chooseImg', this.localcheckedItem)
       if (this.isMost) {
         this.localcheckedItem = []
-        this.localimgList.forEach(v => {
+        this.localimgList.forEach((v) => {
           v.selected = false
         })
       }
@@ -328,10 +330,10 @@ export default {
       upload
         .uploadImg(e.file, e.file.name)
         .then(
-          res => e.onSuccess(res),
-          err => e.onError(err)
+          (res) => e.onSuccess(res),
+          (err) => e.onError(err)
         )
-        .catch(err => e.onError(err))
+        .catch((err) => e.onError(err))
     },
     // 上传错误回调
     uploadError: function (e) {
@@ -423,81 +425,81 @@ export default {
 }
 // .img_pick {
 //   padding: 20px 0 5px;
-  .img_list {
-    display: flex;
-    // justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  .img_item {
+.img_list {
+  display: flex;
+  // justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.img_item {
+  position: relative;
+  text-align: center;
+  flex-grow: 0;
+  .pic_box {
+    width: 117px;
+    height: 117px;
     position: relative;
-    text-align: center;
-    flex-grow: 0;
-    .pic_box {
+    overflow: hidden;
+    background: #f8f8f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .pic {
+    width: 100%;
+    max-height: 117px;
+  }
+}
+.frm_checkbox_label {
+  display: inline-block;
+  text-align: left;
+  cursor: pointer;
+  margin-right: 1em;
+}
+.img_item_bd {
+  position: relative;
+  margin: 0;
+  width: 117px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  .selected_mask {
+    display: none;
+  }
+  &.selected {
+    .selected_mask,
+    .selected_mask_icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .selected_mask {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .selected_mask_inner {
       width: 117px;
       height: 117px;
-      position: relative;
-      overflow: hidden;
-      background: #f8f8f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background-color: rgba(0, 0, 0, 0.6);
     }
-    .pic {
-      width: 100%;
-      max-height: 117px;
-    }
-  }
-  .frm_checkbox_label {
-    display: inline-block;
-    text-align: left;
-    cursor: pointer;
-    margin-right: 1em;
-  }
-  .img_item_bd {
-    position: relative;
-    margin: 0;
-    width: 117px;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    .selected_mask {
-      display: none;
-    }
-    &.selected {
-      .selected_mask,
-      .selected_mask_icon {
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-      .selected_mask {
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
-      .selected_mask_inner {
-        width: 117px;
-        height: 117px;
-        background-color: rgba(0, 0, 0, 0.6);
-      }
-      .selected_mask_icon {
-        /*width: 117px;
+    .selected_mask_icon {
+      /*width: 117px;
           height: 117px;*/
-        color: #fff;
-        font-size: 32px;
-        top: 26%;
-        left: 34%;
-      }
+      color: #fff;
+      font-size: 32px;
+      top: 26%;
+      left: 34%;
     }
   }
-  .lbl_content {
-    display: block;
-    padding: 0 10px;
-    height: 36px;
-    line-height: 36px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+}
+.lbl_content {
+  display: block;
+  padding: 0 10px;
+  height: 36px;
+  line-height: 36px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   // }
 }
 .dialog-footer {

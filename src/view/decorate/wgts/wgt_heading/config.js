@@ -3,35 +3,36 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 
-export default {
+const config = {
   name: 'heading',
   setting: [
-    { label: '标题', key: 'title', component: 'textarea', rows: 6, value: '标题' },
+    { label: i18n.t('f08d652e.32c65d'), key: 'title', component: 'textarea', rows: 6, value: '标题' },
     {
-      label: '文字位置',
+      label: i18n.t('f08d652e.d1b490'),
       key: 'align',
-      component: 'radio',
+      component: 'radiobutton',
       options: [
-        { name: '居左', label: 'left' },
-        { name: '居中', label: 'center' }
+        { name: i18n.t('f08d652e.316a63'), label: 'left' },
+        { name: i18n.t('f08d652e.0bbc2e'), label: 'center' }
       ],
       value: 'center'
     },
     {
-      label: '加粗',
+      label: i18n.t('f08d652e.3b8a43'),
       key: 'weight',
       component: 'switch',
       value: false
     },
     {
-      label: '斜体',
+      label: i18n.t('f08d652e.81d6da'),
       key: 'italic',
       component: 'switch',
       value: false
     },
     {
-      label: '字号',
+      label: i18n.t('f08d652e.fc55af'),
       key: 'fontSize',
       component: 'select',
       options: [
@@ -45,13 +46,13 @@ export default {
       value: '16'
     },
     {
-      label: '颜色',
+      label: i18n.t('f08d652e.6b36c6'),
       key: 'color',
       component: 'color',
       value: '#333'
     },
     {
-      label: '行高',
+      label: i18n.t('f08d652e.17169f'),
       key: 'lineHeight',
       component: 'select',
       options: [
@@ -67,12 +68,18 @@ export default {
     }
   ],
   transformIn: (v) => {
-    const { name, base, config } = v
+    const { name, base, config, track, tagsType, meber_tags, no_meber_tags } = v
     return {
       id: v?.id,
       name,
       ...base,
-      ...config
+      ...config,
+      track,
+      tags: {
+        type: tagsType || '2',
+        meber_tags: meber_tags || [],
+        no_meber_tags: no_meber_tags || []
+      }
     }
   },
   transformOut: (v) => {
@@ -95,7 +102,18 @@ export default {
           color: 'color',
           lineHeight: 'lineHeight'
         })
-      }
+      },
+      track: 'track',
+      tags: 'tags',
+      tagsType: 'tags.type',
+      meber_tags: 'tags.meber_tags',
+      no_meber_tags: 'tags.no_meber_tags'
     })
   }
 }
+
+// 自动处理 compStyle 配置（初始化全局处理函数）
+import '../../comps/configsetting'
+export default typeof globalThis !== 'undefined' && globalThis.__processConfig__
+  ? globalThis.__processConfig__(config)
+  : config

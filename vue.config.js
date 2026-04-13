@@ -7,29 +7,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
 const bodyParser = require('body-parser')
-const webpackPluginsAutoI18n = require('webpack-auto-i18n-plugin')
-const { YoudaoTranslator, EmptyTranslator, Translator } = require('webpack-auto-i18n-plugin')
-const axios = require('axios')
-const { generateId } = require('./build/utils')
-
-const AutoI18nOptions = {
-  excludedPath: ['/src/i18n/index.js'],
-  globalPath: path.resolve(__dirname, './src/i18n/lang'),
-  targetLangList: ['en', 'zh-tw'],
-  rewriteConfig: false,
-  includePath: [/src\//, /node_modules\/element-ui\//]
-}
-
-if (process.argv.includes('i18n')) {
-  AutoI18nOptions['translator'] = new YoudaoTranslator({
-    appId: process.env.VUE_YOUDAO_APPID,
-    appKey: process.env.VUE_YOUDAO_APPKEY
-  })
-} else {
-  AutoI18nOptions['translator'] = new EmptyTranslator()
-}
-
-const i18nPlugin = new webpackPluginsAutoI18n.default(AutoI18nOptions)
 
 const SRC_PATH = path.resolve(__dirname, 'src')
 const envVars = process.env
@@ -256,8 +233,6 @@ module.exports = {
     // 删除预加载和预获取
     config.plugins.delete('preload')
     config.plugins.delete('prefetch')
-
-    config.plugin('i18n').use(i18nPlugin)
 
     config.plugin('define').tap((args) => {
       args[0]['process.env'] = {

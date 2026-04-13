@@ -18,12 +18,13 @@
 </style>
 <template>
   <div class="refund-goods-store">
-    <div class="tip">本店订单买家发起退货退款申请时可选择此列表店铺的退货点完成到店退货。</div>
+    <div class="tip">{{ $t('73f755c3.0e97ba') }}</div>
     <div class="refund-store">
-      <el-button type="text" @click="onSelectShop">选择店铺</el-button>
+      <el-button type="text" @click="onSelectShop">{{ $t('73f755c3.afa2e6') }}</el-button>
       <SpFinder
         ref="finder"
         no-selection
+        row-actions-align="left"
         :show-pager="false"
         :data="finderData"
         :setting="setting"
@@ -42,13 +43,13 @@ export default {
       setting: createSetting({
         actions: [
           {
-            name: '移除',
+            name: this.$t('73f755c3.86048b'),
             key: 'apply',
             type: 'button',
             buttonType: 'text',
             action: {
               handler: async ([row]) => {
-                const index = this.finderData.findIndex(item => item.id == row.id)
+                const index = this.finderData.findIndex((item) => item.id == row.id)
                 this.finderData.splice(index, 1)
                 this.$nextTick(() => {
                   this.$refs['finder'].refresh()
@@ -57,7 +58,7 @@ export default {
             }
           }
         ],
-        columns: [{ name: '店铺名称', key: 'name', width: '700px' }]
+        columns: [{ name: this.$t('73f755c3.0d4934'), key: 'name', width: '700px' }]
       })
     }
   },
@@ -82,7 +83,7 @@ export default {
     },
     async onSelectShop() {
       const { distributor_id } = this.$route.query
-      const ids = this.finderData.map(item => item.distributor_id)
+      const ids = this.finderData.map((item) => item.distributor_id)
       const { data } = await this.$picker.afterSalesList({
         data: ids,
         distributor_id: distributor_id

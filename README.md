@@ -1,4 +1,4 @@
-<p align="center"><img width="600" height="auto" alt="logo1" src="https://github.com/user-attachments/assets/489cc6f9-9108-4db9-860d-70820c99b73a" /></p>
+<p align="center"><img width="600" height="auto" alt="logo2" src="logo.png" /></p>
 
 ### <p align="center">Admin Frontend</p>
 
@@ -46,7 +46,7 @@ VUE_APP_DEFAULT_LANG=en
 
 ### Installation
 ```
-cd ecshopx-admin
+cd ECShopX_admin-frontend
 npm i
 ```
 

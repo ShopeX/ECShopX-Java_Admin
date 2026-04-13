@@ -21,7 +21,7 @@
             <el-col :span="8">
               <el-input
                 v-model="params.topic_name"
-                placeholder="请输入标题关键字"
+                :placeholder="$t('aaf935c3.235d72')"
                 size="small"
                 @keyup.enter.native="getFetch(1)"
               >
@@ -56,7 +56,9 @@
               />
             </el-col>
             <el-col :span="6" class="rbox">
-              <div class="ftitle">已选话题 <span class="text"> 上下拖动以排序</span></div>
+              <div class="ftitle">
+                {{ $t('aaf935c3.b2cbe5') }} <span class="text">{{ $t('aaf935c3.9e75c5') }}</span>
+              </div>
               <draggable
                 v-model="checkTopic"
                 class="topic-drag"
@@ -67,7 +69,7 @@
                   <div class="text">
                     {{ item.topic_name }}
                   </div>
-                  <div class="iconfont icon-arrows-alt" />
+                  <div class="el-icon-rank" />
                 </li>
               </draggable>
             </el-col>
@@ -75,8 +77,16 @@
         </div>
       </div>
       <div slot="footer">
-        <el-button type="primary" size="small" @click="modalHandle"> 确认 </el-button>
-        <el-button size="small" @click="handleCancelLabelsDialog"> 取消 </el-button>
+        <el-button type="primary" size="small" @click="modalHandle">
+{{
+          $t('09b91dec.e83a25')
+        }}
+</el-button>
+        <el-button size="small" @click="handleCancelLabelsDialog">
+{{
+          $t('09b91dec.625fb2')
+        }}
+</el-button>
       </div>
     </el-dialog>
   </div>
@@ -97,8 +107,8 @@ export default {
   data() {
     return {
       modalLoad: false,
-      dialogTitle: '关联话题',
-      tips: '多选，选择后在小程序笔记详情中展示；话题的设置需在「关联话题管理」中调整。',
+      dialogTitle: null,
+      tips: null,
       topicList: [],
       checkTopic: [],
       def_check_id: [],
@@ -115,7 +125,7 @@ export default {
         animation: 300,
         forceFallback: false,
         scroll: true,
-        handle: '.icon-arrows-alt',
+        handle: '.el-icon-rank',
         draggable: '.topic'
       }
     }
@@ -132,8 +142,11 @@ export default {
   mounted() {
     const { topicType } = this.$props
     if (topicType == 'sort') {
-      this.$data.dialogTitle = '话题置顶'
-      this.$data.tips = '最多选择8个话题置顶，选择并确认后在社区首页顶部展示标签。'
+      this.$data.dialogTitle = this.$t('aaf935c3.3f96da')
+      this.$data.tips = this.$t('aaf935c3.a13858')
+    } else {
+      this.$data.dialogTitle = this.$t('aaf935c3.051a44')
+      this.$data.tips = this.$t('aaf935c3.66e0a6')
     }
     this.defCheckStatus()
   },
@@ -157,7 +170,7 @@ export default {
       console.log('modal params', params)
       this.$data.topicList = []
       this.$data.modalLoad = true
-      getTopics(params).then(res => {
+      getTopics(params).then((res) => {
         var { list, total_count } = res.data.data
         that.$data.pagers = { total: total_count }
         // console.log('list',list)
@@ -177,7 +190,7 @@ export default {
       //console.log('defCheckStatus',dufCheckTopic)
       //传入的默认选中
       if (dufCheckTopic) {
-        dufCheckTopic.forEach(item => {
+        dufCheckTopic.forEach((item) => {
           check_id.push(item.topic_id)
         })
         this.$data.def_check_id = check_id
@@ -191,7 +204,7 @@ export default {
       var check_id = []
       var dufCheckTopic = []
       //默认置顶选中状态
-      topicList.forEach(item => {
+      topicList.forEach((item) => {
         if (item.is_top == '1') {
           check_id.push(item.topic_id)
           dufCheckTopic.push(item)

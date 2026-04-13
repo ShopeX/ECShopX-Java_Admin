@@ -62,20 +62,20 @@
         <el-button type="primary" @click="onSearch">
           <div class="flex items-center">
             <SpIcon name="search" :size="14" />
-            <span class="ml-1">查询</span>
+            <span class="ml-1">{{ $t('7a07d52e.bee912') }}</span>
           </div>
         </el-button>
         <el-button type="primary" plain @click="onReset">
           <div class="flex items-center">
             <SpIcon name="refresh" :size="14" />
-            <span class="ml-1">重置</span>
+            <span class="ml-1">{{ $t('7a07d52e.4b9c32') }}</span>
           </div>
         </el-button>
       </div>
       <div v-if="showExtend" class="extend-wrap">
         <el-button type="text" @click="toggleExtend">
           <div class="flex items-center">
-            <span>{{ `${extend ? '收起' : '展开'}` }}</span>
+            <span>{{ extend ? $t('7a07d52e.def9e9') : $t('7a07d52e.e2edde') }}</span>
             <SpIcon
               :class="{ 'extend-icon': true, 'extend-active': extend }"
               name="chevrons-down"
@@ -123,9 +123,14 @@ export default {
     }
   },
   created() {
-    this.$on('sp.filterForm.addField', field => {
+    this.$on('sp.filterForm.addField', (field) => {
       if (field) {
         this.fields.push(field)
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.calcRows()
+          }, 100)
+        })
       }
     })
     const _this = this
@@ -138,7 +143,9 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.calcRows()
+      setTimeout(() => {
+        this.calcRows()
+      }, 200)
     })
   },
   destroyed() {
@@ -151,15 +158,16 @@ export default {
     calcRows() {
       // const cols = Math.floor(this.$refs.fiterFormBd.clientWidth / 305)
       let rows = 1
+      let offset = 8
       const fieldsWidth = this.fields.reduce((previous, current) => {
-        const curWidth = previous + current.$el.clientWidth
+        const curWidth = previous + (current.$el.clientWidth + offset)
 
         if (curWidth > this.$refs.fiterFormBd.clientWidth) {
           rows = rows + 1
           previous = 0
         }
         // console.log(`curWidth:`, curWidth, rows)
-        return previous + current.$el.clientWidth
+        return previous + (current.$el.clientWidth + offset)
       }, 0)
       // const rows = Math.ceil(this.fields.length / cols)
       // const rows = fieldsWidth > this.$refs.fiterFormBd.clientWidth * 2
@@ -179,7 +187,7 @@ export default {
         console.warn('[Sp Warn][sp-filter-form]model is required for resetFields to work.')
         return
       }
-      this.fields.forEach(field => {
+      this.fields.forEach((field) => {
         field.resetField()
       })
       this.$emit('onReset')

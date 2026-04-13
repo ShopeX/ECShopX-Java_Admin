@@ -1,0 +1,435 @@
+<!--
+  Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
+  See LICENSE file for license details.
+-->
+
+<template>
+  <div class="sms_signatures_edit">
+    <h4>{{ $t('872a1908.6aefb6') }}</h4>
+    <el-form ref="form" :model="form" :rules="rules" label-width="150px" class="demo-ruleForm">
+      <el-form-item :label="$t('872a1908.59592b')" prop="sign_name">
+        <el-input
+          v-model="form.sign_name"
+          :disabled="disabled || disabled_edit"
+          minlength="2"
+          maxlength="12"
+          show-word-limit
+          :placeholder="$t('872a1908.84d7f8')"
+        />
+        <ul class="tips">
+          <li>{{ $t('872a1908.d65a23') }}</li>
+          <li>{{ $t('872a1908.ba141f') }}</li>
+          <li>
+            {{ $t('872a1908.01c382')
+            }}<a
+              target="_blank"
+              href="https://help.aliyun.com/document_detail/55324.html?spm=5176.12212999.0.0.4b2b1cbe7AQAyL"
+              >{{ $t('872a1908.9461d0') }}</a
+            >
+          </li>
+        </ul>
+      </el-form-item>
+      <el-form-item :label="$t('872a1908.7f3b15')" prop="sign_source">
+        <el-radio-group v-model="form.sign_source" :disabled="disabled">
+          <el-radio label="0">{{ $t('872a1908.7d9f89') }}</el-radio>
+          <el-radio label="1">{{ $t('872a1908.72f646') }}</el-radio>
+          <el-radio label="2">{{ $t('872a1908.f2945a') }}</el-radio>
+          <el-radio label="3">{{ $t('872a1908.788dc8') }}</el-radio>
+          <el-radio label="4">{{ $t('872a1908.af36b9') }}</el-radio>
+          <el-radio label="5">{{ $t('872a1908.fc430f') }}</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item :label="$t('872a1908.9206ad')" prop="remark">
+        <el-input
+          v-model="form.remark"
+          :disabled="disabled"
+          type="textarea"
+          :rows="8"
+          maxlength="200"
+          show-word-limit
+          :placeholder="$t('872a1908.7e268f')"
+        />
+      </el-form-item>
+      <el-form-item :label="$t('872a1908.a805a6')" prop="third_party">
+        <el-radio-group v-model="form.third_party" :disabled="disabled">
+          <el-radio label="false">{{ $t('872a1908.0c0044') }}</el-radio>
+          <el-radio label="true">{{ $t('872a1908.c08162') }}</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item :label="$t('872a1908.b3b6e5')" prop="qualification_id">
+        <el-input
+          v-model="form.qualification_id"
+          :disabled="disabled"
+          :placeholder="$t('872a1908.bc215c')"
+        />
+        <div class="form-tips">{{ $t('872a1908.59a52c') }}</div>
+      </el-form-item>
+      <!-- <el-form-item label="证明文件">
+        <div
+          class="upload-box"
+          @click="handleImgPicker('sign_file')"
+        >
+          <template v-if="form.sign_file">
+            <img
+              v-if="form.sign_file"
+              class="avatar"
+              :src="form.sign_file"
+            >
+            <i
+              v-if="$route.query.type != 'detail'"
+              class="el-icon-error close"
+              @click.stop="deleteUrl('sign_file')"
+            />
+          </template>
+          <i
+            v-else
+            slot="default"
+            class="el-icon-plus"
+          />
+        </div>
+        <span>签名归属方的三证合一</span>
+        <ul class="tips">
+          <li>
+            说明：个别场景下，申请签名需要上传证明文件。详细说明，请参见
+            <a
+              target="_blank"
+              href="https://help.aliyun.com/document_detail/108076.htm?spm=a2c4g.11186623.0.0.236c3d26hyj4yl"
+            >短信签名规范。</a>
+          </li>
+          <li>支持 JPG、PNG、GIF 或 JPEG 格式的图片，图片不超过 2 MB。</li>
+        </ul>
+      </el-form-item>
+      <el-form-item label="委托授权书">
+        <div
+          class="upload-box"
+          @click="handleImgPicker('delegate_file')"
+        >
+          <template v-if="form.delegate_file">
+            <img
+              class="avatar"
+              :src="form.delegate_file"
+            >
+            <i
+              v-if="$route.query.type != 'detail'"
+              class="el-icon-error close"
+              @click.stop="deleteUrl('delegate_file')"
+            />
+          </template>
+          <i
+            v-else
+            slot="default"
+            class="el-icon-plus"
+          />
+        </div>
+
+        <ul class="tips">
+          <li>
+            说明：
+            如果签名用途为他用或个人认证用户的自用签名来源为企事业单位名时，还需上传证明文件和委托授权书，详情请参见
+            <a
+              target="_blank"
+              href="https://help.aliyun.com/document_detail/108076.htm?spm=a2c4g.11186623.0.0.236c25a11W2iBL"
+            >
+              证明文件 </a>和
+            <a
+              target="_blank"
+              href="https://help.aliyun.com/document_detail/56741.htm?spm=a2c4g.11186623.0.0.236c25a1zODsEU"
+            >授权委托书</a>。
+          </li>
+          <li>支持 JPG、PNG、GIF 或 JPEG 格式的图片，图片不超过 2 MB。</li>
+        </ul>
+      </el-form-item> -->
+      <el-form-item v-if="$route.query.type !== 'detail'">
+        <loadingBtn ref="loadingBtn" size="small" @clickHandle="submitForm('form')" />
+        <el-button size="small" @click="fnBack">{{ $t('872a1908.625fb2') }}</el-button>
+        <ul class="tips">
+          <li>{{ $t('872a1908.aafa64') }}</li>
+          <li>{{ $t('872a1908.f8f3cd') }}</li>
+        </ul>
+      </el-form-item>
+    </el-form>
+    <!-- 图片选择 -->
+    <imgPicker
+      :dialog-visible="imgDialog"
+      :sc-status="isGetImage"
+      @chooseImg="pickImg"
+      @closeImgDialog="closeImgDialog"
+    />
+
+    <!-- result -->
+    <el-dialog :visible="resultVisible" class="result" :show-close="false">
+      <el-result icon="success" :title="$t('872a1908.23b62e')" :sub-title="$t('872a1908.240e49')">
+        <template slot="subTitle">
+          <h5>{{ $t('872a1908.b30268') }}</h5>
+          <ul class="tips">
+            <li>{{ $t('872a1908.aafa64') }}</li>
+            <li>{{ $t('872a1908.f8f3cd') }}</li>
+          </ul>
+        </template>
+        <template slot="extra">
+          <el-button type="primary" size="medium" @click="fnBack">
+{{
+            $t('872a1908.adcd1d')
+          }}
+</el-button>
+          <el-button v-if="!$route.query.type" size="medium" @click="fnAgain">
+            {{ $t('872a1908.8c0a47') }}
+          </el-button>
+        </template>
+      </el-result>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { requiredRules, MaxRules, MinRules } from '@/utils/validate'
+import imgPicker from '@/components/imageselect'
+import loadingBtn from '@/components/loading-btn'
+import { setTheNewSignature, getTheSignature, editTheSignature } from '@/api/sms'
+
+export default {
+  components: {
+    imgPicker,
+    loadingBtn
+  },
+  data() {
+    return {
+      // 页面状态
+      disabled: false,
+      disabled_edit: false,
+      // 图片选择
+      imgDialog: false,
+      isGetImage: false,
+      pickerImgType: '',
+      // result
+      resultVisible: false,
+      form: {
+        sign_name: '', //签名名称
+        sign_source: '',
+        remark: '',
+        sign_file: '', // 证明文件
+        delegate_file: '', //委托授权书
+        third_party: 'false',
+        qualification_id: ''
+      },
+      rules: {
+        sign_name: [requiredRules(this.$t('872a1908.59592b')), MaxRules(12), MinRules(2)],
+        sign_source: [requiredRules(this.$t('872a1908.7f3b15'), 'change')],
+        remark: [requiredRules(this.$t('872a1908.9206ad')), MaxRules(200)],
+        third_party: [requiredRules(this.$t('872a1908.a805a6'), 'change')],
+        qualification_id: [requiredRules(this.$t('872a1908.b3b6e5'), 'blur')]
+      }
+    }
+  },
+  mounted() {
+    this.init()
+  },
+  methods: {
+    async init() {
+      const { type, id } = this.$route.query
+      console.log(type, id)
+
+      if (type) {
+        const result = await getTheSignature({ id })
+        this.resultHandler(result)
+        if (type == 'detail') {
+          this.disabled = true
+        }
+
+        if (type == 'edit') {
+          this.disabled_edit = true
+        }
+      }
+    },
+    resultHandler(result) {
+      const {
+        sign_name,
+        sign_source,
+        remark,
+        sign_file,
+        delegate_file,
+        third_party,
+        qualification_id
+      } = result.data.data
+      console.log(sign_name)
+      this.form = {
+        sign_name,
+        sign_source: sign_source + '',
+        remark,
+        sign_file,
+        delegate_file,
+        third_party,
+        qualification_id
+      }
+    },
+    submitForm(formName) {
+      const { type, id } = this.$route.query
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) {
+          try {
+            if (type == 'edit') {
+              const result = await editTheSignature({ id, ...this.form })
+              this.submitFormResult(result)
+            } else {
+              const result = await setTheNewSignature(this.form)
+              this.submitFormResult(result)
+            }
+          } catch (error) {
+            this.$refs['loadingBtn'].closeLoading()
+          }
+        } else {
+          console.log('error submit!!')
+          this.$refs['loadingBtn'].closeLoading()
+          return false
+        }
+      })
+    },
+    submitFormResult(result) {
+      if (result.data.data.status) {
+        this.resultVisible = true
+      }
+      this.$refs['loadingBtn'].closeLoading()
+    },
+    fnBack() {
+      this.$router.push({
+        path: `/setting/system-config/sms-service/sms_signatures`
+      })
+    },
+    fnAgain() {
+      this.resultVisible = false
+      this.$refs['form'].resetFields()
+      this.form.sign_file = ''
+      this.form.delegate_file = ''
+    },
+    /* -------------------------图片选择------------------------- */
+    pickImg({ url }) {
+      if (url && this.pickerImgType) {
+        const that = this.form
+        that[this.pickerImgType] = url
+        this.imgDialog = false
+      }
+    },
+    closeImgDialog() {
+      this.imgDialog = false
+      this.isGetImage = false
+    },
+    handleImgPicker(pickerImgType) {
+      if (!this.disabled) {
+        this.pickerImgType = pickerImgType
+        this.imgDialog = true
+        this.isGetImage = true
+      }
+    },
+    deleteUrl(url) {
+      this.form[url] = ''
+    }
+    /* -------------------------图片选择------------------------- */
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.sms_signatures_edit {
+  h4 {
+    color: #222;
+    position: relative;
+    margin-left: 10px;
+    &::before {
+      position: absolute;
+      content: '';
+      width: 5px;
+      top: 4px;
+      bottom: 4px;
+      left: -8px;
+      background: #1480e3;
+    }
+  }
+  .demo-ruleForm {
+    max-width: 960px;
+    padding: 20px;
+  }
+}
+</style>
+<style lang="scss">
+.sms_signatures_edit {
+  padding-bottom: 50px;
+  .el-radio-group {
+    margin-top: 10px;
+    .el-radio {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  }
+  .upload-box {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    align-items: center;
+    display: flex;
+    border: 2px dashed #ccc;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+    i {
+      font-size: 40px;
+      color: #999;
+    }
+    img {
+      max-width: 100%;
+      max-height: 140px;
+    }
+    &:hover {
+      border-color: #409eff;
+    }
+    .close {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      font-size: 20px;
+      color: #999;
+      &:hover {
+        color: #1480e3;
+      }
+    }
+  }
+  .form-tips {
+    color: #999;
+    font-size: 12px;
+  }
+  .tips {
+    margin-top: 10px;
+    li {
+      color: #999;
+      font-size: 12px;
+      line-height: 16px;
+      margin-bottom: 4px;
+    }
+  }
+  .el-dialog {
+    max-width: 600px;
+    .el-dialog__header {
+      padding: 0;
+      /* padding: 20px 20px 10px; */
+    }
+    .el-dialog__body {
+      padding: 30px 20px;
+      color: #606266;
+      font-size: 14px;
+      word-break: break-all;
+    }
+    .el-result__subtitle p {
+      font-weight: 700;
+      font-size: 23px;
+    }
+    .el-result__subtitle {
+      .tips {
+        margin-top: 20px;
+        li {
+          color: #999;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+}
+</style>

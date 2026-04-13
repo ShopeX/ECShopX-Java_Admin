@@ -12,7 +12,7 @@ const routes = [
       aliasName: 'setting',
       icon: 'setting-config',
       keepAlive: true,
-      title: '设置'
+      title: '181fc9cc.e366cc'
     },
     name: 'setting',
     path: '/setting',
@@ -23,7 +23,7 @@ const routes = [
         meta: {
           aliasName: 'platformstaff',
           icon: 'icon-products',
-          title: '平台账号',
+          title: '181fc9cc.26d82e',
           permissions: ['setting.staff.platformstaff']
         },
         component: () => import('@/view/base/account/normalstaff')
@@ -34,10 +34,10 @@ const routes = [
         meta: {
           aliasName: 'platformstaffroles',
           icon: 'icon-products',
-          title: '系统角色',
+          title: '181fc9cc.7e337d',
           permissions: ['setting.staff.platformstaffroles']
         },
-        component: () => import('@/view/base/account/normalroles')
+        component: () => import('@/views/settings/role-admin')
       },
       {
         name: `systemAccountStoreAccount`,
@@ -45,7 +45,7 @@ const routes = [
         meta: {
           aliasName: 'merchantstaff',
           icon: 'icon-products',
-          title: '店铺账号',
+          title: '181fc9cc.f629da',
           permissions: ['setting.staff.merchantstaff']
         },
         component: () => import('@/view/base/account/storestaff')
@@ -57,7 +57,7 @@ const routes = [
         meta: {
           aliasName: 'storemanager_account',
           icon: 'icon-products',
-          title: '商户账号',
+          title: '181fc9cc.2fda42',
           permissions: ['setting.staff.storemanager_account']
         },
         component: () => import('@/view/mall/marketing/merchantAccount')
@@ -69,7 +69,7 @@ const routes = [
         meta: {
           aliasName: 'shopmenus',
           icon: 'icon-products',
-          title: '商城菜单',
+          title: '181fc9cc.712fef',
           permissions: ['setting.menumanage.shopmenus']
         },
         component: () => import('@/view/menus/shopmenu')
@@ -80,7 +80,7 @@ const routes = [
         meta: {
           aliasName: 'distributormenu',
           icon: 'icon-products',
-          title: '店铺菜单',
+          title: '181fc9cc.5e1308',
           permissions: ['setting.menumanage.distributormenu']
         },
         component: () => import('@/view/menus/distributormenu')
@@ -91,7 +91,7 @@ const routes = [
         meta: {
           aliasName: 'merchantmenu',
           icon: 'icon-products',
-          title: '商户菜单',
+          title: '181fc9cc.86be9a',
           permissions: ['setting.menumanage.merchantmenu']
         },
         component: () => import('@/view/menus/merchantmenu')
@@ -102,7 +102,7 @@ const routes = [
         meta: {
           aliasName: 'suppliermenus',
           icon: 'icon-products',
-          title: '供应商菜单',
+          title: '181fc9cc.f6b769',
           permissions: ['setting.menumanage.suppliermenus']
         },
         component: () => import('@/view/menus/supplier')
@@ -114,10 +114,10 @@ const routes = [
         meta: {
           aliasName: 'publicsetting',
           icon: 'icon-products',
-          title: '通用设置',
+          title: '181fc9cc.91a229',
           permissions: ['setting.systemsetting.publicsetting']
         },
-        component: () => import('@/view/base/setting/publicsetting')
+        component: () => import('@/views/settings/systemConfig/publicsetting')
       },
       {
         name: `systemConfigInvoinceConfiguration`,
@@ -125,10 +125,10 @@ const routes = [
         meta: {
           aliasName: 'invoinceConfiguration',
           icon: 'icon-products',
-          title: '开票配置',
+          title: '181fc9cc.1275c1',
           permissions: ['setting.systemsetting.invoinceConfiguration']
         },
-        component: () => import('@/view/financial/invoice/baiSetting')
+        component: () => import('@/views/settings/systemConfig/invoiceConfiguration/baiSetting')
       },
       {
         name: `systemConfigPaymentConfiguration`,
@@ -136,10 +136,10 @@ const routes = [
         meta: {
           aliasName: 'assetpayment',
           icon: 'icon-products',
-          title: '支付配置',
+          title: '181fc9cc.1c3835',
           permissions: ['setting.systemsetting.assetpayment']
         },
-        component: () => import('@/view/base/setting/payment')
+        component: () => import('@/views/settings/systemConfig/payment')
       },
       {
         name: `systemConfigSmsService`,
@@ -147,85 +147,86 @@ const routes = [
         meta: {
           aliasName: 'datamessage',
           icon: 'icon-products',
-          title: '短信服务',
+          title: '181fc9cc.ffa488',
           permissions: ['setting.systemsetting.datamessage']
         },
         component: () => {
           if (VERSION_SHUYUN()) {
-            return import('@/view/base/shortmessage/shopex_sms')
+            return import('@/views/settings/systemConfig/smsService/shopex_sms')
           } else {
-            return import('@/view/base/shortmessage/index')
+            return import('@/views/settings/systemConfig/smsService/ali_sms')
           }
         },
         children: [
           {
-            path: 'ali_sms',
-            name: 'aliSms',
-            component: () => import('@/view/base/shortmessage/ali_sms'),
+            path: '/',
+            name: '181fc9cc.b6453a',
+            meta: 'base_config',
+            component: () => import('@/views/settings/systemConfig/smsService/base_config')
+          },
+          {
+            path: 'send_sms',
+            name: '181fc9cc.2d7288',
+            meta: 'send_sms',
+            component: () => import('@/views/settings/systemConfig/smsService/send_sms')
+          },
+          {
+            path: 'sms_signatures',
+            name: '181fc9cc.f32c04',
+            component: () => import('@/views/settings/systemConfig/smsService/sms_signatures'),
+            meta: 'sms_signatures',
             children: [
               {
-                path: '/',
-                name: '基础配置',
-                meta: 'base_config',
-                component: () => import('@/view/base/shortmessage/cpn/base_config')
-              },
-              {
-                path: 'send_sms',
-                name: '发送短信',
-                meta: 'send_sms',
-                component: () => import('@/view/base/shortmessage/cpn/send_sms')
-              },
-              {
-                path: 'sms_signatures',
-                name: '短信签名',
-                component: () => import('@/view/base/shortmessage/cpn/sms_signatures'),
-                meta: 'sms_signatures',
-                children: [
-                  {
-                    path: 'edit',
-                    component: () => import('@/view/base/shortmessage/cpn/sms_signatures_edit'),
-                    meta: 'sms_signatures'
-                  }
-                ]
-              },
-              {
-                path: 'sms_template',
-                name: '短信模板',
-                component: () => import('@/view/base/shortmessage/cpn/sms_template'),
-                meta: 'sms_template',
-                children: [
-                  {
-                    path: 'edit',
-                    component: () => import('@/view/base/shortmessage/cpn/sms_template_edit'),
-                    meta: 'sms_template'
-                  }
-                ]
-              },
-              {
-                path: 'sms_sendLog',
-                name: '短信发送记录',
-                component: () => import('@/view/base/shortmessage/cpn/sms_sendLog'),
-                meta: 'sms_sendLog'
-              },
-              {
-                path: 'sms_MassLog',
-                name: '短信群发送记录',
-                component: () => import('@/view/base/shortmessage/cpn/sms_MassLog'),
-                meta: 'sms_MassLog',
-                children: [
-                  {
-                    path: 'edit',
-                    component: () => import('@/view/base/shortmessage/cpn/sms_MassLog_edit'),
-                    meta: 'sms_MassLog'
-                  }
-                ]
+                path: 'edit',
+                component: () =>
+                  import('@/views/settings/systemConfig/smsService/sms_signatures_edit'),
+                meta: 'sms_signatures'
               }
             ]
           },
           {
+            path: 'sms_template',
+            name: '181fc9cc.dbe8ba',
+            component: () => import('@/views/settings/systemConfig/smsService/sms_template'),
+            meta: 'sms_template',
+            children: [
+              {
+                path: 'edit',
+                component: () =>
+                  import('@/views/settings/systemConfig/smsService/sms_template_edit'),
+                meta: 'sms_template'
+              }
+            ]
+          },
+          {
+            path: 'sms_sendLog',
+            name: '181fc9cc.dabdd1',
+            component: () => import('@/views/settings/systemConfig/smsService/sms_sendLog'),
+            meta: 'sms_sendLog'
+          },
+          {
+            path: 'sms_MassLog',
+            name: '181fc9cc.28cf8d',
+            component: () => import('@/views/settings/systemConfig/smsService/sms_MassLog'),
+            meta: 'sms_MassLog',
+            children: [
+              {
+                path: 'edit',
+                component: () =>
+                  import('@/views/settings/systemConfig/smsService/sms_MassLog_edit'),
+                meta: 'sms_MassLog'
+              }
+            ]
+          },
+          {
+            path: 'ali_sms',
+            name: 'aliSms',
+            redirect: '/setting/system-config/sms-service'
+          },
+          {
             path: 'shopex_sms',
-            name: '商派短信',
-            component: () => import('@/view/base/shortmessage/shopex_sms')
+            name: '181fc9cc.67fc96',
+            component: () => import('@/views/settings/systemConfig/smsService/shopex_sms')
           }
         ]
       },
@@ -235,10 +236,10 @@ const routes = [
         meta: {
           aliasName: 'Yilianyun',
           icon: 'icon-products',
-          title: '小票打印',
+          title: '181fc9cc.bf34e4',
           permissions: ['setting.systemsetting.Yilianyun']
         },
-        component: () => import('@/view/base/setting/yilianyun/index')
+        component: () => import('@/views/settings/systemConfig/yilianyun/index')
       },
       {
         name: `systemConfigUgcAuditConfiguration`,
@@ -246,10 +247,10 @@ const routes = [
         meta: {
           aliasName: 'ugctpos',
           icon: 'icon-products',
-          title: 'UGC审核配置',
+          title: '181fc9cc.b28ada',
           permissions: ['setting.systemsetting.ugctpos']
         },
-        component: () => import('@/view/member/ugc/ugcTPOS')
+        component: () => import('@/views/settings/systemConfig/ugcTPOS')
       },
       {
         name: `systemConfigWxappManagement`,
@@ -257,7 +258,7 @@ const routes = [
         meta: {
           aliasName: 'wxaindex',
           icon: 'icon-products',
-          title: '小程序管理',
+          title: '181fc9cc.10aa76',
           permissions: ['setting.systemsetting.wxaindex']
         },
         component: () => import('@/view/wxapp/wxappmanage/list')
@@ -268,7 +269,7 @@ const routes = [
         meta: {
           aliasName: 'editdashboard',
           icon: 'icon-products',
-          title: '数据分析',
+          title: '181fc9cc.6450d8',
           permissions: ['setting.systemsetting.editdashboard']
         },
         component: () => import('@/view/wxapp/statistics/dataanalysis/index')
@@ -279,7 +280,7 @@ const routes = [
         meta: {
           aliasName: 'editsourcemanagement',
           icon: 'icon-products',
-          title: '千人千码',
+          title: '181fc9cc.21058f',
           permissions: ['setting.systemsetting.editsourcemanagement']
         },
         component: () => import('@/view/wxapp/statistics/sourcemanagement/index'),
@@ -288,7 +289,7 @@ const routes = [
             path: 'detail/:monitorId?',
             component: () => import('@/view/wxapp/statistics/sourcemanagement/monito_detail'),
             meta: {
-              title: '新增千人千码',
+              title: '181fc9cc.b76938',
               hidden: true
             }
           }
@@ -300,7 +301,7 @@ const routes = [
         meta: {
           aliasName: 'noticemessage',
           icon: 'icon-products',
-          title: '消息模板',
+          title: '181fc9cc.579cc5',
           permissions: ['setting.systemsetting.noticemessage']
         },
         component: () => import('@/view/wxapp/messages')
@@ -312,10 +313,10 @@ const routes = [
         meta: {
           aliasName: '',
           icon: 'icon-products',
-          title: '公众号授权',
+          title: '181fc9cc.cbf7c8',
           permissions: ['setting.systemsetting.brand']
         },
-        component: () => import('@/view/brand/wechat/open')
+        component: () => import('@/views/settings/systemConfig/official-account-auth')
       },
       {
         name: `systemConfigWxappCustomerService`,
@@ -323,10 +324,10 @@ const routes = [
         meta: {
           aliasName: 'wxappchat',
           icon: 'icon-products',
-          title: '小程序客服',
+          title: '181fc9cc.107a88',
           permissions: ['setting.systemsetting.wxappchat']
         },
-        component: () => import('@/view/base/setting/im/wxappchat')
+        component: () => import('@/views/settings/systemConfig/wxapp-customer-service')
       },
       {
         name: `systemConfigOneChat`,
@@ -334,10 +335,10 @@ const routes = [
         meta: {
           aliasName: 'EChat',
           icon: 'icon-products',
-          title: '一洽客服',
+          title: '181fc9cc.e66efe',
           permissions: ['setting.systemsetting.EChat']
         },
-        component: () => import('@/view/base/setting/im/echat')
+        component: () => import('@/views/settings/systemConfig/echat')
       },
       {
         name: `systemConfigMeiChat`,
@@ -345,10 +346,10 @@ const routes = [
         meta: {
           aliasName: 'meiqia',
           icon: 'icon-products',
-          title: '美洽客服',
+          title: '181fc9cc.7ef177',
           permissions: ['setting.systemsetting.meiqia']
         },
-        component: () => import('@/view/site/meiqia')
+        component: () => import('@/views/settings/systemConfig/meiqia')
       },
       {
         name: `systemConfigWangDianTong`,
@@ -356,10 +357,10 @@ const routes = [
         meta: {
           aliasName: 'wdtSetting',
           icon: 'icon-products',
-          title: '旺店通',
+          title: '181fc9cc.152925',
           permissions: ['setting.systemsetting.wdtSetting']
         },
-        component: () => import('@/view/base/setting/saaserp/wdtSetting')
+        component: () => import('@/views/settings/systemConfig/wdtSetting')
       },
       {
         name: `systemConfigJuShuiTan`,
@@ -367,10 +368,10 @@ const routes = [
         meta: {
           aliasName: 'jstSetting',
           icon: 'icon-products',
-          title: '聚水潭',
+          title: '181fc9cc.deb133',
           permissions: ['setting.systemsetting.jstSetting']
         },
-        component: () => import('@/view/base/setting/saaserp/jstSetting')
+        component: () => import('@/views/settings/systemConfig/jstSetting')
       },
       {
         name: `systemConfigDomainSetting`,
@@ -378,10 +379,10 @@ const routes = [
         meta: {
           aliasName: 'domain_setting',
           icon: 'icon-products',
-          title: '域名设置',
+          title: '181fc9cc.93c728',
           permissions: ['setting.systemsetting.domain_setting']
         },
-        component: () => import('@/view/base/setting/companys/domain')
+        component: () => import('@/views/settings/systemConfig/domain')
       },
       {
         name: `systemConfigPrivacyApply`,
@@ -389,10 +390,10 @@ const routes = [
         meta: {
           aliasName: 'approveDataPass',
           icon: 'icon-products',
-          title: '脱敏数据申请',
+          title: '181fc9cc.1fb869',
           permissions: ['setting.systemsetting.approveDataPass']
         },
-        component: () => import('@/view/base/encrypt/authAdmin.vue')
+        component: () => import('@/views/settings/systemConfig/encrypt/authAdmin.vue')
       },
       {
         name: `systemConfigPrivacyApproval`,
@@ -400,20 +401,31 @@ const routes = [
         meta: {
           aliasName: 'applyDataPass',
           icon: 'icon-products',
-          title: '脱敏申请审批',
+          title: '181fc9cc.18dbfa',
           permissions: ['setting.systemsetting.applyDataPass']
         },
-        component: () => import('@/view/base/setting/authorityapproval'),
+        component: () => import('@/views/settings/systemConfig/authorityapproval'),
         children: [
           {
             path: 'approve/:id?',
-            component: () => import('@/view/base/setting/authorityapproval/approve'),
+            component: () => import('@/views/settings/systemConfig/authorityapproval/approve'),
             meta: {
-              title: '脱敏申请审批详情',
+              title: '181fc9cc.d58eae',
               hidden: true
             }
           }
         ]
+      },
+      {
+        name: `systemConfigWebPrivacyStatement`,
+        path: 'system-config/web-privacy-statement',
+        meta: {
+          aliasName: 'webPrivacyStatement',
+          icon: 'icon-products',
+          title: '181fc9cc.dd2c2d',
+          permissions: ['setting.systemsetting.webPrivacyStatement']
+        },
+        component: () => import('@/views/settings/systemConfig/webPrivacyStatement')
       },
       {
         name: `systemConfigExternalWxapp`,
@@ -421,16 +433,16 @@ const routes = [
         meta: {
           aliasName: 'extminilink',
           icon: 'icon-products',
-          title: '外链小程序',
+          title: '181fc9cc.04a911',
           permissions: ['setting.systemsetting.extminilink']
         },
-        component: () => import('@/view/base/wxa/extMiniLink'),
+        component: () => import('@/views/settings/systemConfig/external-app'),
         children: [
           {
             path: 'editor',
-            component: () => import('@/view/base/wxa/extMiniLinkDetail'),
+            component: () => import('@/views/settings/systemConfig/extMiniLinkDetail'),
             meta: {
-              title: '外部小程序配置-页面路径',
+              title: '181fc9cc.3ddd64',
               hidden: true
             }
           }
@@ -442,16 +454,16 @@ const routes = [
         meta: {
           aliasName: 'logistics',
           icon: 'icon-products',
-          title: '配送设置',
+          title: '181fc9cc.46da27',
           permissions: ['setting.delivery.logistics']
         },
-        component: () => import('@/view/mall/trade/logistics/index'),
+        component: () => import('@/views/settings/deliverySettings/logistics/index'),
         children: [
           {
             path: 'editor/:id?',
-            component: () => import('@/view/mall/trade/logistics/add-ziti'),
+            component: () => import('@/views/settings/deliverySettings/logistics/add-ziti'),
             meta: {
-              title: '编辑自提点',
+              title: '181fc9cc.f36bc9',
               hidden: true
             }
           }
@@ -463,7 +475,7 @@ const routes = [
         meta: {
           aliasName: 'shippingtemplates',
           icon: 'icon-products',
-          title: '运费模板',
+          title: '181fc9cc.416fd4',
           permissions: ['setting.delivery.shippingtemplates']
         },
         component: () => import('@/view/mall/trade/shipping/templates'),
@@ -472,7 +484,7 @@ const routes = [
             path: 'editor/:itemId?',
             component: () => import('@/view/mall/trade/shipping/add'),
             meta: {
-              title: '运费模板编辑',
+              title: '181fc9cc.889dfe',
               hidden: true
             }
           }
@@ -484,10 +496,10 @@ const routes = [
         meta: {
           aliasName: 'kdniao',
           icon: 'icon-products',
-          title: '物流查询配置',
+          title: '181fc9cc.ddc703',
           permissions: ['setting.delivery.kdniao']
         },
-        component: () => import('@/view/base/setting/kdniao')
+        component: () => import('@/views/settings/deliverySettings/logistics-inquiry')
       },
       {
         name: `deliverySettingDistributionManagement`,
@@ -495,10 +507,10 @@ const routes = [
         meta: {
           aliasName: 'setting_staffself_deliverystaff',
           icon: 'icon-products',
-          title: '配送员管理',
+          title: '181fc9cc.1a05d5',
           permissions: ['setting.delivery.setting_staffself_deliverystaff']
         },
-        component: () => import('@/view/base/account/delivery')
+        component: () => import('@/views/settings/deliverySettings/delivery-management')
       },
       {
         name: `deliverySettingDeliverPersonPerformance`,
@@ -506,10 +518,10 @@ const routes = [
         meta: {
           aliasName: 'companydata_deliverystaffstatistics',
           icon: 'icon-products',
-          title: '配送员业绩',
+          title: '181fc9cc.d6f79b',
           permissions: ['setting.delivery.companydata_deliverystaffstatistics']
         },
-        component: () => import('@/view/mall/datacube/companydata/delivery')
+        component: () => import('@/views/settings/deliverySettings/delivery-performance')
       },
       {
         name: `deliverySettingDadaAccount`,
@@ -517,41 +529,19 @@ const routes = [
         meta: {
           aliasName: 'dada',
           icon: 'icon-products',
-          title: '达达账户',
+          title: '181fc9cc.52ec0e',
           permissions: ['setting.delivery.dada']
         },
-        component: () => import('@/view/mall/distribution/account')
-      },
-      {
-        name: 'systemInfoRenewalActivation',
-        path: 'system-info/renewal-activation',
-        component: () => import('@/view/base/asset/accountactivation/index'),
-        meta: {
-          aliasName: 'assetaccountactivation',
-          icon: 'icon-products',
-          title: '续费激活',
-          permissions: ['setting.systeminfo.assetaccountactivation']
-        }
-      },
-      {
-        name: 'systemInfoSoftwareProtocol',
-        path: 'system-info/software-protocol',
-        component: () => import('@/view/base/setting/agreement'),
-        meta: {
-          aliasName: 'agreement',
-          icon: 'icon-products',
-          title: '软件协议',
-          permissions: ['setting.systeminfo.agreement']
-        }
+        component: () => import('@/views/settings/deliverySettings/dada-account')
       },
       {
         name: 'systemInfoOperatorLogs',
         path: 'system-info/operator-logs',
-        component: () => import('@/view/base/setting/companys/logs'),
+        component: () => import('@/views/settings/systemInfo/operation-log'),
         meta: {
           aliasName: 'operatLorogs',
           icon: 'icon-products',
-          title: '操作日志',
+          title: '181fc9cc.cda84b',
           permissions: ['setting.systeminfo.operator-logs']
         }
       },
@@ -564,10 +554,10 @@ const routes = [
         meta: {
           aliasName: 'omssetting',
           icon: 'icon-products',
-          title: 'oms配置',
+          title: '181fc9cc.1d62c8',
           permissions: ['setting.omssetting']
         },
-        component: () => import('@/view/base/account/normalroles') //后期修复
+        component: () => import('@/views/settings/role-admin') //后期修复
       },
 
       {
@@ -576,10 +566,10 @@ const routes = [
         meta: {
           aliasName: 'mapsetting',
           icon: 'icon-products',
-          title: '地图服务',
+          title: '181fc9cc.5e6abb',
           permissions: ['setting.systemsetting.mapsetting']
         },
-        component: () => import('@/view/base/setting/mapsetting')
+        component: () => import('@/views/settings/systemConfig/map-setting')
       },
       {
         name: `ERP`,
@@ -587,17 +577,17 @@ const routes = [
         meta: {
           aliasName: 'certificate',
           icon: 'icon-products',
-          title: '商派ERP',
+          title: '181fc9cc.e5549d',
           permissions: ['setting.systemsetting.certificate']
         },
-        component: () => import('@/view/base/setting/certificate/index')
+        component: () => import('@/views/settings/systemConfig/ShangPai-erp')
       },
       {
         name: `shopmenus`,
         path: 'menumanage/shopmenus',
         meta: {
           icon: 'icon-products',
-          title: '商城菜单',
+          title: '181fc9cc.712fef',
           permissions: ['setting.menumanage.shopmenus']
         },
         component: () => import('@/view/menus/shopmenu')
@@ -607,7 +597,7 @@ const routes = [
         path: 'menumanage/distributormenu',
         meta: {
           icon: 'icon-products',
-          title: '店铺菜单',
+          title: '181fc9cc.5e1308',
           permissions: ['setting.menumanage.distributormenu']
         },
         component: () => import('@/view/menus/distributormenu')
@@ -617,7 +607,7 @@ const routes = [
         path: 'menumanage/suppliermenus',
         meta: {
           icon: 'icon-products',
-          title: '供应商菜单',
+          title: '181fc9cc.f6b769',
           permissions: ['setting.menumanage.suppliermenus']
         },
         component: () => import('@/view/menus/supplier')
@@ -627,7 +617,7 @@ const routes = [
         path: 'menumanage/merchantmenu',
         meta: {
           icon: 'icon-products',
-          title: '商户菜单',
+          title: '181fc9cc.86be9a',
           permissions: ['setting.menumanage.merchantmenu']
         },
         component: () => import('@/view/menus/merchantmenu')
@@ -638,10 +628,21 @@ const routes = [
         meta: {
           aliasName: 'damoCrm',
           icon: 'icon-products',
-          title: '达摩CRM',
+          title: '181fc9cc.a21aa1',
           permissions: ['setting.systemsetting.damoCrm']
         },
-        component: () => import('@/view/base/setting/damoCrm/index')
+        component: () => import('@/views/settings/systemConfig/damoCrm/index')
+      },
+      {
+        name: `systemconfigKjlSetting`,
+        path: 'system-config/kjl-setting',
+        meta: {
+          aliasName: 'kjlsetting',
+          icon: 'icon-products',
+          title: '181fc9cc.782f66',
+          permissions: ['setting.systemsetting.kjlsetting']
+        },
+        component: () => import('@/views/settings/kujiale-setting')
       }
     ]
   }

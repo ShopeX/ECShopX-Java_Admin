@@ -27,7 +27,7 @@
   <div class="picker-zitilist">
     <SpFilterForm :model="formData" size="small" @onSearch="onSearch" @onReset="onSearch">
       <SpFilterFormItem prop="keywords">
-        <el-input v-model="formData.keywords" placeholder="输入自提点名称、地址关键词" />
+        <el-input v-model="formData.keywords" :placeholder="$t('46563da6.a83315')" />
       </SpFilterFormItem>
     </SpFilterForm>
     <SpFinder
@@ -66,6 +66,9 @@ export default {
     title: '选择自提点'
   },
   props: ['value'],
+  created() {
+    this.$options.config.title = this.$t('46563da6.47c2de')
+  },
   data() {
     return {
       formData: {
@@ -90,7 +93,7 @@ export default {
     afterSearch(response) {
       const { list } = response.data.data
       const { data = [] } = this.value
-      const selectRow = list.filter(item => data.includes(item.id))
+      const selectRow = list.filter((item) => data.includes(item.id))
       const finderTable = this.$refs['finder'].$refs.finderTable.$refs.finderTable
 
       setTimeout(() => {

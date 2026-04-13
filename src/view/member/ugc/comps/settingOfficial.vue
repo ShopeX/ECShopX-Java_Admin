@@ -6,12 +6,12 @@
 <template>
   <div>
     <el-dialog
-      title="官方号设置"
+      :title="$t('2fc73439.c194c5')"
       :before-close="handleCancelLabelsDialog"
       :visible.sync="dialogIsShow"
       width="30%"
     >
-      <div class="tips">所有官方笔记都将改下设置的账户名称及头像进行展示。</div>
+      <div class="tips">{{ $t('2fc73439.680f8e') }}</div>
       <el-form
         ref="dataForm"
         v-loading="formLoad"
@@ -22,7 +22,7 @@
       >
         <el-row>
           <el-col>
-            <el-form-item label="账户名称" prop="nickname" class="last-ipt">
+            <el-form-item :label="$t('2fc73439.fec615')" prop="nickname" class="last-ipt">
               <el-input
                 v-model="ruleForm.nickname"
                 maxlength="20"
@@ -32,7 +32,7 @@
             </el-form-item>
           </el-col>
           <el-col>
-            <el-form-item label="账户头像" prop="avatar" class="last-ipt">
+            <el-form-item :label="$t('2fc73439.51357e')" prop="avatar" class="last-ipt">
               <div :class="['img-wrap', ruleForm.avatar ? 'mask' : null]">
                 <el-image
                   v-if="ruleForm.avatar"
@@ -40,10 +40,10 @@
                   :src="ruleForm.avatar"
                 />
                 <div v-if="ruleForm.avatar" class="goodspic-mask" @click="removePicsImg">
-                  <div class="iconfont icon-trash-alt" />
+                  <SpIcon name="delete" />
                 </div>
                 <div v-else class="goodspic-mask" @click="handlePicsChange">
-                  <div class="iconfont iconfont icon-camera" />
+                  <SpIcon name="camera" />
                 </div>
               </div>
             </el-form-item>
@@ -52,8 +52,8 @@
       </el-form>
 
       <div slot="footer">
-        <el-button type="primary" @click="confirmHandle"> 确认 </el-button>
-        <el-button @click="handleCancelLabelsDialog"> 取消 </el-button>
+        <el-button type="primary" @click="confirmHandle">{{ $t('2fc73439.e83a25') }}</el-button>
+        <el-button @click="handleCancelLabelsDialog">{{ $t('2fc73439.625fb2') }}</el-button>
       </div>
     </el-dialog>
     <imgPicker
@@ -82,13 +82,17 @@ export default {
         nickname: null,
         avatar: null
       },
-      rules: {
-        nickname: [{ required: true, message: '请填写账户名称', trigger: 'blur' }],
-        avatar: [{ required: true, message: '请选择账户头像', trigger: 'blur' }]
-      },
       picsDialog: false,
       isGetPics: false,
       multiple: false
+    }
+  },
+  computed: {
+    rules() {
+      return {
+        nickname: [{ required: true, message: this.$t('2fc73439.5867c8'), trigger: 'blur' }],
+        avatar: [{ required: true, message: this.$t('2fc73439.736179'), trigger: 'blur' }]
+      }
     }
   },
   mounted() {
@@ -96,7 +100,7 @@ export default {
   },
   methods: {
     getFetch() {
-      getUGCSetting({ type: 'official' }).then(res => {
+      getUGCSetting({ type: 'official' }).then((res) => {
         var { data } = res.data
         var ruleForm = {
           nickname: data['official.nickname'],
@@ -126,7 +130,7 @@ export default {
       const that = this
       const { ruleForm } = this.$data
 
-      this.$refs['dataForm'].validate(valid => {
+      this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           //console.log('confirmHandle submit!!',ruleForm);
           const { video_enable } = this.$data
@@ -138,7 +142,7 @@ export default {
             }
           }
           params.setting = JSON.stringify(params.setting)
-          setUGCSetting(params).then(res => {
+          setUGCSetting(params).then((res) => {
             var { message } = res.data.data
             this.$message({
               type: 'success',
@@ -178,7 +182,7 @@ export default {
   overflow: hidden;
   cursor: pointer;
 }
-.official-form .img-wrap .iconfont {
+.official-form .img-wrap .i-icon {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -195,7 +199,7 @@ export default {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
 }
-.official-form .img-wrap.mask .goodspic-mask .iconfont {
+.official-form .img-wrap.mask .goodspic-mask .i-icon {
   color: #fff;
   font-size: 20px;
 }

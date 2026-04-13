@@ -7,29 +7,36 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="12">
-        <el-button type="primary" icon="plus" @click="addRoleLabels"> 添加角色 </el-button>
+        <el-button type="primary" icon="plus" @click="addRoleLabels">
+          {{ $t('31921bc0.596b04') }}
+        </el-button>
       </el-col>
       <el-col :span="12">
-        <el-input v-model="params.role_name" placeholder="角色名称">
+        <el-input v-model="params.role_name" :placeholder="$t('31921bc0.10a6f1')">
           <el-button slot="append" icon="el-icon-search" @click="roleSearch" />
         </el-input>
       </el-col>
     </el-row>
     <el-table v-loading="loading" :data="rolesList" :height="wheight - 160">
-      <el-table-column prop="role_name" label="角色名称" />
-      <el-table-column prop="permission" label="角色权限">
+      <el-table-column prop="role_name" :label="$t('31921bc0.10a6f1')" />
+      <el-table-column prop="permission" :label="$t('31921bc0.86a1be')">
         <template slot-scope="scope">
           <el-tree :data="scope.row.permission_tree" :props="defaultProps" />
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column :label="$t('31921bc0.2b6bc0')">
         <template slot-scope="scope">
-          <div class="operating-icons">
-            <i class="iconfont icon-edit1" @click="editRoleAction(scope.$index, scope.row)" />
-            <i
-              class="mark iconfont icon-trash-alt1"
-              @click="deleteRoleAction(scope.$index, scope.row)"
-            />
+          <div class="operating-icons gap-2">
+            <el-button type="text" @click="editRoleAction(scope.$index, scope.row)">
+{{
+              $t('31921bc0.95b351')
+            }}
+</el-button>
+            <el-button type="text" @click="deleteRoleAction(scope.$index, scope.row)">
+{{
+              $t('31921bc0.2f4aad')
+            }}
+</el-button>
           </div>
         </template>
       </el-table-column>
@@ -47,16 +54,16 @@
     <el-dialog :title="editRoleTitle" :visible.sync="editRoleVisible" :before-close="handleCancel">
       <template>
         <el-form ref="form" :model="form" class="demo-ruleForm" label-width="90px">
-          <el-form-item label="角色名称">
+          <el-form-item :label="$t('31921bc0.10a6f1')">
             <el-col :span="14">
               <el-input
                 v-model="form.role_name"
                 :maxlength="20"
-                placeholder="订单管理员、商品管理员、等等"
+                :placeholder="$t('31921bc0.395730')"
               />
             </el-col>
           </el-form-item>
-          <el-form-item label="角色权限">
+          <el-form-item :label="$t('31921bc0.86a1be')">
             <el-tree
               ref="tree"
               :data="$store.getters.menus"
@@ -69,8 +76,10 @@
         </el-form>
       </template>
       <div slot="footer" class="dialog-footer">
-        <el-button @click.native="handleCancel"> 取消 </el-button>
-        <el-button type="primary" @click="submitRoleAction"> 保存 </el-button>
+        <el-button @click.native="handleCancel"> {{ $t('31921bc0.625fb2') }} </el-button>
+        <el-button type="primary" @click="submitRoleAction">
+          {{ $t('31921bc0.be5fbb') }}
+        </el-button>
       </div>
     </el-dialog>
     <!-- 添加、编辑基础物料-结束 -->
@@ -129,7 +138,7 @@ export default {
     },
     addRoleLabels() {
       // 添加物料弹框
-      this.editRoleTitle = '角色添加'
+      this.editRoleTitle = this.$t('31921bc0.d36f39')
       this.editRoleVisible = true
       this.isEdit = false
       this.form.role_name = ''
@@ -143,7 +152,7 @@ export default {
     },
     editRoleAction(index, row) {
       // 编辑物料弹框
-      this.editRoleTitle = '角色编辑'
+      this.editRoleTitle = this.$t('31921bc0.b0acd5')
       this.editRoleVisible = true
       this.isEdit = true
       this.form.role_name = row.role_name
@@ -159,7 +168,7 @@ export default {
 
       var checkedNodes = this.$refs.tree.getCheckedNodes()
       var checkedKeys = []
-      checkedNodes.forEach(item => {
+      checkedNodes.forEach((item) => {
         if (!item.isChildrenMenu) {
           checkedKeys.push(item.shopmenu_id)
         }
@@ -168,13 +177,13 @@ export default {
       var version = this.$store.getters.menus[0].version
       this.form.permission = { shopmenu_ids: checkedKeys, version: version }
       if (this.form.role_id) {
-        updateRolesInfo(this.form.role_id, this.form).then(response => {
+        updateRolesInfo(this.form.role_id, this.form).then((response) => {
           this.editRoleVisible = false
           this.getRolesDataList()
           this.handleCancel()
         })
       } else {
-        createRoles(this.form).then(response => {
+        createRoles(this.form).then((response) => {
           this.editRoleVisible = false
           this.getRolesDataList()
           this.handleCancel()
@@ -189,30 +198,30 @@ export default {
       this.loading = true
       this.params.service_type = 'timescard'
       getRolesList(this.params)
-        .then(response => {
+        .then((response) => {
           this.rolesList = response.data.data.list
           this.total_count = response.data.data.total_count
           this.loading = false
         })
-        .catch(error => {
+        .catch((error) => {
           this.loading = false
           this.$message({
             type: 'error',
-            message: '页面已过期，请刷新重试'
+            message: this.$t('31921bc0.929b60')
           })
         })
     },
     deleteRoleAction(index, row) {
-      this.$confirm('此操作将删除该角色, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('31921bc0.82cd52'), this.$t('31921bc0.02d981'), {
+        confirmButtonText: this.$t('31921bc0.38cf16'),
+        cancelButtonText: this.$t('31921bc0.625fb2'),
         type: 'warning'
       })
         .then(() => {
-          deleteRole(row.role_id).then(response => {
+          deleteRole(row.role_id).then((response) => {
             this.rolesList.splice(index, 1)
             this.$message({
-              message: '删除成功',
+              message: this.$t('31921bc0.0007d1'),
               type: 'success',
               duration: 5 * 1000
             })
@@ -221,7 +230,7 @@ export default {
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: this.$t('31921bc0.2111cc')
           })
         })
     }

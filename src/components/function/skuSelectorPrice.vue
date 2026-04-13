@@ -17,21 +17,27 @@
             </div>
             <div class="goods-sku">
               <template v-if="!item.nospec">
-                {{ item.spec_items.length > 0 ? '已选' + item.spec_items.length : '全规格' }}
-                <div class="goods-sku-check" @click="handleSkuDialogShow(index)">选择规格</div>
+                {{
+                  item.spec_items.length > 0
+                    ? $t('9c91acb5.b9037f', { n: item.spec_items.length })
+                    : $t('9c91acb5.f46aac')
+                }}
+                <div class="goods-sku-check" @click="handleSkuDialogShow(index)">
+                  {{ $t('9c91acb5.a0f99d') }}
+                </div>
               </template>
             </div>
           </div>
-          <div class="goods-remove iconfont icon-trash-alt" @click="handleSkuRemove(index)" />
+          <div class="goods-remove el-icon-delete" @click="handleSkuRemove(index)" />
         </div>
         <div v-if="isInputShow" class="grid-content bg-purple">
           <el-input
             v-model="item.new_price"
             type="input"
-            placeholder="组合商品价格"
+            :placeholder="$t('9c91acb5.27e08b')"
             @change="generateSku()"
           >
-            价格:
+            {{ $t('9c91acb5.3c70a0') }}
           </el-input>
         </div>
       </el-col>
@@ -45,21 +51,21 @@
         选择商品
       </el-button>
     </div>
-    <el-dialog title="选择sku" :visible.sync="dialogVisible" width="50%">
+    <el-dialog :title="$t('9c91acb5.8aa2c1')" :visible.sync="dialogVisible" width="50%">
       <el-table ref="skuTable" v-loading="loading" :data="skus" @selection-change="handleSkuChange">
         <el-table-column type="selection" width="55" />
-        <el-table-column label="规格名称">
+        <el-table-column :label="$t('9c91acb5.023809')">
           <template slot-scope="scope">
             {{ scope.row.item_spec_desc }}
           </template>
         </el-table-column>
-        <el-table-column label="价格">
+        <el-table-column :label="$t('9c91acb5.0e9fd9')">
           <template slot-scope="scope"> ¥{{ scope.row.price / 100 }} </template>
         </el-table-column>
       </el-table>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleSkuSubmit">确 定</el-button>
+        <el-button @click="dialogVisible = false">{{ $t('9c91acb5.c08ab9') }}</el-button>
+        <el-button type="primary" @click="handleSkuSubmit">{{ $t('9c91acb5.aa7527') }}</el-button>
       </span>
     </el-dialog>
     <GoodsSelector
@@ -161,11 +167,11 @@ export default {
       this.skuParams.item_id = this.goods[index].default_item_id
       this.dialogVisible = true
       let checked = this.goods[index].spec_items
-      getItemsList(this.skuParams).then(res => {
+      getItemsList(this.skuParams).then((res) => {
         this.skus = res.data.data.list
         this.$nextTick(() => {
-          that.skus.forEach(item => {
-            let index = checked.findIndex(n => item.itemId === n.itemId)
+          that.skus.forEach((item) => {
+            let index = checked.findIndex((n) => item.itemId === n.itemId)
             if (index !== -1) {
               that.$refs.skuTable.toggleRowSelection(item)
             }
@@ -189,7 +195,7 @@ export default {
     handleGoodsSubmit(data) {
       if (data.length > 10) {
         this.$message({
-          message: '最大选择10个商品',
+          message: this.$t('9c91acb5.120ab1'),
           type: 'error'
         })
         return
@@ -198,7 +204,7 @@ export default {
       if (data === null || data.length <= 0) return
       this.relItems = data
       let list = []
-      data.forEach(item => {
+      data.forEach((item) => {
         Object.assign(item, {
           new_price:
             'undefined' == typeof this.itemNewPrice[item.item_id]
@@ -212,8 +218,8 @@ export default {
         }
       })
       if (this.goods.length > 0) {
-        list.forEach(item => {
-          let goodsItem = this.goods.find(n => item.itemId === n.item_id)
+        list.forEach((item) => {
+          let goodsItem = this.goods.find((n) => item.itemId === n.item_id)
           if (goodsItem && goodsItem.spec_items && goodsItem.spec_items.length > 0) {
             item.spec_items = goodsItem.spec_items
           }
@@ -228,7 +234,7 @@ export default {
       let newPrice = 0
       let goodsList = JSON.parse(JSON.stringify(this.goods))
       this.itemNewPrice = []
-      goodsList.forEach(item => {
+      goodsList.forEach((item) => {
         if (!item.nospec && item.spec_items.length === 0) {
           noSkuItem.push(item.default_item_id)
         }
@@ -236,21 +242,21 @@ export default {
       if (noSkuItem.length > 0) {
         let param = this.skuParams
         param.item_id = noSkuItem
-        getItemsList(this.skuParams).then(res => {
-          goodsList.forEach(item => {
+        getItemsList(this.skuParams).then((res) => {
+          goodsList.forEach((item) => {
             if (!item.nospec) {
-              res.data.data.list.forEach(sku => {
+              res.data.data.list.forEach((sku) => {
                 if (item.item_id === sku.default_item_id) {
                   item.spec_items.push(sku)
                 }
               })
             }
           })
-          goodsList.forEach(item => {
+          goodsList.forEach((item) => {
             newPrice += item.new_price ? parseFloat(item.new_price) : 0
             this.itemNewPrice[item.item_id] = item.new_price ? parseFloat(item.new_price) : 0
             if (!item.nospec) {
-              item.spec_items = item.spec_items.map(v => {
+              item.spec_items = item.spec_items.map((v) => {
                 return { ...Object.assign({}, v, { new_price: item.new_price }) }
               })
               response = [...response, ...item.spec_items]
@@ -262,11 +268,11 @@ export default {
           this.$emit('newPrice', newPrice)
         })
       } else {
-        goodsList.forEach(item => {
+        goodsList.forEach((item) => {
           newPrice += item.new_price ? parseFloat(item.new_price) : 0
           this.itemNewPrice[item.item_id] = item.new_price ? parseFloat(item.new_price) : 0
           if (!item.nospec) {
-            const spec_items = item.spec_items.map(v => {
+            const spec_items = item.spec_items.map((v) => {
               return { ...Object.assign({}, v, { new_price: v.new_price }) }
             })
             response = [...response, ...spec_items]

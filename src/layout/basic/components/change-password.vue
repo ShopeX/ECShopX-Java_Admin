@@ -11,12 +11,14 @@
       form-type="normalForm"
       :form-items="formItems"
       label-width="100px"
-      :showDefaultActions="false"
+      :show-default-actions="false"
     />
   </div>
 </template>
 
 <script>
+import { i18n } from '@/i18n'
+
 export default {
   data() {
     return {
@@ -25,37 +27,39 @@ export default {
         confirmPassword: ''
       },
       showPassword: false,
-      showConfirmPassword: false,
-      formItems: [
+      showConfirmPassword: false
+    }
+  },
+  computed: {
+    formItems() {
+      return [
         {
           fieldName: 'newPassword',
           formItemClass: 'w-2/3',
-          label: '修改密码',
+          label: i18n.t('a70b3bb4.7fc88a'),
           component: ({ value, onInput }) => {
             return (
               <el-input
                 v-model={value}
                 type={this.showPassword ? 'text' : 'password'}
-                placeholder='请输入新密码'
-                clearable
+                placeholder={i18n.t('a70b3bb4.abdd7e')}
                 on-input={onInput}
               >
-                <i
+                <div
                   slot='suffix'
+                  class='h-full w-[25px] flex items-center justify-center'
                   on-click={() => {
                     this.showPassword = !this.showPassword
                   }}
-                  class={[
-                    'el-input__icon',
-                    this.showPassword ? 'el-icon-view-off' : 'el-icon-view'
-                  ]}
-                />
+                >
+                  <SpIcon name={this.showPassword ? 'preview-open' : 'preview-close'} size='16' />
+                </div>
               </el-input>
             )
           },
           rules: [
-            { required: true, message: '请输入新密码', trigger: 'blur' },
-            { min: 6, message: '密码长度不能少于6位', trigger: 'blur' }
+            { required: true, message: i18n.t('a70b3bb4.abdd7e'), trigger: 'blur' },
+            { min: 6, message: i18n.t('a70b3bb4.b12b49'), trigger: 'blur' }
           ]
         },
         {
@@ -64,34 +68,35 @@ export default {
               <el-input
                 v-model={value}
                 type={this.showConfirmPassword ? 'text' : 'password'}
-                placeholder='请输入确认密码'
-                clearable
+                placeholder={i18n.t('a70b3bb4.a7a9a2')}
                 on-input={onInput}
               >
-                <i
+                <div
                   slot='suffix'
+                  class='h-full w-[25px] flex items-center justify-center'
                   on-click={() => {
                     this.showConfirmPassword = !this.showConfirmPassword
                   }}
-                  class={[
-                    'el-input__icon',
-                    this.showConfirmPassword ? 'el-icon-view-off' : 'el-icon-view'
-                  ]}
-                />
+                >
+                  <SpIcon
+                    name={this.showConfirmPassword ? 'preview-open' : 'preview-close'}
+                    size='16'
+                  />
+                </div>
               </el-input>
             )
           },
           fieldName: 'confirmPassword',
           formItemClass: 'w-2/3',
-          label: '确认密码',
+          label: i18n.t('a70b3bb4.3fbdde'),
           rules: [
             {
               validator: (rule, value, callback) => {
                 if (!value) {
-                  callback(new Error('请输入确认密码'))
+                  callback(new Error(i18n.t('a70b3bb4.a7a9a2')))
                   return
                 } else if (value !== this.formData.newPassword) {
-                  callback(new Error('两次输入的密码不一致'))
+                  callback(new Error(i18n.t('a70b3bb4.6046d6')))
                 } else {
                   callback()
                 }
@@ -104,13 +109,16 @@ export default {
     }
   },
   methods: {
-    async validate() { // 暴露给layout-header弹框
+    async validate() {
+      // 暴露给layout-header弹框
       await this.$refs.changePasswordForm.validate()
     },
-    async getFieldsValue() { // 暴露给layout-header弹框
+    async getFieldsValue() {
+      // 暴露给layout-header弹框
       return this.$refs.changePasswordForm.getFieldsValue()
     },
-    async onSubmit() { // 暴露给layout-header弹框
+    async onSubmit() {
+      // 暴露给layout-header弹框
       try {
         await this.$refs.changePasswordForm.handleSubmit()
         await this.handleSubmit(this.formData)
@@ -124,9 +132,9 @@ export default {
           pwd: formData.newPassword,
           repwd: formData.confirmPassword
         })
-        this.$message.success('密码修改成功，请重新登录')
+        this.$message.success(i18n.t('a70b3bb4.0259a1'))
       } catch (error) {
-        throw new Error('密码修改失败')
+        throw new Error(i18n.t('a70b3bb4.e0cd5c'))
       }
     }
   }

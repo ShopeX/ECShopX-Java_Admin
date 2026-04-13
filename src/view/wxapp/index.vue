@@ -14,7 +14,7 @@
         <div class="template-item add-btn" @click="chooseTemp">
           <div class="template-wrap items-center flex-col flex add-btn">
             <i class="iconfont icon-weixin" />
-            <div>添加小程序模板</div>
+            <div>{{ $t('9aec82de.e117c3') }}</div>
           </div>
         </div>
       </el-col>
@@ -30,10 +30,10 @@
         <div class="template-item">
           <div v-if="item.is_weapp_grade" class="has-upgrade" />
           <div v-if="item.wxaCodeVisible" class="wxcode">
-            <div class="iconfont icon-times" @click="closeWxcode(index)" />
+            <div class="el-icon-close" @click="closeWxcode(index)" />
             <img :src="item.wxaCodeImage" alt="">
           </div>
-          <div class="template-wrap items-center flex-col flex" >
+          <div class="template-wrap items-center flex-col flex">
             <div class="template-img">
               <img
                 v-if="item.template_name === 'yykmembership'"
@@ -83,7 +83,8 @@
               {{ item.templateInfo.name }}
             </div>
             <div class="template-opend-btn" @click="linkTo(item)">
-              <span v-if="item.is_bind">编辑模板</span><span v-else>未绑定</span>
+              <span v-if="item.is_bind">{{ $t('9aec82de.c6aa35') }}</span
+              ><span v-else>{{ $t('9aec82de.906ad1') }}</span>
             </div>
           </div>
         </div>
@@ -104,7 +105,7 @@ export default {
     }
   },
   mounted() {
-    getTemplateList().then(response => {
+    getTemplateList().then((response) => {
       var res = response.data.data.list
       for (var i = 0; i < res.length; i++) {
         res[i].loading = false
@@ -147,7 +148,7 @@ export default {
       if (!this.list[index].wxaCodeImage) {
         let params = { wxaAppId: appid }
         this.list[index].loading = true
-        getCodeUnlimit(params).then(response => {
+        getCodeUnlimit(params).then((response) => {
           this.list[index].wxaCodeImage = response.data.data.base64Image
           this.list[index].wxaCodeVisible = true
           this.list[index].loading = false

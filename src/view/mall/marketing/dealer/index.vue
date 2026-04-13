@@ -45,7 +45,7 @@
           <template #tableTop>
             <el-row class="cus-btn">
               <el-button type="primary" plain size="mini" @click="handleClose(true)">
-                新增经销商
+                {{ $t('d41d8cd9.ooo1pp') }}
               </el-button>
             </el-row>
           </template>
@@ -56,9 +56,9 @@
               type="daterange"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              @change="val => dateChange('create', val)"
+              :start-placeholder="$t('bf067b2b.b44c0f')"
+              :end-placeholder="$t('bf067b2b.1d468b')"
+              @change="(val) => dateChange('create', val)"
             />
           </template>
           <template #open_time>
@@ -68,15 +68,15 @@
               type="daterange"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              @change="val => dateChange('open', val)"
+              :start-placeholder="$t('bf067b2b.b44c0f')"
+              :end-placeholder="$t('bf067b2b.1d468b')"
+              @change="(val) => dateChange('open', val)"
             />
           </template>
         </SpFinder>
       </el-card>
       <el-dialog
-        title="提示"
+        :title="$t('bf067b2b.02d981')"
         :visible.sync="visibleModal"
         width="25%"
         :close-on-click-modal="false"
@@ -88,10 +88,10 @@
         </el-row>
         <el-row style="text-align: right">
           <el-button type="primary" size="small" plain @click="handleModalConfirm(false)">
-            取消
+            {{ $t('d41d8cd9.t4u5v6') }}
           </el-button>
           <el-button type="primary" size="small" @click="handleModalConfirm(true)">
-            确认
+            {{ $t('d41d8cd9.w7x8y9') }}
           </el-button>
         </el-row>
       </el-dialog>
@@ -113,17 +113,17 @@ export default {
     setting() {
       return createSetting({
         columns: [
-          { name: '经销商', key: 'username' },
-          { name: '联系人', key: 'contact' },
-          { name: '联系电话', key: 'mobile' },
+          { name: this.$t('bf067b2b.9019dc'), key: 'username' },
+          { name: this.$t('bf067b2b.52409d'), key: 'contact' },
+          { name: this.$t('bf067b2b.09a1f6'), key: 'mobile' },
           {
-            name: '创建时间',
+            name: this.$t('bf067b2b.eca37c'),
             key: 'created',
             formatter: (h, { created }) =>
               created ? moment(created * 1000).format('YYYY-MM-DD HH:mm:ss') : '-'
           },
           {
-            name: '开户时间',
+            name: this.$t('bf067b2b.2a507b'),
             key: 'adapay_open_account_time',
             formatter: (h, { adapay_open_account_time }) =>
               adapay_open_account_time
@@ -132,24 +132,39 @@ export default {
           }
         ],
         search: [
-          { type: 'input', key: 'username', name: '经销商', placeholder: '请输入经销商' },
-          { type: 'input', key: 'contact', name: '联系人', placeholder: '请输入联系人' },
-          { type: 'input', key: 'mobile', name: '联系电话', placeholder: '请输入联系电话' },
-          { key: 'create_time', name: '创建时间', slot: 'create_time' },
-          { key: 'open_time', name: '开户时间', slot: 'open_time' }
+          {
+            type: 'input',
+            key: 'username',
+            name: this.$t('bf067b2b.9019dc'),
+            placeholder: this.$t('bf067b2b.0c098b')
+          },
+          {
+            type: 'input',
+            key: 'contact',
+            name: this.$t('bf067b2b.52409d'),
+            placeholder: this.$t('bf067b2b.9e3f21')
+          },
+          {
+            type: 'input',
+            key: 'mobile',
+            name: this.$t('bf067b2b.09a1f6'),
+            placeholder: this.$t('bf067b2b.7b540b')
+          },
+          { key: 'create_time', name: this.$t('bf067b2b.eca37c'), slot: 'create_time' },
+          { key: 'open_time', name: this.$t('bf067b2b.2a507b'), slot: 'open_time' }
           // { type: 'date-range', key: 'create_time', name: '创建时间', start: 'time_start', end: 'time_end' },
           // { type: 'date-range', key: 'open_time', name: '开户时间', start: 'open_account_start', end: 'open_account_end' }
         ],
         actions: [
           {
-            name: '详情',
+            name: this.$t('bf067b2b.f26225'),
             key: 'detail',
             type: 'button',
             buttonType: 'text',
             // slot: 'header',
             action: {
               type: 'link',
-              handler: row => {
+              handler: (row) => {
                 this.$router.push({
                   path: this.matchRoutePath('detail'),
                   query: { operator_id: row[0].operator_id }
@@ -158,15 +173,15 @@ export default {
             }
           },
           {
-            name: '查看关联店铺',
+            name: this.$t('bf067b2b.198425'),
             key: 'show',
             type: 'button',
             buttonType: 'text',
-            visible: row => {
+            visible: (row) => {
               return row.adapay_open_account_time
             },
             action: {
-              handler: row => {
+              handler: (row) => {
                 this.$router.push({
                   path: this.matchRoutePath('storelist'),
                   query: { dealer_id: row[0].operator_id, username: row[0].username }
@@ -175,36 +190,36 @@ export default {
             }
           },
           {
-            name: '开启',
+            name: this.$t('bf067b2b.cc42dd'),
             key: 'on',
             type: 'button',
             buttonType: 'text',
-            visible: row => {
+            visible: (row) => {
               return row.is_disable === 1
             },
             action: {
-              handler: row => this.handleOpenOpeartion(true, '开启', row[0])
+              handler: (row) => this.handleOpenOpeartion(true, this.$t('bf067b2b.cc42dd'), row[0])
             }
           },
           {
-            name: '禁用',
+            name: this.$t('bf067b2b.710ad0'),
             key: 'off',
             type: 'button',
             buttonType: 'text',
-            visible: row => {
+            visible: (row) => {
               return row.is_disable === 0
             },
             action: {
-              handler: row => this.handleOpenOpeartion(true, '禁用', row[0])
+              handler: (row) => this.handleOpenOpeartion(true, this.$t('bf067b2b.710ad0'), row[0])
             }
           },
           {
-            name: '重置密码',
+            name: this.$t('bf067b2b.0719aa'),
             key: 'resert',
             type: 'button',
             buttonType: 'text',
             action: {
-              handler: row => this.handleeResertPass(true, row[0])
+              handler: (row) => this.handleeResertPass(true, row[0])
             }
           }
         ]
@@ -242,17 +257,19 @@ export default {
     handleOpenOpeartion(visivle, type, rowDate) {
       this.rowDate = rowDate
       this.modalContent =
-        type === '开启'
-          ? '如开启该经销商，与之关联的已入网成功的店铺也将被开启，总部将参与分账，请确认是否开启该经销商。'
-          : '如禁用该经销商，与之关联的已入网成功的店铺也将被禁用，总部不在参与分账，请确认是否禁用该经销商。'
+        type === this.$t('bf067b2b.cc42dd')
+          ? this.$t('bf067b2b.c8fbcd')
+          : this.$t('bf067b2b.e6d19f')
       this.visibleModal = visivle
       this.modalType = type
       this.subTitle = ''
     },
     handleeResertPass(visivle, rowDate) {
       this.rowDate = rowDate
-      this.modalContent = `请确认是否重置【${rowDate.username}】的密码`
-      this.subTitle = '（新密码将以短信形式发送至其联系人的手机号上，短信费用将从短信余额中扣除）'
+      this.modalContent = `${this.$t('d41d8cd9.qqq3rr')}${rowDate.username}${this.$t(
+        'd41d8cd9.sss5tt'
+      )}`
+      this.subTitle = this.$t('d41d8cd9.uuu7vv')
       this.visibleModal = visivle
     },
     handleModalConfirm(visible) {
@@ -262,12 +279,12 @@ export default {
         let parmas = this.subTitle
           ? operator_id
           : { is_disable: is_disable === 0 ? 1 : 0, operator_id: operator_id }
-        url(parmas).then(res => {
+        url(parmas).then((res) => {
           this.visibleModal = false
           this.modalType = ''
           this.modalContent = ''
           this.$message({
-            message: '操作成功',
+            message: this.$t('bf067b2b.33130f'),
             type: 'success'
           })
         })

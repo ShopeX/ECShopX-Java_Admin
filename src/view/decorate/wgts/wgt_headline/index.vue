@@ -27,6 +27,7 @@
       'wgt-headline': true,
       padded: value.padded
     }"
+    :style="outerStyle"
   >
     <div
       class="wgt-bd"
@@ -52,14 +53,21 @@
 </template>
 <script>
 import config from './config'
+import { i18n } from '@/i18n'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Headline',
-  wgtName: '文字标题',
+  wgtName: i18n.t('ade966df.33a39d'),
   wgtDesc: '',
   wgtIcon: 'wgt-headline',
   config: config,
   props: {
     value: [Object, Array]
+  },
+  computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    }
   }
 }
 </script>

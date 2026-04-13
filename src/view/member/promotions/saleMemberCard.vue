@@ -7,44 +7,36 @@
   <div class="section section-white">
     <el-form ref="form" :model="form" label-position="left" label-width="180px">
       <div class="section-body">
-        <el-form-item label="是否开启：" prop="ad_title">
+        <el-form-item :label="$t('8804b0ee.9f0f3f')" prop="ad_title">
           <el-switch
             v-model="form.is_open"
             :width="60"
             active-value="true"
             inactive-value="false"
             inactive-color="#ccc"
-            active-text="开启"
-            inactive-text="关闭"
+            :active-text="$t('8804b0ee.cc42dd')"
+            :inactive-text="$t('8804b0ee.b15d91')"
             active-color="#13ce66"
           />
         </el-form-item>
-        <el-form-item label="注册引导广告标题：" prop="ad_title">
+        <el-form-item :label="$t('8804b0ee.6ed28f')" prop="ad_title">
           <el-input
             v-model="form.ad_title"
-            :placeholder="
-              !VERSION_B2C() ? '用于门店小程序注册引导入口标题' : '用于小程序注册引导入口标题'
-            "
+            :placeholder="registerAdTitlePlaceholder"
             style="width: 340px"
           />
         </el-form-item>
-        <el-form-item label="注册引导图片：">
-          <div class="frm-tips">只能上传jpg/png文件，且不超过2M （建议尺寸：400px * 450px）</div>
-          <div class="frm-tips">引导用户授权手机号注册，类似新用户专享广告图片</div>
+        <el-form-item :label="$t('8804b0ee.60079e')">
+          <div class="frm-tips">{{ $t('8804b0ee.6113fc') }}</div>
+          <div class="frm-tips">{{ $t('8804b0ee.3b1660') }}</div>
           <div>
             <div class="upload-box" @click="handleImgChange">
               <img v-if="form.ad_pic" :src="wximageurl + form.ad_pic" class="avatar" width="200">
               <i v-else class="el-icon-plus avatar-uploader-icon" />
             </div>
           </div>
-          <imgPicker
-            :dialog-visible="imgDialog"
-            :sc-status="isGetImage"
-            @chooseImg="pickImg"
-            @closeImgDialog="closeImgDialog"
-          />
         </el-form-item>
-        <el-form-item label="请选择赠送会员卡类型：">
+        <el-form-item :label="$t('8804b0ee.01976e')">
           <el-radio-group v-model="membercards.index_value" @change="vipGradeChange">
             <el-radio
               v-for="(item, index) in vipGrade"
@@ -56,34 +48,29 @@
             </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="priceList.length > 0" label="请选择赠送会员卡：">
+        <el-form-item v-if="priceList.length > 0" :label="$t('8804b0ee.e04052')">
           <!-- {{ membercards }}
           {{ priceList }} -->
           <el-radio-group v-model="membercards.card_type">
             <el-radio v-for="(item, index) in priceList" :key="index" :label="item.name">
-              {{ item.desc }}({{ item.price }}元)
+              {{ item.desc }}({{ item.price }}{{ $t('8804b0ee.c16655') }})
             </el-radio>
           </el-radio-group>
         </el-form-item>
       </div>
       <div class="section-footer with-border content-center">
-        <el-button type="primary" @click="save"> 保 存 </el-button>
+        <el-button type="primary" @click="save"> {{ $t('8804b0ee.56df61') }} </el-button>
       </div>
     </el-form>
   </div>
 </template>
 <script>
-import imgPicker from '../../../components/imageselect'
 import { saveRegisterPromotions } from '../../../api/promotions'
 export default {
-  components: {
-    imgPicker
-  },
+  components: {},
   props: ['getStatus', 'activeName'],
   data() {
     return {
-      isGetImage: false,
-      imgDialog: false,
       total_count: 0,
       vipGrade: [],
       priceList: [],
@@ -108,6 +95,11 @@ export default {
       }
     }
   },
+  computed: {
+    registerAdTitlePlaceholder() {
+      return !this.VERSION_B2C() ? this.$t('8804b0ee.194ebe') : this.$t('8804b0ee.29ec5d')
+    }
+  },
   watch: {
     activeName(newVal, oldVal) {
       if (newVal != oldVal) {
@@ -123,22 +115,34 @@ export default {
       await this.getMemberVipGrade()
       await this.getRegisterData()
     },
-    handleImgChange() {
-      this.imgDialog = true
-      this.isGetImage = true
-    },
-    pickImg(data) {
-      this.form.ad_pic = data.url
-      this.imgDialog = false
-    },
-    closeImgDialog() {
-      this.imgDialog = false
+    async handleImgChange() {
+      try {
+        const { data } = await this.$picker.image({
+          data: this.form.ad_pic ? { url: this.form.ad_pic } : undefined
+        })
+
+        // 获取图片URL，可能是对象中的url属性，也可能是直接的字符串
+        const imgUrl = (data && data.url) || data || ''
+
+        if (imgUrl) {
+          // 如果包含 wximageurl，则提取相对路径
+          // form.ad_pic 存储的是相对路径（显示时使用 wximageurl + form.ad_pic）
+          if (this.wximageurl && imgUrl.indexOf(this.wximageurl) === 0) {
+            this.form.ad_pic = imgUrl.replace(this.wximageurl, '')
+          } else {
+            this.form.ad_pic = imgUrl
+          }
+        }
+      } catch (error) {
+        // 用户取消选择时不处理错误
+        console.log('图片选择已取消')
+      }
     },
     save() {
       this.form.promotions_value.membercard = this.membercards
-      saveRegisterPromotions(this.form).then(res => {
+      saveRegisterPromotions(this.form).then((res) => {
         this.$message({
-          message: '保存成功',
+          message: this.$t('8804b0ee.3b1083'),
           type: 'success',
           duration: 5 * 1000
         })

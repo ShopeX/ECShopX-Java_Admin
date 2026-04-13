@@ -6,13 +6,13 @@
 <template>
   <el-dialog
     class="store-dialog"
-    title="选择店铺"
+    :title="$t('1e6dbbf7.afa2e6')"
     :visible.sync="showDialog"
     :close-on-click-modal="false"
     :before-close="cancelAction"
   >
     <div style="margin-bottom: 15px">
-      <el-input v-model="name" placeholder="输入店铺名称" clearable>
+      <el-input v-model="name" :placeholder="$t('1e6dbbf7.240fdb')" clearable>
         <el-button slot="append" icon="el-icon-search" @click="handleIconClick" />
       </el-input>
       <!-- <el-switch v-model="is_distributor" active-text="店铺" inactive-text="门店" @change="handleIconClick"></el-switch> -->
@@ -29,10 +29,18 @@
       @select-all="selectAll"
     >
       <el-table-column type="selection" :reserve-selection="true" width="50" />
-      <el-table-column prop="name" label="名称" />
-      <el-table-column prop="contact" label="联系人" />
+      <el-table-column prop="name" :label="$t('1e6dbbf7.d7ec2d')" />
+      <el-table-column prop="distributor_category_name" :label="$t('1e6dbbf7.2419d0')" />
+      <el-table-column prop="contact" :label="$t('1e6dbbf7.52409d')" />
+      <el-table-column prop="is_valid" :label="$t('1e6dbbf7.3fea7c')">
+        <template slot-scope="scope">
+          <span v-if="scope.row.is_valid === 'true'">{{ $t('1e6dbbf7.7854b5') }}</span>
+          <span v-else-if="scope.row.is_valid === 'false'">{{ $t('1e6dbbf7.710ad0') }}</span>
+          <span v-else-if="scope.row.is_valid === 'delete'">{{ $t('1e6dbbf7.0044f6') }}</span>
+        </template>
+      </el-table-column>
       <!-- <el-table-column prop="store_name" label="门店"></el-table-column> -->
-      <el-table-column prop="address" label="地址" show-overflow-tooltip />
+      <el-table-column prop="address" :label="$t('1e6dbbf7.765048')" show-overflow-tooltip />
     </el-table>
     <div v-if="total_count > params.pageSize" class="tr">
       <el-pagination
@@ -43,8 +51,8 @@
       />
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="cancelAction">取 消</el-button>
-      <el-button type="primary" @click="saveStoreAction">确 定</el-button>
+      <el-button @click="cancelAction">{{ $t('1e6dbbf7.c08ab9') }}</el-button>
+      <el-button type="primary" @click="saveStoreAction">{{ $t('1e6dbbf7.aa7527') }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -124,6 +132,7 @@ export default {
     sourceType(newVal, oldVal) {
       console.log(newVal)
       if (newVal) {
+        // Handle sourceType change if needed
       }
     }
   },
@@ -143,7 +152,7 @@ export default {
     },
     toggleSelection(rows) {
       if (rows) {
-        rows.forEach(row => {
+        rows.forEach((row) => {
           this.$refs.multipleTable.toggleRowSelection(row)
         })
       } else {
@@ -153,8 +162,8 @@ export default {
     handleSelectionChange(val) {
       if (val.length > 0) {
         this.multipleSelection = val
-        const newVal = this.selectRows.filter(item => {
-          const isHaveRow = this.storeData.some(row => {
+        const newVal = this.selectRows.filter((item) => {
+          const isHaveRow = this.storeData.some((row) => {
             if (item.distributor_id) {
               return item.distributor_id == row.distributor_id
             } else {
@@ -165,8 +174,8 @@ export default {
         })
         this.selectRows = [...newVal, ...val]
       } else {
-        const list = this.selectRows.filter(row => {
-          const isHave = this.storeData.some(item => {
+        const list = this.selectRows.filter((row) => {
+          const isHave = this.storeData.some((item) => {
             if (row.distributor_id) {
               return item.distributor_id == row.distributor_id
             } else {
@@ -182,10 +191,10 @@ export default {
     selectAll(val) {
       if (val.length > 0) {
         this.multipleSelection = val
-        val.forEach(item => {
+        val.forEach((item) => {
           let isInArr = -1
           if (this.selectRows.length > 0) {
-            isInArr = this.selectRows.findIndex(n => {
+            isInArr = this.selectRows.findIndex((n) => {
               if (n.distributor_id) {
                 return n.distributor_id == item.distributor_id
               } else {
@@ -198,8 +207,8 @@ export default {
           }
         })
       } else {
-        const list = this.selectRows.filter(item => {
-          const isHave = this.storeData.some(n => item.distributor_id === n.distributor_id)
+        const list = this.selectRows.filter((item) => {
+          const isHave = this.storeData.some((n) => item.distributor_id === n.distributor_id)
           return !isHave
         })
         this.selectRows = list
@@ -218,15 +227,15 @@ export default {
     getNewsList() {
       if (this.getStatus) {
         this.loading = true
-        getDistributorEasyList(this.params).then(response => {
+        getDistributorEasyList(this.params).then((response) => {
           this.storeData = response.data.data.list
           this.total_count = parseInt(response.data.data.total_count)
           this.loading = false
           this.multipleSelection = []
           this.$refs.multipleTable.clearSelection()
           if (this.selectRows) {
-            this.storeData.forEach(item => {
-              const isHave = this.selectRows.findIndex(n => {
+            this.storeData.forEach((item) => {
+              const isHave = this.selectRows.findIndex((n) => {
                 if (n.distributor_id) {
                   return n.distributor_id && n.distributor_id == item.distributor_id
                 } else {

@@ -8,10 +8,10 @@
     <el-row :gutter="20">
       <el-col>
         <el-button type="primary" :disabled="isDisable" @click="updateCategory">
-          保存分类
+          {{ $t('cbe7fc28.7bd7e6') }}
         </el-button>
         <el-button type="primary" plain icon="el-icon-circle-plus" @click="appendTop(categoryList)">
-          新增商品分类
+          {{ $t('cbe7fc28.41be0e') }}
         </el-button>
       </el-col>
     </el-row>
@@ -25,17 +25,17 @@
         :height="wheight - 180"
         :tree-props="{ children: 'children' }"
       >
-        <el-table-column label="分类名称" min-width="280">
+        <el-table-column :label="$t('cbe7fc28.04d7d8')" min-width="280">
           <template slot-scope="scope">
             <el-input v-model="scope.row.category_name" class="input-b" size="mini" />
           </template>
         </el-table-column>
-        <el-table-column prop="sort" label="分类排序" sortable width="150">
+        <el-table-column prop="sort" :label="$t('cbe7fc28.53eb44')" sortable width="150">
           <template slot-scope="scope">
             <el-input v-model="scope.row.sort" class="input-s" type="number" size="mini" />
           </template>
         </el-table-column>
-        <el-table-column label="分类图片" width="150">
+        <el-table-column :label="$t('cbe7fc28.b34dc8')" width="150">
           <template slot-scope="scope">
             <el-image
               v-if="scope.row.image_url"
@@ -45,16 +45,16 @@
               fit="cover"
             />
             <el-button type="text" class="el-icon-upload2" @click="handleImgChange(scope.row)">
-              上传
+              {{ $t('cbe7fc28.d5a73b') }}
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="created" label="创建时间" width="120">
+        <el-table-column prop="created" :label="$t('cbe7fc28.eca37c')" width="120">
           <template slot-scope="scope">
             {{ scope.row.created | datetime }}
           </template>
         </el-table-column>
-        <el-table-column width="180" label="操作">
+        <el-table-column width="180" :label="$t('cbe7fc28.2b6bc0')">
           <template slot-scope="scope">
             <router-link
               :to="{
@@ -62,7 +62,7 @@
                 query: { category: scope.row.category_id }
               }"
             >
-              查看商品
+              {{ $t('cbe7fc28.f13684') }}
             </router-link>
             <el-button
               v-if="scope.row.level < 2"
@@ -70,14 +70,14 @@
               style="margin-left: 5px"
               @click="append(scope.row)"
             >
-              新增子类
+              {{ $t('cbe7fc28.82537d') }}
             </el-button>
             <el-button
               type="text"
               style="margin-left: 5px"
               @click.native.prevent="deleteCategory(scope.row)"
             >
-              删除
+              {{ $t('cbe7fc28.2f4aad') }}
             </el-button>
           </template>
         </el-table-column>
@@ -123,7 +123,7 @@ export default {
   methods: {
     getCategory() {
       this.loading = true
-      getCategory(this.params).then(response => {
+      getCategory(this.params).then((response) => {
         this.categoryList = response.data.data
         this.loading = false
         this.spaceInput = false
@@ -135,7 +135,7 @@ export default {
           if (this.categoryList[a].category_name == this.categoryList[a + 1].category_name) {
             this.$message({
               type: 'error',
-              message: '同级分类名称不能相同'
+              message: this.$t('cbe7fc28.cd40f5')
             })
             return false
           }
@@ -156,7 +156,7 @@ export default {
             ) {
               this.$message({
                 type: 'error',
-                message: '同级分类名称不能相同'
+                message: this.$t('cbe7fc28.cd40f5')
               })
               return false
             }
@@ -173,26 +173,26 @@ export default {
       }, 1000)
 
       let form = JSON.stringify(this.categoryList)
-      saveCategory({ form: form }).then(response => {
+      saveCategory({ form: form }).then((response) => {
         this.$message({
           type: 'success',
-          message: '保存分类成功'
+          message: this.$t('cbe7fc28.e07262')
         })
         this.getCategory()
       })
     },
     deleteCategory(data) {
-      this.$confirm('此操作将删除该分类, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('cbe7fc28.442ecc'), this.$t('cbe7fc28.02d981'), {
+        confirmButtonText: this.$t('cbe7fc28.38cf16'),
+        cancelButtonText: this.$t('cbe7fc28.625fb2'),
         type: 'warning'
       })
         .then(() => {
           if (typeof data.category_id != 'undefined') {
-            deleteCategory(data.category_id).then(response => {
+            deleteCategory(data.category_id).then((response) => {
               this.$message({
                 type: 'success',
-                message: '删除分类成功'
+                message: this.$t('cbe7fc28.1fe03c')
               })
               this.getCategory()
             })
@@ -204,7 +204,7 @@ export default {
             const { level, id, parent_id } = data
             let key = level === 0 ? id : parent_id
             const categoryList = this.categoryList
-            const parentIndex = categoryList.findIndex(item => item.id === key)
+            const parentIndex = categoryList.findIndex((item) => item.id === key)
             const deleteList = function (children, delId) {
               if (!children) return
               for (let i = 0; i < children.length; i++) {
@@ -224,11 +224,11 @@ export default {
             this.categoryList = categoryList
           }
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e)
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: this.$t('cbe7fc28.2111cc')
           })
         })
     },
@@ -277,7 +277,7 @@ export default {
         if (catNameLength > 50) {
           this.$message({
             type: 'error',
-            message: '分类名称长度最多25个汉字或50个字符'
+            message: this.$t('cbe7fc28.12d07c')
           })
           return false
         }
@@ -285,7 +285,7 @@ export default {
       } else {
         this.$message({
           type: 'error',
-          message: '分类不能为空'
+          message: this.$t('cbe7fc28.1bb421')
         })
         return false
       }
@@ -297,22 +297,24 @@ export default {
     },
     pickImg(data) {
       if (!this.current.parent_id || this.current.parent_id == 0) {
-        const index = this.categoryList.findIndex(d => d.id === this.current.id)
+        const index = this.categoryList.findIndex((d) => d.id === this.current.id)
         this.categoryList[index].image_url = data.url
       } else if (this.current.parent_id && this.current.level == 1) {
-        const findex = this.categoryList.findIndex(d => d.id === this.current.parent_id)
-        const cindex = this.categoryList[findex].children.findIndex(d => d.id === this.current.id)
+        const findex = this.categoryList.findIndex((d) => d.id === this.current.parent_id)
+        const cindex = this.categoryList[findex].children.findIndex((d) => d.id === this.current.id)
         this.categoryList[findex].children[cindex].image_url = data.url
       } else {
         let findex
         let cindex
         for (var item in this.categoryList) {
-          cindex = this.categoryList[item].children.findIndex(d => d.id === this.current.parent_id)
+          cindex = this.categoryList[item].children.findIndex(
+            (d) => d.id === this.current.parent_id
+          )
           findex = item
           if (cindex > -1) break
         }
         const tindex = this.categoryList[findex].children[cindex].children.findIndex(
-          d => d.id === this.current.id
+          (d) => d.id === this.current.id
         )
         this.categoryList[findex].children[cindex].children[tindex].image_url = data.url
       }

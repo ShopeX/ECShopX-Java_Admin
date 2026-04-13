@@ -5,13 +5,13 @@
 
 <template>
   <el-dialog
-    title="选择卡券货架"
+    :title="$t('5dd655cd.676f34')"
     :visible.sync="showDialog"
     :close-on-click-modal="false"
     :before-close="cancelAction"
   >
     <div class="sub_title_bar tr">
-      <el-button type="primary"> <i class="el-icon-plus" />添加货架 </el-button>
+      <el-button type="primary"> <i class="el-icon-plus" />{{ $t('5dd655cd.fbaa1a') }} </el-button>
     </div>
     <div class="select_shelf_area group">
       <div class="shelf_item_col shelf_item_col_odd">
@@ -30,10 +30,18 @@
             </div>
             <div class="list_section shop_module_item js_shopModuleWrapper">
               <ul class="list_classfy">
-                <li><a href="javascript:;">全部优惠券</a></li>
-                <li><a href="javascript:;">折扣券</a></li>
-                <li><a href="javascript:;">满减券</a></li>
-                <li><a href="javascript:;">通用优惠券</a></li>
+                <li>
+                  <a href="javascript:;">{{ $t('5dd655cd.b23382') }}</a>
+                </li>
+                <li>
+                  <a href="javascript:;">{{ $t('5dd655cd.9268f9') }}</a>
+                </li>
+                <li>
+                  <a href="javascript:;">{{ $t('5dd655cd.f23195') }}</a>
+                </li>
+                <li>
+                  <a href="javascript:;">{{ $t('5dd655cd.304ec9') }}</a>
+                </li>
               </ul>
             </div>
             <div class="list_section shop_module_item js_shopModuleWrapper">
@@ -70,8 +78,8 @@
       </div>
     </div>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="cancelAction"> 取 消 </el-button>
-      <el-button type="primary" @click="saveAction"> 确 定 </el-button>
+      <el-button @click="cancelAction"> {{ $t('5dd655cd.c08ab9') }} </el-button>
+      <el-button type="primary" @click="saveAction"> {{ $t('5dd655cd.aa7527') }} </el-button>
     </div>
   </el-dialog>
 </template>

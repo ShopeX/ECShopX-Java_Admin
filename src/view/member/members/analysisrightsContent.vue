@@ -7,18 +7,18 @@
   <div class="section-white content-padded">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>会员权益</span>
+        <span>{{ $t('4c921f2e.de4753') }}</span>
       </div>
       <div class="text item">
         <el-form ref="form_content" :model="form_content" :rles="rules" label-width="80px">
-          <el-form-item label="会员权益" prop="content">
+          <el-form-item :label="$t('4c921f2e.de4753')" prop="content">
             <SpRichText v-model="form_content.content" />
             <span class="tpl_item img" style="" @click="addImgPreview">
-              <i class="iconfont icon-image" />图片
+              <i class="el-icon-picture" />{{ $t('4c921f2e.20def7') }}
             </span>
           </el-form-item>
           <div class="section-footer with-border content-center">
-            <el-button type="primary" @click="saveContent"> 保存 </el-button>
+            <el-button type="primary" @click="saveContent">{{ $t('4c921f2e.be5fbb') }}</el-button>
           </div>
         </el-form>
       </div>
@@ -45,15 +45,19 @@ export default {
       form_content: {
         content: ''
       },
-      rules: {
-        content: [{ required: true, message: '请输入会员权益', trigger: 'blur' }]
-      },
       thumbDialog: false,
       isGetThumb: false
     }
   },
+  computed: {
+    rules() {
+      return {
+        content: [{ required: true, message: this.$t('4c921f2e.63c899'), trigger: 'blur' }]
+      }
+    }
+  },
   mounted() {
-    getMemberanalysisrightsContent().then(response => {
+    getMemberanalysisrightsContent().then((response) => {
       this.form_content.content = response.data.data.content
     })
   },
@@ -62,11 +66,11 @@ export default {
       this.form_content.content = data
     },
     saveContent() {
-      this.$refs['form_content'].validate(valid => {
+      this.$refs['form_content'].validate((valid) => {
         if (valid) {
-          setMemberanalysisrightsContent(this.form_content).then(response => {
+          setMemberanalysisrightsContent(this.form_content).then((response) => {
             this.$message({
-              message: '保存成功',
+              message: this.$t('4c921f2e.3b1083'),
               type: 'success'
             })
           })
@@ -81,7 +85,7 @@ export default {
 
     pickThumb: function (arr) {
       if (arr.length != 0) {
-        arr.forEach(data => {
+        arr.forEach((data) => {
           if (data && data.url !== '') {
             this.thumbDialog = false
             var loc = this.$refs.editor

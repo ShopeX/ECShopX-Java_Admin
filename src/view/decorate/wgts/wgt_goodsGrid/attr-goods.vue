@@ -14,13 +14,13 @@
 <template>
   <div>
     <el-radio-group v-model="value.type" size="small" style="margin-bottom: 10px">
-      <el-radio label="normal">普通商品</el-radio>
-      <el-radio label="point">积分商品</el-radio>
+      <el-radio label="normal">{{ i18n.t('46e04a5c.0f7a66') }}</el-radio>
+      <el-radio label="point">{{ i18n.t('46e04a5c.fe0ea1') }}</el-radio>
     </el-radio-group>
     <CompButton
       v-if="value.type == 'point'"
-      placeholder="选择积分商品"
-      format="{0}件商品"
+      :placeholder="i18n.t('46e04a5c.5d71c6')"
+      :format="i18n.t('1253b8e4.156ada')"
       :value="value.pointGoods.length"
       @click="handleClickPointAdd"
       @remove="onRemovePointItem"
@@ -28,8 +28,8 @@
     />
     <CompButton
       v-else
-      placeholder="选择商品"
-      format="{0}件商品"
+      :placeholder="i18n.t('1253b8e4.43d1e2')"
+      :format="i18n.t('1253b8e4.156ada')"
       :value="value.data.length"
       @click="handleClickAdd"
       @remove="onRemoveItem"
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import Vue from 'vue'
 import { cloneDeep } from 'lodash'
 import CompButton from '../../comps/comp-button'
@@ -50,7 +51,7 @@ export default {
     distributor: Object
   },
   data() {
-    return {
+    return {i18n,
       localValue: {
         data: [],
         pointGoods: [],
@@ -77,7 +78,7 @@ export default {
   },
   methods: {
     async handleClickAdd() {
-      const list = this.value.data.map(item => {
+      const list = this.value.data.map((item) => {
         return {
           item_id: item.goodsId,
           pics: [item.imgUrl],
@@ -95,11 +96,11 @@ export default {
       console.log(list, 'ids')
       const { data } = await this.$picker.goodsitem({
         isPointGoods: this.value.type === 'point',
-        data:list
+        data: list
       })
       console.log(data)
       const values = []
-      data.forEach(item => {
+      data.forEach((item) => {
         if (item.itemId) {
           const obj = {
             imgUrl: item.pics[0],
@@ -133,7 +134,7 @@ export default {
         },
         onAdd: async () => {
           const { data } = await this.$picker.goods()
-          const res = data.map(item => {
+          const res = data.map((item) => {
             return {
               imgUrl: item.pics[0],
               linkPage: '',
@@ -153,26 +154,26 @@ export default {
       this.localValue.data = data
     },
     async handleClickPointAdd() {
-      const list =this.value.pointGoods.map(item=>{
+      const list = this.value.pointGoods.map((item) => {
         return {
-          item_id:item.goodsId,
-          pics:[item.imgUrl],
-          itemName:item.title,
-          itemId:item.goodsId,
-          brand_logo:item.brand,
-          price:item.price,
-          market_price:item.market_price,
-          distributor_id:item.distributor_id,
-          item_en_name:item.itemEnName,
-          promotion_activity:item.promotionActivity,
-          medicine_data:item.medicine_data,
+          item_id: item.goodsId,
+          pics: [item.imgUrl],
+          itemName: item.title,
+          itemId: item.goodsId,
+          brand_logo: item.brand,
+          price: item.price,
+          market_price: item.market_price,
+          distributor_id: item.distributor_id,
+          item_en_name: item.itemEnName,
+          promotion_activity: item.promotionActivity,
+          medicine_data: item.medicine_data,
           point: item.point
         }
       })
-      console.log(list,'ids')
+      console.log(list, 'ids')
       const { data } = await this.$picker.goodsitem({
         isPointGoods: this.value.type === 'point',
-        data:list
+        data: list
       })
       console.log(data)
       const values = []
@@ -189,7 +190,7 @@ export default {
             distributor_id: item.distributor_id,
             itemEnName: item.item_en_name,
             promotionActivity: item.promotion_activity,
-            medicine_data:item.medicine_data,
+            medicine_data: item.medicine_data,
             point: item.point
           }
           values.push(obj)
@@ -224,7 +225,7 @@ export default {
         }
       })
       this.localValue.pointGoods = data
-    },
+    }
   }
 }
 </script>

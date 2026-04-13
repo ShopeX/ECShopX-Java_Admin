@@ -6,7 +6,7 @@
 <template>
   <div>
     <el-dialog
-      title="选择店铺"
+      :title="$t('c1b7cec5.afa2e6')"
       :visible.sync="showModal"
       width="600px"
       append-to-body
@@ -15,7 +15,7 @@
       <div class="content-bottom-padded">
         <el-input
           v-model="params.name"
-          placeholder="店铺名称"
+          :placeholder="$t('c1b7cec5.0d4934')"
           clearable
           style="width: 240px"
           @clear="handleClear"
@@ -24,7 +24,7 @@
         </el-input>
         <el-cascader
           v-model="checkedRegions"
-          placeholder="根据地区筛选"
+          :placeholder="$t('c1b7cec5.491f74')"
           :options="regions"
           filterable
           clearable
@@ -40,7 +40,7 @@
             class="store-list-item"
             :class="
               multiple
-                ? current && current.findIndex(cur => cur.id === item.id) !== -1
+                ? current && current.findIndex((cur) => cur.id === item.id) !== -1
                   ? 'active'
                   : ''
                 : current.id === item.id
@@ -58,13 +58,15 @@
           </li>
         </ul>
         <div v-if="loading" class="content-padded content-center">
-          <i class="el-icon-loading" /> 加载中...
+          <i class="el-icon-loading" /> {{ $t('c1b7cec5.26b5bd') }}
         </div>
-        <div v-if="noMore" class="content-padded content-center muted">没有更多了</div>
+        <div v-if="noMore" class="content-padded content-center muted">
+          {{ $t('c1b7cec5.1fe900') }}
+        </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="handleClose">取 消</el-button>
-        <el-button type="primary" @click="handleConfirm">确 定</el-button>
+        <el-button @click="handleClose">{{ $t('c1b7cec5.c08ab9') }}</el-button>
+        <el-button type="primary" @click="handleConfirm">{{ $t('c1b7cec5.aa7527') }}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -182,7 +184,7 @@ export default {
     },
     handleItemClick(val) {
       if (this.multiple) {
-        const checkedIdx = this.current.findIndex(item => item.id === val.id)
+        const checkedIdx = this.current.findIndex((item) => item.id === val.id)
         if (checkedIdx === -1) {
           this.current.push(val)
         } else {
@@ -205,9 +207,9 @@ export default {
       this.params.page += 1
       const { list, total_count } = await api.marketing.getDistributorList(this.params)
       let _list = []
-      list.map(item => {
+      list.map((item) => {
         let tags = []
-        item.tagList.map(tag => {
+        item.tagList.map((tag) => {
           tags.push({
             id: tag.tag_id,
             name: tag.tag_name

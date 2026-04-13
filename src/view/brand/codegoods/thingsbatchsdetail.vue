@@ -5,9 +5,9 @@
 
 <template>
   <section class="section section-white">
-    <h3 class="title">物品及批次详情</h3>
+    <h3 class="title">{{ $t('2320d88c.4321e5') }}</h3>
     <div class="section-header with-border">
-      <h4>物品信息</h4>
+      <h4>{{ $t('2320d88c.bde58b') }}</h4>
     </div>
     <div class="section-body">
       <div class="list-item view-flex">
@@ -23,8 +23,9 @@
               {{ thingInfo.created | datetime('YYYY-MM-DD HH:mm:ss') }}
             </div>
             <div class="item-batch">
-              共 {{ thingInfo.batch_total_count }} 个批次 合计
-              {{ thingInfo.batch_total_quantity }} 件
+              {{
+                $t('2320d88c.4c29de', [thingInfo.batch_total_count, thingInfo.batch_total_quantity])
+              }}
             </div>
           </div>
         </div>
@@ -32,13 +33,13 @@
           <router-link
             :to="{ path: '/brand/onecode/things', query: { thing_id: thingInfo.thing_id } }"
           >
-            <el-button class="iconfont icon-edit1" type="text"> 编辑 </el-button>
+            <el-button type="text"> {{ $t('2320d88c.95b351') }} </el-button>
           </router-link>
         </div>
       </div>
     </div>
     <div class="section-header with-border">
-      <h4>批次信息</h4>
+      <h4>{{ $t('2320d88c.656222') }}</h4>
     </div>
     <div class="section-body">
       <el-table
@@ -46,28 +47,30 @@
         :data="batchsList"
         style="width: 100%"
         border
-        element-loading-text="数据加载中"
+        :element-loading-text="$t('2320d88c.f09b12')"
       >
-        <el-table-column prop="batch_number" width="150" label="批次编号" />
-        <el-table-column prop="batch_name" width="150" label="批次名称" />
-        <el-table-column prop="batch_quantity" width="150" label="批次数量" />
-        <el-table-column label="操作">
+        <el-table-column prop="batch_number" width="150" :label="$t('2320d88c.811036')" />
+        <el-table-column prop="batch_name" width="150" :label="$t('2320d88c.8ea3a2')" />
+        <el-table-column prop="batch_quantity" width="150" :label="$t('2320d88c.35f1e4')" />
+        <el-table-column :label="$t('2320d88c.2b6bc0')">
           <template slot-scope="scope">
-            <el-button type="text" @click="handleCodeDownload(scope.row)"> 下载 </el-button>
+            <el-button type="text" @click="handleCodeDownload(scope.row)">
+              {{ $t('2320d88c.f26ef9') }}
+            </el-button>
             <router-link
               :to="{
                 path: '/brand/onecode/batchs',
                 query: { batch_id: scope.row.batch_id, thing_id: scope.row.thing_id }
               }"
             >
-              编辑
+              {{ $t('2320d88c.95b351') }}
             </router-link>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <el-dialog
-      title="二维码打包下载"
+      :title="$t('2320d88c.f78c9e')"
       :visible.sync="codeDialogVisible"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
@@ -103,7 +106,7 @@ import imgPicker from '../../../components/imageselect'
 import { getThingsDetail, createThings, updateThings, getBatchsList } from '../../../api/onecode'
 import { uploadMaterial } from '../../../api/wechat'
 
-const getWxaCodeImg = url => {
+const getWxaCodeImg = (url) => {
   return new Promise((resolve, reject) => {
     axios({
       method: 'get',
@@ -111,10 +114,10 @@ const getWxaCodeImg = url => {
       responseType: 'arraybuffer',
       headers: { Authorization: 'bearer ' + store.getters.token }
     })
-      .then(data => {
+      .then((data) => {
         resolve(data.data)
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error.toString())
       })
   })
@@ -163,10 +166,10 @@ export default {
     if (this.$route.query.thing_id) {
       // 初始化物品数据
       getThingsDetail(this.$route.query.thing_id)
-        .then(response => {
+        .then((response) => {
           this.thingInfo = response.data.data
         })
-        .catch(error => {
+        .catch((error) => {
           this.$router.push({ path: '/brand/onecode' })
         })
 
@@ -177,10 +180,10 @@ export default {
         pageSize: 100
       }
       getBatchsList(params)
-        .then(response => {
+        .then((response) => {
           this.batchsList = response.data.data.list
         })
-        .catch(error => {
+        .catch((error) => {
           this.$router.push({ path: '/brand/onecode' })
         })
     }
@@ -234,15 +237,15 @@ export default {
       let that = this
       if (file && file.raw) {
         if (file.raw.type !== 'image/jpeg' && file.raw.type !== 'image/png') {
-          that.$message.error('上传图片只能是 JPG 或者 PNG 格式!')
+          that.$message.error(that.$t('2320d88c.34e969'))
         }
         if (file.raw.size / 1024 / 1024 > 5) {
-          that.$message.error('上传图片大小不能超过 5MB!')
+          that.$message.error(that.$t('2320d88c.50fa12'))
         }
       }
 
       let params = { isUploadFile: true, file: file.raw, type: 'image' }
-      uploadMaterial(params).then(res => {
+      uploadMaterial(params).then((res) => {
         file.url = this.wximageurl + res.data.data.url
         that.form.pic = res.data.data.url
       })
@@ -251,24 +254,24 @@ export default {
       // 提交商品
       if (this.form.thing_id) {
         updateThings(this.form.thing_id, this.form)
-          .then(response => {
+          .then((response) => {
             this.$router.push({ path: '/brand/onecode' })
           })
-          .catch(error => {
+          .catch((error) => {
             this.$message({
               type: 'error',
-              message: '更新物品信息出错'
+              message: this.$t('2320d88c.1d37de')
             })
           })
       } else {
         createThings(this.form)
-          .then(response => {
+          .then((response) => {
             this.$router.push({ path: '/brand/onecode' })
           })
-          .catch(error => {
+          .catch((error) => {
             this.$message({
               type: 'error',
-              message: '保存物品信息出错'
+              message: this.$t('2320d88c.d6a576')
             })
           })
       }
@@ -333,7 +336,7 @@ export default {
           '&num=' +
           i
         const num = i
-        const promise = getWxaCodeImg(url).then(result_file => {
+        const promise = getWxaCodeImg(url).then((result_file) => {
           // 下载文件, 并存成ArrayBuffer对象
           const file_name = that.downParams.batch_number + '(' + num + ')' + '.png' // 获取文件名
           zip.file(file_name, result_file, { binary: true }) // 逐个添加文件
@@ -342,7 +345,7 @@ export default {
         promises.push(promise)
       }
       Promise.all(promises).then(() => {
-        zip.generateAsync({ type: 'blob' }).then(content => {
+        zip.generateAsync({ type: 'blob' }).then((content) => {
           // 生成二进制流
           FileSaver.saveAs(content, '一物一码小程序码(批量).zip') // 利用file-saver保存文件
           that.isdownloadOk = true

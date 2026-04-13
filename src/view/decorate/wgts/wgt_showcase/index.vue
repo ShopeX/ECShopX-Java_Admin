@@ -10,6 +10,7 @@
       'wgt-showcase': true,
       padded: value.padded
     }"
+    :style="outerStyle"
   >
     <div v-if="value.title || value.subtitle" class="wgt-hd">
       <span class="title">{{ value.title }}</span>
@@ -31,9 +32,11 @@
 
 <script>
 import config from './config'
+import { i18n } from '@/i18n'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Showcase',
-  wgtName: '橱窗',
+  wgtName: i18n.t('0564c998.f1beaa'),
   wgtDesc: '',
   wgtIcon: 'wgt-showcase',
   config: config,
@@ -42,6 +45,11 @@ export default {
   },
   data() {
     return {}
+  },
+  computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    }
   },
   created() {},
   methods: {}

@@ -5,13 +5,17 @@
 
 <template>
   <el-form ref="form" label-width="100px">
-    <el-form-item label="默认积分支付">
+    <el-form-item :label="$t('ea6b8143.49f7b9')">
       <el-switch v-model="form.point_pay_first" active-color="#13ce66" inactive-color="#aaaaaa" />
-      <span class="frm-tips"> 开启默认积分支付功能，消费者下单时优先使用积分支付下单</span>
+      <span class="frm-tips">{{ $t('ea6b8143.d7dbb9') }}</span>
     </el-form-item>
 
     <div class="section-footer with-border content-center">
-      <el-button v-loading="loading" type="primary" @click="onSubmit"> 保存 </el-button>
+      <el-button v-loading="loading" type="primary" @click="onSubmit">
+{{
+        $t('ea6b8143.be5fbb')
+      }}
+</el-button>
     </div>
   </el-form>
 </template>
@@ -38,7 +42,7 @@ export default {
       let query = {}
       if (this.activeName == 'point_pay') {
         query = { pay_type: 'point_pay' }
-        getPaymentSetting(query).then(response => {
+        getPaymentSetting(query).then((response) => {
           console.log('response == ', response)
           this.form = response.data.data
           this.form.point_pay_first = response.data.data.point_pay_first == '1' ? true : false
@@ -55,14 +59,14 @@ export default {
         }
       }
       setPaymentSetting(query)
-        .then(response => {
+        .then((response) => {
           this.$message({
             type: 'success',
-            message: '保存成功'
+            message: this.$t('ea6b8143.3b1083')
           })
           this.loading = false
         })
-        .catch(error => {
+        .catch((error) => {
           this.loading = false
         })
     }

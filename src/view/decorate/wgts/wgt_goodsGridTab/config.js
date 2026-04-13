@@ -3,34 +3,33 @@
  * See LICENSE file for license details.
  */
 import { pickBy, isObject } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrClass from './attr-class'
 import CompPickerLink from '../../comps/comp-pickerLink'
 
-export default {
+const config = {
   name: 'goodsGridTab',
   setting: [
-    { label: '标题', key: 'title', component: 'input', value: '爆品直邮' },
-    { label: '副标题', key: 'subtitle', component: 'input', value: '宅家买遍全法' },
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
-    { label: '直接加购', key: 'addCart', component: 'switch', value: false },
-    { label: '显示价格', key: 'showPrice', component: 'switch', value: true },
-    { label: '显示品牌', key: 'brand', component: 'switch', value: true },
+    { label: i18n.t('5e607dbd.4707ba'), key: 'padded', component: 'switch', value: true },
+    { label: i18n.t('5e607dbd.319337'), key: 'addCart', component: 'switch', value: false },
+    { label: i18n.t('5e607dbd.ba302e'), key: 'showPrice', component: 'switch', value: true },
+    { label: i18n.t('5e607dbd.02af2a'), key: 'brand', component: 'switch', value: true },
     {
-      label: '商品分类',
+      label: i18n.t('5e607dbd.c3ece5'),
       key: 'list',
       component: function (h, { key }) {
         return <AttrClass v-model={this.value[key]} />
       },
       value: [
         {
-          tabTitle: '标签',
+          tabTitle: '5e607dbd.14d342',
           type: 'normal',
           goodsList: [
             {
               imgUrl: '',
               linkPage: '',
               content: '',
-              title: '商品名称',
+              title: '5e607dbd.1fd1d5',
               id: '',
               price: 0,
               market_price: 0
@@ -39,7 +38,7 @@ export default {
               imgUrl: '',
               linkPage: '',
               content: '',
-              title: '商品名称',
+              title: '5e607dbd.1fd1d5',
               id: '',
               price: 0,
               market_price: 0
@@ -48,7 +47,7 @@ export default {
               imgUrl: '',
               linkPage: '',
               content: '',
-              title: '商品名称',
+              title: '5e607dbd.1fd1d5',
               id: '',
               price: 0,
               market_price: 0
@@ -57,7 +56,7 @@ export default {
               imgUrl: '',
               linkPage: '',
               content: '',
-              title: '商品名称',
+              title: '5e607dbd.1fd1d5',
               id: '',
               price: 0,
               market_price: 0
@@ -68,7 +67,7 @@ export default {
               imgUrl: '',
               linkPage: '',
               content: '',
-              title: '商品名称',
+              title: '5e607dbd.1fd1d5',
               id: '',
               price: 0,
               market_price: 0,
@@ -78,7 +77,7 @@ export default {
               imgUrl: '',
               linkPage: '',
               content: '',
-              title: '商品名称',
+              title: '5e607dbd.1fd1d5',
               id: '',
               price: 0,
               market_price: 0,
@@ -88,7 +87,7 @@ export default {
               imgUrl: '',
               linkPage: '',
               content: '',
-              title: '商品名称',
+              title: '5e607dbd.1fd1d5',
               id: '',
               price: 0,
               market_price: 0,
@@ -98,7 +97,7 @@ export default {
               imgUrl: '',
               linkPage: '',
               content: '',
-              title: '商品名称',
+              title: '5e607dbd.1fd1d5',
               id: '',
               price: 0,
               market_price: 0,
@@ -109,7 +108,7 @@ export default {
       ]
     },
     {
-      label: '查看更多',
+      label: i18n.t('5e607dbd.90ef7c'),
       key: 'moreLink',
       component: function (h, { key }) {
         return <CompPickerLink v-model={this.value[key]} style='margin-top: 7px;' />
@@ -117,7 +116,18 @@ export default {
     }
   ],
   transformIn: (v) => {
-    const { name, base, config, data, list, distributor_id } = v
+    const {
+      name,
+      base,
+      config,
+      data,
+      list,
+      distributor_id,
+      track,
+      tagsType,
+      meber_tags,
+      no_meber_tags
+    } = v
     return {
       id: v?.id,
       name,
@@ -125,7 +135,13 @@ export default {
       ...config,
       data,
       list,
-      distributor_id
+      distributor_id,
+      track,
+      tags: {
+        type: tagsType || '2',
+        meber_tags: meber_tags || [],
+        no_meber_tags: no_meber_tags || []
+      }
     }
   },
   transformOut: (v) => {
@@ -151,8 +167,19 @@ export default {
       },
       list: 'list',
       data: 'data',
-      distributor_id: 'distributor_id'
+      distributor_id: 'distributor_id',
+      track: 'track',
+      tags: 'tags',
+      tagsType: 'tags.type',
+      meber_tags: 'tags.meber_tags',
+      no_meber_tags: 'tags.no_meber_tags'
     })
     return obj
   }
 }
+
+// 自动处理 compStyle 配置（初始化全局处理函数）
+import '../../comps/configsetting'
+export default typeof globalThis !== 'undefined' && globalThis.__processConfig__
+  ? globalThis.__processConfig__(config)
+  : config

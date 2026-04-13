@@ -80,7 +80,7 @@
     <div class="top-header">
       <!-- <button class='listkeybtn' @click="goBack">返回</button> -->
       <div class="top-select">
-        时间筛选：
+        {{ $t('c2e25025.94a73a') }}
         <select v-model="timeChoosed.time" class="select-style" @change="timeSelected">
           <option v-for="(item, index) in timeList" :key="index" :value="item.record_date">
             {{ item.record_date_str }}
@@ -88,7 +88,7 @@
         </select>
       </div>
     </div>
-    <div class="all-title">关键指标</div>
+    <div class="all-title">{{ $t('c2e25025.94635d') }}</div>
     <div v-for="(item, index) in labels_num" :key="index" class="canvas-div">
       <div class="this_labels">
         {{ item.thisweek }}
@@ -96,7 +96,7 @@
       <canvas :id="item.fieldkey" />
     </div>
     <div>
-      <div class="all-title">全部指标</div>
+      <div class="all-title">{{ $t('c2e25025.9dea79') }}</div>
       <div class="allbtn">
         <button
           v-for="(item, index) in listKeyData"
@@ -110,15 +110,15 @@
       </div>
       <div class="single_content">
         <div class="clearfloat">
-          <span class="span_left">本周</span>
+          <span class="span_left">{{ $t('c2e25025.725205') }}</span>
           <span class="span_right">{{ thisweek }}</span>
         </div>
         <div class="clearfloat">
-          <span class="span_left">上周</span>
+          <span class="span_left">{{ $t('c2e25025.79abd4') }}</span>
           <span class="span_right">{{ lastweek }}</span>
         </div>
         <div class="clearfloat">
-          <span class="span_left">5周趋势</span>
+          <span class="span_left">{{ $t('c2e25025.813dcf') }}</span>
           <canvas :id="canvas_fieldkey" />
         </div>
       </div>
@@ -267,7 +267,7 @@ export default {
             'x-wxapp-session': session
           }
         })
-        .then(response => {
+        .then((response) => {
           this.timeList = response.data.data.list
           this.total_count = response.data.data.total_count
           console.log(response, 220)
@@ -288,10 +288,10 @@ export default {
             'x-wxapp-session': session
           }
         })
-        .then(response => {
+        .then((response) => {
           // 表格
           this.list = response.data.data.list
-          response.data.data.list.map(item => {
+          response.data.data.list.map((item) => {
             this.listKeyData.push({
               fieldkey: item.fieldkey,
               fieldname: item.fieldname
@@ -306,7 +306,7 @@ export default {
           console.log(this.listKeyData, this.listValueData, 160)
 
           // 动态生成图表的数量
-          response.data.data.keyindex.map(item => {
+          response.data.data.keyindex.map((item) => {
             this.keyIndexData.push({
               label: item.fieldname,
               data: Array.reverse(item.fieldvalue)

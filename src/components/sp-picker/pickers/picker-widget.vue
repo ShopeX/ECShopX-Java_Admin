@@ -65,12 +65,10 @@
             key: 'wgtIcon',
             width: '60px',
             render: (h, { row }) =>
-              h('div', {
-                style: {
-                  width: '40px',
-                  height: '40px',
-                  'background-image': `url(${require(`@/assets/imgs/decorate/${row.wgtIcon}.png`)})`,
-                  'background-size': '100%'
+              h('SpIcon', {
+                props: {
+                  name: row.wgtIcon,
+                  size: 40
                 }
               })
           },
@@ -101,6 +99,9 @@ export default {
     title: '选择挂件'
   },
   props: ['value'],
+  created() {
+    this.$options.config.title = this.$t('11a7d126.e0bc2a')
+  },
   data() {
     return {
       formData: {
@@ -130,7 +131,7 @@ export default {
     afterSearch(response) {
       const { list } = response.data.data
       if (this.value.data) {
-        const selectRows = list.filter(item => this.value?.data.includes(item.card_id))
+        const selectRows = list.filter((item) => this.value?.data.includes(item.card_id))
         const { finderTable } = this.$refs.finder.$refs
         setTimeout(() => {
           finderTable.$refs.finderTable.setSelection(selectRows)

@@ -36,13 +36,13 @@
 <template>
   <div>
     <el-table v-loading="loading" :data="list" :height="wheight - 150">
-      <el-table-column label="类型">
+      <el-table-column :label="$t('85f27d80.226b09')">
         <template slot-scope="scope">
           {{ scope.row.log_type }}
         </template>
       </el-table-column>
-      <el-table-column prop="remarks" label="信息" min-width="90" />
-      <el-table-column label="日志时间">
+      <el-table-column prop="remarks" :label="$t('85f27d80.d8c7e0')" min-width="90" />
+      <el-table-column :label="$t('85f27d80.172f67')">
         <template slot-scope="scope">
           {{ scope.row.created | datetime('YYYY-MM-DD HH:mm:ss') }}
         </template>
@@ -89,7 +89,7 @@ export default {
     },
     getWorkWechatRelLogsList() {
       this.loading = true
-      getWorkWechatRelLogsList(this.user_id, this.params).then(res => {
+      getWorkWechatRelLogsList(this.user_id, this.params).then((res) => {
         this.list = res.data.data.list
         this.total_count = res.data.data.total_count
         this.loading = false

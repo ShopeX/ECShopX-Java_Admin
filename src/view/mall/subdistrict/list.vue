@@ -6,35 +6,67 @@
 <template>
   <SpPage>
     <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onSearch">
-      <SpFilterFormItem prop="label" label="街道居委:">
-        <el-input v-model="params.label" placeholder="请输入街道居委名称" />
+      <SpFilterFormItem prop="label" :label="$t('92b45fc2.d5cb31')">
+        <el-input v-model="params.label" :placeholder="$t('92b45fc2.15de05')" />
       </SpFilterFormItem>
     </SpFilterForm>
     <div class="action-container">
-      <el-button type="primary" plain @click="appendTop(categoryList)"> 新增街道 </el-button>
+      <el-button type="primary" plain @click="appendTop(categoryList)">
+{{
+        $t('92b45fc2.6fe2de')
+      }}
+</el-button>
     </div>
     <el-card>
       <el-dialog
-        :title="dialog.type === 'add' ? `新增${dialog.title}` : `编辑${dialog.title}`"
+        :title="
+          (dialog.type === 'add' ? $t('92b45fc2.66ab5e') : $t('92b45fc2.95b351')) +
+          (dialog.title === $t('92b45fc2.716c3d')
+            ? $t('92b45fc2.716c3d')
+            : dialog.title === $t('92b45fc2.efc374')
+            ? $t('92b45fc2.efc374')
+            : dialog.title)
+        "
         :visible.sync="dialog.visible"
         destroy-on-close
       >
         <el-form label-width="180px">
-          <el-form-item :label="`新增${dialog.title}名称`">
+          <el-form-item
+            :label="
+              $t('92b45fc2.66ab5e') +
+              (dialog.title === $t('92b45fc2.716c3d')
+                ? $t('92b45fc2.716c3d')
+                : dialog.title === $t('92b45fc2.efc374')
+                ? $t('92b45fc2.efc374')
+                : dialog.title) +
+              $t('92b45fc2.d7ec2d')
+            "
+          >
             <el-input v-model="dialog.label" />
           </el-form-item>
-          <el-form-item v-if="!dialog.is_hassuperior && dialog.title == '街道'" label="选择地区">
+          <el-form-item
+            v-if="!dialog.is_hassuperior && dialog.title === $t('92b45fc2.716c3d')"
+            :label="$t('92b45fc2.e9a36d')"
+          >
             <el-cascader
               v-model="dialog.address"
               :options="addList"
               :props="{ expandTrigger: 'hover' }"
             />
           </el-form-item>
-          <el-form-item v-if="dialog.is_hassuperior" label="所属街道">
-            <el-input v-model="dialog.superior_cat_name" label="分类排序" :disabled="true" />
+          <el-form-item v-if="dialog.is_hassuperior" :label="$t('92b45fc2.1f362b')">
+            <el-input v-model="dialog.superior_cat_name" :disabled="true" />
           </el-form-item>
-          <el-form-item v-if="!dialog.is_hassuperior && dialog.title == '街道'" label="关联店铺">
-            <el-select v-model="dialog.distributor_id" multiple clearable placeholder="请选择店铺">
+          <el-form-item
+            v-if="!dialog.is_hassuperior && dialog.title === $t('92b45fc2.716c3d')"
+            :label="$t('92b45fc2.5c16c5')"
+          >
+            <el-select
+              v-model="dialog.distributor_id"
+              multiple
+              clearable
+              :placeholder="$t('92b45fc2.06accf')"
+            >
               <el-option
                 v-for="(item, index) in distributorList"
                 :key="index"
@@ -45,10 +77,10 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialog.visible = false">取 消</el-button>
-          <el-button :loading="dialog.loading" type="primary" @click="handleSubmit"
-            >确 定</el-button
-          >
+          <el-button @click="dialog.visible = false">{{ $t('92b45fc2.c08ab9') }}</el-button>
+          <el-button :loading="dialog.loading" type="primary" @click="handleSubmit">{{
+            $t('92b45fc2.aa7527')
+          }}</el-button>
         </span>
       </el-dialog>
 
@@ -63,12 +95,12 @@
         style="width: 100%"
         size="small"
       >
-        <el-table-column label="居委街道名称" width="220">
+        <el-table-column :label="$t('92b45fc2.618f36')" width="220">
           <template slot-scope="scope">
             <span>{{ scope.row.label }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="distributor" label="关联店铺" width="480">
+        <el-table-column prop="distributor" :label="$t('92b45fc2.5c16c5')" width="480">
           <template slot-scope="scope">
             <span
               v-for="(item, index) in scope.row.distributor"
@@ -86,7 +118,7 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="地区">
+        <el-table-column :label="$t('92b45fc2.2560b3')">
           <template slot-scope="scope">
             <span>{{
               (scope.row.province || '') +
@@ -97,14 +129,18 @@
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column :label="$t('92b45fc2.2b6bc0')">
           <template slot-scope="scope">
             <el-button v-if="scope.row.parent_id === '0'" type="text" @click="append(scope.row)">
-              新增居委
+              {{ $t('92b45fc2.a8348b') }}
             </el-button>
-            <el-button type="text" @click="editCategory(scope.row)"> 编辑 </el-button>
+            <el-button type="text" @click="editCategory(scope.row)">
+{{
+              $t('92b45fc2.95b351')
+            }}
+</el-button>
             <el-button type="text" @click.native.prevent="deleteCategory(scope.row)">
-              删除
+              {{ $t('92b45fc2.2f4aad') }}
             </el-button>
           </template>
         </el-table-column>
@@ -187,22 +223,22 @@ export default {
     },
     getAddress() {
       this.loading = true
-      getAddress().then(response => {
+      getAddress().then((response) => {
         this.loading = false
         // console.log('res===', response)
         const data = response.data.data
 
         if (data && data.length > 0) {
-          const province = data.map(item => {
+          const province = data.map((item) => {
             return {
               label: item.label,
               value: item.value
             }
           })
           let city = []
-          data.forEach(item => {
+          data.forEach((item) => {
             city = city.concat(
-              item.children.map(item2 => {
+              item.children.map((item2) => {
                 return {
                   label: item2.label,
                   value: item2.value
@@ -211,10 +247,10 @@ export default {
             )
           })
           let area = []
-          data.forEach(item => {
-            item.children.forEach(item2 => {
+          data.forEach((item) => {
+            item.children.forEach((item2) => {
               area = area.concat(
-                ...item2.children.map(item3 => {
+                ...item2.children.map((item3) => {
                   return {
                     label: item3.label,
                     value: item3.value
@@ -241,7 +277,7 @@ export default {
         current_id: row.id,
         type: 'add',
         label: '',
-        title: '居委'
+        title: this.$t('92b45fc2.efc374')
       }
     },
     editCategory(row) {
@@ -255,7 +291,7 @@ export default {
         distributor_id: row.distributor_id,
         label: row.label,
         parent_id: row.parent_id,
-        title: row.parent_id == 0 ? '街道' : '居委',
+        title: row.parent_id == 0 ? this.$t('92b45fc2.716c3d') : this.$t('92b45fc2.efc374'),
         address: row.regions_id
       }
     },
@@ -267,23 +303,23 @@ export default {
       const _this = this
       const { label, type, current_id, parent_id, distributor_id, address, is_hassuperior, title } =
         this.dialog
-      if (!is_hassuperior && title == '街道' && !address) {
-        this.$message.error('地区必选！')
+      if (!is_hassuperior && title == this.$t('92b45fc2.716c3d') && !address) {
+        this.$message.error(this.$t('92b45fc2.7dd25f'))
         return
       }
       // debugger
       if (!label) {
-        this.$message.error('名称必填！')
+        this.$message.error(this.$t('92b45fc2.16f6c6'))
         return
       } else {
         this.dialog.loading = true
         let query = {}
-        if (!is_hassuperior && title == '街道') {
-          const province = this.province.find(item => item.value === address[0])
-          const city = this.city.find(item => item.value === address[1])
-          const area = this.area.find(item => item.value === address[2])
+        if (!is_hassuperior && title == this.$t('92b45fc2.716c3d')) {
+          const province = this.province.find((item) => item.value === address[0])
+          const city = this.city.find((item) => item.value === address[1])
+          const area = this.area.find((item) => item.value === address[2])
           if (!province || !city || !area) {
-            this.$message.error('选择的地区不存在！')
+            this.$message.error(this.$t('92b45fc2.ac4ecd'))
           }
           query.regions_id = address
           query.province = province.label
@@ -303,7 +339,7 @@ export default {
           // console.log('query===', query)
           // return
           addSubDistrictInfo(query)
-            .then(res => {
+            .then((res) => {
               _this.dialog = {
                 ..._this.dialog,
                 loading: false,
@@ -317,7 +353,7 @@ export default {
               }
               _this.getCategory()
             })
-            .catch(err => {
+            .catch((err) => {
               if (err) {
                 _this.dialog.loading = false
               }
@@ -334,7 +370,7 @@ export default {
           }
           // console.log('query===', query)
           updateSubDistrictInfo(query)
-            .then(res => {
+            .then((res) => {
               _this.dialog = {
                 ..._this.dialog,
                 loading: false,
@@ -348,7 +384,7 @@ export default {
               }
               _this.getCategory()
             })
-            .catch(err => {
+            .catch((err) => {
               if (err) {
                 _this.dialog.loading = false
               }
@@ -358,9 +394,9 @@ export default {
     },
     getDistributor() {
       var params = { page: 1, pageSize: 500 }
-      getDistributorList(params).then(response => {
+      getDistributorList(params).then((response) => {
         if (response.data.data.list) {
-          this.distributorList = response.data.data.list.map(item => {
+          this.distributorList = response.data.data.list.map((item) => {
             return {
               ...item,
               distributor_id: item.distributor_id + ''
@@ -371,17 +407,17 @@ export default {
     },
     getCategory() {
       this.loading = true
-      getSubDistrictList(this.params).then(response => {
+      getSubDistrictList(this.params).then((response) => {
         // debugger
         this.categoryList = response.data.data
-        this.categoryList.forEach(d => {
+        this.categoryList.forEach((d) => {
           d.distributor_list = d.distributor_id.map((dd, index) => {
             return {
               id: dd + '',
               name: d.distributor[index]
             }
           })
-          d.distributor_id = d.distributor_id.map(item => {
+          d.distributor_id = d.distributor_id.map((item) => {
             return item + ''
           })
         })
@@ -390,17 +426,17 @@ export default {
       })
     },
     deleteCategory(data) {
-      this.$confirm('此操作将删除该分类, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('92b45fc2.442ecc'), this.$t('92b45fc2.02d981'), {
+        confirmButtonText: this.$t('92b45fc2.38cf16'),
+        cancelButtonText: this.$t('92b45fc2.625fb2'),
         type: 'warning'
       })
         .then(() => {
           if (typeof data.id != 'undefined') {
-            deleteSubDistrictInfo(data.id).then(response => {
+            deleteSubDistrictInfo(data.id).then((response) => {
               this.$message({
                 type: 'success',
-                message: '删除分类成功'
+                message: this.$t('92b45fc2.1fe03c')
               })
               this.getCategory()
             })
@@ -408,7 +444,7 @@ export default {
             const { level, id, parent_id } = data
             let key = level === 0 ? id : parent_id
             const categoryList = this.categoryList
-            const parentIndex = categoryList.findIndex(item => item.id === key)
+            const parentIndex = categoryList.findIndex((item) => item.id === key)
             const deleteList = function (children, delId) {
               if (!children) return
               for (let i = 0; i < children.length; i++) {
@@ -428,11 +464,11 @@ export default {
             this.categoryList = categoryList
           }
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e)
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: this.$t('92b45fc2.2111cc')
           })
         })
     },
@@ -446,7 +482,7 @@ export default {
         label: '',
         distributor_id: [],
         parent_id: 0,
-        title: '街道'
+        title: this.$t('92b45fc2.716c3d')
       }
     },
     catNameCheck(catName) {
@@ -462,7 +498,7 @@ export default {
         if (catNameLength > 50) {
           this.$message({
             type: 'error',
-            message: '分类名称长度最多25个汉字或50个字符'
+            message: this.$t('92b45fc2.12d07c')
           })
           return false
         }
@@ -470,7 +506,7 @@ export default {
       } else {
         this.$message({
           type: 'error',
-          message: '分类不能为空'
+          message: this.$t('92b45fc2.1bb421')
         })
         return false
       }
@@ -493,22 +529,24 @@ export default {
       }
 
       if (!this.current.parent_id || this.current.parent_id == 0) {
-        const index = this.categoryList.findIndex(d => d.id === this.current.id)
+        const index = this.categoryList.findIndex((d) => d.id === this.current.id)
         this.categoryList[index].image_url = data.url
       } else if (this.current.parent_id && this.current.level == 1) {
-        const findex = this.categoryList.findIndex(d => d.id === this.current.parent_id)
-        const cindex = this.categoryList[findex].children.findIndex(d => d.id === this.current.id)
+        const findex = this.categoryList.findIndex((d) => d.id === this.current.parent_id)
+        const cindex = this.categoryList[findex].children.findIndex((d) => d.id === this.current.id)
         this.categoryList[findex].children[cindex].image_url = data.url
       } else {
         let findex
         let cindex
         for (var item in this.categoryList) {
-          cindex = this.categoryList[item].children.findIndex(d => d.id === this.current.parent_id)
+          cindex = this.categoryList[item].children.findIndex(
+            (d) => d.id === this.current.parent_id
+          )
           findex = item
           if (cindex > -1) break
         }
         const tindex = this.categoryList[findex].children[cindex].children.findIndex(
-          d => d.id === this.current.id
+          (d) => d.id === this.current.id
         )
         this.categoryList[findex].children[cindex].children[tindex].image_url = data.url
       }

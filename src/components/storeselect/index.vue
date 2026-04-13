@@ -6,13 +6,13 @@
 <template>
   <el-dialog
     class="store-dialog"
-    title="选择门店"
+    :title="$t('1a20dc63.86c570')"
     :visible.sync="showDialog"
     :close-on-click-modal="false"
     :before-close="cancelAction"
   >
     <div style="margin-bottom: 15px">
-      <el-input v-model="name" placeholder="输入门店名称" clearable>
+      <el-input v-model="name" :placeholder="$t('1a20dc63.4d521c')" clearable>
         <el-button slot="append" icon="el-icon-search" @click="handleIconClick" />
       </el-input>
     </div>
@@ -26,8 +26,8 @@
       @select="handleSelectionChange"
     >
       <el-table-column type="selection" :reserve-selection="true" width="50" />
-      <el-table-column prop="storeName" label="门店名称" />
-      <el-table-column prop="address" label="地址" show-overflow-tooltip />
+      <el-table-column prop="storeName" :label="$t('1a20dc63.740032')" />
+      <el-table-column prop="address" :label="$t('1a20dc63.765048')" show-overflow-tooltip />
     </el-table>
     <div v-if="total_count > params.pageSize" class="tr">
       <el-pagination
@@ -38,8 +38,8 @@
       />
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="cancelAction">取 消</el-button>
-      <el-button type="primary" @click="saveStoreAction">确 定</el-button>
+      <el-button @click="cancelAction">{{ $t('1a20dc63.c08ab9') }}</el-button>
+      <el-button type="primary" @click="saveStoreAction">{{ $t('1a20dc63.aa7527') }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -98,7 +98,7 @@ export default {
     },
     toggleSelection(rows) {
       if (rows) {
-        rows.forEach(row => {
+        rows.forEach((row) => {
           this.$refs.multipleTable.toggleRowSelection(row)
         })
       } else {
@@ -109,9 +109,9 @@ export default {
       console.log('row', row)
       if (val) {
         this.multipleSelection = val
-        val.forEach(item => {
+        val.forEach((item) => {
           console.warn('item', item)
-          let isInArr = this.selectRows.findIndex(n => n.wxShopId == item.wxShopId)
+          let isInArr = this.selectRows.findIndex((n) => n.wxShopId == item.wxShopId)
           if (isInArr == -1) {
             this.selectRows.push(item)
           }
@@ -129,14 +129,14 @@ export default {
     getNewsList() {
       if (this.getStatus) {
         this.loading = true
-        getWxShopsList(this.params).then(response => {
+        getWxShopsList(this.params).then((response) => {
           this.storeData = response.data.data.list
           this.total_count = parseInt(response.data.data.total_count)
           this.loading = false
           this.multipleSelection = []
           this.$refs.multipleTable.clearSelection()
           if (this.selectRows) {
-            this.selectRows.forEach(item => {
+            this.selectRows.forEach((item) => {
               console.log('item', item)
               this.$refs.multipleTable.toggleRowSelection(item)
             })

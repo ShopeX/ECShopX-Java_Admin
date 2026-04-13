@@ -5,7 +5,7 @@
 
 <style lang="scss" scoped>
 .attr-vertical {
-  margin-top: 2px;
+  flex: 1;
 
   .cate-item {
     height: 32px;
@@ -18,6 +18,9 @@
 <template>
   <div class="attr-vertical">
     <CompTodoList v-model="value" :max="20" is-edit @onAddItem="handleAddItem" @edit="onEdit">
+      <template slot="header" slot-scope="scope">
+        {{ i18n.t('114eac0e.e8f87a') }}{{ scope.index + 1 }}
+      </template>
       <template slot="body" slot-scope="scope">
         <div class="cate-item">
           {{ scope.data.title }}
@@ -28,6 +31,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import Vue from 'vue'
 import CompTodoList from '../../comps/comp-todoList'
 
@@ -42,7 +46,7 @@ export default {
     }
   },
   data() {
-    return {}
+    return { i18n }
   },
   methods: {
     async handleAddItem() {

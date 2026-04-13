@@ -7,12 +7,11 @@
   <SpPage class="invoice-detail-page">
     <SpForm v-model="form" size="min" :form-list="formList" :submit="false" />
 
-    <!-- 请确认重发邮箱 -->
     <SpDialog
       ref="dialogRef2"
       v-model="confirmDialogShow"
-      title="请确认重发邮箱"
-      confirm-btn-text="邮箱正确并发送"
+      :title="$t('364a6013.6a91d7')"
+      :confirm-btn-text="$t('364a6013.bd134b')"
       :modal="false"
       class="base-form"
       :form="confirmForm"
@@ -37,15 +36,16 @@ export default {
       confirmForm: {
         email: ''
       },
-      confirmStatus:false,
+      confirmStatus: false,
       confirmRuleForm: [
         {
           key: 'email',
-          label: '邮箱',
+          label: this.$t('2eced1b3.3bc5e6'),
           type: 'input',
           defaultValue: '',
           required: true,
-          tip:'电子发票需要一定时间才能发送到您的邮箱,请耐心等待'
+          message: this.$t('2eced1b3.dbf6d0'),
+          tip: this.$t('2eced1b3.a1f8da')
         }
       ]
     }
@@ -70,7 +70,7 @@ export default {
       this.confirmDialogShow = true
       this.confirmForm = {
         // email: this.form.email
-        email:''
+        email: ''
       }
     },
     getInvoice() {
@@ -90,9 +90,10 @@ export default {
           confirm_email: this.confirmForm.email
         })
         .then((res) => {
-          this.$message.success('发送成功')
+          this.$message.success(this.$t('364a6013.9db9a7'))
           this.confirmDialogShow = false
-        }).finally(()=>{
+        })
+        .finally(() => {
           this.confirmStatus = false
         })
     }
@@ -101,10 +102,9 @@ export default {
 </script>
 
 <style lang="scss">
-.invoice-detail-page .sp-form .el-form-item{
-  &.inline{
+.invoice-detail-page .sp-form .el-form-item {
+  &.inline {
     width: 33% !important;
   }
 }
 </style>
-

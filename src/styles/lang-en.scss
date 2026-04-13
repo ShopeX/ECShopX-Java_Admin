@@ -2,7 +2,7 @@
  * Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
  * See LICENSE file for license details.
  */
-html[lang='en-CN'] {
+html[lang='en'] {
   .shop-left {
     .option-item {
       margin-right: 10px;
@@ -21,6 +21,7 @@ html[lang='en-CN'] {
       .el-submenu__title,
       .el-tag,
       .el-select-dropdown__item,
+      .el-dropdown-menu__item,
       .el-range-separator,
       .btn-linkpath,
       .el-input__inner,
@@ -42,20 +43,15 @@ html[lang='en-CN'] {
     .third-menu-item {
       padding-left: 20px !important;
     }
-    .el-submenu {
-      margin-bottom: 15px;
-    }
     .el-menu-item,
     .el-submenu__title {
       word-break: normal;
-      height: auto;
       white-space: normal;
       padding: 5px 0;
-      line-height: 1.2;
+      line-height: initial;
       width: 100%;
     }
     .el-menu-item {
-      font-size: 12px;
       margin-bottom: 5px;
     }
     .el-submenu__title {
@@ -76,5 +72,13 @@ html[lang='en-CN'] {
     line-height: 1.2 !important;
     padding-bottom: 5px;
     width: auto !important;
+  }
+  .el-dropdown-menu__item {
+    div {
+      &,
+      * {
+        line-height: 36px !important;
+      }
+    }
   }
 }

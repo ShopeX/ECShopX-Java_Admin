@@ -6,10 +6,12 @@
 <template>
   <div>
     <div class="content-bottom-padded">
-      <el-button type="primary" @click="handleBatchDownload"> 二维码打包 </el-button>
+      <el-button type="primary" @click="handleBatchDownload">
+        {{ $t('9fbbb4f6.5b8a6c') }}
+      </el-button>
     </div>
 
-    <el-tag style="width: 100%" type="warning"> 选择商品 </el-tag>
+    <el-tag style="width: 100%" type="warning"> {{ $t('9fbbb4f6.43d1e2') }} </el-tag>
     <el-table
       ref="multipleItemsTable"
       v-loading="items.loading"
@@ -19,15 +21,27 @@
       @selection-change="handleItemsSelectionChange"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column prop="itemName" label="商品名称" />
-      <el-table-column prop="price" label="价格" :formatter="priceformatter" width="120" />
-      <el-table-column prop="store" label="库存" width="100" />
-      <el-table-column prop="rebate" label="店铺佣金" :formatter="rebateformatter" width="100" />
-      <el-table-column label="状态" width="120">
+      <el-table-column prop="itemName" :label="$t('9fbbb4f6.1fd1d5')" />
+      <el-table-column
+        prop="price"
+        :label="$t('9fbbb4f6.0e9fd9')"
+        :formatter="priceformatter"
+        width="120"
+      />
+      <el-table-column prop="store" :label="$t('9fbbb4f6.0eac88')" width="100" />
+      <el-table-column
+        prop="rebate"
+        :label="$t('9fbbb4f6.5c88d7')"
+        :formatter="rebateformatter"
+        width="100"
+      />
+      <el-table-column :label="$t('9fbbb4f6.3fea7c')" width="120">
         <template slot-scope="scope">
-          <span v-if="scope.row.approve_status == 'onsale'">前台可销售</span>
-          <span v-else-if="scope.row.approve_status == 'offline_sale'">前台不展示 </span>
-          <span v-else>不可销售</span>
+          <span v-if="scope.row.approve_status == 'onsale'">{{ $t('9fbbb4f6.9b7481') }}</span>
+          <span v-else-if="scope.row.approve_status == 'offline_sale'"
+            >{{ $t('9fbbb4f6.2c50a0') }}
+          </span>
+          <span v-else>{{ $t('9fbbb4f6.ae83a3') }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -40,7 +54,9 @@
       />
     </div>
 
-    <el-tag style="width: 100%; margin-top: 20px" type="warning"> 选择分销商 </el-tag>
+    <el-tag style="width: 100%; margin-top: 20px" type="warning">
+      {{ $t('9fbbb4f6.8967cd') }}
+    </el-tag>
     <el-table
       ref="multipleDistributorsTable"
       v-loading="distributors.loading"
@@ -49,9 +65,9 @@
       @selection-change="handleDistributorsSelectionChange"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column prop="name" label="姓名" />
-      <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="address" label="地址" />
+      <el-table-column prop="name" :label="$t('9fbbb4f6.60d045')" />
+      <el-table-column prop="mobile" :label="$t('9fbbb4f6.8098e2')" />
+      <el-table-column prop="address" :label="$t('9fbbb4f6.765048')" />
     </el-table>
     <div v-if="distributors.total_count > distributors.params.pageSize" class="mt-4 text-right">
       <el-pagination
@@ -76,7 +92,7 @@ import {
   getDistributionGoodsWxaCode
 } from '../../../api/goods'
 import { getDistributorList, getDistributorCount } from '../../../api/marketing'
-const getWxaCodeImg = url => {
+const getWxaCodeImg = (url) => {
   return new Promise((resolve, reject) => {
     axios({
       method: 'get',
@@ -84,10 +100,10 @@ const getWxaCodeImg = url => {
       responseType: 'arraybuffer',
       headers: { Authorization: 'bearer ' + store.getters.token }
     })
-      .then(data => {
+      .then((data) => {
         resolve(data.data)
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error.toString())
       })
   })
@@ -149,7 +165,7 @@ export default {
     getItemsList: function () {
       // 分销商列表
       this.items.loading = true
-      getItemsList(this.items.params).then(response => {
+      getItemsList(this.items.params).then((response) => {
         this.items.list = response.data.data.list
         this.items.total_count = response.data.data.total_count
         this.items.loading = false
@@ -175,7 +191,7 @@ export default {
     getDistributorsList: function () {
       // 分销商列表
       this.distributors.loading = true
-      getDistributorList(this.distributors.params).then(response => {
+      getDistributorList(this.distributors.params).then((response) => {
         this.distributors.list = response.data.data.list
         this.distributors.total_count = response.data.data.total_count
         this.distributors.loading = false
@@ -186,28 +202,28 @@ export default {
       if (this.items.itemsChecked.length <= 0) {
         this.$message({
           type: 'error',
-          message: '请至少选择一个商品!'
+          message: this.$t('9fbbb4f6.d1fcdb')
         })
         return
       }
       if (this.items.itemsChecked.length > 10) {
         this.$message({
           type: 'error',
-          message: '每次最多可选择10个商品!'
+          message: this.$t('9fbbb4f6.01722a')
         })
         return
       }
       if (this.distributors.distributorsChecked.length <= 0) {
         this.$message({
           type: 'error',
-          message: '请至少选择一个分销商!'
+          message: this.$t('9fbbb4f6.66e1a1')
         })
         return
       }
       if (this.distributors.distributorsChecked.length > 10) {
         this.$message({
           type: 'error',
-          message: '每次最多可选择10个分销商!'
+          message: this.$t('9fbbb4f6.b3ca6a')
         })
         return
       }
@@ -215,15 +231,15 @@ export default {
       const cache = {}
       const promises = []
       var that = this
-      that.items.itemsChecked.forEach(item1 => {
-        that.distributors.distributorsChecked.forEach(item2 => {
+      that.items.itemsChecked.forEach((item1) => {
+        that.distributors.distributorsChecked.forEach((item2) => {
           var url =
             this.BASE_API +
             '/goods/distributionGoodsWxaCodeStream?item_id=' +
             item1.itemId +
             '&distributor_id=' +
             item2.distributor_id
-          const promise = getWxaCodeImg(url).then(result_file => {
+          const promise = getWxaCodeImg(url).then((result_file) => {
             // 下载文件, 并存成ArrayBuffer对象
             const file_name =
               item1.itemName +
@@ -247,9 +263,9 @@ export default {
       this.distributors.distributorsChecked = []
       this.$refs.multipleDistributorsTable.clearSelection()
       Promise.all(promises).then(() => {
-        zip.generateAsync({ type: 'blob' }).then(content => {
+        zip.generateAsync({ type: 'blob' }).then((content) => {
           // 生成二进制流
-          FileSaver.saveAs(content, '分销商品小程序码(批量).zip') // 利用file-saver保存文件
+          FileSaver.saveAs(content, this.$t('9fbbb4f6.5d0e67')) // 利用file-saver保存文件
         })
       })
     }

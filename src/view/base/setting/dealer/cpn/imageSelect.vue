@@ -6,7 +6,7 @@
 <template>
   <el-dialog
     class="img_dialog"
-    title="选择图片"
+    :title="$t('7dca8a0f.ba9fc4')"
     :visible="showDialog"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
@@ -19,7 +19,7 @@
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane
               v-if="$store.getters.login_type != 'distributor'"
-              label="微信上传"
+              :label="$t('7dca8a0f.77531c')"
               name="wechatimages"
             >
               <div v-loading="loading" class="inner_main">
@@ -34,7 +34,7 @@
                         :on-change="uploadImage"
                         :multiple="true"
                       >
-                        <el-button type="primary"> 微信上传 </el-button>
+                        <el-button type="primary">{{ $t('7dca8a0f.77531c') }}</el-button>
                       </el-upload>
                     </div>
                   </div>
@@ -78,12 +78,16 @@
                 </div>
 
                 <div slot="footer" class="dialog-footer">
-                  <el-button @click="cancelAction"> 取 消 </el-button>
-                  <el-button type="primary" @click="saveAction"> 确 定 </el-button>
+                  <el-button @click="cancelAction">{{ $t('7dca8a0f.c08ab9') }}</el-button>
+                  <el-button type="primary" @click="saveAction">
+{{
+                    $t('7dca8a0f.aa7527')
+                  }}
+</el-button>
                 </div>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="本地上传" name="localimages">
+            <el-tab-pane :label="$t('7dca8a0f.b4af78')" name="localimages">
               <div v-loading="loading" class="inner_main">
                 <div class="img_pick_area">
                   <div class="sub_title_bar in_dialog">
@@ -99,7 +103,7 @@
                         :on-success="handleAvatarSuccess"
                         :on-error="uploadError"
                       >
-                        <el-button type="primary"> 本地上传 </el-button>
+                        <el-button type="primary">{{ $t('7dca8a0f.b4af78') }}</el-button>
                       </el-upload>
                     </div>
                   </div>
@@ -146,8 +150,12 @@
                 </div>
 
                 <div slot="footer" class="dialog-footer">
-                  <el-button @click="cancelAction"> 取 消 </el-button>
-                  <el-button type="primary" @click="localsaveAction"> 确 定 </el-button>
+                  <el-button @click="cancelAction">{{ $t('7dca8a0f.c08ab9') }}</el-button>
+                  <el-button type="primary" @click="localsaveAction">
+{{
+                    $t('7dca8a0f.aa7527')
+                  }}
+</el-button>
                 </div>
               </div>
             </el-tab-pane>
@@ -250,7 +258,7 @@ export default {
         return
       }
       let params = { isUploadFile: true, file: file.raw, type: 'image' }
-      uploadMaterial(params).then(res => {
+      uploadMaterial(params).then((res) => {
         this.getImageList()
       })
     },
@@ -258,7 +266,7 @@ export default {
       this.$emit('chooseImg', this.checkedItem)
       if (this.isMost) {
         this.checkedItem = []
-        this.imgList.forEach(v => {
+        this.imgList.forEach((v) => {
           v.selected = false
         })
       }
@@ -270,11 +278,11 @@ export default {
       let that = this
       that.loading = true
       getWechatMaterial(this.params)
-        .then(response => {
+        .then((response) => {
           that.imgData = response.data.data
           that.imgList = response.data.data.item
           if (that.isMost) {
-            that.imgList.forEach(v => {
+            that.imgList.forEach((v) => {
               that.$set(v, 'selected', false)
             })
           }
@@ -298,11 +306,11 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 5
 
       if (!isJPG && !isPNG && !isGIF) {
-        this.$message.error('上传图片只能是 JPG 或者 PNG 格式!')
+        this.$message.error(this.$t('7dca8a0f.34e969'))
         return
       }
       if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 5MB!')
+        this.$message.error(this.$t('7dca8a0f.50fa12'))
         return
       }
 
@@ -325,16 +333,16 @@ export default {
         storage: 'image' //图片id必填
       }
       // if (res.key) {
-      uploadQiniuPic(uploadParams).then(res => {
+      uploadQiniuPic(uploadParams).then((res) => {
         const obj = {
           file_type: this.pickerImgType,
           file_url: res.data.data.image_full_url
         }
-        this.$api.adapay.uploadPic(obj).then(res => {
+        this.$api.adapay.uploadPic(obj).then((res) => {
           // console.log(res);
           // debugger
           this.$message({
-            message: '上传成功',
+            message: this.$t('7dca8a0f.a7699b'),
             type: 'success',
             duration: 5 * 1000
           })
@@ -350,11 +358,11 @@ export default {
       if (!this.localisLoadData) {
         that.localloading = true
         getQiniuPicList(that.localparams)
-          .then(response => {
+          .then((response) => {
             that.localimgData = response.data.data
             this.localimgList = response.data.data.list
             if (that.isMost) {
-              that.localimgList.forEach(v => {
+              that.localimgList.forEach((v) => {
                 that.$set(v, 'selected', false)
               })
             }
@@ -382,7 +390,7 @@ export default {
       this.$emit('chooseImg', this.localcheckedItem)
       if (this.isMost) {
         this.localcheckedItem = []
-        this.localimgList.forEach(v => {
+        this.localimgList.forEach((v) => {
           v.selected = false
         })
       }
@@ -394,10 +402,10 @@ export default {
       upload
         .uploadImg(e.file, e.file.name)
         .then(
-          res => e.onSuccess(res),
-          err => e.onError(err)
+          (res) => e.onSuccess(res),
+          (err) => e.onError(err)
         )
-        .catch(err => e.onError(err))
+        .catch((err) => e.onError(err))
     },
     // 上传错误回调
     uploadError: function (e) {

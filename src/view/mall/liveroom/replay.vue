@@ -20,11 +20,11 @@
               controls="controls"
               style="width:100%; !important"
             >
-              您的浏览器不支持 video 标签。
+              {{ $t('19b59fae.4cacc1') }}
             </video>
             <div class="check_content">
               <span class="video_name" :title="videoitem.name"
-                >过期时间：{{ videoitem.expire_time }}</span
+                >{{ $t('19b59fae.8f40b4') }}{{ videoitem.expire_time }}</span
               >
             </div>
           </div>
@@ -87,7 +87,7 @@ export default {
     getList() {
       if (!this.isLoadData) {
         this.isLoadData = true
-        getLiverooms(this.params).then(response => {
+        getLiverooms(this.params).then((response) => {
           this.videoList = response.data.data.list
           this.total_count = response.data.data.total_count
           this.isLoadData = false

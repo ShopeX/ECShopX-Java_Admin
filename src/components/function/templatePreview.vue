@@ -23,7 +23,7 @@
                 ') no-repeat bottom; background-size: 100% auto;'
               "
             >
-              <span>标题</span>
+              <span>{{ $t('7f6bf178.32c65d') }}</span>
             </div>
           </div>
           <div class="components-wrap" :style="'height: ' + (wheight - 290) + 'px;'">
@@ -478,7 +478,7 @@ export default {
       }
       const faverite = await getRecommendLikeItemList()
       let data = []
-      faverite.data.data.list.forEach(item => {
+      faverite.data.data.list.forEach((item) => {
         data.push({
           imgUrl: item.pics ? item.pics[0] : '',
           title: item.itemName,
@@ -630,7 +630,7 @@ export default {
   .component-item {
     position: relative;
 
-    .icon-trash-alt {
+    .el-icon-delete {
       position: absolute;
       right: 20px;
       color: #ff5000;

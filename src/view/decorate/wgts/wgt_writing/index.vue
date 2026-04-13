@@ -39,6 +39,7 @@
       'wgt-content': true,
       padded: value.padded
     }"
+    :style="outerStyle"
   >
     <div v-if="value.title || value.subtitle" class="wgt-hd">
       <span class="title">{{ value.title }}</span>
@@ -53,9 +54,11 @@
 
 <script>
 import config from './config'
+import { i18n } from '@/i18n'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'Writing',
-  wgtName: '文本内容',
+  wgtName: i18n.t('9429f5cf.cbc608'),
   wgtDesc: '',
   wgtIcon: 'wgt-content',
   config: config,
@@ -68,6 +71,9 @@ export default {
     }
   },
   computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    },
     sourceUrl() {
       const { data } = this.value
       return data?.url || ''

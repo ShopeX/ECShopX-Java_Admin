@@ -5,71 +5,68 @@
 
 <template>
   <el-form ref="form" :model="form" class="box-set page-memberpreference" label-width="120px">
-    <el-card header="基础信息" shadow="naver">
-      <el-form-item
-        label="名称"
-        prop="marketing_name"
-        :rules="{ required: true, message: '活动名称必填', trigger: 'blur' }"
-      >
+    <el-card :header="$t('89f4b371.6ea1fe')" shadow="naver">
+      <el-form-item :label="$t('89f4b371.d7ec2d')" prop="marketing_name" :rules="nameRules">
         <el-col :span="20">
           <el-input
             v-model="form.marketing_name"
             :disabled="form.status == 'waiting' ? false : true"
             :maxlength="30"
-            placeholder="最多30个字"
+            :placeholder="$t('89f4b371.017ce7')"
           />
         </el-col>
       </el-form-item>
-      <el-form-item label="适用会员">
+      <el-form-item :label="$t('89f4b371.6dbb6f')">
         <el-checkbox-group v-model="validGrade" :disabled="form.status == 'waiting' ? false : true">
           <el-checkbox v-for="grade in memberGrade" :key="grade.grade_id" :label="grade.grade_id">
             {{ grade.grade_name }}
           </el-checkbox>
           <el-checkbox v-for="vipdata in vipGrade" :key="vipdata.lv_type" :label="vipdata.lv_type">
-            付费{{ vipdata.grade_name }}
+            {{ $t('89f4b371.310f84') }}{{ vipdata.grade_name }}
           </el-checkbox>
         </el-checkbox-group>
       </el-form-item>
-      <el-form-item label="有效期">
+      <el-form-item :label="$t('89f4b371.bb114a')">
         <el-col :span="20">
           <el-date-picker
             v-model="activity_date"
             :disabled="form.status == 'waiting' ? false : true"
             type="datetimerange"
-            range-separator="至"
-            start-placeholder="生效时间"
-            end-placeholder="过期时间"
+            :range-separator="$t('89f4b371.981cbe')"
+            :start-placeholder="$t('89f4b371.fc92e9')"
+            :end-placeholder="$t('89f4b371.1fa23f')"
             value-format="yyyy-MM-dd HH:mm:ss"
             :default-time="['00:00:00', '23:59:59']"
           />
         </el-col>
       </el-form-item>
     </el-card>
-    <el-card header="选择商品" shadow="naver">
-      <el-form-item label="适用商品">
+    <el-card :header="$t('89f4b371.43d1e2')" shadow="naver">
+      <el-form-item :label="$t('89f4b371.409ea3')">
         <el-radio-group v-model="form.use_bound" @change="itemTypeChange">
-          <el-radio label="goods"> 指定商品适用 </el-radio>
-          <el-radio label="category"> 指定分类适用 </el-radio>
-          <el-radio label="tag"> 指定商品标签适用 </el-radio>
-          <el-radio label="brand"> 指定品牌适用 </el-radio>
+          <el-radio label="goods"> {{ $t('89f4b371.1e0568') }} </el-radio>
+          <el-radio label="category"> {{ $t('89f4b371.4e4c10') }} </el-radio>
+          <el-radio label="tag"> {{ $t('89f4b371.d61cbb') }} </el-radio>
+          <el-radio label="brand"> {{ $t('89f4b371.8f5e18') }} </el-radio>
         </el-radio-group>
       </el-form-item>
       <div v-if="!zdItemHidden" style="position: relative">
-        <SkuSelector :data="relItems" @change="getItems" />
-        <div style="position: absolute; bottom: 0px; left: 112px">
-          <el-upload
-            style="display: inline-block; height: 0"
-            action=""
-            :on-change="uploadHandleChange"
-            :auto-upload="false"
-            :show-file-list="false"
-          >
-            <el-button type="primary"> 批量上传 </el-button>
-          </el-upload>
-          <el-button style="margin-left: 10px" type="primary" @click="uploadHandleTemplate()">
-            下载模板
-          </el-button>
-        </div>
+        <SkuSelector :data="relItems" @change="getItems">
+          <template #selectGoodsButton>
+            <el-upload
+              style="display: inline-block"
+              action=""
+              :on-change="uploadHandleChange"
+              :auto-upload="false"
+              :show-file-list="false"
+            >
+              <el-button type="primary"> {{ $t('89f4b371.c3202e') }} </el-button>
+            </el-upload>
+            <el-button type="primary" @click="uploadHandleTemplate()">
+              {{ $t('89f4b371.c3f9a1') }}
+            </el-button>
+          </template>
+        </SkuSelector>
       </div>
       <el-col :xs="12" :sm="12" :md="12">
         <div v-if="!categoryHidden" style="height: 350px">
@@ -88,7 +85,7 @@
       </el-col>
       <template v-if="!tagHidden">
         <div class="selected-tags view-flex">
-          <div class="label">已选中标签：</div>
+          <div class="label">{{ $t('89f4b371.e98819') }}</div>
           <div class="view-flex-item">
             <el-tag
               v-for="(tag, index) in tag.currentTags"
@@ -118,7 +115,7 @@
       </template>
       <template v-if="!brandHidden">
         <div class="selected-tags view-flex">
-          <div class="label">已选中品牌：</div>
+          <div class="label">{{ $t('89f4b371.f5bf1f') }}</div>
           <div class="view-flex-item">
             <el-tag
               v-for="(brand, index) in brand.currentBrands"
@@ -149,9 +146,9 @@
     </el-card>
     <div class="content-center">
       <el-button v-if="hasSaveButton" type="primary" @click="submitActivityAction()">
-        保存
+        {{ $t('89f4b371.be5fbb') }}
       </el-button>
-      <el-button @click.native="handleCancel"> 返回 </el-button>
+      <el-button @click.native="handleCancel"> {{ $t('89f4b371.5f4112') }} </el-button>
     </div>
   </el-form>
 </template>
@@ -262,6 +259,11 @@ export default {
       }
     }
   },
+  computed: {
+    nameRules() {
+      return [{ required: true, message: this.$t('89f4b371.813065'), trigger: 'blur' }]
+    }
+  },
   watch: {
     'form.item_ids': {
       handler: function (val) {
@@ -288,13 +290,13 @@ export default {
       this.hasSaveButton = false
     }
 
-    listVipGrade().then(response => {
+    listVipGrade().then((response) => {
       if (response != undefined && response.data.data && response.data.data.length > 0) {
         this.vipGrade = response.data.data
       }
     })
 
-    getGradeList().then(response => {
+    getGradeList().then((response) => {
       if (response != undefined && response.data.data && response.data.data.length > 0) {
         var result = response.data.data
         if (result) {
@@ -310,7 +312,7 @@ export default {
   methods: {
     getItems(data) {
       let ids = []
-      data.forEach(item => {
+      data.forEach((item) => {
         ids.push(item.itemId)
       })
       this.form.item_ids = ids
@@ -344,7 +346,7 @@ export default {
         this.form.start_time = this.activity_date[0]
         this.form.end_time = this.activity_date[1]
       } else {
-        this.$message.error('有效期必填!')
+        this.$message.error(this.$t('89f4b371.bddcb9'))
         return
       }
 
@@ -357,7 +359,7 @@ export default {
 
       this.form.shop_ids = []
       if (this.relStores && this.relStores.length > 0) {
-        this.relStores.forEach(item => {
+        this.relStores.forEach((item) => {
           this.form.shop_ids.push(item.distributor_id)
         })
       }
@@ -371,11 +373,11 @@ export default {
       //this.use_bound = 1
 
       if (this.form.marketing_id) {
-        updateMarketingActivity(this.form).then(res => {
+        updateMarketingActivity(this.form).then((res) => {
           if (res.data.data.marketing_id) {
             this.loading = false
             this.$message({
-              message: '更新成功',
+              message: this.$t('89f4b371.55aa63'),
               type: 'success',
               duration: 2 * 1000,
               onClose() {
@@ -384,16 +386,16 @@ export default {
               }
             })
           } else {
-            this.$message.error('保存失败!')
+            this.$message.error(this.$t('89f4b371.73b0d9'))
             return false
           }
         })
       } else {
-        addMarketingActivity(this.form).then(res => {
+        addMarketingActivity(this.form).then((res) => {
           if (res.data.data.marketing_id) {
             this.loading = false
             this.$message({
-              message: '添加成功',
+              message: this.$t('89f4b371.3fdaea'),
               type: 'success',
               duration: 2 * 1000,
               onClose() {
@@ -402,14 +404,14 @@ export default {
               }
             })
           } else {
-            this.$message.error('保存失败!')
+            this.$message.error(this.$t('89f4b371.73b0d9'))
             return false
           }
         })
       }
     },
     getActivityDetail(id) {
-      getMarketingActivityInfo({ marketing_id: id }).then(res => {
+      getMarketingActivityInfo({ marketing_id: id }).then((res) => {
         let response = res.data.data
         let data = {
           marketing_type: 'member_preference',
@@ -516,7 +518,7 @@ export default {
       }
     },
     fetchMainCate: function () {
-      getCategory({ is_main_category: true, ignore_none: true }).then(response => {
+      getCategory({ is_main_category: true, ignore_none: true }).then((response) => {
         this.categoryList = transformTree(response.data.data, {
           id: 'category_id',
           label: 'category_name',
@@ -532,14 +534,14 @@ export default {
       } else {
         this.$message({
           type: 'error',
-          message: '请选择至少一个商品!'
+          message: this.$t('89f4b371.c5f66d')
         })
       }
     },
     showTags: function () {
       this.tag.tags = [...this.tag.list]
       this.tag.tags.forEach((item, index) => {
-        let isInArr = this.tag.currentTags.findIndex(n => n.tag_id == item.tag_id)
+        let isInArr = this.tag.currentTags.findIndex((n) => n.tag_id == item.tag_id)
         if (isInArr != -1) this.tag.tags.splice(index, 1)
       })
     },
@@ -549,17 +551,17 @@ export default {
       this.form.tag_ids = []
       let tagItems = []
       let tagInvalidItems = []
-      this.tag.currentTags.forEach(item => {
+      this.tag.currentTags.forEach((item) => {
         this.form.tag_ids.push(item.tag_id)
         let items = []
 
-        this.ItemsList.forEach(i => {
+        this.ItemsList.forEach((i) => {
           if (i.tag_ids.indexOf(item.tag_id) != -1) items.push(i)
         })
         tagItems = items
 
         let invalidItems = []
-        this.invalidItemsList.forEach(i => {
+        this.invalidItemsList.forEach((i) => {
           if (i.tag_ids.indexOf(item.tag_id) != -1) invalidItems.push(i)
         })
         tagInvalidItems = invalidItems
@@ -572,17 +574,17 @@ export default {
       if (this.activity_date.length <= 0) {
         this.$message({
           type: 'error',
-          message: '请选择活动时间!'
+          message: this.$t('89f4b371.3e5ac0')
         })
         return false
       }
-      let isInArr = this.tag.currentTags.findIndex(n => n.tag_id == item.tag_id)
+      let isInArr = this.tag.currentTags.findIndex((n) => n.tag_id == item.tag_id)
       if (isInArr == -1) {
         this.tag.currentTags.push(item)
         this.tag.tags.splice(index, 1)
       }
       this.form.tag_ids = []
-      this.tag.currentTags.forEach(item => {
+      this.tag.currentTags.forEach((item) => {
         this.form.tag_ids.push(item.tag_id)
       })
       this.params.tag_id = item.tag_id
@@ -593,7 +595,7 @@ export default {
         page: 1,
         pageSize: 500
       }
-      getTagList(params).then(response => {
+      getTagList(params).then((response) => {
         this.tag.list = response.data.data.list
       })
     },
@@ -606,7 +608,7 @@ export default {
         attribute_type: 'brand',
         attribute_name: searchVal,
         attribute_ids: isInit ? this.form.brand_id : ''
-      }).then(res => {
+      }).then((res) => {
         for (let item of res.data.data.list) {
           list.push({ attribute_name: item.attribute_name, attribute_id: item.attribute_id })
         }
@@ -616,7 +618,7 @@ export default {
     showBrands: function () {
       this.brand.brands = [...this.brand.list]
       this.brand.brands.forEach((item, index) => {
-        let isInArr = this.brand.currentBrands.findIndex(n => n.attribute_id == item.attribute_id)
+        let isInArr = this.brand.currentBrands.findIndex((n) => n.attribute_id == item.attribute_id)
         if (isInArr != -1) this.brand.brands.splice(index, 1)
       })
     },
@@ -624,17 +626,17 @@ export default {
       if (this.activity_date.length <= 0) {
         this.$message({
           type: 'error',
-          message: '请选择活动时间!'
+          message: this.$t('89f4b371.3e5ac0')
         })
         return false
       }
-      let isInArr = this.brand.currentBrands.findIndex(n => n.attribute_id == item.attribute_id)
+      let isInArr = this.brand.currentBrands.findIndex((n) => n.attribute_id == item.attribute_id)
       if (isInArr == -1) {
         this.brand.currentBrands.push(item)
         this.brand.brands.splice(index, 1)
       }
       this.form.brand_ids = []
-      this.brand.currentBrands.forEach(item => {
+      this.brand.currentBrands.forEach((item) => {
         this.form.brand_ids.push(item.attribute_id)
       })
       this.params.brand_id = item.attribute_id
@@ -642,11 +644,11 @@ export default {
     },
     brandRemove: function (index) {
       let items = []
-      this.ItemsList.forEach(item => {
+      this.ItemsList.forEach((item) => {
         if (this.brand.currentBrands[index].attribute_id != item.brand_id) items.push(item)
       })
       let invalidItems = []
-      this.invalidItemsList.forEach(i => {
+      this.invalidItemsList.forEach((i) => {
         if (this.brand.currentBrands[index].attribute_id != i.brand_id) invalidItems.push(i)
       })
 
@@ -657,7 +659,7 @@ export default {
       this.brand.brands.unshift(this.brand.currentBrands[index])
       this.brand.currentBrands.splice(index, 1)
       this.form.brand_ids = []
-      this.brand.currentBrands.forEach(item => {
+      this.brand.currentBrands.forEach((item) => {
         this.form.brand_ids.push(item.attribute_id)
       })
     },
@@ -672,16 +674,16 @@ export default {
       if (params.is_gift == 'all') {
         this.$delete(params, 'is_gift')
       }
-      seckillActivityGetItemsList(params).then(response => {
+      seckillActivityGetItemsList(params).then((response) => {
         let itemList = response.data.data.list.validItems.concat(this.ItemsList)
         let invalidItemList = response.data.data.list.invalidItems.concat(this.invalidItemsList)
         let newItemList = []
         let invalidItems = []
         let obj = {}
         let obj1 = {}
-        itemList.forEach(item => {
+        itemList.forEach((item) => {
           let tag_ids = []
-          item.tagList.forEach(tag => {
+          item.tagList.forEach((tag) => {
             tag_ids.push(tag.tag_id)
           })
           item.tag_ids = tag_ids
@@ -690,9 +692,9 @@ export default {
             obj[item.item_id] = true
           }
         })
-        invalidItemList.forEach(item => {
+        invalidItemList.forEach((item) => {
           let tag_ids = []
-          item.tagList.forEach(tag => {
+          item.tagList.forEach((tag) => {
             tag_ids.push(tag.tag_id)
           })
           item.tag_ids = tag_ids
@@ -718,7 +720,7 @@ export default {
         if (node.category_id != item.item_main_cat_id) items.push(item)
       })
       let invalidItems = []
-      this.invalidItemsList.forEach(i => {
+      this.invalidItemsList.forEach((i) => {
         if (node.category_id != i.item_main_cat_id) invalidItems.push(i)
       })
 
@@ -731,7 +733,7 @@ export default {
       noSkuItem = []
       let response = []
       let goodsList = JSON.parse(JSON.stringify(this.relItems))
-      goodsList.forEach(item => {
+      goodsList.forEach((item) => {
         if (!item.nospec && item.spec_items.length === 0) {
           noSkuItem.push(item.default_item_id)
         }
@@ -739,17 +741,17 @@ export default {
       if (noSkuItem.length > 0) {
         let param = this.params
         param.item_id = noSkuItem
-        getItemsList(this.params).then(res => {
-          goodsList.forEach(item => {
+        getItemsList(this.params).then((res) => {
+          goodsList.forEach((item) => {
             if (!item.nospec) {
-              res.data.data.list.forEach(sku => {
+              res.data.data.list.forEach((sku) => {
                 if (item.item_id === sku.default_item_id) {
                   item.spec_items.push(sku)
                 }
               })
             }
           })
-          goodsList.forEach(item => {
+          goodsList.forEach((item) => {
             if (!item.nospec) {
               response = [...response, ...item.spec_items]
             } else {
@@ -760,7 +762,7 @@ export default {
           this.getItems(response)
         })
       } else {
-        goodsList.forEach(item => {
+        goodsList.forEach((item) => {
           if (!item.nospec) {
             response = [...response, ...item.spec_items]
           } else {
@@ -775,8 +777,8 @@ export default {
      * 下载模板
      * */
     uploadHandleTemplate() {
-      let params = { file_type: 'marketing_goods', file_name: '商品模板' }
-      exportUploadTemplate(params).then(response => {
+      let params = { file_type: 'marketing_goods', file_name: this.$t('89f4b371.e07423') }
+      exportUploadTemplate(params).then((response) => {
         let { data } = response.data
         if (data.file) {
           var a = document.createElement('a')
@@ -788,7 +790,7 @@ export default {
         } else {
           this.$message({
             type: 'error',
-            message: '没有相关数据可导出'
+            message: this.$t('89f4b371.bfd8d5')
           })
         }
       })
@@ -798,23 +800,23 @@ export default {
      * */
     uploadHandleChange(file, fileList) {
       let params = { isUploadFile: true, file_type: 'marketing_goods', file: file.raw }
-      handleUploadFile(params).then(response => {
+      handleUploadFile(params).then((response) => {
         this.$message({
           type: 'success',
-          message: '上传成功'
+          message: this.$t('89f4b371.a7699b')
         })
 
         let { data } = response.data
 
         if (data.fail.length > 0) {
-          let str = data.fail.map(item => {
+          let str = data.fail.map((item) => {
             return item.item_bn
           })
 
           setTimeout(() => {
             this.$message({
               showClose: true,
-              message: `以下商品编号不存在：${str}`,
+              message: `${this.$t('89f4b371.ef474d')}${str}`,
               type: 'error',
               duration: 5000
             })
@@ -823,7 +825,7 @@ export default {
         if (data.succ.length <= 0) return
         this.relItems = data.succ
         let list = []
-        data.succ.forEach(item => {
+        data.succ.forEach((item) => {
           if (!item.nospec) {
             list.push(Object.assign(item, { spec_items: [] }))
           } else {

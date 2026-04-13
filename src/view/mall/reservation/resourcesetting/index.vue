@@ -11,14 +11,14 @@
       type="border-card"
       @tab-click="handleClick"
     >
-      <el-tab-pane label="排班管理" name="settingMange">
+      <el-tab-pane :label="$t('5e713c13.bb4285')" name="settingMange">
         <work-shift
           :is-load="settingMangeLoad"
           :shop-list-data="shopListData"
           :resource-name="resourceName"
         />
       </el-tab-pane>
-      <el-tab-pane :label="resourceName + '列表'" name="reservationModel">
+      <el-tab-pane :label="resourceName + $t('5e713c13.371297')" name="reservationModel">
         <resource-list
           ref="resource"
           :is-load="resouceLoad"
@@ -56,11 +56,11 @@ export default {
     }
   },
   mounted() {
-    getSetting().then(res => {
+    getSetting().then((res) => {
       if (res.data.data.resourceName) {
         this.resourceName = res.data.data.resourceName
       } else {
-        this.resourceName = '资源位'
+        this.resourceName = this.$t('5e713c13.34cc0e')
       }
     })
 

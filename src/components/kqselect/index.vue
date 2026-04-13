@@ -6,7 +6,7 @@
 <template>
   <el-dialog
     class="img_dialog"
-    title="选择卡券"
+    :title="$t('e4e162b0.46c275')"
     :visible="showDialog"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
@@ -18,20 +18,20 @@
           <input type="radio" name="kq" :value="JSON.stringify(scope.row)">
         </template>
       </el-table-column>
-      <el-table-column label="卡券类型">
+      <el-table-column :label="$t('e4e162b0.f47182')">
         <template slot-scope="card_type">
           {{ card_type.row.card_type | formatCardStr }}
         </template>
       </el-table-column>
-      <el-table-column prop="title" label="全部卡券" />
-      <el-table-column prop="begin_time ~ end_time" label="卡券有效期" />
+      <el-table-column prop="title" :label="$t('e4e162b0.4e6906')" />
+      <el-table-column prop="begin_time ~ end_time" :label="$t('e4e162b0.d48a7a')" />
       <!-- <el-table-column label="库存" width="200">
         <template scope="scope">
           <el-input-number v-model="scope.row.store" style="width: 140px;"></el-input-number>
         </template>
       </el-table-column> -->
-      <el-table-column prop="price" label="微信价(元)" />
-      <el-table-column prop="state" label="卡券状态" />
+      <el-table-column prop="price" :label="$t('e4e162b0.903971')" />
+      <el-table-column prop="state" :label="$t('e4e162b0.495218')" />
     </el-table>
     <div class="clearfix" style="margin-top: 20px">
       <div class="mini_tips fl">
@@ -47,8 +47,8 @@
       </div>
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="cancelAction">取 消</el-button>
-      <el-button type="primary" @click="saveAction">确 定</el-button>
+      <el-button @click="cancelAction">{{ $t('e4e162b0.c08ab9') }}</el-button>
+      <el-button type="primary" @click="saveAction">{{ $t('e4e162b0.aa7527') }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -90,7 +90,7 @@ export default {
     },
     saveAction() {
       var radios = document.getElementsByName('kq')
-      radios.forEach(index => {
+      radios.forEach((index) => {
         if (index.checked === true) {
           this.selectedItem = index.value
         }
@@ -103,7 +103,7 @@ export default {
     getCardList(data) {
       this.listLoading = true
       if (this.scStatus) {
-        getCardList(data).then(response => {
+        getCardList(data).then((response) => {
           this.listLoading = false
           this.tableData = response.data.data.list
           this.pagers.total = response.data.data.pagers.total

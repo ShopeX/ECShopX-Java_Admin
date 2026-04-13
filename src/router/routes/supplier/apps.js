@@ -11,52 +11,38 @@ const routes = [
       aliasName: 'supplierapplications',
       icon: 'app-store',
       keepAlive: true,
-      title: '应用'
+      title: 'df3e4f24.5b0520'
     },
-    name: 'supplierapplications',
+    name: 'supplierApplications',
     path: '/supplier/applications',
     children: [
       {
-        name: 'bspayUser',
-        path: 'bspay/user',
-        component: () => import('@/view/mall/marketing/huifuBspay'),
+        name: 'dougongUserManage',
+        path: 'dougong/user-manage',
+        component: () => import('@/view/dealer/bspay_create_user'),
         meta: {
-          aliasName: 'supplierapplicationsbspayuser_audit',
+          aliasName: 'user',
           icon: 'icon-user',
-          title: '进件管理',
-          permissions: [
-            'supplierapplications.supplierapplicationsbspay.supplierapplicationsbspayuser_audit'
-          ]
-        },
-        children: [
-          {
-            path: 'approve/:order_id',
-            component: () => import('@/view/mall/marketing/huifuBspay/approve'),
-            meta: {
-              title: '进件管理详情',
-              hidden: true
-            }
-          }
-        ]
+          title: 'df3e4f24.d38018',
+          permissions: ['supplierapplications.supplierapplicationsbspay.user']
+        }
       },
       {
-        name: 'bspayTrades',
-        path: 'bspay/trades',
+        name: 'dougongSeparateAccountDetail',
+        path: 'dougong/separate-account-detail',
         component: () => import('@/view/mall/bspay_sub_account/sub_account'),
         meta: {
-          aliasName: 'supplierapplicationsbspaytrades',
+          aliasName: 'trades',
           icon: 'icon-trades',
-          title: '分账明细',
-          permissions: [
-            'supplierapplications.supplierapplicationsbspay.supplierapplicationsbspaytrades'
-          ]
+          title: 'df3e4f24.85b2f8',
+          permissions: ['supplierapplications.supplierapplicationsbspay.trades']
         },
         children: [
           {
             path: 'detail/:order_id',
             component: () => import('@/view/mall/bspay_sub_account/detail'),
             meta: {
-              title: '分账明细详情',
+              title: 'df3e4f24.ee8348',
               hidden: true
             }
           }

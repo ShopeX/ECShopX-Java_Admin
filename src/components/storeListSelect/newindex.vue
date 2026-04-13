@@ -6,13 +6,13 @@
 <template>
   <el-dialog
     class="store-dialog"
-    title="选择店铺"
+    :title="$t('eb7aa407.afa2e6')"
     :visible.sync="showDialog"
     :close-on-click-modal="false"
     :before-close="cancelAction"
   >
     <div style="margin-bottom: 15px">
-      <el-input v-model="name" placeholder="输入店铺名称" clearable>
+      <el-input v-model="name" :placeholder="$t('eb7aa407.240fdb')" clearable>
         <el-button slot="append" icon="el-icon-search" @click="handleIconClick" />
       </el-input>
     </div>
@@ -26,9 +26,9 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" :reserve-selection="true" width="50" />
-      <el-table-column prop="name" label="店铺名称" />
-      <el-table-column prop="contact" label="联系人" />
-      <el-table-column prop="address" label="地址" show-overflow-tooltip />
+      <el-table-column prop="name" :label="$t('eb7aa407.0d4934')" />
+      <el-table-column prop="contact" :label="$t('eb7aa407.52409d')" />
+      <el-table-column prop="address" :label="$t('eb7aa407.765048')" show-overflow-tooltip />
     </el-table>
     <div v-if="total_count > params.pageSize" class="tr">
       <el-pagination
@@ -39,8 +39,8 @@
       />
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="cancelAction">取 消</el-button>
-      <el-button type="primary" @click="saveStoreAction">确 定</el-button>
+      <el-button @click="cancelAction">{{ $t('eb7aa407.c08ab9') }}</el-button>
+      <el-button type="primary" @click="saveStoreAction">{{ $t('eb7aa407.aa7527') }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -118,7 +118,7 @@ export default {
     },
     toggleSelection(rows) {
       if (rows) {
-        rows.forEach(row => {
+        rows.forEach((row) => {
           this.$refs.multipleTable.toggleRowSelection(row)
         })
       } else {
@@ -128,10 +128,10 @@ export default {
     handleSelectionChange(val) {
       if (val) {
         this.multipleSelection = val
-        val.forEach(item => {
+        val.forEach((item) => {
           let isInArr = -1
           if (this.selectRows.length > 0) {
-            isInArr = this.selectRows.findIndex(n => n.shop_id == item.shop_id)
+            isInArr = this.selectRows.findIndex((n) => n.shop_id == item.shop_id)
           }
           if (isInArr == -1) {
             this.selectRows.push(item)
@@ -148,14 +148,14 @@ export default {
     getNewsList() {
       if (this.getStatus) {
         this.loading = true
-        getDistributorEasyList(this.params).then(response => {
+        getDistributorEasyList(this.params).then((response) => {
           this.storeData = response.data.data.list
           this.total_count = parseInt(response.data.data.total_count)
           this.loading = false
           this.multipleSelection = []
           this.$refs.multipleTable.clearSelection()
           if (this.selectRows) {
-            this.selectRows.forEach(item => {
+            this.selectRows.forEach((item) => {
               this.$refs.multipleTable.toggleRowSelection(item, true)
             })
           }

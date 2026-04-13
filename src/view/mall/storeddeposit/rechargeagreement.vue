@@ -6,12 +6,12 @@
 <template>
   <div v-loading="loading" class="section-white content-padded">
     <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      <el-form-item label="充值协议" prop="content">
+      <el-form-item :label="$t('988f4e05.0de4fa')" prop="content">
         <!-- <el-input type="textarea" v-model="form.content" :rows='18'></el-input> -->
         <SpRichText v-model="form.content" />
       </el-form-item>
       <div class="section-footer with-border content-center">
-        <el-button type="primary" @click="save"> 保存 </el-button>
+        <el-button type="primary" @click="save"> {{ $t('988f4e05.be5fbb') }} </el-button>
       </div>
     </el-form>
   </div>
@@ -28,7 +28,7 @@ export default {
         content: ''
       },
       rules: {
-        content: [{ required: true, message: '请输入充值协议', trigger: 'blur' }]
+        content: [{ required: true, message: this.$t('988f4e05.6d1a0f'), trigger: 'blur' }]
       }
     }
   },
@@ -41,11 +41,11 @@ export default {
   },
   methods: {
     save() {
-      this.$refs['form'].validate(valid => {
+      this.$refs['form'].validate((valid) => {
         if (valid) {
-          setRechargeAgreement(this.form).then(res => {
+          setRechargeAgreement(this.form).then((res) => {
             this.$message({
-              message: '保存成功',
+              message: this.$t('988f4e05.3b1083'),
               type: 'success',
               duration: 5 * 1000
             })
@@ -55,7 +55,7 @@ export default {
     },
     getAgreement() {
       this.loading = true
-      getRechargeAgreementByCompanyId().then(res => {
+      getRechargeAgreementByCompanyId().then((res) => {
         this.form.content = res.data.data.content
         this.loading = false
       })

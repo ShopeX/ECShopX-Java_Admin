@@ -6,13 +6,13 @@
 <template>
   <el-dialog
     class="store-dialog"
-    title="选择门店11"
+    :title="$t('940117b7.86c570')"
     :visible.sync="showDialog"
     :close-on-click-modal="false"
     :before-close="cancelAction"
   >
     <div style="margin-bottom: 15px">
-      <el-input v-model="name" placeholder="输入店铺名称" clearable>
+      <el-input v-model="name" :placeholder="$t('940117b7.240fdb')" clearable>
         <el-button slot="append" icon="el-icon-search" @click="handleIconClick" />
       </el-input>
     </div>
@@ -27,8 +27,8 @@
       @select-all="selectAll"
     >
       <el-table-column type="selection" :reserve-selection="true" width="50" />
-      <el-table-column prop="storeName" label="门店名称" />
-      <el-table-column prop="address" label="地址" show-overflow-tooltip />
+      <el-table-column prop="storeName" :label="$t('940117b7.740032')" />
+      <el-table-column prop="address" :label="$t('940117b7.765048')" show-overflow-tooltip />
     </el-table>
     <div v-if="total_count > params.pageSize" class="tr">
       <el-pagination
@@ -39,8 +39,8 @@
       />
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="cancelAction">取 消</el-button>
-      <el-button type="primary" @click="saveStoreAction">确 定</el-button>
+      <el-button @click="cancelAction">{{ $t('940117b7.c08ab9') }}</el-button>
+      <el-button type="primary" @click="saveStoreAction">{{ $t('940117b7.aa7527') }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -108,15 +108,15 @@ export default {
   methods: {
     getWxshop() {
       //let param = {}
-      getWxShopsList(this.params).then(response => {
+      getWxShopsList(this.params).then((response) => {
         this.storeData = response.data.data.list
         this.total_count = parseInt(response.data.data.total_count)
         this.loading = false
         this.multipleSelection = []
         this.$refs.multipleTable.clearSelection()
         if (this.selectRows) {
-          this.storeData.forEach(item => {
-            const isHave = this.selectRows.findIndex(n => {
+          this.storeData.forEach((item) => {
+            const isHave = this.selectRows.findIndex((n) => {
               if (n.wxShopId) {
                 return n.wxShopId && n.wxShopId == item.wxShopId
               } else {
@@ -145,7 +145,7 @@ export default {
     },
     toggleSelection(rows) {
       if (rows) {
-        rows.forEach(row => {
+        rows.forEach((row) => {
           this.$refs.multipleTable.toggleRowSelection(row)
         })
       } else {
@@ -155,8 +155,8 @@ export default {
     handleSelectionChange(val) {
       if (val.length > 0) {
         this.multipleSelection = val
-        const newVal = this.selectRows.filter(item => {
-          const isHaveRow = this.storeData.some(row => {
+        const newVal = this.selectRows.filter((item) => {
+          const isHaveRow = this.storeData.some((row) => {
             if (item.wxShopId) {
               return item.wxShopId == row.wxShopId
             } else {
@@ -167,8 +167,8 @@ export default {
         })
         this.selectRows = [...newVal, ...val]
       } else {
-        const list = this.selectRows.filter(row => {
-          const isHave = this.storeData.some(item => {
+        const list = this.selectRows.filter((row) => {
+          const isHave = this.storeData.some((item) => {
             if (row.wxShopId) {
               return item.wxShopId == row.wxShopId
             } else {
@@ -184,10 +184,10 @@ export default {
     selectAll(val) {
       if (val.length > 0) {
         this.multipleSelection = val
-        val.forEach(item => {
+        val.forEach((item) => {
           let isInArr = -1
           if (this.selectRows.length > 0) {
-            isInArr = this.selectRows.findIndex(n => {
+            isInArr = this.selectRows.findIndex((n) => {
               if (n.wxShopId) {
                 return n.wxShopId == item.wxShopId
               } else {
@@ -200,8 +200,8 @@ export default {
           }
         })
       } else {
-        const list = this.selectRows.filter(item => {
-          const isHave = this.storeData.some(n => item.wxShopId === n.wxShopId)
+        const list = this.selectRows.filter((item) => {
+          const isHave = this.storeData.some((n) => item.wxShopId === n.wxShopId)
           return !isHave
         })
         this.selectRows = list

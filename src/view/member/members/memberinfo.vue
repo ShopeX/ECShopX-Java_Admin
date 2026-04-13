@@ -21,7 +21,8 @@
 
             <div v-else-if="item.element_type === 'select'" :key="key" class="info-item">
               <span class="txt">{{ item.name }}</span>
-              <span v-if="item.items[member[key]]">{{ item.items[member[key]] }}</span>
+              <span v-if="member[key] === '*'">{{ member[key] }}</span>
+              <span v-else-if="item.items[member[key]]">{{ item.items[member[key]] }}</span>
               <span v-else>--</span>
             </div>
 
@@ -32,13 +33,21 @@
             </div>
           </template>
 
-          <div v-if="member.salesperson_info?.employee_number" class="info-item">
-            <span class="txt">绑定导购</span>
-            <span>{{ member.salesperson_info?.employee_number }}</span>
+          <div class="info-item">
+            <span class="txt">{{ $t('6f2e9aab.1df342') }}</span>
+            <span>{{ member?.reg_salesperson }}</span>
           </div>
-          <div v-if="member.salesperson_info?.store_name" class="info-item">
-            <span class="txt">绑定门店</span>
-            <span>{{ member.salesperson_info?.store_name }}</span>
+          <div class="info-item">
+            <span class="txt">{{ $t('6f2e9aab.c74b7d') }}</span>
+            <span>{{ member?.reg_distributor }}</span>
+          </div>
+          <div class="info-item">
+            <span class="txt">{{ $t('6f2e9aab.8d1f18') }}</span>
+            <span>{{ member?.salesperson_info?.employee_number }}</span>
+          </div>
+          <div class="info-item">
+            <span class="txt">{{ $t('6f2e9aab.002acd') }}</span>
+            <span>{{ member?.store_info?.store_name }}</span>
           </div>
         </div>
       </div>

@@ -20,15 +20,15 @@
             :class="picsCurrent == index ? 'on' : ''"
             @click="removePicsImg(index)"
           >
-            <i class="iconfont icon-trash-alt1 icon1" />
+            <i class="el-icon-delete-solid icon1" />
           </div>
         </li>
       </ul>
       <div v-if="list < 1" class="upload-box" @click="handlePicsChange">
         <i class="el-icon-plus avatar-uploader-icon" />
-        <span class="placeholder">请上传图片</span>
+        <span class="placeholder">{{ $t('afcb4174.56b572') }}</span>
       </div>
-      <span v-if="hasLabel" class="label-note">客服企业微信二维码，用户长按可加企微好友沟通</span>
+      <span v-if="hasLabel" class="label-note">{{ $t('afcb4174.b2a294') }}</span>
     </div>
     <imgPicker
       :dialog-visible="picsDialog"
@@ -71,11 +71,11 @@ export default {
     },
     pickPics(arr) {
       if (this.picsOldLen + arr.length >= 2) {
-        this.$message.error('最多上传1张图片!')
+        this.$message.error(this.$t('afcb4174.90273b'))
         return false
       } else {
         if (arr.length != 0) {
-          arr.forEach(data => {
+          arr.forEach((data) => {
             if (data && data.url !== '') {
               this.picsDialog = false
               this.list.push(data.url)

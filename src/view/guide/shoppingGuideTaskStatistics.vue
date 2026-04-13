@@ -6,9 +6,9 @@
 <template>
   <div>
     <el-table v-loading="loadingTable" :data="list" style="width: 100%">
-      <el-table-column prop="salesperson_name" label="导购员名称" />
-      <el-table-column prop="times" label="完成次数" />
-      <el-table-column prop="percentage" label="完成占比" />
+      <el-table-column prop="salesperson_name" :label="$t('59a747c4.a33c35')" />
+      <el-table-column prop="times" :label="$t('59a747c4.667fa5')" />
+      <el-table-column prop="percentage" :label="$t('59a747c4.68de5f')" />
     </el-table>
     <div class="mt-4 text-right">
       <el-pagination
@@ -52,7 +52,7 @@ export default {
   methods: {
     getList() {
       this.loadingTable = true
-      getSalesperosnTaskStatistics(this.params).then(response => {
+      getSalesperosnTaskStatistics(this.params).then((response) => {
         this.list = response.data.data.list
         this.total_count = response.data.data.total_count
         this.loadingTable = false

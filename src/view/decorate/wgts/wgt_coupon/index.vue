@@ -1,121 +1,110 @@
-<!--
-  Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
-  See LICENSE file for license details.
--->
-
 <style lang="scss" src="./index.scss" />
 <template>
-  <div
-    :class="{
-      'wgt-coupon': true,
-      padded: value.padded
-    }"
-  >
-    <div v-if="value.title || value.subtitle" class="wgt-hd">
-      <span class="title">{{ value.title }}</span>
-      <span class="sub-title">{{ value.subtitle }}</span>
-    </div>
+  <div class="wgt-couponcard" :style="outerStyle">
     <div
-      :class="[
-        'wgt-bd',
-        `coupon-style-${
-          value.data.length + value.voucher_package.length <= 2
-            ? value.data.length + value.voucher_package.length
-            : 3
-        }`
-      ]"
+      class="wgt-couponcard-inner"
+      :style="innerStyle"
+      :class="{
+        'wgt-couponcard-one': value.data.length == 1,
+        'wgt-couponcard-two': value.data.length == 2,
+        'wgt-couponcard-three': value.data.length == 3,
+        'wgt-couponcard-more': value.data.length >= 4
+      }"
     >
-      <!-- 挂件自定义部分 -->
-      <div
-        v-for="(item, index) in value.data"
-        :key="`wgt-coupon-item__${index}`"
-        :class="[
-          'wgt-coupon-item',
-          {
-            'has-img': item.imgUrl
-          }
-        ]"
-        :style="getCouponStyle(item)"
-      >
-        <template v-if="!item.imgUrl">
-          <div class="coupon-bd">
-            <div v-if="item.type == 'cash'" class="coupon-amount">
-              <span class="symbol">¥</span>
-              <span class="value">{{ item.amount / 100 }}</span>
+      <div v-for="(item, index) in value.data" :key="index" class="wgt-couponcard-item">
+        <div class="wgt-couponcard-item-body">
+          <div class="wgt-couponcard-item-header">
+            <div
+              v-if="item.type !== 'discount'"
+              class="coupon-unit"
+              :style="{ color: value.amountColor }"
+            >
+              ¥
             </div>
-            <div v-if="item.type == 'discount'" class="coupon-amount">
-              <span class="value">{{ item.amount }}</span>
-              <span class="symbol">折</span>
-            </div>
-            <div v-if="item.type == 'new_gift'" class="coupon-amount">
-              <span class="value">{{ item.amount / 100 }}</span>
-              <span class="symbol">元</span>
-            </div>
-            <div class="coupon-desc">
-              <div class="name">{{ item.title }}</div>
-              <div class="desc">{{ item.desc }}</div>
+            <div class="coupon-title" :style="{ color: value.amountColor }">{{ item.amount }}</div>
+            <div
+              v-if="item.type == 'discount'"
+              class="coupon-unit"
+              :style="{ color: value.amountColor }"
+            >
+              {{ i18n.t('4e8312aa.96c015') }}
             </div>
           </div>
-          <div class="coupon-ft">
-            <div class="btn">领取</div>
-          </div>
-        </template>
-      </div>
+          <div v-if="value.data.length == 1" class="wgt-couponcard-item-info">
+            <p class="use-title">{{ item?.title }}</p>
 
-      <div
-        v-for="(item, index) in value.voucher_package"
-        :key="`wgt-coupon-package-item__${index}`"
-        :class="['wgt-coupon-item']"
-        :style="getCouponStyle(item)"
-      >
-        <template v-if="!item.imgUrl">
-          <div class="coupon-bd">
-            <div class="coupon-amount">
-              <span class="package-value">券包</span>
-            </div>
-            <div class="coupon-desc">
-              <div class="name">{{ item.title }}</div>
-              <div class="desc">{{ item.desc }}</div>
-            </div>
+            <p class="use-desc" v-html="item.description" />
+            <p class="use-time">{{ i18n.t('4e8312aa.6460f4') }} {{ item.end_date }}</p>
+            <p class="use-time">{{ item?.valid_date }}</p>
           </div>
-          <div class="coupon-ft">
-            <div class="btn">领取</div>
+          <div v-else class="wgt-couponcard-item-info">
+            <p class="use-title">{{ item?.title }}</p>
+            <p class="use-desc">{{ item.desc }}</p>
           </div>
-        </template>
+        </div>
+        <!-- dayStockNum: 'stockNum',//日剩余库存
+  stockNum:'realStockNum', //总剩余库存
+  remainingNum:({get_num,quantity})=> quantity - get_num -->
+
+        <div
+          :class="['wgt-couponcard-item-btn', { 'disabled': item.quantity - item.get_num <= 0 }]"
+          :style="receiveBtnStyle"
+        >
+          {{ item.quantity - item.get_num <= 0 ? i18n.t('4e8312aa.c6055e') : i18n.t('4e8312aa.d67527') }}
+        </div>
       </div>
-      <!-- 挂件自定义部分 -->
     </div>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
+import { i18n } from '@/i18n'
 import config from './config'
+import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 export default {
-  name: 'Coupon',
-  wgtName: '优惠券',
+  name: 'CouponCard',
+  wgtName: i18n.t('4e8312aa.2f3635'),
   wgtDesc: '',
-  wgtIcon: 'wgt-coupon',
+  wgtIcon: 'ticket',
+  wgtType: 2,
   config: config,
   props: {
     value: [Object, Array]
   },
   data() {
-    return {
+    return {i18n,
       currentIndex: 1,
       couponDeep: {}
     }
   },
+  computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
+    },
+    innerStyle() {
+      return getInnerStyle(this.value)
+    },
+    receiveBtnStyle() {
+      const { color, textColor } = this.value.receiveBtn
+      return {
+        backgroundColor: color,
+        color: textColor
+      }
+    }
+  },
   created() {},
   methods: {
-    getCouponStyle(item, index) {
-      if (item.imgUrl) {
-        return {
-          'background-image': `url(${item.imgUrl})`,
-          'background-size': 'cover',
-          'background-position': 'center'
-        }
+    AIOFormatter(item) {
+      if (item.stockNum > 0 && item.realStockNum > 0) {
+        return i18n.t('4e8312aa.d67527')
+      } else {
+        return item.realStockNum <= 0 ? i18n.t('4e8312aa.c6055e') : i18n.t('4e8312aa.6ed748')
       }
+      // return {
+      //   dayStockNum: 'stockNum',//日剩余库存
+      //   stockNum:'realStockNum', //总剩余库存
+      //   remainingNum:({get_num,quantity})=> quantity - get_num
+      // }
     }
   }
 }

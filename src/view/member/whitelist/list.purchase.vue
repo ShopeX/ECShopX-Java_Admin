@@ -6,18 +6,22 @@
 <template>
   <SpPage>
     <SpFilterForm :model="formData" @onSearch="dataSearch" @onReset="dataSearch">
-      <SpFilterFormItem prop="mobile" label="手机号:">
-        <el-input v-model="formData.mobile" placeholder="请输入手机号" />
+      <SpFilterFormItem prop="mobile" :label="$t('5f814195.ce2bf3')">
+        <el-input v-model="formData.mobile" :placeholder="$t('a88979f1.6e4f4b')" />
       </SpFilterFormItem>
-      <SpFilterFormItem prop="account" label="账号:">
-        <el-input v-model="formData.account" placeholder="请输入账号" />
+      <SpFilterFormItem prop="account" :label="$t('a447de67.9c3929')">
+        <el-input v-model="formData.account" :placeholder="$t('a447de67.f821a7')" />
       </SpFilterFormItem>
     </SpFilterForm>
     <el-row :gutter="20">
       <el-col :span="12">
-        <el-button type="primary" icon="plus" @click="addData"> 添加白名单 </el-button>
+        <el-button type="primary" icon="plus" @click="addData">
+{{
+          $t('5f814195.45609b')
+        }}
+</el-button>
         <el-button v-if="!VERSION_IN_PURCHASE()" type="primary" icon="plus" @click="setTips">
-          白名单提示
+          {{ $t('5f814195.722010') }}
         </el-button>
       </el-col>
       <!-- <el-col :span="6">
@@ -30,19 +34,23 @@
       </el-col> -->
     </el-row>
     <el-table v-loading="loading" :data="whitelistList" :height="wheight - 160">
-      <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="name" label="姓名" />
-      <el-table-column prop="account" label="账号" />
-      <el-table-column prop="password" label="明文密码" />
-      <!-- <el-table-column
-        prop="email"
-        label="邮箱"
-      /> -->
-      <el-table-column prop="enterprise_sn" label="企业编码" />
-      <el-table-column label="操作">
+      <el-table-column prop="mobile" :label="$t('5f814195.ce2bf3')" />
+      <el-table-column prop="name" :label="$t('a0d7a294.60d045')" />
+      <el-table-column prop="account" :label="$t('a447de67.9c3929')" />
+      <el-table-column prop="password" :label="$t('a447de67.4ef809')" />
+      <el-table-column prop="enterprise_sn" :label="$t('a447de67.705f0a')" />
+      <el-table-column :label="$t('e240ae54.95b351')">
         <template slot-scope="scope">
-          <el-button size="mini" @click="editAction(scope.$index, scope.row)"> 编辑 </el-button>
-          <el-button size="mini" @click="deleteAction(scope.$index, scope.row)"> 删除 </el-button>
+          <el-button size="mini" @click="editAction(scope.$index, scope.row)">
+{{
+            $t('e240ae54.95b351')
+          }}
+</el-button>
+          <el-button size="mini" @click="deleteAction(scope.$index, scope.row)">
+{{
+            $t('e240ae54.2f4aad')
+          }}
+</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -59,11 +67,11 @@
     <el-dialog :title="editTitle" :visible.sync="editVisible" :before-close="handleCancel">
       <template>
         <el-form ref="form" :model="form" class="demo-ruleForm" label-width="120px">
-          <el-form-item el-form-item label="选择企业">
+          <el-form-item :label="$t('a447de67.0067d7')">
             <el-col :span="10">
               <el-select
                 v-model="enterprise_sn_data"
-                placeholder="请选择选择企业"
+                :placeholder="$t('a447de67.6ff516')"
                 style="width: 100%"
                 :disabled="whitelist_id ? true : false"
                 @change="selectChange"
@@ -77,63 +85,75 @@
               </el-select>
             </el-col>
           </el-form-item>
-          <el-form-item v-if="login_type" label="姓名">
+          <el-form-item v-if="login_type" :label="$t('a0d7a294.60d045')">
             <el-col :span="10">
               <el-input
                 v-model="form.name"
                 required
-                placeholder="请填写名称"
+                :placeholder="$t('5f814195.856d0d')"
                 :disabled="datapass_block == 1 && isEdit"
               />
             </el-col>
           </el-form-item>
-          <el-form-item v-if="login_type == 'mobile'" label="手机号">
+          <el-form-item v-if="login_type == 'mobile'" :label="$t('5f814195.ce2bf3')">
             <el-col :span="10">
               <el-input
                 v-if="!isEdit"
                 v-model="form.mobile"
                 :maxlength="11"
-                placeholder="请输入11位手机号"
+                :placeholder="$t('5f814195.fed6c9')"
               />
               <el-input v-else v-model="editMobile" :disabled="true" />
             </el-col>
           </el-form-item>
-          <el-form-item v-if="login_type == 'account'" label="账号" prop="account">
+          <el-form-item
+            v-if="login_type == 'account'"
+            :label="$t('a447de67.9c3929')"
+            prop="account"
+          >
             <el-col :span="10">
-              <el-input v-model="form.account" :disabled="isEdit" placeholder="请输入帐号" />
+              <el-input
+                v-model="form.account"
+                :disabled="isEdit"
+                :placeholder="$t('a447de67.caf234')"
+              />
             </el-col>
           </el-form-item>
-          <el-form-item v-if="login_type == 'account'" label="密码" prop="password">
+          <el-form-item
+            v-if="login_type == 'account'"
+            :label="$t('a447de67.a81052')"
+            prop="password"
+          >
             <el-col :span="10">
               <el-input
                 v-model="form.password"
                 type="password"
                 show-password
-                placeholder="请输入密码"
+                :placeholder="$t('a447de67.e39ffe')"
               />
             </el-col>
           </el-form-item>
         </el-form>
       </template>
       <div slot="footer" class="dialog-footer">
-        <el-button @click.native="handleCancel"> 取消 </el-button>
-        <el-button type="primary" @click="submitAction"> 保存 </el-button>
+        <el-button @click.native="handleCancel">{{ $t('09b91dec.625fb2') }}</el-button>
+        <el-button type="primary" @click="submitAction">{{ $t('664b0a1e.be5fbb') }}</el-button>
       </div>
     </el-dialog>
     <!-- 设置提示语句 -->
     <el-dialog :title="editTitle" :visible.sync="editTipsVisible" :before-close="handleCancelTips">
       <template>
         <el-form ref="form" :model="form" class="demo-ruleForm" label-width="120px">
-          <el-form-item label="提示">
+          <el-form-item :label="$t('4add4f82.02d981')">
             <el-col :span="20">
-              <el-input v-model="form.tips" required placeholder="请填写提示" />
+              <el-input v-model="form.tips" required :placeholder="$t('5f814195.425843')" />
             </el-col>
           </el-form-item>
         </el-form>
       </template>
       <div slot="footer" class="dialog-footer">
-        <el-button @click.native="handleCancelTips"> 取消 </el-button>
-        <el-button type="primary" @click="submitTipsAction"> 保存 </el-button>
+        <el-button @click.native="handleCancelTips">{{ $t('09b91dec.625fb2') }}</el-button>
+        <el-button type="primary" @click="submitTipsAction">{{ $t('664b0a1e.be5fbb') }}</el-button>
       </div>
     </el-dialog>
   </SpPage>
@@ -237,26 +257,26 @@ export default {
     },
     addData() {
       this.handleCancel()
-      this.editTitle = '添加白名单'
+      this.editTitle = this.$t('5f814195.45609b')
       this.editVisible = true
       this.isEdit = false
     },
     fetchList() {
-      getEnterpriseList({ page: 1, pageSize: 200 }).then(response => {
+      getEnterpriseList({ page: 1, pageSize: 200 }).then((response) => {
         this.enterpriseList = response.data.data.list
       })
     },
     editAction(index, row) {
       // 编辑物料弹框
       this.handleCancel()
-      const fliterArr = this.enterpriseList.filter(el => el.enterprise_sn == row.enterprise_sn)
+      const fliterArr = this.enterpriseList.filter((el) => el.enterprise_sn == row.enterprise_sn)
       const login_type =
         fliterArr.length > 0 ? fliterArr[0].login_type : this.enterpriseList[0].login_type
       const enterprise_sn =
         row.enterprise_sn || fliterArr.length > 0
           ? fliterArr[0].enterprise_sn
           : this.enterpriseList[0].enterprise_sn
-      this.editTitle = '编辑白名单信息'
+      this.editTitle = this.$t('5f814195.c5c6e4')
       this.editVisible = true
       this.isEdit = true
       this.editMobile = row.mobile
@@ -279,13 +299,13 @@ export default {
         delete params.account
       }
       if (this.whitelist_id) {
-        updateMembersWhitelist(this.whitelist_id, params).then(response => {
+        updateMembersWhitelist(this.whitelist_id, params).then((response) => {
           this.detailData = response.data.data
           this.editVisible = false
           this.getListData()
         })
       } else {
-        createMembersWhitelist(params).then(response => {
+        createMembersWhitelist(params).then((response) => {
           this.detailData = response.data.data
           this.editVisible = false
           this.getListData()
@@ -301,7 +321,7 @@ export default {
     },
     getListData() {
       this.loading = true
-      getMembersWhitelistList(this.params).then(response => {
+      getMembersWhitelistList(this.params).then((response) => {
         this.whitelistList = response.data.data.list
         this.total_count = response.data.data.total_count
         this.datapass_block = response.data.data.datapass_block
@@ -309,17 +329,17 @@ export default {
       })
     },
     deleteAction(index, row) {
-      this.$confirm('此操作将删除该白名单, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('5f814195.a30d6e'), this.$t('4add4f82.02d981'), {
+        confirmButtonText: this.$t('4add4f82.38cf16'),
+        cancelButtonText: this.$t('09b91dec.625fb2'),
         type: 'warning'
       })
         .then(() => {
           deleteMembersWhitelist(row.whitelist_id)
-            .then(response => {
+            .then((response) => {
               this.whitelistList.splice(index, 1)
               this.$message({
-                message: '删除成功',
+                message: this.$t('5f814195.0007d1'),
                 type: 'success',
                 duration: 5 * 1000
               })
@@ -327,7 +347,7 @@ export default {
             .catch(() => {
               this.$message({
                 type: 'error',
-                message: '删除失败'
+                message: this.$t('5f814195.acf066')
               })
             })
         })
@@ -343,7 +363,7 @@ export default {
       this.handleCancelTips()
       this.editTitle = '白名单提示'
       this.editTipsVisible = true
-      getWhitelistSetting().then(response => {
+      getWhitelistSetting().then((response) => {
         this.form.tips = response.data.data.whitelist_tips
       })
     },
@@ -354,7 +374,7 @@ export default {
     submitTipsAction() {
       // 提交物料
       const params = { whitelist_tips: this.form.tips }
-      setWhitelistSetting(params).then(response => {
+      setWhitelistSetting(params).then((response) => {
         this.editTipsVisible = false
         this.handleTipsCancel()
       })

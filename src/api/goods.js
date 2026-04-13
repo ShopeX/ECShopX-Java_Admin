@@ -265,10 +265,11 @@ export function updateCategory(category_id, query) {
   })
 }
 
-export function getCategoryInfo(category_id) {
+export function getCategoryInfo(category_id, params) {
   return fetch({
     url: '/goods/category/' + category_id,
-    method: 'get'
+    method: 'get',
+    params
   })
 }
 
@@ -715,5 +716,55 @@ export function exportCsvData(query) {
     url: '/espier/exportCsvData',
     method: 'get',
     params: query
+  })
+}
+
+// 酷家乐获取方案列表
+export function getKjlList(params) {
+  return fetch({
+    url: '/kujiale/designer-works/list',
+    method: 'get',
+    params
+  })
+}
+
+// 酷家乐绑定商品和方案
+export function kjlBindItem(params) {
+  return fetch({
+    url: '/kujiale/designer-works/bind-item',
+    method: 'post',
+    params
+  })
+}
+
+export function kjlUnBindItem(params) {
+  return fetch({
+    url: '/kujiale/designer-works/unbind-item',
+    method: 'delete',
+    params
+  })
+}
+
+// 获取销售分类前端展示开关状态
+export function getSaleableFilter() {
+  return fetch({
+    url: '/goods/category/saleable-filter/get',
+    method: 'get'
+  })
+}
+
+// 设置销售分类前端展示开关状态
+export function setSaleableFilter(params) {
+  return fetch({
+    url: '/goods/category/saleable-filter',
+    method: 'post',
+    params
+  })
+}
+// 触发B2B商品拉取
+export function updateBatchGoods() {
+  return fetch({
+    url: '/goods/b2b/sync',
+    method: 'post'
   })
 }

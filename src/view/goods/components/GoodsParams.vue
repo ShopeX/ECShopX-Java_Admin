@@ -17,7 +17,7 @@
         filterable
         allow-create
         default-first-option
-        placeholder="请选择"
+        :placeholder="$t('65f7f4a9.708c9d')"
         @change="handleChange(item)"
       >
         <el-option
@@ -47,7 +47,7 @@ export default {
   methods: {
     async handleChange(item) {
       let paprms = []
-      item.children.forEach(item1 => {
+      item.children.forEach((item1) => {
         paprms.push(item1.value)
       })
       if (item.attr_id && paprms.indexOf(item.attr_id) == -1) {

@@ -5,10 +5,12 @@
 
 <style lang="scss" src="./index.scss"></style>
 <template>
-  <div :class="{
-    'wgt-goods-grid': true,
-    padded: value.padded
-  }">
+  <div
+    :class="{
+      'wgt-goods-grid': true,
+      padded: value.padded
+    }"
+  >
     <div v-if="value.title || value.subtitle" class="wgt-hd">
       <div>
         <span class="title">{{ value.title }}</span>
@@ -27,38 +29,64 @@
                 <SpImage :src="item.brand" :width="60" :height="60" circle />
               </div>
               <div class="name">
-                <el-tag v-if="item.medicine_data?.is_prescription == 1" type="primary" size="mini"
-                  style="background-color: #fff">
-                  处方药
+                <el-tag
+                  v-if="item.medicine_data?.is_prescription == 1"
+                  type="primary"
+                  size="mini"
+                  style="background-color: #fff"
+                >
+                  {{ i18n.t('e46faabb.e8b7e1') }}
                 </el-tag>
                 {{ item.title }}
               </div>
               <div v-if="value.showPrice" class="price">
-                <span v-if="item.point" class="item-price">{{ item.point }}积分</span>
+                <span v-if="item.point" class="item-price"
+                  >{{ item.point }}{{ i18n.t('e46faabb.9f68a8') }}</span
+                >
                 <SpPrice class="item-price" :value="item.price / 100" :size="15" />
-                <SpPrice class="line-price" :value="item.market_price / 100" :size="13" line-through />
+                <SpPrice
+                  class="line-price"
+                  :value="item.market_price / 100"
+                  :size="13"
+                  line-through
+                />
               </div>
             </div>
           </div>
         </div>
         <div class="rg-box">
-          <div v-for="(item, index) in rightGoodsList" :key="`right-item__${index}`" class="item-box">
+          <div
+            v-for="(item, index) in rightGoodsList"
+            :key="`right-item__${index}`"
+            class="item-box"
+          >
             <SpImage :src="item.imgUrl" />
             <div class="item-info" :style="{ 'padding-top': value.brand ? '30px' : '4px' }">
               <div v-if="value.brand" class="brand-logo">
                 <SpImage :src="item.brand" :width="60" :height="60" circle />
               </div>
               <div class="name">
-                <el-tag v-if="item.medicine_data?.is_prescription == 1" type="primary" size="mini"
-                  style="background-color: #fff">
-                  处方药
+                <el-tag
+                  v-if="item.medicine_data?.is_prescription == 1"
+                  type="primary"
+                  size="mini"
+                  style="background-color: #fff"
+                >
+                  {{ i18n.t('e46faabb.e8b7e1') }}
                 </el-tag>
                 {{ item.title }}
               </div>
               <div v-if="value.showPrice" class="price">
-                <span v-if="item.point" class="item-price">{{ item.point }}积分</span>
+                <span v-if="item.point" class="item-price"
+                  >{{ item.point }}{{ i18n.t('e46faabb.9f68a8') }}</span
+                >
                 <SpPrice class="item-price" :value="item.price / 100" :size="15" />
-                <SpPrice class="line-price" :value="item.market_price / 100" :size="13" line-through />
+                <SpPrice
+                  class="line-price"
+                  :value="item.market_price / 100"
+                  :size="13"
+                  line-through
+                />
               </div>
             </div>
           </div>
@@ -72,16 +100,27 @@
               <SpImage :src="item.brand" :width="60" :height="60" circle />
             </div>
             <div class="name">
-              <el-tag v-if="item.medicine_data?.is_prescription == 1" type="primary" size="mini"
-                style="background-color: #fff">
+              <el-tag
+                v-if="item.medicine_data?.is_prescription == 1"
+                type="primary"
+                size="mini"
+                style="background-color: #fff"
+              >
                 处方药
               </el-tag>
               {{ item.title }}
             </div>
             <div v-if="value.showPrice" class="price">
-              <span v-if="item.point" class="item-price">{{ item.point }}积分</span>
+              <span v-if="item.point" class="item-price"
+                >{{ item.point }}{{ i18n.t('e46faabb.9f68a8') }}</span
+              >
               <SpPrice class="item-price" :value="item.price / 100" :size="15" />
-              <SpPrice class="line-price" :value="item.market_price / 100" :size="13" line-through />
+              <SpPrice
+                class="line-price"
+                :value="item.market_price / 100"
+                :size="13"
+                line-through
+              />
             </div>
           </div>
         </div>
@@ -139,10 +178,12 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
+import { getOuterStyle } from '../../comps/style-utils'
 export default {
   name: 'GoodsGrid',
-  wgtName: '商品栅格',
+  wgtName: i18n.t('e46faabb.cc1acf'),
   wgtDesc: '',
   wgtIcon: 'wgt-goodsgrid',
   config: config,
@@ -150,10 +191,15 @@ export default {
     value: [Object, Array]
   },
   data() {
-    return {
+    return {i18n,
       leftGoodsList: [],
       rightGoodsList: [],
       goodsList: []
+    }
+  },
+  computed: {
+    outerStyle() {
+      return getOuterStyle(this.value)
     }
   },
   // computed: {
@@ -194,10 +240,8 @@ export default {
       deep: true
     }
   },
-  created() {
-  },
-  mounted() {
-  },
+  created() {},
+  mounted() {},
   methods: {}
 }
 </script>

@@ -122,11 +122,11 @@
                 </div>
                 <div class="username">
                   <div>{{ nick_name || name }}</div>
-                  <small class="muted">账号信息</small>
+                  <small class="muted">{{ $t('28310bc9.53cab4') }}</small>
                 </div>
               </div>
               <div v-if="!VERSION_SHUYUN()" class="popover-row exit-system" @click="logout">
-                退出登录
+                {{ $t('28310bc9.44efd1') }}
               </div>
 
               <img v-if="avatar" slot="reference" class="user-avatar" :src="avatar">
@@ -170,7 +170,7 @@ import { micrApp } from '@/utils/micr-app'
 import store from '@/store'
 export default {
   beforeRouteEnter(to, from, next) {
-    next(vm => {
+    next((vm) => {
       vm.activeIndex = to.matched[0].path || '/'
     })
   },
@@ -182,7 +182,7 @@ export default {
           this.menuOpeneds = [`${index}`]
         }
       } else {
-        if (menu.children.find(item => item.url == to.path)) {
+        if (menu.children.find((item) => item.url == to.path)) {
           this.menuOpeneds = [`${index}`]
         }
       }
@@ -216,10 +216,10 @@ export default {
       'sys_logo'
     ]),
     ...mapState({
-      menuList: state => {
+      menuList: (state) => {
         const { menus } = state.menu
         if (store.getters.login_type == 'distributor') {
-          menus.forEach(menu => {
+          menus.forEach((menu) => {
             const [path1, path2] = menu.url.match(/\/\w+/g)
             menu.url = `${path1}${path2 || ''}`
           })
@@ -229,7 +229,7 @@ export default {
     }),
     submenuList() {
       let list = []
-      const fd = this.menuList.find(item => {
+      const fd = this.menuList.find((item) => {
         // const paths = item.url.match(/\/[a-z]+/g)
         const paths = item.url.match(/\/\w+/g)
         if ((paths && paths[0] == '/shopadmin') || (paths && paths[0] == '/dealer')) {

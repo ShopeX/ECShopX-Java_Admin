@@ -8,13 +8,13 @@
     <el-row :gutter="40">
       <el-col :span="3">
         <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleNew">
-          新增标签分类
+          {{ $t('81de93bd.0a316c') }}
         </el-button>
       </el-col>
       <el-col :span="8">
         <el-input
           v-model="params.category_name"
-          placeholder="分类名称"
+          :placeholder="$t('81de93bd.04d7d8')"
           size="mini"
           @change="categorySearch"
         >
@@ -26,26 +26,30 @@
       v-loading="loading"
       :data="list"
       :height="wheight - 170"
-      element-loading-text="数据加载中"
+      :element-loading-text="$t('81de93bd.f09b12')"
       :default-sort="{ prop: 'bind_date', order: 'descending' }"
     >
-      <el-table-column label="操作" width="150">
+      <el-table-column :label="$t('81de93bd.2b6bc0')" width="150">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleEdit(scope.row)"> 编辑 </el-button>
-          <el-button type="text" @click="handleDelete(scope)"> 删除 </el-button>
+          <el-button type="text" @click="handleEdit(scope.row)">
+            {{ $t('81de93bd.95b351') }}
+          </el-button>
+          <el-button type="text" @click="handleDelete(scope)">
+            {{ $t('81de93bd.2f4aad') }}
+          </el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="category_name" label="分类名称" width="250">
+      <el-table-column prop="category_name" :label="$t('81de93bd.04d7d8')" width="250">
         <template slot-scope="scope">
           <div v-if="!scope.row.category_id">
-            <el-input v-model="scope.row.category_name" placeholder="请输入分类名称" />
+            <el-input v-model="scope.row.category_name" :placeholder="$t('81de93bd.68363f')" />
           </div>
           <div v-else>
             {{ scope.row.category_name }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="sort" label="分类排序" width="150" />
+      <el-table-column prop="sort" :label="$t('81de93bd.53eb44')" width="150" />
     </el-table>
     <div class="mt-4 text-right">
       <el-pagination
@@ -59,12 +63,12 @@
         @size-change="handleSizeChange"
       />
     </div>
-    <sideBar :visible.sync="show_sideBar" :title="'新增分类'">
+    <sideBar :visible.sync="show_sideBar" :title="$t('81de93bd.b6cb2b')">
       <el-form>
-        <el-form-item label="分类名">
+        <el-form-item :label="$t('81de93bd.28474c')">
           <el-input v-model="form.category_name" />
         </el-form-item>
-        <el-form-item label="分类排序">
+        <el-form-item :label="$t('81de93bd.53eb44')">
           <el-input v-model="form.sort" />
         </el-form-item>
         <!-- <el-form-item label="标签">
@@ -73,7 +77,7 @@
           </el-checkbox-group>
         </el-form-item> -->
         <el-form-item>
-          <el-button type="primary" @click="save"> 提交 </el-button>
+          <el-button type="primary" @click="save"> {{ $t('81de93bd.939d53') }} </el-button>
         </el-form-item>
       </el-form>
     </sideBar>
@@ -127,13 +131,13 @@ export default {
     },
     handleDelete(data) {
       this.$confirm('确认删除该分类？')
-        .then(_ => {
-          deleteTagCategory(data.row.category_id).then(res => {
+        .then((_) => {
+          deleteTagCategory(data.row.category_id).then((res) => {
             this.list.splice(data.$index, 1)
             this.$message({ type: 'success', message: '操作成功' })
           })
         })
-        .catch(_ => {})
+        .catch((_) => {})
     },
     handleNew() {
       this.show_sideBar = true
@@ -158,14 +162,14 @@ export default {
     save() {
       // 如果没有id，则表示为新增
       if (!this.form.category_id) {
-        createTagCategory(this.form).then(res => {
+        createTagCategory(this.form).then((res) => {
           this.$message({ type: 'success', message: '操作成功' })
           this.params.page = 1
           this.resetData()
           this.getList()
         })
       } else {
-        updateTagCategory(this.form.category_id, this.form).then(res => {
+        updateTagCategory(this.form.category_id, this.form).then((res) => {
           this.$message({ type: 'success', message: '操作成功' })
           this.getList()
         })
@@ -173,7 +177,7 @@ export default {
     },
     getList() {
       this.loading = true
-      getTagCategoryList(this.params).then(res => {
+      getTagCategoryList(this.params).then((res) => {
         this.list = res.data.data.list
         this.total_count = res.data.data.total_count
         this.loading = false
@@ -184,7 +188,7 @@ export default {
         category_id: '0',
         tag_status: 'online'
       }
-      getTagList(param).then(res => {})
+      getTagList(param).then((res) => {})
     },
     categorySearch() {
       this.getList()
