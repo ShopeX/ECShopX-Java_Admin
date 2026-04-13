@@ -20,7 +20,7 @@
               class="member-header"
               :src="member.wechatUserInfo.headimgurl || member.avatar"
               alt=""
-            >
+            />
             <div class="mobile-txt">
               <span>{{ member.mobile }}</span
               ><img
@@ -33,7 +33,7 @@
                     : ''
                 "
                 class="icon"
-              >
+              />
             </div>
             <div v-if="member.vipgrade && member.vipgrade.is_vip" class="level-txt">
               {{ member.vipgrade.grade_name }}

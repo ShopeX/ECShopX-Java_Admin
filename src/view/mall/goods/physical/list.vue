@@ -331,7 +331,7 @@
 
       <el-dialog :title="sunCodeTitle" :visible.sync="sunCode" width="360px">
         <div class="page-code">
-          <img class="page-code-img" :src="appCodeUrl">
+          <img class="page-code-img" :src="appCodeUrl" />
           <div class="page-btns">
             <el-button type="primary" plain @click="handleDownload(sunCodeTitle)">
               {{ $t('d41d8cd9.99e985') }}
@@ -1483,8 +1483,10 @@ export default {
         operate_source: IS_SUPPLIER() ? 'supplier' : 'platform',
         ...this.searchParams,
         item_source: 'platform',
-        created_time_start: this.searchParams.created_time.length > 0 ? this.searchParams.created_time[0] / 1000 : '',
-        created_time_end: this.searchParams.created_time.length > 0 ? this.searchParams.created_time[1] / 1000 : ''
+        created_time_start:
+          this.searchParams.created_time.length > 0 ? this.searchParams.created_time[0] / 1000 : '',
+        created_time_end:
+          this.searchParams.created_time.length > 0 ? this.searchParams.created_time[1] / 1000 : ''
       }
       delete params.created_time
       if (Array.isArray(params.main_cat_id)) {

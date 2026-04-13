@@ -69,7 +69,7 @@
             </el-button>
             <el-popover v-if="appID" placement="top" width="200" trigger="click">
               <div>
-                <img class="page-code" :src="appCodeUrl">
+                <img class="page-code" :src="appCodeUrl" />
                 <div class="page-btns">
                   <el-button
                     type="primary"
@@ -198,7 +198,9 @@ export default {
           label: this.$t('0e7dabe2.e8f9a1'),
           key: 'is_show_front',
           isShow: () => !this.VERSION_PLATFORM(),
-          component: ({ key }, value) => <el-switch v-model={value[key]} active-value="1" inactive-value="0"/>,
+          component: ({ key }, value) => (
+            <el-switch v-model={value[key]} active-value='1' inactive-value='0' />
+          )
         },
         {
           label: this.$t('0e7dabe2.dc1eed'),
@@ -292,10 +294,7 @@ export default {
       customize_page_id,
       is_show_front
     }) {
-      const showFront =
-        is_show_front === 1 ||
-        is_show_front === '1' ||
-        is_show_front === true
+      const showFront = is_show_front === 1 || is_show_front === '1' || is_show_front === true
       this.categoryForm = {
         category_id,
         category_name,
@@ -362,9 +361,7 @@ export default {
       })
       const list = res.map((item) => {
         const showFront =
-          item.is_show_front === 1 ||
-          item.is_show_front === '1' ||
-          item.is_show_front === true
+          item.is_show_front === 1 || item.is_show_front === '1' || item.is_show_front === true
         return {
           ...item,
           hasChildren: item.has_children == '1',

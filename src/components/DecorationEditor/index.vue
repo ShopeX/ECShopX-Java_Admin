@@ -1,0 +1,342 @@
+<style lang="scss" src="./index.scss"></style>
+
+<template>
+  <div class="decoration-editor">
+    <div class="editor-header">
+      <div class="header-main">
+        <el-button
+          class="header-back"
+          icon="el-icon-arrow-left"
+          circle
+          size="mini"
+          @click="$emit('back')"
+        />
+        <div class="header-copy">
+          <div class="editor-title">{{ titleText }}</div>
+          <div class="editor-meta">
+            <span>{{ $t('decorationeditor.homeScope') }}</span>
+            <span v-if="templateId">#{{ templateId }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="header-toolbar">
+        <div class="toolbar-group">
+          <span class="toolbar-label">{{ $t('decorationeditor.toolbar.page') }}</span>
+          <el-select size="small" :value="pageType" disabled>
+            <el-option :label="$t('decorationeditor.page.home')" value="home" />
+          </el-select>
+        </div>
+        <div class="toolbar-group">
+          <span class="toolbar-label">{{ $t('decorationeditor.toolbar.device') }}</span>
+          <el-button-group>
+            <el-button
+              size="small"
+              :type="viewMode === 'desktop' ? 'primary' : 'default'"
+              @click="viewMode = 'desktop'"
+            >
+              {{ $t('decorationeditor.toolbar.desktop') }}
+            </el-button>
+            <el-button
+              size="small"
+              :type="viewMode === 'mobile' ? 'primary' : 'default'"
+              @click="viewMode = 'mobile'"
+            >
+              {{ $t('decorationeditor.toolbar.mobile') }}
+            </el-button>
+          </el-button-group>
+        </div>
+        <div class="toolbar-group">
+          <span class="toolbar-label">{{ $t('decorationeditor.toolbar.history') }}</span>
+          <el-button-group>
+            <el-button size="small" :disabled="!canUndo" @click="handleUndo">
+              {{ $t('decorationeditor.toolbar.undo') }}
+            </el-button>
+            <el-button size="small" :disabled="!canRedo" @click="handleRedo">
+              {{ $t('decorationeditor.toolbar.redo') }}
+            </el-button>
+          </el-button-group>
+        </div>
+      </div>
+      <div class="header-actions">
+        <el-button type="primary" size="small" :loading="isSaving || loading" @click="handleSave">
+          {{ $t('decorationeditor.save') }}
+        </el-button>
+      </div>
+    </div>
+
+    <div v-loading="loading" class="editor-body">
+      <StructurePanel
+        :dsl="dsl"
+        :global-dsl="globalDsl"
+        :selected-section-id="selectedSectionId"
+        :selected-block-id="selectedBlockId"
+        :expanded-section-ids="expandedSectionIds"
+        :section-definitions="sectionDefinitions"
+        @add-section="handleAddSection"
+        @select-section="handleSelectSection"
+        @select-block="handleSelectBlock"
+        @toggle-section="handleToggleSection"
+        @duplicate-section="handleDuplicateSection"
+        @remove-section="handleRemoveSection"
+        @reorder-sections="handleReorderSections"
+        @add-block="handleAddBlock"
+        @remove-block="handleRemoveBlock"
+        @reorder-blocks="handleReorderBlocks"
+      />
+
+      <PreviewCanvas
+        :dsl="previewDsl"
+        :page-type="pageType"
+        :page-id="pageId"
+        :template-id="templateId"
+        :website-url="websiteUrl"
+        :device="viewMode"
+        @focus-section="handleSelectSection"
+        @focus-block="handleSelectBlock"
+        @preview-ready="handlePreviewReady"
+      />
+
+      <ConfigPanel
+        :section="selectedSection"
+        :block="selectedBlock"
+        @update-settings="handleUpdateSettings"
+        @update-section="handleUpdateSection"
+        @update-block="handleUpdateBlock"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+import StructurePanel from './components/StructurePanel.vue'
+import PreviewCanvas from './components/PreviewCanvas.vue'
+import ConfigPanel from './components/ConfigPanel.vue'
+
+const { getSectionTypes, getSectionDefinition } = require('./registry')
+
+function cloneValue(value) {
+  return JSON.parse(JSON.stringify(value))
+}
+
+export default {
+  name: 'DecorationEditor',
+  components: {
+    StructurePanel,
+    PreviewCanvas,
+    ConfigPanel
+  },
+  props: {
+    initialDsl: {
+      type: Object,
+      default: null
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    pageType: {
+      type: String,
+      default: 'home'
+    },
+    scene: {
+      type: String,
+      default: '1001'
+    },
+    templateId: {
+      type: String,
+      default: ''
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    websiteUrl: {
+      type: String,
+      default: () => process.env.VUE_APP_WEBSITE || ''
+    }
+  },
+  data() {
+    return {
+      viewMode: 'desktop',
+      historyPast: [],
+      historyFuture: [],
+      isRestoringHistory: false
+    }
+  },
+  computed: {
+    dsl() {
+      return this.$store.state.decoration.dsl
+    },
+    globalDsl() {
+      return this.$store.state.decoration.globalDsl
+    },
+    pageId() {
+      return this.$store.state.decoration.pageId
+    },
+    selectedSectionId() {
+      return this.$store.state.decoration.selectedSectionId
+    },
+    selectedBlockId() {
+      return this.$store.state.decoration.selectedBlockId
+    },
+    expandedSectionIds() {
+      return this.$store.state.decoration.expandedSectionIds
+    },
+    isSaving() {
+      return this.$store.state.decoration.isSaving
+    },
+    editingScope() {
+      return this.$store.state.decoration.editingScope
+    },
+    selectedSection() {
+      return this.selectedSectionId ? this.$store.getters['decoration/currentSection'] : null
+    },
+    selectedBlock() {
+      return this.selectedBlockId ? this.$store.getters['decoration/currentBlock'] : null
+    },
+    previewDsl() {
+      return this.$store.getters['decoration/activeDsl']
+    },
+    sectionDefinitions() {
+      return getSectionTypes().map((type) => getSectionDefinition(type))
+    },
+    titleText() {
+      return this.title || this.$t('decorationeditor.pageTitle')
+    },
+    canUndo() {
+      return this.historyPast.length > 1
+    },
+    canRedo() {
+      return this.historyFuture.length > 0
+    }
+  },
+  watch: {
+    initialDsl: {
+      immediate: true,
+      handler(value) {
+        if (!value) return
+        this.$store.commit('decoration/initializeEditor', {
+          pageType: this.pageType,
+          pageId: this.templateId,
+          dsl: cloneValue(value.dsl || value),
+          globalDsl: cloneValue(value.globalDsl)
+        })
+        this.resetHistory()
+      }
+    }
+  },
+  beforeDestroy() {
+    this.$store.commit('decoration/resetState')
+  },
+  methods: {
+    snapshotState() {
+      return {
+        dsl: cloneValue(this.dsl),
+        globalDsl: cloneValue(this.globalDsl),
+        selectedSectionId: this.selectedSectionId,
+        selectedBlockId: this.selectedBlockId
+      }
+    },
+    resetHistory() {
+      this.historyPast = [this.snapshotState()]
+      this.historyFuture = []
+    },
+    recordHistory() {
+      if (this.isRestoringHistory) return
+      const snapshot = this.snapshotState()
+      const previousSnapshot = this.historyPast[this.historyPast.length - 1]
+      if (JSON.stringify(previousSnapshot) === JSON.stringify(snapshot)) return
+      this.historyPast = [...this.historyPast, snapshot]
+      this.historyFuture = []
+    },
+    restoreSnapshot(snapshot) {
+      this.isRestoringHistory = true
+      this.$store.commit('decoration/setDsl', cloneValue(snapshot.dsl))
+      this.$store.commit('decoration/setGlobalDsl', cloneValue(snapshot.globalDsl))
+      if (snapshot.selectedBlockId) {
+        this.$store.commit('decoration/selectBlock', {
+          sectionId: snapshot.selectedSectionId,
+          blockId: snapshot.selectedBlockId
+        })
+      } else {
+        this.$store.commit('decoration/selectSection', snapshot.selectedSectionId)
+      }
+      this.isRestoringHistory = false
+    },
+    handleAddSection(type) {
+      this.$store.commit('decoration/addSection', { type })
+      this.recordHistory()
+    },
+    handleSelectSection(sectionId) {
+      this.$store.commit('decoration/selectSection', sectionId)
+    },
+    handleSelectBlock(payload) {
+      this.$store.commit('decoration/selectBlock', payload)
+    },
+    handleToggleSection(sectionId) {
+      this.$store.commit('decoration/toggleSectionExpanded', sectionId)
+    },
+    handleDuplicateSection(sectionId) {
+      this.$store.commit('decoration/duplicateSection', sectionId)
+      this.recordHistory()
+    },
+    handleRemoveSection(sectionId) {
+      this.$store.commit('decoration/removeSection', sectionId)
+      this.recordHistory()
+    },
+    handleReorderSections(nextOrder) {
+      this.$store.commit('decoration/replaceSectionOrder', nextOrder)
+      this.recordHistory()
+    },
+    handleAddBlock({ sectionId, blockType }) {
+      this.$store.commit('decoration/addBlock', { sectionId, blockType })
+      this.recordHistory()
+    },
+    handleRemoveBlock(payload) {
+      this.$store.commit('decoration/removeBlock', payload)
+      this.recordHistory()
+    },
+    handleReorderBlocks(payload) {
+      this.$store.commit('decoration/replaceBlockOrder', payload)
+      this.recordHistory()
+    },
+    handleUpdateSettings(patch) {
+      this.$store.commit('decoration/updateSelectedSectionSettings', patch)
+      this.recordHistory()
+    },
+    handleUpdateSection(nextSection) {
+      this.$store.commit('decoration/replaceSelectedSection', cloneValue(nextSection))
+      this.recordHistory()
+    },
+    handleUpdateBlock(patch) {
+      this.$store.commit('decoration/updateSelectedBlockSettings', patch)
+      this.recordHistory()
+    },
+    handlePreviewReady(value) {
+      this.$store.commit('decoration/setPreviewReady', value)
+    },
+    handleUndo() {
+      if (!this.canUndo) return
+      const currentSnapshot = this.historyPast[this.historyPast.length - 1]
+      const previousSnapshot = this.historyPast[this.historyPast.length - 2]
+      this.historyPast = this.historyPast.slice(0, -1)
+      this.historyFuture = [currentSnapshot, ...this.historyFuture]
+      this.restoreSnapshot(previousSnapshot)
+    },
+    handleRedo() {
+      if (!this.canRedo) return
+      const [nextSnapshot, ...rest] = this.historyFuture
+      this.historyFuture = rest
+      this.historyPast = [...this.historyPast, nextSnapshot]
+      this.restoreSnapshot(nextSnapshot)
+    },
+    handleSave() {
+      this.$emit('save', {
+        dsl: cloneValue(this.dsl),
+        globalDsl: cloneValue(this.globalDsl),
+        editingScope: this.editingScope
+      })
+    }
+  }
+}
+</script>

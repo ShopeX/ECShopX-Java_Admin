@@ -174,6 +174,34 @@ const routes = [
           permissions: ['wxapp-template.pcmall.pageseo']
         },
         component: () => import('@/view/pc/tdk/givenset')
+      },
+      {
+        name: 'webMenu',
+        path: 'web-menu',
+        meta: {
+          title: '导航菜单管理',
+          permissions: ['wxapp-template.pcmall.web-menus']
+        },
+        component: () => import('@/views/decoration/web-menu/index')
+      },
+      {
+        name: 'webMenuCreate',
+        path: 'web-menu/create',
+        meta: {
+          title: '新增菜单',
+          permissions: ['wxapp-template.pcmall.web-menus']
+        },
+        component: () => import('@/views/decoration/web-menu/_id')
+      },
+      {
+        name: 'webMenuItems',
+        path: 'web-menu/:id',
+        meta: {
+          title: '编辑菜单',
+          // 须与列表页 webMenu 一致，否则 generateAccess 会过滤掉本路由，进入详情会空白/404
+          permissions: ['wxapp-template.pcmall.web-menus']
+        },
+        component: () => import('@/views/decoration/web-menu/_id')
       }
     ]
   }

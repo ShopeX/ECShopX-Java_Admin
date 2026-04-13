@@ -67,7 +67,7 @@
                   <!-- <el-popover v-if="appID" placement="top" width="200" trigger="click"> -->
                   <el-popover placement="top" width="200" trigger="click">
                     <div>
-                      <img class="page-code" :src="appCodeUrl">
+                      <img class="page-code" :src="appCodeUrl" />
                       <div class="page-btns">
                         <el-button
                           type="primary"
@@ -208,12 +208,12 @@
             </el-table-column>
             <el-table-column width="80" prop="get_num" :label="$t('9cc0c982.5d5aac')">
               <template slot-scope="scope">
-                <span>{{scope.row.get_num || 0}}</span>
+                <span>{{ scope.row.get_num || 0 }}</span>
               </template>
             </el-table-column>
             <el-table-column width="80" prop="use_num" :label="$t('9cc0c982.ce2ed8')">
               <template slot-scope="scope">
-                <span>{{scope.row.use_num || 0}}</span>
+                <span>{{ scope.row.use_num || 0 }}</span>
               </template>
             </el-table-column>
           </el-table>

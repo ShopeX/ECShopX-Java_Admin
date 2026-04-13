@@ -227,7 +227,6 @@
         </div>
       </div>
     </div>
-    </div>
   </div>
 </template>
 
@@ -238,7 +237,7 @@ import { i18n } from '@/i18n'
 import config from './config'
 export default {
   name: 'Page',
-  wgtName: i18n.t('33e085f7.a018ef'),   
+  wgtName: i18n.t('33e085f7.a018ef'),
   wgtDesc: '',
   config: config,
   props: {
