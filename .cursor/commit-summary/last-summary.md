@@ -3,10 +3,17 @@
 **时间**: 2026-04-13
 
 **涉及文件**:
-- `src/view/base/account/normalstaff.vue` (修改)
+- `src/components/sp-form/index.vue` (修改)
+- `src/i18n/locales/zh-CN.json` (修改)
+- `src/i18n/locales/en.json` (修改)
+- `src/i18n/locales/ar.json` (修改)
+- `src/view/goods/saleCategory.vue` (修改)
+- `src/view/mall/trade/examineTransfer.vue` (修改)
 
 **主要改动**:
-- 普通员工列表表格：当 `VERSION_PLATFORM()` 为真（平台版）时，通过 `v-if="!VERSION_PLATFORM()"` 隐藏「关联分销商」列，避免平台场景展示不适用的列。
-- 「角色」列增加 `min-width="180"`，避免多角色标签时列过窄。
+- **销售分类**：「投放」生成小程序码/复制链接时，页面路径由 `pages/item/list` 改为 `subpages/item/list`。
+- **国际化**：键 `0e7dabe2.63cd0e`（销售分类页总开关旁文案）由「前端是否展示」改为「店铺分类展示与查询」，并同步 en、ar。
+- **SpForm**：`el-form-item` 的 `style` 支持与 `item.style` 对象合并，便于单项自定义样式。
+- **转账审核弹窗**：收款银行名称 / 收款银行账号 / 收款银联号三行去掉 `display: 'inline'`，改为默认块级纵向排布。
 
-**一句话概括**: fix: 平台版员工列表隐藏关联分销商列并优化角色列宽度
+**一句话概括**: feat: 销售分类投放路径与开关文案，SpForm 支持 item.style
