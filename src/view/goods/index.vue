@@ -751,12 +751,9 @@ export default {
               const price = specItems.find(({ price }) => !!price)
               const max_num = specItems.find(({ max_num }) => !!max_num)
 
-              const hasAnySpecGroupChecked = skus?.some(
-                (item) => item.checkedSku && item.checkedSku.length > 0
-              )
-              if (!hasAnySpecGroupChecked) {
+              const isSkusUnChecked = skus?.some((item) => !item.checkedSku.length)
+              if (isSkusUnChecked) {
                 callback(this.$t('de022579.d78fc6'))
-                return
               }
 
               if (!IS_SUPPLIER() && !this.routerParams.isSupplierGoods && !approveStatus) {
