@@ -514,14 +514,20 @@ export default {
           point_num: cacheItems[key] ? cacheItems[key].point_num : '',
           item_spec: cacheItems[key]
             ? cacheItems[key].item_spec
-            : item.map((m, n) => {
-                const { sku_id, sku_value } = this.skuData.skus[n]
-                const fd = sku_value.find((sv) => sv.attribute_value_id == m)
+            : item.map((m) => {
+                let sub_sku_id, sub_fd
+                this.skuData.skus.forEach((skuItem) => {
+                  const fd = skuItem.sku_value.find((sv) => sv.attribute_value_id == m)
+                  if (fd) {
+                    sub_fd = fd
+                    sub_sku_id = skuItem.sku_id
+                  }
+                })
                 return {
-                  spec_id: sku_id,
+                  spec_id: sub_sku_id,
                   spec_value_id: m,
-                  spec_value_name: fd.attribute_value,
-                  spec_custom_value_name: fd.custom_attribute_value
+                  spec_value_name: sub_fd.attribute_value,
+                  spec_custom_value_name: sub_fd.custom_attribute_value
                 }
               })
         }
@@ -554,30 +560,42 @@ export default {
       console.log(this.skuData.specImages)
     },
     cartesianProductOf() {
-      return Array.prototype.reduce.call(
+      var result = Array.prototype.reduce.call(
         arguments,
         function (a, b) {
           var ret = []
-          a.forEach(function (a) {
-            b.forEach(function (b) {
-              ret.push(a.concat([b]))
+          if (b.length > 0) {
+            a.forEach(function (a) {
+              b.forEach(function (b) {
+                ret.push(a.concat([b]))
+              })
             })
-          })
+          } else {
+            a[0].length ? ret.push(...a) : (ret = [[]])
+          }
           return ret
         },
         [[]]
       )
+      if (result.length === 1 && result[0].length === 0) {
+        result = []
+      }
+      return result
     },
     //
     getSpecName(keys) {
       const specNames = []
-      keys.forEach((key, index) => {
-        const fd = this.skuData.itemSpecList[index].attribute_values.list.find(
-          (item) => item.attribute_value_id == key
-        )
-        if (fd) {
-          specNames.push(fd.custom_attribute_value || fd.attribute_value)
-        }
+      var fd
+      keys.forEach((key) => {
+        this.skuData.itemSpecList.forEach((outerItem) => {
+          var sub_fd = outerItem.attribute_values.list.find(
+            (item) => item.attribute_value_id == key
+          )
+          if (sub_fd) {
+            fd = sub_fd
+          }
+        })
+        specNames.push(fd.custom_attribute_value || fd.attribute_value)
       })
       return specNames.join(' ')
     },
@@ -716,6 +734,18 @@ export default {
           : this.selectedMainCategory[this.selectedMainCategory.length - 1]
       }
 
+      // 多规格：至少一组规格需勾选规格值（不要求每组都选）
+      if (!nospec) {
+        const hasAnySpecGroupChecked = this.skuData.skus.some(
+          (s) => s.checked_sku && s.checked_sku.length > 0
+        )
+        if (!hasAnySpecGroupChecked) {
+          this.$message({ type: 'error', message: this.$t('de022579.d78fc6') })
+          this.submitLoading = false
+          return
+        }
+      }
+
       // 多规格
       if (!nospec) {
         const specImages = this.skuData.specImages.map((item) => {
@@ -739,11 +769,18 @@ export default {
           const specItems = this.skuData.specItems.map((item, index) => {
             const skuIds = item.sku_id.split('_')
             const itemSpec = []
-            this.skuData.skus.forEach((m, n) => {
-              const t = m.sku_value.find((k) => k.attribute_value_id == skuIds[n])
+            skuIds.forEach((outer_m) => {
+              let m, t
+              this.skuData.skus.forEach((sub_m) => {
+                const sub_t = sub_m.sku_value.find((k) => k.attribute_value_id == outer_m)
+                if (sub_t) {
+                  t = sub_t
+                  m = sub_m
+                }
+              })
               itemSpec.push({
                 spec_id: m.sku_id,
-                spec_value_id: skuIds[n],
+                spec_value_id: outer_m,
                 spec_value_name: t.attribute_value,
                 spec_custom_value_name: t.custom_attribute_value
               })
