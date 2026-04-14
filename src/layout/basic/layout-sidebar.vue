@@ -66,8 +66,7 @@
                 <span
                   class="block w-full"
                   @click="handleSubmenuTitleClick(item.alias_name, $event)"
-                  >{{ menuDisplayName(item) }}</span
-                >
+                >{{ menuDisplayName(item) }}</span>
               </template>
               <!-- 三级菜单 -->
               <template v-for="child in item.children">

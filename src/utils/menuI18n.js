@@ -17,12 +17,9 @@ export function getMenuDisplayName(vm, menuItem) {
   if (!route && menuItem.alias_name) {
     route = vm.$router.getRoutes().find((r) => r.meta?.aliasName === menuItem.alias_name)
   }
-  const title = route?.meta?.title
-  if (title && typeof title === 'string') {
-    if (vm.$te(title)) {
-      return vm.$t(title)
-    }
-    return title
+  const key = route?.meta?.title
+  if (key && typeof key === 'string' && vm.$te(key)) {
+    return vm.$t(key)
   }
   return menuItem.name || ''
 }
