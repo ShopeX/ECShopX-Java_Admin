@@ -273,8 +273,7 @@ export default {
       activityItemDialog: false,
       purchaseRulesDialog: false,
       ItemLoading: false,
-      purchaseRules: [],
-      tabList: []
+      purchaseRules: []
     }
   },
   computed: {
@@ -326,6 +325,7 @@ export default {
       let params = {
         ...this.params,
         status: this.params.status === 'all' ? undefined : this.params.status,
+        item_type: this.params.item_type === '0' ? undefined : this.params.item_type,
         create_time: [],
         ...time
       }
