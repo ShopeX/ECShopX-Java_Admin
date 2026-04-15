@@ -448,6 +448,17 @@ const routes = [
           permissions: ['applications.ai-translate.translate-setting']
         },
         component: () => import('@/views/settings/ai-translate-setting')
+      },
+      {
+        name: 'shopexAgentCenter',
+        path: 'shopex-agent/shopex-agent-center',
+        meta: {
+          aliasName: 'shopex-agent-shopex-agent-center', // aliasName 必须是 path 中把斜杠替换为破折号
+          title: '商派智能体平台',
+          icon: 'appstore',
+          permissions: ['applications.shopex-agent.shopex-agent-center']
+        },
+        component: () => import('@/views/ai/shopex-agent-center')
       }
     ]
   }
