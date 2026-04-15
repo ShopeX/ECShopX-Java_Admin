@@ -201,7 +201,7 @@ export default {
       return getSectionTypes().map((type) => getSectionDefinition(type))
     },
     titleText() {
-      return this.title || this.$t('decorationeditor.pageTitle')
+      return this.title || this.$t('f9eb643d.6741a0')
     },
     canUndo() {
       return this.historyPast.length > 1

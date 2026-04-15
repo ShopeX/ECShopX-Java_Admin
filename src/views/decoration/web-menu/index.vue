@@ -13,13 +13,14 @@
     />
 
     <div class="action-container mt-4">
-      <el-button type="primary" @click="goCreate">新增菜单</el-button>
+      <el-button type="primary" @click="goCreate">{{ $t('738edee2.2f39c3') }}</el-button>
     </div>
 
     <SpFinder
       ref="finder"
       url="/web-menus"
       fixed-row-action
+      row-actions-width="180px"
       no-selection
       row-key="id"
       :setting="finderSetting"
@@ -45,10 +46,10 @@ export default {
       return [
         {
           fieldName: 'name',
-          label: '菜单名称',
+          label: this.$t('738edee2.8ee9f2'),
           component: 'input',
           componentProps: {
-            placeholder: '请输入菜单名称',
+            placeholder: this.$t('738edee2.4cd562'),
             clearable: true
           }
         }
@@ -58,21 +59,33 @@ export default {
       return createSetting({
         columns: [
           { name: 'ID', key: 'id', width: 80 },
-          { name: '导航菜单', key: 'name' },
+          { name: this.$t('738edee2.ff36f6'), key: 'name' },
           {
-            name: '菜单项',
-            key: 'items_count',
-            width: 100,
+            name: this.$t('738edee2.7419d6'),
+            key: 'top_level_item_names',
+            minWidth: 200,
             render: (h, scope) => {
-              const n = scope.row.items_count
-              const text = n != null && n !== '' ? `${Number(n)} 项` : '0 项'
-              return h('span', { style: { color: '#909399' } }, text)
+              const raw = scope.row.top_level_item_names
+              const text =
+                raw != null && String(raw).trim() !== '' ? String(raw).trim() : '—'
+              return h(
+                'span',
+                {
+                  style: {
+                    color: text === '—' ? '#909399' : '#606266',
+                    whiteSpace: 'normal',
+                    wordBreak: 'break-all'
+                  },
+                  attrs: text !== '—' ? { title: text } : {}
+                },
+                text
+              )
             }
           }
         ],
         actions: [
           {
-            name: '编辑',
+            name: this.$t('738edee2.95b351'),
             key: 'edit',
             type: 'button',
             buttonType: 'text',
@@ -82,7 +95,7 @@ export default {
             }
           },
           {
-            name: '删除',
+            name: this.$t('738edee2.2f4aad'),
             key: 'delete',
             type: 'button',
             buttonType: 'text',
@@ -93,7 +106,7 @@ export default {
               confirm: true,
               confirmTip: (rows) => {
                 const row = Array.isArray(rows) ? rows[0] : rows
-                return row ? `确认删除菜单「${row.name}」？其下所有菜单项将一并删除。` : ''
+                return row ? this.$t('738edee2.1a06dc', { name: row.name }) : ''
               }
             }
           }

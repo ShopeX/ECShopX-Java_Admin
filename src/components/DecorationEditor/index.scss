@@ -111,16 +111,54 @@
     min-width: 0;
   }
 
-  .toolbar-group .el-input__inner,
-  .toolbar-group .el-button {
+  .toolbar-group .el-input__inner {
     height: 28px;
-    line-height: 26px;
+    line-height: 28px;
     border-radius: 8px;
     font-size: 12px;
   }
 
-  .toolbar-group .el-button + .el-button {
-    margin-left: 0;
+  /* el-button：固定 line-height 易与 Element 内边距叠加导致文字偏下，用 flex 居中 */
+  .toolbar-group .el-button-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* 拉开间距：覆盖 Element button-group 的负 margin 与首尾去圆角 */
+  .toolbar-group .el-button-group > .el-button {
+    float: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    position: relative;
+  }
+
+  .toolbar-group .el-button-group > .el-button:not(:last-child) {
+    margin-right: 0 !important;
+  }
+
+  .toolbar-group .el-button-group > .el-button,
+  .toolbar-group .el-button-group > .el-button:first-child,
+  .toolbar-group .el-button-group > .el-button:last-child,
+  .toolbar-group .el-button-group > .el-button:not(:first-child):not(:last-child) {
+    border-radius: 8px !important;
+  }
+
+  .toolbar-group .el-button {
+    height: 28px;
+    min-height: 28px;
+    padding: 0 10px;
+    line-height: 1;
+    border-radius: 8px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+  }
+
+  .toolbar-group .el-button span {
+    line-height: 1;
   }
 
   .toolbar-group .el-select {

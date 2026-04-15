@@ -40,6 +40,11 @@ export default {
             })
           },
           render(h) {
+            const inner =
+              data.value.content == null
+                ? []
+                : [isFunction(data.value.content) ? h(data.value.content) : data.value.content]
+            // 作为 Main 的默认插槽传入（与 body 具名插槽在 main.vue 内一并渲染，避免二选一误判）
             return h(
               Main,
               {
@@ -60,7 +65,7 @@ export default {
                   }
                 }
               },
-              [isFunction(data.value.content) ? h(data.value.content) : data.value.content]
+              inner
             )
           }
         }).$mount()
