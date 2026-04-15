@@ -63,7 +63,9 @@
 
     <div class="mt-8 flex max-w-[800px] gap-3 pl-[120px]">
       <el-button @click="goList">{{ $t('80206cbf.625fb2') }}</el-button>
-      <el-button type="primary" :loading="menuSaving" @click="saveMenu">{{ $t('80206cbf.be5fbb') }}</el-button>
+      <el-button type="primary" :loading="menuSaving" @click="saveMenu">{{
+        $t('80206cbf.be5fbb')
+      }}</el-button>
     </div>
   </SpPage>
 </template>
@@ -248,11 +250,9 @@ export default {
           const payload = {
             name: formVm.form.name,
             link_type: 'url',
-            link_value:
-              formVm.form.pagePath != null ? String(formVm.form.pagePath) : '',
+            link_value: formVm.form.pagePath != null ? String(formVm.form.pagePath) : '',
             sort: formVm.form.sort != null ? Number(formVm.form.sort) : 0,
-            status:
-              editingItemId != null && item && item.status != null ? Number(item.status) : 1,
+            status: editingItemId != null && item && item.status != null ? Number(item.status) : 1,
             parent_id: currentParentId
           }
           if (editingItemId) {

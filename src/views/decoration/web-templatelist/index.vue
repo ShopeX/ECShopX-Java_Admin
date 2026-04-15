@@ -37,11 +37,7 @@
 
 <script>
 import { createSetting } from '@shopex-ui/finder'
-import {
-  addPageTemplate,
-  editPageTemplate,
-  deletePageTemplate
-} from '@/api/webtemplate'
+import { addPageTemplate, editPageTemplate, deletePageTemplate } from '@/api/webtemplate'
 import WebPcTemplateForm from './components/WebPcTemplateForm.vue'
 
 const tabList = [
@@ -70,10 +66,7 @@ export default {
             width: 120,
             render: (h, scope) => {
               const isIndex = scope.row.page_type === 'index'
-              return h(
-                'span',
-                isIndex ? this.$t('8b0d1458.db1c89') : this.$t('8b0d1458.ec20e4')
-              )
+              return h('span', isIndex ? this.$t('8b0d1458.db1c89') : this.$t('8b0d1458.ec20e4'))
             }
           },
           {
@@ -240,15 +233,11 @@ export default {
     },
     async handleDelete({ theme_pc_template_id: id }) {
       try {
-        await this.$confirm(
-          this.$t('8b0d1458.f9abac'),
-          this.$t('8b0d1458.02d981'),
-          {
-            confirmButtonText: this.$t('8b0d1458.38cf16'),
-            cancelButtonText: this.$t('8b0d1458.625fb2'),
-            type: 'warning'
-          }
-        )
+        await this.$confirm(this.$t('8b0d1458.f9abac'), this.$t('8b0d1458.02d981'), {
+          confirmButtonText: this.$t('8b0d1458.38cf16'),
+          cancelButtonText: this.$t('8b0d1458.625fb2'),
+          type: 'warning'
+        })
         await deletePageTemplate(id)
         if (this.$refs.finder) {
           this.$refs.finder.refresh()

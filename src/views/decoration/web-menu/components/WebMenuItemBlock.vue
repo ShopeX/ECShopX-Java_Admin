@@ -3,9 +3,7 @@
 -->
 <template>
   <div class="flex flex-col gap-3">
-    <div
-      class="group flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm"
-    >
+    <div class="group flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
       <div
         class="drag-handle flex shrink-0 cursor-move select-none items-center self-stretch border-r border-gray-200 bg-gray-50 px-3 text-[#909399]"
       >
@@ -21,11 +19,9 @@
         </span>
         <span v-else class="w-5 shrink-0" />
         <span class="min-w-0 flex-1 font-medium text-gray-800">{{ node.name }}</span>
-        <span
-          class="min-w-0 flex-1 truncate text-gray-400"
-          :title="itemLinkLabel(node)"
-          >{{ itemLinkLabel(node) }}</span
-        >
+        <span class="min-w-0 flex-1 truncate text-gray-400" :title="itemLinkLabel(node)">{{
+          itemLinkLabel(node)
+        }}</span>
         <div
           class="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity duration-150 ease-in-out pointer-events-none group-hover:pointer-events-auto group-hover:opacity-100 [@media(hover:none)]:pointer-events-auto [@media(hover:none)]:opacity-100"
         >

@@ -146,8 +146,8 @@ export default {
         iv.pagePath != null
           ? String(iv.pagePath).trim()
           : iv.url != null
-            ? String(iv.url).trim()
-            : ''
+          ? String(iv.url).trim()
+          : ''
       if (!pagePath) {
         pagePath = defaultPresetPath()
       }

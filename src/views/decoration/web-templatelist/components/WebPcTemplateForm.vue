@@ -56,10 +56,7 @@ export default {
     pageTypeOptions() {
       return this.tabListResolved.map((row) => ({
         value: row.name,
-        label:
-          row.label != null && row.label !== ''
-            ? row.label
-            : i18n.t(row.labelKey)
+        label: row.label != null && row.label !== '' ? row.label : i18n.t(row.labelKey)
       }))
     },
     formItems() {
@@ -69,9 +66,7 @@ export default {
           label: i18n.t('8b0d1458.b78454'),
           component: 'input',
           formItemClass: 'w-full',
-          rules: [
-            { required: true, message: i18n.t('8b0d1458.7d5cc3'), trigger: 'blur' }
-          ],
+          rules: [{ required: true, message: i18n.t('8b0d1458.7d5cc3'), trigger: 'blur' }],
           componentProps: {
             clearable: true,
             placeholder: i18n.t('8b0d1458.7d5cc3')
@@ -82,9 +77,7 @@ export default {
           label: i18n.t('8b0d1458.abf8f4'),
           component: 'input',
           formItemClass: 'w-full',
-          rules: [
-            { required: true, message: i18n.t('8b0d1458.9c5cf8'), trigger: 'blur' }
-          ],
+          rules: [{ required: true, message: i18n.t('8b0d1458.9c5cf8'), trigger: 'blur' }],
           componentProps: {
             clearable: true,
             placeholder: i18n.t('8b0d1458.9c5cf8')
@@ -95,9 +88,7 @@ export default {
           label: i18n.t('8b0d1458.46f391'),
           component: (ctx) => this.renderPageTypeSelect(ctx),
           formItemClass: 'w-full',
-          rules: [
-            { required: true, message: i18n.t('8b0d1458.8dfcc4'), trigger: 'change' }
-          ],
+          rules: [{ required: true, message: i18n.t('8b0d1458.8dfcc4'), trigger: 'change' }],
           componentProps: {
             filterable: true,
             clearable: true,

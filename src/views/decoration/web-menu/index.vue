@@ -66,8 +66,7 @@ export default {
             minWidth: 200,
             render: (h, scope) => {
               const raw = scope.row.top_level_item_names
-              const text =
-                raw != null && String(raw).trim() !== '' ? String(raw).trim() : '—'
+              const text = raw != null && String(raw).trim() !== '' ? String(raw).trim() : '—'
               return h(
                 'span',
                 {
