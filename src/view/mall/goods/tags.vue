@@ -41,6 +41,16 @@
         </el-button>
       </div>
     </sideBar>
+
+    <SpTranslatePopup
+      ref="translatePopup"
+      table-name="items_tags"
+      :data-id="translateContext.dataId"
+      :fields="translateContext.fields"
+      :values="translateContext.values"
+      :source-language="translateContext.sourceLang"
+      @done="onTranslateDone"
+    />
   </SpPage>
 </template>
 <script>
@@ -48,6 +58,8 @@ import { mapGetters } from 'vuex'
 import { Message } from 'element-ui'
 import { saveTag, getTagList, getTagInfo, updateTag, deleteTag } from '../../../api/goods'
 import sideBar from '@/components/element/sideBar'
+import SpTranslatePopup from '@/components/sp-translate-popup'
+import translateMixin from '@/mixins/translateMixin'
 import { createSetting } from '@shopex-ui/finder'
 import { useForm } from '@/composables'
 import { i18n } from '@/i18n'
@@ -145,8 +157,10 @@ const [TagForm, TagFormApi] = useForm({
 export default {
   components: {
     sideBar,
-    TagForm
+    TagForm,
+    SpTranslatePopup
   },
+  mixins: [translateMixin],
   data() {
     return {
       show_sideBar: false,
@@ -395,6 +409,7 @@ export default {
             })
             this.show_sideBar = false
             this.$refs.finder.refresh()
+            this.openTranslate(submitData.tag_id, ['tag_name'], [submitData.tag_name || ''])
           }
         })
       } else {
@@ -409,7 +424,8 @@ export default {
           }
         })
       }
-    }
+    },
+    onTranslateDone() {}
   }
 }
 </script>

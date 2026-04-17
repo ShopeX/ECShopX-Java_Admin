@@ -104,6 +104,16 @@
         {{ submitLoading ? $t('027707af.7ef44a') : $t('027707af.be5fbb') }}
       </el-button>
     </div>
+
+    <SpTranslatePopup
+      ref="translatePopup"
+      table-name="distribution_distributor"
+      :data-id="translateContext.dataId"
+      :fields="translateContext.fields"
+      :values="translateContext.values"
+      :source-language="translateContext.sourceLang"
+      @done="onTranslateDone"
+    />
   </SpPage>
 </template>
 
@@ -115,7 +125,11 @@ import district from '@/common/district.json'
 import DaoDianZiti from './components/DaoDianZiti'
 import RefundGoodsAddress from './components/RefundGoodsAddress'
 import RefundGoodsStore from './components/RefundGoodsStore'
+import SpTranslatePopup from '@/components/sp-translate-popup'
+import translateMixin from '@/mixins/translateMixin'
 export default {
+  components: { DaoDianZiti, RefundGoodsAddress, RefundGoodsStore, SpTranslatePopup },
+  mixins: [translateMixin],
   data() {
     let distributionTypeOptions = [
       {
@@ -1034,6 +1048,7 @@ export default {
           await this.$api.marketing.updateDistributorInfo(distributor_id, params)
           this.submitLoading = false
           this.$message.success(this.$t('027707af.c83614'))
+          this.openTranslate(distributor_id, ['name', 'address', 'introduce'], [this.form.name || '', this.form.address || '', this.form.introduce || ''])
         } else {
           const ids = this.$refs['daoDianZiti'].finderData.map((item) => item.id)
           await this.$api.marketing.saveDistributorInfo({
@@ -1042,12 +1057,17 @@ export default {
           })
           this.submitLoading = false
           this.$message.success(this.$t('027707af.931e30'))
-        }
-        if (!this.IS_DISTRIBUTOR()) {
-          this.$router.go(-1)
+          if (!this.IS_DISTRIBUTOR()) {
+            this.$router.go(-1)
+          }
         }
       } catch (e) {
         this.submitLoading = false
+      }
+    },
+    onTranslateDone() {
+      if (!this.IS_DISTRIBUTOR()) {
+        this.$router.go(-1)
       }
     }
   }

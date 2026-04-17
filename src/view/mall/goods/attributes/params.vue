@@ -39,6 +39,16 @@
         <el-button type="primary" @click="handleFormSubmit">{{ $t('07504bf6.939d53') }}</el-button>
       </div>
     </sideBar>
+
+    <SpTranslatePopup
+      ref="translatePopup"
+      table-name="items_attributes"
+      :data-id="translateContext.dataId"
+      :fields="translateContext.fields"
+      :values="translateContext.values"
+      :source-language="translateContext.sourceLang"
+      @done="onTranslateDone"
+    />
   </SpPage>
 </template>
 <script>
@@ -49,6 +59,8 @@ import { createSetting } from '@shopex-ui/finder'
 import { useForm } from '@/composables'
 import Vue from 'vue'
 import { i18n } from '@/i18n'
+import SpTranslatePopup from '@/components/sp-translate-popup'
+import translateMixin from '@/mixins/translateMixin'
 
 const [ParamsForm, ParamsFormApi] = useForm({
   formType: 'normalForm',
@@ -163,8 +175,10 @@ const [ParamsForm, ParamsFormApi] = useForm({
 export default {
   components: {
     sideBar,
-    ParamsForm
+    ParamsForm,
+    SpTranslatePopup
   },
+  mixins: [translateMixin],
   data() {
     return {
       form: {
@@ -310,9 +324,11 @@ export default {
           this.$message({ type: 'success', message: this.$t('07504bf6.33130f') })
           this.show_sideBar = false
           this.$refs.finder.refresh()
+          this.openTranslate(params.attribute_id, ['attribute_name', 'attribute_memo'], [submitData.attribute_name || '', submitData.attribute_memo || ''])
         })
       }
-    }
+    },
+    onTranslateDone() {}
   },
   computed: {
     ...mapGetters(['wheight']),

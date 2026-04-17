@@ -141,10 +141,24 @@
         @onSubmit="onProfitFormSubmit"
       />
     </div>
+
+    <SpTranslatePopup
+      ref="translatePopup"
+      table-name="items_category"
+      :data-id="translateContext.dataId"
+      :fields="translateContext.fields"
+      :values="translateContext.values"
+      :source-language="translateContext.sourceLang"
+      @done="onTranslateDone"
+    />
   </SpPage>
 </template>
 <script>
+import SpTranslatePopup from '@/components/sp-translate-popup'
+import translateMixin from '@/mixins/translateMixin'
 export default {
+  components: { SpTranslatePopup },
+  mixins: [translateMixin],
   data() {
     return {
       loading: false,
@@ -383,6 +397,9 @@ export default {
           category_id
         })
         this.$message.success(this.$t('2dc17300.3bb47b'))
+        this.refreshNode(parent_id)
+        this.categoryDialog = false
+        this.openTranslate(category_id, ['category_name'], [category_name || ''])
       } else {
         await this.$api.goods.addCategory({
           category_name,
@@ -392,10 +409,11 @@ export default {
           parent_id: parent_id != '0' ? parent_id : undefined
         })
         this.$message.success(this.$t('2dc17300.3fdaea'))
+        this.refreshNode(parent_id)
+        this.categoryDialog = false
       }
-      this.refreshNode(parent_id)
-      this.categoryDialog = false
     },
+    onTranslateDone() {},
     async deleteCategory({ parent_id, category_id }) {
       await this.$confirm(this.$t('2dc17300.442ecc'), this.$t('2dc17300.02d981'), {
         confirmButtonText: this.$t('2dc17300.38cf16'),

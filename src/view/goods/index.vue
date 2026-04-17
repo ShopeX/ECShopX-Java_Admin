@@ -98,6 +98,16 @@
       :form-list="applyFormList"
       @onSubmit="onApplySubmit"
     />
+
+    <SpTranslatePopup
+      ref="translatePopup"
+      table-name="items"
+      :data-id="translateContext.dataId"
+      :fields="translateContext.fields"
+      :values="translateContext.values"
+      :source-language="translateContext.sourceLang"
+      @done="onTranslateDone"
+    />
   </SpPage>
 </template>
 
@@ -108,6 +118,8 @@ import GoodsParams from './components/GoodsParams'
 import SpecParams from './components/SpecParams'
 import SkuParams from './components/SkuParams'
 import sku from '../../store/modules/sku'
+import SpTranslatePopup from '@/components/sp-translate-popup'
+import translateMixin from '@/mixins/translateMixin'
 export default {
   async beforeRouteLeave(to, from, next) {
     if (this.$refs['decorateRef']?.dialogVisible) {
@@ -124,6 +136,7 @@ export default {
       next()
     }
   },
+  mixins: [translateMixin],
   data() {
     const cascaderProps = {
       props: {
@@ -853,6 +866,7 @@ export default {
       submitLoading: false,
       loading: false,
       isLeave: false,
+      
       isShowPoint: false,
       // 管理分类上绑定的规格
       mainCategorySpec: [],
@@ -1602,7 +1616,8 @@ export default {
 
       this.submitLoading = true
       try {
-        if (itemId && !is_new) {
+        const isUpdate = !!(itemId && !is_new)
+        if (isUpdate) {
           await this.$api.goods.updateItems(itemId, {
             ...params,
             item_id: itemId
@@ -1613,18 +1628,28 @@ export default {
           this.$message.success(this.$t('de022579.3fdaea'))
         }
         this.submitLoading = false
-        this.isLeave = true
-        // 安全调用父组件方法
-        if (this.$parent && typeof this.$parent.onActivated === 'function') {
-          this.$parent.onActivated()
+
+        if (isUpdate) {
+          this.openTranslate(itemId, ['item_name', 'brief', 'intro'], [this.form.itemName || '', this.form.brief || '', this.form.intro || ''])
+        } else {
+          this.navigateBack()
         }
-        setTimeout(() => {
-          this.$router.go(-1)
-        }, 200)
       } catch (e) {
         this.submitLoading = false
         console.log(e)
       }
+    },
+    navigateBack() {
+      this.isLeave = true
+      if (this.$parent && typeof this.$parent.onActivated === 'function') {
+        this.$parent.onActivated()
+      }
+      setTimeout(() => {
+        this.$router.go(-1)
+      }, 200)
+    },
+    onTranslateDone() {
+      this.navigateBack()
     },
     onApplyConfirm() {
       this.applyDialog = true
