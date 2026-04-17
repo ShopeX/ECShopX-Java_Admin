@@ -43,6 +43,15 @@ export const getTemplateContent = (params) => {
   })
 }
 
+/** 头/尾或全局装修块：按 page_name 查询单条 content（params 为 JSON 字符串） */
+export const getHeaderOrFooter = (params) => {
+  return fetch({
+    url: '/pctemplate/getHeaderOrFooter',
+    method: 'get',
+    params
+  })
+}
+
 // 保存页面模版装修内容
 export const saveTemplateContent = (params) => {
   return fetch({

@@ -195,6 +195,17 @@ const routes = [
           permissions: ['wxapp-template.pcmall.web-menus']
         },
         component: () => import('@/views/decoration/web-menu/_id')
+      },
+      {
+        name: 'decorationWebEdit',
+        path: 'web/edit/:pageType',
+        meta: {
+          aliasName: 'decorationWebEdit',
+          icon: 'pay-circle',
+          title: i18n.t('7d3fbb6d.81b2cb'),
+          permissions: ['wxapp-template.pcmall.design']
+        },
+        component: () => import('@/views/decoration/web-template/index')
       }
     ]
   },

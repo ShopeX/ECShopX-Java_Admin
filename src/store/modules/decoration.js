@@ -12,12 +12,12 @@ const {
   moveSection,
   replaceSection,
   composePreviewDsl
-} = require('../../components/DecorationEditor/utils/dsl')
+} = require('../../components/sp-web-decoration/utils/dsl')
 const {
   createDefaultSection,
   createDefaultBlock,
   createGlobalSections
-} = require('../../components/DecorationEditor/registry')
+} = require('../../components/sp-web-decoration/registry')
 
 function createState() {
   return {

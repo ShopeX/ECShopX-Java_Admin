@@ -3,7 +3,7 @@ const { generateSectionId, generateBlockId } = require('./utils/nanoid')
 const sectionRegistry = {
   carousel: {
     type: 'carousel',
-    title: '轮播图',
+    title: '',
     titleKey: 'decorationeditor.section.carousel',
     icon: 'el-icon-picture-outline',
     settings: {
@@ -14,7 +14,7 @@ const sectionRegistry = {
     initialBlocks: ['image'],
     blockTypes: {
       image: {
-        title: '图片',
+        title: '',
         titleKey: 'decorationeditor.block.image',
         defaultBlock: {
           type: 'image',
@@ -28,7 +28,7 @@ const sectionRegistry = {
   },
   'image-hotspot': {
     type: 'image-hotspot',
-    title: '图片热区',
+    title: '',
     titleKey: 'decorationeditor.section.imageHotspot',
     icon: 'el-icon-map-location',
     settings: {
@@ -38,7 +38,7 @@ const sectionRegistry = {
     initialBlocks: [],
     blockTypes: {
       hotspot: {
-        title: '热区',
+        title: '',
         titleKey: 'decorationeditor.block.hotspot',
         defaultBlock: {
           type: 'hotspot',
@@ -54,7 +54,7 @@ const sectionRegistry = {
   },
   'product-shelf': {
     type: 'product-shelf',
-    title: '商品货架',
+    title: '',
     titleKey: 'decorationeditor.section.productShelf',
     icon: 'el-icon-s-grid',
     settings: {
@@ -73,7 +73,7 @@ const sectionRegistry = {
 const globalSectionRegistry = {
   header: {
     type: 'header',
-    title: '标头',
+    title: '',
     titleKey: 'decorationeditor.section.header',
     icon: 'el-icon-s-home',
     settings: {
@@ -84,12 +84,12 @@ const globalSectionRegistry = {
     initialBlocks: ['nav-item'],
     blockTypes: {
       'nav-item': {
-        title: '导航项',
+        title: '',
         titleKey: 'decorationeditor.block.navItem',
         defaultBlock: {
           type: 'nav-item',
           settings: {
-            label: '首页',
+            label: '',
             url: '/'
           }
         }
@@ -98,7 +98,7 @@ const globalSectionRegistry = {
   },
   footer: {
     type: 'footer',
-    title: '页脚',
+    title: '',
     titleKey: 'decorationeditor.section.footer',
     icon: 'el-icon-s-platform',
     settings: {
@@ -109,12 +109,12 @@ const globalSectionRegistry = {
     initialBlocks: ['footer-link'],
     blockTypes: {
       'footer-link': {
-        title: '页脚链接',
+        title: '',
         titleKey: 'decorationeditor.block.footerLink',
         defaultBlock: {
           type: 'footer-link',
           settings: {
-            label: '帮助中心',
+            label: '',
             url: '/help'
           }
         }
@@ -127,7 +127,7 @@ const globalSectionTemplates = {
   header: {
     id: 'header',
     type: 'header',
-    title: '标头',
+    title: '',
     titleKey: 'decorationeditor.section.header',
     disabled: false,
     settings: {
@@ -139,7 +139,7 @@ const globalSectionTemplates = {
       'nav-item-default': {
         type: 'nav-item',
         settings: {
-          label: '首页',
+          label: '',
           url: '/'
         }
       }
@@ -149,7 +149,7 @@ const globalSectionTemplates = {
   footer: {
     id: 'footer',
     type: 'footer',
-    title: '页脚',
+    title: '',
     titleKey: 'decorationeditor.section.footer',
     disabled: false,
     settings: {
@@ -161,7 +161,7 @@ const globalSectionTemplates = {
       'footer-link-default': {
         type: 'footer-link',
         settings: {
-          label: '帮助中心',
+          label: '',
           url: '/help'
         }
       }

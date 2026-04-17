@@ -5,7 +5,7 @@ const {
   saveHomeDecoration,
   loadGlobalDecoration,
   saveGlobalDecoration
-} = require('../../src/components/DecorationEditor/adapters/homeDecoration')
+} = require('../../src/components/sp-web-decoration/adapters/homeDecoration')
 
 async function testDefaultLoad() {
   const result = await loadHomeDecoration({ templateId: '22', scene: '1001' })

@@ -3,11 +3,11 @@ const assert = require('assert')
 const {
   createSectionPickerItems,
   createBlockPickerItems
-} = require('../../src/components/DecorationEditor/utils/insertPicker')
+} = require('../../src/components/sp-web-decoration/utils/insertPicker')
 const {
   getSectionTypes,
   getSectionDefinition
-} = require('../../src/components/DecorationEditor/registry')
+} = require('../../src/components/sp-web-decoration/registry')
 
 function testSectionPickerItems() {
   const definitions = getSectionTypes().map((type) => getSectionDefinition(type))

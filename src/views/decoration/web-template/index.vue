@@ -1,60 +1,56 @@
 <template>
-  <div class="decoration-route">
-    <div v-if="!isSupportedScene" class="decoration-route__unsupported">
-      <div class="decoration-route__unsupported-card">
-        <div class="decoration-route__unsupported-title">
+  <div class="min-h-full">
+    <div
+      v-if="!isSupportedScene"
+      class="flex min-h-screen items-center justify-center bg-gradient-to-b from-[#f8faff] to-[#eef3fb] p-6"
+    >
+      <div
+        class="w-full max-w-[480px] rounded-[20px] border border-[#e7ebf3] bg-white p-8 text-center shadow-[0_20px_40px_rgba(31,45,61,0.08)]"
+      >
+        <div class="text-xl font-semibold text-[#18222f]">
           {{ $t('f9eb643d.dbc2cc') }}
         </div>
-        <div class="decoration-route__unsupported-copy">
+        <div class="mt-2.5 mb-5 leading-[22px] text-[#6b7785]">
           {{ $t('f9eb643d.31d83a') }}
         </div>
-        <el-button plain @click="handleBack">
+        <el-button plain @click="decorationHandleBack">
           {{ $t('f9eb643d.5f4112') }}
         </el-button>
       </div>
     </div>
 
-    <DecorationEditor
+    <SpWebDecoration
       v-else
       :initial-dsl="initialDsl"
       :loading="isLoading"
-      :page-type="'home'"
+      :page-type="routePageType"
       :scene="scene"
       :template-id="templateId"
       :title="$t('f9eb643d.6741a0')"
-      @back="handleBack"
-      @save="handleSave"
+      @back="decorationHandleBack"
+      @save="decorationHandleSave"
     />
   </div>
 </template>
 
 <script>
-import DecorationEditor from '@/components/DecorationEditor/index.vue'
+import decorationRouteMixin from './decorationRouteMixin'
 
-const {
-  loadHomeDecoration,
-  saveHomeDecoration,
-  loadGlobalDecoration,
-  saveGlobalDecoration
-} = require('@/components/DecorationEditor/adapters/homeDecoration')
-
+/**
+ * PC 商城装修器入口（全屏 /decoration/web/template/edit 与布局内 /decoration/web/edit/:pageType 共用）
+ */
 export default {
   name: 'HomeDecorationRoute',
-  components: {
-    DecorationEditor
-  },
-  data() {
-    return {
-      initialDsl: null,
-      isLoading: true
-    }
-  },
+  mixins: [decorationRouteMixin],
   computed: {
     templateId() {
       return String(this.$route.query.id || '')
     },
     scene() {
       return String(this.$route.query.scene || '1001')
+    },
+    routePageType() {
+      return String(this.$route.params.pageType || 'home')
     },
     isSupportedScene() {
       return this.scene === '1001'
@@ -64,85 +60,9 @@ export default {
     '$route.fullPath': {
       immediate: true,
       handler() {
-        this.bootstrap()
+        this.decorationBootstrap()
       }
-    }
-  },
-  methods: {
-    async bootstrap() {
-      if (!this.isSupportedScene) {
-        this.initialDsl = null
-        this.isLoading = false
-        return
-      }
-
-      this.isLoading = true
-      const { dsl } = await loadHomeDecoration({
-        templateId: this.templateId,
-        scene: this.scene
-      })
-      const { dsl: globalDsl } = await loadGlobalDecoration()
-      this.initialDsl = {
-        dsl,
-        globalDsl
-      }
-      this.isLoading = false
-    },
-    async handleSave({ dsl, globalDsl, editingScope }) {
-      this.$store.commit('decoration/setSaving', true)
-      try {
-        const result =
-          editingScope === 'global'
-            ? await saveGlobalDecoration({ dsl: globalDsl })
-            : await saveHomeDecoration({
-                templateId: this.templateId,
-                dsl
-              })
-        this.$message.success(this.$t(result.messageKey))
-      } finally {
-        this.$store.commit('decoration/setSaving', false)
-      }
-    },
-    handleBack() {
-      this.$router.go(-1)
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.decoration-route {
-  min-height: 100%;
-}
-
-.decoration-route__unsupported {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background: linear-gradient(180deg, #f8faff, #eef3fb);
-}
-
-.decoration-route__unsupported-card {
-  width: min(480px, 100%);
-  padding: 32px;
-  text-align: center;
-  background: #fff;
-  border: 1px solid #e7ebf3;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(31, 45, 61, 0.08);
-}
-
-.decoration-route__unsupported-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #18222f;
-}
-
-.decoration-route__unsupported-copy {
-  margin: 10px 0 20px;
-  line-height: 22px;
-  color: #6b7785;
-}
-</style>

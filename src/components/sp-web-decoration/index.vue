@@ -119,7 +119,7 @@ function cloneValue(value) {
 }
 
 export default {
-  name: 'DecorationEditor',
+  name: 'SpWebDecoration',
   components: {
     StructurePanel,
     PreviewCanvas,
@@ -152,7 +152,7 @@ export default {
     },
     websiteUrl: {
       type: String,
-      default: () => process.env.VUE_APP_WEBSITE || ''
+      default: () => (process.env.VUE_APP_WEBSITE || '') + '?preview=true&designMode=1'
     }
   },
   data() {
@@ -263,8 +263,13 @@ export default {
       }
       this.isRestoringHistory = false
     },
-    handleAddSection(type) {
-      this.$store.commit('decoration/addSection', { type })
+    handleAddSection(payload) {
+      const type = typeof payload === 'string' ? payload : payload.type
+      const index =
+        typeof payload === 'object' && payload !== null && typeof payload.index === 'number'
+          ? payload.index
+          : undefined
+      this.$store.commit('decoration/addSection', { type, index })
       this.recordHistory()
     },
     handleSelectSection(sectionId) {

@@ -54,7 +54,7 @@ async function saveHomeDecoration({ templateId = '', dsl }) {
   return {
     dsl,
     persisted: Boolean(storage),
-    messageKey: 'decorationeditor.localDraftSaved'
+    messageKey: '4c11e15d.ebf4e4'
   }
 }
 
@@ -89,7 +89,7 @@ async function saveGlobalDecoration({ dsl }) {
   return {
     dsl,
     persisted: Boolean(storage),
-    messageKey: 'decorationeditor.localDraftSaved'
+    messageKey: '4c11e15d.ebf4e4'
   }
 }
 

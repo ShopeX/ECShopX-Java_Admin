@@ -24,7 +24,7 @@ function createGlobalDsl(sections) {
         header: {
           id: 'header',
           type: 'header',
-          title: '标头',
+          title: '',
           titleKey: 'decorationeditor.section.header',
           disabled: false,
           settings: {},
@@ -34,7 +34,7 @@ function createGlobalDsl(sections) {
         footer: {
           id: 'footer',
           type: 'footer',
-          title: '页脚',
+          title: '',
           titleKey: 'decorationeditor.section.footer',
           disabled: false,
           settings: {},

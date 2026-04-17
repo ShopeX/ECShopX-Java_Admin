@@ -15,17 +15,17 @@ const {
   composePreviewDsl,
   serializeDsl,
   deserializeDsl
-} = require('../../src/components/DecorationEditor/utils/dsl')
+} = require('../../src/components/sp-web-decoration/utils/dsl')
 const {
   createDefaultSection,
   getSectionTypes,
   createGlobalSections,
   createDefaultBlock,
   getSectionBlockTypes
-} = require('../../src/components/DecorationEditor/registry')
+} = require('../../src/components/sp-web-decoration/registry')
 const {
   createDecorationMessenger
-} = require('../../src/components/DecorationEditor/utils/postMessage')
+} = require('../../src/components/sp-web-decoration/utils/postMessage')
 
 function testCreateHomeDsl() {
   const dsl = createHomeDsl({ pageId: '123', scene: '1001' })

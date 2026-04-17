@@ -23,7 +23,6 @@
           ref="previewFrame"
           class="preview-canvas__frame"
           :src="previewUrl"
-          @load="handleIframeLoad"
         />
       </div>
     </div>
@@ -65,7 +64,6 @@ export default {
   data() {
     return {
       iframeReady: false,
-      iframeWindow: null,
       messenger: null,
       previewError: false,
       updateTimer: null,
@@ -107,8 +105,10 @@ export default {
     }
   },
   methods: {
-    handleIframeLoad() {
-      this.iframeWindow = this.$refs.previewFrame?.contentWindow || null
+    /** 跨域 iframe 的 contentWindow 不能放进 data（Vue 响应式会访问 Window 属性触发 SecurityError） */
+    getPreviewContentWindow() {
+      const el = this.$refs.previewFrame
+      return el && el.contentWindow ? el.contentWindow : null
     },
     handleIncomingMessage(event) {
       const { data } = event
@@ -134,20 +134,24 @@ export default {
       }
     },
     sendInit() {
-      if (!this.iframeWindow || !this.messenger) return
-      this.messenger.sendInit(this.iframeWindow, {
+      const win = this.getPreviewContentWindow()
+      if (!win || !this.messenger) return
+      this.messenger.sendInit(win, {
         pageType: this.pageType,
         pageId: this.pageId,
         dsl: serializeDsl(this.dsl)
       })
     },
     scheduleUpdate() {
-      if (!this.iframeReady || !this.iframeWindow || !this.messenger) return
+      const win = this.getPreviewContentWindow()
+      if (!this.iframeReady || !win || !this.messenger) return
       if (this.updateTimer) {
         clearTimeout(this.updateTimer)
       }
       this.updateTimer = setTimeout(() => {
-        this.messenger.sendUpdate(this.iframeWindow, {
+        const w = this.getPreviewContentWindow()
+        if (!w) return
+        this.messenger.sendUpdate(w, {
           pageType: this.pageType,
           pageId: this.pageId,
           dsl: serializeDsl(this.dsl)

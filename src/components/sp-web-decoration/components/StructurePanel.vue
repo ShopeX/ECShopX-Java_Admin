@@ -9,9 +9,6 @@
     <div class="decoration-editor-panel__body structure-panel__body">
       <div class="structure-tree">
         <div class="structure-group">
-          <div class="decoration-editor-list-header">
-            <span>{{ $t('decorationeditor.globalHeader') }}</span>
-          </div>
           <div class="structure-tree__group">
             <div
               :class="[
@@ -29,9 +26,8 @@
               </button>
               <div class="structure-tree__copy">
                 <div class="structure-tree__title">
-                  {{ $t('decorationeditor.section.header') }}
+                  {{ $t('decorationeditor.globalHeader') }}
                 </div>
-                <div class="structure-tree__meta">header</div>
               </div>
             </div>
 
@@ -57,9 +53,6 @@
                 <div class="structure-tree__copy">
                   <div class="structure-tree__title">
                     {{ getBlockLabel(headerSection, blockId) }}
-                  </div>
-                  <div class="structure-tree__meta">
-                    {{ getBlockType(headerSection, blockId) }}
                   </div>
                 </div>
                 <button
@@ -108,9 +101,53 @@
           <draggable
             v-model="localOrder"
             handle=".structure-tree__drag"
+            class="structure-tree__sections-draggable"
             @change="handleOrderChange"
           >
-            <div v-for="sectionId in localOrder" :key="sectionId" class="structure-tree__group">
+            <div
+              v-for="(sectionId, idx) in localOrder"
+              :key="sectionId"
+              class="structure-tree__page-section-wrap"
+            >
+              <div class="structure-tree__section-insert">
+                <div
+                  class="structure-tree__section-insert-line"
+                  :class="{
+                    'structure-tree__section-insert-line--menu-open': isInsertMenuOpen(
+                      'section',
+                      '',
+                      idx
+                    )
+                  }"
+                  @click="toggleInsertMenu('section', '', idx)"
+                >
+                  <button
+                    type="button"
+                    class="structure-tree__section-insert-btn"
+                    @click.stop="toggleInsertMenu('section', '', idx)"
+                  >
+                    <i class="el-icon-plus" />
+                    <span>{{ $t('decorationeditor.addSection') }}</span>
+                  </button>
+                </div>
+                <div
+                  v-if="isInsertMenuOpen('section', '', idx)"
+                  class="structure-tree__insert-menu structure-tree__insert-menu--section-gap"
+                >
+                  <button
+                    v-for="item in sectionPickerItems"
+                    :key="item.key"
+                    type="button"
+                    class="structure-tree__insert-item"
+                    @click="selectSectionType(item.type)"
+                  >
+                    <i :class="item.icon" />
+                    <span>{{ $t(item.titleKey) }}</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="structure-tree__group">
               <div
                 :class="[
                   'structure-tree__item',
@@ -133,9 +170,6 @@
                 <div class="structure-tree__copy">
                   <div class="structure-tree__title">
                     {{ getSectionLabel(sectionId) }}
-                  </div>
-                  <div class="structure-tree__meta">
-                    {{ getSectionType(sectionId) }}
                   </div>
                 </div>
                 <div class="structure-tree__actions">
@@ -179,9 +213,6 @@
                     <div class="structure-tree__title">
                       {{ getBlockLabel(dsl.sections[sectionId], blockId) }}
                     </div>
-                    <div class="structure-tree__meta">
-                      {{ getBlockType(dsl.sections[sectionId], blockId) }}
-                    </div>
                   </div>
                   <button
                     type="button"
@@ -222,19 +253,68 @@
                 </div>
               </div>
             </div>
+            </div>
           </draggable>
 
-          <div class="structure-tree__insert-anchor">
-            <button
-              type="button"
-              class="structure-tree__adder"
-              @click="toggleInsertMenu('section')"
+          <div v-if="!localOrder.length" class="structure-tree__section-insert structure-tree__section-insert--empty">
+            <div
+              class="structure-tree__section-insert-line"
+              :class="{
+                'structure-tree__section-insert-line--menu-open': isInsertMenuOpen('section', '', 0)
+              }"
+              @click="toggleInsertMenu('section', '', 0)"
             >
-              <i class="el-icon-plus" />
-              <span>{{ $t('decorationeditor.addSection') }}</span>
-            </button>
+              <button
+                type="button"
+                class="structure-tree__section-insert-btn"
+                @click.stop="toggleInsertMenu('section', '', 0)"
+              >
+                <i class="el-icon-plus" />
+                <span>{{ $t('decorationeditor.addSection') }}</span>
+              </button>
+            </div>
+            <div
+              v-if="isInsertMenuOpen('section', '', 0)"
+              class="structure-tree__insert-menu structure-tree__insert-menu--section-gap"
+            >
+              <button
+                v-for="item in sectionPickerItems"
+                :key="item.key"
+                type="button"
+                class="structure-tree__insert-item"
+                @click="selectSectionType(item.type)"
+              >
+                <i :class="item.icon" />
+                <span>{{ $t(item.titleKey) }}</span>
+              </button>
+            </div>
+          </div>
 
-            <div v-if="isInsertMenuOpen('section')" class="structure-tree__insert-menu">
+          <div v-if="localOrder.length" class="structure-tree__section-insert structure-tree__section-insert--tail">
+            <div
+              class="structure-tree__section-insert-line"
+              :class="{
+                'structure-tree__section-insert-line--menu-open': isInsertMenuOpen(
+                  'section',
+                  '',
+                  localOrder.length
+                )
+              }"
+              @click="toggleInsertMenu('section', '', localOrder.length)"
+            >
+              <button
+                type="button"
+                class="structure-tree__section-insert-btn"
+                @click.stop="toggleInsertMenu('section', '', localOrder.length)"
+              >
+                <i class="el-icon-plus" />
+                <span>{{ $t('decorationeditor.addSection') }}</span>
+              </button>
+            </div>
+            <div
+              v-if="isInsertMenuOpen('section', '', localOrder.length)"
+              class="structure-tree__insert-menu structure-tree__insert-menu--section-gap"
+            >
               <button
                 v-for="item in sectionPickerItems"
                 :key="item.key"
@@ -254,9 +334,6 @@
         </div>
 
         <div class="structure-group">
-          <div class="decoration-editor-list-header">
-            <span>{{ $t('decorationeditor.globalFooter') }}</span>
-          </div>
           <div class="structure-tree__group">
             <div
               :class="[
@@ -274,9 +351,8 @@
               </button>
               <div class="structure-tree__copy">
                 <div class="structure-tree__title">
-                  {{ $t('decorationeditor.section.footer') }}
+                  {{ $t('decorationeditor.globalFooter') }}
                 </div>
-                <div class="structure-tree__meta">footer</div>
               </div>
             </div>
 
@@ -302,9 +378,6 @@
                 <div class="structure-tree__copy">
                   <div class="structure-tree__title">
                     {{ getBlockLabel(footerSection, blockId) }}
-                  </div>
-                  <div class="structure-tree__meta">
-                    {{ getBlockType(footerSection, blockId) }}
                   </div>
                 </div>
                 <button
@@ -395,7 +468,8 @@ export default {
       },
       openInsertMenu: {
         kind: '',
-        sectionId: ''
+        sectionId: '',
+        insertIndex: null
       }
     }
   },
@@ -459,21 +533,43 @@ export default {
     isExpanded(sectionId) {
       return this.expandedSectionIds.includes(sectionId)
     },
-    isInsertMenuOpen(kind, sectionId = '') {
-      return this.openInsertMenu.kind === kind && this.openInsertMenu.sectionId === sectionId
+    isInsertMenuOpen(kind, sectionId = '', insertIndex = null) {
+      if (this.openInsertMenu.kind !== kind) return false
+      if (kind === 'block') {
+        return this.openInsertMenu.sectionId === sectionId
+      }
+      if (kind === 'section') {
+        return this.openInsertMenu.insertIndex === insertIndex
+      }
+      return false
     },
-    toggleInsertMenu(kind, sectionId = '') {
-      if (this.isInsertMenuOpen(kind, sectionId)) {
-        this.openInsertMenu = { kind: '', sectionId: '' }
+    toggleInsertMenu(kind, sectionId = '', insertIndex = undefined) {
+      if (kind === 'block') {
+        if (this.isInsertMenuOpen('block', sectionId)) {
+          this.openInsertMenu = { kind: '', sectionId: '', insertIndex: null }
+          return
+        }
+        this.openInsertMenu = { kind: 'block', sectionId, insertIndex: null }
         return
       }
-      this.openInsertMenu = { kind, sectionId }
+      if (kind === 'section') {
+        const idx = typeof insertIndex === 'number' ? insertIndex : this.localOrder.length
+        if (this.isInsertMenuOpen('section', '', idx)) {
+          this.openInsertMenu = { kind: '', sectionId: '', insertIndex: null }
+          return
+        }
+        this.openInsertMenu = { kind: 'section', sectionId: '', insertIndex: idx }
+      }
     },
     closeInsertMenu() {
-      this.openInsertMenu = { kind: '', sectionId: '' }
+      this.openInsertMenu = { kind: '', sectionId: '', insertIndex: null }
     },
     selectSectionType(type) {
-      this.$emit('add-section', type)
+      const idx = this.openInsertMenu.insertIndex
+      this.$emit('add-section', {
+        type,
+        index: typeof idx === 'number' ? idx : undefined
+      })
       this.closeInsertMenu()
     },
     selectBlockType(sectionId, blockType) {
@@ -503,9 +599,6 @@ export default {
         block.settings?.title ||
         this.$t(definition?.titleKey || 'decorationeditor.block.item')
       )
-    },
-    getBlockType(section, blockId) {
-      return section?.blocks?.[blockId]?.type || ''
     },
     handleOrderChange() {
       this.$emit('reorder-sections', this.localOrder.slice())
@@ -542,6 +635,109 @@ export default {
 
 .structure-group + .structure-group {
   margin-top: 14px;
+}
+
+.structure-tree__sections-draggable {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.structure-tree__page-section-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.structure-tree__section-insert {
+  position: relative;
+  margin: 4px 0 2px;
+}
+
+.structure-tree__section-insert--empty {
+  margin-bottom: 8px;
+}
+
+.structure-tree__section-insert--tail {
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+
+.structure-tree__section-insert-line {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 2px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    height: 0;
+    border-top: 1px dashed rgba(37, 99, 235, 0.35);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease, border-color 0.15s ease;
+  }
+
+  &:hover,
+  &:focus-within,
+  &--menu-open {
+    background: rgba(37, 99, 235, 0.06);
+
+    &::before {
+      opacity: 1;
+      border-top-color: rgba(37, 99, 235, 0.55);
+    }
+
+    .structure-tree__section-insert-btn {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+  }
+}
+
+.structure-tree__section-insert-btn {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+  opacity: 0;
+  transform: scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+
+  i {
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  &:hover {
+    background: #1d4ed8;
+  }
+}
+
+.structure-tree__insert-menu--section-gap {
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 200px;
 }
 
 .structure-tree__group + .structure-tree__group {
@@ -677,12 +873,6 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-.structure-tree__meta {
-  margin-top: 1px;
-  font-size: 11px;
-  color: var(--text-sub);
 }
 
 .structure-tree__actions {
