@@ -1,630 +1,451 @@
 <template>
-  <SpPage>
-    <div slot="page-header" class="page-header">
-      <el-button type="primary" size="small" @click="openCreateDialog">{{ $t('2a2a72e5.87da21') }}</el-button>
-      <el-button size="small" @click="fetchTasks">{{ $t('2a2a72e5.694fc5') }}</el-button>
-    </div>
-
-    <!-- 任务列表 -->
-    <el-table v-loading="loading" :data="tasks" border style="width: 100%">
-      <el-table-column prop="task_id" :label="$t('2a2a72e5.3a3778')" width="80" />
-      <el-table-column :label="$t('2a2a72e5.5ebda1')" width="140">
-        <template slot-scope="{ row }">{{ getTypeLabel(row.task_type) }}</template>
-      </el-table-column>
-      <el-table-column :label="$t('2a2a72e5.3fea7c')" width="100">
-        <template slot-scope="{ row }">
-          <el-tag :type="statusTagType(row.status)" size="small">{{ getStatusLabel(row.status) }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('2a2a72e5.129d05')" width="110">
-        <template slot-scope="{ row }">{{ langLabels[row.target_language] || row.target_language }}</template>
-      </el-table-column>
-      <el-table-column :label="$t('2a2a72e5.8aa769')" width="160">
-        <template slot-scope="{ row }">
-          <span>{{ $t('2a2a72e5.330363') }}: {{ row.success_count || 0 }}</span>
-          <span style="margin: 0 4px">/</span>
-          <span>{{ $t('2a2a72e5.acd5cb') }}: {{ row.failed_count || 0 }}</span>
-          <span style="margin: 0 4px">/</span>
-          <span>{{ $t('2a2a72e5.599b5a') }}: {{ row.total_count || 0 }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="created_at" :label="$t('2a2a72e5.eca37c')" width="160" />
-      <el-table-column :label="$t('2a2a72e5.2b6bc0')" width="120">
-        <template slot-scope="{ row }">
-          <el-button type="text" size="small" @click="openDetail(row)">{{ $t('2a2a72e5.f26225') }}</el-button>
-          <el-button
-            v-if="row.status === 'failed' || row.status === 'partial'"
-            type="text"
-            size="small"
-            @click="handleRetry(row)"
-          >{{ $t('2a2a72e5.132c5c') }}</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <div style="margin-top: 16px; text-align: right">
-      <el-pagination
-        :current-page="page"
-        :page-size="pageSize"
-        :total="total"
-        layout="total, prev, pager, next"
-        @current-change="(p) => { page = p; fetchTasks() }"
-      />
-    </div>
-
-    <!-- 新增翻译任务弹窗 -->
-    <el-dialog
-      :title="$t('2a2a72e5.87da21')"
-      :visible.sync="createVisible"
-      width="720px"
-      top="6vh"
-      append-to-body
-      @open="onDialogOpen"
-    >
-      <el-form ref="createForm" :model="createForm" :rules="createRules" label-width="120px">
-        <el-form-item :label="$t('2a2a72e5.06d482')" prop="task_type">
-          <el-select
-            v-model="createForm.task_type"
-            :placeholder="$t('2a2a72e5.708c9d')"
-            style="width: 280px"
-            @change="onTaskTypeChange"
-          >
-            <el-option-group
-              v-for="group in taskTypeGroups"
-              :key="group.label"
-              :label="group.label"
-            >
-              <el-option
-                v-for="item in group.types"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-option-group>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item :label="$t('2a2a72e5.129d05')" prop="target_languages" :rules="[{ type: 'array', required: true, message: $t('2a2a72e5.c91ca0'), trigger: 'change' }]">
-          <el-checkbox-group v-model="createForm.target_languages">
-            <el-checkbox
-              v-for="(label, code) in langLabels"
-              :key="code"
-              :label="code"
-            >
-              {{ label }}
-            </el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-
-        <!-- 数据选择区域 -->
-        <el-form-item v-if="createForm.task_type" :label="$t('2a2a72e5.1d1629')">
-          <div class="selector-wrapper">
-            <div v-if="selectorLoading" style="padding: 20px; text-align: center">
-              <i class="el-icon-loading" />
-            </div>
-            <template v-else>
-              <el-table
-                ref="selectorTable"
-                :data="selectorData"
-                border
-                size="small"
-                :row-key="currentConfig && currentConfig.rowKey || 'id'"
-                :lazy="currentConfig && currentConfig.isTree"
-                :load="currentConfig && currentConfig.isTree ? loadCategoryChildren : undefined"
-                :tree-props="currentConfig && currentConfig.isTree ? { children: 'children', hasChildren: 'has_children' } : undefined"
-                style="width: 100%"
-                @selection-change="onSelectionChange"
-              >
-                <el-table-column type="selection" width="45" :reserve-selection="true" />
-                <el-table-column
-                  :label="'ID'"
-                  :width="currentConfig && currentConfig.isTree ? 140 : 90"
-                >
-                  <template slot-scope="{ row }">{{ row[currentConfig && currentConfig.rowKey || 'id'] }}</template>
-                </el-table-column>
-                <el-table-column :label="getNameColumnLabel()">
-                  <template slot-scope="{ row }">{{ getRowName(row) }}</template>
-                </el-table-column>
-                <el-table-column v-if="showTypeColumn" :label="$t('2a2a72e5.226b09')" width="120">
-                  <template slot-scope="{ row }">{{ getMarketingTypeLabel(row.marketing_type) }}</template>
-                </el-table-column>
-              </el-table>
-
-              <div v-if="currentConfig && !currentConfig.isTree" style="margin-top: 8px; text-align: right">
-                <el-pagination
-                  :current-page="selectorPage"
-                  :page-size="selectorPageSize"
-                  :total="selectorTotal"
-                  layout="total, prev, pager, next"
-                  small
-                  @current-change="onSelectorPageChange"
-                />
-              </div>
-
-              <div style="margin-top: 8px; color: #909399; font-size: 12px">
-                {{ $t('2a2a72e5.7bf54e') }} {{ selectedIds.length }} {{ $t('2a2a72e5.f932ef') }}
-              </div>
-            </template>
-          </div>
-        </el-form-item>
-      </el-form>
-
-      <span slot="footer">
-        <el-button @click="createVisible = false">{{ $t('2a2a72e5.625fb2') }}</el-button>
-        <el-button
-          type="primary"
-          :loading="submitting"
-          :disabled="selectedIds.length === 0 || createForm.target_languages.length === 0"
-          @click="handleCreateTask"
-        >{{ $t('2a2a72e5.f5f585') }}</el-button>
-      </span>
-    </el-dialog>
-
-    <!-- 任务详情弹窗 -->
-    <el-dialog
-      :title="$t('2a2a72e5.4a98bf')"
-      :visible.sync="detailVisible"
-      width="560px"
-      append-to-body
-    >
-      <div v-if="detailTask">
-        <el-descriptions :column="2" border size="small">
-          <el-descriptions-item :label="$t('2a2a72e5.3a3778')">{{ detailTask.task_id }}</el-descriptions-item>
-          <el-descriptions-item :label="$t('2a2a72e5.5ebda1')">{{ getTypeLabel(detailTask.task_type) }}</el-descriptions-item>
-          <el-descriptions-item :label="$t('2a2a72e5.3fea7c')">
-            <el-tag :type="statusTagType(detailTask.status)" size="small">{{ getStatusLabel(detailTask.status) }}</el-tag>
-          </el-descriptions-item>
-          <el-descriptions-item :label="$t('2a2a72e5.129d05')">{{ langLabels[detailTask.target_language] || detailTask.target_language }}</el-descriptions-item>
-          <el-descriptions-item :label="$t('2a2a72e5.330363')">{{ detailTask.success_count || 0 }}</el-descriptions-item>
-          <el-descriptions-item :label="$t('2a2a72e5.acd5cb')">{{ detailTask.failed_count || 0 }}</el-descriptions-item>
-          <el-descriptions-item :label="$t('2a2a72e5.599b5a')">{{ detailTask.total_count || 0 }}</el-descriptions-item>
-          <el-descriptions-item :label="$t('2a2a72e5.eca37c')">{{ detailTask.created_at }}</el-descriptions-item>
-          <el-descriptions-item v-if="detailTask.error_message" :label="$t('2a2a72e5.4604d5')" :span="2">
-            <span style="color: #F56C6C">{{ detailTask.error_message }}</span>
-          </el-descriptions-item>
-        </el-descriptions>
+  <SpPage v-loading="loading">
+    <div class="agent-center">
+      <div class="header-bar">
+        <h2 class="page-title">应用市场</h2>
+        <div class="toolbar">
+          <el-input
+            v-model.trim="searchKeyword"
+            clearable
+            placeholder="搜索应用"
+            class="search-input"
+          />
+          <el-button @click="walletDialogVisible = true">钱包</el-button>
+          <el-button type="primary" @click="loadData">刷新</el-button>
+        </div>
       </div>
-    </el-dialog>
+
+      <el-alert
+        v-if="walletNotice"
+        :title="walletNotice"
+        type="info"
+        :closable="false"
+        show-icon
+        class="wallet-notice"
+      />
+
+      <el-row :gutter="16" class="app-grid">
+        <el-col v-for="row in filteredApplications" :key="row.app_id" :xs="24" :sm="12" :md="8" :lg="6">
+          <el-card shadow="hover" class="app-card">
+            <div class="app-icon-box">
+              <span>{{ getAppInitial(row) }}</span>
+            </div>
+            <div class="app-title">{{ row.app_name || row.app_id }}</div>
+            <div class="app-desc">{{ row.description || '暂无描述' }}</div>
+            <div class="app-meta">业务标识：{{ row.business_key || '-' }}</div>
+            <div class="app-meta">类型：{{ row.interaction_type || row.app_type || '-' }}</div>
+            <div class="app-status-row">
+              <span class="app-meta">应用状态：</span>
+              <el-tag size="small" :type="getStatusTagType(row)">
+                {{ getStatusLabel(row) }}
+              </el-tag>
+            </div>
+            <div class="app-tags">
+              <el-tag size="small" type="success">{{ getPricingLabel(row) }}</el-tag>
+              <el-tag size="small" :type="row.integrated ? 'success' : 'info'">
+                {{ row.integrated ? '已接入' : '未接入' }}
+              </el-tag>
+              <span class="app-category">{{ row.category || '未分类' }}</span>
+            </div>
+            <div class="app-actions">
+              <el-button type="primary" size="small" :disabled="!canApply(row)" @click="apply(row)">
+                {{ getApplyButtonLabel(row) }}
+              </el-button>
+              <el-button size="small" @click="openUsageDialog(row)">查看用量</el-button>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+
+      <el-dialog title="钱包" :visible.sync="walletDialogVisible" width="900px" destroy-on-close>
+        <el-row :gutter="12">
+          <el-col :span="8">
+            <el-card shadow="never">
+              <div class="wallet-kv-label">赠送 Token</div>
+              <div class="wallet-kv-value">{{ wallet.balance.gift_tokens || 0 }}</div>
+            </el-card>
+          </el-col>
+          <el-col :span="8">
+            <el-card shadow="never">
+              <div class="wallet-kv-label">现金余额</div>
+              <div class="wallet-kv-value">¥ {{ wallet.balance.cash_balance || 0 }}</div>
+            </el-card>
+          </el-col>
+          <el-col :span="8">
+            <el-card shadow="never">
+              <div class="wallet-kv-label">欠费</div>
+              <div class="wallet-kv-value">¥ {{ wallet.balance.arrears || 0 }}</div>
+            </el-card>
+          </el-col>
+        </el-row>
+        <el-alert
+          v-if="walletNotice"
+          style="margin-top: 12px"
+          :title="walletNotice"
+          type="info"
+          :closable="false"
+          show-icon
+        />
+        <div class="wallet-recent-title">最近交易</div>
+        <el-table :data="wallet.transactions || []" stripe style="margin-top: 8px">
+          <el-table-column prop="created_at" label="时间" min-width="180" />
+          <el-table-column prop="txn_type" label="类型" width="140" />
+          <el-table-column label="金额" min-width="160">
+            <template #default="{ row }">
+              <span>¥ {{ row.amount_cash || 0 }}</span>
+              <span v-if="row.amount_token"> / {{ row.amount_token }} tokens</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="description" label="描述" min-width="200" />
+        </el-table>
+      </el-dialog>
+
+      <el-dialog
+        title="应用用量"
+        :visible.sync="usageDialogVisible"
+        width="900px"
+        destroy-on-close
+      >
+        <div class="usage-toolbar">
+          <div class="usage-app-title">
+            {{ usageContext.app_name }} ({{ usageContext.app_id }})
+          </div>
+          <el-button type="primary" size="small" :loading="usageLoading" @click="loadUsage">刷新用量</el-button>
+        </div>
+
+        <el-row :gutter="12" style="margin-top: 12px">
+          <el-col :span="6">
+            <el-card shadow="never" class="summary-card">
+              <div class="summary-label">总请求</div>
+              <div class="summary-value">{{ usageSummary.total_requests || 0 }}</div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card shadow="never" class="summary-card">
+              <div class="summary-label">成功</div>
+              <div class="summary-value summary-success">{{ usageSummary.success_count || 0 }}</div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card shadow="never" class="summary-card">
+              <div class="summary-label">失败</div>
+              <div class="summary-value summary-error">{{ usageSummary.error_count || 0 }}</div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card shadow="never" class="summary-card">
+              <div class="summary-label">成功率</div>
+              <div class="summary-value">{{ usageSummary.success_rate || 0 }}%</div>
+            </el-card>
+          </el-col>
+        </el-row>
+        <el-row :gutter="12" style="margin-top: 12px">
+          <el-col :span="8">
+            <el-card shadow="never" class="summary-card">
+              <div class="summary-label">Token 消耗</div>
+              <div class="summary-value">{{ usageSummary.total_tokens || 0 }}</div>
+            </el-card>
+          </el-col>
+          <el-col :span="8">
+            <el-card shadow="never" class="summary-card">
+              <div class="summary-label">平均响应</div>
+              <div class="summary-value">{{ usageSummary.avg_response_time || 0 }} ms</div>
+            </el-card>
+          </el-col>
+          <el-col :span="8">
+            <el-card shadow="never" class="summary-card">
+              <div class="summary-label">费用</div>
+              <div class="summary-value">¥ {{ usageSummary.total_cost || 0 }}</div>
+            </el-card>
+          </el-col>
+        </el-row>
+
+        <div style="margin-top: 16px; font-weight: 600">每日明细</div>
+        <el-table v-loading="usageLoading" :data="usageTimeSeries" stripe style="margin-top: 8px" size="small">
+          <el-table-column prop="period" label="日期" min-width="120" />
+          <el-table-column prop="request_count" label="请求数" width="90" align="center" />
+          <el-table-column prop="success_count" label="成功" width="80" align="center" />
+          <el-table-column prop="error_count" label="失败" width="80" align="center" />
+          <el-table-column label="成功率" width="90" align="center">
+            <template #default="{ row }">{{ row.success_rate }}%</template>
+          </el-table-column>
+          <el-table-column prop="total_tokens" label="Token" width="100" align="center" />
+          <el-table-column label="平均响应" width="110" align="center">
+            <template #default="{ row }">{{ row.avg_response_time }} ms</template>
+          </el-table-column>
+          <el-table-column label="费用" width="100" align="center">
+            <template #default="{ row }">¥ {{ row.total_cost }}</template>
+          </el-table-column>
+        </el-table>
+      </el-dialog>
+    </div>
   </SpPage>
 </template>
 
 <script>
-import { getTranslateTasks, createTranslateTask, getTranslateTask, retryTranslateTask } from '@/api/translation'
-import { getItemsList, getCategory, getTagList, getGoodsAttr } from '@/api/goods'
-import { getCardList } from '@/api/cardticket'
-import { getMarketingActivityList, seckillActivityGetList } from '@/api/promotions'
-import { getDistributorCategory } from '@/api/distributor'
-import { getDistributorList } from '@/api/marketing'
-import { LANGUAGES, getCurrentCountryCode } from '@/i18n/index'
-
 export default {
-  name: 'TranslateTasks',
+  name: 'ShopexAgentCenter',
   data() {
     return {
       loading: false,
-      tasks: [],
-      page: 1,
-      pageSize: 20,
-      total: 0,
-
-      createVisible: false,
-      submitting: false,
-      createForm: {
-        task_type: '',
-        target_languages: []
+      applications: [],
+      wallet: {
+        balance: {},
+        transactions: []
       },
-      createRules: {
-        task_type: [{ required: true, message: this.$t('2a2a72e5.cc4436'), trigger: 'change' }]
+      walletNotice: '',
+      usageDialogVisible: false,
+      walletDialogVisible: false,
+      usageLoading: false,
+      usageContext: {
+        app_name: '',
+        app_id: '',
+        business_key: ''
       },
-
-      selectorLoading: false,
-      selectorData: [],
-      selectorPage: 1,
-      selectorPageSize: 10,
-      selectorTotal: 0,
-      selectedIds: [],
-
-      detailVisible: false,
-      detailTask: null
+      searchKeyword: '',
+      usageSummary: {},
+      usageTimeSeries: []
     }
   },
   computed: {
-    langLabels() {
-      const currentCode = getCurrentCountryCode()
-      const labels = {}
-      Object.values(LANGUAGES).forEach((cfg) => {
-        if (cfg.countryCode !== currentCode) {
-          labels[cfg.countryCode] = cfg.label
-        }
+    filteredApplications() {
+      const keyword = (this.searchKeyword || '').toLowerCase()
+      if (!keyword) return this.applications
+      return this.applications.filter((row) => {
+        const text = [row.app_name, row.app_id, row.description, row.business_key]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase()
+        return text.includes(keyword)
       })
-      return labels
-    },
-    taskTypeGroups() {
-      return [
-        {
-          label: this.$t('2a2a72e5.9897d8'),
-          types: [
-            { value: 'goods.items', label: this.$t('2a2a72e5.a02e2a') },
-            { value: 'goods.category.management', label: this.$t('2a2a72e5.b3ed9f') },
-            { value: 'goods.category.sale', label: this.$t('2a2a72e5.392d49') },
-            { value: 'goods.tag', label: this.$t('2a2a72e5.0f394b') },
-            { value: 'goods.brand', label: this.$t('2a2a72e5.ef6fc3') },
-            { value: 'goods.params', label: this.$t('2a2a72e5.8686bb') },
-            { value: 'goods.spec', label: this.$t('2a2a72e5.5fceb3') }
-          ]
-        },
-        {
-          label: this.$t('2a2a72e5.0f5629'),
-          types: [
-            { value: 'shop.category', label: this.$t('2a2a72e5.0f5629') },
-            { value: 'shop.info', label: this.$t('2a2a72e5.ddda9e') }
-          ]
-        },
-        {
-          label: this.$t('2a2a72e5.2f3635'),
-          types: [
-            { value: 'marketing.coupon', label: this.$t('2a2a72e5.2f3635') }
-          ]
-        },
-        {
-          label: this.$t('2a2a72e5.252caa'),
-          types: [
-            { value: 'marketing.fulldiscount', label: this.$t('2a2a72e5.1c120b') },
-            { value: 'marketing.fullminus', label: this.$t('2a2a72e5.94b1fd') },
-            { value: 'marketing.fullgift', label: this.$t('2a2a72e5.8e2405') },
-            { value: 'marketing.pluspricebuy', label: this.$t('2a2a72e5.54e654') },
-            { value: 'marketing.seckill', label: this.$t('2a2a72e5.a0aaca') },
-            { value: 'marketing.package', label: this.$t('2a2a72e5.3e9a00') }
-          ]
-        }
-      ]
-    },
-    taskTypeLabels() {
-      const map = {}
-      this.taskTypeGroups.forEach((g) => {
-        g.types.forEach((t) => {
-          map[t.value] = t.label
-        })
-      })
-      return map
-    },
-    currentConfig() {
-      return this.getTypeConfig(this.createForm.task_type)
-    },
-    showTypeColumn() {
-      return ['marketing.fulldiscount', 'marketing.fullminus', 'marketing.fullgift', 'marketing.pluspricebuy'].includes(
-        this.createForm.task_type
-      )
     }
   },
-  created() {
-    this.fetchTasks()
+  mounted() {
+    this.loadData()
   },
   methods: {
-    getTypeConfig(taskType) {
-      const marketingTypeMap = {
-        'marketing.fulldiscount': 'full_discount',
-        'marketing.fullminus': 'full_minus',
-        'marketing.fullgift': 'full_gift',
-        'marketing.pluspricebuy': 'plus_price_buy'
-      }
-      const configs = {
-        'goods.items': {
-          rowKey: 'item_id',
-          nameField: 'item_name',
-          fetch: (p) => getItemsList({ page: p.page, pageSize: p.pageSize, item_type: 'normal' })
-        },
-        'goods.category.management': {
-          rowKey: 'category_id',
-          nameField: 'category_name',
-          isTree: true,
-          fetchLevel: (parentId) =>
-            getCategory({ parent_id: parentId !== undefined ? parentId : 0, is_main_category: true })
-        },
-        'goods.category.sale': {
-          rowKey: 'category_id',
-          nameField: 'category_name',
-          isTree: true,
-          fetchLevel: (parentId) =>
-            getCategory({ parent_id: parentId !== undefined ? parentId : 0 })
-        },
-        'goods.tag': {
-          rowKey: 'tag_id',
-          nameField: 'tag_name',
-          fetch: (p) => getTagList({ page: p.page, pageSize: p.pageSize })
-        },
-        'goods.brand': {
-          rowKey: 'attribute_id',
-          nameField: 'attribute_name',
-          fetch: (p) => getGoodsAttr({ page: p.page, pageSize: p.pageSize, attribute_type: 'brand' })
-        },
-        'goods.params': {
-          rowKey: 'attribute_id',
-          nameField: 'attribute_name',
-          fetch: (p) => getGoodsAttr({ page: p.page, pageSize: p.pageSize, attribute_type: 'item_params' })
-        },
-        'goods.spec': {
-          rowKey: 'attribute_id',
-          nameField: 'attribute_name',
-          fetch: (p) => getGoodsAttr({ page: p.page, pageSize: p.pageSize, attribute_type: 'item_spec' })
-        },
-        'shop.category': {
-          rowKey: 'category_id',
-          nameField: 'category_name',
-          fetch: (p) => getDistributorCategory({ page: p.page, pageSize: p.pageSize })
-        },
-        'shop.info': {
-          rowKey: 'distributor_id',
-          nameField: 'name',
-          fetch: (p) => getDistributorList({ page: p.page, pageSize: p.pageSize })
-        },
-        'marketing.coupon': {
-          rowKey: 'card_id',
-          nameField: 'title',
-          fetch: (p) => getCardList({ page: p.page, pageSize: p.pageSize })
-        },
-        'marketing.seckill': {
-          rowKey: 'seckill_id',
-          nameField: 'activity_name',
-          fetch: (p) => seckillActivityGetList({ page: p.page, pageSize: p.pageSize })
-        },
-        'marketing.package': {
-          rowKey: 'package_id',
-          nameField: 'package_name',
-          fetch: (p) => getMarketingActivityList({ page: p.page, pageSize: p.pageSize, marketing_type: 'package' })
-        }
-      }
-      if (marketingTypeMap[taskType]) {
-        configs[taskType] = {
-          rowKey: 'marketing_id',
-          nameField: 'marketing_name',
-          fetch: (p) =>
-            getMarketingActivityList({
-              page: p.page,
-              pageSize: p.pageSize,
-              marketing_type: marketingTypeMap[taskType]
-            })
-        }
-      }
-      return configs[taskType] || null
-    },
-
-    actualTaskType(frontendType) {
-      const map = {
-        'goods.category.management': 'goods.category',
-        'goods.category.sale': 'goods.category',
-        'marketing.fulldiscount': 'marketing.promotion',
-        'marketing.fullminus': 'marketing.promotion',
-        'marketing.fullgift': 'marketing.promotion',
-        'marketing.pluspricebuy': 'marketing.promotion'
-      }
-      return map[frontendType] || frontendType
-    },
-
-    async fetchTasks() {
+    async loadData() {
       this.loading = true
       try {
-        const res = await getTranslateTasks({ page: this.page, pageSize: this.pageSize })
-        const data = res.data.data || {}
-        this.tasks = data.items || data.list || []
-        this.total = data.total_count || data.total || 0
+        const [apps, wallet] = await Promise.all([
+          this.$api.shopexAgent.getShopexAgentApplications({ page: 1, page_size: 100 }),
+          this.$api.shopexAgent.getShopexAgentWallet({ page: 1, page_size: 20 })
+        ])
+        this.applications = apps.items || []
+        this.wallet = wallet || { balance: {}, transactions: [] }
+        this.walletNotice = wallet.recharge_notice || '当前暂不支持在线充值，请联系商务'
       } catch (e) {
-        this.$message.error(e.message || '获取任务列表失败')
+        this.$message.error(e.message || '数据加载失败')
       } finally {
         this.loading = false
       }
     },
-
-    openCreateDialog() {
-      this.createForm = { task_type: '', target_languages: [] }
-      this.selectorData = []
-      this.selectedIds = []
-      this.selectorPage = 1
-      this.selectorTotal = 0
-      this.createVisible = true
+    canApply(row) {
+      if (!row.integrated) return false
+      return ['none', 'failed'].includes(row.status)
     },
-
-    onDialogOpen() {
-      if (this.$refs.selectorTable) {
-        this.$refs.selectorTable.clearSelection()
-      }
-    },
-
-    onTaskTypeChange() {
-      this.selectorData = []
-      this.selectedIds = []
-      this.selectorPage = 1
-      this.selectorTotal = 0
-      if (this.$refs.selectorTable) {
-        this.$refs.selectorTable.clearSelection()
-      }
-      this.loadSelectorData()
-    },
-
-    async loadSelectorData() {
-      const cfg = this.currentConfig
-      if (!cfg) return
-      this.selectorLoading = true
-      try {
-        if (cfg.isTree) {
-          const res = await cfg.fetchLevel(0)
-          const data = res.data.data || {}
-          this.selectorData = (data.items || data.list || data || []).map((item) => ({
-            ...item,
-            has_children: item.has_children === '1' || item.has_children === true
-          }))
-          this.selectorTotal = 0
-        } else {
-          const res = await cfg.fetch({ page: this.selectorPage, pageSize: this.selectorPageSize })
-          const data = res.data.data || {}
-          this.selectorData = data.items || data.list || []
-          this.selectorTotal = data.total_count || data.total || 0
-        }
-      } catch (e) {
-        this.$message.error(e.message || '获取数据失败')
-      } finally {
-        this.selectorLoading = false
-      }
-    },
-
-    async loadCategoryChildren(row, treeNode, resolve) {
-      const cfg = this.currentConfig
-      if (!cfg || !cfg.fetchLevel) {
-        resolve([])
-        return
-      }
-      try {
-        const res = await cfg.fetchLevel(row[cfg.rowKey])
-        const data = res.data.data || {}
-        const children = (data.items || data.list || data || []).map((item) => ({
-          ...item,
-          has_children: item.has_children === '1' || item.has_children === true
-        }))
-        resolve(children)
-      } catch (e) {
-        resolve([])
-      }
-    },
-
-    async onSelectorPageChange(p) {
-      this.selectorPage = p
-      await this.loadSelectorData()
-    },
-
-    onSelectionChange(rows) {
-      const cfg = this.currentConfig
-      if (!cfg) return
-      this.selectedIds = rows.map((r) => r[cfg.rowKey])
-    },
-
-    getRowName(row) {
-      const cfg = this.currentConfig
-      if (!cfg) return ''
-      return row[cfg.nameField] || ''
-    },
-
-    getNameColumnLabel() {
-      const typeNameMap = {
-        'goods.items': '商品名称',
-        'goods.category.management': '分类名称',
-        'goods.category.sale': '分类名称',
-        'goods.tag': '标签名',
-        'goods.brand': '品牌名',
-        'goods.params': '参数名',
-        'goods.spec': '规格名',
-        'shop.category': '分类名称',
-        'shop.info': '店铺名称',
-        'marketing.coupon': '优惠券名称',
-        'marketing.seckill': '活动名称',
-        'marketing.package': '套餐名称',
-        'marketing.fulldiscount': this.$t('2a2a72e5.39834b'),
-        'marketing.fullminus': this.$t('2a2a72e5.39834b'),
-        'marketing.fullgift': this.$t('2a2a72e5.39834b'),
-        'marketing.pluspricebuy': this.$t('2a2a72e5.39834b')
-      }
-      return typeNameMap[this.createForm.task_type] || '名称'
-    },
-
-    getMarketingTypeLabel(type) {
+    getStatusLabel(row) {
+      const status = (row.status || '').toLowerCase()
       const map = {
-        full_discount: this.$t('2a2a72e5.1c120b'),
-        full_minus: this.$t('2a2a72e5.94b1fd'),
-        full_gift: this.$t('2a2a72e5.8e2405'),
-        plus_price_buy: this.$t('2a2a72e5.54e654')
+        none: '未开通',
+        pending: '申请审核中',
+        processing: '应用开通中',
+        active: '已开通',
+        approved: '已通过',
+        failed: '开通失败',
+        rejected: '已拒绝'
       }
-      return map[type] || type
+      return row.status_text || map[status] || '未知状态'
     },
-
-    async handleCreateTask() {
-      if (this.selectedIds.length === 0) {
-        this.$message.warning(this.$t('2a2a72e5.914235'))
+    getStatusTagType(row) {
+      const status = (row.status || '').toLowerCase()
+      if (status === 'active' || status === 'approved') return 'success'
+      if (status === 'pending' || status === 'processing') return 'warning'
+      if (status === 'failed' || status === 'rejected') return 'danger'
+      return 'info'
+    },
+    getApplyButtonLabel(row) {
+      const status = (row.status || '').toLowerCase()
+      if (!row.integrated) return '未接入'
+      if (status === 'active') return '已开通'
+      if (status === 'approved') return '已通过'
+      if (status === 'pending' || status === 'processing') return '审核中'
+      if (status === 'failed') return '重新申请'
+      if (status === 'rejected') return '已拒绝'
+      return '申请应用'
+    },
+    getAppInitial(row) {
+      const name = (row.app_name || row.app_id || 'A').trim()
+      return name ? name[0] : 'A'
+    },
+    getPricingLabel(row) {
+      const pricing = (row.pricing_model || '').toLowerCase()
+      return pricing === 'pay_as_you_go' || pricing === 'subscription' ? '付费' : '免费'
+    },
+    async apply(row) {
+      if (!row.integrated) {
+        this.$message.warning('未接入平台')
         return
       }
-      if (this.createForm.target_languages.length === 0) {
-        this.$message.warning(this.$t('2a2a72e5.c91ca0'))
-        return
-      }
-      this.submitting = true
       try {
-        const res = await createTranslateTask({
-          task_type: this.actualTaskType(this.createForm.task_type),
-          target_languages: this.createForm.target_languages,
-          data_ids: this.selectedIds
+        await this.$api.shopexAgent.applyShopexAgentApplication({
+          business_key: row.business_key,
+          app_id: row.app_id
         })
-        const taskId = res.data.data && res.data.data.task_id
-        this.$message.success(this.$t('2a2a72e5.5d9c5e') + taskId)
-        this.createVisible = false
-        this.fetchTasks()
+        this.$message.success('申请已提交')
+        await this.loadData()
       } catch (e) {
-        this.$message.error(this.$t('2a2a72e5.3d6b61') + (e.message || ''))
+        this.$message.error(e.message || '开通失败')
+      }
+    },
+    async openUsageDialog(row) {
+      this.usageContext = {
+        app_name: row.app_name,
+        app_id: row.app_id,
+        business_key: row.business_key
+      }
+      this.usageDialogVisible = true
+      await this.loadUsage()
+    },
+    async loadUsage() {
+      if (!this.usageContext.app_id) return
+      this.usageLoading = true
+      try {
+        const data = await this.$api.shopexAgent.getShopexAgentUsage({
+          app_id: this.usageContext.app_id
+        })
+        this.usageSummary = data.summary || {}
+        this.usageTimeSeries = data.time_series || []
+      } catch (e) {
+        this.$message.error(e.message || '加载用量失败')
       } finally {
-        this.submitting = false
+        this.usageLoading = false
       }
-    },
-
-    async openDetail(row) {
-      try {
-        const res = await getTranslateTask(row.task_id)
-        this.detailTask = res.data.data || row
-        this.detailVisible = true
-      } catch (e) {
-        this.$message.error(this.$t('2a2a72e5.181421'))
-        this.detailTask = row
-        this.detailVisible = true
-      }
-    },
-
-    async handleRetry(row) {
-      try {
-        await this.$confirm(this.$t('2a2a72e5.d84b07'), this.$t('2a2a72e5.e83a25'), { type: 'warning' })
-        await retryTranslateTask(row.task_id)
-        this.$message.success(this.$t('2a2a72e5.bcbe11'))
-        this.fetchTasks()
-      } catch (e) {
-        if (e !== 'cancel') {
-          this.$message.error(this.$t('2a2a72e5.c0ab61') + (e.message || ''))
-        }
-      }
-    },
-
-    getTypeLabel(taskType) {
-      return this.taskTypeLabels[taskType] || taskType
-    },
-
-    getStatusLabel(status) {
-      const map = {
-        pending: this.$t('2a2a72e5.65dd9e'),
-        processing: this.$t('2a2a72e5.46e386'),
-        completed: this.$t('2a2a72e5.fad522'),
-        failed: this.$t('2a2a72e5.acd5cb'),
-        partial: this.$t('2a2a72e5.983b68')
-      }
-      return map[status] || status
-    },
-
-    statusTagType(status) {
-      const map = {
-        pending: 'info',
-        processing: '',
-        completed: 'success',
-        failed: 'danger',
-        partial: 'warning'
-      }
-      return map[status] || 'info'
     }
   }
 }
 </script>
 
 <style scoped>
-.page-header {
-  padding: 12px 0;
+.agent-center {
+  padding: 16px;
 }
-.selector-wrapper {
-  border: 1px solid #e4e7ed;
-  border-radius: 4px;
-  padding: 12px;
-  max-height: 420px;
-  overflow-y: auto;
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.search-input {
+  width: 220px;
+}
+.wallet-notice {
+  margin-top: 12px;
+}
+.usage-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.usage-app-title {
+  color: #606266;
+}
+.app-grid {
+  margin-top: 14px;
+}
+.app-card {
+  margin-bottom: 16px;
+  min-height: 265px;
+}
+.app-icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  border: 1px solid #dcdfe6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.app-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+.app-desc {
+  color: #909399;
+  margin-top: 6px;
+  min-height: 36px;
+}
+.app-meta {
+  margin-top: 6px;
+  color: #606266;
+  font-size: 12px;
+}
+.app-status-row {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.app-tags {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.app-category {
+  margin-left: auto;
+  font-size: 12px;
+  color: #909399;
+}
+.app-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+.wallet-kv-label {
+  color: #909399;
+  font-size: 12px;
+}
+.wallet-kv-value {
+  margin-top: 8px;
+  font-size: 24px;
+  font-weight: 600;
+}
+.wallet-recent-title {
+  margin-top: 14px;
+  font-weight: 600;
+}
+.wallet-line {
+  line-height: 28px;
+}
+.summary-card {
+  text-align: center;
+}
+.summary-label {
+  color: #909399;
+  font-size: 12px;
+}
+.summary-value {
+  margin-top: 6px;
+  font-size: 22px;
+  font-weight: 600;
+}
+.summary-success {
+  color: #67c23a;
+}
+.summary-error {
+  color: #f56c6c;
 }
 </style>
