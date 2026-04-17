@@ -19,11 +19,7 @@
       </div>
 
       <div v-else :class="['preview-canvas__stage', `is-${device}`]">
-        <iframe
-          ref="previewFrame"
-          class="preview-canvas__frame"
-          :src="previewUrl"
-        />
+        <iframe ref="previewFrame" class="preview-canvas__frame" :src="previewUrl" />
       </div>
     </div>
   </div>

@@ -148,115 +148,118 @@
               </div>
 
               <div class="structure-tree__group">
-              <div
-                :class="[
-                  'structure-tree__item',
-                  { active: sectionId === selectedSectionId && !selectedBlockId }
-                ]"
-                @click="$emit('select-section', sectionId)"
-              >
-                <button
-                  type="button"
-                  class="structure-tree__toggle"
-                  @click.stop="$emit('toggle-section', sectionId)"
-                >
-                  <i
-                    :class="isExpanded(sectionId) ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"
-                  />
-                </button>
-                <div class="structure-tree__drag">
-                  <i class="el-icon-rank" />
-                </div>
-                <div class="structure-tree__copy">
-                  <div class="structure-tree__title">
-                    {{ getSectionLabel(sectionId) }}
-                  </div>
-                </div>
-                <div class="structure-tree__actions">
-                  <button
-                    type="button"
-                    class="structure-tree__action"
-                    @click.stop="$emit('duplicate-section', sectionId)"
-                  >
-                    <i class="el-icon-document-copy" />
-                  </button>
-                  <button
-                    type="button"
-                    class="structure-tree__action danger"
-                    @click.stop="$emit('remove-section', sectionId)"
-                  >
-                    <i class="el-icon-delete" />
-                  </button>
-                </div>
-              </div>
-
-              <draggable
-                v-if="isExpanded(sectionId) && getBlockOrder(sectionId).length"
-                v-model="localBlockOrders[sectionId]"
-                handle=".structure-tree__block-drag"
-                class="structure-tree__blocks"
-                @change="handleBlockOrderChange(sectionId)"
-              >
                 <div
-                  v-for="blockId in getBlockOrder(sectionId)"
-                  :key="blockId"
                   :class="[
-                    'structure-tree__block',
-                    { active: sectionId === selectedSectionId && selectedBlockId === blockId }
+                    'structure-tree__item',
+                    { active: sectionId === selectedSectionId && !selectedBlockId }
                   ]"
-                  @click="$emit('select-block', { sectionId, blockId })"
+                  @click="$emit('select-section', sectionId)"
                 >
-                  <div class="structure-tree__block-drag">
+                  <button
+                    type="button"
+                    class="structure-tree__toggle"
+                    @click.stop="$emit('toggle-section', sectionId)"
+                  >
+                    <i
+                      :class="isExpanded(sectionId) ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"
+                    />
+                  </button>
+                  <div class="structure-tree__drag">
                     <i class="el-icon-rank" />
                   </div>
                   <div class="structure-tree__copy">
                     <div class="structure-tree__title">
-                      {{ getBlockLabel(dsl.sections[sectionId], blockId) }}
+                      {{ getSectionLabel(sectionId) }}
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    class="structure-tree__action danger"
-                    @click.stop="$emit('remove-block', { sectionId, blockId })"
-                  >
-                    <i class="el-icon-delete" />
-                  </button>
-                </div>
-              </draggable>
-
-              <div v-if="isExpanded(sectionId)">
-                <div class="structure-tree__insert-anchor structure-tree__insert-anchor--nested">
-                  <button
-                    v-if="getBlockPickerItems(getSectionType(sectionId)).length"
-                    type="button"
-                    class="structure-tree__adder structure-tree__adder--nested"
-                    @click="toggleInsertMenu('block', sectionId)"
-                  >
-                    <i class="el-icon-plus" />
-                    <span>{{ $t('decorationeditor.addBlock') }}</span>
-                  </button>
-
-                  <div
-                    v-if="isInsertMenuOpen('block', sectionId)"
-                    class="structure-tree__insert-menu structure-tree__insert-menu--nested"
-                  >
+                  <div class="structure-tree__actions">
                     <button
-                      v-for="item in getBlockPickerItems(getSectionType(sectionId))"
-                      :key="item.key"
                       type="button"
-                      class="structure-tree__insert-item"
-                      @click="selectBlockType(sectionId, item.type)"
+                      class="structure-tree__action"
+                      @click.stop="$emit('duplicate-section', sectionId)"
                     >
-                      {{ $t(item.titleKey) }}
+                      <i class="el-icon-document-copy" />
                     </button>
+                    <button
+                      type="button"
+                      class="structure-tree__action danger"
+                      @click.stop="$emit('remove-section', sectionId)"
+                    >
+                      <i class="el-icon-delete" />
+                    </button>
+                  </div>
+                </div>
+
+                <draggable
+                  v-if="isExpanded(sectionId) && getBlockOrder(sectionId).length"
+                  v-model="localBlockOrders[sectionId]"
+                  handle=".structure-tree__block-drag"
+                  class="structure-tree__blocks"
+                  @change="handleBlockOrderChange(sectionId)"
+                >
+                  <div
+                    v-for="blockId in getBlockOrder(sectionId)"
+                    :key="blockId"
+                    :class="[
+                      'structure-tree__block',
+                      { active: sectionId === selectedSectionId && selectedBlockId === blockId }
+                    ]"
+                    @click="$emit('select-block', { sectionId, blockId })"
+                  >
+                    <div class="structure-tree__block-drag">
+                      <i class="el-icon-rank" />
+                    </div>
+                    <div class="structure-tree__copy">
+                      <div class="structure-tree__title">
+                        {{ getBlockLabel(dsl.sections[sectionId], blockId) }}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      class="structure-tree__action danger"
+                      @click.stop="$emit('remove-block', { sectionId, blockId })"
+                    >
+                      <i class="el-icon-delete" />
+                    </button>
+                  </div>
+                </draggable>
+
+                <div v-if="isExpanded(sectionId)">
+                  <div class="structure-tree__insert-anchor structure-tree__insert-anchor--nested">
+                    <button
+                      v-if="getBlockPickerItems(getSectionType(sectionId)).length"
+                      type="button"
+                      class="structure-tree__adder structure-tree__adder--nested"
+                      @click="toggleInsertMenu('block', sectionId)"
+                    >
+                      <i class="el-icon-plus" />
+                      <span>{{ $t('decorationeditor.addBlock') }}</span>
+                    </button>
+
+                    <div
+                      v-if="isInsertMenuOpen('block', sectionId)"
+                      class="structure-tree__insert-menu structure-tree__insert-menu--nested"
+                    >
+                      <button
+                        v-for="item in getBlockPickerItems(getSectionType(sectionId))"
+                        :key="item.key"
+                        type="button"
+                        class="structure-tree__insert-item"
+                        @click="selectBlockType(sectionId, item.type)"
+                      >
+                        {{ $t(item.titleKey) }}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            </div>
           </draggable>
 
-          <div v-if="!localOrder.length" class="structure-tree__section-insert structure-tree__section-insert--empty">
+          <div
+            v-if="!localOrder.length"
+            class="structure-tree__section-insert structure-tree__section-insert--empty"
+          >
             <div
               class="structure-tree__section-insert-line"
               :class="{
@@ -290,7 +293,10 @@
             </div>
           </div>
 
-          <div v-if="localOrder.length" class="structure-tree__section-insert structure-tree__section-insert--tail">
+          <div
+            v-if="localOrder.length"
+            class="structure-tree__section-insert structure-tree__section-insert--tail"
+          >
             <div
               class="structure-tree__section-insert-line"
               :class="{
