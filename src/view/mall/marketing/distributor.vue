@@ -409,7 +409,7 @@
                 v-model="scope.row.is_default"
                 active-color="#13ce66"
                 inactive-color="#cccccc"
-                :disabled="scope.row.is_default || scope.row.is_valid != 'true' ? true : false"
+                :disabled="scope.row.is_valid != 'true' ? true : false"
                 @change="defaultSwitchChange(scope.row)"
               />
             </el-tooltip>
@@ -1293,19 +1293,28 @@ export default {
       this.downDistributorVal = true
     },
     defaultSwitchChange(row) {
-      var params = {
-        distributor_id: row.distributor_id
-      }
-      setDefaultDistributor(params).then((response) => {
-        if (response.data.data.status) {
-          for (var i = this.list.length - 1; i >= 0; i--) {
-            if (this.list[i].distributor_id != row.distributor_id) {
-              this.list[i].is_default = false
+      if (row.is_default) {
+        var params = {
+          distributor_id: row.distributor_id
+        }
+        setDefaultDistributor(params).then((response) => {
+          if (response.data.data.status) {
+            for (var i = this.list.length - 1; i >= 0; i--) {
+              if (this.list[i].distributor_id != row.distributor_id) {
+                this.list[i].is_default = false
+              }
             }
           }
-        }
-        this.onSearch()
-      })
+          this.onSearch()
+        })
+      } else {
+        saveDistributor({
+          distributor_id: row.distributor_id,
+          is_default: false
+        }).then(() => {
+          this.onSearch()
+        })
+      }
     },
     switchChangeAuditGoods(index, row) {
       var params = {
