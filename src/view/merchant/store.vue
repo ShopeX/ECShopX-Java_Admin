@@ -481,7 +481,8 @@ export default {
             { name: this.$t('027707af.7854b5'), label: 'true' },
             { name: this.$t('027707af.710ad0'), label: 'false' },
             { name: this.$t('027707af.0044f6'), label: 'delete' }
-          ]
+          ],
+          isShow: () => this.distributor_self == 0
         },
         {
           label: this.$t('027707af.0581a1'),
@@ -612,20 +613,22 @@ export default {
         },
         {
           label: this.$t('027707af.93ab28'),
-          type: 'group'
+          type: 'group',
+          isShow: () => this.distributor_self == 0
         },
         {
           label: this.$t('027707af.93ab28'),
           key: 'is_ziti',
           type: 'switch',
           width: 'auto',
-          tip: this.$t('027707af.c3a20c')
+          tip: this.$t('027707af.c3a20c'),
+          isShow: () => this.distributor_self == 0
         },
         {
           label: '',
           width: '1000px',
           component: ({ key }, value) => <DaoDianZiti ref='daoDianZiti' />,
-          isShow: ({ key }, value) => value.is_ziti
+          isShow: ({ key }, value) => this.distributor_self == 0 && value.is_ziti
         },
         {
           label: this.$t('027707af.11b600'),
@@ -719,12 +722,15 @@ export default {
     }
   },
   created() {
-    const { distributor_type } = this.$route.query
+    const { distributor_type, distributor_id } = this.$route.query
     this.pageQuery = new Pages({
       pageSize: 10,
       fetch: this.getMerchantList
     })
     this.distributor_self = distributor_type === 'distributor_self' ? 1 : 0
+    if (distributor_type === 'distributor_self' && !distributor_id) {
+      this.form.is_delivery = true
+    }
     // 当distributor_self为1时，移除地理位置表单项的validator
     if (distributor_type === 'distributor_self') {
       const addressItem = this.formList.find((item) => item.key === 'address')
@@ -1002,6 +1008,9 @@ export default {
       if (!params.distributor_category_id) {
         delete params.distributor_category_id
       }
+      if (this.distributor_self == 1) {
+        params.is_valid = 'true'
+      }
 
       // 处理 show_salesperson 的值
       if (this.form.show_salesperson === 0) {
@@ -1041,7 +1050,7 @@ export default {
           this.submitLoading = false
           this.$message.success(this.$t('027707af.c83614'))
         } else {
-          const ids = this.$refs['daoDianZiti'].finderData.map((item) => item.id)
+          const ids = (this.$refs['daoDianZiti']?.finderData || []).map((item) => item.id)
           await this.$api.marketing.saveDistributorInfo({
             ...params,
             pickup_location: ids
