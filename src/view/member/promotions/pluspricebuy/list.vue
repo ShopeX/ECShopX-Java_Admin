@@ -7,6 +7,25 @@
 .sp-filter-form {
   margin-bottom: 16px;
 }
+.operating-icons {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  white-space: nowrap;
+}
+.pluspricebuy-waiting-actions {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  align-items: center;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.pluspricebuy-waiting-actions > i {
+  cursor: pointer;
+  padding: 4px;
+  font-size: 16px;
+}
 </style>
 
 <template>
@@ -148,16 +167,16 @@
                   >
                     {{ $t('ff141a64.3ae7e4') }}
                   </el-button>
-                  <i
+                  <span
                     v-if="scope.row.status == 'waiting'"
-                    class="el-icon-edit-outline"
-                    @click="editActivityAction(scope.$index, scope.row)"
-                  />
-                  <i
-                    v-if="scope.row.status == 'waiting'"
-                    class="el-icon-delete"
-                    @click="deleteActivityAction(scope.row)"
-                  />
+                    class="pluspricebuy-waiting-actions"
+                  >
+                    <i
+                      class="el-icon-edit-outline"
+                      @click="editActivityAction(scope.$index, scope.row)"
+                    />
+                    <i class="el-icon-delete" @click="deleteActivityAction(scope.row)" />
+                  </span>
                 </div>
               </template>
             </el-table-column>
@@ -273,8 +292,7 @@ export default {
       activityItemDialog: false,
       purchaseRulesDialog: false,
       ItemLoading: false,
-      purchaseRules: [],
-      tabList: []
+      purchaseRules: []
     }
   },
   computed: {
@@ -326,6 +344,7 @@ export default {
       let params = {
         ...this.params,
         status: this.params.status === 'all' ? undefined : this.params.status,
+        item_type: this.params.item_type === '0' ? undefined : this.params.item_type,
         create_time: [],
         ...time
       }

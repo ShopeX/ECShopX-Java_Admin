@@ -329,7 +329,12 @@
         @onSubmit="onBatchChangeStateSubmit"
       />
 
-      <el-dialog :title="sunCodeTitle" :visible.sync="sunCode" width="360px">
+      <el-dialog
+        custom-class="goods-self-products-sun-code-dialog"
+        :title="sunCodeTitle"
+        :visible.sync="sunCode"
+        width="360px"
+      >
         <div class="page-code">
           <img class="page-code-img" :src="appCodeUrl">
           <div class="page-btns">
@@ -2164,6 +2169,32 @@ export default {
 .page-code-img {
   width: 200px;
   height: 200px;
+}
+/* 自营商品列表太阳码弹窗：二维码与按钮居中（与 saleCategory 投放弹层一致） */
+.goods-self-products-sun-code-dialog {
+  .el-dialog__body {
+    padding-top: 16px;
+  }
+  .page-code {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .page-code-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    flex-shrink: 0;
+  }
+  .page-btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    width: 100%;
+  }
 }
 </style>
 <style lang="scss">
