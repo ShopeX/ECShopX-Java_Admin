@@ -1,15 +1,12 @@
-## 最近一次变更摘要
+## 本次变更总结
 
-**时间**: 2026-04-14
+**时间**: 2026-04-16
 
-**需求**: ECX-8283、ECX-8282
+**涉及文件**:
+- `src/i18n/locales/zh-CN.json`、`en.json`、`ar.json`
 
-**文件**:
-- `src/view/member/selfservice/registrationrecord.vue`
-- `src/view/member/cardticket/coupon/gift.vue`
+**主要改动**:
+- `223cc8af.e366cc` → 切换语言（及 en/ar 对应译文）。
+- `d81d8932.4f2c29` → 设置路径（路径选择器标题，三语与语义对齐）。
 
-**概要**:
-1. 报名记录：导出使用 `getParams()`；结束日为 23:59:59；筛选用「申请时间」文案。
-2. 兑换券：VIP 勾选 `lv_type`；详情解析等级 ID JSON；先加载等级再 init。
-
-**一句话**: fix: 报名记录导出与筛选一致、兑换券 VIP 等级按 lv_type 回显（ECX-8283/8282）
+**一句话概括**: i18n: 路径弹窗标题恢复为设置路径；链接项 223cc8af 改为切换语言
