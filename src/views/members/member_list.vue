@@ -81,6 +81,9 @@
         <SpFilterFormItem v-if="!VERSION_SHUYUN()" prop="username" :label="$t('ff557c54.652ced')">
           <el-input v-model="params.username" :placeholder="$t('ff557c54.32b6e8')" />
         </SpFilterFormItem>
+        <SpFilterFormItem prop="login_email" :label="$t('ff557c54.d093f6')">
+          <el-input v-model="params.login_email" clearable :placeholder="$t('ff557c54.5692c0')" />
+        </SpFilterFormItem>
         <SpFilterFormItem
           v-if="!VERSION_IN_PURCHASE()"
           prop="vip_grade"
@@ -465,6 +468,7 @@
                   :disabled="
                     key == 'mobile' ||
                     key == 'username' ||
+                    key == 'email' ||
                     (key == 'address' && datapass_block == 1)
                   "
                 />
@@ -790,6 +794,8 @@ export default {
         vip_grade: '',
         tag_id: '',
         mobile: '',
+        username: '',
+        login_email: '',
         have_consume: '',
         role: '',
         reg_distributor: '',
@@ -1117,6 +1123,8 @@ export default {
         vip_grade: '',
         tag_id: '',
         mobile: '',
+        username: '',
+        login_email: '',
         have_consume: '',
         role: '',
         reg_distributor: '',
@@ -1149,6 +1157,12 @@ export default {
         pageSize: params.pageSize || this.pageSize,
         ...this.params,
         tag_id: this.params.tag_id.length > 0 ? this.params.tag_id.join(',') : ''
+      }
+      if (finderParams.login_email != null && finderParams.login_email !== '') {
+        finderParams.login_email = String(finderParams.login_email).trim()
+        if (finderParams.login_email === '') {
+          delete finderParams.login_email
+        }
       }
       // // 处理日期范围
       // if (this.created && this.created.length === 2) {
