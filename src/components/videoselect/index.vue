@@ -20,7 +20,7 @@
                 src: item.url
               }
             ],
-            notSupportedMessage: this.$t('c9176f55.01c0da'),
+            notSupportedMessage: $t('c9176f55.01c0da'),
             controlBar: false
           }"
         />
@@ -75,7 +75,7 @@
                         src: item.url
                       }
                     ],
-                    notSupportedMessage: this.$t('c9176f55.01c0da'),
+                    notSupportedMessage: $t('c9176f55.01c0da'),
                     controlBar: false
                   }"
                 />
@@ -271,7 +271,7 @@ export default {
           this.localvideoList = response.data.data.list
           this.localloading = false
         })
-        .catch(function (error) {
+        .catch(() => {
           this.localloading = false
         })
     },
