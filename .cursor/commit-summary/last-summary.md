@@ -1,15 +1,13 @@
-## 最近一次变更摘要
+## 本次变更总结
 
-**时间**: 2026-04-14
+**时间**: 2026-04-16
 
-**需求**: ECX-8283、ECX-8282
+**涉及文件**:
+- `src/view/wxapp/shopInfo/index.vue` (修改)
+- `src/view/member/promotions/pluspricebuy/list.vue` (修改)
 
-**文件**:
-- `src/view/member/selfservice/registrationrecord.vue`
-- `src/view/member/cardticket/coupon/gift.vue`
+**主要改动**:
+- **商城信息**：去掉「登录页背景图」表单项及相关数据与保存字段；`handleImgChange` 仅处理门店 LOGO；移除未使用的 `uploadMaterial` 引用。
+- **加价购列表**：待开始状态下编辑/删除图标包在 `pluspricebuy-waiting-actions` 内；为 `.operating-icons` 增加 `flex` + `nowrap` + `white-space: nowrap`，避免操作列换行；图标区增加内边距与字号便于点击。
 
-**概要**:
-1. 报名记录：导出使用 `getParams()`；结束日为 23:59:59；筛选用「申请时间」文案。
-2. 兑换券：VIP 勾选 `lv_type`；详情解析等级 ID JSON；先加载等级再 init。
-
-**一句话**: fix: 报名记录导出与筛选一致、兑换券 VIP 等级按 lv_type 回显（ECX-8283/8282）
+**一句话概括**: feat: 商城信息移除登录页背景配置；加价购待开始操作列单行展示并优化图标区
