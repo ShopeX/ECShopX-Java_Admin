@@ -1,12 +1,15 @@
 ## 本次变更总结
 
-**时间**: 2026-04-16
+**时间**: 2026-04-20
 
 **涉及文件**:
-- `src/i18n/locales/zh-CN.json`、`en.json`、`ar.json`
+- `src/view/member/cardticket/detail/receive.vue`、`src/view/member/cardticket/detail/used.vue`
+- `src/views/settings/systemConfig/wdtSetting.vue`、`src/views/settings/systemConfig/jstSetting.vue`
+- `src/i18n/locales/zh-CN.json`、`src/i18n/locales/en.json`、`src/i18n/locales/ar.json`
 
 **主要改动**:
-- `223cc8af.e366cc` → 切换语言（及 en/ar 对应译文）。
-- `d81d8932.4f2c29` → 设置路径（路径选择器标题，三语与语义对齐）。
+- 优惠券数据列表新增手机号查询（搜索按钮、回车搜索、清空重查）。
+- 旺店通/聚水潭页面新增服务商接口模式提示，并采用 `SpPlatformTip` 顶部展示样式。
+- 新增对应三语 i18n 提示文案键，保证国际化一致。
 
-**一句话概括**: i18n: 路径弹窗标题恢复为设置路径；链接项 223cc8af 改为切换语言
+**一句话概括**: feat: 优惠券数据列表支持手机号查询并补充 ERP 服务商提示
