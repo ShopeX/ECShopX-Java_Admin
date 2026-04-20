@@ -43,14 +43,28 @@
       @onSubmit="onCategoryFormSubmit"
       @input="onDialogInputChange"
     />
+
+    <SpTranslatePopup
+      ref="translatePopup"
+      table-name="distribution_distributor_category"
+      :data-id="translateContext.dataId"
+      :fields="translateContext.fields"
+      :values="translateContext.values"
+      :source-language="translateContext.sourceLang"
+      @done="onTranslateDone"
+    />
   </SpPage>
 </template>
 
 <script>
 import { createSetting } from '@shopex-ui/finder'
+import SpTranslatePopup from '@/components/sp-translate-popup'
+import translateMixin from '@/mixins/translateMixin'
 
 export default {
   name: 'StoreCategory',
+  components: { SpTranslatePopup },
+  mixins: [translateMixin],
   data() {
     return {
       searchParams: {
@@ -134,6 +148,7 @@ export default {
           // 编辑
           await this.$api.store.updateStoreCategory(category_id, { category_code, category_name })
           this.$message.success(this.$t('9a30bc45.55aa63'))
+          this.openTranslate(category_id, ['category_name'], [category_name || ''])
         } else {
           // 新增
           await this.$api.store.createStoreCategory({ category_name })
@@ -146,6 +161,7 @@ export default {
         console.error('保存失败:', error)
       }
     },
+    onTranslateDone() {},
     async handleDelete(row) {
       try {
         await this.$confirm(this.$t('9a30bc45.442ecc'), this.$t('9a30bc45.02d981'), {

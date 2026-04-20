@@ -1630,7 +1630,7 @@ export default {
         this.submitLoading = false
 
         if (isUpdate) {
-          this.openTranslate(itemId, ['item_name', 'brief', 'intro'], [this.form.itemName || '', this.form.brief || '', this.form.intro || ''])
+          this.openTranslate(itemId, ['item_name', 'brief', 'item_unit'], [this.form.itemName || '', this.form.brief || '', this.form.itemUnit || ''])
         } else {
           this.navigateBack()
         }
