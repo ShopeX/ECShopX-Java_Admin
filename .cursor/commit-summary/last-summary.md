@@ -1,15 +1,16 @@
 ## 本次变更总结
 
-**时间**: 2026-04-20
+**时间**: 2026-04-21
 
 **涉及文件**:
-- `src/view/member/cardticket/detail/receive.vue`、`src/view/member/cardticket/detail/used.vue`
-- `src/views/settings/systemConfig/wdtSetting.vue`、`src/views/settings/systemConfig/jstSetting.vue`
-- `src/i18n/locales/zh-CN.json`、`src/i18n/locales/en.json`、`src/i18n/locales/ar.json`
+- `src/view/mall/goods/physical/list.vue`
+- `src/i18n/locales/zh-CN.json`
+- `src/i18n/locales/en.json`
+- `src/i18n/locales/ar.json`
 
 **主要改动**:
-- 优惠券数据列表新增手机号查询（搜索按钮、回车搜索、清空重查）。
-- 旺店通/聚水潭页面新增服务商接口模式提示，并采用 `SpPlatformTip` 顶部展示样式。
-- 新增对应三语 i18n 提示文案键，保证国际化一致。
+- 修复“商品管理 > 自营商品”中点击“同步至所有店铺”时确认弹窗文案误显示为“审核失败”的问题。
+- 新增独立文案 key `6f19b2ab.6b3d7e` 用于同步确认提示，避免复用 key 产生语义冲突。
+- 补齐中/英/阿三语文案并统一确认框标题为提示文案。
 
-**一句话概括**: feat: 优惠券数据列表支持手机号查询并补充 ERP 服务商提示
+**一句话概括**: fix: 修复自营商品同步所有店铺时弹窗误显示审核失败
