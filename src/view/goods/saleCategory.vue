@@ -111,7 +111,6 @@
           </template>
         </el-table-column>
         <el-table-column
-          v-if="!VERSION_PLATFORM()"
           :label="$t('0e7dabe2.e8f9a1')"
           width="120"
           align="center"
