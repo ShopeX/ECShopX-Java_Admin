@@ -7,6 +7,12 @@
 .sp-filter-form {
   margin-bottom: 8px;
 }
+.stats-dialog-body {
+  min-height: 120px;
+}
+.stats-totals {
+  margin-bottom: 4px;
+}
 </style>
 
 <template>
@@ -91,6 +97,60 @@
         }"
         url="/employeepurchase/activities"
       />
+
+      <el-dialog
+        :visible.sync="statsDialogVisible"
+        width="900px"
+        append-to-body
+        @closed="onStatsDialogClosed"
+      >
+        <div slot="title" style="display: flex; align-items: center; justify-content: space-between">
+          <span>{{ statsDialogTitle }}</span>
+          <el-button
+            size="mini"
+            type="primary"
+            :loading="statsDialogLoading"
+            @click="downloadStatsInDialog"
+          >
+            {{ $t('bea3f44a.e01a10') }}
+          </el-button>
+        </div>
+        <div v-loading="statsDialogLoading" class="stats-dialog-body">
+          <el-descriptions v-if="statsDialogTotals" :column="3" border class="stats-totals">
+            <el-descriptions-item :label="$t('bea3f44a.e01a02')">{{
+              statsDialogTotals.scan_count
+            }}</el-descriptions-item>
+            <el-descriptions-item :label="$t('bea3f44a.e01a03')">{{
+              statsDialogTotals.scan_user_count
+            }}</el-descriptions-item>
+            <el-descriptions-item
+              v-if="statsDialogPassphraseEnabled"
+              :label="$t('bea3f44a.e01a04')"
+              >{{ statsDialogTotals.passphrase_verify_user_count }}</el-descriptions-item
+            >
+            <el-descriptions-item :label="$t('bea3f44a.e01a05')">{{
+              statsDialogTotals.bind_user_count
+            }}</el-descriptions-item>
+            <el-descriptions-item :label="$t('bea3f44a.e01a06')">{{
+              statsDialogTotals.order_user_count
+            }}</el-descriptions-item>
+          </el-descriptions>
+          <el-table :data="statsDialogList" border stripe max-height="420" style="margin-top: 12px">
+            <el-table-column prop="enterprise_name" :label="$t('bea3f44a.e01a0b')" min-width="140" />
+            <el-table-column prop="enterprise_sn" :label="$t('bea3f44a.e01a0c')" min-width="120" />
+            <el-table-column prop="scan_count" :label="$t('bea3f44a.e01a02')" width="100" />
+            <el-table-column prop="scan_user_count" :label="$t('bea3f44a.e01a03')" width="100" />
+            <el-table-column
+              v-if="statsDialogPassphraseEnabled"
+              prop="passphrase_verify_user_count"
+              :label="$t('bea3f44a.e01a04')"
+              width="120"
+            />
+            <el-table-column prop="bind_user_count" :label="$t('bea3f44a.e01a05')" width="100" />
+            <el-table-column prop="order_user_count" :label="$t('bea3f44a.e01a06')" width="100" />
+          </el-table>
+        </div>
+      </el-dialog>
     </SpPage>
   </SpRouterView>
 </template>
@@ -115,7 +175,14 @@ export default {
       },
       defaultTime: ['00:00:00', '23:59:59'],
       pickerOptions: PICKER_DATE_OPTIONS,
-      enterpriseList: []
+      enterpriseList: [],
+      statsDialogVisible: false,
+      statsDialogLoading: false,
+      statsDialogTitle: '',
+      statsDialogActivityId: null,
+      statsDialogPassphraseEnabled: false,
+      statsDialogList: [],
+      statsDialogTotals: null
     }
   },
   computed: {
@@ -133,6 +200,28 @@ export default {
     setting() {
       return createSetting({
         actions: [
+          {
+            name: this.$t('bea3f44a.e01a07'),
+            key: 'download_qrcode',
+            type: 'button',
+            buttonType: 'text',
+            action: {
+              handler: async ([row]) => {
+                await this.downloadActivityQrcode(row)
+              }
+            }
+          },
+          {
+            name: this.$t('bea3f44a.e01a08'),
+            key: 'scan_stats',
+            type: 'button',
+            buttonType: 'text',
+            action: {
+              handler: async ([row]) => {
+                await this.openScanStatsDialog(row)
+              }
+            }
+          },
           {
             name: this.$t('bea3f44a.95b351'),
             key: 'modify',
@@ -295,6 +384,64 @@ export default {
           { name: this.$t('bea3f44a.7a9e2d'), key: 'id', width: 120 },
           { name: this.$t('bea3f44a.39834b'), key: 'name', width: 180 },
           {
+            name: this.$t('bea3f44a.e01a09'),
+            key: 'employee_end_time',
+            width: '320',
+            formatter: (value, { employee_end_time, employee_begin_time }) => {
+              return `${moment(employee_begin_time * 1000).format(
+                'YYYY-MM-DD HH:mm:ss'
+              )} ~ ${moment(employee_end_time * 1000).format('YYYY-MM-DD HH:mm:ss')}`
+            }
+          },
+          {
+            name: this.$t('bea3f44a.e01a01'),
+            key: 'passphrase_limitfee',
+            width: 120,
+            formatter: (value, row) => {
+              const on =
+                row.is_passphrase_enabled === 1 ||
+                row.is_passphrase_enabled === true ||
+                row.is_passphrase_enabled === '1'
+              if (!on) {
+                return '—'
+              }
+              const fee = Number(value) || 0
+              return fee > 0 ? `¥${fee / 100}` : '¥0'
+            }
+          },
+          {
+            name: this.$t('bea3f44a.e01a02'),
+            key: 'scan_count',
+            width: 100
+          },
+          {
+            name: this.$t('bea3f44a.e01a03'),
+            key: 'scan_user_count',
+            width: 100
+          },
+          {
+            name: this.$t('bea3f44a.e01a04'),
+            key: 'passphrase_verify_user_count',
+            width: 120,
+            formatter: (value, row) => {
+              const on =
+                row.is_passphrase_enabled === 1 ||
+                row.is_passphrase_enabled === true ||
+                row.is_passphrase_enabled === '1'
+              return on ? value : '—'
+            }
+          },
+          {
+            name: this.$t('bea3f44a.e01a05'),
+            key: 'bind_user_count',
+            width: 100
+          },
+          {
+            name: this.$t('bea3f44a.e01a06'),
+            key: 'order_user_count',
+            width: 100
+          },
+          {
             name: this.$t('bea3f44a.ed13b6'),
             key: 'employee_limitfee',
             width: '120',
@@ -321,16 +468,6 @@ export default {
           {
             name: this.$t('bea3f44a.53cc55'),
             key: 'distributor_name'
-          },
-          {
-            name: this.$t('bea3f44a.059c1e'),
-            key: 'employee_end_time',
-            width: '320',
-            formatter: (value, { employee_end_time, employee_begin_time }, col) => {
-              return `${moment(employee_begin_time * 1000).format(
-                'YYYY-MM-DD HH:mm:ss'
-              )} ~ ${moment(employee_end_time * 1000).format('YYYY-MM-DD HH:mm:ss')}`
-            }
           },
           {
             name: this.$t('bea3f44a.3fea7c'),
@@ -400,6 +537,86 @@ export default {
       })
       this.pagesQuery.setTotal(total_count)
       this.enterpriseList = this.enterpriseList.concat(list)
+    },
+    onStatsDialogClosed() {
+      this.statsDialogList = []
+      this.statsDialogTotals = null
+      this.statsDialogPassphraseEnabled = false
+      this.statsDialogActivityId = null
+    },
+    async downloadActivityQrcode(row) {
+      try {
+        const res = await this.$api.marketing.downloadActivityQrcode(row.id)
+        if (res && res.status) {
+          this.$message.success(this.$t('bea3f44a.e01a11'))
+          return
+        }
+        throw new Error('invalid export response')
+      } catch (e) {
+        this.$message.error(this.$t('bea3f44a.e01a0e'))
+      }
+    },
+    async downloadStatsInDialog() {
+      if (!this.statsDialogActivityId) {
+        return
+      }
+      try {
+        const res = await this.$api.marketing.downloadActivityEnterpriseBehaviorStats(
+          this.statsDialogActivityId
+        )
+        if (res && res.status) {
+          this.$message.success(this.$t('bea3f44a.e01a11'))
+          return
+        }
+        throw new Error('invalid export response')
+      } catch (e) {
+        this.$message.error(this.$t('bea3f44a.e01a0e'))
+      }
+    },
+    async openScanStatsDialog(row) {
+      this.statsDialogTitle = `${this.$t('bea3f44a.e01a0a')} — ${row.name || ''}`
+      this.statsDialogActivityId = row.id
+      this.statsDialogPassphraseEnabled = !!(
+        row.is_passphrase_enabled === 1 ||
+        row.is_passphrase_enabled === true ||
+        row.is_passphrase_enabled === '1'
+      )
+      this.statsDialogVisible = true
+      this.statsDialogLoading = true
+      this.statsDialogList = []
+      this.statsDialogTotals = null
+      try {
+        const data = await this.$api.marketing.getActivityEnterpriseBehaviorStats(row.id)
+        const list = (data && data.list) || []
+        this.statsDialogList = list
+        this.statsDialogTotals = list.reduce(
+          (acc, r) => ({
+            scan_count: acc.scan_count + (Number(r.scan_count) || 0),
+            scan_user_count: acc.scan_user_count + (Number(r.scan_user_count) || 0),
+            passphrase_verify_user_count:
+              acc.passphrase_verify_user_count + (Number(r.passphrase_verify_user_count) || 0),
+            bind_user_count: acc.bind_user_count + (Number(r.bind_user_count) || 0),
+            order_user_count: acc.order_user_count + (Number(r.order_user_count) || 0)
+          }),
+          {
+            scan_count: 0,
+            scan_user_count: 0,
+            passphrase_verify_user_count: 0,
+            bind_user_count: 0,
+            order_user_count: 0
+          }
+        )
+      } catch (e) {
+        this.statsDialogVisible = false
+        const msg =
+          (e && e.data && e.data.message) ||
+          (e && e.data && e.data.error) ||
+          (e && e.message) ||
+          this.$t('bea3f44a.e01a0e')
+        this.$message.error(msg)
+      } finally {
+        this.statsDialogLoading = false
+      }
     }
   }
 }
