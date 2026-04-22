@@ -28,7 +28,13 @@
         <el-col v-for="row in filteredApplications" :key="row.app_id" :xs="24" :sm="12" :md="8" :lg="6">
           <el-card shadow="hover" class="app-card">
             <div class="app-icon-box">
-              <span>{{ getAppInitial(row) }}</span>
+              <img
+                v-if="isHttpImageUrl(row.icon_url)"
+                :src="row.icon_url"
+                :alt="row.app_name || row.app_id"
+                class="app-icon-image"
+              />
+              <span v-else>{{ getAppInitial(row) }}</span>
             </div>
             <div class="app-title">{{ row.app_name || row.app_id }}</div>
             <div class="app-desc">{{ row.description || '暂无描述' }}</div>
@@ -278,6 +284,9 @@ export default {
       const name = (row.app_name || row.app_id || 'A').trim()
       return name ? name[0] : 'A'
     },
+    isHttpImageUrl(url) {
+      return /^https?:\/\//i.test((url || '').trim())
+    },
     getPricingLabel(row) {
       const pricing = (row.pricing_model || '').toLowerCase()
       return pricing === 'pay_as_you_go' || pricing === 'subscription' ? '付费' : '免费'
@@ -377,6 +386,12 @@ export default {
   font-size: 28px;
   font-weight: 600;
   margin-bottom: 10px;
+  overflow: hidden;
+}
+.app-icon-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .app-title {
   font-size: 15px;
