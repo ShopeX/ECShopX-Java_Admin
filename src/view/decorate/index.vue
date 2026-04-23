@@ -263,7 +263,8 @@ export default {
         'Group',
         'hotranking',
         'Ranking',
-        'goods'
+        'goods',
+        'goodsCard'
       ]
       // 专用挂件：订单导航
       const dedicatedNames = ['OrderNavigation']

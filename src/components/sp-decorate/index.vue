@@ -133,10 +133,22 @@ export default {
     this.registerWgts()
   },
   methods: {
+    findWidgetForPersistedName(persistedName) {
+      const key = String(persistedName || '').toLowerCase()
+      if (!key || !this.widgets.length) return null
+      let w = this.widgets.find((item) => (item.name || '').toLowerCase() === key)
+      if (w) return w
+      w = this.widgets.find((item) => String(item.config?.name || '').toLowerCase() === key)
+      if (w) return w
+      if (String(this.scene) === '1005' && key === 'goods') {
+        return this.widgets.find((item) => (item.name || '').toLowerCase() === 'goodscard') || null
+      }
+      return null
+    },
     getWgtsValue(val) {
       const filterWidget = []
       val.forEach((k) => {
-        const wgt = this.widgets.find((item) => item.name.toLowerCase() == k.name.toLowerCase())
+        const wgt = this.findWidgetForPersistedName(k.name)
         if (wgt) {
           const wgtInitParams = this.cloneDefaultField(wgt)
           const params = wgt.config.transformIn(k)

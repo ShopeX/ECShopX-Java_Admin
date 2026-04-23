@@ -7,7 +7,7 @@ import { i18n } from '@/i18n'
 import AttrGoods from './attr-goods'
 
 const config = {
-  name: 'goods',
+  name: 'goodsCard',
   setting: [
     { label: i18n.t('8f58e7cb.4707ba'), key: 'padded', component: 'switch', value: true },
     {
