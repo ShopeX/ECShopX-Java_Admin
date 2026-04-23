@@ -141,7 +141,11 @@ export default {
       w = this.widgets.find((item) => String(item.config?.name || '').toLowerCase() === key)
       if (w) return w
       if (String(this.scene) === '1005' && key === 'goods') {
-        return this.widgets.find((item) => (item.name || '').toLowerCase() === 'goodscard') || null
+        return (
+          this.widgets.find((item) => String(item.config?.name || '').toLowerCase() === 'goodscard') ||
+          this.widgets.find((item) => (item.name || '').toLowerCase() === 'goods') ||
+          null
+        )
       }
       return null
     },
@@ -187,10 +191,10 @@ export default {
     },
     onSave(data) {
       const result = data.map((item) => {
-        const { transformOut } = this.widgets.find(
-          (wgt) => wgt.name.toLowerCase() == item.name.toLowerCase()
-        )?.config
-        return transformOut(item)
+        // item.name 为 config.name（如 goodsCard），与 Vue 组件名（如 Goods）可能不一致，需与 getWgtsValue 相同解析
+        const wgt = this.findWidgetForPersistedName(item.name)
+        const { transformOut } = wgt?.config || {}
+        return transformOut ? transformOut(item) : item
       })
       this.$emit('input', result)
       this.$emit('change', result) // 导购货架，传change事件，为了点击保存直接调接口，页面不需要加保存按钮

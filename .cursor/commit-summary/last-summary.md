@@ -1,5 +1,7 @@
-## 最近一次变更总结（2026-04-23）
+## 最近一次变更（2026-04-23）
 
-- `saleCategory.vue`：销售分类编辑里「前台是否显示」去掉仅非平台版展示的限制，平台版也可配置。
+**一句话概括**: fix: 软文商品卡片 goodsCard 落库解析、样式转换与预览保存一致
 
-**Commit 标题**: fix: 销售分类「前台是否显示」在平台版不再隐藏
+**要点**: `findWidgetForPersistedName` 统一按 `config.name` 找挂件；`goodsCard` 组件名与 transform 对齐；内层样式走 `getInnerStyle`；去掉「组件间距」开关与标题区 UI。
+
+详见: `.cursor/commit-summary/2026-04-23-goodsCard-decorate.md`
