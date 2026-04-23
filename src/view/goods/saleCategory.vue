@@ -196,7 +196,6 @@ export default {
         {
           label: this.$t('0e7dabe2.e8f9a1'),
           key: 'is_show_front',
-          isShow: () => !this.VERSION_PLATFORM(),
           component: ({ key }, value) => <el-switch v-model={value[key]} active-value="1" inactive-value="0"/>,
         },
         {
