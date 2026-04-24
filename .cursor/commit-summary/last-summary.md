@@ -1,12 +1,15 @@
-## 本次变更总结
+## 最近一次变更摘要
 
-**时间**: 2026-04-13
+**时间**: 2026-04-14
 
-**涉及文件**:
-- `src/view/mall/goods/physical/list.vue` (修改)
+**需求**: ECX-8283、ECX-8282
 
-**主要改动**:
-- **自营商品列表**（路由 `product-manage/self-products`）：太阳码弹窗 `el-dialog` 增加 `custom-class="goods-self-products-sun-code-dialog"`。
-- 在该类下为 `.page-code`、`.page-code-img`、`.page-btns` 增加 flex 布局与间距，使二维码与「下载码 / 复制链接」按钮在弹窗内水平居中、排列一致。
+**文件**:
+- `src/view/member/selfservice/registrationrecord.vue`
+- `src/view/member/cardticket/coupon/gift.vue`
 
-**一句话概括**: style: 自营商品列表太阳码弹窗二维码与按钮居中
+**概要**:
+1. 报名记录：导出使用 `getParams()`；结束日为 23:59:59；筛选用「申请时间」文案。
+2. 兑换券：VIP 勾选 `lv_type`；详情解析等级 ID JSON；先加载等级再 init。
+
+**一句话**: fix: 报名记录导出与筛选一致、兑换券 VIP 等级按 lv_type 回显（ECX-8283/8282）

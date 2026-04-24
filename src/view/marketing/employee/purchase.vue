@@ -13,7 +13,8 @@
     margin-right: 4px;
   }
   .company-list {
-    width: 480px;
+    width: 100%;
+    max-width: 1200px;
     .el-input {
       max-width: 480px;
     }
@@ -51,12 +52,20 @@
       }
     }
     .form-item-tip {
-      margin-left: 68px;
+      margin-top: 4px;
     }
     .content-item {
       display: flex;
       align-items: center;
     }
+  }
+  .purchase-inline-fade-enter-active,
+  .purchase-inline-fade-leave-active {
+    transition: opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .purchase-inline-fade-enter,
+  .purchase-inline-fade-leave-to {
+    opacity: 0;
   }
   .activity-relatives-field {
     margin-top: 10px;
@@ -107,6 +116,51 @@
       }
     }
   }
+  .passphrase-enterprise-block {
+    width: 100%;
+    min-width: 880px;
+    max-width: 1200px;
+    .passphrase-enterprise-table {
+      width: 100%;
+    }
+    .passphrase-quota-header {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px 8px;
+      vertical-align: middle;
+    }
+    .passphrase-batch-fill-btn {
+      padding: 0;
+      font-size: 12px;
+    }
+  }
+}
+
+/* 批量填充 / 随机生成：Popover 内容 append 到 body，不能写在 .passphrase-enterprise-block 内 */
+.passphrase-batch-fill-popover {
+  padding: 4px 2px 2px;
+  box-sizing: border-box;
+  .passphrase-batch-fill-popover__field {
+    display: block;
+    margin-bottom: 20px;
+  }
+  .el-input {
+    display: block;
+    width: 100%;
+  }
+  .passphrase-batch-fill-popover__actions {
+    margin-top: 4px;
+    padding-top: 16px;
+    border-top: 1px solid #ebeef5;
+    text-align: right;
+  }
+  .passphrase-batch-code-popover__tip {
+    margin: 0 0 12px;
+    font-size: 13px;
+    color: #606266;
+    line-height: 1.5;
+  }
 }
 </style>
 <template>
@@ -137,6 +191,7 @@
           show-message
           :form-list="activityRuleListComputed"
           :submit="false"
+          item-transition
         />
       </el-card>
     </div>
@@ -144,6 +199,10 @@
 </template>
 
 <script>
+/**
+ * 内购活动口令：is_passphrase_enabled、passphrase_enterprises（JSON，每行含 passphrase_limitfee 分）；
+ * 见 ecshopx-api/docs/employeepurchase-passphrase-frontend.md
+ */
 import { isEmpty } from '@/utils'
 import moment from 'moment'
 import { i18n } from '@/i18n'
@@ -214,14 +273,22 @@ export default {
         order_detail_page: ['sale_price', 'activity_price'],
         checkout_page: ['sale_price', 'activity_price'],
         is_discount_description_enabled: false,
-        discount_description: ''
+        discount_description: '',
+        is_passphrase_enabled: false,
+        passphraseRows: []
       },
 
       /** 活动规则表单项列表，在 created 中赋值避免 render 阶段访问 $i18n */
       activityRuleList: [],
       /** 编辑时活动规则表单项的 disabled 覆盖，key 为索引 */
       activityRuleDisabledOverrides: {},
-      activityStatus: ''
+      activityStatus: '',
+      /** 可参与名额 — 批量填充弹层 */
+      passphraseBatchQuotaPopoverVisible: false,
+      passphraseBatchQuotaDraft: '',
+      passphraseBatchCodePopoverVisible: false,
+      /** 随机生成口令 — 接口请求中 */
+      passphraseBatchCodeGenerating: false
     }
   },
   computed: {
@@ -337,6 +404,18 @@ export default {
       ]
       return [
         {
+          label: t('39e3acc2.e8b1a0'),
+          key: 'is_passphrase_enabled',
+          component: ({ disabled }) => (
+            <el-switch
+              v-model={self.activityRule.is_passphrase_enabled}
+              disabled={disabled}
+              on-change={self.onPassphraseEnabledChange}
+            />
+          ),
+          disabled: false
+        },
+        {
           label: t('39e3acc2.ef7726'),
           key: 'companyList',
           type: 'input',
@@ -362,9 +441,217 @@ export default {
           validator: (rule, value, callback) => {
             if (self.activityRule.companyList.length == 0) {
               callback(new Error(t('39e3acc2.6004b3')))
-            } else {
-              callback()
+              return
             }
+            callback()
+          }
+        },
+        {
+          label: t('39e3acc2.e8b1a4'),
+          key: 'passphraseRowsTable',
+          isShow: (item, value) =>
+            !!value.is_passphrase_enabled && (value.companyList || []).length > 0,
+          component: ({ disabled }) => (
+            <div class='passphrase-enterprise-block'>
+              <el-table
+                class='passphrase-enterprise-table'
+                data={self.activityRule.passphraseRows}
+                border
+                size='small'
+              >
+                <el-table-column label={t('39e3acc2.e8b1a5')} prop='name' min-width='180' show-overflow-tooltip />
+                <el-table-column label={t('39e3acc2.e8b1a6')} prop='enterprise_sn' min-width='140' show-overflow-tooltip />
+                <el-table-column
+                  min-width='200'
+                  scopedSlots={{
+                    header: () => (
+                      <span class='passphrase-quota-header'>
+                        <span>{t('39e3acc2.e8b1a7')}</span>
+                        <el-popover
+                          props={{
+                            value: self.passphraseBatchQuotaPopoverVisible,
+                            placement: 'top',
+                            width: '280',
+                            trigger: 'click'
+                          }}
+                          on={{
+                            input: (v) => {
+                              self.passphraseBatchQuotaPopoverVisible = v
+                            }
+                          }}
+                        >
+                          <div class='passphrase-batch-fill-popover'>
+                            <div class='passphrase-batch-fill-popover__field'>
+                              <el-input
+                                v-model={self.passphraseBatchQuotaDraft}
+                                size='small'
+                                placeholder={t('39e3acc2.e8b1ae')}
+                                nativeOn={{
+                                  keyup: (e) => {
+                                    if (e.key === 'Enter') {
+                                      self.confirmPassphraseBatchParticipateQuota()
+                                    }
+                                  }
+                                }}
+                              />
+                            </div>
+                            <div class='passphrase-batch-fill-popover__actions'>
+                              <el-button
+                                type='text'
+                                size='mini'
+                                on-click={() => {
+                                  self.passphraseBatchQuotaPopoverVisible = false
+                                }}
+                              >
+                                {t('bea3f44a.625fb2')}
+                              </el-button>
+                              <el-button
+                                type='primary'
+                                size='mini'
+                                on-click={self.confirmPassphraseBatchParticipateQuota}
+                              >
+                                {t('39e3acc2.e8b1b1')}
+                              </el-button>
+                            </div>
+                          </div>
+                          <el-button
+                            slot='reference'
+                            type='text'
+                            class='passphrase-batch-fill-btn'
+                            disabled={disabled}
+                          >
+                            {t('39e3acc2.e8b1ad')}
+                          </el-button>
+                        </el-popover>
+                      </span>
+                    ),
+                    default: (scope) => (
+                      <SpInput
+                        v-model={scope.row.participate_quota}
+                        width='120px'
+                        disabled={disabled}
+                        placeholder={t('39e3acc2.ea6c91')}
+                      />
+                    )
+                  }}
+                />
+                <el-table-column
+                  label={t('39e3acc2.e8b1a8')}
+                  min-width='160'
+                  scopedSlots={{
+                    default: (scope) => (
+                      <SpInput
+                        v-model={scope.row.passphrase_limitfee}
+                        width='120px'
+                        disabled={disabled}
+                        placeholder={t('39e3acc2.ea6c91')}
+                        suffix={t('39e3acc2.c16655')}
+                      />
+                    )
+                  }}
+                />
+                <el-table-column
+                  min-width='200'
+                  scopedSlots={{
+                    header: () => (
+                      <span class='passphrase-quota-header'>
+                        <span>{t('39e3acc2.e8b1a9')}</span>
+                        <el-popover
+                          props={{
+                            value: self.passphraseBatchCodePopoverVisible,
+                            placement: 'top',
+                            width: '300',
+                            trigger: 'click'
+                          }}
+                          on={{
+                            input: (v) => {
+                              self.passphraseBatchCodePopoverVisible = v
+                            }
+                          }}
+                        >
+                          <div class='passphrase-batch-fill-popover'>
+                            <p class='passphrase-batch-code-popover__tip'>{t('39e3acc2.e8b1b3')}</p>
+                            <div class='passphrase-batch-fill-popover__actions'>
+                              <el-button
+                                type='text'
+                                size='mini'
+                                disabled={self.passphraseBatchCodeGenerating}
+                                on-click={() => {
+                                  self.passphraseBatchCodePopoverVisible = false
+                                }}
+                              >
+                                {t('bea3f44a.625fb2')}
+                              </el-button>
+                              <el-button
+                                type='primary'
+                                size='mini'
+                                loading={self.passphraseBatchCodeGenerating}
+                                on-click={self.confirmPassphraseBatchGenerateCodes}
+                              >
+                                {t('39e3acc2.e8b1b1')}
+                              </el-button>
+                            </div>
+                          </div>
+                          <el-button
+                            slot='reference'
+                            type='text'
+                            class='passphrase-batch-fill-btn'
+                            disabled={disabled}
+                            loading={self.passphraseBatchCodeGenerating}
+                          >
+                            {t('39e3acc2.e8b1b2')}
+                          </el-button>
+                        </el-popover>
+                      </span>
+                    ),
+                    default: (scope) => (
+                      <el-input
+                        v-model={scope.row.passphrase_code}
+                        disabled={disabled}
+                        maxlength={64}
+                        placeholder={t('39e3acc2.e8b1a9')}
+                        size='small'
+                      />
+                    )
+                  }}
+                />
+              </el-table>
+            </div>
+          ),
+          disabled: false,
+          validator: (rule, value, callback) => {
+            if (!self.activityRule.is_passphrase_enabled) {
+              callback()
+              return
+            }
+            if (self.activityRule.companyList.length === 0) {
+              callback()
+              return
+            }
+            const rows = self.activityRule.passphraseRows || []
+            for (let i = 0; i < rows.length; i++) {
+              const r = rows[i]
+              const pq = Number(r.participate_quota)
+              if (!r.participate_quota || pq <= 0 || !Number.isFinite(pq)) {
+                callback(new Error(t('39e3acc2.e8b1ab')))
+                return
+              }
+              const pl = r.passphrase_limitfee
+              if (pl === '' || pl === null || pl === undefined) {
+                callback(new Error(t('39e3acc2.e8b1a3')))
+                return
+              }
+              const pln = Number(pl)
+              if (!Number.isFinite(pln) || pln < 0) {
+                callback(new Error(t('39e3acc2.e8b1a3')))
+                return
+              }
+              if (!r.passphrase_code || !String(r.passphrase_code).trim()) {
+                callback(new Error(t('39e3acc2.e8b1ab')))
+                return
+              }
+            }
+            callback()
           }
         },
         {
@@ -392,13 +679,12 @@ export default {
           }
         },
         {
-          label: t('39e3acc2.2ed392'),
+          label: t('39e3acc2.e8b1ac'),
           key: 'employee',
           component: ({ disabled: { datetime, quota } }) => (
             <div class='activity-employee-field'>
               <div class='form-item-content'>
                 <div class='content-item'>
-                  <label>{t('39e3acc2.059c1e')}</label>
                   <el-date-picker
                     v-model={self.activityRule.employee.datetime}
                     disabled={datetime}
@@ -410,19 +696,24 @@ export default {
                 </div>
                 <div class='form-item-tip'>{t('39e3acc2.f5552d')}</div>
               </div>
-              <div class='form-item-content'>
-                <div class='content-item'>
-                  <label>{t('39e3acc2.769491')}</label>
-                  <SpInput
-                    v-model={self.activityRule.employee.quota}
-                    width='120px'
-                    disabled={quota}
-                    placeholder={t('39e3acc2.ea6c91')}
-                    prefix={t('39e3acc2.4ef1d6')}
-                    suffix={t('39e3acc2.c16655')}
-                  />
+              <transition name='purchase-inline-fade'>
+                <div
+                  class='form-item-content'
+                  v-show={!self.activityRule.is_passphrase_enabled}
+                >
+                  <div class='content-item'>
+                    <label>{t('39e3acc2.769491')}</label>
+                    <SpInput
+                      v-model={self.activityRule.employee.quota}
+                      width='120px'
+                      disabled={quota}
+                      placeholder={t('39e3acc2.ea6c91')}
+                      prefix={t('39e3acc2.4ef1d6')}
+                      suffix={t('39e3acc2.c16655')}
+                    />
+                  </div>
                 </div>
-              </div>
+              </transition>
             </div>
           ),
           disabled: {
@@ -432,7 +723,13 @@ export default {
           validator: (rule, value, callback) => {
             if (self.activityRule.employee.datetime.length == 0) {
               callback(new Error(t('39e3acc2.77a141')))
-            } else if (!self.activityRule.employee.quota) {
+              return
+            }
+            if (self.activityRule.is_passphrase_enabled) {
+              callback()
+              return
+            }
+            if (!self.activityRule.employee.quota) {
               callback(new Error(t('39e3acc2.6a99d7')))
             } else {
               callback()
@@ -442,6 +739,7 @@ export default {
         {
           label: t('39e3acc2.4eca5b'),
           key: 'relatives',
+          isShow: (item, value) => !value.is_passphrase_enabled,
           component: ({ disabled: { join, num, datetime, type, shareLimit } }) => (
             <div class='activity-relatives-field'>
               <div class='form-item-content'>
@@ -607,13 +905,13 @@ export default {
         pic: res.pic
       }
 
-      // 进行中、已暂停
+      // 进行中、已暂停（0 口令 1 企业 2 口令企业表 3 预热 4 员工 5 亲友…）
       if (res.status == 'ongoing' || res.status == 'pending') {
-        this.$set(this.activityRuleDisabledOverrides, 2, {
+        this.$set(this.activityRuleDisabledOverrides, 4, {
           datetime: false,
           quota: true
         })
-        this.$set(this.activityRuleDisabledOverrides, 3, {
+        this.$set(this.activityRuleDisabledOverrides, 5, {
           join: false,
           num: true,
           datetime: false,
@@ -628,19 +926,21 @@ export default {
 
         this.$set(this.activityRuleDisabledOverrides, 0, true)
         this.$set(this.activityRuleDisabledOverrides, 1, true)
-        this.$set(this.activityRuleDisabledOverrides, 2, {
+        this.$set(this.activityRuleDisabledOverrides, 2, true)
+        this.$set(this.activityRuleDisabledOverrides, 3, true)
+        this.$set(this.activityRuleDisabledOverrides, 4, {
           datetime: true,
           quota: true
         })
-        this.$set(this.activityRuleDisabledOverrides, 3, {
+        this.$set(this.activityRuleDisabledOverrides, 5, {
           join: true,
           num: true,
           datetime: true,
           type: true,
           shareLimit: true
         })
-        this.$set(this.activityRuleDisabledOverrides, 4, true)
-        this.$set(this.activityRuleDisabledOverrides, 5, true)
+        this.$set(this.activityRuleDisabledOverrides, 6, true)
+        this.$set(this.activityRuleDisabledOverrides, 7, true)
       }
       this.activityStatus = res.status
 
@@ -655,6 +955,30 @@ export default {
       const priceData = this.priceShowData(res.price_display_config, 'detail')
 
       console.log('priceData', priceData)
+
+      const phraseMap = {}
+      ;(res.passphrase_enterprises || []).forEach((pe) => {
+        const eid = pe.enterprise_id
+        phraseMap[eid] = {
+          participate_quota: pe.participate_quota,
+          passphrase_code: pe.passphrase_code || '',
+          passphrase_limitfee:
+            pe.passphrase_limitfee != null && pe.passphrase_limitfee !== ''
+              ? Number(pe.passphrase_limitfee) / 100
+              : ''
+        }
+      })
+      const passphraseRows = list.map((c) => {
+        const pm = phraseMap[c.id]
+        return {
+          enterprise_id: c.id,
+          name: c.name,
+          enterprise_sn: c.enterprise_sn || '',
+          participate_quota: pm ? pm.participate_quota : '',
+          passphrase_code: pm ? pm.passphrase_code : '',
+          passphrase_limitfee: pm ? pm.passphrase_limitfee : ''
+        }
+      })
 
       this.activityRule = {
         companyList: list,
@@ -677,7 +1001,9 @@ export default {
         modifyReceiveAddress: res.close_modify_hours_after_activity,
         ...priceData,
         is_discount_description_enabled: res.is_discount_description_enabled == 'true',
-        discount_description: res.discount_description
+        discount_description: res.discount_description,
+        is_passphrase_enabled: res.is_passphrase_enabled === 'true' || res.is_passphrase_enabled === true,
+        passphraseRows
       }
       this.onRadioChange(res.if_share_limitfee ? '2' : '1')
     },
@@ -698,9 +1024,90 @@ export default {
       }
       const { data } = await this.$picker.company(params)
       this.activityRule.companyList = data
+      this.syncPassphraseEnterpriseRows()
     },
     closeCompany(index) {
       this.activityRule.companyList.splice(index, 1)
+      this.syncPassphraseEnterpriseRows()
+    },
+    onPassphraseEnabledChange(enabled) {
+      if (enabled) {
+        this.syncPassphraseEnterpriseRows()
+      }
+    },
+    syncPassphraseEnterpriseRows() {
+      const companies = this.activityRule.companyList || []
+      const prev = this.activityRule.passphraseRows || []
+      const prevById = {}
+      prev.forEach((r) => {
+        prevById[r.enterprise_id] = r
+      })
+      this.activityRule.passphraseRows = companies.map((c) => {
+        const id = c.id
+        const old = prevById[id]
+        return {
+          enterprise_id: id,
+          name: c.name,
+          enterprise_sn: c.enterprise_sn || '',
+          participate_quota: old ? old.participate_quota : '',
+          passphrase_code: old ? old.passphrase_code : '',
+          passphrase_limitfee: old && old.passphrase_limitfee !== undefined ? old.passphrase_limitfee : ''
+        }
+      })
+    },
+    confirmPassphraseBatchParticipateQuota() {
+      const raw = String(this.passphraseBatchQuotaDraft || '').trim()
+      const n = parseInt(raw, 10)
+      if (!raw || !Number.isFinite(n) || n <= 0) {
+        this.$message.warning(this.$t('39e3acc2.e8b1af'))
+        return
+      }
+      const rows = this.activityRule.passphraseRows || []
+      rows.forEach((row) => {
+        this.$set(row, 'participate_quota', n)
+      })
+      this.passphraseBatchQuotaDraft = ''
+      this.passphraseBatchQuotaPopoverVisible = false
+    },
+    async onGeneratePassphraseCodes() {
+      const ids = this.activityRule.companyList.map((c) => c.id)
+      if (!ids.length) {
+        return
+      }
+      const { id: activityId } = this.$route.params
+      const payload = { enterprise_ids: ids, count: 1 }
+      try {
+        const data = activityId
+          ? await this.$api.marketing.generatePassphraseCodesByActivity(activityId, payload)
+          : await this.$api.marketing.generatePassphraseCodes(payload)
+        const list = data.list || []
+        const byEnt = {}
+        list.forEach((item) => {
+          const codes = item.passphrase_codes || []
+          if (codes[0]) {
+            byEnt[item.enterprise_id] = codes[0]
+          }
+        })
+        this.activityRule.passphraseRows.forEach((row) => {
+          if (byEnt[row.enterprise_id]) {
+            this.$set(row, 'passphrase_code', byEnt[row.enterprise_id])
+          }
+        })
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    async confirmPassphraseBatchGenerateCodes() {
+      if (this.passphraseBatchCodeGenerating) {
+        return
+      }
+      this.passphraseBatchCodeGenerating = true
+      try {
+        await this.onGeneratePassphraseCodes()
+        this.passphraseBatchCodePopoverVisible = false
+      } finally {
+        this.passphraseBatchCodeGenerating = false
+      }
     },
     priceShowData(form, isDetail) {
       //接口需要
@@ -750,8 +1157,25 @@ export default {
         orderMiniAmount,
         modifyReceiveAddress,
         is_discount_description_enabled,
-        discount_description
+        discount_description,
+        is_passphrase_enabled,
+        passphraseRows
       } = this.activityRule
+      const usePassphrase = !!is_passphrase_enabled
+      const preheatMoment = moment(preheatTime)
+      const employeeBeginUnix = moment(employeeDateTime[0]).unix()
+      const employeeEndUnix = moment(employeeDateTime[1]).unix()
+      let employeeLimitfeeFen = Math.max(0, Math.round((Number(quota) || 0) * 100))
+      let ifRelativeJoin = join ? 1 : 0
+      let inviteLimitVal = num
+      let ifShareLimitfee = type == '2'
+      let relativeLimitfeeFen = shareLimit * 100
+      if (usePassphrase) {
+        ifRelativeJoin = 0
+        inviteLimitVal = 0
+        ifShareLimitfee = false
+        relativeLimitfeeFen = 0
+      }
       let params = {
         name,
         title,
@@ -759,27 +1183,39 @@ export default {
         share_pic: share_pic,
         pic: pic,
         enterprise_id: companyList.map((item) => item.id),
-        display_time: moment(preheatTime).unix(),
-        employee_begin_time: moment(employeeDateTime[0]).unix(),
-        employee_end_time: moment(employeeDateTime[1]).unix(),
-        employee_limitfee: quota * 100,
-        if_relative_join: join ? 1 : 0,
-        invite_limit: num,
-        if_share_limitfee: type == '2',
-        relative_limitfee: shareLimit * 100,
+        display_time: preheatMoment.unix(),
+        employee_begin_time: employeeBeginUnix,
+        employee_end_time: employeeEndUnix,
+        employee_limitfee: employeeLimitfeeFen,
+        if_relative_join: ifRelativeJoin,
+        invite_limit: inviteLimitVal,
+        if_share_limitfee: ifShareLimitfee,
+        relative_limitfee: relativeLimitfeeFen,
         minimum_amount: orderMiniAmount * 100,
         close_modify_hours_after_activity: modifyReceiveAddress,
         price_display_config: JSON.stringify(this.priceShowData(this.activityRule)),
         is_discount_description_enabled,
-        discount_description
+        discount_description,
+        is_passphrase_enabled: usePassphrase ? 1 : 0
       }
-      if (relativesDateTime[0]) {
+      // 口令企业行结构见 ecshopx-api/docs/employeepurchase-passphrase-frontend.md §2.1（别名 quota/code 后端亦支持，此处用规范字段名）
+      if (usePassphrase) {
+        params.passphrase_enterprises = JSON.stringify(
+          (passphraseRows || []).map((r) => ({
+            enterprise_id: Number(r.enterprise_id),
+            participate_quota: Number(r.participate_quota),
+            passphrase_limitfee: Math.max(0, Math.round((Number(r.passphrase_limitfee) || 0) * 100)),
+            passphrase_code: String(r.passphrase_code || '').trim()
+          }))
+        )
+      }
+      if (!usePassphrase && relativesDateTime[0]) {
         params = {
           ...params,
           relative_begin_time: moment(relativesDateTime[0]).unix()
         }
       }
-      if (relativesDateTime[1]) {
+      if (!usePassphrase && relativesDateTime[1]) {
         params = {
           ...params,
           relative_end_time: moment(relativesDateTime[1]).unix()
@@ -796,12 +1232,12 @@ export default {
       }
     },
     onRadioChange(e) {
-      const prev = this.activityRuleDisabledOverrides[3] || {}
+      const prev = this.activityRuleDisabledOverrides[5] || {}
       if (e == '1') {
-        this.$set(this.activityRuleDisabledOverrides, 3, { ...prev, shareLimit: false })
+        this.$set(this.activityRuleDisabledOverrides, 5, { ...prev, shareLimit: false })
       } else {
         this.activityRule.relatives.shareLimit = 0
-        this.$set(this.activityRuleDisabledOverrides, 3, { ...prev, shareLimit: true })
+        this.$set(this.activityRuleDisabledOverrides, 5, { ...prev, shareLimit: true })
       }
     }
   }
