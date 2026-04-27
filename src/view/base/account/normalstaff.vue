@@ -166,6 +166,7 @@
       :is-valid="isValid"
       :rel-data-ids="relDistributors"
       :get-status="DistributorStatus"
+      :query-params="{ show_distributor_self: 1 }"
       @chooseStore="DistributorChooseAction"
       @closeStoreDialog="closeDialogAction"
     />
