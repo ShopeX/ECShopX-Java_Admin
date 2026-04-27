@@ -8220,14 +8220,16 @@
 		"ar": "تعيين النطاق المرئي الافتراضي للمتجر"
 	},
 	"33l8rq9": {
-		"zh-cn": "新增默认虚拟店信息",
-		"en": "Add default virtual store information",
-		"ar": "إضافة معلومات متجر افتراضي افتراضي"
+		"zh-cn": "新增线上店铺",
+		"en": "Add the online store",
+		"zh-tw": "",
+		"ar": "إضافة المتجر الإلكتروني"
 	},
 	"6svtqf9": {
-		"zh-cn": "编辑默认虚拟店信息",
-		"en": "Edit default virtual store information",
-		"ar": "تحرير معلومات المتجر الافتراضي الافتراضي"
+		"zh-cn": "编辑线上店铺",
+		"en": "Edit the online store",
+		"zh-tw": "",
+		"ar": "تحرير المتجر الإلكتروني"
 	},
 	"emxt2": {
 		"zh-cn": "全选",
@@ -35235,14 +35237,16 @@
 		"ar": "تحديد نطاق الرؤية الافتراضي للمتجر"
 	},
 	"2itprab": {
-		"zh-cn": " 新增默认虚拟店信息 ",
-		"en": "Add default virtual store information",
-		"ar": "إضافة معلومات متجر افتراضي افتراضي"
+		"zh-cn": " 新增线上店铺 ",
+		"en": "Add the online store",
+		"zh-tw": "",
+		"ar": "إضافة المتجر الإلكتروني"
 	},
 	"pd2nh5b": {
-		"zh-cn": " 编辑默认虚拟店信息 ",
-		"en": "Edit the default virtual store information",
-		"ar": "تعديل معلومات المتجر الافتراضي الافتراضية"
+		"zh-cn": " 编辑线上店铺 ",
+		"en": "Edit the online store",
+		"zh-tw": "",
+		"ar": "تعديل المتجر الإلكتروني"
 	},
 	"ltzl586": {
 		"zh-cn": " 店铺装修 ",
