@@ -4,18 +4,18 @@ const sectionRegistry = {
   carousel: {
     type: 'carousel',
     title: '',
-    titleKey: 'decorationeditor.section.carousel',
+    titleKey: 'd65dbcac.0c0180',
     icon: 'el-icon-picture-outline',
     settings: {
       title: '',
       autoplay: true,
-      height: 380
+      height: 520
     },
-    initialBlocks: ['image'],
+    initialBlocks: ['image', 'image', 'image'],
     blockTypes: {
       image: {
         title: '',
-        titleKey: 'decorationeditor.block.image',
+        titleKey: 'd65dbcac.20def7',
         defaultBlock: {
           type: 'image',
           settings: {
@@ -29,7 +29,7 @@ const sectionRegistry = {
   'image-hotspot': {
     type: 'image-hotspot',
     title: '',
-    titleKey: 'decorationeditor.section.imageHotspot',
+    titleKey: 'd65dbcac.081a81',
     icon: 'el-icon-map-location',
     settings: {
       title: '',
@@ -39,7 +39,7 @@ const sectionRegistry = {
     blockTypes: {
       hotspot: {
         title: '',
-        titleKey: 'decorationeditor.block.hotspot',
+        titleKey: 'd65dbcac.50da72',
         defaultBlock: {
           type: 'hotspot',
           settings: {
@@ -55,7 +55,7 @@ const sectionRegistry = {
   'product-shelf': {
     type: 'product-shelf',
     title: '',
-    titleKey: 'decorationeditor.section.productShelf',
+    titleKey: 'd65dbcac.4a02ad',
     icon: 'el-icon-s-grid',
     settings: {
       title: '',
@@ -71,10 +71,40 @@ const sectionRegistry = {
 }
 
 const globalSectionRegistry = {
+  'announcement-bar': {
+    type: 'announcement-bar',
+    title: '',
+    titleKey: 'd65dbcac.3921b6',
+    icon: 'el-icon-notebook-2',
+    settings: {
+      full_width: false,
+      auto_rotate: false,
+      enable_country_selector: false,
+      color_mode: 'light',
+      show_line_separator: true,
+      change_slides_speed: 5,
+      color_style: 'pure',
+      show_social: false,
+      enable_language_selector: false
+    },
+    initialBlocks: ['announcement'],
+    blockTypes: {
+      announcement: {
+        title: '',
+        titleKey: 'd65dbcac.fa86f1',
+        defaultBlock: {
+          type: 'announcement',
+          settings: {
+            text: ''
+          }
+        }
+      }
+    }
+  },
   header: {
     type: 'header',
     title: '',
-    titleKey: 'decorationeditor.section.header',
+    titleKey: 'd65dbcac.917f14',
     icon: 'el-icon-s-home',
     settings: {
       title: '',
@@ -85,7 +115,7 @@ const globalSectionRegistry = {
     blockTypes: {
       'nav-item': {
         title: '',
-        titleKey: 'decorationeditor.block.navItem',
+        titleKey: 'd65dbcac.ae5ff3',
         defaultBlock: {
           type: 'nav-item',
           settings: {
@@ -99,7 +129,7 @@ const globalSectionRegistry = {
   footer: {
     type: 'footer',
     title: '',
-    titleKey: 'decorationeditor.section.footer',
+    titleKey: 'd65dbcac.4eb88f',
     icon: 'el-icon-s-platform',
     settings: {
       title: '',
@@ -110,7 +140,7 @@ const globalSectionRegistry = {
     blockTypes: {
       'footer-link': {
         title: '',
-        titleKey: 'decorationeditor.block.footerLink',
+        titleKey: 'd65dbcac.406baf',
         defaultBlock: {
           type: 'footer-link',
           settings: {
@@ -128,7 +158,7 @@ const globalSectionTemplates = {
     id: 'header',
     type: 'header',
     title: '',
-    titleKey: 'decorationeditor.section.header',
+    titleKey: 'd65dbcac.917f14',
     disabled: false,
     settings: {
       title: '',
@@ -150,7 +180,7 @@ const globalSectionTemplates = {
     id: 'footer',
     type: 'footer',
     title: '',
-    titleKey: 'decorationeditor.section.footer',
+    titleKey: 'd65dbcac.4eb88f',
     disabled: false,
     settings: {
       title: '',

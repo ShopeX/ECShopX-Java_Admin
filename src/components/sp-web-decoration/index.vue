@@ -1,108 +1,154 @@
-<style lang="scss" src="./index.scss"></style>
-
 <template>
-  <div class="decoration-editor">
-    <div class="editor-header">
-      <div class="header-main">
+  <div class="flex h-full min-h-screen flex-col bg-[#f3f4f7]">
+    <div
+      class="box-border flex min-h-14 items-center justify-between gap-3 border-b border-[#e6e9ef] bg-white/95 px-[14px] py-2 max-[1360px]:flex-wrap max-[1360px]:items-stretch"
+    >
+      <div class="flex min-w-0 items-center gap-2.5">
         <el-button
-          class="header-back"
+          class="!shrink-0"
           icon="el-icon-arrow-left"
           circle
           size="mini"
           @click="$emit('back')"
         />
-        <div class="header-copy">
-          <div class="editor-title">{{ titleText }}</div>
-          <div class="editor-meta">
-            <span>{{ $t('decorationeditor.homeScope') }}</span>
+        <div class="flex min-w-0 flex-col items-start gap-0.5">
+          <div class="text-sm font-semibold leading-5 text-[#18222f]">{{ titleText }}</div>
+          <div class="flex items-center gap-2 whitespace-nowrap text-[11px] text-[#6b7785]">
+            <span>{{ $t('30ac5b9e.425e37') }}</span>
             <span v-if="templateId">#{{ templateId }}</span>
           </div>
         </div>
       </div>
-      <div class="header-toolbar">
-        <div class="toolbar-group">
-          <span class="toolbar-label">{{ $t('decorationeditor.toolbar.page') }}</span>
-          <el-select size="small" :value="pageType" disabled>
-            <el-option :label="$t('decorationeditor.page.home')" value="home" />
+      <div
+        class="flex min-w-0 flex-1 items-center justify-center gap-2.5 max-[1180px]:order-3 max-[1180px]:w-full max-[1180px]:justify-start max-[1180px]:overflow-x-auto"
+      >
+        <div
+          class="flex min-h-[34px] items-center gap-1.5 rounded-[10px] border border-[rgba(17,24,39,0.08)] bg-[rgba(250,251,253,0.95)] px-2 py-1"
+        >
+          <span class="whitespace-nowrap text-[11px] text-[#6b7785]">{{
+            $t('30ac5b9e.59ceff')
+          }}</span>
+          <el-select class="w-[120px]" size="small" :value="pageType" disabled>
+            <el-option :label="$t('30ac5b9e.db1c89')" value="home" />
           </el-select>
         </div>
-        <div class="toolbar-group">
-          <span class="toolbar-label">{{ $t('decorationeditor.toolbar.device') }}</span>
-          <el-button-group>
+        <div
+          class="flex min-h-[34px] items-center gap-1.5 rounded-[10px] border border-[rgba(17,24,39,0.08)] bg-[rgba(250,251,253,0.95)] px-2 py-1"
+        >
+          <span class="whitespace-nowrap text-[11px] text-[#6b7785]">{{
+            $t('30ac5b9e.f55f17')
+          }}</span>
+          <el-button-group class="!inline-flex !items-center gap-1.5">
             <el-button
+              class="!inline-flex !h-7 !min-h-7 !items-center !justify-center !rounded-lg !px-2.5 !text-xs !leading-none"
               size="small"
               :type="viewMode === 'desktop' ? 'primary' : 'default'"
               @click="viewMode = 'desktop'"
             >
-              {{ $t('decorationeditor.toolbar.desktop') }}
+              {{ $t('30ac5b9e.2828b7') }}
             </el-button>
             <el-button
+              class="!inline-flex !h-7 !min-h-7 !items-center !justify-center !rounded-lg !px-2.5 !text-xs !leading-none"
               size="small"
               :type="viewMode === 'mobile' ? 'primary' : 'default'"
               @click="viewMode = 'mobile'"
             >
-              {{ $t('decorationeditor.toolbar.mobile') }}
+              {{ $t('30ac5b9e.68d982') }}
             </el-button>
           </el-button-group>
         </div>
-        <div class="toolbar-group">
-          <span class="toolbar-label">{{ $t('decorationeditor.toolbar.history') }}</span>
-          <el-button-group>
-            <el-button size="small" :disabled="!canUndo" @click="handleUndo">
-              {{ $t('decorationeditor.toolbar.undo') }}
+        <div
+          class="flex min-h-[34px] items-center gap-1.5 rounded-[10px] border border-[rgba(17,24,39,0.08)] bg-[rgba(250,251,253,0.95)] px-2 py-1"
+        >
+          <span class="whitespace-nowrap text-[11px] text-[#6b7785]">{{
+            $t('30ac5b9e.c827d8')
+          }}</span>
+          <el-button-group class="!inline-flex !items-center gap-1.5">
+            <el-button
+              class="!inline-flex !h-7 !min-h-7 !items-center !justify-center !rounded-lg !px-2.5 !text-xs !leading-none"
+              size="small"
+              :disabled="!canUndo"
+              @click="handleUndo"
+            >
+              {{ $t('30ac5b9e.bd9fcf') }}
             </el-button>
-            <el-button size="small" :disabled="!canRedo" @click="handleRedo">
-              {{ $t('decorationeditor.toolbar.redo') }}
+            <el-button
+              class="!inline-flex !h-7 !min-h-7 !items-center !justify-center !rounded-lg !px-2.5 !text-xs !leading-none"
+              size="small"
+              :disabled="!canRedo"
+              @click="handleRedo"
+            >
+              {{ $t('30ac5b9e.c7db6d') }}
             </el-button>
           </el-button-group>
         </div>
       </div>
-      <div class="header-actions">
-        <el-button type="primary" size="small" :loading="isSaving || loading" @click="handleSave">
-          {{ $t('decorationeditor.save') }}
+      <div class="flex items-center gap-2">
+        <el-button
+          class="!min-w-20 !rounded-lg"
+          type="primary"
+          size="small"
+          :loading="isSaving || loading"
+          @click="handleSave"
+        >
+          {{ $t('30ac5b9e.be5fbb') }}
         </el-button>
       </div>
     </div>
 
-    <div v-loading="loading" class="editor-body">
-      <StructurePanel
-        :dsl="dsl"
-        :global-dsl="globalDsl"
-        :selected-section-id="selectedSectionId"
-        :selected-block-id="selectedBlockId"
-        :expanded-section-ids="expandedSectionIds"
-        :section-definitions="sectionDefinitions"
-        @add-section="handleAddSection"
-        @select-section="handleSelectSection"
-        @select-block="handleSelectBlock"
-        @toggle-section="handleToggleSection"
-        @duplicate-section="handleDuplicateSection"
-        @remove-section="handleRemoveSection"
-        @reorder-sections="handleReorderSections"
-        @add-block="handleAddBlock"
-        @remove-block="handleRemoveBlock"
-        @reorder-blocks="handleReorderBlocks"
-      />
+    <div
+      v-loading="loading"
+      class="grid flex-1 min-h-0 grid-cols-[260px_minmax(0,1fr)_304px] grid-rows-[minmax(0,1fr)] p-0 max-[1360px]:grid-cols-[236px_minmax(0,1fr)_280px] max-[1180px]:grid-cols-1 max-[1180px]:grid-rows-none max-[1180px]:auto-rows-[minmax(260px,auto)]"
+    >
+      <div class="min-w-0 min-h-0 h-full">
+        <StructurePanel
+          :dsl="dsl"
+          :global-dsl="globalDsl"
+          :selected-section-id="selectedSectionId"
+          :selected-block-id="selectedBlockId"
+          :expanded-section-ids="expandedSectionIds"
+          :section-definitions="sectionDefinitions"
+          @add-section="handleAddSection"
+          @select-section="handleSelectSection"
+          @select-block="handleSelectBlock"
+          @toggle-section="handleToggleSection"
+          @duplicate-section="handleDuplicateSection"
+          @remove-section="handleRemoveSection"
+          @reorder-sections="handleReorderSections"
+          @add-block="handleAddBlock"
+          @remove-block="handleRemoveBlock"
+          @reorder-blocks="handleReorderBlocks"
+          @add-global-section="handleAddGlobalSection"
+          @toggle-section-disabled="handleToggleSectionDisabled"
+        />
+      </div>
 
-      <PreviewCanvas
-        :dsl="previewDsl"
-        :page-type="pageType"
-        :page-id="pageId"
-        :template-id="templateId"
-        :website-url="websiteUrl"
-        :device="viewMode"
-        @focus-section="handleSelectSection"
-        @focus-block="handleSelectBlock"
-        @preview-ready="handlePreviewReady"
-      />
+      <div class="min-w-0 min-h-0 h-full">
+        <PreviewCanvas
+          :dsl="dsl"
+          :global-dsl="globalDsl"
+          :page-type="pageType"
+          :page-id="pageId"
+          :template-id="templateId"
+          :website-url="websiteUrl"
+          :device="viewMode"
+          :selected-section-id="selectedSectionId"
+          :selected-block-id="selectedBlockId"
+          @focus-section="handleSelectSection"
+          @focus-block="handleSelectBlock"
+          @preview-ready="handlePreviewReady"
+        />
+      </div>
 
-      <ConfigPanel
-        :section="selectedSection"
-        :block="selectedBlock"
-        @update-settings="handleUpdateSettings"
-        @update-section="handleUpdateSection"
-        @update-block="handleUpdateBlock"
-      />
+      <div class="min-w-0 min-h-0 h-full">
+        <ConfigPanel
+          :section="selectedSection"
+          :block="selectedBlock"
+          @update-settings="handleUpdateSettings"
+          @update-section="handleUpdateSection"
+          @update-block="handleUpdateBlock"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -194,14 +240,11 @@ export default {
     selectedBlock() {
       return this.selectedBlockId ? this.$store.getters['decoration/currentBlock'] : null
     },
-    previewDsl() {
-      return this.$store.getters['decoration/activeDsl']
-    },
     sectionDefinitions() {
       return getSectionTypes().map((type) => getSectionDefinition(type))
     },
     titleText() {
-      return this.title || this.$t('f9eb643d.6741a0')
+      return this.title || this.$t('30ac5b9e.6741a0')
     },
     canUndo() {
       return this.historyPast.length > 1
@@ -295,6 +338,19 @@ export default {
     },
     handleAddBlock({ sectionId, blockType }) {
       this.$store.commit('decoration/addBlock', { sectionId, blockType })
+      this.recordHistory()
+    },
+    handleAddGlobalSection(type) {
+      this.$store.commit('decoration/addGlobalSection', type)
+      this.recordHistory()
+    },
+    handleToggleSectionDisabled(sectionId) {
+      const section = this.globalDsl.sections?.[sectionId] || this.dsl.sections?.[sectionId] || null
+      if (!section) return
+      this.$store.commit('decoration/setSectionDisabled', {
+        sectionId,
+        disabled: !section.disabled
+      })
       this.recordHistory()
     },
     handleRemoveBlock(payload) {

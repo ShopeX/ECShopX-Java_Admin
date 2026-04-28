@@ -16,34 +16,38 @@ function createHomeDsl({ pageId = '', scene = '1001' } = {}) {
 }
 
 function createGlobalDsl(sections) {
+  const resolvedSections = cloneValue(
+    sections || {
+      header: {
+        id: 'header',
+        type: 'header',
+        title: '',
+        titleKey: '5f1b7ccc.917f14',
+        disabled: false,
+        settings: {},
+        blocks: {},
+        blockOrder: []
+      },
+      footer: {
+        id: 'footer',
+        type: 'footer',
+        title: '',
+        titleKey: '5f1b7ccc.4eb88f',
+        disabled: false,
+        settings: {},
+        blocks: {},
+        blockOrder: []
+      }
+    }
+  )
+  const order = ['header']
+  if (resolvedSections['announcement-bar']) order.unshift('announcement-bar')
+  if (resolvedSections.footer) order.push('footer')
   return {
     pageType: 'global',
     pageId: 'global',
-    sections: cloneValue(
-      sections || {
-        header: {
-          id: 'header',
-          type: 'header',
-          title: '',
-          titleKey: 'decorationeditor.section.header',
-          disabled: false,
-          settings: {},
-          blocks: {},
-          blockOrder: []
-        },
-        footer: {
-          id: 'footer',
-          type: 'footer',
-          title: '',
-          titleKey: 'decorationeditor.section.footer',
-          disabled: false,
-          settings: {},
-          blocks: {},
-          blockOrder: []
-        }
-      }
-    ),
-    order: ['header', 'footer']
+    sections: resolvedSections,
+    order
   }
 }
 

@@ -1,17 +1,22 @@
 <template>
-  <div class="decoration-editor-panel config-panel">
-    <div class="decoration-editor-panel__header">
-      <div class="decoration-editor-panel__title">
-        {{ $t('decorationeditor.configTitle') }}
+  <div class="h-full flex min-h-0 flex-col border-l border-[#e6e9ef] bg-white">
+    <div
+      class="flex min-h-12 items-center justify-between gap-2.5 border-b border-[#e6e9ef] px-[14px] py-[10px]"
+    >
+      <div class="text-xs font-semibold text-[#18222f]">
+        {{ $t('250dc970.6aab38') }}
       </div>
-      <div v-if="currentTitle" class="config-panel__section-name">
+      <div v-if="currentTitle" class="text-[11px] text-[#6b7785]">
         {{ currentTitle }}
       </div>
     </div>
 
-    <div class="decoration-editor-panel__body config-panel__body">
-      <div v-if="!section" class="decoration-editor-empty">
-        {{ $t('decorationeditor.emptySelection') }}
+    <div class="flex-1 overflow-auto px-[14px] pb-[18px] pt-3">
+      <div
+        v-if="!section"
+        class="flex min-h-[180px] items-center justify-center rounded-xl border border-dashed border-[#d7dde7] bg-[#fbfbfc] p-6 text-center text-[#6b7785]"
+      >
+        {{ $t('250dc970.b2fac9') }}
       </div>
 
       <component
@@ -33,14 +38,17 @@ import ImageHotspotPanel from '../panels/ImageHotspotPanel.vue'
 import ProductShelfPanel from '../panels/ProductShelfPanel.vue'
 import HeaderPanel from '../panels/HeaderPanel.vue'
 import FooterPanel from '../panels/FooterPanel.vue'
+import AnnouncementBarPanel from '../panels/AnnouncementBarPanel.vue'
 import ImageBlockPanel from '../panels/ImageBlockPanel.vue'
 import HotspotBlockPanel from '../panels/HotspotBlockPanel.vue'
 import NavItemBlockPanel from '../panels/NavItemBlockPanel.vue'
 import FooterLinkBlockPanel from '../panels/FooterLinkBlockPanel.vue'
+import AnnouncementBlockPanel from '../panels/AnnouncementBlockPanel.vue'
 
 const { getBlockDefinition } = require('../registry')
 
 const sectionPanelMap = {
+  'announcement-bar': AnnouncementBarPanel,
   header: HeaderPanel,
   footer: FooterPanel,
   carousel: CarouselPanel,
@@ -49,6 +57,7 @@ const sectionPanelMap = {
 }
 
 const blockPanelMap = {
+  announcement: AnnouncementBlockPanel,
   image: ImageBlockPanel,
   hotspot: HotspotBlockPanel,
   'nav-item': NavItemBlockPanel,
@@ -63,10 +72,12 @@ export default {
     ProductShelfPanel,
     HeaderPanel,
     FooterPanel,
+    AnnouncementBarPanel,
     ImageBlockPanel,
     HotspotBlockPanel,
     NavItemBlockPanel,
-    FooterLinkBlockPanel
+    FooterLinkBlockPanel,
+    AnnouncementBlockPanel
   },
   props: {
     section: {
@@ -92,10 +103,7 @@ export default {
     currentTitle() {
       if (this.block && this.section) {
         const definition = getBlockDefinition(this.section.type, this.block.type)
-        return (
-          this.block.settings?.label ||
-          this.$t(definition?.titleKey || 'decorationeditor.block.item')
-        )
+        return this.block.settings?.label || this.$t(definition?.titleKey || '250dc970.7f56ad')
       }
       if (this.section) {
         return this.section.settings?.title || this.$t(this.section.titleKey)
@@ -114,23 +122,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.config-panel {
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid var(--editor-border);
-  background: #fff;
-}
-
-.config-panel__body {
-  flex: 1;
-  overflow: auto;
-  padding: 12px 14px 18px;
-}
-
-.config-panel__section-name {
-  font-size: 11px;
-  color: var(--text-sub);
-}
-</style>

@@ -1,11 +1,11 @@
 <template>
-  <el-form label-position="top" size="small" class="decoration-panel-form">
-    <el-form-item :label="$t('decorationeditor.field.label')">
+  <el-form label-position="top" size="small" class="space-y-3">
+    <el-form-item :label="$t('e02c8a16.14d342')">
       <el-input :value="value.label" @input="updateField('label', $event)" />
     </el-form-item>
 
-    <div class="decoration-editor-inline-fields">
-      <el-form-item :label="$t('decorationeditor.field.x')">
+    <div class="grid grid-cols-2 gap-3">
+      <el-form-item :label="$t('e02c8a16.488d54')">
         <el-input-number
           :value="value.x"
           :min="0"
@@ -15,7 +15,7 @@
         />
       </el-form-item>
 
-      <el-form-item :label="$t('decorationeditor.field.y')">
+      <el-form-item :label="$t('e02c8a16.4d7b6d')">
         <el-input-number
           :value="value.y"
           :min="0"
@@ -26,7 +26,7 @@
       </el-form-item>
     </div>
 
-    <el-form-item :label="$t('decorationeditor.field.link')">
+    <el-form-item :label="$t('e02c8a16.dec2eb')">
       <el-input :value="value.link" @input="updateField('link', $event)" />
     </el-form-item>
   </el-form>

@@ -15,7 +15,7 @@ function createBlockPickerItems(sectionType) {
     return {
       key: blockType,
       type: blockType,
-      titleKey: definition?.titleKey || 'decorationeditor.block.item'
+      titleKey: definition?.titleKey || '134c6b2c.7f56ad'
     }
   })
 }

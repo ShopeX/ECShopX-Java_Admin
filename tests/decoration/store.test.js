@@ -22,7 +22,7 @@ function testInitializeEditor() {
   decorationStore.mutations.initializeEditor(state, payload)
   assert.strictEqual(state.pageId, '12')
   assert.strictEqual(state.dsl.pageType, 'home')
-  assert.deepStrictEqual(state.globalDsl.order, ['header', 'footer'])
+  assert.deepStrictEqual(state.globalDsl.order, ['announcement-bar', 'header', 'footer'])
   assert.deepStrictEqual(state.expandedSectionIds, [])
 }
 
@@ -72,6 +72,23 @@ function testSectionActions() {
 
 function testGlobalSelectionAndPreviewDsl() {
   const state = createState()
+  decorationStore.mutations.selectSection(state, 'announcement-bar')
+  assert.strictEqual(state.selectedSectionId, 'announcement-bar')
+  assert.strictEqual(state.editingScope, 'global')
+
+  const announcementBlockId = state.globalDsl.sections['announcement-bar'].blockOrder[0]
+  decorationStore.mutations.selectBlock(state, {
+    sectionId: 'announcement-bar',
+    blockId: announcementBlockId
+  })
+  assert.strictEqual(state.editingScope, 'global')
+  assert.strictEqual(
+    decorationStore.getters.currentBlock(state, {
+      currentSection: decorationStore.getters.currentSection(state)
+    }).type,
+    'announcement'
+  )
+
   decorationStore.mutations.selectSection(state, 'header')
   assert.strictEqual(state.selectedSectionId, 'header')
   assert.strictEqual(state.editingScope, 'global')
@@ -96,7 +113,12 @@ function testGlobalSelectionAndPreviewDsl() {
 
   decorationStore.mutations.addSection(state, { type: 'carousel' })
   const previewDsl = decorationStore.getters.activeDsl(state)
-  assert.deepStrictEqual(previewDsl.order, ['header', state.dsl.order[0], 'footer'])
+  assert.deepStrictEqual(previewDsl.order, [
+    'announcement-bar',
+    'header',
+    state.dsl.order[0],
+    'footer'
+  ])
 }
 
 function testFlags() {

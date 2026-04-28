@@ -1,88 +1,217 @@
 <template>
-  <div class="decoration-editor-panel structure-panel">
-    <div class="decoration-editor-panel__header">
-      <div class="decoration-editor-panel__title">
-        {{ $t('decorationeditor.structureTitle') }}
+  <div class="h-full flex min-h-0 flex-col border-r border-[#e6e9ef] bg-white">
+    <div
+      class="flex min-h-12 items-center justify-between gap-2.5 border-b border-[#e6e9ef] px-[14px] py-[10px]"
+    >
+      <div class="text-xs font-semibold text-[#18222f]">
+        {{ $t('54e3d97e.768f6f') }}
       </div>
     </div>
 
-    <div class="decoration-editor-panel__body structure-panel__body">
-      <div class="structure-tree">
-        <div class="structure-group">
-          <div class="structure-tree__group">
+    <div class="h-full overflow-hidden px-3 pb-4 pt-2.5">
+      <div class="h-full overflow-auto pr-1">
+        <div>
+          <div
+            class="mb-2 px-2 text-[11px] font-semibold leading-4 tracking-[0.06em] text-[#7c8798]"
+          >
+            <span>{{ $t('54e3d97e.917f14') }}</span>
+          </div>
+          <div class="space-y-1.5">
+            <template v-if="announcementSection">
+              <div
+                :class="[
+                  'flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
+                  {
+                    'bg-[rgba(37,99,235,0.1)]':
+                      selectedSectionId === 'announcement-bar' && !selectedBlockId
+                  }
+                ]"
+                @click="$emit('select-section', 'announcement-bar')"
+              >
+                <button
+                  type="button"
+                  class="h-[18px] w-[18px] shrink-0 cursor-pointer border-0 bg-transparent p-0 text-[#6b7785]"
+                  @click.stop="$emit('toggle-section', 'announcement-bar')"
+                >
+                  <i
+                    :class="
+                      isExpanded('announcement-bar') ? 'el-icon-arrow-down' : 'el-icon-arrow-right'
+                    "
+                  />
+                </button>
+                <div class="min-w-0 flex-1">
+                  <div
+                    class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
+                  >
+                    <i class="el-icon-menu text-sm text-[#475467]" />
+                    {{ getSectionDisplayLabel('announcement-bar') }}
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="h-[18px] w-[18px] shrink-0 cursor-pointer border-0 bg-transparent p-0 text-[#6b7785]"
+                  @click.stop="$emit('toggle-section-disabled', 'announcement-bar')"
+                >
+                  <i
+                    :class="isSectionDisabled('announcement-bar') ? 'el-icon-view' : 'el-icon-view'"
+                  />
+                </button>
+              </div>
+
+              <draggable
+                v-if="isExpanded('announcement-bar') && getBlockOrder('announcement-bar').length"
+                v-model="localBlockOrders['announcement-bar']"
+                handle="[data-drag-handle='block']"
+                @change="handleBlockOrderChange('announcement-bar')"
+              >
+                <div
+                  v-for="blockId in getBlockOrder('announcement-bar')"
+                  :key="blockId"
+                  :class="[
+                    'mt-0.5 ml-6 flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] text-[#6b7785] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
+                    {
+                      'bg-[rgba(37,99,235,0.1)]':
+                        selectedSectionId === 'announcement-bar' && selectedBlockId === blockId
+                    }
+                  ]"
+                  @click="$emit('select-block', { sectionId: 'announcement-bar', blockId })"
+                >
+                  <i
+                    data-drag-handle="block"
+                    class="el-icon-rank cursor-move text-xs text-[#6b7785]"
+                  />
+                  <div class="min-w-0 flex-1">
+                    <div
+                      class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
+                    >
+                      <i class="el-icon-document text-sm text-[#475467]" />
+                      {{ getBlockLabel(announcementSection, blockId) }}
+                    </div>
+                  </div>
+                </div>
+              </draggable>
+
+              <div v-if="isExpanded('announcement-bar')" class="relative">
+                <button
+                  v-if="announcementBlockPickerItems.length"
+                  type="button"
+                  class="mt-2 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
+                  @click="toggleInsertMenu('block', 'announcement-bar')"
+                >
+                  <i class="el-icon-plus text-sm font-bold" />
+                  <span>{{ $t('54e3d97e.2e2d33') }}</span>
+                </button>
+                <div
+                  v-if="isInsertMenuOpen('block', 'announcement-bar')"
+                  class="absolute left-0 top-[calc(100%+6px)] z-[4] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                >
+                  <button
+                    v-for="item in announcementBlockPickerItems"
+                    :key="item.key"
+                    type="button"
+                    class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
+                    @click="selectBlockType('announcement-bar', item.type)"
+                  >
+                    {{ $t(item.titleKey) }}
+                  </button>
+                </div>
+              </div>
+            </template>
+
             <div
               :class="[
-                'structure-tree__item',
-                { active: selectedSectionId === 'header' && !selectedBlockId }
+                'flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
+                { 'bg-[rgba(37,99,235,0.1)]': selectedSectionId === 'header' && !selectedBlockId }
               ]"
               @click="$emit('select-section', 'header')"
             >
               <button
                 type="button"
-                class="structure-tree__toggle"
+                class="h-[18px] w-[18px] shrink-0 cursor-pointer border-0 bg-transparent p-0 text-[#6b7785]"
                 @click.stop="$emit('toggle-section', 'header')"
               >
                 <i :class="isExpanded('header') ? 'el-icon-arrow-down' : 'el-icon-arrow-right'" />
               </button>
-              <div class="structure-tree__copy">
-                <div class="structure-tree__title">
-                  {{ $t('decorationeditor.globalHeader') }}
+              <div class="min-w-0 flex-1">
+                <div
+                  class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
+                >
+                  <i class="el-icon-menu text-sm text-[#475467]" />
+                  {{ $t('54e3d97e.917f14') }}
                 </div>
               </div>
+              <button
+                type="button"
+                class="h-[18px] w-[18px] shrink-0 cursor-pointer border-0 bg-transparent p-0 text-[#6b7785]"
+                @click.stop="$emit('toggle-section-disabled', 'header')"
+              >
+                <i :class="isSectionDisabled('header') ? 'el-icon-view' : 'el-icon-view'" />
+              </button>
             </div>
 
             <draggable
               v-if="isExpanded('header') && headerBlockOrder.length"
               v-model="localBlockOrders.header"
-              handle=".structure-tree__block-drag"
-              class="structure-tree__blocks"
+              handle="[data-drag-handle='block']"
               @change="handleBlockOrderChange('header')"
             >
               <div
                 v-for="blockId in headerBlockOrder"
                 :key="blockId"
                 :class="[
-                  'structure-tree__block',
-                  { active: selectedSectionId === 'header' && selectedBlockId === blockId }
+                  'mt-0.5 ml-6 flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] text-[#6b7785] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
+                  {
+                    'bg-[rgba(37,99,235,0.1)]':
+                      selectedSectionId === 'header' && selectedBlockId === blockId
+                  }
                 ]"
                 @click="$emit('select-block', { sectionId: 'header', blockId })"
               >
-                <div class="structure-tree__block-drag">
-                  <i class="el-icon-rank" />
-                </div>
-                <div class="structure-tree__copy">
-                  <div class="structure-tree__title">
+                <i
+                  data-drag-handle="block"
+                  class="el-icon-rank cursor-move text-xs text-[#6b7785]"
+                />
+                <div class="min-w-0 flex-1">
+                  <div
+                    class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
+                  >
+                    <i class="el-icon-document text-sm text-[#475467]" />
                     {{ getBlockLabel(headerSection, blockId) }}
                   </div>
                 </div>
-                <button
-                  type="button"
-                  class="structure-tree__action danger"
-                  @click.stop="$emit('remove-block', { sectionId: 'header', blockId })"
-                >
-                  <i class="el-icon-delete" />
-                </button>
               </div>
             </draggable>
 
             <div v-if="isExpanded('header')">
-              <div class="structure-tree__insert-anchor">
+              <div class="relative">
+                <button
+                  v-if="!announcementSection"
+                  type="button"
+                  class="mt-2 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
+                  @click="$emit('add-global-section', 'announcement-bar')"
+                >
+                  <i class="el-icon-plus text-sm font-bold" />
+                  <span>{{ $t('54e3d97e.2e2d33') }}</span>
+                </button>
                 <button
                   v-if="headerBlockPickerItems.length"
                   type="button"
-                  class="structure-tree__adder"
+                  class="mt-2 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
                   @click="toggleInsertMenu('block', 'header')"
                 >
-                  <i class="el-icon-plus" />
-                  <span>{{ $t('decorationeditor.addBlock') }}</span>
+                  <i class="el-icon-plus text-sm font-bold" />
+                  <span>{{ $t('54e3d97e.2e2d33') }}</span>
                 </button>
 
-                <div v-if="isInsertMenuOpen('block', 'header')" class="structure-tree__insert-menu">
+                <div
+                  v-if="isInsertMenuOpen('block', 'header')"
+                  class="absolute left-0 top-[calc(100%+6px)] z-[4] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                >
                   <button
                     v-for="item in headerBlockPickerItems"
                     :key="item.key"
                     type="button"
-                    class="structure-tree__insert-item"
+                    class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
                     @click="selectBlockType('header', item.type)"
                   >
                     {{ $t(item.titleKey) }}
@@ -93,158 +222,112 @@
           </div>
         </div>
 
-        <div class="structure-group">
-          <div class="decoration-editor-list-header">
-            <span>{{ $t('decorationeditor.pageSections') }}</span>
+        <div class="mt-3.5 border-t border-[#eef1f5] pt-3.5">
+          <div
+            class="mb-2 px-2 text-[11px] font-semibold leading-4 tracking-[0.06em] text-[#7c8798]"
+          >
+            <span>{{ $t('54e3d97e.cdb7d0') }}</span>
           </div>
 
           <draggable
             v-model="localOrder"
-            handle=".structure-tree__drag"
-            class="structure-tree__sections-draggable"
+            handle="[data-drag-handle='section']"
+            class="flex flex-col gap-0"
             @change="handleOrderChange"
           >
-            <div
-              v-for="(sectionId, idx) in localOrder"
-              :key="sectionId"
-              class="structure-tree__page-section-wrap"
-            >
-              <div class="structure-tree__section-insert">
-                <div
-                  class="structure-tree__section-insert-line"
-                  :class="{
-                    'structure-tree__section-insert-line--menu-open': isInsertMenuOpen(
-                      'section',
-                      '',
-                      idx
-                    )
-                  }"
-                  @click="toggleInsertMenu('section', '', idx)"
-                >
-                  <button
-                    type="button"
-                    class="structure-tree__section-insert-btn"
-                    @click.stop="toggleInsertMenu('section', '', idx)"
-                  >
-                    <i class="el-icon-plus" />
-                    <span>{{ $t('decorationeditor.addSection') }}</span>
-                  </button>
-                </div>
-                <div
-                  v-if="isInsertMenuOpen('section', '', idx)"
-                  class="structure-tree__insert-menu structure-tree__insert-menu--section-gap"
-                >
-                  <button
-                    v-for="item in sectionPickerItems"
-                    :key="item.key"
-                    type="button"
-                    class="structure-tree__insert-item"
-                    @click="selectSectionType(item.type)"
-                  >
-                    <i :class="item.icon" />
-                    <span>{{ $t(item.titleKey) }}</span>
-                  </button>
-                </div>
-              </div>
-
-              <div class="structure-tree__group">
+            <div v-for="sectionId in localOrder" :key="sectionId" class="flex flex-col gap-0">
+              <div class="space-y-1.5">
                 <div
                   :class="[
-                    'structure-tree__item',
-                    { active: sectionId === selectedSectionId && !selectedBlockId }
+                    'flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
+                    {
+                      'bg-[rgba(37,99,235,0.1)]':
+                        sectionId === selectedSectionId && !selectedBlockId
+                    }
                   ]"
                   @click="$emit('select-section', sectionId)"
                 >
                   <button
                     type="button"
-                    class="structure-tree__toggle"
+                    class="h-[18px] w-[18px] shrink-0 cursor-pointer border-0 bg-transparent p-0 text-[#6b7785]"
                     @click.stop="$emit('toggle-section', sectionId)"
                   >
                     <i
                       :class="isExpanded(sectionId) ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"
                     />
                   </button>
-                  <div class="structure-tree__drag">
-                    <i class="el-icon-rank" />
-                  </div>
-                  <div class="structure-tree__copy">
-                    <div class="structure-tree__title">
+                  <i
+                    data-drag-handle="section"
+                    class="el-icon-rank cursor-move text-xs text-[#6b7785]"
+                  />
+                  <div class="min-w-0 flex-1">
+                    <div
+                      class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
+                    >
+                      <i class="el-icon-menu text-sm text-[#475467]" />
                       {{ getSectionLabel(sectionId) }}
                     </div>
                   </div>
-                  <div class="structure-tree__actions">
-                    <button
-                      type="button"
-                      class="structure-tree__action"
-                      @click.stop="$emit('duplicate-section', sectionId)"
-                    >
-                      <i class="el-icon-document-copy" />
-                    </button>
-                    <button
-                      type="button"
-                      class="structure-tree__action danger"
-                      @click.stop="$emit('remove-section', sectionId)"
-                    >
-                      <i class="el-icon-delete" />
-                    </button>
-                  </div>
+                  <i
+                    v-if="isSectionDisabled(sectionId)"
+                    class="el-icon-view ml-1.5 text-sm text-[#98a2b3]"
+                  />
                 </div>
 
                 <draggable
                   v-if="isExpanded(sectionId) && getBlockOrder(sectionId).length"
                   v-model="localBlockOrders[sectionId]"
-                  handle=".structure-tree__block-drag"
-                  class="structure-tree__blocks"
+                  handle="[data-drag-handle='block']"
                   @change="handleBlockOrderChange(sectionId)"
                 >
                   <div
                     v-for="blockId in getBlockOrder(sectionId)"
                     :key="blockId"
                     :class="[
-                      'structure-tree__block',
-                      { active: sectionId === selectedSectionId && selectedBlockId === blockId }
+                      'mt-0.5 ml-6 flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] text-[#6b7785] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
+                      {
+                        'bg-[rgba(37,99,235,0.1)]':
+                          sectionId === selectedSectionId && selectedBlockId === blockId
+                      }
                     ]"
                     @click="$emit('select-block', { sectionId, blockId })"
                   >
-                    <div class="structure-tree__block-drag">
-                      <i class="el-icon-rank" />
-                    </div>
-                    <div class="structure-tree__copy">
-                      <div class="structure-tree__title">
+                    <i
+                      data-drag-handle="block"
+                      class="el-icon-rank cursor-move text-xs text-[#6b7785]"
+                    />
+                    <div class="min-w-0 flex-1">
+                      <div
+                        class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
+                      >
+                        <i class="el-icon-document text-sm text-[#475467]" />
                         {{ getBlockLabel(dsl.sections[sectionId], blockId) }}
                       </div>
                     </div>
-                    <button
-                      type="button"
-                      class="structure-tree__action danger"
-                      @click.stop="$emit('remove-block', { sectionId, blockId })"
-                    >
-                      <i class="el-icon-delete" />
-                    </button>
                   </div>
                 </draggable>
 
                 <div v-if="isExpanded(sectionId)">
-                  <div class="structure-tree__insert-anchor structure-tree__insert-anchor--nested">
+                  <div class="relative ml-6">
                     <button
                       v-if="getBlockPickerItems(getSectionType(sectionId)).length"
                       type="button"
-                      class="structure-tree__adder structure-tree__adder--nested"
+                      class="mt-0.5 ml-6 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
                       @click="toggleInsertMenu('block', sectionId)"
                     >
-                      <i class="el-icon-plus" />
-                      <span>{{ $t('decorationeditor.addBlock') }}</span>
+                      <i class="el-icon-plus text-sm font-bold" />
+                      <span>{{ $t('54e3d97e.2e2d33') }}</span>
                     </button>
 
                     <div
                       v-if="isInsertMenuOpen('block', sectionId)"
-                      class="structure-tree__insert-menu structure-tree__insert-menu--nested"
+                      class="absolute left-0 top-[calc(100%+6px)] z-[4] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
                     >
                       <button
                         v-for="item in getBlockPickerItems(getSectionType(sectionId))"
                         :key="item.key"
                         type="button"
-                        class="structure-tree__insert-item"
+                        class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
                         @click="selectBlockType(sectionId, item.type)"
                       >
                         {{ $t(item.titleKey) }}
@@ -256,76 +339,24 @@
             </div>
           </draggable>
 
-          <div
-            v-if="!localOrder.length"
-            class="structure-tree__section-insert structure-tree__section-insert--empty"
-          >
-            <div
-              class="structure-tree__section-insert-line"
-              :class="{
-                'structure-tree__section-insert-line--menu-open': isInsertMenuOpen('section', '', 0)
-              }"
-              @click="toggleInsertMenu('section', '', 0)"
-            >
-              <button
-                type="button"
-                class="structure-tree__section-insert-btn"
-                @click.stop="toggleInsertMenu('section', '', 0)"
-              >
-                <i class="el-icon-plus" />
-                <span>{{ $t('decorationeditor.addSection') }}</span>
-              </button>
-            </div>
-            <div
-              v-if="isInsertMenuOpen('section', '', 0)"
-              class="structure-tree__insert-menu structure-tree__insert-menu--section-gap"
-            >
-              <button
-                v-for="item in sectionPickerItems"
-                :key="item.key"
-                type="button"
-                class="structure-tree__insert-item"
-                @click="selectSectionType(item.type)"
-              >
-                <i :class="item.icon" />
-                <span>{{ $t(item.titleKey) }}</span>
-              </button>
-            </div>
-          </div>
-
-          <div
-            v-if="localOrder.length"
-            class="structure-tree__section-insert structure-tree__section-insert--tail"
-          >
-            <div
-              class="structure-tree__section-insert-line"
-              :class="{
-                'structure-tree__section-insert-line--menu-open': isInsertMenuOpen(
-                  'section',
-                  '',
-                  localOrder.length
-                )
-              }"
+          <div class="relative">
+            <button
+              type="button"
+              class="mt-2 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
               @click="toggleInsertMenu('section', '', localOrder.length)"
             >
-              <button
-                type="button"
-                class="structure-tree__section-insert-btn"
-                @click.stop="toggleInsertMenu('section', '', localOrder.length)"
-              >
-                <i class="el-icon-plus" />
-                <span>{{ $t('decorationeditor.addSection') }}</span>
-              </button>
-            </div>
+              <i class="el-icon-plus text-sm font-bold" />
+              <span>{{ $t('54e3d97e.2e2d33') }}</span>
+            </button>
             <div
               v-if="isInsertMenuOpen('section', '', localOrder.length)"
-              class="structure-tree__insert-menu structure-tree__insert-menu--section-gap"
+              class="absolute left-0 top-[calc(100%+6px)] z-[4] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
             >
               <button
                 v-for="item in sectionPickerItems"
                 :key="item.key"
                 type="button"
-                class="structure-tree__insert-item"
+                class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
                 @click="selectSectionType(item.type)"
               >
                 <i :class="item.icon" />
@@ -334,86 +365,106 @@
             </div>
           </div>
 
-          <div v-if="!localOrder.length" class="decoration-editor-empty">
-            {{ $t('decorationeditor.emptyStructure') }}
+          <div
+            v-if="!localOrder.length"
+            class="flex min-h-[180px] items-center justify-center rounded-xl border border-dashed border-[#d7dde7] bg-[#fbfbfc] p-6 text-center text-[#6b7785]"
+          >
+            {{ $t('54e3d97e.bdf5be') }}
           </div>
         </div>
 
-        <div class="structure-group">
-          <div class="structure-tree__group">
+        <div class="mt-3.5 border-t border-[#eef1f5] pt-3.5">
+          <div
+            class="mb-2 px-2 text-[11px] font-semibold leading-4 tracking-[0.06em] text-[#7c8798]"
+          >
+            <span>{{ $t('54e3d97e.4eb88f') }}</span>
+          </div>
+          <div class="space-y-1.5">
             <div
               :class="[
-                'structure-tree__item',
-                { active: selectedSectionId === 'footer' && !selectedBlockId }
+                'flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
+                { 'bg-[rgba(37,99,235,0.1)]': selectedSectionId === 'footer' && !selectedBlockId }
               ]"
               @click="$emit('select-section', 'footer')"
             >
               <button
                 type="button"
-                class="structure-tree__toggle"
+                class="h-[18px] w-[18px] shrink-0 cursor-pointer border-0 bg-transparent p-0 text-[#6b7785]"
                 @click.stop="$emit('toggle-section', 'footer')"
               >
                 <i :class="isExpanded('footer') ? 'el-icon-arrow-down' : 'el-icon-arrow-right'" />
               </button>
-              <div class="structure-tree__copy">
-                <div class="structure-tree__title">
-                  {{ $t('decorationeditor.globalFooter') }}
+              <div class="min-w-0 flex-1">
+                <div
+                  class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
+                >
+                  <i class="el-icon-menu text-sm text-[#475467]" />
+                  {{ $t('54e3d97e.4eb88f') }}
                 </div>
               </div>
+              <button
+                type="button"
+                class="h-[18px] w-[18px] shrink-0 cursor-pointer border-0 bg-transparent p-0 text-[#6b7785]"
+                @click.stop="$emit('toggle-section-disabled', 'footer')"
+              >
+                <i :class="isSectionDisabled('footer') ? 'el-icon-view' : 'el-icon-view'" />
+              </button>
             </div>
 
             <draggable
               v-if="isExpanded('footer') && footerBlockOrder.length"
               v-model="localBlockOrders.footer"
-              handle=".structure-tree__block-drag"
-              class="structure-tree__blocks"
+              handle="[data-drag-handle='block']"
               @change="handleBlockOrderChange('footer')"
             >
               <div
                 v-for="blockId in footerBlockOrder"
                 :key="blockId"
                 :class="[
-                  'structure-tree__block',
-                  { active: selectedSectionId === 'footer' && selectedBlockId === blockId }
+                  'mt-0.5 ml-6 flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] text-[#6b7785] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
+                  {
+                    'bg-[rgba(37,99,235,0.1)]':
+                      selectedSectionId === 'footer' && selectedBlockId === blockId
+                  }
                 ]"
                 @click="$emit('select-block', { sectionId: 'footer', blockId })"
               >
-                <div class="structure-tree__block-drag">
-                  <i class="el-icon-rank" />
-                </div>
-                <div class="structure-tree__copy">
-                  <div class="structure-tree__title">
+                <i
+                  data-drag-handle="block"
+                  class="el-icon-rank cursor-move text-xs text-[#6b7785]"
+                />
+                <div class="min-w-0 flex-1">
+                  <div
+                    class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
+                  >
+                    <i class="el-icon-document text-sm text-[#475467]" />
                     {{ getBlockLabel(footerSection, blockId) }}
                   </div>
                 </div>
-                <button
-                  type="button"
-                  class="structure-tree__action danger"
-                  @click.stop="$emit('remove-block', { sectionId: 'footer', blockId })"
-                >
-                  <i class="el-icon-delete" />
-                </button>
               </div>
             </draggable>
 
             <div v-if="isExpanded('footer')">
-              <div class="structure-tree__insert-anchor">
+              <div class="relative">
                 <button
                   v-if="footerBlockPickerItems.length"
                   type="button"
-                  class="structure-tree__adder"
+                  class="mt-2 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
                   @click="toggleInsertMenu('block', 'footer')"
                 >
-                  <i class="el-icon-plus" />
-                  <span>{{ $t('decorationeditor.addBlock') }}</span>
+                  <i class="el-icon-plus text-sm font-bold" />
+                  <span>{{ $t('54e3d97e.2e2d33') }}</span>
                 </button>
 
-                <div v-if="isInsertMenuOpen('block', 'footer')" class="structure-tree__insert-menu">
+                <div
+                  v-if="isInsertMenuOpen('block', 'footer')"
+                  class="absolute left-0 top-[calc(100%+6px)] z-[4] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                >
                   <button
                     v-for="item in footerBlockPickerItems"
                     :key="item.key"
                     type="button"
-                    class="structure-tree__insert-item"
+                    class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
                     @click="selectBlockType('footer', item.type)"
                   >
                     {{ $t(item.titleKey) }}
@@ -486,6 +537,9 @@ export default {
     headerSection() {
       return this.globalDsl.sections?.header || null
     },
+    announcementSection() {
+      return this.globalDsl.sections?.['announcement-bar'] || null
+    },
     footerSection() {
       return this.globalDsl.sections?.footer || null
     },
@@ -497,6 +551,9 @@ export default {
     },
     headerBlockPickerItems() {
       return createBlockPickerItems('header')
+    },
+    announcementBlockPickerItems() {
+      return createBlockPickerItems('announcement-bar')
     },
     footerBlockPickerItems() {
       return createBlockPickerItems('footer')
@@ -528,7 +585,7 @@ export default {
   methods: {
     syncBlockOrders() {
       const nextBlockOrders = {}
-      ;['header', 'footer'].forEach((sectionId) => {
+      Object.keys(this.globalDsl.sections || {}).forEach((sectionId) => {
         nextBlockOrders[sectionId] = this.globalDsl.sections?.[sectionId]?.blockOrder?.slice() || []
       })
       Object.keys(this.dsl.sections || {}).forEach((sectionId) => {
@@ -583,12 +640,21 @@ export default {
       this.closeInsertMenu()
     },
     getSectionLabel(sectionId) {
-      const section = this.dsl.sections[sectionId]
-      if (!section) return ''
-      return section.settings?.title || this.$t(section.titleKey || 'decorationeditor.pageSections')
+      return this.getSectionDisplayLabel(sectionId)
     },
     getSectionType(sectionId) {
-      return this.dsl.sections[sectionId]?.type || ''
+      return this.getSection(sectionId)?.type || ''
+    },
+    isSectionDisabled(sectionId) {
+      return Boolean(this.getSection(sectionId)?.disabled)
+    },
+    getSection(sectionId) {
+      return this.globalDsl.sections?.[sectionId] || this.dsl.sections?.[sectionId] || null
+    },
+    getSectionDisplayLabel(sectionId) {
+      const section = this.getSection(sectionId)
+      if (!section) return ''
+      return section.settings?.title || this.$t(section.titleKey || '54e3d97e.cdb7d0')
     },
     getBlockPickerItems(sectionType) {
       return createBlockPickerItems(sectionType)
@@ -603,7 +669,7 @@ export default {
       return (
         block.settings?.label ||
         block.settings?.title ||
-        this.$t(definition?.titleKey || 'decorationeditor.block.item')
+        this.$t(definition?.titleKey || '54e3d97e.7f56ad')
       )
     },
     handleOrderChange() {
@@ -618,311 +684,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.structure-panel {
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid var(--editor-border);
-  background: #fff;
-}
-
-.structure-panel__body {
-  height: 100%;
-  overflow: hidden;
-  padding: 10px 12px 16px;
-}
-
-.structure-tree {
-  height: 100%;
-  overflow: auto;
-  padding-right: 4px;
-}
-
-.structure-group + .structure-group {
-  margin-top: 14px;
-}
-
-.structure-tree__sections-draggable {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.structure-tree__page-section-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.structure-tree__section-insert {
-  position: relative;
-  margin: 4px 0 2px;
-}
-
-.structure-tree__section-insert--empty {
-  margin-bottom: 8px;
-}
-
-.structure-tree__section-insert--tail {
-  margin-top: 2px;
-  margin-bottom: 4px;
-}
-
-.structure-tree__section-insert-line {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 28px;
-  padding: 2px 0;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.15s ease;
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    height: 0;
-    border-top: 1px dashed rgba(37, 99, 235, 0.35);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.15s ease, border-color 0.15s ease;
-  }
-
-  &:hover,
-  &:focus-within,
-  &--menu-open {
-    background: rgba(37, 99, 235, 0.06);
-
-    &::before {
-      opacity: 1;
-      border-top-color: rgba(37, 99, 235, 0.55);
-    }
-
-    .structure-tree__section-insert-btn {
-      opacity: 1;
-      transform: scale(1);
-      pointer-events: auto;
-    }
-  }
-}
-
-.structure-tree__section-insert-btn {
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 12px;
-  border: 0;
-  border-radius: 999px;
-  background: #2563eb;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
-  opacity: 0;
-  transform: scale(0.96);
-  pointer-events: none;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-
-  i {
-    font-size: 12px;
-    font-weight: 700;
-  }
-
-  &:hover {
-    background: #1d4ed8;
-  }
-}
-
-.structure-tree__insert-menu--section-gap {
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 200px;
-}
-
-.structure-tree__group + .structure-tree__group {
-  margin-top: 6px;
-}
-
-.structure-tree__item,
-.structure-tree__block,
-.structure-tree__adder {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 8px 10px;
-  border: 0;
-  border-radius: 10px;
-  background: transparent;
-  transition: color 0.18s ease, background-color 0.18s ease;
-}
-
-.structure-tree__item,
-.structure-tree__block {
-  cursor: pointer;
-
-  &.active {
-    background: rgba(37, 99, 235, 0.1);
-  }
-
-  &:hover {
-    background: rgba(24, 34, 47, 0.04);
-  }
-}
-
-.structure-tree__block,
-.structure-tree__adder--nested {
-  margin-top: 4px;
-  margin-left: 24px;
-}
-
-.structure-tree__block {
-  color: var(--text-sub);
-}
-
-.structure-tree__adder {
-  margin-top: 6px;
-  justify-content: flex-start;
-  color: var(--brand);
-  cursor: pointer;
-  font-size: 12px;
-
-  i {
-    font-size: 12px;
-    font-weight: 700;
-  }
-}
-
-.structure-tree__insert-anchor {
-  position: relative;
-}
-
-.structure-tree__insert-anchor--nested {
-  margin-left: 24px;
-}
-
-.structure-tree__insert-menu {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  z-index: 4;
-  min-width: 160px;
-  padding: 6px;
-  border: 1px solid rgba(17, 24, 39, 0.08);
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14);
-}
-
-.structure-tree__insert-menu--nested {
-  left: 0;
-}
-
-.structure-tree__insert-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 8px 10px;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--text-main);
-  cursor: pointer;
-  text-align: left;
-  font-size: 12px;
-
-  &:hover {
-    background: var(--brand-soft);
-    color: var(--brand);
-  }
-}
-
-.structure-tree__toggle,
-.structure-tree__drag,
-.structure-tree__block-drag {
-  color: var(--text-sub);
-}
-
-.structure-tree__toggle {
-  width: 18px;
-  height: 18px;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  flex: 0 0 auto;
-  padding: 0;
-}
-
-.structure-tree__drag,
-.structure-tree__block-drag {
-  cursor: move;
-  font-size: 12px;
-}
-
-.structure-tree__copy {
-  flex: 1;
-  min-width: 0;
-}
-
-.structure-tree__title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-main);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.structure-tree__actions {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  opacity: 0;
-  transition: opacity 0.18s ease;
-}
-
-.structure-tree__item:hover .structure-tree__actions,
-.structure-tree__block:hover .structure-tree__actions,
-.structure-tree__block:hover .structure-tree__action {
-  opacity: 1;
-}
-
-.structure-tree__action {
-  width: 24px;
-  height: 24px;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
-  color: var(--text-sub);
-  cursor: pointer;
-  opacity: 0.78;
-
-  &.danger:hover {
-    color: #d03050;
-    background: rgba(208, 48, 80, 0.08);
-  }
-
-  &:hover {
-    color: var(--brand);
-    background: rgba(37, 99, 235, 0.08);
-  }
-}
-
-.decoration-editor-list-header {
-  margin-bottom: 8px;
-  padding: 0 10px;
-  color: #7c8798;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-</style>

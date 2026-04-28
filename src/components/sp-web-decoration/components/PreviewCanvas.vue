@@ -1,25 +1,40 @@
 <template>
-  <div class="decoration-editor-panel preview-canvas">
-    <div class="decoration-editor-panel__header">
-      <div class="decoration-editor-panel__title">
-        {{ $t('decorationeditor.previewTitle') }}
+  <div class="h-full flex min-h-0 flex-col bg-[#eef1f5]">
+    <div
+      class="flex min-h-12 items-center justify-between gap-2.5 border-b border-[#e6e9ef] bg-white px-[14px] py-[10px]"
+    >
+      <div class="text-xs font-semibold text-[#18222f]">
+        {{ $t('01f158e9.2f586b') }}
       </div>
-      <div :class="['preview-canvas__status', { ready: iframeReady }]">
-        {{
+      <div
+        :class="
           iframeReady
-            ? $t('decorationeditor.previewReady')
-            : $t('decorationeditor.previewConnecting')
-        }}
+            ? 'inline-flex h-6 items-center rounded-full bg-[rgba(15,157,88,0.12)] px-2.5 text-[11px] text-[#0f9d58]'
+            : 'inline-flex h-6 items-center rounded-full bg-[rgba(17,24,39,0.06)] px-2.5 text-[11px] text-[#7d8796]'
+        "
+      >
+        {{ iframeReady ? $t('01f158e9.6bef2d') : $t('01f158e9.3893c8') }}
       </div>
     </div>
 
-    <div class="decoration-editor-panel__body preview-canvas__body">
-      <div v-if="previewError || !websiteUrl" class="decoration-editor-empty">
-        {{ $t('decorationeditor.previewUnavailable') }}
+    <div class="flex h-full flex-1 overflow-auto p-0">
+      <div
+        v-if="previewError || !websiteUrl"
+        class="m-3 flex min-h-[180px] items-center justify-center rounded-xl border border-dashed border-[#d7dde7] bg-[#fbfbfc] p-6 text-center text-[#6b7785]"
+      >
+        {{ $t('01f158e9.a4a56e') }}
       </div>
 
-      <div v-else :class="['preview-canvas__stage', `is-${device}`]">
-        <iframe ref="previewFrame" class="preview-canvas__frame" :src="previewUrl" />
+      <div v-else class="flex h-full min-h-full w-full items-stretch box-border p-4">
+        <div
+          :class="
+            device === 'mobile'
+              ? 'relative mx-auto my-6 h-full min-h-[720px] w-[420px] max-w-full overflow-hidden rounded-xl bg-white shadow-[0_18px_48px_rgba(15,23,42,0.08)]'
+              : 'relative h-full min-h-full w-full overflow-hidden bg-white'
+          "
+        >
+          <iframe ref="previewFrame" class="h-full w-full border-0 bg-white" :src="previewUrl" />
+        </div>
       </div>
     </div>
   </div>
@@ -35,6 +50,10 @@ export default {
     dsl: {
       type: Object,
       required: true
+    },
+    globalDsl: {
+      type: Object,
+      default: () => ({})
     },
     pageId: {
       type: String,
@@ -55,6 +74,14 @@ export default {
     device: {
       type: String,
       default: 'desktop'
+    },
+    selectedSectionId: {
+      type: String,
+      default: ''
+    },
+    selectedBlockId: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -81,6 +108,18 @@ export default {
       handler() {
         this.scheduleUpdate()
       }
+    },
+    globalDsl: {
+      deep: true,
+      handler() {
+        this.scheduleUpdate()
+      }
+    },
+    selectedSectionId() {
+      this.scheduleUpdate()
+    },
+    selectedBlockId() {
+      this.scheduleUpdate()
     }
   },
   mounted() {
@@ -135,7 +174,15 @@ export default {
       this.messenger.sendInit(win, {
         pageType: this.pageType,
         pageId: this.pageId,
-        dsl: serializeDsl(this.dsl)
+        // New protocol: split global/page DSL.
+        pageDsl: serializeDsl(this.dsl),
+        globalDsl: serializeDsl(this.globalDsl),
+        // Backward compatibility for old preview consumers.
+        dsl: serializeDsl(this.dsl),
+        selection: {
+          sectionId: this.selectedSectionId || '',
+          blockId: this.selectedBlockId || ''
+        }
       })
     },
     scheduleUpdate() {
@@ -150,65 +197,16 @@ export default {
         this.messenger.sendUpdate(w, {
           pageType: this.pageType,
           pageId: this.pageId,
-          dsl: serializeDsl(this.dsl)
+          pageDsl: serializeDsl(this.dsl),
+          globalDsl: serializeDsl(this.globalDsl),
+          dsl: serializeDsl(this.dsl),
+          selection: {
+            sectionId: this.selectedSectionId || '',
+            blockId: this.selectedBlockId || ''
+          }
         })
       }, 120)
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.preview-canvas {
-  display: flex;
-  flex-direction: column;
-  background: #eef1f5;
-}
-
-.preview-canvas__body {
-  flex: 1;
-  height: 100%;
-  padding: 0;
-  overflow: auto;
-}
-
-.preview-canvas__stage {
-  display: flex;
-  justify-content: center;
-  height: 100%;
-  min-height: 100%;
-  padding: 24px 28px 32px;
-  box-sizing: border-box;
-
-  &.is-mobile .preview-canvas__frame {
-    width: 420px;
-    max-width: 100%;
-  }
-}
-
-.preview-canvas__frame {
-  width: 100%;
-  height: 100%;
-  min-height: 720px;
-  border: 0;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.08);
-}
-
-.preview-canvas__status {
-  display: inline-flex;
-  align-items: center;
-  height: 24px;
-  padding: 0 10px;
-  font-size: 11px;
-  border-radius: 999px;
-  background: rgba(17, 24, 39, 0.06);
-  color: #7d8796;
-
-  &.ready {
-    background: rgba(15, 157, 88, 0.12);
-    color: #0f9d58;
-  }
-}
-</style>

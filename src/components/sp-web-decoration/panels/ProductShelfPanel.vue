@@ -1,35 +1,32 @@
 <template>
-  <el-form label-position="top" size="small" class="decoration-panel-form">
-    <el-form-item :label="$t('decorationeditor.field.sectionTitle')">
+  <el-form label-position="top" size="small" class="space-y-3">
+    <el-form-item :label="$t('6c727f2c.5a02fa')">
       <el-input :value="value.title" @input="updateField('title', $event)" />
     </el-form-item>
 
-    <el-form-item :label="$t('decorationeditor.field.sourceMode')">
+    <el-form-item :label="$t('6c727f2c.f0c7e9')">
       <el-select :value="value.sourceMode" @input="updateField('sourceMode', $event)">
-        <el-option :label="$t('decorationeditor.field.manual')" value="manual" />
-        <el-option :label="$t('decorationeditor.field.category')" value="category" />
+        <el-option :label="$t('6c727f2c.68924b')" value="manual" />
+        <el-option :label="$t('6c727f2c.d282eb')" value="category" />
       </el-select>
     </el-form-item>
 
-    <el-form-item
-      v-if="value.sourceMode === 'category'"
-      :label="$t('decorationeditor.field.categoryId')"
-    >
+    <el-form-item v-if="value.sourceMode === 'category'" :label="$t('6c727f2c.ae8c70')">
       <el-input :value="value.categoryId" @input="updateField('categoryId', $event)" />
     </el-form-item>
 
-    <el-form-item v-else :label="$t('decorationeditor.field.itemIds')">
+    <el-form-item v-else :label="$t('6c727f2c.9a6484')">
       <el-input
         type="textarea"
         :rows="4"
         :value="itemIdsText"
-        :placeholder="$t('decorationeditor.placeholder.itemIds')"
+        :placeholder="$t('6c727f2c.d08db5')"
         @input="updateItemIds"
       />
     </el-form-item>
 
-    <div class="decoration-editor-inline-fields">
-      <el-form-item :label="$t('decorationeditor.field.columns')">
+    <div class="grid grid-cols-2 gap-3">
+      <el-form-item :label="$t('6c727f2c.eb22d4')">
         <el-input-number
           :value="value.columns"
           :min="2"
@@ -39,7 +36,7 @@
         />
       </el-form-item>
 
-      <el-form-item :label="$t('decorationeditor.field.limit')">
+      <el-form-item :label="$t('6c727f2c.d57936')">
         <el-input-number
           :value="value.limit"
           :min="1"
