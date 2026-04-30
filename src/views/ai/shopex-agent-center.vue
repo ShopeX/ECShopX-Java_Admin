@@ -94,8 +94,9 @@
         />
         <div class="wallet-recent-title">最近交易</div>
         <el-table :data="wallet.transactions || []" stripe style="margin-top: 8px">
-          <el-table-column prop="created_at" label="时间" min-width="180" />
-          <el-table-column prop="txn_type" label="类型" width="140" />
+          <el-table-column label="时间" min-width="180">
+            <template #default="{ row }">{{ formatTime(row.created_at) }}</template>
+          </el-table-column>
           <el-table-column label="金额" min-width="160">
             <template #default="{ row }">
               <span>¥ {{ row.amount_cash || 0 }}</span>
@@ -230,6 +231,13 @@ export default {
     this.loadData()
   },
   methods: {
+    formatTime(v) {
+      if (!v) return '-'
+      // 兼容 ISO 8601（含 T、毫秒/微秒、可选 Z 时区）→ "YYYY-MM-DD HH:mm:ss"
+      const s = String(v).replace('T', ' ')
+      const m = s.match(/^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/)
+      return m ? m[1] : s
+    },
     async loadData() {
       this.loading = true
       try {

@@ -450,6 +450,28 @@ const routes = [
         component: () => import('@/views/settings/ai-translate-setting')
       },
       {
+        name: 'aiMaterialStudio',
+        path: 'ai/material-studio',
+        meta: {
+          aliasName: 'ai-material-studio',
+          title: 'AI素材制作',
+          icon: 'picture',
+          permissions: ['applications.ai-resource.material-studio']
+        },
+        component: () => import('@/views/ai/material/material-studio')
+      },
+      {
+        name: 'aiMaterialLibrary',
+        path: 'ai/material-library',
+        meta: {
+          aliasName: 'ai-material-library',
+          title: 'AI素材库',
+          icon: 'folder-open',
+          permissions: ['applications.ai-resource.material-library']
+        },
+        component: () => import('@/views/ai/material/material-library')
+      },
+      {
         name: 'shopexAgentCenter',
         path: 'shopex-agent/shopex-agent-center',
         meta: {
