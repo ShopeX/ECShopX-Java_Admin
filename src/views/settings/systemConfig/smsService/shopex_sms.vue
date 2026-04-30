@@ -158,9 +158,10 @@
         <div class="section-body">
           <div class="message-tip">
             {{ $t('2bd394ad.357adc') }}<br />
-            {{ $t('2bd394ad.8c4a87') }}<el-button type="text" @click="handleInquireVariable">
-              {{ $t('2bd394ad.4513e2') }}
-            </el-button><br />
+            {{ $t('2bd394ad.8c4a87')
+            }}<el-button type="text" @click="handleInquireVariable">
+              {{ $t('2bd394ad.4513e2') }} </el-button
+            ><br />
             {{ $t('2bd394ad.b08012') }}<br />
             {{ $t('2bd394ad.24021c') }}<br />
             {{ $t('2bd394ad.4bf9ae') }}<br />

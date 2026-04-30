@@ -33,7 +33,11 @@
                   class="flex h-[18px] w-[18px] shrink-0 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-[#6b7785]"
                   @click.stop="$emit('toggle-section', 'announcement-bar')"
                 >
-                  <ChevronDown v-if="isExpanded('announcement-bar')" :size="14" stroke-width="1.5" />
+                  <ChevronDown
+                    v-if="isExpanded('announcement-bar')"
+                    :size="14"
+                    stroke-width="1.5"
+                  />
                   <ChevronRight v-else :size="14" stroke-width="1.5" />
                 </button>
                 <div class="min-w-0 flex-1">
@@ -429,10 +433,7 @@
             </div>
           </draggable>
 
-          <div
-            v-if="localOrder.length"
-            class="relative mt-1 px-2 pb-0.5"
-          >
+          <div v-if="localOrder.length" class="relative mt-1 px-2 pb-0.5">
             <button
               type="button"
               class="flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
@@ -674,7 +675,9 @@ const {
   createBlockPickerItems
 } = require('../utils/insertPicker')
 const { getStructureSectionInsertConfig } = require('../utils/structureInsertConfig')
-const { getSectionInsertIconComponent: resolveSectionInsertIcon } = require('../utils/decorationLucide')
+const {
+  getSectionInsertIconComponent: resolveSectionInsertIcon
+} = require('../utils/decorationLucide')
 
 export default {
   name: 'StructurePanel',

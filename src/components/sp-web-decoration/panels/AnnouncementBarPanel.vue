@@ -76,7 +76,12 @@
           </div>
 
           <div class="inline-flex gap-1.5">
-            <el-button circle size="mini" :disabled="index === 0" @click.stop="moveBlock(blockId, index - 1)">
+            <el-button
+              circle
+              size="mini"
+              :disabled="index === 0"
+              @click.stop="moveBlock(blockId, index - 1)"
+            >
               <ChevronUp :size="14" class="text-[#606266]" stroke-width="2" />
             </el-button>
             <el-button
