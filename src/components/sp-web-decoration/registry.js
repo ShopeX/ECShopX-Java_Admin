@@ -5,7 +5,6 @@ const sectionRegistry = {
     type: 'carousel',
     title: '',
     titleKey: 'd65dbcac.0c0180',
-    icon: 'el-icon-picture-outline',
     settings: {
       title: '',
       autoplay: true,
@@ -30,7 +29,6 @@ const sectionRegistry = {
     type: 'image-hotspot',
     title: '',
     titleKey: 'd65dbcac.081a81',
-    icon: 'el-icon-map-location',
     settings: {
       title: '',
       imageUrl: ''
@@ -56,7 +54,6 @@ const sectionRegistry = {
     type: 'product-shelf',
     title: '',
     titleKey: 'd65dbcac.4a02ad',
-    icon: 'el-icon-s-grid',
     settings: {
       title: '',
       sourceMode: 'manual',
@@ -75,7 +72,6 @@ const globalSectionRegistry = {
     type: 'announcement-bar',
     title: '',
     titleKey: 'd65dbcac.3921b6',
-    icon: 'el-icon-notebook-2',
     settings: {
       full_width: false,
       auto_rotate: false,
@@ -105,7 +101,6 @@ const globalSectionRegistry = {
     type: 'header',
     title: '',
     titleKey: 'd65dbcac.917f14',
-    icon: 'el-icon-s-home',
     settings: {
       title: '',
       logoUrl: '',
@@ -130,7 +125,6 @@ const globalSectionRegistry = {
     type: 'footer',
     title: '',
     titleKey: 'd65dbcac.4eb88f',
-    icon: 'el-icon-s-platform',
     settings: {
       title: '',
       copyright: '',

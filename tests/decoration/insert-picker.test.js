@@ -2,6 +2,7 @@ const assert = require('assert')
 
 const {
   createSectionPickerItems,
+  createSectionPickerItemsForTypes,
   createBlockPickerItems
 } = require('../../src/components/sp-web-decoration/utils/insertPicker')
 const {
@@ -17,7 +18,14 @@ function testSectionPickerItems() {
     items.map((item) => item.type),
     ['carousel', 'image-hotspot', 'product-shelf']
   )
-  assert.strictEqual(items[0].titleKey, 'decorationeditor.section.carousel')
+  assert.strictEqual(items[0].titleKey, getSectionDefinition('carousel').titleKey)
+}
+
+function testSectionPickerItemsForTypes() {
+  const items = createSectionPickerItemsForTypes(['announcement-bar'])
+  assert.strictEqual(items.length, 1)
+  assert.strictEqual(items[0].type, 'announcement-bar')
+  assert.ok(items[0].titleKey)
 }
 
 function testBlockPickerItems() {
@@ -39,6 +47,7 @@ function testBlockPickerItems() {
 
 function run() {
   testSectionPickerItems()
+  testSectionPickerItemsForTypes()
   testBlockPickerItems()
   console.log('insert-picker.test.js passed')
 }

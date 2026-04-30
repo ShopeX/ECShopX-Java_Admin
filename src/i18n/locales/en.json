@@ -22709,6 +22709,7 @@
   "01f158e9.a4a56e": "Preview is unavailable. Check VUE_APP_WEBSITE and the preview site status.",
   "54e3d97e.bdf5be": "No sections yet. Start with “Add section”.",
   "54e3d97e.2e2d33": "Add section",
+  "54e3d97e.6b2a8c": "Add announcement bar",
   "54e3d97e.7f56ad": "Block Item",
   "54e3d97e.cdb7d0": "Template Sections",
   "54e3d97e.4eb88f": "Footer",
@@ -22765,6 +22766,8 @@
   "d65dbcac.20def7": "Image",
   "d65dbcac.4a02ad": "Product Shelf",
   "d65dbcac.0c0180": "Carousel",
+  "d65dbcac.3921b6": "Announcement Bar",
+  "d65dbcac.fa86f1": "Announcement",
   "5f1b7ccc.917f14": "Header",
   "5f1b7ccc.4eb88f": "Footer",
   "134c6b2c.7f56ad": "Block Item"
