@@ -395,7 +395,7 @@ export default {
           },
           {
             name: this.$t('bea3f44a.e01a01'),
-            key: 'passphrase_limitfee',
+            key: 'is_passphrase_enabled',
             width: 120,
             formatter: (value, row) => {
               const on =
@@ -405,8 +405,7 @@ export default {
               if (!on) {
                 return '—'
               }
-              const fee = Number(value) || 0
-              return fee > 0 ? `¥${fee / 100}` : '¥0'
+              return '按企业'
             }
           },
           {

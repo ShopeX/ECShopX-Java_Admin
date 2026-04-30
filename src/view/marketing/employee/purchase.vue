@@ -200,7 +200,7 @@
 
 <script>
 /**
- * 内购活动口令通道：is_passphrase_enabled、passphrase_limitfee（分）、passphrase_enterprises（JSON 字符串）；
+ * 内购活动口令：is_passphrase_enabled、passphrase_enterprises（JSON，每行含 passphrase_limitfee 分）；
  * 见 ecshopx-api/docs/employeepurchase-passphrase-frontend.md
  */
 import { isEmpty } from '@/utils'
@@ -275,7 +275,6 @@ export default {
         is_discount_description_enabled: false,
         discount_description: '',
         is_passphrase_enabled: false,
-        passphrase_limitfee: '',
         passphraseRows: []
       },
 
@@ -434,38 +433,6 @@ export default {
           disabled: false
         },
         {
-          label: t('39e3acc2.e8b1a1'),
-          key: 'passphrase_limitfee',
-          isShow: (item, value) => !!value.is_passphrase_enabled,
-          component: ({ disabled }) => (
-            <SpInput
-              v-model={self.activityRule.passphrase_limitfee}
-              width='120px'
-              disabled={disabled}
-              placeholder={t('39e3acc2.ea6c91')}
-              suffix={t('39e3acc2.c16655')}
-            />
-          ),
-          disabled: false,
-          validator: (rule, value, callback) => {
-            if (!self.activityRule.is_passphrase_enabled) {
-              callback()
-              return
-            }
-            const raw = self.activityRule.passphrase_limitfee
-            if (raw === '' || raw === null || raw === undefined) {
-              callback(new Error(t('39e3acc2.e8b1a3')))
-              return
-            }
-            const q = Number(raw)
-            if (!Number.isFinite(q) || q < 0) {
-              callback(new Error(t('39e3acc2.e8b1a3')))
-              return
-            }
-            callback()
-          }
-        },
-        {
           label: t('39e3acc2.ef7726'),
           key: 'companyList',
           type: 'input',
@@ -596,9 +563,9 @@ export default {
                   label={t('39e3acc2.e8b1a8')}
                   min-width='160'
                   scopedSlots={{
-                    default: () => (
+                    default: (scope) => (
                       <SpInput
-                        v-model={self.activityRule.passphrase_limitfee}
+                        v-model={scope.row.passphrase_limitfee}
                         width='120px'
                         disabled={tableLimitfeeDisabled}
                         placeholder={t('39e3acc2.ea6c91')}
@@ -692,6 +659,16 @@ export default {
               const pq = Number(r.participate_quota)
               if (!r.participate_quota || pq <= 0 || !Number.isFinite(pq)) {
                 callback(new Error(t('39e3acc2.e8b1ab')))
+                return
+              }
+              const pl = r.passphrase_limitfee
+              if (pl === '' || pl === null || pl === undefined) {
+                callback(new Error(t('39e3acc2.e8b1a3')))
+                return
+              }
+              const pln = Number(pl)
+              if (!Number.isFinite(pln) || pln < 0) {
+                callback(new Error(t('39e3acc2.e8b1a3')))
                 return
               }
               if (!r.passphrase_code || !String(r.passphrase_code).trim()) {
@@ -953,18 +930,17 @@ export default {
         pic: res.pic
       }
 
-      // 索引：0 口令开关 1 口令额度 2 企业 3 口令企业表 4 预热 5 员工 6 亲友 7 起订 8 改地址 9 分组 10–12 价格展示 13–14 折扣文案
+      // 索引：0 口令开关 1 参与企业 2 口令企业表 3 预热 4 员工 5 亲友 6 起订 7 改地址 8 分组 9–11 价格展示 12–13 折扣文案
       this.activityRuleDisabledOverrides = {}
       if (res.status === 'pending') {
         this.formBaseList[0].disabled = false
         this.formBaseList[1].disabled = false
         this.formBaseList[2].disabled = false
-        this.$set(this.activityRuleDisabledOverrides, 1, true)
-        this.$set(this.activityRuleDisabledOverrides, 5, {
+        this.$set(this.activityRuleDisabledOverrides, 4, {
           datetime: false,
           quota: true
         })
-        this.$set(this.activityRuleDisabledOverrides, 6, {
+        this.$set(this.activityRuleDisabledOverrides, 5, {
           join: false,
           num: true,
           datetime: false,
@@ -977,26 +953,25 @@ export default {
         this.formBaseList[2].disabled = true
         this.$set(this.activityRuleDisabledOverrides, 0, true)
         this.$set(this.activityRuleDisabledOverrides, 1, true)
-        this.$set(this.activityRuleDisabledOverrides, 2, true)
-        this.$set(this.activityRuleDisabledOverrides, 4, true)
-        this.$set(this.activityRuleDisabledOverrides, 5, {
+        this.$set(this.activityRuleDisabledOverrides, 3, true)
+        this.$set(this.activityRuleDisabledOverrides, 4, {
           datetime: true,
           quota: true
         })
-        this.$set(this.activityRuleDisabledOverrides, 6, {
+        this.$set(this.activityRuleDisabledOverrides, 5, {
           join: true,
           num: true,
           datetime: true,
           type: true,
           shareLimit: true
         })
+        this.$set(this.activityRuleDisabledOverrides, 6, true)
         this.$set(this.activityRuleDisabledOverrides, 7, true)
-        this.$set(this.activityRuleDisabledOverrides, 8, true)
+        this.$set(this.activityRuleDisabledOverrides, 9, true)
         this.$set(this.activityRuleDisabledOverrides, 10, true)
         this.$set(this.activityRuleDisabledOverrides, 11, true)
         this.$set(this.activityRuleDisabledOverrides, 12, true)
         this.$set(this.activityRuleDisabledOverrides, 13, true)
-        this.$set(this.activityRuleDisabledOverrides, 14, true)
       } else if (res.status == 'cancel' || res.status == 'over') {
         // 已取消、已结束
         this.formBaseList[0].disabled = true
@@ -1007,20 +982,24 @@ export default {
         this.$set(this.activityRuleDisabledOverrides, 1, true)
         this.$set(this.activityRuleDisabledOverrides, 2, true)
         this.$set(this.activityRuleDisabledOverrides, 3, true)
-        this.$set(this.activityRuleDisabledOverrides, 4, true)
-        this.$set(this.activityRuleDisabledOverrides, 5, {
+        this.$set(this.activityRuleDisabledOverrides, 4, {
           datetime: true,
           quota: true
         })
-        this.$set(this.activityRuleDisabledOverrides, 6, {
+        this.$set(this.activityRuleDisabledOverrides, 5, {
           join: true,
           num: true,
           datetime: true,
           type: true,
           shareLimit: true
         })
+        this.$set(this.activityRuleDisabledOverrides, 6, true)
         this.$set(this.activityRuleDisabledOverrides, 7, true)
-        this.$set(this.activityRuleDisabledOverrides, 8, true)
+        this.$set(this.activityRuleDisabledOverrides, 9, true)
+        this.$set(this.activityRuleDisabledOverrides, 10, true)
+        this.$set(this.activityRuleDisabledOverrides, 11, true)
+        this.$set(this.activityRuleDisabledOverrides, 12, true)
+        this.$set(this.activityRuleDisabledOverrides, 13, true)
       }
       this.activityStatus = res.status
 
@@ -1041,7 +1020,11 @@ export default {
         const eid = pe.enterprise_id
         phraseMap[eid] = {
           participate_quota: pe.participate_quota,
-          passphrase_code: pe.passphrase_code || ''
+          passphrase_code: pe.passphrase_code || '',
+          passphrase_limitfee:
+            pe.passphrase_limitfee != null && pe.passphrase_limitfee !== ''
+              ? Number(pe.passphrase_limitfee) / 100
+              : ''
         }
       })
       const passphraseRows = list.map((c) => {
@@ -1051,7 +1034,8 @@ export default {
           name: c.name,
           enterprise_sn: c.enterprise_sn || '',
           participate_quota: pm ? pm.participate_quota : '',
-          passphrase_code: pm ? pm.passphrase_code : ''
+          passphrase_code: pm ? pm.passphrase_code : '',
+          passphrase_limitfee: pm ? pm.passphrase_limitfee : ''
         }
       })
 
@@ -1078,7 +1062,6 @@ export default {
         is_discount_description_enabled: res.is_discount_description_enabled == 'true',
         discount_description: res.discount_description,
         is_passphrase_enabled: res.is_passphrase_enabled === 'true' || res.is_passphrase_enabled === true,
-        passphrase_limitfee: (res.passphrase_limitfee != null ? Number(res.passphrase_limitfee) : 0) / 100,
         passphraseRows
       }
       this.onRadioChange(res.if_share_limitfee ? '2' : '1')
@@ -1126,7 +1109,8 @@ export default {
           name: c.name,
           enterprise_sn: c.enterprise_sn || '',
           participate_quota: old ? old.participate_quota : '',
-          passphrase_code: old ? old.passphrase_code : ''
+          passphrase_code: old ? old.passphrase_code : '',
+          passphrase_limitfee: old && old.passphrase_limitfee !== undefined ? old.passphrase_limitfee : ''
         }
       })
     },
@@ -1234,11 +1218,9 @@ export default {
         is_discount_description_enabled,
         discount_description,
         is_passphrase_enabled,
-        passphrase_limitfee,
         passphraseRows
       } = this.activityRule
       const usePassphrase = !!is_passphrase_enabled
-      const passphraseLimitFen = Math.max(0, Math.round((Number(passphrase_limitfee) || 0) * 100))
       const preheatMoment = moment(preheatTime)
       const employeeBeginUnix = moment(employeeDateTime[0]).unix()
       const employeeEndUnix = moment(employeeDateTime[1]).unix()
@@ -1277,11 +1259,11 @@ export default {
       }
       // 口令企业行结构见 ecshopx-api/docs/employeepurchase-passphrase-frontend.md §2.1（别名 quota/code 后端亦支持，此处用规范字段名）
       if (usePassphrase) {
-        params.passphrase_limitfee = passphraseLimitFen
         params.passphrase_enterprises = JSON.stringify(
           (passphraseRows || []).map((r) => ({
             enterprise_id: Number(r.enterprise_id),
             participate_quota: Number(r.participate_quota),
+            passphrase_limitfee: Math.max(0, Math.round((Number(r.passphrase_limitfee) || 0) * 100)),
             passphrase_code: String(r.passphrase_code || '').trim()
           }))
         )
@@ -1309,12 +1291,12 @@ export default {
       }
     },
     onRadioChange(e) {
-      const prev = this.activityRuleDisabledOverrides[6] || {}
+      const prev = this.activityRuleDisabledOverrides[5] || {}
       if (e == '1') {
-        this.$set(this.activityRuleDisabledOverrides, 6, { ...prev, shareLimit: false })
+        this.$set(this.activityRuleDisabledOverrides, 5, { ...prev, shareLimit: false })
       } else {
         this.activityRule.relatives.shareLimit = 0
-        this.$set(this.activityRuleDisabledOverrides, 6, { ...prev, shareLimit: true })
+        this.$set(this.activityRuleDisabledOverrides, 5, { ...prev, shareLimit: true })
       }
     }
   }
