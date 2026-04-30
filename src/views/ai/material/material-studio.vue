@@ -252,7 +252,7 @@
     />
 
     <!-- 提示词指南 -->
-    <PromptGuideDrawer v-model="guideOpen" />
+    <PromptGuideDrawer v-model="guideOpen" :media-type="mode" />
 
     <!-- 大图预览 -->
     <el-dialog :visible.sync="previewVisible" width="auto" top="6vh" :modal="true">

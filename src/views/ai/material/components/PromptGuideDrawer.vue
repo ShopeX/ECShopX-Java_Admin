@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    title="提示词指南"
+    :title="drawerTitle"
     :visible.sync="visible"
     direction="rtl"
     size="520px"
@@ -10,7 +10,7 @@
       <div class="external-link">
         <a :href="externalLink" target="_blank" rel="noopener">
           <i class="el-icon-link"></i>
-          完整文档：提示词指南
+          完整文档：{{ isVideo ? '视频' : '图片' }}提示词指南
         </a>
       </div>
 
@@ -25,17 +25,29 @@
 </template>
 
 <script>
-import { PROMPT_GUIDE_SECTIONS, PROMPT_GUIDE_LINK } from '../constants/promptGuide'
+import {
+  PROMPT_GUIDE_SECTIONS_IMAGE,
+  PROMPT_GUIDE_SECTIONS_VIDEO,
+  PROMPT_GUIDE_LINK_IMAGE,
+  PROMPT_GUIDE_LINK_VIDEO
+} from '../constants/promptGuide'
 
 export default {
   name: 'PromptGuideDrawer',
-  props: { value: { type: Boolean, default: false } },
+  props: {
+    value: { type: Boolean, default: false },
+    mediaType: { type: String, default: 'image' }
+  },
   data() {
     return {
-      visible: this.value,
-      sections: PROMPT_GUIDE_SECTIONS,
-      externalLink: PROMPT_GUIDE_LINK
+      visible: this.value
     }
+  },
+  computed: {
+    isVideo() { return this.mediaType === 'video' },
+    drawerTitle() { return this.isVideo ? '视频提示词指南' : '图片提示词指南' },
+    sections() { return this.isVideo ? PROMPT_GUIDE_SECTIONS_VIDEO : PROMPT_GUIDE_SECTIONS_IMAGE },
+    externalLink() { return this.isVideo ? PROMPT_GUIDE_LINK_VIDEO : PROMPT_GUIDE_LINK_IMAGE }
   },
   watch: {
     value(v) { this.visible = v },
