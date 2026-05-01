@@ -5,7 +5,7 @@
     >
       <div class="flex min-w-0 items-center gap-2.5">
         <el-button class="!shrink-0" circle size="mini" @click="$emit('back')">
-          <ArrowLeft :size="16" class="text-[#606266]" stroke-width="2" />
+          <ArrowLeft :size="16" class="text-[#606266]" :stroke-width="2" />
         </el-button>
         <div class="flex min-w-0 flex-col items-start gap-0.5">
           <div class="text-sm font-semibold leading-5 text-[#18222f]">{{ titleText }}</div>
