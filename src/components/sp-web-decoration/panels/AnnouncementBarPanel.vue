@@ -82,7 +82,7 @@
               :disabled="index === 0"
               @click.stop="moveBlock(blockId, index - 1)"
             >
-              <ChevronUp :size="14" class="text-[#606266]" stroke-width="2" />
+              <ChevronUp :size="14" class="text-[#606266]" :stroke-width="2" />
             </el-button>
             <el-button
               circle
@@ -90,16 +90,16 @@
               :disabled="index === blockOrder.length - 1"
               @click.stop="moveBlock(blockId, index + 1)"
             >
-              <ChevronDown :size="14" class="text-[#606266]" stroke-width="2" />
+              <ChevronDown :size="14" class="text-[#606266]" :stroke-width="2" />
             </el-button>
             <el-button circle size="mini" @click.stop="removeBlock(blockId)">
-              <Trash2 :size="14" class="text-[#606266]" stroke-width="2" />
+              <Trash2 :size="14" class="text-[#606266]" :stroke-width="2" />
             </el-button>
           </div>
         </div>
 
         <el-button plain class="!inline-flex !items-center !gap-1.5" @click="addAnnouncement">
-          <Plus :size="14" stroke-width="2.5" />
+          <Plus :size="14" :stroke-width="2.5" />
           {{ $t('b86bb5a2.fa86f1') }}
         </el-button>
       </div>

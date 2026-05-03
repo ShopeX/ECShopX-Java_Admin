@@ -14,12 +14,26 @@ const sectionRegistry = {
     blockTypes: {
       image: {
         title: '',
-        titleKey: 'd65dbcac.20def7',
+        titleKey: 'decorationeditor.block.image',
         defaultBlock: {
           type: 'image',
           settings: {
             imageUrl: '',
-            link: ''
+            link: '',
+            alt: ''
+          }
+        }
+      },
+      video: {
+        title: '',
+        titleKey: 'decorationeditor.block.video',
+        defaultBlock: {
+          type: 'video',
+          settings: {
+            videoUrl: '',
+            posterUrl: '',
+            link: '',
+            alt: ''
           }
         }
       }
@@ -249,6 +263,7 @@ function createDefaultBlock(sectionType, blockType) {
   return {
     id: generateBlockId(blockType),
     type: definition.defaultBlock.type,
+    disabled: false,
     settings: cloneValue(definition.defaultBlock.settings)
   }
 }

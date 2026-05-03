@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div class="flex h-full flex-1 overflow-auto p-0">
+    <div class="preview-canvas-scroll flex h-full flex-1 p-0">
       <div
         v-if="previewError || !websiteUrl"
         class="m-3 flex min-h-[180px] items-center justify-center rounded-xl border border-dashed border-[#d7dde7] bg-[#fbfbfc] p-6 text-center text-[#6b7785]"
@@ -210,3 +210,17 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/* 保留滚动能力，仅隐藏滚动条，预览区更干净 */
+.preview-canvas-scroll {
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.preview-canvas-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+</style>

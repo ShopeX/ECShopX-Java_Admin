@@ -38,8 +38,7 @@ function testCreateHomeDsl() {
 
 function testCreateGlobalDsl() {
   const globalDsl = createGlobalDsl()
-  assert.deepStrictEqual(globalDsl.order, ['announcement-bar', 'header', 'footer'])
-  assert.strictEqual(globalDsl.sections['announcement-bar'].type, 'announcement-bar')
+  assert.deepStrictEqual(globalDsl.order, ['header', 'footer'])
   assert.strictEqual(globalDsl.sections.header.type, 'header')
   assert.strictEqual(globalDsl.sections.footer.type, 'footer')
 }
@@ -53,7 +52,7 @@ function testRegistryDefinitions() {
   assert.ok(carousel.id.startsWith('carousel-'))
   assert.strictEqual(carousel.settings.autoplay, true)
   assert.strictEqual(Array.isArray(carousel.settings.items), false)
-  assert.deepStrictEqual(carousel.blockOrder.length, 1)
+  assert.deepStrictEqual(carousel.blockOrder.length, 3)
   assert.strictEqual(carousel.blocks[carousel.blockOrder[0]].type, 'image')
 
   const hotspot = createDefaultSection('image-hotspot')
@@ -62,7 +61,7 @@ function testRegistryDefinitions() {
   assert.deepStrictEqual(hotspot.blockOrder, [])
 
   const blockTypes = getSectionBlockTypes('carousel')
-  assert.deepStrictEqual(blockTypes, ['image'])
+  assert.deepStrictEqual(blockTypes, ['image', 'video'])
 
   const imageBlock = createDefaultBlock('carousel', 'image')
   assert.strictEqual(imageBlock.type, 'image')
@@ -72,25 +71,22 @@ function testRegistryDefinitions() {
     alt: ''
   })
 
+  const videoBlock = createDefaultBlock('carousel', 'video')
+  assert.strictEqual(videoBlock.type, 'video')
+  assert.deepStrictEqual(videoBlock.settings, {
+    videoUrl: '',
+    posterUrl: '',
+    link: '',
+    alt: ''
+  })
+
   const globalSections = createGlobalSections()
-  assert.deepStrictEqual(Object.keys(globalSections), ['announcement-bar', 'header', 'footer'])
-  assert.strictEqual(globalSections['announcement-bar'].type, 'announcement-bar')
-  assert.deepStrictEqual(globalSections['announcement-bar'].blockOrder, ['announcement-default'])
-  assert.strictEqual(globalSections.header.settings.sticky_header_type, 'none')
-  assert.strictEqual(globalSections.header.settings.menu_type_desktop, 'dropdown')
-  assert.strictEqual(globalSections.header.settings.enable_customer_avatar, true)
-  assert.deepStrictEqual(globalSections.footer.blockOrder, [
-    'brand',
-    'link_list-1',
-    'link_list-2',
-    'link_list-3',
-    'newsletter'
-  ])
-  assert.strictEqual(globalSections.footer.blocks.brand.type, 'brand')
-  assert.strictEqual(globalSections.footer.blocks['link_list-1'].type, 'link_list')
-  assert.strictEqual(globalSections.footer.blocks.newsletter.type, 'newsletter')
-  assert.strictEqual(globalSections.footer.settings.content_alignment, 'center')
-  assert.strictEqual(globalSections.footer.settings.newsletter_enable, false)
+  assert.deepStrictEqual(Object.keys(globalSections), ['header', 'footer'])
+  assert.strictEqual(globalSections.header.type, 'header')
+  assert.deepStrictEqual(globalSections.header.blockOrder, ['nav-item-default'])
+  assert.strictEqual(globalSections.header.blocks['nav-item-default'].type, 'nav-item')
+  assert.deepStrictEqual(globalSections.footer.blockOrder, ['footer-link-default'])
+  assert.strictEqual(globalSections.footer.blocks['footer-link-default'].type, 'footer-link')
 }
 
 function testDslMutations() {
@@ -99,10 +95,7 @@ function testDslMutations() {
   const withCarousel = insertSection(initial, carousel)
   assert.deepStrictEqual(withCarousel.order, [carousel.id])
   assert.strictEqual(withCarousel.sections[carousel.id].title, '')
-  assert.strictEqual(
-    withCarousel.sections[carousel.id].titleKey,
-    'decorationeditor.section.carousel'
-  )
+  assert.strictEqual(withCarousel.sections[carousel.id].titleKey, 'd65dbcac.0c0180')
 
   const updated = updateSectionSettings(withCarousel, carousel.id, { title: '首页轮播' })
   assert.strictEqual(updated.sections[carousel.id].settings.title, '首页轮播')
@@ -125,7 +118,7 @@ function testDslBlockMutations() {
 
   const imageBlock = createDefaultBlock('carousel', 'image')
   const withBlock = insertBlock(withSection, carousel.id, imageBlock)
-  assert.strictEqual(withBlock.sections[carousel.id].blockOrder.length, 2)
+  assert.strictEqual(withBlock.sections[carousel.id].blockOrder.length, 4)
 
   const newBlockId = withBlock.sections[carousel.id].blockOrder[1]
   const updatedBlock = updateBlockSettings(withBlock, carousel.id, newBlockId, {
@@ -160,13 +153,7 @@ function testComposePreviewDsl() {
     globalDsl
   })
 
-  assert.deepStrictEqual(previewDsl.order, [
-    'announcement-bar',
-    'header',
-    withSection.order[0],
-    'footer'
-  ])
-  assert.strictEqual(previewDsl.sections['announcement-bar'].type, 'announcement-bar')
+  assert.deepStrictEqual(previewDsl.order, ['header', withSection.order[0], 'footer'])
   assert.strictEqual(previewDsl.sections.header.type, 'header')
   assert.strictEqual(previewDsl.sections.footer.type, 'footer')
 

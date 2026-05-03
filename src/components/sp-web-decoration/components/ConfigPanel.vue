@@ -40,6 +40,7 @@ import HeaderPanel from '../panels/HeaderPanel.vue'
 import FooterPanel from '../panels/FooterPanel.vue'
 import AnnouncementBarPanel from '../panels/AnnouncementBarPanel.vue'
 import ImageBlockPanel from '../panels/ImageBlockPanel.vue'
+import VideoBlockPanel from '../panels/VideoBlockPanel.vue'
 import HotspotBlockPanel from '../panels/HotspotBlockPanel.vue'
 import NavItemBlockPanel from '../panels/NavItemBlockPanel.vue'
 import FooterLinkBlockPanel from '../panels/FooterLinkBlockPanel.vue'
@@ -59,6 +60,7 @@ const sectionPanelMap = {
 const blockPanelMap = {
   announcement: AnnouncementBlockPanel,
   image: ImageBlockPanel,
+  video: VideoBlockPanel,
   hotspot: HotspotBlockPanel,
   'nav-item': NavItemBlockPanel,
   'footer-link': FooterLinkBlockPanel
@@ -74,6 +76,7 @@ export default {
     FooterPanel,
     AnnouncementBarPanel,
     ImageBlockPanel,
+    VideoBlockPanel,
     HotspotBlockPanel,
     NavItemBlockPanel,
     FooterLinkBlockPanel,

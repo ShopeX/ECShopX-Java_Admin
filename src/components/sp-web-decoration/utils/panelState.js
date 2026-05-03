@@ -154,6 +154,16 @@ function normalizeImageBlockSettings(settings = {}) {
   }
 }
 
+function normalizeVideoBlockSettings(settings = {}) {
+  return {
+    videoUrl: '',
+    posterUrl: '',
+    link: '',
+    alt: '',
+    ...cloneValue(settings)
+  }
+}
+
 function clampCoordinate(value) {
   const numericValue = Number(value)
   if (Number.isNaN(numericValue)) return 0
@@ -186,6 +196,13 @@ function normalizeBlockSettings(block) {
     return {
       ...block,
       settings: normalizeImageBlockSettings(block.settings)
+    }
+  }
+
+  if (block.type === 'video') {
+    return {
+      ...block,
+      settings: normalizeVideoBlockSettings(block.settings)
     }
   }
 
@@ -346,6 +363,7 @@ module.exports = {
   normalizeLinkListBlockSettings,
   normalizeNewsletterBlockSettings,
   normalizeImageBlockSettings,
+  normalizeVideoBlockSettings,
   normalizeHotspotBlockSettings,
   normalizeSection,
   updateSectionBlock,

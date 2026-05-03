@@ -41,8 +41,11 @@ function createGlobalDsl(sections) {
     }
   )
   const order = ['header']
-  if (resolvedSections['announcement-bar']) order.unshift('announcement-bar')
   if (resolvedSections.footer) order.push('footer')
+  if (resolvedSections['announcement-bar']) {
+    const hi = order.indexOf('header')
+    order.splice(hi >= 0 ? hi + 1 : 0, 0, 'announcement-bar')
+  }
   return {
     pageType: 'global',
     pageId: 'global',
@@ -72,17 +75,26 @@ function updateSectionSettings(dsl, sectionId, patch) {
   return nextDsl
 }
 
-function insertBlock(dsl, sectionId, block) {
+function insertBlock(dsl, sectionId, block, insertIndex) {
   if (!dsl.sections[sectionId] || !block?.id) return cloneValue(dsl)
   const nextDsl = cloneValue(dsl)
   nextDsl.sections[sectionId].blocks = {
     ...(nextDsl.sections[sectionId].blocks || {}),
     [block.id]: cloneValue(block)
   }
-  nextDsl.sections[sectionId].blockOrder = [
-    ...(nextDsl.sections[sectionId].blockOrder || []),
-    block.id
-  ]
+  const prevOrder = nextDsl.sections[sectionId].blockOrder || []
+  const order = prevOrder.slice()
+  if (
+    typeof insertIndex === 'number' &&
+    !Number.isNaN(insertIndex) &&
+    insertIndex >= 0 &&
+    insertIndex <= order.length
+  ) {
+    order.splice(insertIndex, 0, block.id)
+  } else {
+    order.push(block.id)
+  }
+  nextDsl.sections[sectionId].blockOrder = order
   return nextDsl
 }
 
@@ -164,6 +176,10 @@ function replaceSection(dsl, sectionId, nextSection) {
 }
 
 function composePreviewDsl({ pageType = 'home', pageId = '', dsl, globalDsl }) {
+  const gOrder = Array.isArray(globalDsl?.order) ? globalDsl.order.slice() : []
+  const footerIndex = gOrder.indexOf('footer')
+  const prefix = footerIndex >= 0 ? gOrder.slice(0, footerIndex) : gOrder.slice()
+  const suffix = footerIndex >= 0 ? gOrder.slice(footerIndex) : []
   return {
     pageType,
     pageId,
@@ -171,11 +187,7 @@ function composePreviewDsl({ pageType = 'home', pageId = '', dsl, globalDsl }) {
       ...(globalDsl?.sections || {}),
       ...(dsl?.sections || {})
     },
-    order: [
-      ...(globalDsl?.order || []).slice(0, 1),
-      ...(dsl?.order || []).slice(),
-      ...(globalDsl?.order || []).slice(1)
-    ],
+    order: [...prefix, ...(dsl?.order || []).slice(), ...suffix],
     meta: cloneValue(dsl?.meta || {})
   }
 }

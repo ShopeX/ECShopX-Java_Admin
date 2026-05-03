@@ -113,9 +113,11 @@
           @reorder-sections="handleReorderSections"
           @add-block="handleAddBlock"
           @remove-block="handleRemoveBlock"
+          @toggle-block-disabled="handleToggleBlockDisabled"
           @reorder-blocks="handleReorderBlocks"
           @add-global-section="handleAddGlobalSection"
           @toggle-section-disabled="handleToggleSectionDisabled"
+          @reorder-global-sections="handleReorderGlobalSections"
         />
       </div>
 
@@ -332,12 +334,16 @@ export default {
       this.$store.commit('decoration/replaceSectionOrder', nextOrder)
       this.recordHistory()
     },
-    handleAddBlock({ sectionId, blockType }) {
-      this.$store.commit('decoration/addBlock', { sectionId, blockType })
+    handleAddBlock({ sectionId, blockType, index }) {
+      this.$store.commit('decoration/addBlock', { sectionId, blockType, index })
       this.recordHistory()
     },
-    handleAddGlobalSection(type) {
-      this.$store.commit('decoration/addGlobalSection', type)
+    handleAddGlobalSection(payload) {
+      if (typeof payload === 'string') {
+        this.$store.commit('decoration/addGlobalSection', payload)
+      } else if (payload && typeof payload === 'object') {
+        this.$store.commit('decoration/addGlobalSection', payload)
+      }
       this.recordHistory()
     },
     handleToggleSectionDisabled(sectionId) {
@@ -349,8 +355,16 @@ export default {
       })
       this.recordHistory()
     },
+    handleReorderGlobalSections(nextOrder) {
+      this.$store.commit('decoration/setGlobalOrder', nextOrder)
+      this.recordHistory()
+    },
     handleRemoveBlock(payload) {
       this.$store.commit('decoration/removeBlock', payload)
+      this.recordHistory()
+    },
+    handleToggleBlockDisabled(payload) {
+      this.$store.commit('decoration/toggleBlockDisabled', payload)
       this.recordHistory()
     },
     handleReorderBlocks(payload) {

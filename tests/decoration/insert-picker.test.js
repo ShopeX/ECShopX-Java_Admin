@@ -32,7 +32,7 @@ function testBlockPickerItems() {
   const carouselItems = createBlockPickerItems('carousel')
   assert.deepStrictEqual(
     carouselItems.map((item) => item.type),
-    ['image']
+    ['image', 'video']
   )
 
   const hotspotItems = createBlockPickerItems('image-hotspot')
