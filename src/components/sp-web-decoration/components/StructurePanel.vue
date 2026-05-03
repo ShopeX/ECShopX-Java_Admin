@@ -8,8 +8,8 @@
       </div>
     </div>
 
-    <div class="h-full overflow-hidden px-3 pb-4 pt-2.5">
-      <div class="h-full overflow-auto pr-1">
+    <div class="h-full min-h-0 overflow-hidden px-3 pb-4 pt-2.5">
+      <div class="sp-structure-scroll h-full overflow-y-auto overflow-x-visible pr-1">
         <div>
           <div
             class="mb-2 px-2 text-[11px] font-semibold leading-4 tracking-[0.06em] text-[#7c8798]"
@@ -29,16 +29,16 @@
                 :key="sectionId"
                 class="flex flex-col gap-0"
               >
-                <div
-                  v-if="!(sIdx === 0 && sectionId === 'header')"
-                  class="relative z-[3] py-0"
-                >
-                  <div class="sp-structure-insert-gap" @click.stop="toggleInsertMenu('section', 'header', sIdx)">
+                <div v-if="!(sIdx === 0 && sectionId === 'header')" class="relative z-[3] py-0">
+                  <div
+                    class="sp-structure-insert-gap"
+                    @click.stop="toggleInsertMenu('section', 'header', sIdx, $event)"
+                  >
                     <div class="sp-structure-insert-gap__line" aria-hidden="true" />
                     <button
                       type="button"
                       class="sp-structure-insert-gap__btn"
-                      @click.stop="toggleInsertMenu('section', 'header', sIdx)"
+                      @click.stop="toggleInsertMenu('section', 'header', sIdx, $event)"
                     >
                       <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
                       <span>{{ $t('54e3d97e.2e2d33') }}</span>
@@ -46,7 +46,8 @@
                   </div>
                   <div
                     v-if="isInsertMenuOpen('section', 'header', sIdx)"
-                    class="absolute left-2 right-2 top-[calc(100%+2px)] z-[6] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                    class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                    :style="insertMenuDockStyle"
                   >
                     <button
                       v-for="item in sectionPickerItemsFor('header')"
@@ -66,118 +67,215 @@
                   </div>
                 </div>
                 <div class="space-y-0.5">
-                <div
-                  :class="[
-                    'group flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
-                    {
-                      'sp-structure-row-selected': sectionId === selectedSectionId
-                    }
-                  ]"
-                  @click="$emit('select-section', sectionId)"
-                >
-                  <button
-                    type="button"
-                    class="flex h-[18px] w-[18px] shrink-0 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-[#6b7785]"
-                    @click.stop="$emit('toggle-section', sectionId)"
+                  <div
+                    :class="[
+                      'group flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
+                      {
+                        'sp-structure-row-selected': sectionId === selectedSectionId
+                      }
+                    ]"
+                    @click="$emit('select-section', sectionId)"
                   >
-                    <ChevronDown v-if="isExpanded(sectionId)" :size="14" :stroke-width="2" />
-                    <ChevronRight v-else :size="14" :stroke-width="2" />
-                  </button>
-                  <div class="min-w-0 flex-1 flex items-center">
-                    <div
-                      class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
+                    <button
+                      type="button"
+                      class="flex h-[18px] w-[18px] shrink-0 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-[#6b7785]"
+                      @click.stop="$emit('toggle-section', sectionId)"
                     >
-                      <span
-                        class="relative inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center"
+                      <ChevronDown v-if="isExpanded(sectionId)" :size="14" :stroke-width="2" />
+                      <ChevronRight v-else :size="14" :stroke-width="2" />
+                    </button>
+                    <div class="min-w-0 flex-1 flex items-center">
+                      <div
+                        class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
                       >
-                        <GalleryVertical
-                          :size="16"
-                          class="shrink-0 text-[#475467] opacity-100 transition-opacity duration-150 group-hover:pointer-events-none group-hover:opacity-0"
-                          :stroke-width="2"
-                        />
                         <span
-                          data-drag-handle="header-zone-section"
-                          class="pointer-events-none absolute inset-0 inline-flex cursor-move items-center justify-center text-[#6b7785] opacity-0 transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
-                          aria-hidden="true"
+                          class="relative inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center"
                         >
-                          <GripVertical :size="14" :stroke-width="2" />
+                          <GalleryVertical
+                            :size="16"
+                            class="shrink-0 text-[#475467] opacity-100 transition-opacity duration-150 group-hover:pointer-events-none group-hover:opacity-0"
+                            :stroke-width="2"
+                          />
+                          <span
+                            data-drag-handle="header-zone-section"
+                            class="pointer-events-none absolute inset-0 inline-flex cursor-move items-center justify-center text-[#6b7785] opacity-0 transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
+                            aria-hidden="true"
+                          >
+                            <GripVertical :size="14" :stroke-width="2" />
+                          </span>
                         </span>
-                      </span>
-                      {{ getSectionDisplayLabel(sectionId) }}
+                        {{ getSectionDisplayLabel(sectionId) }}
+                      </div>
+                    </div>
+                    <div
+                      v-if="isHeaderZoneFixedSelection(sectionId)"
+                      class="flex shrink-0 items-center gap-0.5 opacity-0 pointer-events-none transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
+                    >
+                      <button
+                        type="button"
+                        class="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0 text-[#6b7785] transition-colors duration-150 hover:bg-[#e8eef6]"
+                        :title="$t('54e3d97e.b11041')"
+                        @click.stop="$emit('toggle-section-disabled', sectionId)"
+                      >
+                        <EyeOff v-if="isSectionDisabled(sectionId)" :size="18" :stroke-width="2" />
+                        <Eye v-else :size="18" :stroke-width="2" />
+                      </button>
+                    </div>
+                    <div
+                      v-else-if="canDeleteHeaderZoneSelection(sectionId)"
+                      class="flex shrink-0 items-center gap-0.5 opacity-0 pointer-events-none transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
+                    >
+                      <button
+                        type="button"
+                        class="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0 text-[#98a2b3] transition-colors duration-150 hover:bg-[#e8eef6]"
+                        :title="$t('54e3d97e.8e22a6')"
+                        @click.stop="$emit('remove-section', sectionId)"
+                      >
+                        <Trash2 :size="16" :stroke-width="2" />
+                      </button>
+                      <button
+                        type="button"
+                        class="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0 text-[#6b7785] transition-colors duration-150 hover:bg-[#e8eef6]"
+                        :title="$t('54e3d97e.b11041')"
+                        @click.stop="$emit('toggle-section-disabled', sectionId)"
+                      >
+                        <EyeOff v-if="isSectionDisabled(sectionId)" :size="18" :stroke-width="2" />
+                        <Eye v-else :size="18" :stroke-width="2" />
+                      </button>
                     </div>
                   </div>
-                  <div
-                    v-if="isHeaderZoneFixedSelection(sectionId)"
-                    class="flex shrink-0 items-center gap-0.5 opacity-0 pointer-events-none transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
-                  >
-                    <button
-                      type="button"
-                      class="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0 text-[#6b7785] transition-colors duration-150 hover:bg-[#e8eef6]"
-                      :title="$t('54e3d97e.b11041')"
-                      @click.stop="$emit('toggle-section-disabled', sectionId)"
-                    >
-                      <EyeOff v-if="isSectionDisabled(sectionId)" :size="18" :stroke-width="2" />
-                      <Eye v-else :size="18" :stroke-width="2" />
-                    </button>
-                  </div>
-                  <div
-                    v-else-if="canDeleteHeaderZoneSelection(sectionId)"
-                    class="flex shrink-0 items-center gap-0.5 opacity-0 pointer-events-none transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
-                  >
-                    <button
-                      type="button"
-                      class="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0 text-[#98a2b3] transition-colors duration-150 hover:bg-[#e8eef6]"
-                      :title="$t('54e3d97e.8e22a6')"
-                      @click.stop="$emit('remove-section', sectionId)"
-                    >
-                      <Trash2 :size="16" :stroke-width="2" />
-                    </button>
-                    <button
-                      type="button"
-                      class="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0 text-[#6b7785] transition-colors duration-150 hover:bg-[#e8eef6]"
-                      :title="$t('54e3d97e.b11041')"
-                      @click.stop="$emit('toggle-section-disabled', sectionId)"
-                    >
-                      <EyeOff v-if="isSectionDisabled(sectionId)" :size="18" :stroke-width="2" />
-                      <Eye v-else :size="18" :stroke-width="2" />
-                    </button>
-                  </div>
-                </div>
 
-                <draggable
-                  v-if="isExpanded(sectionId) && getBlockOrder(sectionId).length"
-                  v-model="localBlockOrders[sectionId]"
-                  handle="[data-drag-handle='block']"
-                  :options="{ filter: '.sp-structure-insert-gap', preventOnFilter: false }"
-                  @change="handleBlockOrderChange(sectionId)"
-                >
-                  <div
-                    v-for="(blockId, bIdx) in getBlockOrder(sectionId)"
-                    :key="blockId"
-                    class="flex flex-col gap-0"
+                  <draggable
+                    v-if="isExpanded(sectionId) && getBlockOrder(sectionId).length"
+                    v-model="localBlockOrders[sectionId]"
+                    handle="[data-drag-handle='block']"
+                    :options="{ filter: '.sp-structure-insert-gap', preventOnFilter: false }"
+                    @change="handleBlockOrderChange(sectionId)"
                   >
-                    <div class="relative z-[2] py-0 pl-[50px]">
-                      <div
-                        class="sp-structure-insert-gap sp-structure-insert-gap--block"
-                        @click.stop="toggleInsertMenu('block', sectionId, bIdx)"
-                      >
-                        <div class="sp-structure-insert-gap__line" aria-hidden="true" />
-                        <button
-                          type="button"
-                          class="sp-structure-insert-gap__btn sp-structure-insert-gap__btn--block"
-                          @click.stop="toggleInsertMenu('block', sectionId, bIdx)"
+                    <div
+                      v-for="(blockId, bIdx) in getBlockOrder(sectionId)"
+                      :key="blockId"
+                      class="flex flex-col gap-0"
+                    >
+                      <div class="relative z-[2] py-0 pl-[50px]">
+                        <div
+                          class="sp-structure-insert-gap sp-structure-insert-gap--block"
+                          @click.stop="toggleInsertMenu('block', sectionId, bIdx, $event)"
                         >
-                          <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
-                          <span>{{ $t('54e3d97e.fc318c') }}</span>
-                        </button>
+                          <div class="sp-structure-insert-gap__line" aria-hidden="true" />
+                          <button
+                            type="button"
+                            class="sp-structure-insert-gap__btn sp-structure-insert-gap__btn--block"
+                            @click.stop="toggleInsertMenu('block', sectionId, bIdx, $event)"
+                          >
+                            <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
+                            <span>{{ $t('54e3d97e.fc318c') }}</span>
+                          </button>
+                        </div>
+                        <div
+                          v-if="isInsertMenuOpen('block', sectionId, bIdx)"
+                          class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                        :style="insertMenuDockStyle"
+                        >
+                          <button
+                            v-for="item in getBlockPickerItems(getSectionType(sectionId))"
+                            :key="'hb-gap-' + item.key + '-' + sectionId + '-' + bIdx"
+                            type="button"
+                            class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
+                            @click="selectBlockType(sectionId, item.type)"
+                          >
+                            {{ $t(item.titleKey) }}
+                          </button>
+                        </div>
                       </div>
                       <div
-                        v-if="isInsertMenuOpen('block', sectionId, bIdx)"
-                        class="absolute left-[52px] right-2 top-[calc(100%+2px)] z-[6] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                        :class="[
+                          'group mt-0 flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent py-[7px] pl-[50px] pr-2 text-[#6b7785] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
+                          {
+                            'sp-structure-row-selected':
+                              sectionId === selectedSectionId && selectedBlockId === blockId
+                          }
+                        ]"
+                        @click="$emit('select-block', { sectionId, blockId })"
+                      >
+                        <div class="min-w-0 flex-1 flex items-center">
+                          <div
+                            class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
+                          >
+                            <span
+                              class="relative inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center"
+                            >
+                              <Diamond
+                                :size="16"
+                                class="shrink-0 text-[#475467] opacity-100 transition-opacity duration-150 group-hover:pointer-events-none group-hover:opacity-0"
+                                :stroke-width="2"
+                              />
+                              <span
+                                data-drag-handle="block"
+                                class="pointer-events-none absolute inset-0 inline-flex cursor-move items-center justify-center text-[#6b7785] opacity-0 transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
+                              >
+                                <GripVertical :size="14" :stroke-width="2" />
+                              </span>
+                            </span>
+                            {{ getBlockLabel(getSection(sectionId), blockId) }}
+                          </div>
+                        </div>
+                        <div
+                          class="flex shrink-0 items-center gap-0.5 opacity-0 pointer-events-none transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
+                        >
+                          <button
+                            v-if="canDeleteBlock(sectionId)"
+                            type="button"
+                            class="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0 text-[#98a2b3] transition-colors duration-150 hover:bg-[#e8eef6]"
+                            :title="$t('54e3d97e.8e22a6')"
+                            @click.stop="$emit('remove-block', { sectionId, blockId })"
+                          >
+                            <Trash2 :size="16" :stroke-width="2" />
+                          </button>
+                          <button
+                            type="button"
+                            class="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0 text-[#6b7785] transition-colors duration-150 hover:bg-[#e8eef6]"
+                            :title="$t('54e3d97e.b11041')"
+                            @click.stop="$emit('toggle-block-disabled', { sectionId, blockId })"
+                          >
+                            <EyeOff
+                              v-if="isBlockDisabled(sectionId, blockId)"
+                              :size="18"
+                              :stroke-width="2"
+                            />
+                            <Eye v-else :size="18" :stroke-width="2" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </draggable>
+
+                  <div v-if="isExpanded(sectionId)">
+                    <div class="relative pl-[52px]">
+                      <button
+                        v-if="getBlockPickerItems(getSectionType(sectionId)).length"
+                        type="button"
+                        class="mt-0.5 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] pl-0 pr-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
+                        @click="
+                          toggleInsertMenu('block', sectionId, getBlockOrder(sectionId).length, $event)
+                        "
+                      >
+                        <CirclePlus
+                          :size="14"
+                          class="shrink-0 text-[#2563eb]"
+                          :stroke-width="2.5"
+                        />
+                        <span>{{ $t('54e3d97e.fc318c') }}</span>
+                      </button>
+
+                      <div
+                        v-if="isInsertMenuOpen('block', sectionId, getBlockOrder(sectionId).length)"
+                        class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                        :style="insertMenuDockStyle"
                       >
                         <button
                           v-for="item in getBlockPickerItems(getSectionType(sectionId))"
-                          :key="'hb-gap-' + item.key + '-' + sectionId + '-' + bIdx"
+                          :key="item.key + '-' + sectionId"
                           type="button"
                           class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
                           @click="selectBlockType(sectionId, item.type)"
@@ -186,92 +284,7 @@
                         </button>
                       </div>
                     </div>
-                    <div
-                      :class="[
-                        'group mt-0 flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent py-[7px] pl-[50px] pr-2 text-[#6b7785] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
-                        {
-                          'sp-structure-row-selected':
-                            sectionId === selectedSectionId && selectedBlockId === blockId
-                        }
-                      ]"
-                      @click="$emit('select-block', { sectionId, blockId })"
-                    >
-                      <div class="min-w-0 flex-1 flex items-center">
-                        <div
-                          class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
-                        >
-                          <span
-                            class="relative inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center"
-                          >
-                            <Diamond
-                              :size="16"
-                              class="shrink-0 text-[#475467] opacity-100 transition-opacity duration-150 group-hover:pointer-events-none group-hover:opacity-0"
-                              :stroke-width="2"
-                            />
-                            <span
-                              data-drag-handle="block"
-                              class="pointer-events-none absolute inset-0 inline-flex cursor-move items-center justify-center text-[#6b7785] opacity-0 transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
-                            >
-                              <GripVertical :size="14" :stroke-width="2" />
-                            </span>
-                          </span>
-                          {{ getBlockLabel(getSection(sectionId), blockId) }}
-                        </div>
-                      </div>
-                      <div
-                        class="flex shrink-0 items-center gap-0.5 opacity-0 pointer-events-none transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
-                      >
-                        <button
-                          v-if="canDeleteBlock(sectionId)"
-                          type="button"
-                          class="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0 text-[#98a2b3] transition-colors duration-150 hover:bg-[#e8eef6]"
-                          :title="$t('54e3d97e.8e22a6')"
-                          @click.stop="$emit('remove-block', { sectionId, blockId })"
-                        >
-                          <Trash2 :size="16" :stroke-width="2" />
-                        </button>
-                        <button
-                          type="button"
-                          class="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent p-0 text-[#6b7785] transition-colors duration-150 hover:bg-[#e8eef6]"
-                          :title="$t('54e3d97e.b11041')"
-                          @click.stop="$emit('toggle-block-disabled', { sectionId, blockId })"
-                        >
-                          <EyeOff v-if="isBlockDisabled(sectionId, blockId)" :size="18" :stroke-width="2" />
-                          <Eye v-else :size="18" :stroke-width="2" />
-                        </button>
-                      </div>
-                    </div>
                   </div>
-                </draggable>
-
-                <div v-if="isExpanded(sectionId)">
-                  <div class="relative pl-[52px]">
-                    <button
-                      v-if="getBlockPickerItems(getSectionType(sectionId)).length"
-                      type="button"
-                      class="mt-0.5 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] pl-0 pr-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                      @click="toggleInsertMenu('block', sectionId, getBlockOrder(sectionId).length)"
-                    >
-                      <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
-                      <span>{{ $t('54e3d97e.fc318c') }}</span>
-                    </button>
-
-                    <div
-                      v-if="isInsertMenuOpen('block', sectionId, getBlockOrder(sectionId).length)"
-                      class="absolute left-0 top-[calc(100%+2px)] z-[4] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
-                    >
-                      <button
-                        v-for="item in getBlockPickerItems(getSectionType(sectionId))"
-                        :key="item.key + '-' + sectionId"
-                        type="button"
-                        class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
-                        @click="selectBlockType(sectionId, item.type)"
-                      >
-                        {{ $t(item.titleKey) }}
-                      </button>
-                    </div>
-                  </div>
-                </div>
                 </div>
               </div>
             </draggable>
@@ -280,14 +293,15 @@
               <button
                 type="button"
                 class="flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                @click="toggleInsertMenu('section', 'header', localHeaderZoneOrder.length)"
+                @click="toggleInsertMenu('section', 'header', localHeaderZoneOrder.length, $event)"
               >
                 <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
                 <span>{{ $t('54e3d97e.2e2d33') }}</span>
               </button>
               <div
                 v-if="isInsertMenuOpen('section', 'header', localHeaderZoneOrder.length)"
-                class="absolute left-0 top-[calc(100%+2px)] z-[5] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                :style="insertMenuDockStyle"
               >
                 <button
                   v-for="item in sectionPickerItemsFor('header')"
@@ -323,17 +337,21 @@
             :options="{ filter: '.sp-structure-insert-gap', preventOnFilter: false }"
             @change="handleOrderChange"
           >
-            <div v-for="(sectionId, sIdx) in localOrder" :key="sectionId" class="flex flex-col gap-0">
+            <div
+              v-for="(sectionId, sIdx) in localOrder"
+              :key="sectionId"
+              class="flex flex-col gap-0"
+            >
               <div class="relative z-[3] py-0">
                 <div
                   class="sp-structure-insert-gap"
-                  @click.stop="toggleInsertMenu('section', 'template', sIdx)"
+                  @click.stop="toggleInsertMenu('section', 'template', sIdx, $event)"
                 >
                   <div class="sp-structure-insert-gap__line" aria-hidden="true" />
                   <button
                     type="button"
                     class="sp-structure-insert-gap__btn"
-                    @click.stop="toggleInsertMenu('section', 'template', sIdx)"
+                    @click.stop="toggleInsertMenu('section', 'template', sIdx, $event)"
                   >
                     <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
                     <span>{{ $t('54e3d97e.2e2d33') }}</span>
@@ -341,7 +359,8 @@
                 </div>
                 <div
                   v-if="isInsertMenuOpen('section', 'template', sIdx)"
-                  class="absolute left-2 right-2 top-[calc(100%+2px)] z-[6] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                  class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                    :style="insertMenuDockStyle"
                 >
                   <button
                     v-for="item in sectionPickerItemsFor('template')"
@@ -438,13 +457,13 @@
                     <div class="relative z-[2] py-0 pl-[50px]">
                       <div
                         class="sp-structure-insert-gap sp-structure-insert-gap--block"
-                        @click.stop="toggleInsertMenu('block', sectionId, bIdx)"
+                        @click.stop="toggleInsertMenu('block', sectionId, bIdx, $event)"
                       >
                         <div class="sp-structure-insert-gap__line" aria-hidden="true" />
                         <button
                           type="button"
                           class="sp-structure-insert-gap__btn sp-structure-insert-gap__btn--block"
-                          @click.stop="toggleInsertMenu('block', sectionId, bIdx)"
+                          @click.stop="toggleInsertMenu('block', sectionId, bIdx, $event)"
                         >
                           <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
                           <span>{{ $t('54e3d97e.fc318c') }}</span>
@@ -452,7 +471,8 @@
                       </div>
                       <div
                         v-if="isInsertMenuOpen('block', sectionId, bIdx)"
-                        class="absolute left-[52px] right-2 top-[calc(100%+2px)] z-[6] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                        class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                        :style="insertMenuDockStyle"
                       >
                         <button
                           v-for="item in getBlockPickerItems(getSectionType(sectionId))"
@@ -515,7 +535,11 @@
                           :title="$t('54e3d97e.b11041')"
                           @click.stop="$emit('toggle-block-disabled', { sectionId, blockId })"
                         >
-                          <EyeOff v-if="isBlockDisabled(sectionId, blockId)" :size="18" :stroke-width="2" />
+                          <EyeOff
+                            v-if="isBlockDisabled(sectionId, blockId)"
+                            :size="18"
+                            :stroke-width="2"
+                          />
                           <Eye v-else :size="18" :stroke-width="2" />
                         </button>
                       </div>
@@ -529,7 +553,7 @@
                       v-if="getBlockPickerItems(getSectionType(sectionId)).length"
                       type="button"
                       class="mt-0.5 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] pl-0 pr-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                      @click="toggleInsertMenu('block', sectionId, getBlockOrder(sectionId).length)"
+                      @click="toggleInsertMenu('block', sectionId, getBlockOrder(sectionId).length, $event)"
                     >
                       <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
                       <span>{{ $t('54e3d97e.fc318c') }}</span>
@@ -537,7 +561,8 @@
 
                     <div
                       v-if="isInsertMenuOpen('block', sectionId, getBlockOrder(sectionId).length)"
-                      class="absolute left-0 top-[calc(100%+2px)] z-[4] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                      class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                      :style="insertMenuDockStyle"
                     >
                       <button
                         v-for="item in getBlockPickerItems(getSectionType(sectionId))"
@@ -559,14 +584,15 @@
             <button
               type="button"
               class="flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-              @click="toggleInsertMenu('section', 'template', localOrder.length)"
+              @click="toggleInsertMenu('section', 'template', localOrder.length, $event)"
             >
               <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
               <span>{{ $t('54e3d97e.2e2d33') }}</span>
             </button>
             <div
               v-if="isInsertMenuOpen('section', 'template', localOrder.length)"
-              class="absolute left-0 top-[calc(100%+2px)] z-[5] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+              class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+              :style="insertMenuDockStyle"
             >
               <button
                 v-for="item in sectionPickerItemsFor('template')"
@@ -595,14 +621,15 @@
               <button
                 type="button"
                 class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-0 bg-transparent py-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                @click="toggleInsertMenu('section', 'template-empty', 0)"
+                @click="toggleInsertMenu('section', 'template-empty', 0, $event)"
               >
                 <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
                 <span>{{ $t('54e3d97e.2e2d33') }}</span>
               </button>
               <div
                 v-if="isInsertMenuOpen('section', 'template-empty', 0)"
-                class="absolute left-1/2 top-[calc(100%+2px)] z-[5] min-w-[160px] -translate-x-1/2 rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                :style="insertMenuDockStyle"
               >
                 <button
                   v-for="item in sectionPickerItemsFor('template-empty')"
@@ -698,13 +725,13 @@
                 <div class="relative z-[2] py-0 pl-[50px]">
                   <div
                     class="sp-structure-insert-gap sp-structure-insert-gap--block"
-                    @click.stop="toggleInsertMenu('block', 'footer', bIdx)"
+                    @click.stop="toggleInsertMenu('block', 'footer', bIdx, $event)"
                   >
                     <div class="sp-structure-insert-gap__line" aria-hidden="true" />
                     <button
                       type="button"
                       class="sp-structure-insert-gap__btn sp-structure-insert-gap__btn--block"
-                      @click.stop="toggleInsertMenu('block', 'footer', bIdx)"
+                      @click.stop="toggleInsertMenu('block', 'footer', bIdx, $event)"
                     >
                       <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
                       <span>{{ $t('54e3d97e.fc318c') }}</span>
@@ -712,7 +739,8 @@
                   </div>
                   <div
                     v-if="isInsertMenuOpen('block', 'footer', bIdx)"
-                    class="absolute left-[52px] right-2 top-[calc(100%+2px)] z-[6] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                    class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                        :style="insertMenuDockStyle"
                   >
                     <button
                       v-for="item in footerBlockPickerItems"
@@ -775,7 +803,11 @@
                       :title="$t('54e3d97e.b11041')"
                       @click.stop="$emit('toggle-block-disabled', { sectionId: 'footer', blockId })"
                     >
-                      <EyeOff v-if="isBlockDisabled('footer', blockId)" :size="18" :stroke-width="2" />
+                      <EyeOff
+                        v-if="isBlockDisabled('footer', blockId)"
+                        :size="18"
+                        :stroke-width="2"
+                      />
                       <Eye v-else :size="18" :stroke-width="2" />
                     </button>
                   </div>
@@ -789,7 +821,7 @@
                   v-if="footerBlockPickerItems.length"
                   type="button"
                   class="mt-0.5 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] pr-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                  @click="toggleInsertMenu('block', 'footer', footerBlockOrder.length)"
+                  @click="toggleInsertMenu('block', 'footer', footerBlockOrder.length, $event)"
                 >
                   <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
                   <span>{{ $t('54e3d97e.fc318c') }}</span>
@@ -797,7 +829,8 @@
 
                 <div
                   v-if="isInsertMenuOpen('block', 'footer', footerBlockOrder.length)"
-                  class="absolute left-0 top-[calc(100%+2px)] z-[4] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                  class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                        :style="insertMenuDockStyle"
                 >
                   <button
                     v-for="item in footerBlockPickerItems"
@@ -816,14 +849,15 @@
               <button
                 type="button"
                 class="flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                @click="toggleInsertMenu('section', 'footer', localOrder.length)"
+                @click="toggleInsertMenu('section', 'footer', localOrder.length, $event)"
               >
                 <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
                 <span>{{ $t('54e3d97e.2e2d33') }}</span>
               </button>
               <div
                 v-if="isInsertMenuOpen('section', 'footer', localOrder.length)"
-                class="absolute left-0 top-[calc(100%+2px)] z-[5] min-w-[160px] rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                :style="insertMenuDockStyle"
               >
                 <button
                   v-for="item in sectionPickerItemsFor('footer')"
@@ -912,7 +946,10 @@ export default {
         kind: '',
         sectionId: '',
         insertIndex: null
-      }
+      },
+      /** 插入菜单：fixed 定位（结构树右侧），由锚点 getBoundingClientRect 计算 */
+      insertMenuAnchorEl: null,
+      insertMenuDockStyle: {}
     }
   },
   computed: {
@@ -952,6 +989,9 @@ export default {
         this.syncHeaderZoneOrderFromGlobal()
       }
     }
+  },
+  beforeDestroy() {
+    this.clearInsertMenuAnchor()
   },
   methods: {
     syncHeaderZoneOrderFromGlobal() {
@@ -1009,17 +1049,18 @@ export default {
       }
       return false
     },
-    toggleInsertMenu(kind, sectionId = '', insertIndexArg = undefined) {
+    toggleInsertMenu(kind, sectionId = '', insertIndexArg = undefined, event) {
       if (kind === 'block') {
         const idx =
           typeof insertIndexArg === 'number' && !Number.isNaN(insertIndexArg)
             ? insertIndexArg
             : null
         if (this.isInsertMenuOpen('block', sectionId, idx)) {
-          this.openInsertMenu = { kind: '', sectionId: '', insertIndex: null }
+          this.closeInsertMenu()
           return
         }
         this.openInsertMenu = { kind: 'block', sectionId, insertIndex: idx }
+        this.setInsertMenuAnchor(event)
         return
       }
       if (kind === 'section') {
@@ -1035,13 +1076,103 @@ export default {
           idx = this.localOrder.length
         }
         if (this.isInsertMenuOpen('section', anchor, idx)) {
-          this.openInsertMenu = { kind: '', sectionId: '', insertIndex: null }
+          this.closeInsertMenu()
           return
         }
         this.openInsertMenu = { kind: 'section', sectionId: anchor, insertIndex: idx }
+        this.setInsertMenuAnchor(event)
       }
     },
+    setInsertMenuAnchor(event) {
+      const el = event && event.currentTarget
+      this.insertMenuAnchorEl = el && el.nodeType === 1 ? el : null
+      this.bindInsertMenuPositionListeners()
+      this.bindInsertMenuClickOutside()
+      this.$nextTick(() => this.updateInsertMenuPosition())
+    },
+    updateInsertMenuPosition() {
+      const el = this.insertMenuAnchorEl
+      if (!el || typeof el.getBoundingClientRect !== 'function') {
+        this.insertMenuDockStyle = {}
+        return
+      }
+      const r = el.getBoundingClientRect()
+      const root = this.$el
+      const rootRect =
+        root && typeof root.getBoundingClientRect === 'function' ? root.getBoundingClientRect() : r
+      const gap = 8
+      const menuW = 208
+      // 图2：面板左缘与结构侧栏右边界（分割线）对齐，整体落在预览区一侧
+      let left = rootRect.right + gap
+      const vw = typeof window !== 'undefined' ? window.innerWidth : 1200
+      const vh = typeof window !== 'undefined' ? window.innerHeight : 800
+      if (left + menuW > vw - gap) {
+        left = Math.max(gap, vw - menuW - gap)
+      }
+      const pad = 8
+      const minBottomReserve = 120
+      let topPx = r.top
+      topPx = Math.max(pad, Math.min(vh - pad - minBottomReserve, topPx))
+      this.insertMenuDockStyle = {
+        position: 'fixed',
+        top: `${Math.round(topPx)}px`,
+        left: `${Math.round(left)}px`,
+        zIndex: 4000
+      }
+    },
+    bindInsertMenuPositionListeners() {
+      if (this._insertMenuListenersBound) return
+      this._onInsertMenuViewport = () => {
+        if (!this.openInsertMenu.kind) return
+        this.updateInsertMenuPosition()
+      }
+      window.addEventListener('resize', this._onInsertMenuViewport)
+      window.addEventListener('scroll', this._onInsertMenuViewport, true)
+      this._insertMenuScrollEl = this.$el && this.$el.querySelector('.sp-structure-scroll')
+      if (this._insertMenuScrollEl) {
+        this._insertMenuScrollEl.addEventListener('scroll', this._onInsertMenuViewport, true)
+      }
+      this._insertMenuListenersBound = true
+    },
+    unbindInsertMenuPositionListeners() {
+      if (!this._insertMenuListenersBound || !this._onInsertMenuViewport) return
+      window.removeEventListener('resize', this._onInsertMenuViewport)
+      window.removeEventListener('scroll', this._onInsertMenuViewport, true)
+      if (this._insertMenuScrollEl) {
+        this._insertMenuScrollEl.removeEventListener('scroll', this._onInsertMenuViewport, true)
+        this._insertMenuScrollEl = null
+      }
+      this._onInsertMenuViewport = null
+      this._insertMenuListenersBound = false
+    },
+    clearInsertMenuAnchor() {
+      this.insertMenuAnchorEl = null
+      this.insertMenuDockStyle = {}
+      this.unbindInsertMenuPositionListeners()
+      this.unbindInsertMenuClickOutside()
+    },
+    bindInsertMenuClickOutside() {
+      if (this._insertMenuClickOutsideBound) return
+      this._onInsertMenuClickOutside = (e) => {
+        if (!this.openInsertMenu.kind) return
+        const t = e.target
+        const root = this.$el
+        const panel = root && root.querySelector && root.querySelector('.sp-structure-insert-menu')
+        if (panel && panel.contains(t)) return
+        if (this.insertMenuAnchorEl && this.insertMenuAnchorEl.contains(t)) return
+        this.closeInsertMenu()
+      }
+      document.addEventListener('click', this._onInsertMenuClickOutside, false)
+      this._insertMenuClickOutsideBound = true
+    },
+    unbindInsertMenuClickOutside() {
+      if (!this._insertMenuClickOutsideBound || !this._onInsertMenuClickOutside) return
+      document.removeEventListener('click', this._onInsertMenuClickOutside, false)
+      this._onInsertMenuClickOutside = null
+      this._insertMenuClickOutsideBound = false
+    },
     closeInsertMenu() {
+      this.clearInsertMenuAnchor()
       this.openInsertMenu = { kind: '', sectionId: '', insertIndex: null }
     },
     sectionInsertIcon(type) {
