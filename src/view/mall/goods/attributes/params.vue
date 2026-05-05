@@ -48,6 +48,8 @@
       :values="translateContext.values"
       :source-language="translateContext.sourceLang"
       @done="onTranslateDone"
+      @save-only="onTranslateSaveOnly"
+      @cancel="onTranslateCancel"
     />
   </SpPage>
 </template>
@@ -318,6 +320,11 @@ export default {
           this.resetData()
           this.show_sideBar = false
           this.$refs.finder.refresh(true)
+          // 创建/编辑保持一致：弹「同步翻译」弹框
+          const newAttrId = (res && res.data && res.data.data && (res.data.data.attribute_id || res.data.data.id)) || 0
+          if (newAttrId) {
+            this.openTranslate(newAttrId, ['attribute_name', 'attribute_memo'], [submitData.attribute_name || '', submitData.attribute_memo || ''])
+          }
         })
       } else {
         updateGoodsAttr(params.attribute_id, params).then((res) => {
@@ -328,7 +335,9 @@ export default {
         })
       }
     },
-    onTranslateDone() {}
+    onTranslateDone() {},
+    // 列表页内嵌表单：仅保存/取消停留在当前列表页
+    goBackTranslateList() {}
   },
   computed: {
     ...mapGetters(['wheight']),

@@ -50,6 +50,8 @@
       :values="translateContext.values"
       :source-language="translateContext.sourceLang"
       @done="onTranslateDone"
+      @save-only="onTranslateSaveOnly"
+      @cancel="onTranslateCancel"
     />
   </SpPage>
 </template>
@@ -421,11 +423,18 @@ export default {
             })
             this.show_sideBar = false
             this.$refs.finder.refresh()
+            // 创建/编辑保持一致：弹「同步翻译」弹框
+            const newTagId = (res.data.data && (res.data.data.tag_id || res.data.data.id)) || 0
+            if (newTagId) {
+              this.openTranslate(newTagId, ['tag_name'], [submitData.tag_name || ''])
+            }
           }
         })
       }
     },
-    onTranslateDone() {}
+    onTranslateDone() {},
+    // 列表页内嵌表单：仅保存/取消停留在当前列表页
+    goBackTranslateList() {}
   }
 }
 </script>

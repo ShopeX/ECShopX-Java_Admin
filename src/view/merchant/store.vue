@@ -113,6 +113,8 @@
       :values="translateContext.values"
       :source-language="translateContext.sourceLang"
       @done="onTranslateDone"
+      @save-only="onTranslateSaveOnly"
+      @cancel="onTranslateCancel"
     />
   </SpPage>
 </template>
@@ -1060,13 +1062,17 @@ export default {
           this.openTranslate(distributor_id, ['name', 'address', 'introduce'], [this.form.name || '', this.form.address || '', this.form.introduce || ''])
         } else {
           const ids = (this.$refs['daoDianZiti']?.finderData || []).map((item) => item.id)
-          await this.$api.marketing.saveDistributorInfo({
+          const res = await this.$api.marketing.saveDistributorInfo({
             ...params,
             pickup_location: ids
           })
           this.submitLoading = false
           this.$message.success(this.$t('027707af.931e30'))
-          if (!this.IS_DISTRIBUTOR()) {
+          // 创建/编辑保持一致：拿到新店铺 id 弹「同步翻译」弹框；取不到 id 时退回原行为
+          const newDistributorId = (res && res.data && res.data.data && (res.data.data.distributor_id || res.data.data.id)) || 0
+          if (newDistributorId) {
+            this.openTranslate(newDistributorId, ['name', 'address', 'introduce'], [this.form.name || '', this.form.address || '', this.form.introduce || ''])
+          } else if (!this.IS_DISTRIBUTOR()) {
             this.$router.go(-1)
           }
         }
@@ -1075,6 +1081,11 @@ export default {
       }
     },
     onTranslateDone() {
+      if (!this.IS_DISTRIBUTOR()) {
+        this.$router.go(-1)
+      }
+    },
+    goBackTranslateList() {
       if (!this.IS_DISTRIBUTOR()) {
         this.$router.go(-1)
       }

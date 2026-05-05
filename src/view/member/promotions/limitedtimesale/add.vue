@@ -306,8 +306,8 @@
       :values="translateContext.values"
       :source-language="translateContext.sourceLang"
       @done="onTranslateDone"
-      @save-only="onTranslateDone"
-      @cancel="onTranslateDone"
+      @save-only="onTranslateSaveOnly"
+      @cancel="onTranslateCancel"
     />
   </el-form>
 </template>
@@ -562,12 +562,15 @@ export default {
             this.$message({
               message: this.$t('0ab3280d.3fdaea'),
               type: 'success',
-              duration: 2 * 1000,
-              onClose() {
-                that.refresh()
-                that.$router.go(-1)
-              }
+              duration: 2 * 1000
             })
+            that.refresh()
+            // 创建/编辑保持一致：弹「同步翻译」弹框；仅保存/取消由 mixin 跳回列表
+            this.openTranslate(
+              res.data.data.seckill_id,
+              ['activity_name', 'description'],
+              [this.form.activity_name || '', this.form.description || '']
+            )
           } else {
             this.$message.error(this.$t('0ab3280d.73b0d9'))
             return false

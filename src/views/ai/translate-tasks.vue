@@ -16,8 +16,8 @@
           <el-tag :type="statusTagType(row.status)" size="small">{{ getStatusLabel(row.status) }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('2a2a72e5.129d05')" width="110">
-        <template slot-scope="{ row }">{{ langLabels[row.target_language] || row.target_language }}</template>
+      <el-table-column :label="$t('2a2a72e5.129d05')" min-width="160">
+        <template slot-scope="{ row }">{{ formatLangs(row.target_languages) }}</template>
       </el-table-column>
       <el-table-column :label="$t('2a2a72e5.8aa769')" width="160">
         <template slot-scope="{ row }">
@@ -28,12 +28,17 @@
           <span>{{ $t('2a2a72e5.599b5a') }}: {{ row.total_count || 0 }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="created_at" :label="$t('2a2a72e5.eca37c')" width="160" />
+      <el-table-column :label="$t('2a2a72e5.eca37c')" width="160">
+        <template slot-scope="{ row }">{{ formatTime(row.created) }}</template>
+      </el-table-column>
+      <el-table-column :label="$t('2a2a72e5.a001a2')" width="160">
+        <template slot-scope="{ row }">{{ formatTime(row.updated) }}</template>
+      </el-table-column>
       <el-table-column :label="$t('2a2a72e5.2b6bc0')" width="120">
         <template slot-scope="{ row }">
           <el-button type="text" size="small" @click="openDetail(row)">{{ $t('2a2a72e5.f26225') }}</el-button>
           <el-button
-            v-if="row.status === 'failed' || row.status === 'partial'"
+            v-if="row.status === 'failed' || row.status === 'partial_success'"
             type="text"
             size="small"
             @click="handleRetry(row)"
@@ -174,13 +179,14 @@
           <el-descriptions-item :label="$t('2a2a72e5.3fea7c')">
             <el-tag :type="statusTagType(detailTask.status)" size="small">{{ getStatusLabel(detailTask.status) }}</el-tag>
           </el-descriptions-item>
-          <el-descriptions-item :label="$t('2a2a72e5.129d05')">{{ langLabels[detailTask.target_language] || detailTask.target_language }}</el-descriptions-item>
+          <el-descriptions-item :label="$t('2a2a72e5.129d05')">{{ formatLangs(detailTask.target_languages) }}</el-descriptions-item>
           <el-descriptions-item :label="$t('2a2a72e5.330363')">{{ detailTask.success_count || 0 }}</el-descriptions-item>
           <el-descriptions-item :label="$t('2a2a72e5.acd5cb')">{{ detailTask.failed_count || 0 }}</el-descriptions-item>
           <el-descriptions-item :label="$t('2a2a72e5.599b5a')">{{ detailTask.total_count || 0 }}</el-descriptions-item>
-          <el-descriptions-item :label="$t('2a2a72e5.eca37c')">{{ detailTask.created_at }}</el-descriptions-item>
-          <el-descriptions-item v-if="detailTask.error_message" :label="$t('2a2a72e5.4604d5')" :span="2">
-            <span style="color: #F56C6C">{{ detailTask.error_message }}</span>
+          <el-descriptions-item :label="$t('2a2a72e5.eca37c')">{{ formatTime(detailTask.created) }}</el-descriptions-item>
+          <el-descriptions-item :label="$t('2a2a72e5.a001a2')">{{ formatTime(detailTask.updated) }}</el-descriptions-item>
+          <el-descriptions-item v-if="detailTask.error_msg || detailTask.error_message" :label="$t('2a2a72e5.4604d5')" :span="2">
+            <span style="color: #F56C6C">{{ detailTask.error_msg || detailTask.error_message }}</span>
           </el-descriptions-item>
         </el-descriptions>
       </div>
@@ -404,7 +410,7 @@ export default {
     async fetchTasks() {
       this.loading = true
       try {
-        const res = await getTranslateTasks({ page: this.page, pageSize: this.pageSize })
+        const res = await getTranslateTasks({ page: this.page, page_size: this.pageSize })
         const data = res.data.data || {}
         this.tasks = data.items || data.list || []
         this.total = data.total_count || data.total || 0
@@ -413,6 +419,25 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+
+    formatLangs(codes) {
+      if (!Array.isArray(codes) || codes.length === 0) return ''
+      return codes.map((c) => this.langLabels[c] || c).join('、')
+    },
+
+    /**
+     * 后端 created / updated 是秒级 unix 时间戳（int），统一在前端格式化成
+     * `YYYY-MM-DD HH:mm:ss`。兼容字符串/0/空值。
+     */
+    formatTime(ts) {
+      if (!ts) return ''
+      const num = typeof ts === 'number' ? ts : Number(ts)
+      if (!num) return typeof ts === 'string' ? ts : ''
+      const d = new Date(num * 1000)
+      if (isNaN(d.getTime())) return ''
+      const pad = (n) => String(n).padStart(2, '0')
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
     },
 
     openCreateDialog() {
@@ -548,6 +573,7 @@ export default {
       try {
         const res = await createTranslateTask({
           task_type: this.actualTaskType(this.createForm.task_type),
+          source_language: getCurrentCountryCode(),
           target_languages: this.createForm.target_languages,
           data_ids: this.selectedIds
         })
@@ -594,10 +620,10 @@ export default {
     getStatusLabel(status) {
       const map = {
         pending: this.$t('2a2a72e5.65dd9e'),
-        processing: this.$t('2a2a72e5.46e386'),
-        completed: this.$t('2a2a72e5.fad522'),
+        running: this.$t('2a2a72e5.46e386'),
+        success: this.$t('2a2a72e5.fad522'),
         failed: this.$t('2a2a72e5.acd5cb'),
-        partial: this.$t('2a2a72e5.983b68')
+        partial_success: this.$t('2a2a72e5.983b68')
       }
       return map[status] || status
     },
@@ -605,10 +631,10 @@ export default {
     statusTagType(status) {
       const map = {
         pending: 'info',
-        processing: '',
-        completed: 'success',
+        running: '',
+        success: 'success',
         failed: 'danger',
-        partial: 'warning'
+        partial_success: 'warning'
       }
       return map[status] || 'info'
     }
