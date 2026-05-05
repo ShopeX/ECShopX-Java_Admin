@@ -28,56 +28,6 @@
             <el-option :label="$t('30ac5b9e.db1c89')" value="home" />
           </el-select>
         </div>
-        <div
-          class="flex min-h-[34px] items-center gap-1.5 rounded-[10px] border border-[rgba(17,24,39,0.08)] bg-[rgba(250,251,253,0.95)] px-2 py-1"
-        >
-          <span class="whitespace-nowrap text-[11px] text-[#6b7785]">{{
-            $t('30ac5b9e.f55f17')
-          }}</span>
-          <el-button-group class="!inline-flex !items-center gap-1.5">
-            <el-button
-              class="!inline-flex !h-7 !min-h-7 !items-center !justify-center !rounded-lg !px-2.5 !text-xs !leading-none"
-              size="small"
-              :type="viewMode === 'desktop' ? 'primary' : 'default'"
-              @click="viewMode = 'desktop'"
-            >
-              {{ $t('30ac5b9e.2828b7') }}
-            </el-button>
-            <el-button
-              class="!inline-flex !h-7 !min-h-7 !items-center !justify-center !rounded-lg !px-2.5 !text-xs !leading-none"
-              size="small"
-              :type="viewMode === 'mobile' ? 'primary' : 'default'"
-              @click="viewMode = 'mobile'"
-            >
-              {{ $t('30ac5b9e.68d982') }}
-            </el-button>
-          </el-button-group>
-        </div>
-        <div
-          class="flex min-h-[34px] items-center gap-1.5 rounded-[10px] border border-[rgba(17,24,39,0.08)] bg-[rgba(250,251,253,0.95)] px-2 py-1"
-        >
-          <span class="whitespace-nowrap text-[11px] text-[#6b7785]">{{
-            $t('30ac5b9e.c827d8')
-          }}</span>
-          <el-button-group class="!inline-flex !items-center gap-1.5">
-            <el-button
-              class="!inline-flex !h-7 !min-h-7 !items-center !justify-center !rounded-lg !px-2.5 !text-xs !leading-none"
-              size="small"
-              :disabled="!canUndo"
-              @click="handleUndo"
-            >
-              {{ $t('30ac5b9e.bd9fcf') }}
-            </el-button>
-            <el-button
-              class="!inline-flex !h-7 !min-h-7 !items-center !justify-center !rounded-lg !px-2.5 !text-xs !leading-none"
-              size="small"
-              :disabled="!canRedo"
-              @click="handleRedo"
-            >
-              {{ $t('30ac5b9e.c7db6d') }}
-            </el-button>
-          </el-button-group>
-        </div>
       </div>
       <div class="flex items-center gap-2">
         <el-button
@@ -130,11 +80,16 @@
           :template-id="templateId"
           :website-url="websiteUrl"
           :device="viewMode"
+          :can-undo="canUndo"
+          :can-redo="canRedo"
           :selected-section-id="selectedSectionId"
           :selected-block-id="selectedBlockId"
           @focus-section="handleSelectSection"
           @focus-block="handleSelectBlock"
           @preview-ready="handlePreviewReady"
+          @select-device="viewMode = $event"
+          @undo="handleUndo"
+          @redo="handleRedo"
         />
       </div>
 

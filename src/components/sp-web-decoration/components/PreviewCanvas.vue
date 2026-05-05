@@ -1,19 +1,65 @@
 <template>
   <div class="h-full flex min-h-0 flex-col bg-[#eef1f5]">
     <div
-      class="flex min-h-12 items-center justify-between gap-2.5 border-b border-[#e6e9ef] bg-white px-[14px] py-[10px]"
+      class="relative flex min-h-12 shrink-0 items-center gap-2 border-b border-[#e6e9ef] bg-white px-[14px] py-[10px]"
     >
-      <div class="text-xs font-semibold text-[#18222f]">
+      <div class="min-w-0 max-w-[38%] truncate text-xs font-semibold text-[#18222f]">
         {{ $t('01f158e9.2f586b') }}
       </div>
       <div
-        :class="
-          iframeReady
-            ? 'inline-flex h-6 items-center rounded-full bg-[rgba(15,157,88,0.12)] px-2.5 text-[11px] text-[#0f9d58]'
-            : 'inline-flex h-6 items-center rounded-full bg-[rgba(17,24,39,0.06)] px-2.5 text-[11px] text-[#7d8796]'
-        "
+        class="absolute left-1/2 top-1/2 z-[1] flex -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 rounded-lg border border-[rgba(17,24,39,0.08)] bg-[rgba(250,251,253,0.95)] p-0.5"
       >
-        {{ iframeReady ? $t('01f158e9.6bef2d') : $t('01f158e9.3893c8') }}
+        <el-button
+          class="!flex !h-7 !w-7 !items-center !justify-center !p-0"
+          circle
+          size="mini"
+          :type="device === 'desktop' ? 'primary' : 'default'"
+          :aria-label="$t('30ac5b9e.2828b7')"
+          @click="$emit('select-device', 'desktop')"
+        >
+          <Monitor :size="16" class="text-current" :stroke-width="2" />
+        </el-button>
+        <el-button
+          class="!flex !h-7 !w-7 !items-center !justify-center !p-0"
+          circle
+          size="mini"
+          :type="device === 'mobile' ? 'primary' : 'default'"
+          :aria-label="$t('30ac5b9e.68d982')"
+          @click="$emit('select-device', 'mobile')"
+        >
+          <Smartphone :size="16" class="text-current" :stroke-width="2" />
+        </el-button>
+      </div>
+      <div class="relative z-[1] ml-auto flex shrink-0 items-center gap-1">
+        <el-button
+          class="!flex !h-7 !w-7 !items-center !justify-center !p-0"
+          circle
+          size="mini"
+          :disabled="!canUndo"
+          :aria-label="$t('30ac5b9e.bd9fcf')"
+          @click="$emit('undo')"
+        >
+          <RotateCcw :size="16" class="text-[#606266]" :stroke-width="2" />
+        </el-button>
+        <el-button
+          class="!flex !h-7 !w-7 !items-center !justify-center !p-0"
+          circle
+          size="mini"
+          :disabled="!canRedo"
+          :aria-label="$t('30ac5b9e.c7db6d')"
+          @click="$emit('redo')"
+        >
+          <RotateCw :size="16" class="text-[#606266]" :stroke-width="2" />
+        </el-button>
+        <div
+          :class="
+            iframeReady
+              ? 'inline-flex h-6 items-center rounded-full bg-[rgba(15,157,88,0.12)] px-2.5 text-[11px] text-[#0f9d58]'
+              : 'inline-flex h-6 items-center rounded-full bg-[rgba(17,24,39,0.06)] px-2.5 text-[11px] text-[#7d8796]'
+          "
+        >
+          {{ iframeReady ? $t('01f158e9.6bef2d') : $t('01f158e9.3893c8') }}
+        </div>
       </div>
     </div>
 
@@ -74,6 +120,14 @@ export default {
     device: {
       type: String,
       default: 'desktop'
+    },
+    canUndo: {
+      type: Boolean,
+      default: false
+    },
+    canRedo: {
+      type: Boolean,
+      default: false
     },
     selectedSectionId: {
       type: String,

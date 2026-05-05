@@ -175,7 +175,7 @@
                         <div
                           v-if="isInsertMenuOpen('block', sectionId, bIdx)"
                           class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
-                        :style="insertMenuDockStyle"
+                          :style="insertMenuDockStyle"
                         >
                           <button
                             v-for="item in getBlockPickerItems(getSectionType(sectionId))"
@@ -257,7 +257,12 @@
                         type="button"
                         class="mt-0.5 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] pl-0 pr-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
                         @click="
-                          toggleInsertMenu('block', sectionId, getBlockOrder(sectionId).length, $event)
+                          toggleInsertMenu(
+                            'block',
+                            sectionId,
+                            getBlockOrder(sectionId).length,
+                            $event
+                          )
                         "
                       >
                         <CirclePlus
@@ -360,7 +365,7 @@
                 <div
                   v-if="isInsertMenuOpen('section', 'template', sIdx)"
                   class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
-                    :style="insertMenuDockStyle"
+                  :style="insertMenuDockStyle"
                 >
                   <button
                     v-for="item in sectionPickerItemsFor('template')"
@@ -553,7 +558,14 @@
                       v-if="getBlockPickerItems(getSectionType(sectionId)).length"
                       type="button"
                       class="mt-0.5 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] pl-0 pr-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                      @click="toggleInsertMenu('block', sectionId, getBlockOrder(sectionId).length, $event)"
+                      @click="
+                        toggleInsertMenu(
+                          'block',
+                          sectionId,
+                          getBlockOrder(sectionId).length,
+                          $event
+                        )
+                      "
                     >
                       <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
                       <span>{{ $t('54e3d97e.fc318c') }}</span>
@@ -740,7 +752,7 @@
                   <div
                     v-if="isInsertMenuOpen('block', 'footer', bIdx)"
                     class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
-                        :style="insertMenuDockStyle"
+                    :style="insertMenuDockStyle"
                   >
                     <button
                       v-for="item in footerBlockPickerItems"
@@ -830,7 +842,7 @@
                 <div
                   v-if="isInsertMenuOpen('block', 'footer', footerBlockOrder.length)"
                   class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
-                        :style="insertMenuDockStyle"
+                  :style="insertMenuDockStyle"
                 >
                   <button
                     v-for="item in footerBlockPickerItems"

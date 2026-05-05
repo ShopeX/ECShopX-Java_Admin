@@ -22,9 +22,13 @@ import {
   LayoutGrid,
   LayoutTemplate,
   MapPin,
+  Monitor,
   PanelBottom,
   PanelTop,
   Plus,
+  RotateCcw,
+  RotateCw,
+  Smartphone,
   Tag,
   Trash2
 } from 'lucide-vue'
@@ -46,9 +50,13 @@ export const LUCIDE_ICONS = {
   LayoutGrid,
   LayoutTemplate,
   MapPin,
+  Monitor,
   PanelBottom,
   PanelTop,
   Plus,
+  RotateCcw,
+  RotateCw,
+  Smartphone,
   Tag,
   Trash2
 }
