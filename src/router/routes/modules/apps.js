@@ -426,61 +426,6 @@ const routes = [
           permissions: ['applications.kujiale.kujiale-products']
         },
         component: () => import('@/views/applications/kujiale/list')
-      },
-      {
-        name: 'aiTranslateTasks',
-        path: 'ai/translate-tasks',
-        meta: {
-          aliasName: 'ai-translate-tasks',
-          title: '9d1e03c7.c62103',
-          icon: 'ordered-list',
-          permissions: ['applications.ai-translate.translate-tasks']
-        },
-        component: () => import('@/views/ai/translate-tasks')
-      },
-      {
-        name: 'aiTranslateSetting',
-        path: 'ai/translate-setting',
-        meta: {
-          aliasName: 'ai-translate-setting',
-          title: '9d1e03c7.851905',
-          icon: 'setting',
-          permissions: ['applications.ai-translate.translate-setting']
-        },
-        component: () => import('@/views/settings/ai-translate-setting')
-      },
-      {
-        name: 'aiMaterialStudio',
-        path: 'ai/material-studio',
-        meta: {
-          aliasName: 'ai-material-studio',
-          title: 'AI素材制作',
-          icon: 'picture',
-          permissions: ['applications.ai-resource.material-studio']
-        },
-        component: () => import('@/views/ai/material/material-studio')
-      },
-      {
-        name: 'aiMaterialLibrary',
-        path: 'ai/material-library',
-        meta: {
-          aliasName: 'ai-material-library',
-          title: 'AI素材库',
-          icon: 'folder-open',
-          permissions: ['applications.ai-resource.material-library']
-        },
-        component: () => import('@/views/ai/material/material-library')
-      },
-      {
-        name: 'shopexAgentCenter',
-        path: 'shopex-agent/shopex-agent-center',
-        meta: {
-          aliasName: 'shopex-agent-shopex-agent-center', // aliasName 必须是 path 中把斜杠替换为破折号
-          title: '商派智能体平台',
-          icon: 'appstore',
-          permissions: ['applications.shopex-agent.shopex-agent-center']
-        },
-        component: () => import('@/views/ai/shopex-agent-center')
       }
     ]
   }
