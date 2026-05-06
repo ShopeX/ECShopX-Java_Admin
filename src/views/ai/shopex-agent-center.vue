@@ -1,8 +1,34 @@
 <template>
   <SpPage v-loading="loading">
     <div class="agent-center">
+      <h3 class="page-title">ShopeX智能体平台</h3>
+      <el-row :gutter="12" class="app-grid">
+        <el-col :span="8">
+          <el-card shadow="never">
+            <div class="wallet-kv-label">平台账号</div>
+            <div class="wallet-kv-value">
+              <el-button type="primary">登录</el-button>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card shadow="never">
+            <div class="wallet-kv-label">免费额度</div>
+            <div class="wallet-kv-value">{{ wallet.balance.gift_tokens || 0 }}</div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card shadow="never">
+              <div class="wallet-kv-label">余额</div>
+              <div class="flex">
+                <div class="wallet-kv-value">¥ {{ wallet.balance.cash_balance || 0 }}</div>
+                <el-button type="text">充值</el-button>
+              </div>
+          </el-card>
+        </el-col>
+      </el-row>
       <div class="header-bar">
-        <h2 class="page-title">应用市场</h2>
+        <div class="page-title">智能体</div>
         <div class="toolbar">
           <el-input
             v-model.trim="searchKeyword"
@@ -10,48 +36,25 @@
             placeholder="搜索应用"
             class="search-input"
           />
-          <el-button @click="walletDialogVisible = true">钱包</el-button>
-          <el-button type="primary" @click="loadData">刷新</el-button>
         </div>
       </div>
-
-      <el-alert
-        v-if="walletNotice"
-        :title="walletNotice"
-        type="info"
-        :closable="false"
-        show-icon
-        class="wallet-notice"
-      />
-
       <el-row :gutter="16" class="app-grid">
         <el-col v-for="row in filteredApplications" :key="row.app_id" :xs="24" :sm="12" :md="8" :lg="6">
           <el-card shadow="hover" class="app-card">
-            <div class="app-icon-box">
-              <img
-                v-if="isHttpImageUrl(row.icon_url)"
-                :src="row.icon_url"
-                :alt="row.app_name || row.app_id"
-                class="app-icon-image"
-              />
-              <span v-else>{{ getAppInitial(row) }}</span>
-            </div>
-            <div class="app-title">{{ row.app_name || row.app_id }}</div>
-            <div class="app-desc">{{ row.description || '暂无描述' }}</div>
-            <div class="app-meta">业务标识：{{ row.business_key || '-' }}</div>
-            <div class="app-meta">类型：{{ row.interaction_type || row.app_type || '-' }}</div>
-            <div class="app-status-row">
-              <span class="app-meta">应用状态：</span>
-              <el-tag size="small" :type="getStatusTagType(row)">
-                {{ getStatusLabel(row) }}
-              </el-tag>
-            </div>
-            <div class="app-tags">
-              <el-tag size="small" type="success">{{ getPricingLabel(row) }}</el-tag>
-              <el-tag size="small" :type="row.integrated ? 'success' : 'info'">
-                {{ row.integrated ? '已接入' : '未接入' }}
-              </el-tag>
-              <span class="app-category">{{ row.category || '未分类' }}</span>
+            <div class='flex'>
+              <div class="app-icon-box">
+                <img
+                  v-if="isHttpImageUrl(row.icon_url)"
+                  :src="row.icon_url"
+                  :alt="row.app_name || row.app_id"
+                  class="app-icon-image"
+                />
+                <span v-else>{{ getAppInitial(row) }}</span>
+              </div>
+              <div>
+                <div class="app-title">{{ row.app_name || row.app_id }}</div>
+                <div class="app-desc">{{ row.description || '暂无描述' }}</div>
+              </div>
             </div>
             <div class="app-actions">
               <el-button type="primary" size="small" :disabled="!canApply(row)" @click="apply(row)">
@@ -64,34 +67,6 @@
       </el-row>
 
       <el-dialog title="钱包" :visible.sync="walletDialogVisible" width="900px" destroy-on-close>
-        <el-row :gutter="12">
-          <el-col :span="8">
-            <el-card shadow="never">
-              <div class="wallet-kv-label">赠送 Token</div>
-              <div class="wallet-kv-value">{{ wallet.balance.gift_tokens || 0 }}</div>
-            </el-card>
-          </el-col>
-          <el-col :span="8">
-            <el-card shadow="never">
-              <div class="wallet-kv-label">现金余额</div>
-              <div class="wallet-kv-value">¥ {{ wallet.balance.cash_balance || 0 }}</div>
-            </el-card>
-          </el-col>
-          <el-col :span="8">
-            <el-card shadow="never">
-              <div class="wallet-kv-label">欠费</div>
-              <div class="wallet-kv-value">¥ {{ wallet.balance.arrears || 0 }}</div>
-            </el-card>
-          </el-col>
-        </el-row>
-        <el-alert
-          v-if="walletNotice"
-          style="margin-top: 12px"
-          :title="walletNotice"
-          type="info"
-          :closable="false"
-          show-icon
-        />
         <div class="wallet-recent-title">最近交易</div>
         <el-table :data="wallet.transactions || []" stripe style="margin-top: 8px">
           <el-table-column label="时间" min-width="180">
@@ -247,7 +222,7 @@ export default {
         ])
         this.applications = apps.items || []
         this.wallet = wallet || { balance: {}, transactions: [] }
-        this.walletNotice = wallet.recharge_notice || '当前暂不支持在线充值，请联系商务'
+        this.walletNotice = wallet.recharge_notice || '当前暂不支持在线充值，请联系客服'
       } catch (e) {
         this.$message.error(e.message || '数据加载失败')
       } finally {
@@ -354,8 +329,8 @@ export default {
 }
 .page-title {
   margin: 0;
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 26px;
+  font-weight: 500;
 }
 .toolbar {
   display: flex;
@@ -377,11 +352,10 @@ export default {
   color: #606266;
 }
 .app-grid {
-  margin-top: 14px;
+  margin: 14px 0;
 }
 .app-card {
   margin-bottom: 16px;
-  min-height: 265px;
 }
 .app-icon-box {
   width: 56px;
@@ -394,6 +368,7 @@ export default {
   font-size: 28px;
   font-weight: 600;
   margin-bottom: 10px;
+  margin-right: 10px;
   overflow: hidden;
 }
 .app-icon-image {
