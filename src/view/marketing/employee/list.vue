@@ -13,6 +13,25 @@
 .stats-totals {
   margin-bottom: 4px;
 }
+/* 标题栏右侧需为 el-dialog 关闭按钮留出位置，避免与「下载扫码统计」重叠 */
+.stats-scan-dialog__title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  padding-right: 48px;
+}
+.stats-scan-dialog__title-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stats-scan-dialog__title-actions {
+  flex-shrink: 0;
+}
 </style>
 
 <template>
@@ -100,20 +119,23 @@
 
       <el-dialog
         :visible.sync="statsDialogVisible"
+        custom-class="stats-scan-dialog"
         width="900px"
         append-to-body
         @closed="onStatsDialogClosed"
       >
-        <div slot="title" style="display: flex; align-items: center; justify-content: space-between">
-          <span>{{ statsDialogTitle }}</span>
-          <el-button
-            size="mini"
-            type="primary"
-            :loading="statsDialogLoading"
-            @click="downloadStatsInDialog"
-          >
-            {{ $t('bea3f44a.e01a10') }}
-          </el-button>
+        <div slot="title" class="stats-scan-dialog__title">
+          <span class="stats-scan-dialog__title-text">{{ statsDialogTitle }}</span>
+          <div class="stats-scan-dialog__title-actions">
+            <el-button
+              size="mini"
+              type="primary"
+              :loading="statsDialogLoading"
+              @click="downloadStatsInDialog"
+            >
+              {{ $t('bea3f44a.e01a10') }}
+            </el-button>
+          </div>
         </div>
         <div v-loading="statsDialogLoading" class="stats-dialog-body">
           <el-descriptions v-if="statsDialogTotals" :column="3" border class="stats-totals">
@@ -548,6 +570,7 @@ export default {
         const res = await this.$api.marketing.downloadActivityQrcode(row.id)
         if (res && res.status) {
           this.$message.success(this.$t('bea3f44a.e01a11'))
+          this.$export_open_blank('employee_purchase_activity_qrcode')
           return
         }
         throw new Error('invalid export response')
@@ -565,6 +588,7 @@ export default {
         )
         if (res && res.status) {
           this.$message.success(this.$t('bea3f44a.e01a11'))
+          this.$export_open_blank('employee_purchase_activity_scan_stats')
           return
         }
         throw new Error('invalid export response')

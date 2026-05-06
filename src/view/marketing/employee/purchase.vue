@@ -168,7 +168,7 @@
     <template slot="page-footer">
       <ActionsButton
         class="text-center"
-        :disabled="activityStatus == 'cancel' || activityStatus == 'over'"
+        :disabled="footerSaveDisabled"
         @save="onSubmitForm"
       />
     </template>
@@ -303,6 +303,23 @@ export default {
         if (result[idx]) result[idx] = { ...result[idx], disabled: overrides[i] }
       })
       return result
+    },
+    /** 管理端 status === ongoing，与列表「进行中」一致 */
+    isActivityOngoing() {
+      return this.activityStatus === 'ongoing'
+    },
+    /** 进行中且已开启口令：仅口令企业表的 participate_quota 允许编辑 */
+    isPassphraseQuotaOnlyEditMode() {
+      return this.isActivityOngoing && !!this.activityRule.is_passphrase_enabled
+    },
+    footerSaveDisabled() {
+      if (this.activityStatus === 'cancel' || this.activityStatus === 'over') {
+        return true
+      }
+      if (this.isActivityOngoing && !this.activityRule.is_passphrase_enabled) {
+        return true
+      }
+      return false
     }
   },
   created() {
@@ -451,7 +468,14 @@ export default {
           key: 'passphraseRowsTable',
           isShow: (item, value) =>
             !!value.is_passphrase_enabled && (value.companyList || []).length > 0,
-          component: ({ disabled }) => (
+          component: ({ disabled }) => {
+            const ongoing = self.activityStatus === 'ongoing'
+            const quotaOnly = self.isPassphraseQuotaOnlyEditMode
+            const batchLocked = ongoing
+            const quotaCellDisabled = quotaOnly ? false : disabled
+            const codeCellDisabled = ongoing ? true : disabled
+            const tableLimitfeeDisabled = ongoing ? true : disabled
+            return (
             <div class='passphrase-enterprise-block'>
               <el-table
                 class='passphrase-enterprise-table'
@@ -518,7 +542,7 @@ export default {
                             slot='reference'
                             type='text'
                             class='passphrase-batch-fill-btn'
-                            disabled={disabled}
+                            disabled={batchLocked || disabled}
                           >
                             {t('39e3acc2.e8b1ad')}
                           </el-button>
@@ -529,7 +553,7 @@ export default {
                       <SpInput
                         v-model={scope.row.participate_quota}
                         width='120px'
-                        disabled={disabled}
+                        disabled={quotaCellDisabled}
                         placeholder={t('39e3acc2.ea6c91')}
                       />
                     )
@@ -543,7 +567,7 @@ export default {
                       <SpInput
                         v-model={scope.row.passphrase_limitfee}
                         width='120px'
-                        disabled={disabled}
+                        disabled={tableLimitfeeDisabled}
                         placeholder={t('39e3acc2.ea6c91')}
                         suffix={t('39e3acc2.c16655')}
                       />
@@ -596,7 +620,7 @@ export default {
                             slot='reference'
                             type='text'
                             class='passphrase-batch-fill-btn'
-                            disabled={disabled}
+                            disabled={batchLocked || disabled}
                             loading={self.passphraseBatchCodeGenerating}
                           >
                             {t('39e3acc2.e8b1b2')}
@@ -607,7 +631,7 @@ export default {
                     default: (scope) => (
                       <el-input
                         v-model={scope.row.passphrase_code}
-                        disabled={disabled}
+                        disabled={codeCellDisabled}
                         maxlength={64}
                         placeholder={t('39e3acc2.e8b1a9')}
                         size='small'
@@ -617,7 +641,8 @@ export default {
                 />
               </el-table>
             </div>
-          ),
+            )
+          },
           disabled: false,
           validator: (rule, value, callback) => {
             if (!self.activityRule.is_passphrase_enabled) {
@@ -688,7 +713,9 @@ export default {
                   <el-date-picker
                     v-model={self.activityRule.employee.datetime}
                     disabled={datetime}
-                    type='daterange'
+                    type='datetimerange'
+                    format='yyyy-MM-dd HH:mm:ss'
+                    defaultTime={['00:00:00', '23:59:59']}
                     range-separator={t('bea3f44a.981cbe')}
                     start-placeholder={t('39e3acc2.592c59')}
                     end-placeholder={t('39e3acc2.f78277')}
@@ -905,8 +932,12 @@ export default {
         pic: res.pic
       }
 
-      // 进行中、已暂停（0 口令 1 企业 2 口令企业表 3 预热 4 员工 5 亲友…）
-      if (res.status == 'ongoing' || res.status == 'pending') {
+      // 索引：0 口令开关 1 参与企业 2 口令企业表 3 预热 4 员工 5 亲友 6 起订 7 改地址 8 分组 9–11 价格展示 12–13 折扣文案
+      this.activityRuleDisabledOverrides = {}
+      if (res.status === 'pending') {
+        this.formBaseList[0].disabled = false
+        this.formBaseList[1].disabled = false
+        this.formBaseList[2].disabled = false
         this.$set(this.activityRuleDisabledOverrides, 4, {
           datetime: false,
           quota: true
@@ -918,6 +949,31 @@ export default {
           type: false,
           shareLimit: true
         })
+      } else if (res.status === 'ongoing') {
+        this.formBaseList[0].disabled = true
+        this.formBaseList[1].disabled = true
+        this.formBaseList[2].disabled = true
+        this.$set(this.activityRuleDisabledOverrides, 0, true)
+        this.$set(this.activityRuleDisabledOverrides, 1, true)
+        this.$set(this.activityRuleDisabledOverrides, 3, true)
+        this.$set(this.activityRuleDisabledOverrides, 4, {
+          datetime: true,
+          quota: true
+        })
+        this.$set(this.activityRuleDisabledOverrides, 5, {
+          join: true,
+          num: true,
+          datetime: true,
+          type: true,
+          shareLimit: true
+        })
+        this.$set(this.activityRuleDisabledOverrides, 6, true)
+        this.$set(this.activityRuleDisabledOverrides, 7, true)
+        this.$set(this.activityRuleDisabledOverrides, 9, true)
+        this.$set(this.activityRuleDisabledOverrides, 10, true)
+        this.$set(this.activityRuleDisabledOverrides, 11, true)
+        this.$set(this.activityRuleDisabledOverrides, 12, true)
+        this.$set(this.activityRuleDisabledOverrides, 13, true)
       } else if (res.status == 'cancel' || res.status == 'over') {
         // 已取消、已结束
         this.formBaseList[0].disabled = true
@@ -941,6 +997,11 @@ export default {
         })
         this.$set(this.activityRuleDisabledOverrides, 6, true)
         this.$set(this.activityRuleDisabledOverrides, 7, true)
+        this.$set(this.activityRuleDisabledOverrides, 9, true)
+        this.$set(this.activityRuleDisabledOverrides, 10, true)
+        this.$set(this.activityRuleDisabledOverrides, 11, true)
+        this.$set(this.activityRuleDisabledOverrides, 12, true)
+        this.$set(this.activityRuleDisabledOverrides, 13, true)
       }
       this.activityStatus = res.status
 
