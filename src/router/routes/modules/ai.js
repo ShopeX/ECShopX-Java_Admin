@@ -62,12 +62,12 @@ const routes = [
       },
       {
         name: 'shopexAgentCenter',
-        path: 'shopex-agent/shopex-agent-center',
+        path: 'shopex-agent-center',
         meta: {
-          aliasName: 'shopex-agent-shopex-agent-center', // aliasName 必须是 path 中把斜杠替换为破折号
+          aliasName: 'shopex-agent-center', // aliasName 必须是 path 中把斜杠替换为破折号
           title: '商派智能体平台',
           icon: 'appstore',
-          permissions: ['ai.shopex-agent.shopex-agent-center']
+          permissions: ['ai.shopex-agent-center']
         },
         component: () => import('@/views/ai/shopex-agent-center')
       }
