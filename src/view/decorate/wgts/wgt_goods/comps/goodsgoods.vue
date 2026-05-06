@@ -179,6 +179,7 @@ export default {
     max-width: 77px;
     border-radius: 6px;
     overflow: hidden;
+    background: #fff;
 
     .goods-img-wrapper {
       width: 100%;

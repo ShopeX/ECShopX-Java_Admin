@@ -362,7 +362,7 @@ export default {
               id: 'groups_list'
             },
             {
-              title: '优惠券',
+              title: this.$t('223cc8af.2f3635'),
               id: 'coupon_list'
             }
           ]
