@@ -11099,7 +11099,7 @@
   "63ede0f6.fbf272": "Company QR poster",
   "63ede0f6.aea7be": "Email sent",
   "63ede0f6.639e7b": "Ensure the email can receive mail. If no test email within 5 minutes, check your email config and try again.",
-  "63ede0f6.203143": "Recommended 100×100px, PNG/JPG, max 2MB",
+  "63ede0f6.203143": "Recommended 780×386px (W×H), PNG/JPG, max 2MB",
   "63ede0f6.9ce120": "Staff invite poster: 540×960px, PNG/JPG, max 2MB",
   "63ede0f6.85d62d": "Scanning this QR code opens the mini program and skips whitelist verification. After authorizing phone login, the user gets “employee” status for this company; existing employees are unaffected.",
   "63ede0f6.ef2e3d": "Scan to open mini program",

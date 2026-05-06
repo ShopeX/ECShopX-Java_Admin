@@ -17634,10 +17634,10 @@
 		"ar": "هل يتم التحقق من القائمة البيضاء؟"
 	},
 	"jbbh8wv": {
-		"zh-cn": "建议尺寸100*100，支持 png、jpg 格式，不超过2M",
-		"en": "The recommended size is 100*100, supporting png and jpg formats, and should not exceed 2M",
+		"zh-cn": "建议尺寸宽780px、高386px，支持 png、jpg 格式，不超过2M",
+		"en": "Recommended 780×386px (W×H), supporting png and jpg formats, max 2MB",
 		"zh-tw": "",
-		"ar": "المقاس المقترح 100×100، يدعم صيغ png وjpg، لا يتجاوز 2 ميجابايت"
+		"ar": "موصى به 780×386 بكسل (عرض×ارتفاع)، يدعم png وjpg، 2 ميجابايت كحد أقصى"
 	},
 	"636yxa7": {
 		"zh-cn": "企业二维码海报",
