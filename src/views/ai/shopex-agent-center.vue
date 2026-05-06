@@ -6,9 +6,7 @@
         <el-col :span="8">
           <el-card shadow="never">
             <div class="wallet-kv-label">平台账号</div>
-            <div class="wallet-kv-value">
-              <el-button type="primary">登录</el-button>
-            </div>
+            <div class="wallet-kv-value">{{ wallet.balance.user_id || '-' }}</div>
           </el-card>
         </el-col>
         <el-col :span="8">
