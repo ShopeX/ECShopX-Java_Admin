@@ -223,28 +223,28 @@ export default {
               }
             }
           },
-          {
-            name: () => t('63ede0f6.22b03c'),
-            key: 'modify',
-            type: 'button',
-            buttonType: 'text',
-            // visible: (row) => {
-            //   return row.auth_type == 'qr_code'
-            // },
-            action: {
-              handler: async ([row]) => {
-                const { base64Image } = await this.$api.member.getEnterpriseQrcode({
-                  enterprise_id: row.id
-                })
-                this.qrcodeUrl = base64Image
-                this.qrcodeName = row.name
-                if (row.qr_code_bg_image) {
-                  this.qrCodeBgImage = row.qr_code_bg_image
-                }
-                this.qrDialog = true
-              }
-            }
-          },
+          // {
+          //   name: () => t('63ede0f6.22b03c'),
+          //   key: 'modify',
+          //   type: 'button',
+          //   buttonType: 'text',
+          //   // visible: (row) => {
+          //   //   return row.auth_type == 'qr_code'
+          //   // },
+          //   action: {
+          //     handler: async ([row]) => {
+          //       const { base64Image } = await this.$api.member.getEnterpriseQrcode({
+          //         enterprise_id: row.id
+          //       })
+          //       this.qrcodeUrl = base64Image
+          //       this.qrcodeName = row.name
+          //       if (row.qr_code_bg_image) {
+          //         this.qrCodeBgImage = row.qr_code_bg_image
+          //       }
+          //       this.qrDialog = true
+          //     }
+          //   }
+          // },
           {
             name: () => t('63ede0f6.a6b8e9'),
             key: 'modify',
