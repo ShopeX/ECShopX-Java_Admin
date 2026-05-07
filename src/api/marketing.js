@@ -773,6 +773,14 @@ export function getStoreHomePageList(params) {
   })
 }
 
+/** 内购模版详情（单条） */
+export function getStoreHomePageInfo(id) {
+  return fetch({
+    url: `/employeepurchase/store-home-page/${id}`,
+    method: 'get'
+  })
+}
+
 export function createStoreHomePage(params) {
   return fetch({
     url: '/employeepurchase/store-home-page',

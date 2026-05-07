@@ -162,6 +162,15 @@
     line-height: 1.5;
   }
 }
+
+.purchase-store-home-picker-dialog {
+  .purchase-store-home-picker__filter {
+    margin-bottom: 12px;
+  }
+  .purchase-store-home-picker__shop {
+    width: 280px;
+  }
+}
 </style>
 <template>
   <SpPage :title="$t('39e3acc2.34213d')">
@@ -195,6 +204,57 @@
         />
       </el-card>
     </div>
+
+    <el-dialog
+      :title="$t('39e3acc2.c4750a')"
+      :visible.sync="storeHomePickerVisible"
+      width="800px"
+      append-to-body
+      custom-class="purchase-store-home-picker-dialog"
+      @open="onStoreHomePickerOpen"
+    >
+      <div v-if="IS_ADMIN()" class="purchase-store-home-picker__filter">
+        <SpSelectShop
+          v-model="storeHomePickerFilterDistributorId"
+          clearable
+          :placeholder="$t('0255d436.708c9d')"
+          class="purchase-store-home-picker__shop"
+          @change="onStoreHomePickerFilterChange"
+        />
+      </div>
+      <el-table
+        v-loading="storeHomePickerLoading"
+        border
+        :data="storeHomeList"
+        highlight-current-row
+        max-height="360"
+        @row-click="onStoreHomeTableRowClick"
+      >
+        <el-table-column width="52" align="center">
+          <template slot-scope="scope">
+            <el-radio v-model="storeHomePickerPickedId" :label="scope.row.id">&nbsp;</el-radio>
+          </template>
+        </el-table-column>
+        <el-table-column prop="id" :label="$t('0255d436.6872c7')" width="88" />
+        <el-table-column prop="distributor_id" :label="$t('0255d436.f4e8d2')" width="100" />
+        <el-table-column prop="page_name" :label="$t('0255d436.b78454')" min-width="160" />
+        <el-table-column prop="template_name" :label="$t('0255d436.49bcb8')" min-width="120" />
+      </el-table>
+      <div class="mt-4 text-right">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :current-page="storeHomeParams.page"
+          :total="storeHomeTotal"
+          :page-size="storeHomeParams.pageSize"
+          @current-change="handleStoreHomePickerPageChange"
+        />
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="storeHomePickerVisible = false">{{ $t('bea3f44a.625fb2') }}</el-button>
+        <el-button type="primary" @click="confirmStoreHomePicker">{{ $t('d8d84692.be5fbb') }}</el-button>
+      </div>
+    </el-dialog>
   </SpPage>
 </template>
 
@@ -206,6 +266,7 @@
 import { isEmpty } from '@/utils'
 import moment from 'moment'
 import { i18n } from '@/i18n'
+import { getStoreHomePageList, getStoreHomePageInfo } from '@/api/marketing'
 
 const ActionsButton = {
   name: 'ActionsButton',
@@ -288,7 +349,19 @@ export default {
       passphraseBatchQuotaDraft: '',
       passphraseBatchCodePopoverVisible: false,
       /** 随机生成口令 — 接口请求中 */
-      passphraseBatchCodeGenerating: false
+      passphraseBatchCodeGenerating: false,
+
+      /** 活动首页 — 内购模版选择弹层 */
+      storeHomePickerVisible: false,
+      storeHomePickerLoading: false,
+      storeHomeList: [],
+      storeHomeTotal: 0,
+      storeHomeParams: {
+        page: 1,
+        pageSize: 10
+      },
+      storeHomePickerFilterDistributorId: '',
+      storeHomePickerPickedId: ''
     }
   },
   computed: {
@@ -374,7 +447,7 @@ export default {
               <span class='link-home'>
                 {self.formBase?.linkHome && self.formBase.linkHome.template_title}
               </span>
-              <el-button type='text' disabled={disabled} on-click={self.onPickerTemp}>
+              <el-button type='text' disabled={disabled} on-click={self.openStoreHomePicker}>
                 {t('39e3acc2.dc38dd')}
               </el-button>
             </div>
@@ -929,9 +1002,19 @@ export default {
     },
     async getActivityItemDetail(id) {
       const res = await this.$api.marketing.getActivityItemDetail(id)
-      const linkHome = await this.$api.template.getPagesTemplateDetail({
-        pages_template_id: res.pages_template_id
-      })
+      let linkHome = null
+      try {
+        const infoRes = await getStoreHomePageInfo(res.pages_template_id)
+        const row = infoRes.data?.data ?? infoRes.data
+        if (row && row.id != null) {
+          linkHome = {
+            pages_template_id: row.id,
+            template_title: row.page_name || row.template_name || ''
+          }
+        }
+      } catch (e) {
+        linkHome = null
+      }
       this.formBase = {
         name: res.name,
         title: res.title,
@@ -1061,12 +1144,75 @@ export default {
       }
       this.onRadioChange(res.if_share_limitfee ? '2' : '1')
     },
-    async onPickerTemp() {
-      const { data } = await this.$picker.template({
-        data: this.formBase.linkHome?.pages_template_id || [],
-        multiple: false
-      })
-      this.formBase.linkHome = data ? data[0] : null
+    openStoreHomePicker() {
+      this.storeHomePickerVisible = true
+    },
+    onStoreHomePickerOpen() {
+      this.storeHomePickerPickedId =
+        this.formBase.linkHome?.pages_template_id != null
+          ? this.formBase.linkHome.pages_template_id
+          : ''
+      this.storeHomeParams.page = 1
+      this.fetchStoreHomePickerList()
+    },
+    onStoreHomePickerFilterChange() {
+      this.storeHomeParams.page = 1
+      this.fetchStoreHomePickerList()
+    },
+    onStoreHomeTableRowClick(row) {
+      if (row && row.id != null) {
+        this.storeHomePickerPickedId = row.id
+      }
+    },
+    handleStoreHomePickerPageChange(page) {
+      this.storeHomeParams.page = page
+      this.fetchStoreHomePickerList()
+    },
+    async fetchStoreHomePickerList() {
+      this.storeHomePickerLoading = true
+      try {
+        const q = { ...this.storeHomeParams }
+        if (this.IS_ADMIN() && this.storeHomePickerFilterDistributorId) {
+          q.distributor_id = this.storeHomePickerFilterDistributorId
+        }
+        const response = await getStoreHomePageList(q)
+        const data = response.data?.data
+        if (data && data.list) {
+          this.storeHomeList = data.list
+          this.storeHomeTotal = data.total_count
+        } else {
+          this.storeHomeList = []
+          this.storeHomeTotal = 0
+        }
+      } finally {
+        this.storeHomePickerLoading = false
+      }
+    },
+    async confirmStoreHomePicker() {
+      const id = this.storeHomePickerPickedId
+      if (id === '' || id === null || id === undefined) {
+        this.$message.warning(this.$t('39e3acc2.747456'))
+        return
+      }
+      const nid = Number(id)
+      let row = this.storeHomeList.find((r) => Number(r.id) === nid)
+      if (!row) {
+        try {
+          const infoRes = await getStoreHomePageInfo(id)
+          row = infoRes.data?.data ?? infoRes.data
+        } catch (e) {
+          row = null
+        }
+      }
+      if (!row || row.id == null) {
+        this.$message.warning(this.$t('39e3acc2.747456'))
+        return
+      }
+      this.formBase.linkHome = {
+        pages_template_id: row.id,
+        template_title: row.page_name || row.template_name || ''
+      }
+      this.storeHomePickerVisible = false
     },
     async onPickerCompany() {
       const ids = this.activityRule.companyList.map((item) => item.id)
