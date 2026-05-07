@@ -5,7 +5,7 @@
 <template>
   <SpPage>
     <SpFilterForm v-if="IS_ADMIN()" :model="filterForm" @onSearch="onSearch" @onReset="onReset">
-      <SpFilterFormItem prop="distributor_id" :label="$t('5a5739e5.16f2bc')" size="max">
+      <SpFilterFormItem prop="distributor_id" :label="$t('0255d436.f4e8d2')" size="max">
         <SpSelectShop
           v-model="filterForm.distributor_id"
           clearable
@@ -22,7 +22,7 @@
 
     <el-table border v-loading="loading" :data="list">
       <el-table-column prop="id" :label="$t('0255d436.6872c7')" />
-      <el-table-column prop="distributor_id" :label="$t('5a5739e5.16f2bc')" />
+      <el-table-column prop="distributor_id" :label="$t('0255d436.f4e8d2')" />
       <el-table-column prop="page_name" :label="$t('0255d436.b78454')" />
       <el-table-column :label="$t('0255d436.53c3dd')">
         <template slot-scope="scope">
@@ -67,9 +67,6 @@
       :before-close="handleCancel"
     >
       <el-form v-model="pageForm" label-width="200px">
-        <el-form-item v-if="IS_ADMIN() && dialogMode === 'new'" :label="$t('5a5739e5.16f2bc')">
-          <SpSelectShop v-model="pageForm.distributor_id" :placeholder="$t('0255d436.708c9d')" />
-        </el-form-item>
         <el-form-item :label="$t('0255d436.b78454')">
           <el-input v-model="pageForm.page_name" :placeholder="$t('0255d436.b78454')" style="width: 55%" />
         </el-form-item>
@@ -149,7 +146,6 @@ export default {
       },
       pageForm: {
         id: '',
-        distributor_id: '',
         page_name: '',
         page_description: '',
         page_share_title: '',
@@ -222,7 +218,6 @@ export default {
         this.dialogMode = 'new'
         this.pageForm = {
           id: '',
-          distributor_id: this.IS_DISTRIBUTOR() ? this.$store.getters.shopId : '',
           page_name: '',
           page_description: '',
           page_share_title: '',
@@ -233,10 +228,6 @@ export default {
       }
     },
     async savePage() {
-      if (this.dialogMode === 'new' && this.IS_ADMIN() && !this.pageForm.distributor_id) {
-        this.$message.warning(this.$t('7f673091.06accf'))
-        return
-      }
       const {
         page_name,
         page_description,
@@ -244,8 +235,7 @@ export default {
         page_share_desc,
         page_share_imageUrl,
         is_open,
-        id,
-        distributor_id
+        id
       } = this.pageForm
       const base = {
         page_name,
@@ -260,11 +250,7 @@ export default {
         if (this.dialogMode === 'edit') {
           await updateStoreHomePage(id, base)
         } else {
-          const createParams = { ...base }
-          if (this.IS_ADMIN()) {
-            createParams.distributor_id = distributor_id
-          }
-          await createStoreHomePage(createParams)
+          await createStoreHomePage({ ...base })
         }
         this.page_dialog = false
         this.fetchPageList()
