@@ -304,19 +304,27 @@ export default {
       })
       return result
     },
-    /** 管理端 status === ongoing，与列表「进行中」一致 */
-    isActivityOngoing() {
-      return this.activityStatus === 'ongoing'
+    /** 进行中或已暂停（pending）：活动规则与口令配置强锁，与接口语义一致 */
+    isActivityRuleEditLocked() {
+      return (
+        this.activityStatus === 'ongoing' || this.activityStatus === 'pending'
+      )
     },
-    /** 进行中且已开启口令：仅口令企业表的 participate_quota 允许编辑 */
+    /** 强锁且已开启口令：仅口令企业表的 participate_quota 允许编辑 */
     isPassphraseQuotaOnlyEditMode() {
-      return this.isActivityOngoing && !!this.activityRule.is_passphrase_enabled
+      return (
+        this.isActivityRuleEditLocked &&
+        !!this.activityRule.is_passphrase_enabled
+      )
     },
     footerSaveDisabled() {
       if (this.activityStatus === 'cancel' || this.activityStatus === 'over') {
         return true
       }
-      if (this.isActivityOngoing && !this.activityRule.is_passphrase_enabled) {
+      if (
+        this.isActivityRuleEditLocked &&
+        !this.activityRule.is_passphrase_enabled
+      ) {
         return true
       }
       return false
@@ -469,12 +477,12 @@ export default {
           isShow: (item, value) =>
             !!value.is_passphrase_enabled && (value.companyList || []).length > 0,
           component: ({ disabled }) => {
-            const ongoing = self.activityStatus === 'ongoing'
+            const ruleLocked = self.isActivityRuleEditLocked
             const quotaOnly = self.isPassphraseQuotaOnlyEditMode
-            const batchLocked = ongoing
+            const batchLocked = ruleLocked
             const quotaCellDisabled = quotaOnly ? false : disabled
-            const codeCellDisabled = ongoing ? true : disabled
-            const tableLimitfeeDisabled = ongoing ? true : disabled
+            const codeCellDisabled = ruleLocked ? true : disabled
+            const tableLimitfeeDisabled = ruleLocked ? true : disabled
             return (
             <div class='passphrase-enterprise-block'>
               <el-table
@@ -934,22 +942,7 @@ export default {
 
       // 索引：0 口令开关 1 参与企业 2 口令企业表 3 预热 4 员工 5 亲友 6 起订 7 改地址 8 分组 9–11 价格展示 12–13 折扣文案
       this.activityRuleDisabledOverrides = {}
-      if (res.status === 'pending') {
-        this.formBaseList[0].disabled = false
-        this.formBaseList[1].disabled = false
-        this.formBaseList[2].disabled = false
-        this.$set(this.activityRuleDisabledOverrides, 4, {
-          datetime: false,
-          quota: true
-        })
-        this.$set(this.activityRuleDisabledOverrides, 5, {
-          join: false,
-          num: true,
-          datetime: false,
-          type: false,
-          shareLimit: true
-        })
-      } else if (res.status === 'ongoing') {
+      if (res.status === 'pending' || res.status === 'ongoing') {
         this.formBaseList[0].disabled = true
         this.formBaseList[1].disabled = true
         this.formBaseList[2].disabled = true
