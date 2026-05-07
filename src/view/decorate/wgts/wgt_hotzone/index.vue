@@ -28,7 +28,7 @@
 }
 </style>
 <style lang="scss">
-.wgt-hotzone-bd-horizontal {
+.wgt-hotzone-bd-vertical {
   .el-image__inner {
     min-width: fit-content;
   }
