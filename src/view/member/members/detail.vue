@@ -51,6 +51,11 @@
             <span class="txt">{{ $t('f14acdc9.8098e2') }}</span>
             <span>{{ member.mobile }}</span>
           </div>
+          <div class="info-item">
+            <span class="txt">{{ $t('ff557c54.d093f6') }}</span>
+            <span v-if="member.login_email">{{ member.login_email }}</span>
+            <span v-else>--</span>
+          </div>
           <div v-if="!VERSION_SHUYUN()" class="info-item">
             <span class="txt">{{ $t('f14acdc9.15f7b0') }}</span>
             <span v-if="member.user_card_code">{{ member.user_card_code }}</span>
@@ -263,6 +268,7 @@ export default {
         company_id: '',
         grade_id: '',
         mobile: '',
+        login_email: '',
         user_card_code: '',
         username: '',
         sex: 1,

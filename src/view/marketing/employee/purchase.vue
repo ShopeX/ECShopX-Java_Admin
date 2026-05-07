@@ -713,7 +713,9 @@ export default {
                   <el-date-picker
                     v-model={self.activityRule.employee.datetime}
                     disabled={datetime}
-                    type='daterange'
+                    type='datetimerange'
+                    format='yyyy-MM-dd HH:mm:ss'
+                    defaultTime={['00:00:00', '23:59:59']}
                     range-separator={t('bea3f44a.981cbe')}
                     start-placeholder={t('39e3acc2.592c59')}
                     end-placeholder={t('39e3acc2.f78277')}
