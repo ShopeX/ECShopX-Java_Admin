@@ -12,11 +12,11 @@ const config = {
       key: 'animation',
       component: 'radiobutton',
       options: [
-        { name: i18n.t('7a0ee76a.6875b7'), label: 'vertical' },
-        { name: i18n.t('7a0ee76a.4f9974'), label: 'horizontal' }
+        { name: i18n.t('7a0ee76a.6875b7'), label: 'horizontal' },
+        { name: i18n.t('7a0ee76a.4f9974'), label: 'vertical' }
       ],
       tips: i18n.t('7a0ee76a.cc9f07'),
-      value: 'horizontal'
+      value: 'vertical'
     },
     {
       group: i18n.t('7a0ee76a.eeb8e8'),
@@ -28,9 +28,9 @@ const config = {
             value={this.value[key]}
             on-input={(val) => {
               this.value[key] = val
-              // 当 animation === 'horizontal' 且图片已选择时，重新计算图片宽高 获取高度的意义就为了在小程序中可以占位准确
+              // 当 animation === 'vertical' 且图片已选择时，重新计算图片宽高 获取高度的意义就为了在小程序中可以占位准确
               if (
-                this.value.animation === 'horizontal' &&
+                this.value.animation === 'vertical' &&
                 this.value.data?.imgUrl &&
                 this.value.data?.imgWidth &&
                 this.value.data?.imgHeight
@@ -49,7 +49,7 @@ const config = {
       },
       value: 156,
       isShow: function (v) {
-        return this.value.animation === 'horizontal'
+        return this.value.animation === 'vertical'
       }
     },
     {

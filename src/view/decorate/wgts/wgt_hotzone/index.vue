@@ -36,9 +36,9 @@
 </style>
 <template>
   <div class="wgt-hotzone" :style="outerStyle">
-    <div class="wgt-hotzone-bd" :class="{ 'wgt-hotzone-bd-horizontal': value.animation === 'horizontal' }">
+    <div class="wgt-hotzone-bd" :class="{ 'wgt-hotzone-bd-vertical': value.animation === 'vertical' }">
       <el-image :src="value.data.imgUrl" :style="{
-        height: value.animation === 'horizontal' ? value.imgHeight + 'px' : 'auto',
+        height: value.animation === 'vertical' ? value.imgHeight + 'px' : 'auto',
         display: 'block'
       }">
         <div slot="error" class="wgt-hotzone-error">
