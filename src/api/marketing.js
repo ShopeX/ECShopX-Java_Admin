@@ -764,6 +764,38 @@ export function aheadPurchaseActivity(activityId) {
   })
 }
 
+/** 内购模版（门店首页配置） */
+export function getStoreHomePageList(params) {
+  return fetch({
+    url: '/employeepurchase/store-home-page',
+    method: 'get',
+    params
+  })
+}
+
+export function createStoreHomePage(params) {
+  return fetch({
+    url: '/employeepurchase/store-home-page',
+    method: 'post',
+    params
+  })
+}
+
+export function updateStoreHomePage(id, params) {
+  return fetch({
+    url: `/employeepurchase/store-home-page/${id}`,
+    method: 'put',
+    params
+  })
+}
+
+export function deleteStoreHomePage(id) {
+  return fetch({
+    url: `/employeepurchase/store-home-page/${id}`,
+    method: 'delete'
+  })
+}
+
 // 修改活动记录备注
 export function updateRegistrationRecord(params) {
   return fetch({
