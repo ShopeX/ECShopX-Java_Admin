@@ -1,5 +1,5 @@
-const { createHomeDsl, createGlobalDsl, serializeDsl, deserializeDsl } = require('../utils/dsl')
-const { createGlobalSections } = require('../registry')
+import { createHomeDsl, createGlobalDsl, serializeDsl, deserializeDsl } from '../utils/dsl.js'
+import { createGlobalSections } from '../definitions/documents/global.js'
 
 const STORAGE_PREFIX = 'decoration:home:'
 const GLOBAL_STORAGE_KEY = 'decoration:global'
@@ -18,7 +18,7 @@ function getStorageKey(templateId) {
   return `${STORAGE_PREFIX}${templateId || 'draft'}`
 }
 
-async function loadHomeDecoration({ templateId = '', scene = '1001' } = {}) {
+export async function loadHomeDecoration({ templateId = '', scene = '1001' } = {}) {
   const fallbackDsl = createHomeDsl({
     pageId: String(templateId || ''),
     scene
@@ -43,10 +43,9 @@ async function loadHomeDecoration({ templateId = '', scene = '1001' } = {}) {
   }
 }
 
-async function saveHomeDecoration({ templateId = '', dsl }) {
+export async function saveHomeDecoration({ templateId = '', dsl }) {
   const storage = getStorage()
 
-  // TODO: Replace this draft persistence with the real decoration API when the backend contract is ready.
   if (storage) {
     storage.setItem(getStorageKey(templateId), JSON.stringify(serializeDsl(dsl)))
   }
@@ -58,7 +57,7 @@ async function saveHomeDecoration({ templateId = '', dsl }) {
   }
 }
 
-async function loadGlobalDecoration() {
+export async function loadGlobalDecoration() {
   const fallbackDsl = createGlobalDsl(createGlobalSections())
   const storage = getStorage()
   if (!storage) {
@@ -80,7 +79,7 @@ async function loadGlobalDecoration() {
   }
 }
 
-async function saveGlobalDecoration({ dsl }) {
+export async function saveGlobalDecoration({ dsl }) {
   const storage = getStorage()
   if (storage) {
     storage.setItem(GLOBAL_STORAGE_KEY, JSON.stringify(serializeDsl(dsl)))
@@ -93,7 +92,7 @@ async function saveGlobalDecoration({ dsl }) {
   }
 }
 
-module.exports = {
+export default {
   loadHomeDecoration,
   saveHomeDecoration,
   loadGlobalDecoration,

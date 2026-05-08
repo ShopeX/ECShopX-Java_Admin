@@ -108,14 +108,14 @@
 </template>
 
 <script>
-const { createDefaultBlock } = require('../registry')
-const {
+import { createTypedBlock as createDefaultBlock } from '../definitions/factory.js'
+import {
   normalizeAnnouncementBarSettings,
   normalizeSection,
   addSectionBlock,
   removeSectionBlock,
   moveSectionBlock
-} = require('../utils/panelState')
+} from '../utils/panelState.js'
 
 export default {
   name: 'AnnouncementBarPanel',

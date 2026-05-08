@@ -2,7 +2,7 @@ function cloneValue(value) {
   return JSON.parse(JSON.stringify(value))
 }
 
-function normalizeCarouselSettings(settings = {}) {
+export function normalizeCarouselSettings(settings = {}) {
   return {
     title: '',
     autoplay: true,
@@ -14,7 +14,7 @@ function normalizeCarouselSettings(settings = {}) {
   }
 }
 
-function normalizeAnnouncementBarSettings(settings = {}) {
+export function normalizeAnnouncementBarSettings(settings = {}) {
   return {
     full_width: false,
     auto_rotate: false,
@@ -29,7 +29,7 @@ function normalizeAnnouncementBarSettings(settings = {}) {
   }
 }
 
-function normalizeHeaderSettings(settings = {}) {
+export function normalizeHeaderSettings(settings = {}) {
   return {
     color_mode: 'dark',
     sticky_header_type: 'none',
@@ -53,7 +53,7 @@ function normalizeHeaderSettings(settings = {}) {
   }
 }
 
-function normalizeFooterSettings(settings = {}) {
+export function normalizeFooterSettings(settings = {}) {
   return {
     content_alignment: 'center',
     newsletter_heading: '',
@@ -74,7 +74,7 @@ function normalizeFooterSettings(settings = {}) {
   }
 }
 
-function normalizeProductShelfSettings(settings = {}) {
+export function normalizeProductShelfSettings(settings = {}) {
   const nextSettings = {
     title: '',
     displayMode: settings.displayMode || settings.sourceMode || 'category',
@@ -95,14 +95,14 @@ function normalizeProductShelfSettings(settings = {}) {
   return nextSettings
 }
 
-function normalizeAnnouncementBlockSettings(settings = {}) {
+export function normalizeAnnouncementBlockSettings(settings = {}) {
   return {
     text: '',
     ...cloneValue(settings)
   }
 }
 
-function normalizeNavItemBlockSettings(settings = {}) {
+export function normalizeNavItemBlockSettings(settings = {}) {
   return {
     label: '',
     url: '/',
@@ -110,32 +110,7 @@ function normalizeNavItemBlockSettings(settings = {}) {
   }
 }
 
-function normalizeBrandBlockSettings(settings = {}) {
-  return {
-    enable_social: true,
-    ...cloneValue(settings)
-  }
-}
-
-function normalizeLinkListBlockSettings(settings = {}) {
-  return {
-    heading: '',
-    menu: '',
-    alignment: 'left',
-    ...cloneValue(settings)
-  }
-}
-
-function normalizeNewsletterBlockSettings(settings = {}) {
-  return {
-    title: '',
-    alignment: 'left',
-    enable_social: false,
-    ...cloneValue(settings)
-  }
-}
-
-function normalizeImageHotspotSettings(settings = {}) {
+export function normalizeImageHotspotSettings(settings = {}) {
   return {
     title: '',
     imageUrl: '',
@@ -145,7 +120,7 @@ function normalizeImageHotspotSettings(settings = {}) {
   }
 }
 
-function normalizeImageBlockSettings(settings = {}) {
+export function normalizeImageBlockSettings(settings = {}) {
   return {
     imageUrl: '',
     link: '',
@@ -154,7 +129,7 @@ function normalizeImageBlockSettings(settings = {}) {
   }
 }
 
-function normalizeVideoBlockSettings(settings = {}) {
+export function normalizeVideoBlockSettings(settings = {}) {
   return {
     videoUrl: '',
     posterUrl: '',
@@ -172,7 +147,7 @@ function clampCoordinate(value) {
   return numericValue
 }
 
-function normalizeHotspotBlockSettings(settings = {}) {
+export function normalizeHotspotBlockSettings(settings = {}) {
   const nextSettings = {
     x: 50,
     y: 50,
@@ -227,31 +202,10 @@ function normalizeBlockSettings(block) {
     }
   }
 
-  if (block.type === 'brand') {
-    return {
-      ...block,
-      settings: normalizeBrandBlockSettings(block.settings)
-    }
-  }
-
-  if (block.type === 'link_list') {
-    return {
-      ...block,
-      settings: normalizeLinkListBlockSettings(block.settings)
-    }
-  }
-
-  if (block.type === 'newsletter') {
-    return {
-      ...block,
-      settings: normalizeNewsletterBlockSettings(block.settings)
-    }
-  }
-
   return cloneValue(block)
 }
 
-function normalizeSection(section) {
+export function normalizeSection(section) {
   if (!section) return section
 
   const nextSection = cloneValue(section)
@@ -262,7 +216,7 @@ function normalizeSection(section) {
     : []
   nextSection.blocks = nextSection.blocks || {}
 
-  if (nextSection.type === 'carousel') {
+  if (nextSection.type === 'main-carousel' || nextSection.type === 'carousel') {
     nextSection.settings = normalizeCarouselSettings(nextSection.settings)
   } else if (nextSection.type === 'announcement-bar') {
     nextSection.settings = normalizeAnnouncementBarSettings(nextSection.settings)
@@ -285,7 +239,7 @@ function normalizeSection(section) {
   return nextSection
 }
 
-function updateSectionBlock(section, blockId, patch) {
+export function updateSectionBlock(section, blockId, patch) {
   const nextSection = normalizeSection(section)
   if (!nextSection?.blocks?.[blockId]) return nextSection
 
@@ -300,7 +254,7 @@ function updateSectionBlock(section, blockId, patch) {
   return nextSection
 }
 
-function addSectionBlock(section, createBlock, settings = {}) {
+export function addSectionBlock(section, createBlock, settings = {}) {
   const nextSection = normalizeSection(section)
   const block = createBlock()
   block.settings = {
@@ -317,7 +271,7 @@ function addSectionBlock(section, createBlock, settings = {}) {
   }
 }
 
-function removeSectionBlock(section, blockId) {
+export function removeSectionBlock(section, blockId) {
   const nextSection = normalizeSection(section)
   if (!nextSection?.blocks?.[blockId]) return nextSection
 
@@ -327,7 +281,7 @@ function removeSectionBlock(section, blockId) {
   return nextSection
 }
 
-function moveSectionBlock(section, blockId, targetIndex) {
+export function moveSectionBlock(section, blockId, targetIndex) {
   const nextSection = normalizeSection(section)
   const currentIndex = nextSection.blockOrder.findIndex((id) => id === blockId)
   if (currentIndex === -1) return nextSection
@@ -341,7 +295,7 @@ function moveSectionBlock(section, blockId, targetIndex) {
   return nextSection
 }
 
-function sanitizeProductItemIds(itemIds, limit) {
+export function sanitizeProductItemIds(itemIds, limit) {
   const max = Number(limit) > 0 ? Number(limit) : 8
   return Array.from(
     new Set((Array.isArray(itemIds) ? itemIds : []).map((item) => String(item || '').trim()))
@@ -350,7 +304,7 @@ function sanitizeProductItemIds(itemIds, limit) {
     .slice(0, max)
 }
 
-module.exports = {
+export default {
   normalizeCarouselSettings,
   normalizeAnnouncementBarSettings,
   normalizeHeaderSettings,
@@ -359,9 +313,6 @@ module.exports = {
   normalizeImageHotspotSettings,
   normalizeAnnouncementBlockSettings,
   normalizeNavItemBlockSettings,
-  normalizeBrandBlockSettings,
-  normalizeLinkListBlockSettings,
-  normalizeNewsletterBlockSettings,
   normalizeImageBlockSettings,
   normalizeVideoBlockSettings,
   normalizeHotspotBlockSettings,

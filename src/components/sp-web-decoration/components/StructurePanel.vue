@@ -29,7 +29,7 @@
                 :key="sectionId"
                 class="flex flex-col gap-0"
               >
-                <div v-if="!(sIdx === 0 && sectionId === 'header')" class="relative z-[3] py-0">
+                <div class="relative z-[3] py-0">
                   <div
                     class="sp-structure-insert-gap"
                     @click.stop="toggleInsertMenu('section', 'header', sIdx, $event)"
@@ -38,7 +38,6 @@
                     <button
                       type="button"
                       class="sp-structure-insert-gap__btn"
-                      @click.stop="toggleInsertMenu('section', 'header', sIdx, $event)"
                     >
                       <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
                       <span>{{ $t('54e3d97e.2e2d33') }}</span>
@@ -62,7 +61,7 @@
                         class="shrink-0 text-[#475467]"
                         :stroke-width="2"
                       />
-                      <span>{{ $t(item.titleKey) }}</span>
+                      <span>{{ item.label }}</span>
                     </button>
                   </div>
                 </div>
@@ -108,7 +107,7 @@
                       </div>
                     </div>
                     <div
-                      v-if="isHeaderZoneFixedSelection(sectionId)"
+                      v-if="isHeaderZoneFixedSection(sectionId)"
                       class="flex shrink-0 items-center gap-0.5 opacity-0 pointer-events-none transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
                     >
                       <button
@@ -122,7 +121,7 @@
                       </button>
                     </div>
                     <div
-                      v-else-if="canDeleteHeaderZoneSelection(sectionId)"
+                      v-else-if="canDeleteHeaderZoneSection(sectionId)"
                       class="flex shrink-0 items-center gap-0.5 opacity-0 pointer-events-none transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
                     >
                       <button
@@ -166,7 +165,6 @@
                           <button
                             type="button"
                             class="sp-structure-insert-gap__btn sp-structure-insert-gap__btn--block"
-                            @click.stop="toggleInsertMenu('block', sectionId, bIdx, $event)"
                           >
                             <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
                             <span>{{ $t('54e3d97e.fc318c') }}</span>
@@ -184,7 +182,7 @@
                             class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
                             @click="selectBlockType(sectionId, item.type)"
                           >
-                            {{ $t(item.titleKey) }}
+                            {{ item.label }}
                           </button>
                         </div>
                       </div>
@@ -285,7 +283,7 @@
                           class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
                           @click="selectBlockType(sectionId, item.type)"
                         >
-                          {{ $t(item.titleKey) }}
+                          {{ item.label }}
                         </button>
                       </div>
                     </div>
@@ -293,6 +291,40 @@
                 </div>
               </div>
             </draggable>
+
+            <div class="relative z-[3] py-0">
+              <div
+                class="sp-structure-insert-gap"
+                @click.stop="toggleInsertMenu('section', 'header', localHeaderZoneOrder.length, $event)"
+              >
+                <div class="sp-structure-insert-gap__line" aria-hidden="true" />
+                <button type="button" class="sp-structure-insert-gap__btn">
+                  <Plus :size="13" class="shrink-0 text-white" :stroke-width="2.5" />
+                  <span>{{ $t('54e3d97e.2e2d33') }}</span>
+                </button>
+              </div>
+              <div
+                v-if="isInsertMenuOpen('section', 'header', localHeaderZoneOrder.length)"
+                class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                :style="insertMenuDockStyle"
+              >
+                <button
+                  v-for="item in sectionPickerItemsFor('header')"
+                  :key="'header-hover-end-' + item.key"
+                  type="button"
+                  class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
+                  @click="selectSectionType(item.type)"
+                >
+                  <component
+                    :is="sectionInsertIcon(item.type)"
+                    :size="14"
+                    class="shrink-0 text-[#475467]"
+                    :stroke-width="2"
+                  />
+                  <span>{{ item.label }}</span>
+                </button>
+              </div>
+            </div>
 
             <div class="relative mt-1 px-2 pb-0.5 pl-[34px]">
               <button
@@ -321,7 +353,7 @@
                     class="shrink-0 text-[#475467]"
                     :stroke-width="2"
                   />
-                  <span>{{ $t(item.titleKey) }}</span>
+                  <span>{{ item.label }}</span>
                 </button>
               </div>
             </div>
@@ -356,7 +388,6 @@
                   <button
                     type="button"
                     class="sp-structure-insert-gap__btn"
-                    @click.stop="toggleInsertMenu('section', 'template', sIdx, $event)"
                   >
                     <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
                     <span>{{ $t('54e3d97e.2e2d33') }}</span>
@@ -380,7 +411,7 @@
                       class="shrink-0 text-[#475467]"
                       :stroke-width="2"
                     />
-                    <span>{{ $t(item.titleKey) }}</span>
+                    <span>{{ item.label }}</span>
                   </button>
                 </div>
               </div>
@@ -468,7 +499,6 @@
                         <button
                           type="button"
                           class="sp-structure-insert-gap__btn sp-structure-insert-gap__btn--block"
-                          @click.stop="toggleInsertMenu('block', sectionId, bIdx, $event)"
                         >
                           <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
                           <span>{{ $t('54e3d97e.fc318c') }}</span>
@@ -486,7 +516,7 @@
                           class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
                           @click="selectBlockType(sectionId, item.type)"
                         >
-                          {{ $t(item.titleKey) }}
+                          {{ item.label }}
                         </button>
                       </div>
                     </div>
@@ -583,7 +613,7 @@
                         class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
                         @click="selectBlockType(sectionId, item.type)"
                       >
-                        {{ $t(item.titleKey) }}
+                        {{ item.label }}
                       </button>
                     </div>
                   </div>
@@ -591,6 +621,40 @@
               </div>
             </div>
           </draggable>
+
+          <div v-if="localOrder.length" class="relative z-[3] py-0">
+            <div
+              class="sp-structure-insert-gap"
+              @click.stop="toggleInsertMenu('section', 'template', localOrder.length, $event)"
+            >
+              <div class="sp-structure-insert-gap__line" aria-hidden="true" />
+              <button type="button" class="sp-structure-insert-gap__btn">
+                <Plus :size="13" class="shrink-0 text-white" :stroke-width="2.5" />
+                <span>{{ $t('54e3d97e.2e2d33') }}</span>
+              </button>
+            </div>
+            <div
+              v-if="isInsertMenuOpen('section', 'template', localOrder.length)"
+              class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+              :style="insertMenuDockStyle"
+            >
+              <button
+                v-for="item in sectionPickerItemsFor('template')"
+                :key="'tpl-hover-end-' + item.key"
+                type="button"
+                class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
+                @click="selectSectionType(item.type)"
+              >
+                <component
+                  :is="sectionInsertIcon(item.type)"
+                  :size="14"
+                  class="shrink-0 text-[#475467]"
+                  :stroke-width="2"
+                />
+                <span>{{ item.label }}</span>
+              </button>
+            </div>
+          </div>
 
           <div v-if="localOrder.length" class="relative mt-1 px-2 pb-0.5 pl-[34px]">
             <button
@@ -619,7 +683,7 @@
                   class="shrink-0 text-[#475467]"
                   :stroke-width="2"
                 />
-                <span>{{ $t(item.titleKey) }}</span>
+                <span>{{ item.label }}</span>
               </button>
             </div>
           </div>
@@ -656,7 +720,7 @@
                     class="shrink-0 text-[#475467]"
                     :stroke-width="2"
                   />
-                  <span>{{ $t(item.titleKey) }}</span>
+                  <span>{{ item.label }}</span>
                 </button>
               </div>
             </div>
@@ -670,6 +734,262 @@
             <span>{{ $t('54e3d97e.4eb88f') }}</span>
           </div>
           <div class="space-y-1">
+            <div class="relative mt-1 px-2 pb-0.5 pl-[34px]">
+              <button
+                type="button"
+                class="flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
+                @click="toggleInsertMenu('section', 'footer', localFooterZoneOrder.length, $event)"
+              >
+                <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
+                <span>{{ $t('54e3d97e.2e2d33') }}</span>
+              </button>
+              <div
+                v-if="isInsertMenuOpen('section', 'footer', localFooterZoneOrder.length)"
+                class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                :style="insertMenuDockStyle"
+              >
+                <button
+                  v-for="item in sectionPickerItemsFor('footer')"
+                  :key="'footer-add-' + item.key"
+                  type="button"
+                  class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
+                  @click="selectSectionType(item.type)"
+                >
+                  <component
+                    :is="sectionInsertIcon(item.type)"
+                    :size="14"
+                    class="shrink-0 text-[#475467]"
+                    :stroke-width="2"
+                  />
+                  <span>{{ item.label }}</span>
+                </button>
+              </div>
+            </div>
+
+            <draggable
+              v-if="localFooterZoneOrder.length"
+              v-model="localFooterZoneOrder"
+              handle="[data-drag-handle='footer-zone-section']"
+              class="flex flex-col gap-0"
+              :options="{ filter: '.sp-structure-insert-gap', preventOnFilter: false }"
+              @change="handleFooterZoneOrderChange"
+            >
+              <div
+                v-for="(sectionId, sIdx) in localFooterZoneOrder"
+                :key="sectionId"
+                class="flex flex-col gap-0"
+              >
+                <div class="relative z-[3] py-0">
+                  <div
+                    class="sp-structure-insert-gap"
+                    @click.stop="toggleInsertMenu('section', 'footer', sIdx, $event)"
+                  >
+                    <div class="sp-structure-insert-gap__line" aria-hidden="true" />
+                    <button type="button" class="sp-structure-insert-gap__btn">
+                      <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
+                      <span>{{ $t('54e3d97e.2e2d33') }}</span>
+                    </button>
+                  </div>
+                  <div
+                    v-if="isInsertMenuOpen('section', 'footer', sIdx)"
+                    class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                    :style="insertMenuDockStyle"
+                  >
+                    <button
+                      v-for="item in sectionPickerItemsFor('footer')"
+                      :key="'footer-gap-' + item.key + '-' + sIdx"
+                      type="button"
+                      class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
+                      @click="selectSectionType(item.type)"
+                    >
+                      <component
+                        :is="sectionInsertIcon(item.type)"
+                        :size="14"
+                        class="shrink-0 text-[#475467]"
+                        :stroke-width="2"
+                      />
+                      <span>{{ item.label }}</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  :class="[
+                    'group flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
+                    { 'sp-structure-row-selected': selectedSectionId === sectionId }
+                  ]"
+                  @click="$emit('select-section', sectionId)"
+                >
+                  <button
+                    type="button"
+                    class="flex h-[18px] w-[18px] shrink-0 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-[#6b7785]"
+                    @click.stop="$emit('toggle-section', sectionId)"
+                  >
+                    <ChevronDown v-if="isExpanded(sectionId)" :size="14" :stroke-width="2" />
+                    <ChevronRight v-else :size="14" :stroke-width="2" />
+                  </button>
+                  <span
+                    data-drag-handle="footer-zone-section"
+                    class="inline-flex h-[18px] w-[18px] shrink-0 cursor-move items-center justify-center text-[#6b7785]"
+                  >
+                    <GripVertical :size="14" :stroke-width="2" />
+                  </span>
+                  <div class="min-w-0 flex-1 flex items-center">
+                    <div
+                      class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
+                    >
+                      <GalleryVertical
+                        :size="16"
+                        class="shrink-0 text-[#475467]"
+                        :stroke-width="2"
+                      />
+                      {{ getSectionDisplayLabel(sectionId) }}
+                    </div>
+                  </div>
+                </div>
+
+                <draggable
+                  v-if="isExpanded(sectionId) && getBlockOrder(sectionId).length"
+                  v-model="localBlockOrders[sectionId]"
+                  handle="[data-drag-handle='block']"
+                  :options="{ filter: '.sp-structure-insert-gap', preventOnFilter: false }"
+                  @change="handleBlockOrderChange(sectionId)"
+                >
+                  <div
+                    v-for="(blockId, bIdx) in getBlockOrder(sectionId)"
+                    :key="blockId"
+                    class="flex flex-col gap-0"
+                  >
+                    <div class="relative z-[2] py-0 pl-[50px]">
+                      <div
+                        class="sp-structure-insert-gap sp-structure-insert-gap--block"
+                        @click.stop="toggleInsertMenu('block', sectionId, bIdx, $event)"
+                      >
+                        <div class="sp-structure-insert-gap__line" aria-hidden="true" />
+                        <button
+                          type="button"
+                          class="sp-structure-insert-gap__btn sp-structure-insert-gap__btn--block"
+                        >
+                          <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
+                          <span>{{ $t('54e3d97e.fc318c') }}</span>
+                        </button>
+                      </div>
+                      <div
+                        v-if="isInsertMenuOpen('block', sectionId, bIdx)"
+                        class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                        :style="insertMenuDockStyle"
+                      >
+                        <button
+                          v-for="item in getBlockPickerItems(getSectionType(sectionId))"
+                          :key="'footer-zone-block-gap-' + item.key + '-' + bIdx"
+                          type="button"
+                          class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
+                          @click="selectBlockType(sectionId, item.type)"
+                        >
+                          {{ item.label }}
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      :class="[
+                        'group mt-0 flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent py-[7px] pl-[50px] pr-2 text-[#6b7785] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
+                        {
+                          'sp-structure-row-selected':
+                            selectedSectionId === sectionId && selectedBlockId === blockId
+                        }
+                      ]"
+                      @click="$emit('select-block', { sectionId, blockId })"
+                    >
+                      <span
+                        data-drag-handle="block"
+                        class="inline-flex h-[18px] w-[18px] shrink-0 cursor-move items-center justify-center text-[#6b7785]"
+                      >
+                        <Diamond :size="16" :stroke-width="2" />
+                      </span>
+                      <div class="min-w-0 flex-1 flex items-center">
+                        <div
+                          class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
+                        >
+                          {{ getBlockLabel(getSection(sectionId), blockId) }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </draggable>
+
+                <div v-if="isExpanded(sectionId)">
+                  <div class="relative pl-[52px]">
+                    <button
+                      v-if="getBlockPickerItems(getSectionType(sectionId)).length"
+                      type="button"
+                      class="mt-0.5 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] pr-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
+                      @click="
+                        toggleInsertMenu(
+                          'block',
+                          sectionId,
+                          getBlockOrder(sectionId).length,
+                          $event
+                        )
+                      "
+                    >
+                      <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
+                      <span>{{ $t('54e3d97e.fc318c') }}</span>
+                    </button>
+
+                    <div
+                      v-if="isInsertMenuOpen('block', sectionId, getBlockOrder(sectionId).length)"
+                      class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                      :style="insertMenuDockStyle"
+                    >
+                      <button
+                        v-for="item in getBlockPickerItems(getSectionType(sectionId))"
+                        :key="'footer-zone-block-' + item.key + '-' + sectionId"
+                        type="button"
+                        class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
+                        @click="selectBlockType(sectionId, item.type)"
+                      >
+                        {{ item.label }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </draggable>
+
+            <div class="relative z-[3] py-0">
+              <div
+                class="sp-structure-insert-gap"
+                @click.stop="toggleInsertMenu('section', 'footer', localFooterZoneOrder.length, $event)"
+              >
+                <div class="sp-structure-insert-gap__line" aria-hidden="true" />
+                <button type="button" class="sp-structure-insert-gap__btn">
+                  <Plus :size="13" class="shrink-0 text-white" :stroke-width="2.5" />
+                  <span>{{ $t('54e3d97e.2e2d33') }}</span>
+                </button>
+              </div>
+              <div
+                v-if="isInsertMenuOpen('section', 'footer', localFooterZoneOrder.length)"
+                class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
+                :style="insertMenuDockStyle"
+              >
+                <button
+                  v-for="item in sectionPickerItemsFor('footer')"
+                  :key="'footer-before-fixed-' + item.key"
+                  type="button"
+                  class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
+                  @click="selectSectionType(item.type)"
+                >
+                  <component
+                    :is="sectionInsertIcon(item.type)"
+                    :size="14"
+                    class="shrink-0 text-[#475467]"
+                    :stroke-width="2"
+                  />
+                  <span>{{ item.label }}</span>
+                </button>
+              </div>
+            </div>
+
             <div
               :class="[
                 'group flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2 py-[7px] transition-colors duration-150 hover:bg-[rgba(24,34,47,0.04)]',
@@ -743,7 +1063,6 @@
                     <button
                       type="button"
                       class="sp-structure-insert-gap__btn sp-structure-insert-gap__btn--block"
-                      @click.stop="toggleInsertMenu('block', 'footer', bIdx, $event)"
                     >
                       <Plus :size="12" class="shrink-0 text-white" :stroke-width="2.5" />
                       <span>{{ $t('54e3d97e.fc318c') }}</span>
@@ -761,7 +1080,7 @@
                       class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
                       @click="selectBlockType('footer', item.type)"
                     >
-                      {{ $t(item.titleKey) }}
+                      {{ item.label }}
                     </button>
                   </div>
                 </div>
@@ -851,43 +1170,12 @@
                     class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
                     @click="selectBlockType('footer', item.type)"
                   >
-                    {{ $t(item.titleKey) }}
+                    {{ item.label }}
                   </button>
                 </div>
               </div>
             </div>
 
-            <div class="relative mt-1 px-2 pb-0.5 pl-[34px]">
-              <button
-                type="button"
-                class="flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                @click="toggleInsertMenu('section', 'footer', localOrder.length, $event)"
-              >
-                <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
-                <span>{{ $t('54e3d97e.2e2d33') }}</span>
-              </button>
-              <div
-                v-if="isInsertMenuOpen('section', 'footer', localOrder.length)"
-                class="sp-structure-insert-menu fixed z-[4000] min-w-[200px] max-h-[min(420px,calc(100vh-32px))] overflow-y-auto rounded-xl border border-[rgba(17,24,39,0.08)] bg-white p-1.5 shadow-[0_10px_30px_rgba(15,23,42,0.14)]"
-                :style="insertMenuDockStyle"
-              >
-                <button
-                  v-for="item in sectionPickerItemsFor('footer')"
-                  :key="'footer-add-' + item.key"
-                  type="button"
-                  class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
-                  @click="selectSectionType(item.type)"
-                >
-                  <component
-                    :is="sectionInsertIcon(item.type)"
-                    :size="14"
-                    class="shrink-0 text-[#475467]"
-                    :stroke-width="2"
-                  />
-                  <span>{{ $t(item.titleKey) }}</span>
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -898,16 +1186,14 @@
 <script>
 import draggable from 'vuedraggable'
 
-const { getBlockDefinition } = require('../registry')
-const {
+import { getTypedBlockDefinition as getBlockDefinition } from '../definitions/registry.js'
+import {
   createSectionPickerItems,
   createSectionPickerItemsForTypes,
   createBlockPickerItems
-} = require('../utils/insertPicker')
-const { getStructureSectionInsertConfig } = require('../utils/structureInsertConfig')
-const {
-  getSectionInsertIconComponent: resolveSectionInsertIcon
-} = require('../utils/decorationLucide')
+} from '../utils/insertPicker.js'
+import { getSectionInsertIconComponent as resolveSectionInsertIcon } from '../utils/decorationLucide.js'
+import { getAreaSectionInsertPolicy } from '../definitions/areas.js'
 
 export default {
   name: 'StructurePanel',
@@ -920,6 +1206,14 @@ export default {
       required: true
     },
     globalDsl: {
+      type: Object,
+      default: () => ({})
+    },
+    headerDsl: {
+      type: Object,
+      default: () => ({})
+    },
+    footerDsl: {
       type: Object,
       default: () => ({})
     },
@@ -939,17 +1233,14 @@ export default {
       type: String,
       default: ''
     },
-    /** 覆盖 utils/structureInsertConfig 默认策略（按 anchor 浅合并） */
-    structureSectionInsertConfig: {
-      type: Object,
-      default: null
-    }
   },
   data() {
     return {
       localOrder: [],
-      /** 全局标头区（不含页脚）顺序，与 globalDsl.order 前缀同步，可拖拽 */
+      /** 全局标头区顺序，与 headerDsl.order 同步，可拖拽 */
       localHeaderZoneOrder: [],
+      /** 全局页脚区附加分区顺序，不含固定 footer */
+      localFooterZoneOrder: [],
       localBlockOrders: {
         header: [],
         footer: []
@@ -965,11 +1256,8 @@ export default {
     }
   },
   computed: {
-    structureInsertPolicy() {
-      return getStructureSectionInsertConfig(this.structureSectionInsertConfig)
-    },
     footerSection() {
-      return this.globalDsl.sections?.footer || null
+      return this.footerDsl.sections?.footer || this.globalDsl.sections?.footer || null
     },
     footerBlockOrder() {
       return this.localBlockOrders.footer || []
@@ -998,7 +1286,20 @@ export default {
       deep: true,
       handler() {
         this.syncBlockOrders()
-        this.syncHeaderZoneOrderFromGlobal()
+      }
+    },
+    headerDsl: {
+      immediate: true,
+      deep: true,
+      handler() {
+        this.syncHeaderZoneOrderFromHeader()
+      }
+    },
+    footerDsl: {
+      immediate: true,
+      deep: true,
+      handler() {
+        this.syncFooterZoneOrderFromFooter()
       }
     }
   },
@@ -1006,27 +1307,42 @@ export default {
     this.clearInsertMenuAnchor()
   },
   methods: {
-    syncHeaderZoneOrderFromGlobal() {
-      const order = this.globalDsl?.order
+    syncHeaderZoneOrderFromHeader() {
+      const order = this.headerDsl?.order
       if (!Array.isArray(order) || !order.length) {
         this.localHeaderZoneOrder = ['header']
         return
       }
       this.localHeaderZoneOrder = order.filter((id) => id !== 'footer').slice()
     },
-    handleHeaderZoneOrderChange() {
-      const footerTail = (this.globalDsl.order || []).filter((id) => id === 'footer')
-      this.$emit('reorder-global-sections', [...this.localHeaderZoneOrder.slice(), ...footerTail])
+    syncFooterZoneOrderFromFooter() {
+      const order = this.footerDsl?.order
+      this.localFooterZoneOrder = Array.isArray(order)
+        ? order.filter((id) => id !== 'footer').slice()
+        : []
     },
-    isHeaderZoneFixedSelection(sectionId) {
+    emitGlobalZoneOrder() {
+      this.$emit('reorder-global-sections', [
+        ...this.localHeaderZoneOrder.slice(),
+        ...this.localFooterZoneOrder.slice(),
+        'footer'
+      ])
+    },
+    handleHeaderZoneOrderChange() {
+      this.emitGlobalZoneOrder()
+    },
+    handleFooterZoneOrderChange() {
+      this.emitGlobalZoneOrder()
+    },
+    isHeaderZoneFixedSection(sectionId) {
       return sectionId === 'header'
     },
-    canDeleteHeaderZoneSelection(sectionId) {
+    canDeleteHeaderZoneSection(sectionId) {
       if (sectionId === 'header' || sectionId === 'footer') return false
       return this.getSectionType(sectionId) === 'announcement-bar'
     },
     sectionPickerItemsFor(anchor) {
-      const cfg = this.structureInsertPolicy[anchor] || {}
+      const cfg = getAreaSectionInsertPolicy(anchor)
       if (cfg.types == null) {
         return createSectionPickerItems(this.sectionDefinitions)
       }
@@ -1193,10 +1509,11 @@ export default {
     selectSectionType(type) {
       const anchor = this.openInsertMenu.sectionId
       const idx = this.openInsertMenu.insertIndex
-      const cfg = this.structureInsertPolicy[anchor] || { mutation: 'page' }
-      if (cfg.mutation === 'global') {
+      const cfg = getAreaSectionInsertPolicy(anchor)
+      if (cfg.mutation === 'global' || cfg.mutation === 'footer') {
         this.$emit('add-global-section', {
           type,
+          area: cfg.mutation,
           index: typeof idx === 'number' ? idx : undefined
         })
       } else {
@@ -1233,12 +1550,18 @@ export default {
       return (this.getBlockOrder(sectionId) || []).length > 1
     },
     getSection(sectionId) {
-      return this.globalDsl.sections?.[sectionId] || this.dsl.sections?.[sectionId] || null
+      return (
+        this.headerDsl.sections?.[sectionId] ||
+        this.footerDsl.sections?.[sectionId] ||
+        this.globalDsl.sections?.[sectionId] ||
+        this.dsl.sections?.[sectionId] ||
+        null
+      )
     },
     getSectionDisplayLabel(sectionId) {
       const section = this.getSection(sectionId)
       if (!section) return ''
-      return section.settings?.title || this.$t(section.titleKey || '54e3d97e.cdb7d0')
+      return section.title || ''
     },
     getBlockPickerItems(sectionType) {
       return createBlockPickerItems(sectionType)
@@ -1249,11 +1572,9 @@ export default {
     getBlockLabel(section, blockId) {
       const block = section?.blocks?.[blockId]
       if (!block) return ''
-      const definition = getBlockDefinition(section.type, block.type)
+      // const definition = getBlockDefinition(section.type, block.type)
       return (
-        block.settings?.label ||
-        block.settings?.title ||
-        this.$t(definition?.titleKey || '54e3d97e.7f56ad')
+        block.title || ''
       )
     },
     handleOrderChange() {
@@ -1283,7 +1604,7 @@ export default {
 .sp-structure-insert-gap {
   position: relative;
   display: flex;
-  height: 8px;
+  height: 6px;
   align-items: center;
   justify-content: center;
   cursor: default;
@@ -1306,21 +1627,25 @@ export default {
 }
 
 .sp-structure-insert-gap__btn {
-  position: relative;
+  position: absolute;
   z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 1px 8px;
+  white-space: nowrap;
+  padding: 4px 12px;
   border: 0;
   border-radius: 9999px;
   background: #2563eb;
   color: #fff;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.25;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.28);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.12s ease;
@@ -1332,7 +1657,7 @@ export default {
 }
 
 .sp-structure-insert-gap__btn--block {
-  font-size: 10px;
-  padding: 2px 8px;
+  font-size: 12px;
+  padding: 4px 12px;
 }
 </style>

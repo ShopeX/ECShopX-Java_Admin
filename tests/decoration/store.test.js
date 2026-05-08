@@ -1,6 +1,7 @@
 const assert = require('assert')
 
-const decorationStore = require('../../src/store/modules/decoration')
+const decorationStoreModule = require('../../src/store/modules/decoration')
+const decorationStore = decorationStoreModule.default || decorationStoreModule
 
 function createState() {
   return decorationStore.state()
@@ -22,14 +23,47 @@ function testInitializeEditor() {
   decorationStore.mutations.initializeEditor(state, payload)
   assert.strictEqual(state.pageId, '12')
   assert.strictEqual(state.dsl.pageType, 'home')
-  assert.deepStrictEqual(state.globalDsl.order, ['header', 'footer'])
+  assert.strictEqual(state.headerDsl.order.length, 2)
+  assert.strictEqual(state.headerDsl.order[1], 'header')
+  assert.strictEqual(state.headerDsl.sections[state.headerDsl.order[0]].type, 'announcement-bar')
+  assert.deepStrictEqual(state.footerDsl.order, ['footer'])
   assert.deepStrictEqual(state.expandedSectionIds, [])
+}
+
+function testInitializeEditorBackfillsMissingHeaderDsl() {
+  const state = createState()
+  decorationStore.mutations.initializeEditor(state, {
+    pageType: 'home',
+    pageId: '12',
+    dsl: {
+      pageType: 'home',
+      pageId: '12',
+      sections: {},
+      order: [],
+      meta: { version: 1, scene: '1001' }
+    },
+    globalDsl: {
+      pageType: 'global',
+      pageId: 'global',
+      sections: {
+        footer: { type: 'footer', settings: { copyright: '2026' }, blocks: {}, blockOrder: [] }
+      },
+      order: ['footer']
+    }
+  })
+
+  assert.strictEqual(state.headerDsl.sections.header.type, 'header')
+  assert.strictEqual(state.headerDsl.sections.header.settings.menu, 'main-menu')
+  assert.deepStrictEqual(state.headerDsl.sections.header.blockOrder, [])
+  assert.deepStrictEqual(state.footerDsl.order, ['footer'])
+  assert.strictEqual(state.selectedSectionId, 'header')
+  assert.strictEqual(state.editingScope, 'global')
 }
 
 function testSectionActions() {
   const state = createState()
-  decorationStore.mutations.addSection(state, { type: 'carousel' })
-  assert.strictEqual(state.dsl.order.length, 1)
+  decorationStore.mutations.addSection(state, { type: 'main-carousel' })
+  assert.strictEqual(state.dsl.order.length, 2)
   const sectionId = state.dsl.order[0]
   const initialBlockId = state.dsl.sections[sectionId].blockOrder[0]
 
@@ -72,14 +106,13 @@ function testSectionActions() {
 
 function testGlobalSelectionAndPreviewDsl() {
   const state = createState()
-  decorationStore.mutations.addGlobalSection(state, 'announcement-bar')
-  const annId = state.globalDsl.order.find((id) => id !== 'header' && id !== 'footer')
+  const annId = state.headerDsl.order.find((id) => id !== 'header')
   assert.ok(annId)
   decorationStore.mutations.selectSection(state, annId)
   assert.strictEqual(state.selectedSectionId, annId)
   assert.strictEqual(state.editingScope, 'global')
 
-  const announcementBlockId = state.globalDsl.sections[annId].blockOrder[0]
+  const announcementBlockId = state.headerDsl.sections[annId].blockOrder[0]
   decorationStore.mutations.selectBlock(state, {
     sectionId: annId,
     blockId: announcementBlockId
@@ -100,23 +133,31 @@ function testGlobalSelectionAndPreviewDsl() {
     logoUrl: 'https://cdn.example.com/logo.png'
   })
   assert.strictEqual(
-    state.globalDsl.sections.header.settings.logoUrl,
+    state.headerDsl.sections.header.settings.logoUrl,
     'https://cdn.example.com/logo.png'
   )
 
-  const headerBlockId = state.globalDsl.sections.header.blockOrder[0]
+  const headerBlockId = state.headerDsl.sections.header.blockOrder[0]
   decorationStore.mutations.selectBlock(state, { sectionId: 'header', blockId: headerBlockId })
   assert.strictEqual(state.editingScope, 'global')
   assert.strictEqual(
     decorationStore.getters.currentBlock(state, {
       currentSection: decorationStore.getters.currentSection(state)
     }).type,
-    'nav-item'
+    'header_product_list'
   )
 
-  decorationStore.mutations.addSection(state, { type: 'carousel' })
+  decorationStore.mutations.addSection(state, { type: 'main-carousel' })
   const previewDsl = decorationStore.getters.activeDsl(state)
   assert.deepStrictEqual(previewDsl.order, ['header', annId, state.dsl.order[0], 'footer'])
+
+  decorationStore.mutations.addGlobalSection(state, 'announcement-bar')
+  assert.strictEqual(
+    state.headerDsl.order.filter(
+      (sectionId) => state.headerDsl.sections[sectionId]?.type === 'announcement-bar'
+    ).length,
+    2
+  )
 }
 
 function testFlags() {
@@ -125,6 +166,30 @@ function testFlags() {
   decorationStore.mutations.setSaving(state, true)
   assert.strictEqual(state.isPreviewReady, true)
   assert.strictEqual(state.isSaving, true)
+}
+
+function testAddGlobalSectionUsesRequestedIndex() {
+  const state = createState()
+  decorationStore.mutations.initializeEditor(state, {
+    pageType: 'home',
+    pageId: '12',
+    dsl: {
+      pageType: 'home',
+      pageId: '12',
+      sections: {},
+      order: [],
+      meta: { version: 1, scene: '1001' }
+    }
+  })
+
+  decorationStore.mutations.addGlobalSection(state, {
+    type: 'announcement-bar',
+    index: 1
+  })
+
+  assert.strictEqual(state.headerDsl.order[0], 'header')
+  assert.strictEqual(state.headerDsl.order.length, 2)
+  assert.notStrictEqual(state.headerDsl.order[1], 'header')
 }
 
 function testExpandedSections() {
@@ -138,7 +203,7 @@ function testExpandedSections() {
   decorationStore.mutations.setExpandedSections(state, ['header', 'footer'])
   assert.deepStrictEqual(state.expandedSectionIds, ['header', 'footer'])
 
-  decorationStore.mutations.addSection(state, { type: 'carousel' })
+  decorationStore.mutations.addSection(state, { type: 'main-carousel' })
   const sectionId = state.dsl.order[0]
   assert.strictEqual(state.expandedSectionIds.includes(sectionId), true)
 
@@ -148,9 +213,11 @@ function testExpandedSections() {
 
 function run() {
   testInitializeEditor()
+  testInitializeEditorBackfillsMissingHeaderDsl()
   testSectionActions()
   testGlobalSelectionAndPreviewDsl()
   testFlags()
+  testAddGlobalSectionUsesRequestedIndex()
   testExpandedSections()
   console.log('store.test.js passed')
 }

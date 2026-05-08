@@ -1,15 +1,57 @@
-function createDecorationMessenger(websiteUrl) {
-  let previewOrigin = ''
+function resolvePreviewWebsiteOrigin(websiteUrl) {
+  if (!websiteUrl) return ''
   try {
-    previewOrigin = websiteUrl ? new URL(websiteUrl).origin : ''
+    const baseHref =
+      typeof window !== 'undefined' && window.location?.href
+        ? window.location.href
+        : 'http://localhost/'
+    return new URL(websiteUrl, baseHref).origin
   } catch {
-    previewOrigin = ''
+    return ''
   }
+}
 
-  /**
-   * websiteUrl 可能已带 query（如 …?preview=true&designMode=1），不能再拼接 `/${'?'}…`，
-   * 否则会出现 …designMode=1/?preview=true… 的非法 URL，iframe 加载失败并触发 X-Frame-Options 错误页。
-   */
+function isLoopbackHostname(hostname) {
+  return (
+    hostname === 'localhost' ||
+    hostname === '127.0.0.1' ||
+    hostname === '0.0.0.0' ||
+    hostname === '[::1]'
+  )
+}
+
+function isDevEnv() {
+  return typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'development'
+}
+
+function isAllowedPreviewOrigin(eventOrigin, expectedOrigin) {
+  if (!eventOrigin) return false
+  if (!expectedOrigin) {
+    if (!isDevEnv()) return false
+    try {
+      const { protocol, hostname } = new URL(eventOrigin)
+      if (protocol !== 'http:' && protocol !== 'https:') return false
+      return isLoopbackHostname(hostname)
+    } catch {
+      return false
+    }
+  }
+  if (eventOrigin === expectedOrigin) return true
+  if (!isDevEnv()) return false
+  try {
+    const a = new URL(eventOrigin)
+    const b = new URL(expectedOrigin)
+    if (a.protocol !== b.protocol) return false
+    if (a.port !== b.port) return false
+    return isLoopbackHostname(a.hostname) && isLoopbackHostname(b.hostname)
+  } catch {
+    return false
+  }
+}
+
+export function createDecorationMessenger(websiteUrl) {
+  const previewOrigin = resolvePreviewWebsiteOrigin(websiteUrl)
+
   function getPreviewUrl({ templateId, pageType = 'home' }) {
     if (!websiteUrl) return ''
     const pageId = templateId || pageType
@@ -21,14 +63,14 @@ function createDecorationMessenger(websiteUrl) {
       if (!base.pathname || base.pathname === '') {
         base.pathname = '/'
       }
-      base.searchParams.set('preview', 'true')
+      base.searchParams.set('designMode', '1')
       base.searchParams.set('pageType', pageType)
       base.searchParams.set('pageId', String(pageId))
       return base.toString()
     } catch {
       const originOnly = String(websiteUrl).split('?')[0].replace(/\/+$/, '') || ''
       const qs = new URLSearchParams({
-        preview: 'true',
+        designMode: '1',
         pageType: String(pageType),
         pageId: String(pageId)
       })
@@ -38,7 +80,18 @@ function createDecorationMessenger(websiteUrl) {
 
   function send(type, iframeWindow, payload) {
     if (!iframeWindow || typeof iframeWindow.postMessage !== 'function') return
-    iframeWindow.postMessage({ type, payload }, previewOrigin)
+    const target = previewOrigin || (isDevEnv() ? '*' : '')
+    if (!target) {
+      console.warn(
+        '[sp-web-decoration] 无法向预览 iframe 发送消息：缺少商城 origin（请检查 VUE_APP_WEBSITE）'
+      )
+      return
+    }
+    try {
+      iframeWindow.postMessage({ type, payload }, target)
+    } catch (err) {
+      console.warn('[sp-web-decoration] postMessage 失败:', err)
+    }
   }
 
   function sendInit(iframeWindow, payload) {
@@ -49,16 +102,27 @@ function createDecorationMessenger(websiteUrl) {
     send('DECORATION_UPDATE', iframeWindow, payload)
   }
 
+  function sendMessage(iframeWindow, type, payload) {
+    send(type, iframeWindow, payload)
+  }
+
   function isAllowedOrigin(origin) {
-    return Boolean(previewOrigin) && origin === previewOrigin
+    return isAllowedPreviewOrigin(origin, previewOrigin)
   }
 
   function onMessage(handler) {
-    if (typeof window === 'undefined') {
-      return () => {}
-    }
+    if (typeof window === 'undefined') return () => {}
     const listener = (event) => {
-      if (!isAllowedOrigin(event.origin)) return
+      const allowed = isAllowedOrigin(event.origin)
+      if (isDevEnv()) {
+        console.log('[sp-web-decoration] raw message', {
+          origin: event.origin,
+          expectedOrigin: previewOrigin,
+          allowed,
+          type: event.data?.type
+        })
+      }
+      if (!allowed) return
       handler(event)
     }
     window.addEventListener('message', listener)
@@ -72,11 +136,12 @@ function createDecorationMessenger(websiteUrl) {
     getPreviewUrl,
     sendInit,
     sendUpdate,
+    sendMessage,
     isAllowedOrigin,
     onMessage
   }
 }
 
-module.exports = {
+export default {
   createDecorationMessenger
 }

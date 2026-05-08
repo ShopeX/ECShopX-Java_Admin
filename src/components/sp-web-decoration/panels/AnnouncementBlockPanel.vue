@@ -12,7 +12,7 @@
 </template>
 
 <script>
-const { normalizeAnnouncementBlockSettings } = require('../utils/panelState')
+import { normalizeAnnouncementBlockSettings } from '../utils/panelState.js'
 
 export default {
   name: 'AnnouncementBlockPanel',

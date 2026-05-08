@@ -78,7 +78,7 @@ The preview iframe URL is derived from `process.env.VUE_APP_WEBSITE`.
 Home preview URL shape:
 
 ```txt
-${VUE_APP_WEBSITE}/?preview=true&pageType=home&pageId=<templateId>
+${VUE_APP_WEBSITE}/?designMode=1&pageType=home&pageId=<templateId>
 ```
 
 The iframe is wired with a minimal postMessage protocol:

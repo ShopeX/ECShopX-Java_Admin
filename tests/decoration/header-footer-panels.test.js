@@ -7,13 +7,7 @@ function read(relativePath) {
 }
 
 function testHeaderFooterBlockPanelFilesExist() {
-  ;[
-    'HeaderPanel.vue',
-    'FooterPanel.vue',
-    'BrandBlockPanel.vue',
-    'LinkListBlockPanel.vue',
-    'NewsletterBlockPanel.vue'
-  ].forEach((fileName) => {
+  ;['HeaderPanel.vue', 'FooterPanel.vue'].forEach((fileName) => {
     assert.strictEqual(
       fs.existsSync(
         path.resolve(__dirname, `../../src/components/sp-web-decoration/panels/${fileName}`)
@@ -24,58 +18,59 @@ function testHeaderFooterBlockPanelFilesExist() {
 }
 
 function testRegistryAndConfigPanelWireHeaderFooterBlocks() {
-  const registrySource = read('src/components/sp-web-decoration/registry.js')
+  const registrySource = read('src/components/sp-web-decoration/definitions/registry.js')
+  const panelStateSource = read('src/components/sp-web-decoration/utils/panelState.js')
   const configPanelSource = read('src/components/sp-web-decoration/components/ConfigPanel.vue')
 
-  assert.match(registrySource, /normalizeHeaderSettings/)
-  assert.match(registrySource, /normalizeFooterSettings/)
-  assert.match(registrySource, /type: 'brand'/)
-  assert.match(registrySource, /type: 'link_list'/)
-  assert.match(registrySource, /type: 'newsletter'/)
+  assert.match(panelStateSource, /normalizeHeaderSettings/)
+  assert.match(panelStateSource, /normalizeFooterSettings/)
+  assert.match(registrySource, /DEFAULT_HEADER_SETTINGS/)
+  assert.match(registrySource, /type: 'header'/)
+  assert.match(registrySource, /type: 'nav-item'/)
+  assert.match(registrySource, /type: 'footer'/)
+  assert.match(registrySource, /type: 'footer-link'/)
 
-  assert.match(configPanelSource, /BrandBlockPanel/)
-  assert.match(configPanelSource, /LinkListBlockPanel/)
-  assert.match(configPanelSource, /NewsletterBlockPanel/)
+  assert.match(configPanelSource, /HeaderPanel/)
+  assert.match(configPanelSource, /FooterPanel/)
+  assert.match(configPanelSource, /NavItemBlockPanel/)
+  assert.match(configPanelSource, /FooterLinkBlockPanel/)
 }
 
 function testHeaderFooterPanelFieldsFollowPlan() {
+  const panelStateSource = read('src/components/sp-web-decoration/utils/panelState.js')
   const headerPanelSource = read('src/components/sp-web-decoration/panels/HeaderPanel.vue')
   const footerPanelSource = read('src/components/sp-web-decoration/panels/FooterPanel.vue')
-  const brandPanelSource = read('src/components/sp-web-decoration/panels/BrandBlockPanel.vue')
-  const linkListPanelSource = read('src/components/sp-web-decoration/panels/LinkListBlockPanel.vue')
-  const newsletterPanelSource = read(
-    'src/components/sp-web-decoration/panels/NewsletterBlockPanel.vue'
-  )
 
-  assert.match(headerPanelSource, /sticky_header_type/)
-  assert.match(headerPanelSource, /padding_top/)
-  assert.match(headerPanelSource, /padding_bottom/)
-  assert.match(headerPanelSource, /menu_type_desktop/)
-  assert.match(headerPanelSource, /show_line_separator/)
-  assert.match(headerPanelSource, /logo_position/)
-  assert.match(headerPanelSource, /mobile_logo_position/)
-  assert.match(headerPanelSource, /layout/)
-  assert.match(headerPanelSource, /margin_bottom/)
-  assert.match(headerPanelSource, /enable_country_selector/)
-  assert.match(headerPanelSource, /enable_language_selector/)
-  assert.match(headerPanelSource, /enable_customer_avatar/)
-  assert.match(headerPanelSource, /menu_color_mode/)
-  assert.match(headerPanelSource, /menu_color_scheme/)
+  assert.match(panelStateSource, /function normalizeHeaderSettings/)
+  assert.match(panelStateSource, /sticky_header_type/)
+  assert.match(panelStateSource, /padding_top/)
+  assert.match(panelStateSource, /padding_bottom/)
+  assert.match(panelStateSource, /menu_type_desktop/)
+  assert.match(panelStateSource, /show_line_separator/)
+  assert.match(panelStateSource, /logo_position/)
+  assert.match(panelStateSource, /mobile_logo_position/)
+  assert.match(panelStateSource, /layout/)
+  assert.match(panelStateSource, /margin_bottom/)
+  assert.match(panelStateSource, /enable_country_selector/)
+  assert.match(panelStateSource, /enable_language_selector/)
+  assert.match(panelStateSource, /enable_customer_avatar/)
+  assert.match(panelStateSource, /menu_color_mode/)
+  assert.match(panelStateSource, /menu_color_scheme/)
 
-  assert.match(footerPanelSource, /content_alignment/)
-  assert.match(footerPanelSource, /newsletter_heading/)
-  assert.match(footerPanelSource, /margin_top/)
-  assert.match(footerPanelSource, /payment_enable/)
-  assert.match(footerPanelSource, /newsletter_enable/)
-  assert.match(footerPanelSource, /enable_brand_information/)
+  assert.match(panelStateSource, /function normalizeFooterSettings/)
+  assert.match(panelStateSource, /content_alignment/)
+  assert.match(panelStateSource, /newsletter_heading/)
+  assert.match(panelStateSource, /margin_top/)
+  assert.match(panelStateSource, /payment_enable/)
+  assert.match(panelStateSource, /newsletter_enable/)
+  assert.match(panelStateSource, /enable_brand_information/)
 
-  assert.match(brandPanelSource, /enable_social/)
-  assert.match(linkListPanelSource, /heading/)
-  assert.match(linkListPanelSource, /menu/)
-  assert.match(linkListPanelSource, /alignment/)
-  assert.match(newsletterPanelSource, /title/)
-  assert.match(newsletterPanelSource, /alignment/)
-  assert.match(newsletterPanelSource, /enable_social/)
+  assert.match(headerPanelSource, /title/)
+  assert.match(headerPanelSource, /logoUrl/)
+  assert.match(headerPanelSource, /backgroundColor/)
+  assert.match(footerPanelSource, /title/)
+  assert.match(footerPanelSource, /copyright/)
+  assert.match(footerPanelSource, /backgroundColor/)
 }
 
 function run() {

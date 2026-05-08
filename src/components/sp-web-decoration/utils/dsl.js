@@ -1,45 +1,33 @@
+import { createTemplateDocumentDsl } from '../definitions/documents/template.js'
+import { createHeaderDocumentDsl } from '../definitions/documents/header.js'
+import { createFooterDocumentDsl } from '../definitions/documents/footer.js'
+import { createGlobalSections } from '../definitions/documents/global.js'
+import { createTypedSection } from '../definitions/factory.js'
+
 function cloneValue(value) {
   return JSON.parse(JSON.stringify(value))
 }
 
-function createHomeDsl({ pageId = '', scene = '1001' } = {}) {
-  return {
-    pageType: 'home',
-    pageId: String(pageId || ''),
-    sections: {},
-    order: [],
-    meta: {
-      version: 1,
-      scene
-    }
+function normalizeSectionShape(section, fallbackId) {
+  const nextSection = cloneValue(section || {})
+  if (fallbackId && !nextSection.id) nextSection.id = fallbackId
+  if (!nextSection.blockOrder && Array.isArray(nextSection.block_order)) {
+    nextSection.blockOrder = cloneValue(nextSection.block_order)
   }
+  delete nextSection.block_order
+  return nextSection
 }
 
-function createGlobalDsl(sections) {
-  const resolvedSections = cloneValue(
-    sections || {
-      header: {
-        id: 'header',
-        type: 'header',
-        title: '',
-        titleKey: '5f1b7ccc.917f14',
-        disabled: false,
-        settings: {},
-        blocks: {},
-        blockOrder: []
-      },
-      footer: {
-        id: 'footer',
-        type: 'footer',
-        title: '',
-        titleKey: '5f1b7ccc.4eb88f',
-        disabled: false,
-        settings: {},
-        blocks: {},
-        blockOrder: []
-      }
-    }
-  )
+export function createHomeDsl({ pageId = '', scene = '1001' } = {}) {
+  return createTemplateDocumentDsl({ pageId, scene })
+}
+
+export function createGlobalDsl(sections) {
+  let source = sections
+  if (source == null) {
+    source = createGlobalSections()
+  }
+  const resolvedSections = cloneValue(source)
   const order = ['header']
   if (resolvedSections.footer) order.push('footer')
   if (resolvedSections['announcement-bar']) {
@@ -54,7 +42,171 @@ function createGlobalDsl(sections) {
   }
 }
 
-function insertSection(dsl, section, index) {
+function createDefaultHeaderSection() {
+  return createTypedSection('header', { fixedId: 'header' })
+}
+
+function createDefaultHeaderDsl() {
+  return createHeaderDocumentDsl()
+}
+
+function createDefaultFooterSection() {
+  return cloneValue(createFooterDocumentDsl().sections.footer)
+}
+
+function createScopedGlobalDsl({ pageId, section }) {
+  const sectionId = section.id || pageId
+  return {
+    pageType: pageId,
+    pageId,
+    sections: {
+      [sectionId]: cloneValue({ ...section, id: sectionId })
+    },
+    order: [sectionId]
+  }
+}
+
+export function createHeaderDsl(section, extraSections = {}, extraOrder = []) {
+  if (!section && Object.keys(extraSections || {}).length === 0 && extraOrder.length === 0) {
+    return createDefaultHeaderDsl()
+  }
+  const header = section || createDefaultHeaderSection()
+  const sections = {
+    header: normalizeSectionShape({ ...header, id: 'header' }, 'header')
+  }
+  extraOrder.forEach((id) => {
+    if (id !== 'header' && id !== 'footer' && extraSections[id]) {
+      sections[id] = normalizeSectionShape(extraSections[id], id)
+    }
+  })
+  return {
+    pageType: 'header',
+    pageId: 'header',
+    sections,
+    order: ['header', ...extraOrder.filter((id) => id !== 'header' && id !== 'footer')]
+  }
+}
+
+export function createFooterDsl(section, extraSections = {}, extraOrder = []) {
+  const footer = section || createDefaultFooterSection()
+  const sections = {}
+  extraOrder.forEach((id) => {
+    if (id !== 'footer' && extraSections[id]) {
+      sections[id] = normalizeSectionShape(extraSections[id], id)
+    }
+  })
+  sections.footer = normalizeSectionShape({ ...footer, id: 'footer' }, 'footer')
+  return {
+    pageType: 'footer',
+    pageId: 'footer',
+    sections,
+    order: [...extraOrder.filter((id) => id !== 'footer'), 'footer']
+  }
+}
+
+export function ensureGlobalDslDefaults(dsl) {
+  const fallback = createGlobalDsl()
+  if (!dsl || typeof dsl !== 'object') return fallback
+
+  const nextDsl = cloneValue(dsl)
+  if (!nextDsl.pageType) nextDsl.pageType = fallback.pageType
+  if (nextDsl.pageId === undefined || nextDsl.pageId === null) nextDsl.pageId = fallback.pageId
+  if (!nextDsl.sections || typeof nextDsl.sections !== 'object') nextDsl.sections = {}
+  if (!Array.isArray(nextDsl.order)) nextDsl.order = []
+
+  const defaultHeader = createDefaultHeaderSection()
+  const header = nextDsl.sections.header
+  if (!header || header.type !== 'header') {
+    nextDsl.sections.header = defaultHeader
+  } else {
+    const settingsKeys =
+      header.settings && typeof header.settings === 'object' ? Object.keys(header.settings) : []
+    const blockKeys =
+      header.blocks && typeof header.blocks === 'object' ? Object.keys(header.blocks) : []
+    const blockOrderLength = Array.isArray(header.blockOrder) ? header.blockOrder.length : 0
+    if (settingsKeys.length === 0 && blockKeys.length === 0 && blockOrderLength === 0) {
+      nextDsl.sections.header = defaultHeader
+    } else {
+      if (settingsKeys.length === 0) {
+        nextDsl.sections.header.settings = cloneValue(defaultHeader.settings)
+      }
+      if (blockKeys.length === 0 || blockOrderLength === 0) {
+        nextDsl.sections.header.blocks = cloneValue(defaultHeader.blocks)
+        nextDsl.sections.header.blockOrder = cloneValue(defaultHeader.blockOrder)
+      }
+    }
+  }
+
+  if (!nextDsl.order.includes('header')) {
+    const footerIndex = nextDsl.order.indexOf('footer')
+    if (footerIndex >= 0) {
+      nextDsl.order.splice(footerIndex, 0, 'header')
+    } else {
+      nextDsl.order.unshift('header')
+    }
+  }
+
+  return nextDsl
+}
+
+export function splitGlobalDsl(globalDsl) {
+  const normalizedGlobalDsl = ensureGlobalDslDefaults(globalDsl)
+  const { header, footer } = normalizedGlobalDsl.sections || {}
+  const globalOrder = normalizedGlobalDsl.order || []
+  const footerIndex = globalOrder.indexOf('footer')
+  const headerOrder = (footerIndex >= 0 ? globalOrder.slice(0, footerIndex) : globalOrder).filter(
+    (id) => id !== 'footer'
+  )
+  const footerOrder =
+    footerIndex >= 0 ? globalOrder.slice(footerIndex).filter((id) => id !== 'footer') : []
+  const headerSections = {}
+  headerOrder.forEach((id) => {
+    if (id !== 'header' && normalizedGlobalDsl.sections?.[id]) {
+      headerSections[id] = cloneValue(normalizedGlobalDsl.sections[id])
+    }
+  })
+  const footerSections = {}
+  footerOrder.forEach((id) => {
+    if (normalizedGlobalDsl.sections?.[id]) {
+      footerSections[id] = cloneValue(normalizedGlobalDsl.sections[id])
+    }
+  })
+  const headerDsl = createHeaderDsl(header, headerSections, headerOrder)
+  const footerDsl = footer
+    ? createFooterDsl(footer, footerSections, footerOrder)
+    : createFooterDsl()
+  return {
+    headerDsl,
+    footerDsl
+  }
+}
+
+export function composeGlobalDsl({ headerDsl, footerDsl } = {}) {
+  const headerSection = headerDsl?.sections?.header || createDefaultHeaderSection()
+  const footerSection = footerDsl?.sections?.footer || createDefaultFooterSection()
+  const headerOrder =
+    Array.isArray(headerDsl?.order) && headerDsl.order.length
+      ? headerDsl.order.filter((id) => id !== 'footer')
+      : ['header']
+  if (!headerOrder.includes('header')) headerOrder.unshift('header')
+  const footerOrder = Array.isArray(footerDsl?.order)
+    ? footerDsl.order.filter((id) => id !== 'footer')
+    : []
+  const sections = {
+    ...cloneValue(headerDsl?.sections || {}),
+    ...cloneValue(footerDsl?.sections || {}),
+    header: cloneValue({ ...headerSection, id: 'header' }),
+    footer: cloneValue({ ...footerSection, id: 'footer' })
+  }
+  return {
+    pageType: 'global',
+    pageId: 'global',
+    sections,
+    order: [...headerOrder, ...footerOrder, 'footer']
+  }
+}
+
+export function insertSection(dsl, section, index) {
   const nextDsl = cloneValue(dsl)
   const nextIndex =
     typeof index === 'number' && index >= 0 && index <= nextDsl.order.length
@@ -65,7 +217,7 @@ function insertSection(dsl, section, index) {
   return nextDsl
 }
 
-function updateSectionSettings(dsl, sectionId, patch) {
+export function updateSectionSettings(dsl, sectionId, patch) {
   if (!dsl.sections[sectionId]) return cloneValue(dsl)
   const nextDsl = cloneValue(dsl)
   nextDsl.sections[sectionId].settings = {
@@ -75,7 +227,7 @@ function updateSectionSettings(dsl, sectionId, patch) {
   return nextDsl
 }
 
-function insertBlock(dsl, sectionId, block, insertIndex) {
+export function insertBlock(dsl, sectionId, block, insertIndex) {
   if (!dsl.sections[sectionId] || !block?.id) return cloneValue(dsl)
   const nextDsl = cloneValue(dsl)
   nextDsl.sections[sectionId].blocks = {
@@ -98,7 +250,7 @@ function insertBlock(dsl, sectionId, block, insertIndex) {
   return nextDsl
 }
 
-function updateBlockSettings(dsl, sectionId, blockId, patch) {
+export function updateBlockSettings(dsl, sectionId, blockId, patch) {
   const section = dsl.sections[sectionId]
   if (!section?.blocks?.[blockId]) return cloneValue(dsl)
   const nextDsl = cloneValue(dsl)
@@ -109,7 +261,7 @@ function updateBlockSettings(dsl, sectionId, blockId, patch) {
   return nextDsl
 }
 
-function removeBlock(dsl, sectionId, blockId) {
+export function removeBlock(dsl, sectionId, blockId) {
   const section = dsl.sections[sectionId]
   if (!section?.blocks?.[blockId]) return cloneValue(dsl)
   const nextDsl = cloneValue(dsl)
@@ -120,14 +272,14 @@ function removeBlock(dsl, sectionId, blockId) {
   return nextDsl
 }
 
-function replaceBlockOrder(dsl, sectionId, blockOrder) {
+export function replaceBlockOrder(dsl, sectionId, blockOrder) {
   if (!dsl.sections[sectionId]) return cloneValue(dsl)
   const nextDsl = cloneValue(dsl)
   nextDsl.sections[sectionId].blockOrder = blockOrder.slice()
   return nextDsl
 }
 
-function removeSection(dsl, sectionId) {
+export function removeSection(dsl, sectionId) {
   if (!dsl.sections[sectionId]) return cloneValue(dsl)
   const nextDsl = cloneValue(dsl)
   delete nextDsl.sections[sectionId]
@@ -135,7 +287,7 @@ function removeSection(dsl, sectionId) {
   return nextDsl
 }
 
-function duplicateSection(dsl, sectionId, createDefaultSection) {
+export function duplicateSection(dsl, sectionId, createDefaultSection) {
   const sourceSection = dsl.sections[sectionId]
   if (!sourceSection) return cloneValue(dsl)
   const duplicatedSection = createDefaultSection(sourceSection.type)
@@ -153,7 +305,7 @@ function duplicateSection(dsl, sectionId, createDefaultSection) {
   return nextDsl
 }
 
-function moveSection(dsl, sectionId, targetIndex) {
+export function moveSection(dsl, sectionId, targetIndex) {
   const currentIndex = dsl.order.findIndex((id) => id === sectionId)
   if (currentIndex === -1) return cloneValue(dsl)
 
@@ -168,14 +320,14 @@ function moveSection(dsl, sectionId, targetIndex) {
   return nextDsl
 }
 
-function replaceSection(dsl, sectionId, nextSection) {
+export function replaceSection(dsl, sectionId, nextSection) {
   if (!dsl.sections[sectionId]) return cloneValue(dsl)
   const nextDsl = cloneValue(dsl)
   nextDsl.sections[sectionId] = cloneValue(nextSection)
   return nextDsl
 }
 
-function composePreviewDsl({ pageType = 'home', pageId = '', dsl, globalDsl }) {
+export function composePreviewDsl({ pageType = 'home', pageId = '', dsl, globalDsl }) {
   const gOrder = Array.isArray(globalDsl?.order) ? globalDsl.order.slice() : []
   const footerIndex = gOrder.indexOf('footer')
   const prefix = footerIndex >= 0 ? gOrder.slice(0, footerIndex) : gOrder.slice()
@@ -192,7 +344,7 @@ function composePreviewDsl({ pageType = 'home', pageId = '', dsl, globalDsl }) {
   }
 }
 
-function serializeDsl(dsl) {
+export function serializeDsl(dsl) {
   const nextDsl = cloneValue(dsl)
   Object.keys(nextDsl.sections || {}).forEach((sectionId) => {
     const section = nextDsl.sections[sectionId]
@@ -201,7 +353,7 @@ function serializeDsl(dsl) {
   return nextDsl
 }
 
-function deserializeDsl(dsl) {
+export function deserializeDsl(dsl) {
   const nextDsl = cloneValue(dsl)
   Object.keys(nextDsl.sections || {}).forEach((sectionId) => {
     const section = nextDsl.sections[sectionId]
@@ -213,7 +365,7 @@ function deserializeDsl(dsl) {
   return nextDsl
 }
 
-module.exports = {
+export default {
   createHomeDsl,
   createGlobalDsl,
   insertSection,
@@ -228,5 +380,10 @@ module.exports = {
   replaceSection,
   composePreviewDsl,
   serializeDsl,
-  deserializeDsl
+  deserializeDsl,
+  ensureGlobalDslDefaults,
+  splitGlobalDsl,
+  composeGlobalDsl,
+  createHeaderDsl,
+  createFooterDsl
 }

@@ -1,40 +1,53 @@
-const { getSectionBlockTypes, getBlockDefinition, getSectionDefinition } = require('../registry')
+import {
+  getSectionBlockTypes,
+  getTypedBlockDefinition as getBlockDefinition,
+  getTypedSectionDefinition as getSectionDefinition
+} from '../definitions/registry.js'
 
-function createSectionPickerItems(sectionDefinitions) {
-  return (sectionDefinitions || []).map((definition) => ({
-    key: definition.type,
-    type: definition.type,
-    titleKey: definition.titleKey
-  }))
+function normalizePickerItem(item) {
+  return {
+    ...item,
+    label: item.label || item.title || item.type
+  }
+}
+
+export function createSectionPickerItems(sectionDefinitions) {
+  return (sectionDefinitions || []).map((definition) =>
+    normalizePickerItem({
+      key: definition.type,
+      type: definition.type,
+      label: definition.name
+    })
+  )
 }
 
 /** 按固定 type 列表生成「添加分区」项（含全局分区如 announcement-bar） */
-function createSectionPickerItemsForTypes(types) {
+export function createSectionPickerItemsForTypes(types) {
   return (types || [])
     .map((type) => {
       const definition = getSectionDefinition(type)
       if (!definition) return null
-      return {
+      return normalizePickerItem({
         key: definition.type,
         type: definition.type,
-        titleKey: definition.titleKey
-      }
+        label: definition.name
+      })
     })
     .filter(Boolean)
 }
 
-function createBlockPickerItems(sectionType) {
+export function createBlockPickerItems(sectionType) {
   return getSectionBlockTypes(sectionType).map((blockType) => {
-    const definition = getBlockDefinition(sectionType, blockType)
-    return {
+    const definition = getBlockDefinition(blockType)
+    return normalizePickerItem({
       key: blockType,
       type: blockType,
-      titleKey: definition?.titleKey || '134c6b2c.7f56ad'
-    }
+      label: definition?.name
+    })
   })
 }
 
-module.exports = {
+export default {
   createSectionPickerItems,
   createSectionPickerItemsForTypes,
   createBlockPickerItems

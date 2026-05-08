@@ -79,7 +79,12 @@
               : 'relative h-full min-h-full w-full overflow-hidden bg-white'
           "
         >
-          <iframe ref="previewFrame" class="h-full w-full border-0 bg-white" :src="previewUrl" />
+          <iframe
+            ref="previewFrame"
+            class="h-full w-full border-0 bg-white"
+            :src="previewUrl"
+            @load="onPreviewIframeLoad"
+          />
         </div>
       </div>
     </div>
@@ -87,8 +92,8 @@
 </template>
 
 <script>
-const { createDecorationMessenger } = require('../utils/postMessage')
-const { serializeDsl } = require('../utils/dsl')
+import { createDecorationMessenger } from '../utils/postMessage.js'
+import { serializeDsl } from '../utils/dsl.js'
 
 export default {
   name: 'PreviewCanvas',
@@ -97,7 +102,11 @@ export default {
       type: Object,
       required: true
     },
-    globalDsl: {
+    headerDsl: {
+      type: Object,
+      default: () => ({})
+    },
+    footerDsl: {
       type: Object,
       default: () => ({})
     },
@@ -144,6 +153,8 @@ export default {
       messenger: null,
       previewError: false,
       updateTimer: null,
+      initRetryTimer: null,
+      removeRawDebugListener: null,
       removeListener: null
     }
   },
@@ -163,7 +174,13 @@ export default {
         this.scheduleUpdate()
       }
     },
-    globalDsl: {
+    headerDsl: {
+      deep: true,
+      handler() {
+        this.scheduleUpdate()
+      }
+    },
+    footerDsl: {
       deep: true,
       handler() {
         this.scheduleUpdate()
@@ -179,8 +196,15 @@ export default {
   mounted() {
     try {
       this.messenger = createDecorationMessenger(this.websiteUrl)
+      console.log('[sp-web-decoration] PreviewCanvas mounted', {
+        websiteUrl: this.websiteUrl,
+        previewUrl: this.previewUrl,
+        previewOrigin: this.messenger.previewOrigin,
+      })
+      this.removeRawDebugListener = this.bindRawDebugListener()
       this.removeListener = this.messenger.onMessage(this.handleIncomingMessage)
     } catch (error) {
+      console.warn('[sp-web-decoration] PreviewCanvas init failed', error)
       this.previewError = true
     }
   },
@@ -189,11 +213,32 @@ export default {
       clearTimeout(this.updateTimer)
       this.updateTimer = null
     }
+    if (this.initRetryTimer) {
+      clearTimeout(this.initRetryTimer)
+      this.initRetryTimer = null
+    }
     if (this.removeListener) {
       this.removeListener()
     }
+    if (this.removeRawDebugListener) {
+      this.removeRawDebugListener()
+      this.removeRawDebugListener = null
+    }
   },
   methods: {
+    bindRawDebugListener() {
+      const listener = (event) => {
+        if (!event.data || typeof event.data !== 'object') return
+        console.log('[sp-web-decoration] raw message before filter', {
+          origin: event.origin,
+          expectedOrigin: this.messenger?.previewOrigin || '',
+          type: event.data.type,
+          data: event.data,
+        })
+      }
+      window.addEventListener('message', listener)
+      return () => window.removeEventListener('message', listener)
+    },
     /** 跨域 iframe 的 contentWindow 不能放进 data（Vue 响应式会访问 Window 属性触发 SecurityError） */
     getPreviewContentWindow() {
       const el = this.$refs.previewFrame
@@ -203,10 +248,19 @@ export default {
       const { data } = event
       if (!data || !data.type) return
 
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[sp-web-decoration] incoming message', {
+          origin: event.origin,
+          type: data.type,
+          previewOrigin: this.messenger?.previewOrigin || '',
+        })
+      }
+
       if (data.type === 'PREVIEW_READY') {
         this.iframeReady = true
+        this.sendPreviewReadyAck()
         this.$emit('preview-ready', true)
-        this.sendInit()
+        this.flushInitToPreview()
         return
       }
 
@@ -222,21 +276,59 @@ export default {
         })
       }
     },
-    sendInit() {
-      const win = this.getPreviewContentWindow()
-      if (!win || !this.messenger) return
-      this.messenger.sendInit(win, {
+    /** 子帧发出 PREVIEW_READY 时 ref/contentWindow 可能尚未就绪，需 nextTick + 短重试，避免 null.postMessage */
+    onPreviewIframeLoad() {
+      if (this.iframeReady) {
+        this.flushInitToPreview()
+      }
+    },
+    flushInitToPreview() {
+      if (!this.iframeReady || !this.messenger) return
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[sp-web-decoration] flush init', {
+          iframeReady: this.iframeReady,
+          previewOrigin: this.messenger.previewOrigin,
+          previewUrl: this.previewUrl,
+        })
+      }
+      if (this.initRetryTimer) {
+        clearTimeout(this.initRetryTimer)
+        this.initRetryTimer = null
+      }
+      const payload = {
         pageType: this.pageType,
         pageId: this.pageId,
-        // New protocol: split global/page DSL.
         pageDsl: serializeDsl(this.dsl),
-        globalDsl: serializeDsl(this.globalDsl),
-        // Backward compatibility for old preview consumers.
-        dsl: serializeDsl(this.dsl),
-        selection: {
+        headerDsl: serializeDsl(this.headerDsl),
+        footerDsl: serializeDsl(this.footerDsl),
+        sections: {
           sectionId: this.selectedSectionId || '',
           blockId: this.selectedBlockId || ''
         }
+      }
+      const maxAttempts = 40
+      const delayMs = 50
+      const trySend = (attempt) => {
+        const win = this.getPreviewContentWindow()
+        if (win && this.messenger) {
+          if (process.env.NODE_ENV === 'development') {
+            console.log('[sp-web-decoration] send init payload', payload)
+          }
+          this.messenger.sendInit(win, payload)
+          return
+        }
+        if (attempt + 1 < maxAttempts) {
+          this.initRetryTimer = setTimeout(() => trySend(attempt + 1), delayMs)
+        }
+      }
+      this.$nextTick(() => trySend(0))
+    },
+    sendPreviewReadyAck() {
+      const win = this.getPreviewContentWindow()
+      if (!win || !this.messenger) return
+      this.messenger.sendMessage(win, 'PREVIEW_READY_ACK', {
+        pageType: this.pageType,
+        pageId: this.pageId,
       })
     },
     scheduleUpdate() {
@@ -252,9 +344,9 @@ export default {
           pageType: this.pageType,
           pageId: this.pageId,
           pageDsl: serializeDsl(this.dsl),
-          globalDsl: serializeDsl(this.globalDsl),
-          dsl: serializeDsl(this.dsl),
-          selection: {
+          headerDsl: serializeDsl(this.headerDsl),
+          footerDsl: serializeDsl(this.footerDsl),
+          sections: {
             sectionId: this.selectedSectionId || '',
             blockId: this.selectedBlockId || ''
           }

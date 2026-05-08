@@ -28,7 +28,7 @@ function testAnnouncementPanelFilesExist() {
 }
 
 function testRegistryAndConfigPanelWireAnnouncementPanels() {
-  const registrySource = read('src/components/sp-web-decoration/registry.js')
+  const registrySource = read('src/components/sp-web-decoration/definitions/registry.js')
   const configPanelSource = read('src/components/sp-web-decoration/components/ConfigPanel.vue')
 
   assert.match(registrySource, /announcement-bar/)

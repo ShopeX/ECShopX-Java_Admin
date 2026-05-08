@@ -46,12 +46,13 @@ import NavItemBlockPanel from '../panels/NavItemBlockPanel.vue'
 import FooterLinkBlockPanel from '../panels/FooterLinkBlockPanel.vue'
 import AnnouncementBlockPanel from '../panels/AnnouncementBlockPanel.vue'
 
-const { getBlockDefinition } = require('../registry')
+import { getTypedBlockDefinition as getBlockDefinition } from '../definitions/registry.js'
 
 const sectionPanelMap = {
   'announcement-bar': AnnouncementBarPanel,
   header: HeaderPanel,
   footer: FooterPanel,
+  'main-carousel': CarouselPanel,
   carousel: CarouselPanel,
   'image-hotspot': ImageHotspotPanel,
   'product-shelf': ProductShelfPanel

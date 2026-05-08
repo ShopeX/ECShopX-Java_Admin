@@ -1,3 +1,10 @@
+import dslUtils from '../../components/sp-web-decoration/utils/dsl.js'
+import {
+  createTypedSection,
+  createTypedBlock
+} from '../../components/sp-web-decoration/definitions/factory.js'
+import { getInitialEditorSelection } from '../../components/sp-web-decoration/definitions/selection.js'
+
 const {
   createHomeDsl,
   createGlobalDsl,
@@ -11,13 +18,12 @@ const {
   duplicateSection,
   moveSection,
   replaceSection,
-  composePreviewDsl
-} = require('../../components/sp-web-decoration/utils/dsl')
-const {
-  createDefaultSection,
-  createDefaultBlock,
-  createGlobalSections
-} = require('../../components/sp-web-decoration/registry')
+  composePreviewDsl,
+  splitGlobalDsl,
+  composeGlobalDsl,
+  createHeaderDsl,
+  createFooterDsl
+} = dslUtils
 
 function cloneDeep(value) {
   return JSON.parse(JSON.stringify(value))
@@ -27,8 +33,9 @@ function createState() {
   return {
     pageType: 'home',
     pageId: '',
+    headerDsl: createHeaderDsl(),
     dsl: createHomeDsl(),
-    globalDsl: createGlobalDsl(createGlobalSections()),
+    footerDsl: createFooterDsl(),
     selectedSectionId: '',
     selectedBlockId: '',
     expandedSectionIds: [],
@@ -39,11 +46,22 @@ function createState() {
 }
 
 function isGlobalSection(state, sectionId) {
-  return Boolean(sectionId && state.globalDsl?.sections?.[sectionId])
+  return Boolean(
+    sectionId && (state.headerDsl?.sections?.[sectionId] || state.footerDsl?.sections?.[sectionId])
+  )
 }
 
 function resolveScopeKey(state, sectionId) {
-  return isGlobalSection(state, sectionId) ? 'globalDsl' : 'dsl'
+  if (sectionId && state.headerDsl?.sections?.[sectionId]) return 'headerDsl'
+  if (sectionId && state.footerDsl?.sections?.[sectionId]) return 'footerDsl'
+  return 'dsl'
+}
+
+function getComposedGlobalDsl(state) {
+  return composeGlobalDsl({
+    headerDsl: state.headerDsl,
+    footerDsl: state.footerDsl
+  })
 }
 
 const decorationStore = {
@@ -64,7 +82,7 @@ const decorationStore = {
         pageType: state.pageType,
         pageId: state.pageId,
         dsl: state.dsl,
-        globalDsl: state.globalDsl
+        globalDsl: getComposedGlobalDsl(state)
       })
     }
   },
@@ -73,22 +91,32 @@ const decorationStore = {
       state.pageType = pageType
       state.pageId = String(pageId || '')
       state.dsl = dsl || createHomeDsl({ pageId: state.pageId })
-      state.globalDsl = globalDsl || createGlobalDsl(createGlobalSections())
-      state.selectedSectionId = state.dsl.order[0] || ''
-      state.selectedBlockId = ''
-      state.expandedSectionIds = []
-      state.editingScope = state.selectedSectionId
-        ? isGlobalSection(state, state.selectedSectionId)
-          ? 'global'
-          : 'page'
-        : 'global'
+      if (globalDsl) {
+        const splitDsl = splitGlobalDsl(globalDsl)
+        state.headerDsl = splitDsl.headerDsl
+        state.footerDsl = splitDsl.footerDsl
+      } else {
+        state.headerDsl = createHeaderDsl()
+        state.footerDsl = createFooterDsl()
+      }
+      const initialSel = getInitialEditorSelection({
+        dsl: state.dsl,
+        globalDsl: getComposedGlobalDsl(state)
+      })
+      state.selectedSectionId = initialSel.selectedSectionId
+      state.selectedBlockId = initialSel.selectedBlockId
+      state.expandedSectionIds = initialSel.expandedSectionIds
+      state.editingScope = initialSel.editingScope
       state.isPreviewReady = false
     },
     setDsl(state, dsl) {
       state.dsl = dsl
     },
-    setGlobalDsl(state, dsl) {
-      state.globalDsl = dsl
+    setHeaderDsl(state, dsl) {
+      state.headerDsl = dsl
+    },
+    setFooterDsl(state, dsl) {
+      state.footerDsl = dsl
     },
     setSelectedSectionId(state, sectionId) {
       state.selectedSectionId = sectionId || ''
@@ -112,7 +140,7 @@ const decorationStore = {
       state.editingScope = isGlobalSection(state, sectionId) ? 'global' : 'page'
     },
     addSection(state, { type, index }) {
-      const section = createDefaultSection(type)
+      const section = createTypedSection(type)
       state.dsl = insertSection(state.dsl, section, index)
       state.selectedSectionId = section.id
       state.selectedBlockId = ''
@@ -128,31 +156,26 @@ const decorationStore = {
           ? payload.index
           : undefined
 
-      if (type === 'announcement-bar') {
-        const section = createDefaultSection('announcement-bar')
+      if (payload?.area === 'footer') {
+        const section = createTypedSection(type)
         const newId = section.id
-        const currentOrder = Array.isArray(state.globalDsl.order)
-          ? state.globalDsl.order.slice()
+        const currentOrder = Array.isArray(state.footerDsl.order)
+          ? state.footerDsl.order.slice()
           : []
-        const nextOrder = currentOrder.length ? currentOrder : ['header', 'footer']
-        const footerIndex = nextOrder.indexOf('footer')
-        const prefix = footerIndex >= 0 ? nextOrder.slice(0, footerIndex) : nextOrder.slice()
-        const suffix = footerIndex >= 0 ? nextOrder.slice(footerIndex) : []
+        const footerIndex = currentOrder.includes('footer')
+          ? currentOrder.indexOf('footer')
+          : currentOrder.length
+        let insertAt = typeof requestedIndex === 'number' ? requestedIndex : footerIndex
+        insertAt = Math.max(0, Math.min(insertAt, footerIndex))
+        currentOrder.splice(insertAt, 0, newId)
 
-        let insertAt = typeof requestedIndex === 'number' ? requestedIndex : prefix.length
-        insertAt = Math.max(1, Math.min(insertAt, prefix.length))
-
-        const newPrefix = prefix.slice()
-        newPrefix.splice(insertAt, 0, newId)
-        const orderWithNew = [...newPrefix, ...suffix]
-
-        state.globalDsl = {
-          ...state.globalDsl,
+        state.footerDsl = {
+          ...state.footerDsl,
           sections: {
-            ...(state.globalDsl.sections || {}),
+            ...(state.footerDsl.sections || {}),
             [newId]: section
           },
-          order: orderWithNew
+          order: currentOrder.includes('footer') ? currentOrder : [...currentOrder, 'footer']
         }
         state.selectedSectionId = newId
         state.selectedBlockId = ''
@@ -163,25 +186,52 @@ const decorationStore = {
         return
       }
 
-      if (state.globalDsl.sections?.[type]) {
+      if (type === 'announcement-bar') {
+        const section = createTypedSection('announcement-bar')
+        const newId = section.id
+        const currentOrder = Array.isArray(state.headerDsl.order)
+          ? state.headerDsl.order.slice()
+          : []
+        let insertAt = typeof requestedIndex === 'number' ? requestedIndex : currentOrder.length
+        insertAt = Math.max(0, Math.min(insertAt, currentOrder.length))
+        currentOrder.splice(insertAt, 0, newId)
+
+        state.headerDsl = {
+          ...state.headerDsl,
+          sections: {
+            ...(state.headerDsl.sections || {}),
+            [newId]: section
+          },
+          order: currentOrder
+        }
+        state.selectedSectionId = newId
+        state.selectedBlockId = ''
+        if (!state.expandedSectionIds.includes(newId)) {
+          state.expandedSectionIds = [...state.expandedSectionIds, newId]
+        }
+        state.editingScope = 'global'
+        return
+      }
+
+      if (state.headerDsl.sections?.[type]) {
         state.selectedSectionId = type
         state.selectedBlockId = ''
         state.editingScope = 'global'
         return
       }
-      const section = createDefaultSection(type)
+      const section = createTypedSection(type)
       section.id = type
-      state.globalDsl = {
-        ...state.globalDsl,
+      const currentOrder = Array.isArray(state.headerDsl.order) ? state.headerDsl.order.slice() : []
+      const insertIndex = typeof requestedIndex === 'number' ? requestedIndex : currentOrder.length
+      currentOrder.splice(Math.max(0, Math.min(insertIndex, currentOrder.length)), 0, type)
+      state.headerDsl = {
+        ...state.headerDsl,
         sections: {
-          ...(state.globalDsl.sections || {}),
+          ...(state.headerDsl.sections || {}),
           [type]: section
-        }
+        },
+        order: currentOrder
       }
-      const currentOrder = Array.isArray(state.globalDsl.order) ? state.globalDsl.order.slice() : []
-      const insertIndex = currentOrder.includes('header') ? currentOrder.indexOf('header') : 0
-      currentOrder.splice(insertIndex, 0, type)
-      state.globalDsl.order = currentOrder
       state.selectedSectionId = type
       state.selectedBlockId = ''
       if (!state.expandedSectionIds.includes(type)) {
@@ -213,16 +263,16 @@ const decorationStore = {
     removeSection(state, sectionId) {
       if (!sectionId) return
       if (sectionId === 'header' || sectionId === 'footer') return
-      const globalSection = state.globalDsl?.sections?.[sectionId]
+      const globalSection = state.headerDsl?.sections?.[sectionId]
       if (globalSection) {
         if (globalSection.type !== 'announcement-bar') return
-        const nextGlobal = cloneDeep(state.globalDsl)
-        delete nextGlobal.sections[sectionId]
-        nextGlobal.order = (nextGlobal.order || []).filter((id) => id !== sectionId)
-        state.globalDsl = nextGlobal
+        const nextHeader = cloneDeep(state.headerDsl)
+        delete nextHeader.sections[sectionId]
+        nextHeader.order = (nextHeader.order || []).filter((id) => id !== sectionId)
+        state.headerDsl = nextHeader
         state.expandedSectionIds = state.expandedSectionIds.filter((id) => id !== sectionId)
         if (state.selectedSectionId === sectionId) {
-          state.selectedSectionId = state.globalDsl.order.find((id) => id !== 'footer') || 'header'
+          state.selectedSectionId = state.headerDsl.order[0] || 'header'
           state.selectedBlockId = ''
         }
         return
@@ -235,7 +285,7 @@ const decorationStore = {
       }
     },
     duplicateSection(state, sectionId) {
-      state.dsl = duplicateSection(state.dsl, sectionId, createDefaultSection)
+      state.dsl = duplicateSection(state.dsl, sectionId, createTypedSection)
     },
     moveSection(state, { sectionId, targetIndex }) {
       if (isGlobalSection(state, sectionId)) {
@@ -251,12 +301,12 @@ const decorationStore = {
     },
     addBlock(state, { sectionId, blockType, index }) {
       const scopeKey = resolveScopeKey(state, sectionId)
-      const block = createDefaultBlock(state[scopeKey].sections[sectionId].type, blockType)
+      const block = createTypedBlock(state[scopeKey].sections[sectionId].type, blockType)
       const insertAt = typeof index === 'number' && !Number.isNaN(index) ? index : undefined
       state[scopeKey] = insertBlock(state[scopeKey], sectionId, block, insertAt)
       state.selectedSectionId = sectionId
       state.selectedBlockId = block.id
-      state.editingScope = scopeKey === 'globalDsl' ? 'global' : 'page'
+      state.editingScope = scopeKey === 'dsl' ? 'page' : 'global'
     },
     removeBlock(state, { sectionId, blockId }) {
       const scopeKey = resolveScopeKey(state, sectionId)
@@ -300,20 +350,37 @@ const decorationStore = {
     },
     setGlobalOrder(state, nextOrder) {
       const incoming = Array.isArray(nextOrder) ? nextOrder.filter(Boolean) : []
-      const sections = state.globalDsl?.sections || {}
-      const seen = new Set()
-      const body = []
+      const headerSections = state.headerDsl?.sections || {}
+      const footerSections = state.footerDsl?.sections || {}
+      const seenHeader = new Set()
+      const seenFooter = new Set()
+      const headerOrder = []
+      const footerOrder = []
       for (const id of incoming) {
         if (id === 'footer') continue
-        if (!sections[id] || seen.has(id)) continue
-        seen.add(id)
-        body.push(id)
+        if (headerSections[id] && !seenHeader.has(id)) {
+          seenHeader.add(id)
+          headerOrder.push(id)
+          continue
+        }
+        if (footerSections[id] && !seenFooter.has(id)) {
+          seenFooter.add(id)
+          footerOrder.push(id)
+        }
       }
-      const hasFooter = Boolean(sections.footer)
-      const orderOut = hasFooter ? [...body, 'footer'] : body
-      state.globalDsl = {
-        ...state.globalDsl,
-        order: orderOut
+      if (!seenHeader.has('header') && headerSections.header) {
+        headerOrder.unshift('header')
+      }
+      Object.keys(footerSections).forEach((id) => {
+        if (id !== 'footer' && !seenFooter.has(id)) footerOrder.push(id)
+      })
+      state.headerDsl = {
+        ...state.headerDsl,
+        order: headerOrder
+      }
+      state.footerDsl = {
+        ...state.footerDsl,
+        order: [...footerOrder, 'footer']
       }
     },
     setPreviewReady(state, value) {
@@ -328,5 +395,4 @@ const decorationStore = {
   }
 }
 
-module.exports = decorationStore
-module.exports.default = decorationStore
+export default decorationStore

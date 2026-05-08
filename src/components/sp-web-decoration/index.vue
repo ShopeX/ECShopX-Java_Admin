@@ -50,6 +50,8 @@
         <StructurePanel
           :dsl="dsl"
           :global-dsl="globalDsl"
+          :header-dsl="headerDsl"
+          :footer-dsl="footerDsl"
           :selected-section-id="selectedSectionId"
           :selected-block-id="selectedBlockId"
           :expanded-section-ids="expandedSectionIds"
@@ -74,7 +76,8 @@
       <div class="min-w-0 min-h-0 h-full">
         <PreviewCanvas
           :dsl="dsl"
-          :global-dsl="globalDsl"
+          :header-dsl="headerDsl"
+          :footer-dsl="footerDsl"
           :page-type="pageType"
           :page-id="pageId"
           :template-id="templateId"
@@ -111,7 +114,8 @@ import StructurePanel from './components/StructurePanel.vue'
 import PreviewCanvas from './components/PreviewCanvas.vue'
 import ConfigPanel from './components/ConfigPanel.vue'
 
-const { getSectionTypes, getSectionDefinition } = require('./registry')
+import { getSectionTypesByScope, getTypedSectionDefinition } from './definitions/registry.js'
+import { composeGlobalDsl } from './utils/dsl.js'
 
 function cloneValue(value) {
   return JSON.parse(JSON.stringify(value))
@@ -151,7 +155,7 @@ export default {
     },
     websiteUrl: {
       type: String,
-      default: () => (process.env.VUE_APP_WEBSITE || '') + '?preview=true&designMode=1'
+      default: () => (process.env.VUE_APP_WEBSITE || '') + '?designMode=1'
     }
   },
   data() {
@@ -166,8 +170,17 @@ export default {
     dsl() {
       return this.$store.state.decoration.dsl
     },
+    headerDsl() {
+      return this.$store.state.decoration.headerDsl
+    },
+    footerDsl() {
+      return this.$store.state.decoration.footerDsl
+    },
     globalDsl() {
-      return this.$store.state.decoration.globalDsl
+      return composeGlobalDsl({
+        headerDsl: this.headerDsl,
+        footerDsl: this.footerDsl
+      })
     },
     pageId() {
       return this.$store.state.decoration.pageId
@@ -194,7 +207,7 @@ export default {
       return this.selectedBlockId ? this.$store.getters['decoration/currentBlock'] : null
     },
     sectionDefinitions() {
-      return getSectionTypes().map((type) => getSectionDefinition(type))
+      return getSectionTypesByScope('template').map((type) => getTypedSectionDefinition(type))
     },
     titleText() {
       return this.title || this.$t('30ac5b9e.6741a0')
@@ -227,8 +240,9 @@ export default {
   methods: {
     snapshotState() {
       return {
+        headerDsl: cloneValue(this.headerDsl),
         dsl: cloneValue(this.dsl),
-        globalDsl: cloneValue(this.globalDsl),
+        footerDsl: cloneValue(this.footerDsl),
         selectedSectionId: this.selectedSectionId,
         selectedBlockId: this.selectedBlockId
       }
@@ -247,8 +261,9 @@ export default {
     },
     restoreSnapshot(snapshot) {
       this.isRestoringHistory = true
+      this.$store.commit('decoration/setHeaderDsl', cloneValue(snapshot.headerDsl))
       this.$store.commit('decoration/setDsl', cloneValue(snapshot.dsl))
-      this.$store.commit('decoration/setGlobalDsl', cloneValue(snapshot.globalDsl))
+      this.$store.commit('decoration/setFooterDsl', cloneValue(snapshot.footerDsl))
       if (snapshot.selectedBlockId) {
         this.$store.commit('decoration/selectBlock', {
           sectionId: snapshot.selectedSectionId,

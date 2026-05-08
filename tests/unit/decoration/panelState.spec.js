@@ -10,7 +10,9 @@ const {
   removeSectionBlock,
   sanitizeProductItemIds
 } = require('../../../src/components/sp-web-decoration/utils/panelState')
-const { createDefaultBlock } = require('../../../src/components/sp-web-decoration/registry')
+const {
+  createTypedBlock: createDefaultBlock
+} = require('../../../src/components/sp-web-decoration/definitions/factory')
 
 const tests = []
 
