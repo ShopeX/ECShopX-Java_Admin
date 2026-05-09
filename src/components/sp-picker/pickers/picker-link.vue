@@ -72,7 +72,7 @@ import { i18n } from '@/i18n'
 import BasePicker from './base'
 import PageMixin from '../mixins/page'
 export default {
-  name: 'PickerPages',
+  name: 'PickerLink',
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
@@ -135,13 +135,16 @@ export default {
         { id: 'hottopic', title: this.$t('223cc8af.26b2d6') }
       ]
     }
-    if (this.value.data) {
-      const selectRows = this.list.filter((item) => this.value.data.includes(item.id))
-      const { finderTable } = this.$refs.finder.$refs
-      setTimeout(() => {
-        finderTable.$refs.finderTable.setSelection(selectRows)
-      })
-    }
+    const raw = this.value?.data
+    if (raw == null || raw === '') return
+    const selectedIds = Array.isArray(raw) ? raw : [raw]
+    const selectRows = this.list.filter((item) => selectedIds.map(String).includes(String(item.id)))
+    if (!selectRows.length) return
+    const finderTable = this.$refs.finder?.$refs?.finderTable
+    if (!finderTable?.$refs?.finderTable) return
+    setTimeout(() => {
+      finderTable.$refs.finderTable.setSelection(selectRows)
+    })
   },
   methods: {
     onSearch() {
