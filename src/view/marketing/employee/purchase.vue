@@ -5,124 +5,157 @@
 
 <style lang="scss">
 .marketing-employee-purchase {
+
   .activity-name,
   .activity-title {
     max-width: 480px;
   }
+
   .link-home {
     margin-right: 4px;
   }
+
   .company-list {
     width: 100%;
     max-width: 1200px;
+
     .el-input {
       max-width: 480px;
     }
+
     .el-select__tags {
       max-width: 100% !important;
     }
   }
+
   .el-range-separator {
     width: 30px;
   }
+
   .activity-pic-field {
     margin-top: 10px;
+
     .form-item-tip {
       margin-bottom: 4px;
     }
   }
+
   .company-list {
     .el-tag {
       margin-right: 8px;
     }
   }
+
   .preheat-time {
     .el-date-editor--datetime {
       margin: 0 8px;
     }
   }
+
   .activity-employee-field {
     .form-item-content {
       label {
         margin-right: 10px;
         white-space: nowrap;
       }
+
       &:not(:last-child) {
         margin-bottom: 6px;
       }
     }
+
     .form-item-tip {
       margin-top: 4px;
     }
+
     .content-item {
       display: flex;
       align-items: center;
     }
   }
+
   .purchase-inline-fade-enter-active,
   .purchase-inline-fade-leave-active {
     transition: opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1);
   }
+
   .purchase-inline-fade-enter,
   .purchase-inline-fade-leave-to {
     opacity: 0;
   }
+
   .activity-relatives-field {
     margin-top: 10px;
+
     .form-item-content {
       label {
         margin-right: 10px;
         white-space: nowrap;
       }
+
       &:not(:last-child) {
         margin-bottom: 6px;
       }
     }
+
     .form-item-tip {
       margin-left: 10px;
     }
+
     .content-item {
       display: flex;
     }
+
     .item-wrap {
       display: flex;
       align-items: center;
+
       &:not(:last-child) {
         margin-bottom: 8px;
       }
+
       .el-radio {
         margin-right: 0;
       }
+
       .el-radio__label {
         color: #666;
       }
     }
   }
+
   .activity-limit-field {
     margin-top: 10px;
+
     .content-item {
       display: flex;
       align-items: flex-start;
       margin-bottom: 10px;
+
       label {
         margin-right: 10px;
       }
+
       .sp-input {
         flex: 1;
       }
+
       .item-wrap {
         display: flex;
         align-items: center;
       }
     }
   }
+
   .passphrase-enterprise-block {
     width: 100%;
     min-width: 880px;
     max-width: 1200px;
+
     .passphrase-enterprise-table {
       width: 100%;
     }
+
     .passphrase-quota-header {
       display: inline-flex;
       align-items: center;
@@ -130,6 +163,7 @@
       gap: 4px 8px;
       vertical-align: middle;
     }
+
     .passphrase-batch-fill-btn {
       padding: 0;
       font-size: 12px;
@@ -141,20 +175,24 @@
 .passphrase-batch-fill-popover {
   padding: 4px 2px 2px;
   box-sizing: border-box;
+
   .passphrase-batch-fill-popover__field {
     display: block;
     margin-bottom: 20px;
   }
+
   .el-input {
     display: block;
     width: 100%;
   }
+
   .passphrase-batch-fill-popover__actions {
     margin-top: 4px;
     padding-top: 16px;
     border-top: 1px solid #ebeef5;
     text-align: right;
   }
+
   .passphrase-batch-code-popover__tip {
     margin: 0 0 12px;
     font-size: 13px;
@@ -167,6 +205,7 @@
   .purchase-store-home-picker__filter {
     margin-bottom: 12px;
   }
+
   .purchase-store-home-picker__shop {
     width: 280px;
   }
@@ -175,61 +214,27 @@
 <template>
   <SpPage :title="$t('39e3acc2.34213d')">
     <template slot="page-footer">
-      <ActionsButton
-        class="text-center"
-        :disabled="footerSaveDisabled"
-        @save="onSubmitForm"
-      />
+      <ActionsButton class="text-center" :disabled="footerSaveDisabled" @save="onSubmitForm" />
     </template>
     <div class="marketing-employee-purchase">
       <el-card class="el-card--normal" :header="$t('39e3acc2.6ea1fe')">
-        <SpForm
-          ref="formBase"
-          v-model="formBase"
-          class="base-form"
-          show-message
-          :form-list="formBaseList"
-          :submit="false"
-        />
+        <SpForm ref="formBase" v-model="formBase" class="base-form" show-message :form-list="formBaseList"
+          :submit="false" />
       </el-card>
       <el-card class="el-card--normal" :header="$t('39e3acc2.02a217')">
-        <SpForm
-          ref="activityRule"
-          v-model="activityRule"
-          class="base-form"
-          show-message
-          :form-list="activityRuleListComputed"
-          :submit="false"
-          item-transition
-        />
+        <SpForm ref="activityRule" v-model="activityRule" class="base-form" show-message
+          :form-list="activityRuleListComputed" :submit="false" item-transition />
       </el-card>
     </div>
 
-    <el-dialog
-      :title="$t('39e3acc2.c4750a')"
-      :visible.sync="storeHomePickerVisible"
-      width="800px"
-      append-to-body
-      custom-class="purchase-store-home-picker-dialog"
-      @open="onStoreHomePickerOpen"
-    >
+    <el-dialog :title="$t('39e3acc2.c4750a')" :visible.sync="storeHomePickerVisible" width="800px" append-to-body
+      custom-class="purchase-store-home-picker-dialog" @open="onStoreHomePickerOpen">
       <div v-if="IS_ADMIN()" class="purchase-store-home-picker__filter">
-        <SpSelectShop
-          v-model="storeHomePickerFilterDistributorId"
-          clearable
-          :placeholder="$t('0255d436.708c9d')"
-          class="purchase-store-home-picker__shop"
-          @change="onStoreHomePickerFilterChange"
-        />
+        <SpSelectShop v-model="storeHomePickerFilterDistributorId" clearable :placeholder="$t('0255d436.708c9d')"
+          class="purchase-store-home-picker__shop" @change="onStoreHomePickerFilterChange" />
       </div>
-      <el-table
-        v-loading="storeHomePickerLoading"
-        border
-        :data="storeHomeList"
-        highlight-current-row
-        max-height="360"
-        @row-click="onStoreHomeTableRowClick"
-      >
+      <el-table v-loading="storeHomePickerLoading" border :data="storeHomeList" highlight-current-row max-height="360"
+        @row-click="onStoreHomeTableRowClick">
         <el-table-column width="52" align="center">
           <template slot-scope="scope">
             <el-radio v-model="storeHomePickerPickedId" :label="scope.row.id">&nbsp;</el-radio>
@@ -241,14 +246,9 @@
         <el-table-column prop="template_name" :label="$t('0255d436.49bcb8')" min-width="120" />
       </el-table>
       <div class="mt-4 text-right">
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          :current-page="storeHomeParams.page"
-          :total="storeHomeTotal"
-          :page-size="storeHomeParams.pageSize"
-          @current-change="handleStoreHomePickerPageChange"
-        />
+        <el-pagination background layout="prev, pager, next" :current-page="storeHomeParams.page"
+          :total="storeHomeTotal" :page-size="storeHomeParams.pageSize"
+          @current-change="handleStoreHomePickerPageChange" />
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="storeHomePickerVisible = false">{{ $t('bea3f44a.625fb2') }}</el-button>
@@ -557,171 +557,171 @@ export default {
             const codeCellDisabled = ruleLocked ? true : disabled
             const tableLimitfeeDisabled = ruleLocked ? true : disabled
             return (
-            <div class='passphrase-enterprise-block'>
-              <el-table
-                class='passphrase-enterprise-table'
-                data={self.activityRule.passphraseRows}
-                border
-                size='small'
-              >
-                <el-table-column label={t('39e3acc2.e8b1a5')} prop='name' min-width='180' show-overflow-tooltip />
-                <el-table-column label={t('39e3acc2.e8b1a6')} prop='enterprise_sn' min-width='140' show-overflow-tooltip />
-                <el-table-column
-                  min-width='200'
-                  scopedSlots={{
-                    header: () => (
-                      <span class='passphrase-quota-header'>
-                        <span>{t('39e3acc2.e8b1a7')}</span>
-                        <el-popover
-                          props={{
-                            value: self.passphraseBatchQuotaPopoverVisible,
-                            placement: 'top',
-                            width: '280',
-                            trigger: 'click'
-                          }}
-                          on={{
-                            input: (v) => {
-                              self.passphraseBatchQuotaPopoverVisible = v
-                            }
-                          }}
-                        >
-                          <div class='passphrase-batch-fill-popover'>
-                            <div class='passphrase-batch-fill-popover__field'>
-                              <el-input
-                                v-model={self.passphraseBatchQuotaDraft}
-                                size='small'
-                                placeholder={t('39e3acc2.e8b1ae')}
-                                nativeOn={{
-                                  keyup: (e) => {
-                                    if (e.key === 'Enter') {
-                                      self.confirmPassphraseBatchParticipateQuota()
+              <div class='passphrase-enterprise-block'>
+                <el-table
+                  class='passphrase-enterprise-table'
+                  data={self.activityRule.passphraseRows}
+                  border
+                  size='small'
+                >
+                  <el-table-column label={t('39e3acc2.e8b1a5')} prop='name' min-width='180' show-overflow-tooltip />
+                  <el-table-column label={t('39e3acc2.e8b1a6')} prop='enterprise_sn' min-width='140' show-overflow-tooltip />
+                  <el-table-column
+                    min-width='200'
+                    scopedSlots={{
+                      header: () => (
+                        <span class='passphrase-quota-header'>
+                          <span>{t('39e3acc2.e8b1a7')}</span>
+                          <el-popover
+                            props={{
+                              value: self.passphraseBatchQuotaPopoverVisible,
+                              placement: 'top',
+                              width: '280',
+                              trigger: 'click'
+                            }}
+                            on={{
+                              input: (v) => {
+                                self.passphraseBatchQuotaPopoverVisible = v
+                              }
+                            }}
+                          >
+                            <div class='passphrase-batch-fill-popover'>
+                              <div class='passphrase-batch-fill-popover__field'>
+                                <el-input
+                                  v-model={self.passphraseBatchQuotaDraft}
+                                  size='small'
+                                  placeholder={t('39e3acc2.e8b1ae')}
+                                  nativeOn={{
+                                    keyup: (e) => {
+                                      if (e.key === 'Enter') {
+                                        self.confirmPassphraseBatchParticipateQuota()
+                                      }
                                     }
-                                  }
-                                }}
-                              />
+                                  }}
+                                />
+                              </div>
+                              <div class='passphrase-batch-fill-popover__actions'>
+                                <el-button
+                                  type='text'
+                                  size='mini'
+                                  on-click={() => {
+                                    self.passphraseBatchQuotaPopoverVisible = false
+                                  }}
+                                >
+                                  {t('bea3f44a.625fb2')}
+                                </el-button>
+                                <el-button
+                                  type='primary'
+                                  size='mini'
+                                  on-click={self.confirmPassphraseBatchParticipateQuota}
+                                >
+                                  {t('39e3acc2.e8b1b1')}
+                                </el-button>
+                              </div>
                             </div>
-                            <div class='passphrase-batch-fill-popover__actions'>
-                              <el-button
-                                type='text'
-                                size='mini'
-                                on-click={() => {
-                                  self.passphraseBatchQuotaPopoverVisible = false
-                                }}
-                              >
-                                {t('bea3f44a.625fb2')}
-                              </el-button>
-                              <el-button
-                                type='primary'
-                                size='mini'
-                                on-click={self.confirmPassphraseBatchParticipateQuota}
-                              >
-                                {t('39e3acc2.e8b1b1')}
-                              </el-button>
-                            </div>
-                          </div>
-                          <el-button
-                            slot='reference'
-                            type='text'
-                            class='passphrase-batch-fill-btn'
-                            disabled={batchLocked || disabled}
+                            <el-button
+                              slot='reference'
+                              type='text'
+                              class='passphrase-batch-fill-btn'
+                              disabled={batchLocked || disabled}
+                            >
+                              {t('39e3acc2.e8b1ad')}
+                            </el-button>
+                          </el-popover>
+                        </span>
+                      ),
+                      default: (scope) => (
+                        <SpInput
+                          v-model={scope.row.participate_quota}
+                          width='120px'
+                          disabled={quotaCellDisabled}
+                          placeholder={t('39e3acc2.ea6c91')}
+                        />
+                      )
+                    }}
+                  />
+                  <el-table-column
+                    label={t('39e3acc2.e8b1a8')}
+                    min-width='160'
+                    scopedSlots={{
+                      default: (scope) => (
+                        <SpInput
+                          v-model={scope.row.passphrase_limitfee}
+                          width='120px'
+                          disabled={tableLimitfeeDisabled}
+                          placeholder={t('39e3acc2.ea6c91')}
+                          suffix={t('39e3acc2.c16655')}
+                        />
+                      )
+                    }}
+                  />
+                  <el-table-column
+                    min-width='200'
+                    scopedSlots={{
+                      header: () => (
+                        <span class='passphrase-quota-header'>
+                          <span>{t('39e3acc2.e8b1a9')}</span>
+                          <el-popover
+                            props={{
+                              value: self.passphraseBatchCodePopoverVisible,
+                              placement: 'top',
+                              width: '300',
+                              trigger: 'click'
+                            }}
+                            on={{
+                              input: (v) => {
+                                self.passphraseBatchCodePopoverVisible = v
+                              }
+                            }}
                           >
-                            {t('39e3acc2.e8b1ad')}
-                          </el-button>
-                        </el-popover>
-                      </span>
-                    ),
-                    default: (scope) => (
-                      <SpInput
-                        v-model={scope.row.participate_quota}
-                        width='120px'
-                        disabled={quotaCellDisabled}
-                        placeholder={t('39e3acc2.ea6c91')}
-                      />
-                    )
-                  }}
-                />
-                <el-table-column
-                  label={t('39e3acc2.e8b1a8')}
-                  min-width='160'
-                  scopedSlots={{
-                    default: (scope) => (
-                      <SpInput
-                        v-model={scope.row.passphrase_limitfee}
-                        width='120px'
-                        disabled={tableLimitfeeDisabled}
-                        placeholder={t('39e3acc2.ea6c91')}
-                        suffix={t('39e3acc2.c16655')}
-                      />
-                    )
-                  }}
-                />
-                <el-table-column
-                  min-width='200'
-                  scopedSlots={{
-                    header: () => (
-                      <span class='passphrase-quota-header'>
-                        <span>{t('39e3acc2.e8b1a9')}</span>
-                        <el-popover
-                          props={{
-                            value: self.passphraseBatchCodePopoverVisible,
-                            placement: 'top',
-                            width: '300',
-                            trigger: 'click'
-                          }}
-                          on={{
-                            input: (v) => {
-                              self.passphraseBatchCodePopoverVisible = v
-                            }
-                          }}
-                        >
-                          <div class='passphrase-batch-fill-popover'>
-                            <p class='passphrase-batch-code-popover__tip'>{t('39e3acc2.e8b1b3')}</p>
-                            <div class='passphrase-batch-fill-popover__actions'>
-                              <el-button
-                                type='text'
-                                size='mini'
-                                disabled={self.passphraseBatchCodeGenerating}
-                                on-click={() => {
-                                  self.passphraseBatchCodePopoverVisible = false
-                                }}
-                              >
-                                {t('bea3f44a.625fb2')}
-                              </el-button>
-                              <el-button
-                                type='primary'
-                                size='mini'
-                                loading={self.passphraseBatchCodeGenerating}
-                                on-click={self.confirmPassphraseBatchGenerateCodes}
-                              >
-                                {t('39e3acc2.e8b1b1')}
-                              </el-button>
+                            <div class='passphrase-batch-fill-popover'>
+                              <p class='passphrase-batch-code-popover__tip'>{t('39e3acc2.e8b1b3')}</p>
+                              <div class='passphrase-batch-fill-popover__actions'>
+                                <el-button
+                                  type='text'
+                                  size='mini'
+                                  disabled={self.passphraseBatchCodeGenerating}
+                                  on-click={() => {
+                                    self.passphraseBatchCodePopoverVisible = false
+                                  }}
+                                >
+                                  {t('bea3f44a.625fb2')}
+                                </el-button>
+                                <el-button
+                                  type='primary'
+                                  size='mini'
+                                  loading={self.passphraseBatchCodeGenerating}
+                                  on-click={self.confirmPassphraseBatchGenerateCodes}
+                                >
+                                  {t('39e3acc2.e8b1b1')}
+                                </el-button>
+                              </div>
                             </div>
-                          </div>
-                          <el-button
-                            slot='reference'
-                            type='text'
-                            class='passphrase-batch-fill-btn'
-                            disabled={batchLocked || disabled}
-                            loading={self.passphraseBatchCodeGenerating}
-                          >
-                            {t('39e3acc2.e8b1b2')}
-                          </el-button>
-                        </el-popover>
-                      </span>
-                    ),
-                    default: (scope) => (
-                      <el-input
-                        v-model={scope.row.passphrase_code}
-                        disabled={codeCellDisabled}
-                        maxlength={64}
-                        placeholder={t('39e3acc2.e8b1a9')}
-                        size='small'
-                      />
-                    )
-                  }}
-                />
-              </el-table>
-            </div>
+                            <el-button
+                              slot='reference'
+                              type='text'
+                              class='passphrase-batch-fill-btn'
+                              disabled={batchLocked || disabled}
+                              loading={self.passphraseBatchCodeGenerating}
+                            >
+                              {t('39e3acc2.e8b1b2')}
+                            </el-button>
+                          </el-popover>
+                        </span>
+                      ),
+                      default: (scope) => (
+                        <el-input
+                          v-model={scope.row.passphrase_code}
+                          disabled={codeCellDisabled}
+                          maxlength={64}
+                          placeholder={t('39e3acc2.e8b1a9')}
+                          size='small'
+                        />
+                      )
+                    }}
+                  />
+                </el-table>
+              </div>
             )
           },
           disabled: false,
@@ -877,7 +877,9 @@ export default {
                       <el-date-picker
                         v-model={self.activityRule.relatives.datetime}
                         disabled={datetime}
-                        type='daterange'
+                        type='datetimerange'
+                        format='yyyy-MM-dd HH:mm:ss'
+                        defaultTime={['00:00:00', '23:59:59']}
                         range-separator={t('bea3f44a.981cbe')}
                         start-placeholder={t('39e3acc2.592c59')}
                         end-placeholder={t('39e3acc2.f78277')}
@@ -1094,17 +1096,17 @@ export default {
       console.log('priceData', priceData)
 
       const phraseMap = {}
-      ;(res.passphrase_enterprises || []).forEach((pe) => {
-        const eid = pe.enterprise_id
-        phraseMap[eid] = {
-          participate_quota: pe.participate_quota,
-          passphrase_code: pe.passphrase_code || '',
-          passphrase_limitfee:
-            pe.passphrase_limitfee != null && pe.passphrase_limitfee !== ''
-              ? Number(pe.passphrase_limitfee) / 100
-              : ''
-        }
-      })
+        ; (res.passphrase_enterprises || []).forEach((pe) => {
+          const eid = pe.enterprise_id
+          phraseMap[eid] = {
+            participate_quota: pe.participate_quota,
+            passphrase_code: pe.passphrase_code || '',
+            passphrase_limitfee:
+              pe.passphrase_limitfee != null && pe.passphrase_limitfee !== ''
+                ? Number(pe.passphrase_limitfee) / 100
+                : ''
+          }
+        })
       const passphraseRows = list.map((c) => {
         const pm = phraseMap[c.id]
         return {
