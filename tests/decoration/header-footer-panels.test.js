@@ -19,16 +19,24 @@ function testHeaderFooterBlockPanelFilesExist() {
 
 function testRegistryAndConfigPanelWireHeaderFooterBlocks() {
   const registrySource = read('src/components/sp-web-decoration/definitions/registry.js')
+  const headerDefinitionSource = read(
+    'src/components/sp-web-decoration/definitions/sections/header.js'
+  )
+  const footerDefinitionSource = read(
+    'src/components/sp-web-decoration/definitions/sections/footer.js'
+  )
   const panelStateSource = read('src/components/sp-web-decoration/utils/panelState.js')
   const configPanelSource = read('src/components/sp-web-decoration/components/ConfigPanel.vue')
 
   assert.match(panelStateSource, /normalizeHeaderSettings/)
   assert.match(panelStateSource, /normalizeFooterSettings/)
-  assert.match(registrySource, /DEFAULT_HEADER_SETTINGS/)
-  assert.match(registrySource, /type: 'header'/)
-  assert.match(registrySource, /type: 'nav-item'/)
-  assert.match(registrySource, /type: 'footer'/)
-  assert.match(registrySource, /type: 'footer-link'/)
+  assert.match(registrySource, /headerSection/)
+  assert.match(registrySource, /footerSection/)
+  assert.match(headerDefinitionSource, /type: 'header'/)
+  assert.match(headerDefinitionSource, /header_product_list/)
+  assert.match(headerDefinitionSource, /mega_menu/)
+  assert.match(footerDefinitionSource, /type: 'footer'/)
+  assert.match(footerDefinitionSource, /footer-link/)
 
   assert.match(configPanelSource, /HeaderPanel/)
   assert.match(configPanelSource, /FooterPanel/)
@@ -65,9 +73,10 @@ function testHeaderFooterPanelFieldsFollowPlan() {
   assert.match(panelStateSource, /newsletter_enable/)
   assert.match(panelStateSource, /enable_brand_information/)
 
-  assert.match(headerPanelSource, /title/)
-  assert.match(headerPanelSource, /logoUrl/)
-  assert.match(headerPanelSource, /backgroundColor/)
+  assert.match(headerPanelSource, /normalizeHeaderSettings/)
+  assert.match(headerPanelSource, /settings\.menu/)
+  assert.match(headerPanelSource, /main-menu/)
+  assert.match(headerPanelSource, /currentMenuLabel/)
   assert.match(footerPanelSource, /title/)
   assert.match(footerPanelSource, /copyright/)
   assert.match(footerPanelSource, /backgroundColor/)

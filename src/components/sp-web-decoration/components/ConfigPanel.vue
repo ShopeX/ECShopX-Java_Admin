@@ -3,7 +3,7 @@
     <div
       class="flex min-h-12 items-center justify-between gap-2.5 border-b border-[#e6e9ef] px-[14px] py-[10px]"
     >
-      <div class="text-xs font-semibold text-[#18222f]">
+      <div class="text-sm font-semibold text-[#18222f]">
         {{ $t('250dc970.6aab38') }}
       </div>
       <div v-if="currentTitle" class="text-[11px] text-[#6b7785]">

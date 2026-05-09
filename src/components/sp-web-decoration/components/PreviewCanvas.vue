@@ -3,7 +3,7 @@
     <div
       class="relative flex min-h-12 shrink-0 items-center gap-2 border-b border-[#e6e9ef] bg-white px-[14px] py-[10px]"
     >
-      <div class="min-w-0 max-w-[38%] truncate text-xs font-semibold text-[#18222f]">
+      <div class="min-w-0 max-w-[38%] truncate text-sm font-semibold text-[#18222f]">
         {{ $t('01f158e9.2f586b') }}
       </div>
       <div
@@ -199,7 +199,7 @@ export default {
       console.log('[sp-web-decoration] PreviewCanvas mounted', {
         websiteUrl: this.websiteUrl,
         previewUrl: this.previewUrl,
-        previewOrigin: this.messenger.previewOrigin,
+        previewOrigin: this.messenger.previewOrigin
       })
       this.removeRawDebugListener = this.bindRawDebugListener()
       this.removeListener = this.messenger.onMessage(this.handleIncomingMessage)
@@ -233,7 +233,7 @@ export default {
           origin: event.origin,
           expectedOrigin: this.messenger?.previewOrigin || '',
           type: event.data.type,
-          data: event.data,
+          data: event.data
         })
       }
       window.addEventListener('message', listener)
@@ -252,7 +252,7 @@ export default {
         console.log('[sp-web-decoration] incoming message', {
           origin: event.origin,
           type: data.type,
-          previewOrigin: this.messenger?.previewOrigin || '',
+          previewOrigin: this.messenger?.previewOrigin || ''
         })
       }
 
@@ -288,7 +288,7 @@ export default {
         console.log('[sp-web-decoration] flush init', {
           iframeReady: this.iframeReady,
           previewOrigin: this.messenger.previewOrigin,
-          previewUrl: this.previewUrl,
+          previewUrl: this.previewUrl
         })
       }
       if (this.initRetryTimer) {
@@ -328,7 +328,7 @@ export default {
       if (!win || !this.messenger) return
       this.messenger.sendMessage(win, 'PREVIEW_READY_ACK', {
         pageType: this.pageType,
-        pageId: this.pageId,
+        pageId: this.pageId
       })
     },
     scheduleUpdate() {
