@@ -12,7 +12,7 @@ export default {
     menu_color_style: 'pure',
     menu_type_desktop: 'dropdown',
     show_line_separator: true,
-    menu: 'main-menu',
+    menu: null,
     color_style: 'pure',
     layout: 'middle',
     margin_bottom: 0,
@@ -27,7 +27,8 @@ export default {
   },
   defaultBlocks: [],
   blocks: {
-    allowed: ['header_product_list', 'header_collection_product_list', 'mega_menu'],
+    // allowed: ['header_product_list', 'header_collection_product_list', 'mega_menu'],
+    allowed: [],
     addable: true,
     sortable: true,
     removable: true

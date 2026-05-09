@@ -29,20 +29,15 @@
                 :key="sectionId"
                 class="flex flex-col gap-0"
               >
-                <div class="relative z-[3] py-0">
-                  <StructureInsertGap
-                    :label="$t('54e3d97e.2e2d33')"
-                    @click="toggleInsertMenu('section', 'header', sIdx, $event)"
-                  />
-                  <StructureInsertMenu
-                    v-if="isInsertMenuOpen('section', 'header', sIdx)"
-                    :items="sectionPickerItemsFor('header')"
-                    :dock-style="insertMenuDockStyle"
-                    :resolve-icon="sectionInsertIcon"
-                    show-icons
-                    @select="selectSectionType($event.type)"
-                  />
-                </div>
+                <StructureInsertPoint
+                  :label="$t('54e3d97e.2e2d33')"
+                  :open="isInsertMenuOpen('section', 'header', sIdx)"
+                  :items="sectionPickerItemsFor('header')"
+                  :dock-style="insertMenuDockStyle"
+                  show-icons
+                  @open="toggleInsertMenu('section', 'header', sIdx, $event)"
+                  @select="selectSectionType($event.type)"
+                />
                 <div class="space-y-0.5">
                   <StructureSectionRow
                     :section-id="sectionId"
@@ -75,19 +70,17 @@
                       :key="blockId"
                       class="flex flex-col gap-0"
                     >
-                      <div class="relative z-[2] py-0 pl-[50px]">
-                        <StructureInsertGap
-                          :label="$t('54e3d97e.fc318c')"
-                          block
-                          @click="toggleInsertMenu('block', sectionId, bIdx, $event)"
-                        />
-                        <StructureInsertMenu
-                          v-if="isInsertMenuOpen('block', sectionId, bIdx)"
-                          :items="getBlockPickerItems(getSectionType(sectionId))"
-                          :dock-style="insertMenuDockStyle"
-                          @select="selectBlockType(sectionId, $event.type)"
-                        />
-                      </div>
+                      <StructureInsertPoint
+                        :label="$t('54e3d97e.fc318c')"
+                        :open="isInsertMenuOpen('block', sectionId, bIdx)"
+                        :items="getBlockPickerItems(getSectionType(sectionId))"
+                        :dock-style="insertMenuDockStyle"
+                        block
+                        indent="block"
+                        layer="block"
+                        @open="toggleInsertMenu('block', sectionId, bIdx, $event)"
+                        @select="selectBlockType(sectionId, $event.type)"
+                      />
                       <StructureBlockRow
                         :section-id="sectionId"
                         :block-id="blockId"
@@ -105,74 +98,51 @@
                   </draggable>
 
                   <div v-if="isExpanded(sectionId)">
-                    <div class="relative pl-[52px]">
-                      <button
-                        v-if="getBlockPickerItems(getSectionType(sectionId)).length"
-                        type="button"
-                        class="mt-0.5 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] pl-0 pr-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                        @click="
-                          toggleInsertMenu(
-                            'block',
-                            sectionId,
-                            getBlockOrder(sectionId).length,
-                            $event
-                          )
-                        "
-                      >
-                        <CirclePlus
-                          :size="14"
-                          class="shrink-0 text-[#2563eb]"
-                          :stroke-width="2.5"
-                        />
-                        <span>{{ $t('54e3d97e.fc318c') }}</span>
-                      </button>
-
-                      <StructureInsertMenu
-                        v-if="isInsertMenuOpen('block', sectionId, getBlockOrder(sectionId).length)"
-                        :items="getBlockPickerItems(getSectionType(sectionId))"
-                        :dock-style="insertMenuDockStyle"
-                        @select="selectBlockType(sectionId, $event.type)"
-                      />
-                    </div>
+                    <StructureAddAction
+                      :visible="getBlockPickerItems(getSectionType(sectionId)).length > 0"
+                      :label="$t('54e3d97e.fc318c')"
+                      :open="isInsertMenuOpen('block', sectionId, getBlockOrder(sectionId).length)"
+                      :items="getBlockPickerItems(getSectionType(sectionId))"
+                      :dock-style="insertMenuDockStyle"
+                      container="block"
+                      flush-start
+                      top-spacing
+                      @open="
+                        toggleInsertMenu(
+                          'block',
+                          sectionId,
+                          getBlockOrder(sectionId).length,
+                          $event
+                        )
+                      "
+                      @select="selectBlockType(sectionId, $event.type)"
+                    />
                   </div>
                 </div>
               </div>
             </draggable>
 
-            <div class="relative z-[3] py-0">
-              <StructureInsertGap
-                :label="$t('54e3d97e.2e2d33')"
-                :icon-size="13"
-                @click="toggleInsertMenu('section', 'header', localHeaderZoneOrder.length, $event)"
-              />
-              <StructureInsertMenu
-                v-if="isInsertMenuOpen('section', 'header', localHeaderZoneOrder.length)"
-                :items="sectionPickerItemsFor('header')"
-                :dock-style="insertMenuDockStyle"
-                :resolve-icon="sectionInsertIcon"
-                show-icons
-                @select="selectSectionType($event.type)"
-              />
-            </div>
+            <StructureInsertPoint
+              :label="$t('54e3d97e.2e2d33')"
+              :open="isInsertMenuOpen('section', 'header', localHeaderZoneOrder.length)"
+              :items="sectionPickerItemsFor('header')"
+              :dock-style="insertMenuDockStyle"
+              :icon-size="13"
+              show-icons
+              @open="toggleInsertMenu('section', 'header', localHeaderZoneOrder.length, $event)"
+              @select="selectSectionType($event.type)"
+            />
 
-            <div class="relative mt-1 px-2 pb-0.5 pl-[34px]">
-              <button
-                type="button"
-                class="flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                @click="toggleInsertMenu('section', 'header', localHeaderZoneOrder.length, $event)"
-              >
-                <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
-                <span>{{ $t('54e3d97e.2e2d33') }}</span>
-              </button>
-              <StructureInsertMenu
-                v-if="isInsertMenuOpen('section', 'header', localHeaderZoneOrder.length)"
-                :items="sectionPickerItemsFor('header')"
-                :dock-style="insertMenuDockStyle"
-                :resolve-icon="sectionInsertIcon"
-                show-icons
-                @select="selectSectionType($event.type)"
-              />
-            </div>
+            <StructureAddAction
+              :label="$t('54e3d97e.2e2d33')"
+              :open="isInsertMenuOpen('section', 'header', localHeaderZoneOrder.length)"
+              :items="sectionPickerItemsFor('header')"
+              :dock-style="insertMenuDockStyle"
+              container="section"
+              show-icons
+              @open="toggleInsertMenu('section', 'header', localHeaderZoneOrder.length, $event)"
+              @select="selectSectionType($event.type)"
+            />
           </div>
         </div>
 
@@ -195,20 +165,15 @@
               :key="sectionId"
               class="flex flex-col gap-0"
             >
-              <div class="relative z-[3] py-0">
-                <StructureInsertGap
-                  :label="$t('54e3d97e.2e2d33')"
-                  @click="toggleInsertMenu('section', 'template', sIdx, $event)"
-                />
-                <StructureInsertMenu
-                  v-if="isInsertMenuOpen('section', 'template', sIdx)"
-                  :items="sectionPickerItemsFor('template')"
-                  :dock-style="insertMenuDockStyle"
-                  :resolve-icon="sectionInsertIcon"
-                  show-icons
-                  @select="selectSectionType($event.type)"
-                />
-              </div>
+              <StructureInsertPoint
+                :label="$t('54e3d97e.2e2d33')"
+                :open="isInsertMenuOpen('section', 'template', sIdx)"
+                :items="sectionPickerItemsFor('template')"
+                :dock-style="insertMenuDockStyle"
+                show-icons
+                @open="toggleInsertMenu('section', 'template', sIdx, $event)"
+                @select="selectSectionType($event.type)"
+              />
               <div class="space-y-1">
                 <StructureSectionRow
                   :section-id="sectionId"
@@ -238,19 +203,17 @@
                     :key="blockId"
                     class="flex flex-col gap-0"
                   >
-                    <div class="relative z-[2] py-0 pl-[50px]">
-                      <StructureInsertGap
-                        :label="$t('54e3d97e.fc318c')"
-                        block
-                        @click="toggleInsertMenu('block', sectionId, bIdx, $event)"
-                      />
-                      <StructureInsertMenu
-                        v-if="isInsertMenuOpen('block', sectionId, bIdx)"
-                        :items="getBlockPickerItems(getSectionType(sectionId))"
-                        :dock-style="insertMenuDockStyle"
-                        @select="selectBlockType(sectionId, $event.type)"
-                      />
-                    </div>
+                    <StructureInsertPoint
+                      :label="$t('54e3d97e.fc318c')"
+                      :open="isInsertMenuOpen('block', sectionId, bIdx)"
+                      :items="getBlockPickerItems(getSectionType(sectionId))"
+                      :dock-style="insertMenuDockStyle"
+                      block
+                      indent="block"
+                      layer="block"
+                      @open="toggleInsertMenu('block', sectionId, bIdx, $event)"
+                      @select="selectBlockType(sectionId, $event.type)"
+                    />
                     <StructureBlockRow
                       :section-id="sectionId"
                       :block-id="blockId"
@@ -268,94 +231,66 @@
                 </draggable>
 
                 <div v-if="isExpanded(sectionId)">
-                  <div class="relative pl-[52px]">
-                    <button
-                      v-if="getBlockPickerItems(getSectionType(sectionId)).length"
-                      type="button"
-                      class="mt-0.5 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] pl-0 pr-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                      @click="
-                        toggleInsertMenu(
-                          'block',
-                          sectionId,
-                          getBlockOrder(sectionId).length,
-                          $event
-                        )
-                      "
-                    >
-                      <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
-                      <span>{{ $t('54e3d97e.fc318c') }}</span>
-                    </button>
-
-                    <StructureInsertMenu
-                      v-if="isInsertMenuOpen('block', sectionId, getBlockOrder(sectionId).length)"
-                      :items="getBlockPickerItems(getSectionType(sectionId))"
-                      :dock-style="insertMenuDockStyle"
-                      @select="selectBlockType(sectionId, $event.type)"
-                    />
-                  </div>
+                  <StructureAddAction
+                    :visible="getBlockPickerItems(getSectionType(sectionId)).length > 0"
+                    :label="$t('54e3d97e.fc318c')"
+                    :open="isInsertMenuOpen('block', sectionId, getBlockOrder(sectionId).length)"
+                    :items="getBlockPickerItems(getSectionType(sectionId))"
+                    :dock-style="insertMenuDockStyle"
+                    container="block"
+                    flush-start
+                    top-spacing
+                    @open="
+                      toggleInsertMenu('block', sectionId, getBlockOrder(sectionId).length, $event)
+                    "
+                    @select="selectBlockType(sectionId, $event.type)"
+                  />
                 </div>
               </div>
             </div>
           </draggable>
 
-          <div v-if="localOrder.length" class="relative z-[3] py-0">
-            <StructureInsertGap
-              :label="$t('54e3d97e.2e2d33')"
-              :icon-size="13"
-              @click="toggleInsertMenu('section', 'template', localOrder.length, $event)"
-            />
-            <StructureInsertMenu
-              v-if="isInsertMenuOpen('section', 'template', localOrder.length)"
-              :items="sectionPickerItemsFor('template')"
-              :dock-style="insertMenuDockStyle"
-              :resolve-icon="sectionInsertIcon"
-              show-icons
-              @select="selectSectionType($event.type)"
-            />
-          </div>
+          <StructureInsertPoint
+            v-if="localOrder.length"
+            :label="$t('54e3d97e.2e2d33')"
+            :open="isInsertMenuOpen('section', 'template', localOrder.length)"
+            :items="sectionPickerItemsFor('template')"
+            :dock-style="insertMenuDockStyle"
+            :icon-size="13"
+            show-icons
+            @open="toggleInsertMenu('section', 'template', localOrder.length, $event)"
+            @select="selectSectionType($event.type)"
+          />
 
-          <div v-if="localOrder.length" class="relative mt-1 px-2 pb-0.5 pl-[34px]">
-            <button
-              type="button"
-              class="flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-              @click="toggleInsertMenu('section', 'template', localOrder.length, $event)"
-            >
-              <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
-              <span>{{ $t('54e3d97e.2e2d33') }}</span>
-            </button>
-            <StructureInsertMenu
-              v-if="isInsertMenuOpen('section', 'template', localOrder.length)"
-              :items="sectionPickerItemsFor('template')"
-              :dock-style="insertMenuDockStyle"
-              :resolve-icon="sectionInsertIcon"
-              show-icons
-              @select="selectSectionType($event.type)"
-            />
-          </div>
+          <StructureAddAction
+            v-if="localOrder.length"
+            :label="$t('54e3d97e.2e2d33')"
+            :open="isInsertMenuOpen('section', 'template', localOrder.length)"
+            :items="sectionPickerItemsFor('template')"
+            :dock-style="insertMenuDockStyle"
+            container="section"
+            show-icons
+            @open="toggleInsertMenu('section', 'template', localOrder.length, $event)"
+            @select="selectSectionType($event.type)"
+          />
 
           <div
             v-if="!localOrder.length"
             class="flex min-h-[180px] flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-[#d7dde7] bg-[#fbfbfc] p-6 text-center text-[#6b7785]"
           >
             <span>{{ $t('54e3d97e.bdf5be') }}</span>
-            <div class="relative w-full max-w-[240px]">
-              <button
-                type="button"
-                class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-0 bg-transparent py-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                @click="toggleInsertMenu('section', 'template-empty', 0, $event)"
-              >
-                <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
-                <span>{{ $t('54e3d97e.2e2d33') }}</span>
-              </button>
-              <StructureInsertMenu
-                v-if="isInsertMenuOpen('section', 'template-empty', 0)"
-                :items="sectionPickerItemsFor('template-empty')"
-                :dock-style="insertMenuDockStyle"
-                :resolve-icon="sectionInsertIcon"
-                show-icons
-                @select="selectSectionType($event.type)"
-              />
-            </div>
+            <StructureAddAction
+              :label="$t('54e3d97e.2e2d33')"
+              :open="isInsertMenuOpen('section', 'template-empty', 0)"
+              :items="sectionPickerItemsFor('template-empty')"
+              :dock-style="insertMenuDockStyle"
+              align="center"
+              container="empty"
+              relaxed
+              show-icons
+              @open="toggleInsertMenu('section', 'template-empty', 0, $event)"
+              @select="selectSectionType($event.type)"
+            />
           </div>
         </div>
 
@@ -366,24 +301,16 @@
             <span>{{ $t('54e3d97e.4eb88f') }}</span>
           </div>
           <div class="space-y-1">
-            <div class="relative mt-1 px-2 pb-0.5 pl-[34px]">
-              <button
-                type="button"
-                class="flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                @click="toggleInsertMenu('section', 'footer', localFooterZoneOrder.length, $event)"
-              >
-                <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
-                <span>{{ $t('54e3d97e.2e2d33') }}</span>
-              </button>
-              <StructureInsertMenu
-                v-if="isInsertMenuOpen('section', 'footer', localFooterZoneOrder.length)"
-                :items="sectionPickerItemsFor('footer')"
-                :dock-style="insertMenuDockStyle"
-                :resolve-icon="sectionInsertIcon"
-                show-icons
-                @select="selectSectionType($event.type)"
-              />
-            </div>
+            <StructureAddAction
+              :label="$t('54e3d97e.2e2d33')"
+              :open="isInsertMenuOpen('section', 'footer', localFooterZoneOrder.length)"
+              :items="sectionPickerItemsFor('footer')"
+              :dock-style="insertMenuDockStyle"
+              container="section"
+              show-icons
+              @open="toggleInsertMenu('section', 'footer', localFooterZoneOrder.length, $event)"
+              @select="selectSectionType($event.type)"
+            />
 
             <draggable
               v-if="localFooterZoneOrder.length"
@@ -398,20 +325,15 @@
                 :key="sectionId"
                 class="flex flex-col gap-0"
               >
-                <div class="relative z-[3] py-0">
-                  <StructureInsertGap
-                    :label="$t('54e3d97e.2e2d33')"
-                    @click="toggleInsertMenu('section', 'footer', sIdx, $event)"
-                  />
-                  <StructureInsertMenu
-                    v-if="isInsertMenuOpen('section', 'footer', sIdx)"
-                    :items="sectionPickerItemsFor('footer')"
-                    :dock-style="insertMenuDockStyle"
-                    :resolve-icon="sectionInsertIcon"
-                    show-icons
-                    @select="selectSectionType($event.type)"
-                  />
-                </div>
+                <StructureInsertPoint
+                  :label="$t('54e3d97e.2e2d33')"
+                  :open="isInsertMenuOpen('section', 'footer', sIdx)"
+                  :items="sectionPickerItemsFor('footer')"
+                  :dock-style="insertMenuDockStyle"
+                  show-icons
+                  @open="toggleInsertMenu('section', 'footer', sIdx, $event)"
+                  @select="selectSectionType($event.type)"
+                />
 
                 <StructureSectionRow
                   :section-id="sectionId"
@@ -437,19 +359,17 @@
                     :key="blockId"
                     class="flex flex-col gap-0"
                   >
-                    <div class="relative z-[2] py-0 pl-[50px]">
-                      <StructureInsertGap
-                        :label="$t('54e3d97e.fc318c')"
-                        block
-                        @click="toggleInsertMenu('block', sectionId, bIdx, $event)"
-                      />
-                      <StructureInsertMenu
-                        v-if="isInsertMenuOpen('block', sectionId, bIdx)"
-                        :items="getBlockPickerItems(getSectionType(sectionId))"
-                        :dock-style="insertMenuDockStyle"
-                        @select="selectBlockType(sectionId, $event.type)"
-                      />
-                    </div>
+                    <StructureInsertPoint
+                      :label="$t('54e3d97e.fc318c')"
+                      :open="isInsertMenuOpen('block', sectionId, bIdx)"
+                      :items="getBlockPickerItems(getSectionType(sectionId))"
+                      :dock-style="insertMenuDockStyle"
+                      block
+                      indent="block"
+                      layer="block"
+                      @open="toggleInsertMenu('block', sectionId, bIdx, $event)"
+                      @select="selectBlockType(sectionId, $event.type)"
+                    />
                     <StructureBlockRow
                       :section-id="sectionId"
                       :block-id="blockId"
@@ -465,50 +385,33 @@
                 </draggable>
 
                 <div v-if="isExpanded(sectionId)">
-                  <div class="relative pl-[52px]">
-                    <button
-                      v-if="getBlockPickerItems(getSectionType(sectionId)).length"
-                      type="button"
-                      class="mt-0.5 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] pr-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                      @click="
-                        toggleInsertMenu(
-                          'block',
-                          sectionId,
-                          getBlockOrder(sectionId).length,
-                          $event
-                        )
-                      "
-                    >
-                      <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
-                      <span>{{ $t('54e3d97e.fc318c') }}</span>
-                    </button>
-
-                    <StructureInsertMenu
-                      v-if="isInsertMenuOpen('block', sectionId, getBlockOrder(sectionId).length)"
-                      :items="getBlockPickerItems(getSectionType(sectionId))"
-                      :dock-style="insertMenuDockStyle"
-                      @select="selectBlockType(sectionId, $event.type)"
-                    />
-                  </div>
+                  <StructureAddAction
+                    :visible="getBlockPickerItems(getSectionType(sectionId)).length > 0"
+                    :label="$t('54e3d97e.fc318c')"
+                    :open="isInsertMenuOpen('block', sectionId, getBlockOrder(sectionId).length)"
+                    :items="getBlockPickerItems(getSectionType(sectionId))"
+                    :dock-style="insertMenuDockStyle"
+                    container="block"
+                    top-spacing
+                    @open="
+                      toggleInsertMenu('block', sectionId, getBlockOrder(sectionId).length, $event)
+                    "
+                    @select="selectBlockType(sectionId, $event.type)"
+                  />
                 </div>
               </div>
             </draggable>
 
-            <div class="relative z-[3] py-0">
-              <StructureInsertGap
-                :label="$t('54e3d97e.2e2d33')"
-                :icon-size="13"
-                @click="toggleInsertMenu('section', 'footer', localFooterZoneOrder.length, $event)"
-              />
-              <StructureInsertMenu
-                v-if="isInsertMenuOpen('section', 'footer', localFooterZoneOrder.length)"
-                :items="sectionPickerItemsFor('footer')"
-                :dock-style="insertMenuDockStyle"
-                :resolve-icon="sectionInsertIcon"
-                show-icons
-                @select="selectSectionType($event.type)"
-              />
-            </div>
+            <StructureInsertPoint
+              :label="$t('54e3d97e.2e2d33')"
+              :open="isInsertMenuOpen('section', 'footer', localFooterZoneOrder.length)"
+              :items="sectionPickerItemsFor('footer')"
+              :dock-style="insertMenuDockStyle"
+              :icon-size="13"
+              show-icons
+              @open="toggleInsertMenu('section', 'footer', localFooterZoneOrder.length, $event)"
+              @select="selectSectionType($event.type)"
+            />
 
             <StructureSectionRow
               section-id="footer"
@@ -534,19 +437,17 @@
                 :key="blockId"
                 class="flex flex-col gap-0"
               >
-                <div class="relative z-[2] py-0 pl-[50px]">
-                  <StructureInsertGap
-                    :label="$t('54e3d97e.fc318c')"
-                    block
-                    @click="toggleInsertMenu('block', 'footer', bIdx, $event)"
-                  />
-                  <StructureInsertMenu
-                    v-if="isInsertMenuOpen('block', 'footer', bIdx)"
-                    :items="footerBlockPickerItems"
-                    :dock-style="insertMenuDockStyle"
-                    @select="selectBlockType('footer', $event.type)"
-                  />
-                </div>
+                <StructureInsertPoint
+                  :label="$t('54e3d97e.fc318c')"
+                  :open="isInsertMenuOpen('block', 'footer', bIdx)"
+                  :items="footerBlockPickerItems"
+                  :dock-style="insertMenuDockStyle"
+                  block
+                  indent="block"
+                  layer="block"
+                  @open="toggleInsertMenu('block', 'footer', bIdx, $event)"
+                  @select="selectBlockType('footer', $event.type)"
+                />
                 <StructureBlockRow
                   section-id="footer"
                   :block-id="blockId"
@@ -564,24 +465,17 @@
             </draggable>
 
             <div v-if="isExpanded('footer')">
-              <div class="relative pl-[52px]">
-                <button
-                  v-if="footerBlockPickerItems.length"
-                  type="button"
-                  class="mt-0.5 flex w-full cursor-pointer items-center justify-start gap-2 rounded-lg border-0 bg-transparent py-[7px] pr-2 text-sm font-semibold text-[#2563eb] transition-colors duration-150"
-                  @click="toggleInsertMenu('block', 'footer', footerBlockOrder.length, $event)"
-                >
-                  <CirclePlus :size="14" class="shrink-0 text-[#2563eb]" :stroke-width="2.5" />
-                  <span>{{ $t('54e3d97e.fc318c') }}</span>
-                </button>
-
-                <StructureInsertMenu
-                  v-if="isInsertMenuOpen('block', 'footer', footerBlockOrder.length)"
-                  :items="footerBlockPickerItems"
-                  :dock-style="insertMenuDockStyle"
-                  @select="selectBlockType('footer', $event.type)"
-                />
-              </div>
+              <StructureAddAction
+                :visible="footerBlockPickerItems.length > 0"
+                :label="$t('54e3d97e.fc318c')"
+                :open="isInsertMenuOpen('block', 'footer', footerBlockOrder.length)"
+                :items="footerBlockPickerItems"
+                :dock-style="insertMenuDockStyle"
+                container="block"
+                top-spacing
+                @open="toggleInsertMenu('block', 'footer', footerBlockOrder.length, $event)"
+                @select="selectBlockType('footer', $event.type)"
+              />
             </div>
           </div>
         </div>
@@ -592,10 +486,10 @@
 
 <script>
 import draggable from 'vuedraggable'
-import StructureInsertMenu from './StructureInsertMenu.vue'
-import StructureInsertGap from './StructureInsertGap.vue'
+import StructureInsertPoint from './StructureInsertPoint.vue'
 import StructureBlockRow from './StructureBlockRow.vue'
 import StructureSectionRow from './StructureSectionRow.vue'
+import StructureAddAction from './StructureAddAction.vue'
 
 import { getTypedBlockDefinition as getBlockDefinition } from '../definitions/registry.js'
 import {
@@ -603,17 +497,16 @@ import {
   createSectionPickerItemsForTypes,
   createBlockPickerItems
 } from '../utils/insertPicker.js'
-import { getSectionInsertIconComponent as resolveSectionInsertIcon } from '../utils/decorationLucide.js'
 import { getAreaSectionInsertPolicy } from '../definitions/areas.js'
 
 export default {
   name: 'StructurePanel',
   components: {
     draggable,
-    StructureInsertMenu,
-    StructureInsertGap,
+    StructureInsertPoint,
     StructureBlockRow,
-    StructureSectionRow
+    StructureSectionRow,
+    StructureAddAction
   },
   props: {
     dsl: {
@@ -917,9 +810,6 @@ export default {
     closeInsertMenu() {
       this.clearInsertMenuAnchor()
       this.openInsertMenu = { kind: '', sectionId: '', insertIndex: null }
-    },
-    sectionInsertIcon(type) {
-      return resolveSectionInsertIcon(type)
     },
     selectSectionType(type) {
       const anchor = this.openInsertMenu.sectionId

@@ -7,12 +7,12 @@
       v-for="item in items"
       :key="item.key || item.type"
       type="button"
-      class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-xs text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
+      class="flex w-full cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-2.5 py-2 text-left text-[12px] text-[#18222f] hover:bg-[#e9f0ff] hover:text-[#2563eb]"
       @click="$emit('select', item)"
     >
       <component
-        :is="resolveIcon(item.type)"
-        v-if="showIcons"
+        :is="menuIcon"
+        v-if="shouldShowIcon"
         :size="14"
         class="shrink-0 text-[#475467]"
         :stroke-width="2"
@@ -23,8 +23,14 @@
 </template>
 
 <script>
+import { Diamond, GalleryVertical } from 'lucide-vue'
+
 export default {
   name: 'StructureInsertMenu',
+  components: {
+    Diamond,
+    GalleryVertical
+  },
   props: {
     items: {
       type: Array,
@@ -38,9 +44,19 @@ export default {
       type: Boolean,
       default: false
     },
-    resolveIcon: {
-      type: Function,
-      default: () => null
+    iconType: {
+      type: String,
+      default: '',
+      validator: (value) => ['', 'section', 'block'].includes(value)
+    }
+  },
+  computed: {
+    shouldShowIcon() {
+      return this.showIcons || Boolean(this.iconType)
+    },
+    menuIcon() {
+      if (this.iconType === 'block') return 'Diamond'
+      return 'GalleryVertical'
     }
   }
 }
