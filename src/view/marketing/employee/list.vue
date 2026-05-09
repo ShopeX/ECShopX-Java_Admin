@@ -498,6 +498,22 @@ export default {
       })
     }
   },
+  watch: {
+    $route(to, from) {
+      const isToList = (to.path || '').includes('/enterprise-purchase/activity-management')
+      const needRefresh = isToList && String((to.query || {}).refresh || '') === '1'
+      if (needRefresh) {
+        this.$nextTick(() => {
+          this.$refs['finder'] && this.$refs['finder'].refresh()
+        })
+        const { refresh, ...restQuery } = to.query || {}
+        this.$router.replace({
+          path: to.path,
+          query: restQuery
+        })
+      }
+    }
+  },
   created() {
     this.pagesQuery = new Pages({
       fetch: this.getEnterpriseList

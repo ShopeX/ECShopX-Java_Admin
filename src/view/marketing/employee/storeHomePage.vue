@@ -94,23 +94,6 @@
         <el-button type="primary" @click="savePage"> {{ $t('0255d436.babc8f') }} </el-button>
       </div>
     </el-dialog>
-    <el-dialog
-      :visible.sync="template_dialog"
-      destroy-on-close
-      :title="$t('0255d436.49bcb8')"
-      fullscreen
-      lock-scroll
-    >
-      <shopDecoration
-        v-if="template_dialog"
-        :id="decoratePageId"
-        usage="page"
-        pagetype="cuspage"
-        :rel-store="decorateStore"
-        :template_name="template_name"
-        @saved="closeDialog"
-      />
-    </el-dialog>
   </SpPage>
 </template>
 <script>
@@ -185,9 +168,13 @@ export default {
         this.$message.warning(this.$t('9d1e03c7.c1d902'))
         return
       }
-      this.decoratePageId = String(cid)
-      this.decorateStore = { id: String(row.distributor_id || '0') }
-      this.template_dialog = true
+      this.$router.push({
+        path: '/wxapp/manage/decorate',
+        query: {
+          id: String(cid),
+          scene: '1010'
+        }
+      })
     },
     closeDialog() {
       this.template_dialog = false
