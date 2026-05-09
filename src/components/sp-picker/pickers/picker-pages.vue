@@ -126,9 +126,7 @@ export default {
       const raw = this.value?.data
       if (raw == null || raw === '') return
       const selectedIds = Array.isArray(raw) ? raw : [raw]
-      const selectRows = list.filter((item) =>
-        selectedIds.map(String).includes(String(item.id))
-      )
+      const selectRows = list.filter((item) => selectedIds.map(String).includes(String(item.id)))
       if (!selectRows.length) return
       const finderTable = this.$refs.finder?.$refs?.finderTable
       if (!finderTable?.$refs?.finderTable) return

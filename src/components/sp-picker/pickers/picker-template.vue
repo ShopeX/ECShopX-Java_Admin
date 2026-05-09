@@ -109,14 +109,12 @@ export default {
       const raw = this.value?.data
       if (raw == null || raw === '') return
       const selectedIds = Array.isArray(raw) ? raw : [raw]
-      const selectRows = list.filter((item) =>
-        selectedIds.map(String).includes(String(item.pages_template_id))
-      )
-      if (!selectRows.length) return
+      const selectRow = list.filter((item) => selectedIds.map(String).includes(String(item.pages_template_id)))
+      if (!selectRow.length) return
       const finderTable = this.$refs.finder?.$refs?.finderTable
       if (!finderTable?.$refs?.finderTable) return
       setTimeout(() => {
-        finderTable.$refs.finderTable.setSelection(selectRows)
+        finderTable.$refs.finderTable.setSelection(selectRow)
       })
     },
     onSearch() {

@@ -69,7 +69,7 @@
 import BasePicker from './base'
 import PageMixin from '../mixins/page'
 export default {
-  name: 'PickerPages',
+  name: 'PickerRegactivity',
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
@@ -123,9 +123,7 @@ export default {
       const raw = this.value?.data
       if (raw == null || raw === '') return
       const selectedIds = Array.isArray(raw) ? raw : [raw]
-      const selectRows = list.filter((item) =>
-        selectedIds.map(String).includes(String(item.activity_id))
-      )
+      const selectRows = list.filter((item) => selectedIds.map(String).includes(String(item.activity_id)))
       if (!selectRows.length) return
       const finderTable = this.$refs.finder?.$refs?.finderTable
       if (!finderTable?.$refs?.finderTable) return
