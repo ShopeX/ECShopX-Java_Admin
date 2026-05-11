@@ -364,7 +364,7 @@
             />
           </template>
         </el-table-column>
-        <el-table-column width="100" :label="$t('b2fe051e.3fea7c')">
+        <el-table-column min-width="140" :label="$t('b2fe051e.3fea7c')">
           <template slot-scope="scope">
             <el-button
               v-if="scope.row.is_valid !== 'delete'"
@@ -376,10 +376,18 @@
                   >{{ $t('b2fe051e.7854b5') }}<i class="el-icon-edit"
                 /></el-button>
               </span>
-              <span v-else class="red">
+              <span v-else-if="scope.row.is_valid == 'false'" class="red">
                 <el-button type="danger" size="mini" plain
                   >{{ $t('b2fe051e.710ad0') }}<i class="el-icon-edit"
                 /></el-button>
+              </span>
+              <span v-else-if="scope.row.is_valid == 'closed'" class="muted">
+                <el-button type="warning" size="mini" plain
+                  >{{ $t('b2fe051e.d2b1c3') }}<i class="el-icon-edit"
+                /></el-button>
+              </span>
+              <span v-else class="muted">
+                <el-button type="info" size="mini" plain>{{ scope.row.is_valid || '-' }}</el-button>
               </span>
             </el-button>
             <span v-else class="muted">
@@ -663,14 +671,20 @@
 
       <el-dialog
         :title="$t('b2fe051e.c2211d')"
-        width="18%"
+        custom-class="distributor-edit-valid-dialog"
+        width="420px"
         :visible.sync="editValidDialog"
         :before-close="handleCancelLabelsDialog"
       >
         <template>
-          <el-radio-group v-model="editValidData.is_valid" @change="editValidSubmit">
+          <el-radio-group
+            class="distributor-edit-valid-radio-group"
+            v-model="editValidData.is_valid"
+            @change="editValidSubmit"
+          >
             <el-radio label="true"> {{ $t('b2fe051e.7854b5') }} </el-radio>
             <el-radio label="false"> {{ $t('b2fe051e.710ad0') }} </el-radio>
+            <el-radio label="closed"> {{ $t('b2fe051e.d2b1c3') }} </el-radio>
             <el-radio label="delete"> {{ $t('b2fe051e.0044f6') }} </el-radio>
           </el-radio-group>
         </template>
@@ -859,6 +873,7 @@ export default {
         { name: this.$t('b2fe051e.a8b0c2'), value: undefined },
         { name: this.$t('b2fe051e.7854b5'), value: 'true' },
         { name: this.$t('b2fe051e.710ad0'), value: 'false' },
+        { name: this.$t('b2fe051e.d2b1c3'), value: 'closed' },
         { name: this.$t('b2fe051e.0044f6'), value: 'delete' }
       ],
       isOpenList: [
@@ -908,6 +923,7 @@ export default {
         distributor_id: '',
         is_valid: ''
       },
+      editValidOriginStatus: '',
       setMeiQiaVisible: false,
       setMeiQiaDialog: false,
       meiqia_form: {
@@ -1494,7 +1510,11 @@ export default {
     },
     editValid(row) {
       this.editValidDialog = true
-      this.editValidData = row
+      this.editValidOriginStatus = row.is_valid
+      this.editValidData = {
+        distributor_id: row.distributor_id,
+        is_valid: row.is_valid
+      }
     },
     editValidSubmit(val) {
       let msg = ''
@@ -1502,6 +1522,8 @@ export default {
         msg = this.$t('b2fe051e.31ffeb')
       } else if (val === 'false') {
         msg = this.$t('b2fe051e.3abe79')
+      } else if (val === 'closed') {
+        msg = this.$t('b2fe051e.c9d4e1')
       } else if (val === 'delete') {
         msg = this.$t('b2fe051e.b31c83')
       }
@@ -1526,6 +1548,7 @@ export default {
           })
         })
         .catch(() => {
+          this.editValidData.is_valid = this.editValidOriginStatus
           this.$message({
             type: 'info',
             message: this.$t('b2fe051e.2111cc')
@@ -1694,3 +1717,25 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+/* 修改状态弹窗：单选项纵向排列，避免窄宽度下横向挤压导致文案与边框被裁切 */
+.distributor-edit-valid-dialog.el-dialog {
+  min-width: 300px;
+  max-width: 96vw;
+}
+.distributor-edit-valid-radio-group.el-radio-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.distributor-edit-valid-radio-group .el-radio {
+  margin-right: 0;
+  margin-bottom: 10px;
+  white-space: normal;
+  line-height: 1.5;
+}
+.distributor-edit-valid-radio-group .el-radio:last-child {
+  margin-bottom: 0;
+}
+</style>
