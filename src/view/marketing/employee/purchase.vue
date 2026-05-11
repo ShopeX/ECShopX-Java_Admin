@@ -1217,9 +1217,10 @@ export default {
       this.storeHomePickerVisible = false
     },
     async onPickerCompany() {
-      const ids = this.activityRule.companyList.map((item) => item.id)
+      // 传入完整企业行，便于选择器跨分页保留已选并在表格中正确勾选（仅传 id 时翻页会丢选中）
       const params = {
-        data: ids
+        type: 'pickerCompany',
+        data: (this.activityRule.companyList || []).map((item) => ({ ...item }))
       }
       if (this.IS_ADMIN()) {
         params.distributor_id = 0
