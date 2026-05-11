@@ -97,7 +97,7 @@ export default {
               }
               const d = row.disabled
               const isDisabled = d === '1' || d === 1 || d === true
-              return isDisabled ? t('b2fe051e.710ad0') : t('b2fe051e.7854b5')
+              return isDisabled ? t('f15fc38a.710ad0') : t('f15fc38a.7854b5')
             }
           }
         ]
