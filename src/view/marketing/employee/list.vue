@@ -500,8 +500,19 @@ export default {
   },
   watch: {
     $route(to, from) {
-      const isToList = (to.path || '').includes('/enterprise-purchase/activity-management')
-      const needRefresh = isToList && String((to.query || {}).refresh || '') === '1'
+      const toPathNorm = (to.path || '').replace(/\/$/, '')
+      const fromPath = from.path || ''
+      // 列表根路径：应用「企业购」或旧版营销路由
+      const isListRoot =
+        /\/enterprise-purchase\/activity-management$/.test(toPathNorm) ||
+        /\/marketing\/employee\/purchase$/.test(toPathNorm)
+      // 从创建/成功/商品/亲友子页回到列表时也应拉取最新数据（否则新建活动后从商品页返回看不到新活动）
+      const fromActivitySubRoute =
+        /\/activity-management\/(create|result\/|goods\/|dependents\/)/.test(fromPath) ||
+        /\/employee\/purchase\/(create|result\/|goods\/|dependents\/)/.test(fromPath)
+      const needRefresh =
+        isListRoot &&
+        (String((to.query || {}).refresh || '') === '1' || fromActivitySubRoute)
       if (needRefresh) {
         this.$nextTick(() => {
           this.$refs['finder'] && this.$refs['finder'].refresh()
