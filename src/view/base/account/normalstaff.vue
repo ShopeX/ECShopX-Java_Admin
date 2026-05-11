@@ -149,6 +149,7 @@
     <DistributorSelect
       :store-visible="DistributorVisible"
       :is-valid="isValid"
+      is-valid-filter="cloud_all"
       :rel-data-ids="relDistributors"
       :get-status="DistributorStatus"
       @chooseStore="DistributorChooseAction"
@@ -265,7 +266,7 @@ export default {
     },
     getDistributor(ids) {
       let param = { distributor_id: ids }
-      getDistributorList({ ...param, is_app: 1 }).then((res) => {
+      getDistributorList({ ...param, is_app: 1, is_valid: 'cloud_all' }).then((res) => {
         this.relDistributors = res.data.data.list
         this.oldData = [...res.data.data.list]
       })
