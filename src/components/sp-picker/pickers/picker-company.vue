@@ -86,7 +86,20 @@ export default {
       return {
         columns: [
           { name: t('f5fd2a50.f47e27'), key: 'name' },
-          { name: t('f5fd2a50.705f0a'), key: 'enterprise_sn' }
+          { name: t('f5fd2a50.705f0a'), key: 'enterprise_sn' },
+          {
+            name: t('63ede0f6.3fea7c'),
+            key: 'disabled',
+            width: 88,
+            formatter: (value, row) => {
+              if (row == null || row.disabled === undefined || row.disabled === null || row.disabled === '') {
+                return '—'
+              }
+              const d = row.disabled
+              const isDisabled = d === '1' || d === 1 || d === true
+              return isDisabled ? t('b2fe051e.710ad0') : t('b2fe051e.7854b5')
+            }
+          }
         ]
       }
     }
