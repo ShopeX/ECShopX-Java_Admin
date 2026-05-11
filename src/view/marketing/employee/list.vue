@@ -501,7 +501,7 @@ export default {
   watch: {
     $route(to, from) {
       const toPathNorm = (to.path || '').replace(/\/$/, '')
-      const fromPath = from.path || ''
+      const fromPath = (from && from.path) || ''
       // 列表根路径：应用「企业购」或旧版营销路由
       const isListRoot =
         /\/enterprise-purchase\/activity-management$/.test(toPathNorm) ||
@@ -517,11 +517,16 @@ export default {
         this.$nextTick(() => {
           this.$refs['finder'] && this.$refs['finder'].refresh()
         })
-        const { refresh, ...restQuery } = to.query || {}
-        this.$router.replace({
-          path: to.path,
-          query: restQuery
-        })
+        // 仅当需要去掉 refresh 查询参数时再 replace，避免与当前 URL 相同触发 NavigationDuplicated（如浏览器返回）
+        if (String((to.query || {}).refresh || '') === '1') {
+          const { refresh, ...restQuery } = to.query || {}
+          this.$router
+            .replace({
+              path: to.path,
+              query: restQuery
+            })
+            .catch(() => {})
+        }
       }
     }
   },
