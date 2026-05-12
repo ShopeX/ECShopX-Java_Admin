@@ -42,7 +42,7 @@
                 :maxlength="32"
                 :placeholder="$t('da789d63.cdc01b')"
                 :name="index + ''"
-                :disabled="VERSION_SHUYUN()"
+                :disabled="VERSION_SHUYUN() || shuyunOpenPlatformEnabled"
                 @blur="nameblur"
               />&nbsp;<span class="frm-tips">{{ item.grade_name.length }}/32</span>
               <el-input v-model="item.lv_type" type="hidden" :name="index + ''" />

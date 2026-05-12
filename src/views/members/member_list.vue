@@ -239,7 +239,12 @@
           {{ $t('ff557c54.54dfae') }}
         </el-button>
         <el-button
-          v-if="!IS_DISTRIBUTOR() && !VERSION_IN_PURCHASE() && !VERSION_SHUYUN()"
+          v-if="
+            !IS_DISTRIBUTOR() &&
+            !VERSION_IN_PURCHASE() &&
+            !VERSION_SHUYUN() &&
+            !shuyunOpenPlatformEnabled
+          "
           type="primary"
           @click="batchActionDialog('set_grade')"
         >
@@ -876,6 +881,7 @@ export default {
       gradeList: [], // 普通会员等级列表
       vipGrade: [], // 付费会员等级列表
       dmcrmIsOpen: false,
+      shuyunOpenPlatformEnabled: false,
       changeStoreId: '',
       selectedCoupons: [],
       showTagDialog: false,
@@ -925,6 +931,9 @@ export default {
       return this.selectedCrowdTags.length > 0
     }
   },
+  activated() {
+    this.loadShuyunOpenPlatformFlag()
+  },
   mounted() {
     const { salesman_mobile, wechat_nickname, mobile, orderRecords, grade_id } = this.$route.query
 
@@ -954,8 +963,17 @@ export default {
     this.$api.third.getDmcrmSetting().then((response) => {
       this.dmcrmIsOpen = response.is_open
     })
+    this.loadShuyunOpenPlatformFlag()
   },
   methods: {
+    async loadShuyunOpenPlatformFlag() {
+      try {
+        const data = await this.$api.third.getShuyunCrmSetting()
+        this.shuyunOpenPlatformEnabled = Boolean(data && data.is_enabled)
+      } catch (e) {
+        this.shuyunOpenPlatformEnabled = false
+      }
+    },
     async getAliSMS() {
       const { aliyunsms_status } = await this.$api.sms.getaliSmsStatus()
       this.aliyunsms_status = aliyunsms_status
