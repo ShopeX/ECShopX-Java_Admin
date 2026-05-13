@@ -19,8 +19,24 @@
     width: 142px;
     height: 80px;
     border: 1px solid #d9d9d9;
-    margin: 0 10px 10px 0;
+    margin: 0 10px 0 0;
     position: relative;
+  }
+  &.big {
+    .image-item {
+      width: 100%;
+      height: 180px;
+      margin: 0;
+    }
+
+    .placeholder {
+      height: 180px;
+    }
+  }
+  &.multiple {
+    .image-item {
+      margin-bottom: 10px;
+    }
   }
   .add-video {
     width: 80px;
@@ -32,11 +48,10 @@
     align-items: center;
     justify-content: center;
   }
-  .icon-video {
-    font-size: 24px;
+  .picker-placeholder-icon {
+    width: 24px;
+    height: 24px;
     color: #d9d9d9;
-    line-height: initial;
-    // margin-top: 12px;
   }
   .add-text {
     font-size: 12px;
@@ -102,8 +117,10 @@
 <script>
 import Vue from 'vue'
 import { isArray, isEmpty, isString, isObject } from '@/utils'
+import { Video } from 'lucide-vue'
 export default {
-  name: 'SpVideoPicker',
+  name: 'VideoPicker',
+  components: { Video },
   props: {
     value: {
       type: [Object, Array, String]
@@ -230,11 +247,11 @@ export default {
     const { value, max, size } = this
     const multiple = isArray(value)
     return (
-      <div class={['sp-video-picker', size]}>
+      <div class={['sp-video-picker', size, { multiple }]}>
         {max > 1 && value.map((item, index) => this._renderImage(item, index))}
         {max > 1 && value.length < max && (
           <div class='image-item add-video placeholder' on-click={this.handleSelectImage}>
-            <i class='iconfont icon-video' />
+            <Video class='picker-placeholder-icon' strokeWidth={1.8} />
             <div class='add-text'>
               {this.$t('4a6afa54.7fcf42')}({`${value.length}/${max}`})
             </div>
@@ -244,7 +261,7 @@ export default {
         {max == 1 && !isEmpty(value) && this._renderImage(value)}
         {max == 1 && isEmpty(value) && (
           <div class='image-item add-video placeholder' on-click={this.handleSelectImage}>
-            <i class='iconfont icon-video' />
+            <Video class='picker-placeholder-icon' strokeWidth={1.8} />
             <div class='add-text'>{this.$t('4a6afa54.57e40c')}</div>
           </div>
         )}

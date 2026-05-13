@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { normalizeAnnouncementBlockSettings } from '../utils/panelState.js'
+import { normalizeTypedBlockSettings } from '../utils/panelState.js'
 
 export default {
   name: 'AnnouncementBlockPanel',
@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     settings() {
-      return normalizeAnnouncementBlockSettings(this.value)
+      return normalizeTypedBlockSettings('announcement', this.value)
     }
   },
   methods: {

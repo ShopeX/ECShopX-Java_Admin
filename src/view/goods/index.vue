@@ -107,6 +107,7 @@ import { isObject, isString, isArray, IS_SUPPLIER, getRegionNameById } from '@/u
 import GoodsParams from './components/GoodsParams'
 import SpecParams from './components/SpecParams'
 import SkuParams from './components/SkuParams'
+import VideoPicker from '@/components/sp-picker-plus/VideoPicker.vue'
 import sku from '../../store/modules/sku'
 export default {
   async beforeRouteLeave(to, from, next) {
@@ -631,7 +632,7 @@ export default {
                 />
               )} */}
               {/* !disabled */}
-              <SpVideoPicker v-model={value[key]} disabled={disabled} />
+              <VideoPicker v-model={value[key]} disabled={disabled} />
             </div>
           )
         },

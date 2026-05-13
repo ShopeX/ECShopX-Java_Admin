@@ -3,7 +3,9 @@ import announcementBarSection from './sections/announcement-bar.js'
 import carouselSection from './sections/carousel.js'
 import imageHotspotSection from './sections/image-hotspot.js'
 import productShelfSection from './sections/product-shelf.js'
+import productTabShelfSection from './sections/product-tab-shelf.js'
 import footerSection from './sections/footer.js'
+import { sectionDefaultSettings, blockDefaultSettings } from './default-settings.js'
 
 import announcementBlock from './blocks/announcement.js'
 import headerProductListBlock from './blocks/header-product-list.js'
@@ -12,6 +14,7 @@ import megaMenuBlock from './blocks/mega-menu.js'
 import imageBlock from './blocks/image.js'
 import videoBlock from './blocks/video.js'
 import hotspotBlock from './blocks/hotspot.js'
+import productTabBlock from './blocks/product-tab.js'
 import footerLinkBlock from './blocks/footer-link.js'
 
 const sectionDefinitions = {
@@ -20,6 +23,7 @@ const sectionDefinitions = {
   [carouselSection.type]: carouselSection,
   [imageHotspotSection.type]: imageHotspotSection,
   [productShelfSection.type]: productShelfSection,
+  [productTabShelfSection.type]: productTabShelfSection,
   [footerSection.type]: footerSection
 }
 
@@ -31,6 +35,7 @@ const blockDefinitions = {
   [imageBlock.type]: imageBlock,
   [videoBlock.type]: videoBlock,
   [hotspotBlock.type]: hotspotBlock,
+  [productTabBlock.type]: productTabBlock,
   [footerLinkBlock.type]: footerLinkBlock
 }
 
@@ -46,6 +51,14 @@ export function getTypedSectionDefinition(type) {
 
 export function getTypedBlockDefinition(type) {
   return blockDefinitions[type] || null
+}
+
+export function getSectionDefaultSettings(type) {
+  return sectionDefaultSettings[type] || null
+}
+
+export function getBlockDefaultSettings(type) {
+  return blockDefaultSettings[type] || null
 }
 
 export function getAllowedBlockTypes(sectionType) {
@@ -67,6 +80,8 @@ export default {
   blockDefinitions,
   getTypedSectionDefinition,
   getTypedBlockDefinition,
+  getSectionDefaultSettings,
+  getBlockDefaultSettings,
   getAllowedBlockTypes,
   getSectionTypes,
   getSectionBlockTypes,

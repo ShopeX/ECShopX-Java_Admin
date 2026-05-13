@@ -89,6 +89,11 @@
           :selected-block-id="selectedBlockId"
           @focus-section="handleSelectSection"
           @focus-block="handleSelectBlock"
+          @add-block-requested="handlePreviewAddBlockRequested"
+          @add-section-requested="handlePreviewAddSectionRequested"
+          @move-section-requested="handlePreviewMoveSectionRequested"
+          @duplicate-section-requested="handleDuplicateSection"
+          @remove-section-requested="handleRemoveSection"
           @preview-ready="handlePreviewReady"
           @select-device="viewMode = $event"
           @undo="handleUndo"
@@ -103,6 +108,7 @@
           @update-settings="handleUpdateSettings"
           @update-section="handleUpdateSection"
           @update-block="handleUpdateBlock"
+          @select-block="handleSelectBlock"
         />
       </div>
     </div>
@@ -114,7 +120,11 @@ import StructurePanel from './components/StructurePanel.vue'
 import PreviewCanvas from './components/PreviewCanvas.vue'
 import ConfigPanel from './components/ConfigPanel.vue'
 
-import { getSectionTypesByScope, getTypedSectionDefinition } from './definitions/registry.js'
+import {
+  getAllowedBlockTypes,
+  getSectionTypesByScope,
+  getTypedSectionDefinition
+} from './definitions/registry.js'
 import { composeGlobalDsl } from './utils/dsl.js'
 
 function cloneValue(value) {
@@ -306,6 +316,43 @@ export default {
     },
     handleAddBlock({ sectionId, blockType, index }) {
       this.$store.commit('decoration/addBlock', { sectionId, blockType, index })
+      this.recordHistory()
+    },
+    handlePreviewAddBlockRequested({ sectionId, insertIndex }) {
+      const section = this.dsl.sections?.[sectionId] || this.globalDsl.sections?.[sectionId]
+      if (!section) return
+      const [blockType] = getAllowedBlockTypes(section.type)
+      if (!blockType) return
+      this.handleAddBlock({
+        sectionId,
+        blockType,
+        index: typeof insertIndex === 'number' ? insertIndex : undefined
+      })
+    },
+    handlePreviewAddSectionRequested({ insertIndex }) {
+      const [type] = this.sectionDefinitions.map((definition) => definition.type)
+      if (!type) return
+      this.handleAddSection({
+        type,
+        index: typeof insertIndex === 'number' ? insertIndex : undefined
+      })
+    },
+    getSectionScopeDsl(sectionId) {
+      if (this.headerDsl.sections?.[sectionId]) return this.headerDsl
+      if (this.footerDsl.sections?.[sectionId]) return this.footerDsl
+      if (this.dsl.sections?.[sectionId]) return this.dsl
+      return null
+    },
+    handlePreviewMoveSectionRequested({ sectionId, direction }) {
+      const scopeDsl = this.getSectionScopeDsl(sectionId)
+      const order = Array.isArray(scopeDsl?.order) ? scopeDsl.order : []
+      const currentIndex = order.indexOf(sectionId)
+      if (currentIndex < 0) return
+      const offset = direction === 'up' ? -1 : 1
+      const targetIndex = currentIndex + offset
+      if (targetIndex < 0 || targetIndex >= order.length) return
+      if (sectionId !== 'footer' && order[targetIndex] === 'footer') return
+      this.$store.commit('decoration/moveSection', { sectionId, targetIndex })
       this.recordHistory()
     },
     handleAddGlobalSection(payload) {

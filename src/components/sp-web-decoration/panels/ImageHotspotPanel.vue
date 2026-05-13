@@ -1,28 +1,99 @@
 <template>
-  <el-form label-position="top" size="small" class="space-y-3">
-    <el-form-item :label="$t('ca91ced3.5a02fa')">
-      <el-input :value="value.title" @input="updateField('title', $event)" />
-    </el-form-item>
+  <div class="space-y-4 text-foreground">
+    <section class="space-y-2">
+      <div class="text-sm text-muted-foreground">PC图片</div>
+      <div class="rounded-xl border border-border bg-card p-3">
+        <SpImagePicker :value="settings.pc_image" @input="updateField('pc_image', $event)" />
+      </div>
+    </section>
 
-    <el-form-item :label="$t('ca91ced3.f7a82c')">
-      <el-input :value="value.imageUrl" @input="updateField('imageUrl', $event)" />
-    </el-form-item>
-  </el-form>
+    <section class="space-y-2">
+      <div class="text-sm text-muted-foreground">移动图片</div>
+      <div class="rounded-xl border border-border bg-card p-3">
+        <SpImagePicker
+          :value="settings.mobile_image"
+          @input="updateField('mobile_image', $event)"
+        />
+      </div>
+    </section>
+
+    <section class="space-y-2">
+      <div class="flex items-center justify-between gap-3">
+        <span class="text-sm text-muted-foreground">热区配置</span>
+        <el-button type="primary" size="small" @click="openHotspotEditor">编辑热区</el-button>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="rounded-xl border border-border bg-card p-3 text-sm text-muted-foreground">
+          PC热区 {{ pcHotspotCount }} 个
+        </div>
+        <div class="rounded-xl border border-border bg-card p-3 text-sm text-muted-foreground">
+          移动热区 {{ mobileHotspotCount }} 个
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-3">
+      <div class="flex items-center justify-between gap-3">
+        <span class="text-sm text-muted-foreground">全屏</span>
+        <el-switch :value="settings.full_width" @input="updateField('full_width', $event)" />
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
+import SpImagePicker from '@/components/sp-image-picker/index.vue'
+import ImageHotspotEditorDialog from './ImageHotspotEditorDialog.vue'
+import { normalizeTypedSectionSettings } from '../utils/panelState.js'
+
 export default {
   name: 'ImageHotspotPanel',
+  components: {
+    SpImagePicker
+  },
   props: {
     value: {
       type: Object,
       default: () => ({})
     }
   },
+  computed: {
+    settings() {
+      return normalizeTypedSectionSettings('image-hotspot', this.value)
+    },
+    pcHotspotCount() {
+      return Array.isArray(this.settings.pc_hotspots) ? this.settings.pc_hotspots.length : 0
+    },
+    mobileHotspotCount() {
+      return Array.isArray(this.settings.mobile_hotspots) ? this.settings.mobile_hotspots.length : 0
+    }
+  },
   methods: {
     updateField(field, fieldValue) {
       this.$emit('change', {
+        ...this.cleanSettings(this.settings),
         [field]: fieldValue
+      })
+    },
+    cleanSettings(settings) {
+      const next = { ...settings }
+      delete next.enable_link
+      delete next.link
+      return next
+    },
+    async openHotspotEditor() {
+      const result = await this.$dialog.open(ImageHotspotEditorDialog, {
+        title: '编辑热区',
+        props: {
+          settings: this.settings,
+          initialDevice: 'pc'
+        },
+        size: 'large'
+      })
+      if (!result) return
+      this.$emit('change', {
+        ...this.cleanSettings(this.settings),
+        ...result
       })
     }
   }

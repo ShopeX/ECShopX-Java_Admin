@@ -4,13 +4,10 @@ export default {
   type: 'image-hotspot',
   scope: 'template',
   name: i18n.t('d65dbcac.081a81'),
-  defaultSettings: {
-    title: '',
-    imageUrl: ''
-  },
   defaultBlocks: [],
   blocks: {
-    allowed: ['hotspot'],
+    // allowed: ['hotspot'],
+    allowed: [],
     addable: true,
     sortable: true,
     removable: true

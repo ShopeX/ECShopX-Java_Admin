@@ -4,6 +4,8 @@ export default {
   type: 'image',
   name: '图片',
   defaultSettings: {
+    pc_image: '',
+    mobile_image: '',
     introduction: '提供背景或介绍，吸引用户注意',
     introduction_size: 's',
     heading: '关键主题或焦点，简明直接',

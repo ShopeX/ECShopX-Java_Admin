@@ -1,140 +1,16 @@
+import {
+  getTypedBlockDefinition,
+  getSectionDefaultSettings,
+  getBlockDefaultSettings
+} from '../definitions/registry.js'
+
 function cloneValue(value) {
   return JSON.parse(JSON.stringify(value))
 }
 
-export function normalizeCarouselSettings(settings = {}) {
+function mergeWithDefaults(defaults = {}, settings = {}) {
   return {
-    title: '',
-    autoplay: true,
-    interval: 3000,
-    height: 520,
-    showDots: true,
-    showArrows: true,
-    ...cloneValue(settings)
-  }
-}
-
-export function normalizeAnnouncementBarSettings(settings = {}) {
-  return {
-    full_width: false,
-    auto_rotate: false,
-    enable_country_selector: false,
-    color_mode: 'light',
-    show_line_separator: true,
-    change_slides_speed: 5,
-    color_style: 'pure',
-    show_social: false,
-    enable_language_selector: false,
-    ...cloneValue(settings)
-  }
-}
-
-export function normalizeHeaderSettings(settings = {}) {
-  return {
-    color_mode: 'dark',
-    sticky_header_type: 'none',
-    padding_top: 'xs',
-    menu_color_style: 'pure',
-    menu_type_desktop: 'dropdown',
-    show_line_separator: true,
-    menu: 'main-menu',
-    color_style: 'pure',
-    layout: 'middle',
-    margin_bottom: 0,
-    enable_country_selector: true,
-    mobile_logo_position: 'center',
-    menu_color_mode: 'dark',
-    logo_position: 'center',
-    enable_customer_avatar: true,
-    padding_bottom: 'xs',
-    menu_color_scheme: 'scheme-1',
-    enable_language_selector: true,
-    ...cloneValue(settings)
-  }
-}
-
-export function normalizeFooterSettings(settings = {}) {
-  return {
-    content_alignment: 'center',
-    newsletter_heading: '',
-    color_mode: 'dark',
-    margin_top: 48,
-    padding_top: 'm',
-    color_style: 'pure',
-    show_social: true,
-    payment_enable: true,
-    newsletter_enable: false,
-    enable_country_selector: true,
-    show_policy: true,
-    color_scheme: 'scheme-2',
-    padding_bottom: 'xs',
-    enable_brand_information: true,
-    enable_language_selector: true,
-    ...cloneValue(settings)
-  }
-}
-
-export function normalizeProductShelfSettings(settings = {}) {
-  const nextSettings = {
-    title: '',
-    displayMode: settings.displayMode || settings.sourceMode || 'category',
-    categoryId: '',
-    itemIds: [],
-    columns: 4,
-    limit: 8,
-    showPrice: true,
-    showAddCart: true,
-    ...cloneValue(settings)
-  }
-
-  nextSettings.displayMode = nextSettings.displayMode || 'category'
-  nextSettings.itemIds = Array.isArray(nextSettings.itemIds)
-    ? nextSettings.itemIds.filter(Boolean).slice(0, nextSettings.limit || 8)
-    : []
-
-  return nextSettings
-}
-
-export function normalizeAnnouncementBlockSettings(settings = {}) {
-  return {
-    text: '',
-    ...cloneValue(settings)
-  }
-}
-
-export function normalizeNavItemBlockSettings(settings = {}) {
-  return {
-    label: '',
-    url: '/',
-    ...cloneValue(settings)
-  }
-}
-
-export function normalizeImageHotspotSettings(settings = {}) {
-  return {
-    title: '',
-    imageUrl: '',
-    imageWidth: 1200,
-    imageHeight: 600,
-    ...cloneValue(settings)
-  }
-}
-
-export function normalizeImageBlockSettings(settings = {}) {
-  return {
-    imageUrl: '',
-    link: '',
-    alt: '',
-    ...cloneValue(settings)
-  }
-}
-
-export function normalizeVideoBlockSettings(settings = {}) {
-  return {
-    videoUrl: '',
-    posterUrl: '',
-    link: '',
-    alt: '',
+    ...cloneValue(defaults),
     ...cloneValue(settings)
   }
 }
@@ -147,15 +23,40 @@ function clampCoordinate(value) {
   return numericValue
 }
 
-export function normalizeHotspotBlockSettings(settings = {}) {
-  const nextSettings = {
-    x: 50,
-    y: 50,
-    link: '',
-    label: '',
-    shape: 'circle',
-    ...cloneValue(settings)
+function normalizeProductShelfCompatibleSettings(settings) {
+  const nextSettings = { ...settings }
+
+  nextSettings.displayMode = nextSettings.displayMode || nextSettings.sourceMode || 'category'
+  nextSettings.itemIds = Array.isArray(nextSettings.itemIds)
+    ? nextSettings.itemIds.filter(Boolean).slice(0, nextSettings.limit || 8)
+    : []
+
+  return nextSettings
+}
+
+export function normalizeProductTabShelfSettings(settings = {}) {
+  return mergeWithDefaults(getSectionDefaultSettings('product-tab-shelf'), settings)
+}
+
+export function normalizeProductTabBlockSettings(settings = {}) {
+  const nextSettings = mergeWithDefaults(getBlockDefaultSettings('product-tab'), settings)
+  nextSettings.product_ids = Array.isArray(nextSettings.product_ids)
+    ? nextSettings.product_ids.filter(Boolean)
+    : []
+  nextSettings.limit = Number.isFinite(Number(nextSettings.limit))
+    ? Math.min(20, Math.max(1, Number(nextSettings.limit)))
+    : 8
+  if (nextSettings.columns !== undefined) {
+    nextSettings.columns = [2, 3, 4].includes(Number(nextSettings.columns))
+      ? Number(nextSettings.columns)
+      : undefined
   }
+
+  return nextSettings
+}
+
+function normalizeHotspotCompatibleSettings(settings) {
+  const nextSettings = { ...settings }
 
   nextSettings.x = clampCoordinate(nextSettings.x)
   nextSettings.y = clampCoordinate(nextSettings.y)
@@ -164,45 +65,37 @@ export function normalizeHotspotBlockSettings(settings = {}) {
   return nextSettings
 }
 
+function normalizeSectionSettings(type, settings = {}) {
+  const nextSettings = mergeWithDefaults(getSectionDefaultSettings(type), settings)
+
+  if (type === 'product-shelf') return normalizeProductShelfCompatibleSettings(nextSettings)
+  if (type === 'product-tab-shelf') return normalizeProductTabShelfSettings(nextSettings)
+  return nextSettings
+}
+
+function normalizeBlockSettingsValue(type, settings = {}) {
+  const nextSettings = mergeWithDefaults(getBlockDefaultSettings(type), settings)
+
+  if (type === 'hotspot') return normalizeHotspotCompatibleSettings(nextSettings)
+  if (type === 'product-tab') return normalizeProductTabBlockSettings(nextSettings)
+  return nextSettings
+}
+
+export function normalizeTypedSectionSettings(type, settings = {}) {
+  return normalizeSectionSettings(type, settings)
+}
+
+export function normalizeTypedBlockSettings(type, settings = {}) {
+  return normalizeBlockSettingsValue(type, settings)
+}
+
 function normalizeBlockSettings(block) {
   if (!block) return block
 
-  if (block.type === 'image') {
-    return {
-      ...block,
-      settings: normalizeImageBlockSettings(block.settings)
-    }
+  return {
+    ...block,
+    settings: normalizeBlockSettingsValue(block.type, block.settings)
   }
-
-  if (block.type === 'video') {
-    return {
-      ...block,
-      settings: normalizeVideoBlockSettings(block.settings)
-    }
-  }
-
-  if (block.type === 'hotspot') {
-    return {
-      ...block,
-      settings: normalizeHotspotBlockSettings(block.settings)
-    }
-  }
-
-  if (block.type === 'announcement') {
-    return {
-      ...block,
-      settings: normalizeAnnouncementBlockSettings(block.settings)
-    }
-  }
-
-  if (block.type === 'nav-item') {
-    return {
-      ...block,
-      settings: normalizeNavItemBlockSettings(block.settings)
-    }
-  }
-
-  return cloneValue(block)
 }
 
 export function normalizeSection(section) {
@@ -215,22 +108,7 @@ export function normalizeSection(section) {
     ? nextSection.block_order.slice()
     : []
   nextSection.blocks = nextSection.blocks || {}
-
-  if (nextSection.type === 'main-carousel' || nextSection.type === 'carousel') {
-    nextSection.settings = normalizeCarouselSettings(nextSection.settings)
-  } else if (nextSection.type === 'announcement-bar') {
-    nextSection.settings = normalizeAnnouncementBarSettings(nextSection.settings)
-  } else if (nextSection.type === 'header') {
-    nextSection.settings = normalizeHeaderSettings(nextSection.settings)
-  } else if (nextSection.type === 'footer') {
-    nextSection.settings = normalizeFooterSettings(nextSection.settings)
-  } else if (nextSection.type === 'product-shelf') {
-    nextSection.settings = normalizeProductShelfSettings(nextSection.settings)
-  } else if (nextSection.type === 'image-hotspot') {
-    nextSection.settings = normalizeImageHotspotSettings(nextSection.settings)
-  } else {
-    nextSection.settings = cloneValue(nextSection.settings || {})
-  }
+  nextSection.settings = normalizeSectionSettings(nextSection.type, nextSection.settings)
 
   Object.keys(nextSection.blocks).forEach((blockId) => {
     nextSection.blocks[blockId] = normalizeBlockSettings(nextSection.blocks[blockId])
@@ -296,30 +174,38 @@ export function moveSectionBlock(section, blockId, targetIndex) {
 }
 
 export function sanitizeProductItemIds(itemIds, limit) {
-  const max = Number(limit) > 0 ? Number(limit) : 8
-  return Array.from(
-    new Set((Array.isArray(itemIds) ? itemIds : []).map((item) => String(item || '').trim()))
-  )
-    .filter(Boolean)
-    .slice(0, max)
+  const max = Number(limit) > 0 ? Number(limit) : Infinity
+  const uniqueIds = []
+
+  ;(Array.isArray(itemIds) ? itemIds : []).forEach((itemId) => {
+    if (!itemId || uniqueIds.includes(itemId)) return
+    if (uniqueIds.length >= max) return
+    uniqueIds.push(itemId)
+  })
+
+  return uniqueIds
+}
+
+export function createDefaultBlock(type, id) {
+  const definition = getTypedBlockDefinition(type)
+  return {
+    id,
+    type,
+    disabled: false,
+    settings: cloneValue(getBlockDefaultSettings(type) || definition?.defaultSettings || {})
+  }
 }
 
 export default {
-  normalizeCarouselSettings,
-  normalizeAnnouncementBarSettings,
-  normalizeHeaderSettings,
-  normalizeFooterSettings,
-  normalizeProductShelfSettings,
-  normalizeImageHotspotSettings,
-  normalizeAnnouncementBlockSettings,
-  normalizeNavItemBlockSettings,
-  normalizeImageBlockSettings,
-  normalizeVideoBlockSettings,
-  normalizeHotspotBlockSettings,
+  normalizeTypedSectionSettings,
+  normalizeTypedBlockSettings,
+  normalizeProductTabShelfSettings,
+  normalizeProductTabBlockSettings,
   normalizeSection,
   updateSectionBlock,
   addSectionBlock,
   removeSectionBlock,
   moveSectionBlock,
-  sanitizeProductItemIds
+  sanitizeProductItemIds,
+  createDefaultBlock
 }

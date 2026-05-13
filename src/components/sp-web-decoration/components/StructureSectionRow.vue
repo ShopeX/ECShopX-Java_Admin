@@ -7,7 +7,7 @@
     @click="$emit('select', sectionId)"
   >
     <button
-      v-if="expandable"
+      v-if="expandable && showExpandIcon"
       type="button"
       class="flex h-[18px] w-[18px] shrink-0 cursor-pointer items-center justify-center border-0 bg-transparent p-0 text-[#6b7785]"
       @click.stop="$emit('toggle', sectionId)"
@@ -15,6 +15,12 @@
       <ChevronDown v-if="expanded" :size="14" :stroke-width="2" />
       <ChevronRight v-else :size="14" :stroke-width="2" />
     </button>
+
+    <span
+      v-else-if="expandable"
+      class="flex h-[18px] w-[18px] shrink-0 items-center justify-center opacity-0"
+      aria-hidden="true"
+    />
 
     <span
       v-else-if="dragHandle"
@@ -28,25 +34,20 @@
       <div
         class="inline-flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-[#18222f]"
       >
-        <span
-          v-if="expandable"
-          class="relative inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center"
-        >
+        <span class="relative inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center">
           <GalleryVertical
             :size="16"
             class="shrink-0 text-[#475467] opacity-100 transition-opacity duration-150 group-hover:pointer-events-none group-hover:opacity-0"
             :stroke-width="2"
           />
           <span
-            v-if="dragHandle"
-            :data-drag-handle="dragHandle"
+            :data-drag-handle="dragHandle || null"
             class="pointer-events-none absolute inset-0 inline-flex cursor-move items-center justify-center text-[#6b7785] opacity-0 transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100"
             aria-hidden="true"
           >
             <GripVertical :size="14" :stroke-width="2" />
           </span>
         </span>
-        <GalleryVertical v-else :size="16" class="shrink-0 text-[#475467]" :stroke-width="2" />
         {{ label }}
       </div>
     </div>
@@ -118,6 +119,10 @@ export default {
       default: false
     },
     expandable: {
+      type: Boolean,
+      default: true
+    },
+    showExpandIcon: {
       type: Boolean,
       default: true
     },

@@ -110,7 +110,7 @@
 <script>
 import { createTypedBlock as createDefaultBlock } from '../definitions/factory.js'
 import {
-  normalizeAnnouncementBarSettings,
+  normalizeTypedSectionSettings,
   normalizeSection,
   addSectionBlock,
   removeSectionBlock,
@@ -131,7 +131,7 @@ export default {
   },
   computed: {
     settings() {
-      return normalizeAnnouncementBarSettings(this.value)
+      return normalizeTypedSectionSettings('announcement-bar', this.value)
     },
     normalizedSection() {
       return normalizeSection(this.section)

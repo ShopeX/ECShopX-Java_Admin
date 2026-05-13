@@ -4,6 +4,9 @@ export default {
   type: 'video',
   name: i18n.t('decorationeditor.block.video'),
   defaultSettings: {
+    videoUrl: '',
+    posterUrl: '',
+    mobileVideoUrl: '',
     introduction: '<div>1231231</div>',
     introduction_size: 'l',
     heading: '关键主题或焦点，简明直接',

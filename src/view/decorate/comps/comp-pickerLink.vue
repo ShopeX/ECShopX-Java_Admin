@@ -92,7 +92,7 @@
         @change="onChangeLinkUrl"
       />
     </div>
-    <div class="tracking-params-wrapper">
+    <div v-if="showTrackingParams" class="tracking-params-wrapper">
       <label class="tracking-params-label">{{ $t('4a0a5782.965470') }}</label>
       <el-input
         v-model="localValue.trackingParams"
@@ -119,6 +119,10 @@ export default {
     },
     isShowH5Link: {
       // 不展示自定义链接label true：展示
+      type: Boolean,
+      default: true
+    },
+    showTrackingParams: {
       type: Boolean,
       default: true
     }

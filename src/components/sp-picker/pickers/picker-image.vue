@@ -386,10 +386,7 @@ export default {
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
-    title: ''
-  },
-  created() {
-    this.$options.config.title = i18n.t('4c4bec01.e757d0')
+    title: i18n.t('4c4bec01.e757d0')
   },
   props: {
     value: {

@@ -3,7 +3,7 @@
     <div
       class="relative flex min-h-12 shrink-0 items-center gap-2 border-b border-[#e6e9ef] bg-white px-[14px] py-[10px]"
     >
-      <div class="min-w-0 max-w-[38%] truncate text-sm font-semibold text-[#18222f]">
+      <div class="min-w-0 max-w-[38%] truncate text-[14px] font-semibold text-[#18222f]">
         {{ $t('01f158e9.2f586b') }}
       </div>
       <div
@@ -274,6 +274,42 @@ export default {
           sectionId: data.payload.sectionId,
           blockId: data.payload.blockId
         })
+        return
+      }
+
+      if (data.type === 'ADD_BLOCK_REQUESTED' && data.payload?.sectionId) {
+        this.$emit('add-block-requested', {
+          sectionId: data.payload.sectionId,
+          insertIndex:
+            typeof data.payload.insertIndex === 'number' ? data.payload.insertIndex : undefined
+        })
+        return
+      }
+
+      if (data.type === 'ADD_SECTION_REQUESTED' && data.payload?.sectionId) {
+        this.$emit('add-section-requested', {
+          sectionId: data.payload.sectionId,
+          insertIndex:
+            typeof data.payload.insertIndex === 'number' ? data.payload.insertIndex : undefined
+        })
+        return
+      }
+
+      if (data.type === 'MOVE_SECTION_REQUESTED' && data.payload?.sectionId) {
+        this.$emit('move-section-requested', {
+          sectionId: data.payload.sectionId,
+          direction: data.payload.direction === 'up' ? 'up' : 'down'
+        })
+        return
+      }
+
+      if (data.type === 'DUPLICATE_SECTION_REQUESTED' && data.payload?.sectionId) {
+        this.$emit('duplicate-section-requested', data.payload.sectionId)
+        return
+      }
+
+      if (data.type === 'REMOVE_SECTION_REQUESTED' && data.payload?.sectionId) {
+        this.$emit('remove-section-requested', data.payload.sectionId)
       }
     },
     /** 子帧发出 PREVIEW_READY 时 ref/contentWindow 可能尚未就绪，需 nextTick + 短重试，避免 null.postMessage */

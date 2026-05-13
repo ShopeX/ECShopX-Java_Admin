@@ -1,25 +1,27 @@
 <template>
-  <div class="space-y-3 text-[#18222f]">
-    <div class="text-sm font-semibold">菜单</div>
+  <div class="space-y-3 text-foreground">
+    <div class="text-[13px] font-semibold">菜单</div>
 
     <div class="space-y-2">
-      <div class="text-xs text-[#6b7785]">菜单</div>
+      <div class="text-sm text-muted-foreground">菜单</div>
 
-      <div class="flex items-center gap-2 rounded-lg border border-[#dfe3ea] bg-white p-3">
-        <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f6]">
+      <div class="flex items-center gap-2 rounded-lg border border-border bg-card p-3">
+        <div
+          class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-background-deep"
+        >
           <MenuIcon :size="18" :stroke-width="2" />
         </div>
         <div class="min-w-0 flex-1 truncate text-[13px]">
           {{ currentMenuLabel }}
         </div>
-        <el-button type="text" class="!p-1 !text-[#7c8492]" @click="clearMenu">
+        <el-button type="text" class="!p-1 !text-muted-foreground" @click="clearMenu">
           <Trash2 :size="16" :stroke-width="2" />
         </el-button>
       </div>
 
       <div>
         <el-button
-          class="!h-9 !w-full !rounded-md !border-0 !bg-[#f5f5f6] !text-[13px] !text-[#18222f]"
+          class="!h-9 !w-full !rounded-md !border-0 !bg-background-deep !text-[13px] !text-foreground"
           @click="openMenuPicker"
         >
           更改
@@ -31,8 +33,8 @@
 
 <script>
 import { Menu as MenuIcon, Trash2 } from 'lucide-vue'
-import SpWebNavPickerDialog from '@/components/sp-web-nav-picker/PickerDialog.vue'
-import { normalizeHeaderSettings } from '../utils/panelState.js'
+import WebNavPicker from '@/components/sp-picker-plus/WebNavPicker.vue'
+import { normalizeTypedSectionSettings } from '../utils/panelState.js'
 
 const MENU_LABEL_MAP = {
   'main-menu': 'Company'
@@ -64,7 +66,7 @@ export default {
   },
   computed: {
     settings() {
-      return normalizeHeaderSettings(this.value)
+      return normalizeTypedSectionSettings('header', this.value)
     },
     currentMenuLabel() {
       const menu = normalizeSelectedMenu(this.settings.menu)
@@ -81,7 +83,7 @@ export default {
       this.updateSetting('menu', '')
     },
     async openMenuPicker() {
-      const selected = await this.$dialog.open(SpWebNavPickerDialog, {
+      const selected = await this.$dialog.open(WebNavPicker, {
         title: '选择导航菜单',
         props: {
           initialSelected: normalizeSelectedMenu(this.settings.menu)
@@ -89,7 +91,7 @@ export default {
         size: 'medium'
       })
       if (!selected) return
-      this.updateSetting('menu', selected)
+      this.updateSetting('menu', selected.id)
     }
   }
 }

@@ -73,6 +73,8 @@ function testRegistryDefinitions() {
   const imageBlock = createDefaultBlock('main-carousel', 'image')
   assert.strictEqual(imageBlock.type, 'image')
   assert.deepStrictEqual(imageBlock.settings, {
+    pc_image: '',
+    mobile_image: '',
     introduction: '提供背景或介绍，吸引用户注意',
     introduction_size: 's',
     heading: '关键主题或焦点，简明直接',
@@ -90,6 +92,11 @@ function testRegistryDefinitions() {
     enable_card: false,
     color_style: 'pure'
   })
+
+  const videoBlock = createDefaultBlock('main-carousel', 'video')
+  assert.strictEqual(videoBlock.type, 'video')
+  assert.deepStrictEqual(videoBlock.settings.pc_image, '')
+  assert.deepStrictEqual(videoBlock.settings.mobile_image, '')
 
   const globalSections = createGlobalSections()
   assert.deepStrictEqual(Object.keys(globalSections), ['header', 'footer'])

@@ -1,9 +1,7 @@
 const assert = require('assert')
 const {
-  normalizeCarouselSettings,
-  normalizeAnnouncementBarSettings,
-  normalizeProductShelfSettings,
-  normalizeHotspotBlockSettings,
+  normalizeTypedSectionSettings,
+  normalizeTypedBlockSettings,
   normalizeSection,
   addSectionBlock,
   moveSectionBlock,
@@ -21,18 +19,27 @@ function test(name, run) {
 }
 
 test('fills carousel defaults required by the plan', () => {
-  assert.deepStrictEqual(normalizeCarouselSettings({ height: 520 }), {
-    title: '',
-    autoplay: true,
-    interval: 3000,
-    height: 520,
-    showDots: true,
-    showArrows: true
-  })
+  assert.deepStrictEqual(
+    normalizeTypedSectionSettings('main-carousel', { image_height: 'large' }),
+    {
+      image_height: 'large',
+      paginate_type: 'point',
+      paginate_size: 'medium',
+      enable_auto_play: true,
+      enable_arrow: true,
+      full_width: false,
+      interval: 5,
+      show_text_below: false,
+      color_mode: 'light',
+      color_style: 'pure',
+      padding_top: 'm',
+      padding_bottom: 'm'
+    }
+  )
 })
 
 test('fills announcement bar defaults required by the plan', () => {
-  assert.deepStrictEqual(normalizeAnnouncementBarSettings({ auto_rotate: true }), {
+  assert.deepStrictEqual(normalizeTypedSectionSettings('announcement-bar', { auto_rotate: true }), {
     full_width: false,
     auto_rotate: true,
     enable_country_selector: false,
@@ -111,7 +118,7 @@ test('normalizes header and footer settings required by the updated global schem
 
 test('migrates product shelf sourceMode to displayMode and trims manual items by limit', () => {
   assert.deepStrictEqual(
-    normalizeProductShelfSettings({
+    normalizeTypedSectionSettings('product-shelf', {
       sourceMode: 'manual',
       itemIds: ['1', '2', '3'],
       limit: 2
@@ -132,7 +139,7 @@ test('migrates product shelf sourceMode to displayMode and trims manual items by
 
 test('clamps hotspot coordinates and normalizes unsupported shapes', () => {
   assert.deepStrictEqual(
-    normalizeHotspotBlockSettings({
+    normalizeTypedBlockSettings('hotspot', {
       x: 120,
       y: -8,
       shape: 'triangle'

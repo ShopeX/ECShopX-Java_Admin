@@ -1,5 +1,5 @@
 <template>
-  <div class="sp-web-nav-picker bg-white text-[#303133]">
+  <div class="sp-web-nav-picker bg-card text-foreground">
     <SpFormPlus
       ref="searchForm"
       v-model="searchParams"
@@ -30,7 +30,7 @@ import { createSetting } from '@shopex-ui/finder'
 import SpFormPlus from '@/components/sp-form-plus'
 
 export default {
-  name: 'SpWebNavPickerDialog',
+  name: 'WebNavPicker',
   components: {
     SpFormPlus
   },
@@ -78,8 +78,8 @@ export default {
                   class: [
                     'inline-flex h-4 w-4 items-center justify-center rounded border border-solid transition-colors',
                     checked
-                      ? 'border-[#7c3aed] bg-[#7c3aed] text-white'
-                      : 'border-[#d8dde6] bg-white text-transparent'
+                      ? 'border-primary bg-primary text-primary-foreground'
+                      : 'border-border bg-card text-transparent'
                   ],
                   on: {
                     click: (event) => {
@@ -101,7 +101,7 @@ export default {
               h(
                 'span',
                 {
-                  class: 'text-[#606266]',
+                  class: 'text-muted-foreground',
                   attrs: {
                     title: this.getMenuItemText(row)
                   }
@@ -162,7 +162,7 @@ export default {
   .el-table__body tr.current-row > td,
   .el-table__body tr.is-picker-selected > td,
   .el-table__body tr:hover > td {
-    background: #f1ebff;
+    background: hsl(var(--primary) / 0.08);
   }
 }
 </style>

@@ -3,7 +3,7 @@
     <div
       class="flex min-h-12 items-center justify-between gap-2.5 border-b border-[#e6e9ef] px-[14px] py-[10px]"
     >
-      <div class="text-sm font-semibold text-[#18222f]">
+      <div class="text-[14px] font-semibold text-[#18222f]">
         {{ $t('54e3d97e.768f6f') }}
       </div>
     </div>
@@ -29,21 +29,13 @@
                 :key="sectionId"
                 class="flex flex-col gap-0"
               >
-                <StructureInsertPoint
-                  :label="$t('54e3d97e.2e2d33')"
-                  :open="isInsertMenuOpen('section', 'header', sIdx)"
-                  :items="sectionPickerItemsFor('header')"
-                  :dock-style="insertMenuDockStyle"
-                  show-icons
-                  @open="toggleInsertMenu('section', 'header', sIdx, $event)"
-                  @select="selectSectionType($event.type)"
-                />
                 <div class="space-y-0.5">
                   <StructureSectionRow
                     :section-id="sectionId"
                     :label="getSectionDisplayLabel(sectionId)"
                     :selected="sectionId === selectedSectionId"
                     :expanded="isExpanded(sectionId)"
+                    :show-expand-icon="canSectionContainBlocks(sectionId)"
                     drag-handle="header-zone-section"
                     :disabled="isSectionDisabled(sectionId)"
                     :can-delete="canDeleteHeaderZoneSection(sectionId)"
@@ -123,22 +115,12 @@
             </draggable>
 
             <StructureInsertPoint
+              v-show="showHeaderFooterSectionInsertControls"
               :label="$t('54e3d97e.2e2d33')"
               :open="isInsertMenuOpen('section', 'header', localHeaderZoneOrder.length)"
               :items="sectionPickerItemsFor('header')"
               :dock-style="insertMenuDockStyle"
               :icon-size="13"
-              show-icons
-              @open="toggleInsertMenu('section', 'header', localHeaderZoneOrder.length, $event)"
-              @select="selectSectionType($event.type)"
-            />
-
-            <StructureAddAction
-              :label="$t('54e3d97e.2e2d33')"
-              :open="isInsertMenuOpen('section', 'header', localHeaderZoneOrder.length)"
-              :items="sectionPickerItemsFor('header')"
-              :dock-style="insertMenuDockStyle"
-              container="section"
               show-icons
               @open="toggleInsertMenu('section', 'header', localHeaderZoneOrder.length, $event)"
               @select="selectSectionType($event.type)"
@@ -180,6 +162,7 @@
                   :label="getSectionLabel(sectionId)"
                   :selected="sectionId === selectedSectionId"
                   :expanded="isExpanded(sectionId)"
+                  :show-expand-icon="canSectionContainBlocks(sectionId)"
                   drag-handle="section"
                   :disabled="isSectionDisabled(sectionId)"
                   :can-delete="true"
@@ -301,17 +284,6 @@
             <span>{{ $t('54e3d97e.4eb88f') }}</span>
           </div>
           <div class="space-y-1">
-            <StructureAddAction
-              :label="$t('54e3d97e.2e2d33')"
-              :open="isInsertMenuOpen('section', 'footer', localFooterZoneOrder.length)"
-              :items="sectionPickerItemsFor('footer')"
-              :dock-style="insertMenuDockStyle"
-              container="section"
-              show-icons
-              @open="toggleInsertMenu('section', 'footer', localFooterZoneOrder.length, $event)"
-              @select="selectSectionType($event.type)"
-            />
-
             <draggable
               v-if="localFooterZoneOrder.length"
               v-model="localFooterZoneOrder"
@@ -326,6 +298,7 @@
                 class="flex flex-col gap-0"
               >
                 <StructureInsertPoint
+                  v-show="showHeaderFooterSectionInsertControls"
                   :label="$t('54e3d97e.2e2d33')"
                   :open="isInsertMenuOpen('section', 'footer', sIdx)"
                   :items="sectionPickerItemsFor('footer')"
@@ -402,22 +375,12 @@
               </div>
             </draggable>
 
-            <StructureInsertPoint
-              :label="$t('54e3d97e.2e2d33')"
-              :open="isInsertMenuOpen('section', 'footer', localFooterZoneOrder.length)"
-              :items="sectionPickerItemsFor('footer')"
-              :dock-style="insertMenuDockStyle"
-              :icon-size="13"
-              show-icons
-              @open="toggleInsertMenu('section', 'footer', localFooterZoneOrder.length, $event)"
-              @select="selectSectionType($event.type)"
-            />
-
             <StructureSectionRow
               section-id="footer"
               :label="$t('54e3d97e.4eb88f')"
               :selected="selectedSectionId === 'footer'"
               :expanded="isExpanded('footer')"
+              :show-expand-icon="canSectionContainBlocks('footer')"
               :disabled="isSectionDisabled('footer')"
               :toggle-title="$t('54e3d97e.b11041')"
               @select="$emit('select-section', $event)"
@@ -560,7 +523,9 @@ export default {
       },
       /** 插入菜单：fixed 定位（结构树右侧），由锚点 getBoundingClientRect 计算 */
       insertMenuAnchorEl: null,
-      insertMenuDockStyle: {}
+      insertMenuDockStyle: {},
+      /** MVP 阶段隐藏标头/页脚区域添加分区入口，后续需要时可切回 true */
+      showHeaderFooterSectionInsertControls: false
     }
   },
   computed: {
@@ -846,6 +811,9 @@ export default {
     },
     isSectionDisabled(sectionId) {
       return Boolean(this.getSection(sectionId)?.disabled)
+    },
+    canSectionContainBlocks(sectionId) {
+      return this.getBlockPickerItems(this.getSectionType(sectionId)).length > 0
     },
     isBlockDisabled(sectionId, blockId) {
       const section = this.getSection(sectionId)

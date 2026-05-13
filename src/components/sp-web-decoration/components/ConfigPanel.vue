@@ -1,20 +1,17 @@
 <template>
-  <div class="h-full flex min-h-0 flex-col border-l border-[#e6e9ef] bg-white">
+  <div class="h-full flex min-h-0 flex-col border-l border-border bg-card">
     <div
-      class="flex min-h-12 items-center justify-between gap-2.5 border-b border-[#e6e9ef] px-[14px] py-[10px]"
+      class="flex min-h-12 items-center justify-between gap-2.5 border-b border-border px-[14px] py-[10px]"
     >
-      <div class="text-sm font-semibold text-[#18222f]">
-        {{ $t('250dc970.6aab38') }}
-      </div>
-      <div v-if="currentTitle" class="text-[11px] text-[#6b7785]">
-        {{ currentTitle }}
+      <div class="text-[14px] font-semibold text-foreground">
+        {{ panelTitle }}
       </div>
     </div>
 
     <div class="flex-1 overflow-auto px-[14px] pb-[18px] pt-3">
       <div
         v-if="!section"
-        class="flex min-h-[180px] items-center justify-center rounded-xl border border-dashed border-[#d7dde7] bg-[#fbfbfc] p-6 text-center text-[#6b7785]"
+        class="flex min-h-[180px] items-center justify-center rounded-xl border border-dashed border-border bg-background-deep p-6 text-center text-muted-foreground"
       >
         {{ $t('250dc970.b2fac9') }}
       </div>
@@ -27,6 +24,7 @@
         :value="currentValue"
         @change="handleChange"
         @change-section="$emit('update-section', $event)"
+        @select-block="$emit('select-block', $event)"
       />
     </div>
   </div>
@@ -36,6 +34,7 @@
 import CarouselPanel from '../panels/CarouselPanel.vue'
 import ImageHotspotPanel from '../panels/ImageHotspotPanel.vue'
 import ProductShelfPanel from '../panels/ProductShelfPanel.vue'
+import ProductTabShelfPanel from '../panels/ProductTabShelfPanel.vue'
 import HeaderPanel from '../panels/HeaderPanel.vue'
 import FooterPanel from '../panels/FooterPanel.vue'
 import AnnouncementBarPanel from '../panels/AnnouncementBarPanel.vue'
@@ -45,8 +44,12 @@ import HotspotBlockPanel from '../panels/HotspotBlockPanel.vue'
 import NavItemBlockPanel from '../panels/NavItemBlockPanel.vue'
 import FooterLinkBlockPanel from '../panels/FooterLinkBlockPanel.vue'
 import AnnouncementBlockPanel from '../panels/AnnouncementBlockPanel.vue'
+import ProductTabBlockPanel from '../panels/ProductTabBlockPanel.vue'
 
-import { getTypedBlockDefinition as getBlockDefinition } from '../definitions/registry.js'
+import {
+  getTypedSectionDefinition as getSectionDefinition,
+  getTypedBlockDefinition as getBlockDefinition
+} from '../definitions/registry.js'
 
 const sectionPanelMap = {
   'announcement-bar': AnnouncementBarPanel,
@@ -55,7 +58,8 @@ const sectionPanelMap = {
   'main-carousel': CarouselPanel,
   carousel: CarouselPanel,
   'image-hotspot': ImageHotspotPanel,
-  'product-shelf': ProductShelfPanel
+  'product-shelf': ProductShelfPanel,
+  'product-tab-shelf': ProductTabShelfPanel
 }
 
 const blockPanelMap = {
@@ -64,7 +68,8 @@ const blockPanelMap = {
   video: VideoBlockPanel,
   hotspot: HotspotBlockPanel,
   'nav-item': NavItemBlockPanel,
-  'footer-link': FooterLinkBlockPanel
+  'footer-link': FooterLinkBlockPanel,
+  'product-tab': ProductTabBlockPanel
 }
 
 export default {
@@ -73,6 +78,7 @@ export default {
     CarouselPanel,
     ImageHotspotPanel,
     ProductShelfPanel,
+    ProductTabShelfPanel,
     HeaderPanel,
     FooterPanel,
     AnnouncementBarPanel,
@@ -81,7 +87,8 @@ export default {
     HotspotBlockPanel,
     NavItemBlockPanel,
     FooterLinkBlockPanel,
-    AnnouncementBlockPanel
+    AnnouncementBlockPanel,
+    ProductTabBlockPanel
   },
   props: {
     section: {
@@ -104,15 +111,28 @@ export default {
       if (this.block) return this.block.settings
       return this.section ? this.section.settings : null
     },
-    currentTitle() {
+    sectionTitle() {
+      if (!this.section) return ''
+      const definition = getSectionDefinition(this.section.type)
+      return this.section.settings?.title || definition?.name || this.$t(this.section.titleKey)
+    },
+    blockTitle() {
+      if (!this.block) return ''
+      const definition = getBlockDefinition(this.block.type)
+      return (
+        this.block.settings?.label ||
+        definition?.name ||
+        this.$t(definition?.titleKey || '250dc970.7f56ad')
+      )
+    },
+    panelTitle() {
       if (this.block && this.section) {
-        const definition = getBlockDefinition(this.section.type, this.block.type)
-        return this.block.settings?.label || this.$t(definition?.titleKey || '250dc970.7f56ad')
+        return `${this.sectionTitle}-${this.blockTitle}`
       }
       if (this.section) {
-        return this.section.settings?.title || this.$t(this.section.titleKey)
+        return this.sectionTitle
       }
-      return ''
+      return this.$t('250dc970.6aab38')
     }
   },
   methods: {

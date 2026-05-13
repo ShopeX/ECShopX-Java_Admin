@@ -2,7 +2,9 @@ import { generateSectionId, generateBlockId } from '../utils/nanoid.js'
 import {
   getTypedSectionDefinition,
   getTypedBlockDefinition,
-  getAllowedBlockTypes
+  getAllowedBlockTypes,
+  getSectionDefaultSettings,
+  getBlockDefaultSettings
 } from './registry.js'
 
 function cloneValue(value) {
@@ -27,7 +29,7 @@ export function createTypedBlock(sectionType, blockType, options = {}) {
     disabled: Boolean(options.disabled),
     title: definition.name || '',
     settings: {
-      ...cloneValue(definition.defaultSettings || {}),
+      ...cloneValue(getBlockDefaultSettings(blockType) || definition.defaultSettings || {}),
       ...cloneValue(options.settings || {})
     }
   }
@@ -65,7 +67,7 @@ export function createTypedSection(type, options = {}) {
     title: definition.name || '',
     disabled: Boolean(options.disabled),
     settings: {
-      ...cloneValue(definition.defaultSettings || {}),
+      ...cloneValue(getSectionDefaultSettings(type) || definition.defaultSettings || {}),
       ...cloneValue(options.settings || {})
     },
     blocks,

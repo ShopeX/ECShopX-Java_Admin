@@ -15,8 +15,6 @@ const {
   removeBlock,
   replaceBlockOrder,
   removeSection,
-  duplicateSection,
-  moveSection,
   replaceSection,
   composePreviewDsl,
   splitGlobalDsl,
@@ -55,6 +53,44 @@ function resolveScopeKey(state, sectionId) {
   if (sectionId && state.headerDsl?.sections?.[sectionId]) return 'headerDsl'
   if (sectionId && state.footerDsl?.sections?.[sectionId]) return 'footerDsl'
   return 'dsl'
+}
+
+function createDuplicatedSection(sourceSection) {
+  const duplicatedSection = createTypedSection(sourceSection.type)
+  duplicatedSection.disabled = sourceSection.disabled
+  duplicatedSection.settings = cloneDeep(sourceSection.settings || {})
+  duplicatedSection.blocks = cloneDeep(sourceSection.blocks || {})
+  duplicatedSection.blockOrder = cloneDeep(sourceSection.blockOrder || [])
+  duplicatedSection.title = sourceSection.title
+  duplicatedSection.titleKey = sourceSection.titleKey
+  return duplicatedSection
+}
+
+function duplicateSectionInDsl(dsl, sectionId) {
+  const sourceSection = dsl?.sections?.[sectionId]
+  if (!sourceSection) return dsl
+  const duplicatedSection = createDuplicatedSection(sourceSection)
+  const nextDsl = cloneDeep(dsl)
+  const sourceIndex = nextDsl.order.findIndex((id) => id === sectionId)
+  const insertIndex = sourceIndex >= 0 ? sourceIndex + 1 : nextDsl.order.length
+  nextDsl.sections[duplicatedSection.id] = duplicatedSection
+  nextDsl.order.splice(insertIndex, 0, duplicatedSection.id)
+  return nextDsl
+}
+
+function moveSectionInDsl(dsl, sectionId, targetIndex) {
+  if (!dsl?.sections?.[sectionId]) return dsl
+  const currentOrder = Array.isArray(dsl.order) ? dsl.order.slice() : []
+  const currentIndex = currentOrder.indexOf(sectionId)
+  if (currentIndex === -1) return dsl
+  const normalizedTargetIndex = Math.max(0, Math.min(targetIndex, currentOrder.length - 1))
+  if (currentIndex === normalizedTargetIndex) return dsl
+  currentOrder.splice(currentIndex, 1)
+  currentOrder.splice(normalizedTargetIndex, 0, sectionId)
+  return {
+    ...dsl,
+    order: currentOrder
+  }
 }
 
 function getComposedGlobalDsl(state) {
@@ -263,35 +299,47 @@ const decorationStore = {
     removeSection(state, sectionId) {
       if (!sectionId) return
       if (sectionId === 'header' || sectionId === 'footer') return
-      const globalSection = state.headerDsl?.sections?.[sectionId]
-      if (globalSection) {
-        if (globalSection.type !== 'announcement-bar') return
-        const nextHeader = cloneDeep(state.headerDsl)
-        delete nextHeader.sections[sectionId]
-        nextHeader.order = (nextHeader.order || []).filter((id) => id !== sectionId)
-        state.headerDsl = nextHeader
-        state.expandedSectionIds = state.expandedSectionIds.filter((id) => id !== sectionId)
-        if (state.selectedSectionId === sectionId) {
-          state.selectedSectionId = state.headerDsl.order[0] || 'header'
-          state.selectedBlockId = ''
-        }
-        return
-      }
-      state.dsl = removeSection(state.dsl, sectionId)
+      const scopeKey = resolveScopeKey(state, sectionId)
+      if (!state[scopeKey]?.sections?.[sectionId]) return
+      state[scopeKey] = removeSection(state[scopeKey], sectionId)
       state.expandedSectionIds = state.expandedSectionIds.filter((id) => id !== sectionId)
       if (state.selectedSectionId === sectionId) {
-        state.selectedSectionId = state.dsl.order[0] || ''
+        const fallbackOrder = state[scopeKey]?.order || []
+        state.selectedSectionId = fallbackOrder[0] || ''
         state.selectedBlockId = ''
+        state.editingScope = scopeKey === 'dsl' ? 'page' : 'global'
       }
     },
     duplicateSection(state, sectionId) {
-      state.dsl = duplicateSection(state.dsl, sectionId, createTypedSection)
+      if (!sectionId || sectionId === 'header' || sectionId === 'footer') return
+      const scopeKey = resolveScopeKey(state, sectionId)
+      state[scopeKey] = duplicateSectionInDsl(state[scopeKey], sectionId)
+      const order = state[scopeKey]?.order || []
+      const sourceIndex = order.indexOf(sectionId)
+      const duplicatedId = sourceIndex >= 0 ? order[sourceIndex + 1] : ''
+      if (duplicatedId) {
+        state.selectedSectionId = duplicatedId
+        state.selectedBlockId = ''
+        if (!state.expandedSectionIds.includes(duplicatedId)) {
+          state.expandedSectionIds = [...state.expandedSectionIds, duplicatedId]
+        }
+        state.editingScope = scopeKey === 'dsl' ? 'page' : 'global'
+      }
     },
     moveSection(state, { sectionId, targetIndex }) {
-      if (isGlobalSection(state, sectionId)) {
-        return
+      if (!sectionId || sectionId === 'header' || sectionId === 'footer') return
+      const scopeKey = resolveScopeKey(state, sectionId)
+      const sourceDsl = state[scopeKey]
+      if (scopeKey === 'footerDsl') {
+        const footerIndex = Array.isArray(sourceDsl.order) ? sourceDsl.order.indexOf('footer') : -1
+        const maxIndex = footerIndex >= 0 ? footerIndex - 1 : (sourceDsl.order || []).length - 1
+        state[scopeKey] = moveSectionInDsl(sourceDsl, sectionId, Math.min(targetIndex, maxIndex))
+      } else {
+        state[scopeKey] = moveSectionInDsl(sourceDsl, sectionId, targetIndex)
       }
-      state.dsl = moveSection(state.dsl, sectionId, targetIndex)
+      state.selectedSectionId = sectionId
+      state.selectedBlockId = ''
+      state.editingScope = scopeKey === 'dsl' ? 'page' : 'global'
     },
     replaceSectionOrder(state, nextOrder) {
       state.dsl = {
