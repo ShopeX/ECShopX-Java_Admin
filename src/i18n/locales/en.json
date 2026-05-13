@@ -17979,6 +17979,8 @@
   "39e3acc2.c16655": "CNY",
   "39e3acc2.77a141": "Please select purchase time",
   "39e3acc2.6a99d7": "Please enter purchase quota",
+  "39e3acc2.f1ee01": "Purchase quota must be greater than 0 (CNY, at least 0.01)",
+  "39e3acc2.f1ee02": "Friends & family standalone quota must be greater than 0 (CNY, at least 0.01)",
   "39e3acc2.4eca5b": "Relatives",
   "39e3acc2.735d97": "Relatives join / Relatives do not join",
   "39e3acc2.ff47b7": "Invite relatives",

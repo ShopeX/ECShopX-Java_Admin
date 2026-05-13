@@ -752,6 +752,11 @@ export default {
                 callback(new Error(t('39e3acc2.e8b1a3')))
                 return
               }
+              const plFen = Math.round(pln * 100)
+              if (plFen < 1) {
+                callback(new Error(t('39e3acc2.f1ee01')))
+                return
+              }
               if (!r.passphrase_code || !String(r.passphrase_code).trim()) {
                 callback(new Error(t('39e3acc2.e8b1ab')))
                 return
@@ -837,11 +842,17 @@ export default {
               callback()
               return
             }
-            if (!self.activityRule.employee.quota) {
+            const q = self.activityRule.employee.quota
+            if (q === '' || q === null || q === undefined) {
               callback(new Error(t('39e3acc2.6a99d7')))
-            } else {
-              callback()
+              return
             }
+            const employeeFen = Math.round((Number(q) || 0) * 100)
+            if (!Number.isFinite(employeeFen) || employeeFen < 1) {
+              callback(new Error(t('39e3acc2.f1ee01')))
+              return
+            }
+            callback()
           }
         },
         {
@@ -932,6 +943,26 @@ export default {
             datetime: false,
             type: false,
             shareLimit: false
+          },
+          validator: (rule, value, callback) => {
+            const rel = self.activityRule.relatives
+            if (!rel.join) {
+              callback()
+              return
+            }
+            if (rel.type === '1') {
+              const sl = rel.shareLimit
+              if (sl === '' || sl === null || sl === undefined) {
+                callback(new Error(t('39e3acc2.f1ee02')))
+                return
+              }
+              const relFen = Math.round((Number(sl) || 0) * 100)
+              if (!Number.isFinite(relFen) || relFen < 1) {
+                callback(new Error(t('39e3acc2.f1ee02')))
+                return
+              }
+            }
+            callback()
           },
           message: t('39e3acc2.19e116')
         },
@@ -1368,11 +1399,14 @@ export default {
       const preheatMoment = moment(preheatTime)
       const employeeBeginUnix = moment(employeeDateTime[0]).unix()
       const employeeEndUnix = moment(employeeDateTime[1]).unix()
-      let employeeLimitfeeFen = Math.max(0, Math.round((Number(quota) || 0) * 100))
+      let employeeLimitfeeFen = Math.round((Number(quota) || 0) * 100)
       let ifRelativeJoin = join ? 1 : 0
       let inviteLimitVal = num
       let ifShareLimitfee = type == '2'
-      let relativeLimitfeeFen = shareLimit * 100
+      let relativeLimitfeeFen = 0
+      if (ifRelativeJoin && !ifShareLimitfee) {
+        relativeLimitfeeFen = Math.round((Number(shareLimit) || 0) * 100)
+      }
       if (usePassphrase) {
         ifRelativeJoin = 0
         inviteLimitVal = 0
@@ -1412,17 +1446,16 @@ export default {
           }))
         )
       }
-      if (!usePassphrase && relativesDateTime[0]) {
-        params = {
-          ...params,
-          relative_begin_time: moment(relativesDateTime[0]).unix()
+      if (!usePassphrase && ifRelativeJoin === 1) {
+        if (relativesDateTime[0]) {
+          params.relative_begin_time = moment(relativesDateTime[0]).unix()
         }
-      }
-      if (!usePassphrase && relativesDateTime[1]) {
-        params = {
-          ...params,
-          relative_end_time: moment(relativesDateTime[1]).unix()
+        if (relativesDateTime[1]) {
+          params.relative_end_time = moment(relativesDateTime[1]).unix()
         }
+      } else {
+        params.relative_begin_time = 0
+        params.relative_end_time = 0
       }
       const { id } = this.$route.params
       const resUrl = this.$route.path.split('create')[0] + 'result/'
