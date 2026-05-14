@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <div class="preview-canvas-scroll flex h-full flex-1 p-0">
+    <div ref="previewViewport" class="preview-canvas-scroll flex h-full flex-1 p-0">
       <div
         v-if="previewError || !websiteUrl"
         class="m-3 flex min-h-[180px] items-center justify-center rounded-xl border border-dashed border-[#d7dde7] bg-[#fbfbfc] p-6 text-center text-[#6b7785]"
@@ -71,13 +71,10 @@
         {{ $t('01f158e9.a4a56e') }}
       </div>
 
-      <div v-else class="flex h-full min-h-full w-full items-stretch box-border p-4">
+      <div v-else class="flex min-h-full w-full items-start box-border p-4">
         <div
-          :class="
-            device === 'mobile'
-              ? 'relative mx-auto my-6 h-full min-h-[720px] w-[420px] max-w-full overflow-hidden rounded-xl bg-white shadow-[0_18px_48px_rgba(15,23,42,0.08)]'
-              : 'relative h-full min-h-full w-full overflow-hidden bg-white'
-          "
+          :class="previewFrameShellClass"
+          :style="previewFrameShellStyle"
         >
           <iframe
             ref="previewFrame"
@@ -154,8 +151,10 @@ export default {
       previewError: false,
       updateTimer: null,
       initRetryTimer: null,
+      previewViewportHeight: 0,
       removeRawDebugListener: null,
-      removeListener: null
+      removeListener: null,
+      previewViewportObserver: null
     }
   },
   computed: {
@@ -165,6 +164,26 @@ export default {
         templateId: this.templateId,
         pageType: this.pageType
       })
+    },
+    previewFrameMinHeight() {
+      return this.device === 'mobile' ? 720 : 0
+    },
+    previewFrameViewportHeight() {
+      const height = Number(this.previewViewportHeight || 0)
+      if (!Number.isFinite(height) || height <= 0) return 0
+      return Math.max(0, Math.floor(height - 32))
+    },
+    previewFrameHeight() {
+      return Math.max(this.previewFrameViewportHeight, this.previewFrameMinHeight)
+    },
+    previewFrameShellClass() {
+      return this.device === 'mobile'
+        ? 'relative mx-auto my-6 w-[420px] max-w-full overflow-hidden rounded-xl bg-white shadow-[0_18px_48px_rgba(15,23,42,0.08)]'
+        : 'relative w-full overflow-hidden bg-white'
+    },
+    previewFrameShellStyle() {
+      const height = this.previewFrameHeight
+      return height ? { height: `${height}px`, minHeight: `${this.previewFrameMinHeight}px` } : {}
     }
   },
   watch: {
@@ -203,6 +222,7 @@ export default {
       })
       this.removeRawDebugListener = this.bindRawDebugListener()
       this.removeListener = this.messenger.onMessage(this.handleIncomingMessage)
+      this.bindPreviewViewportObserver()
     } catch (error) {
       console.warn('[sp-web-decoration] PreviewCanvas init failed', error)
       this.previewError = true
@@ -224,8 +244,28 @@ export default {
       this.removeRawDebugListener()
       this.removeRawDebugListener = null
     }
+    if (this.previewViewportObserver) {
+      this.previewViewportObserver.disconnect()
+      this.previewViewportObserver = null
+    }
+    window.removeEventListener('resize', this.updatePreviewViewportHeight)
   },
   methods: {
+    updatePreviewViewportHeight() {
+      const el = this.$refs.previewViewport
+      if (!el) return
+      this.previewViewportHeight = el.clientHeight || 0
+    },
+    bindPreviewViewportObserver() {
+      this.$nextTick(() => {
+        this.updatePreviewViewportHeight()
+        const el = this.$refs.previewViewport
+        if (!el || typeof ResizeObserver === 'undefined') return
+        this.previewViewportObserver = new ResizeObserver(() => this.updatePreviewViewportHeight())
+        this.previewViewportObserver.observe(el)
+        window.addEventListener('resize', this.updatePreviewViewportHeight)
+      })
+    },
     bindRawDebugListener() {
       const listener = (event) => {
         if (!event.data || typeof event.data !== 'object') return
