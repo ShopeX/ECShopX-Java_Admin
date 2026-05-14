@@ -12,10 +12,8 @@
           <el-radio-button label="cash">{{ $t('dba53da0.f23195') }}</el-radio-button>
           <!-- <el-radio-button label="gift">兑换券</el-radio-button> -->
           <el-radio-button v-if="!VERSION_SHUYUN()" label="new_gift">
-{{
-            $t('dba53da0.8bc752')
-          }}
-</el-radio-button>
+            {{ $t('dba53da0.8bc752') }}
+          </el-radio-button>
         </el-radio-group>
       </div>
       <GiftCoupon v-if="form.card_type === 'new_gift'" @haddleShowTab="haddleShowTab" />
@@ -289,15 +287,11 @@
               @change="usePlatformChange"
             >
               <el-radio v-if="is_distributor == false" label="store">
-{{
-                $t('dba53da0.1b38a1')
-              }}
-</el-radio>
+                {{ $t('dba53da0.1b38a1') }}
+              </el-radio>
               <el-radio v-if="form.card_type != 'gift'" label="mall">
-{{
-                $t('dba53da0.4448af')
-              }}
-</el-radio>
+                {{ $t('dba53da0.4448af') }}
+              </el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item
@@ -328,7 +322,7 @@
               <el-radio label="1">{{ $t('dba53da0.dedaee') }}</el-radio>
               <el-radio label="0">{{ $t('dba53da0.2a9882') }}</el-radio>
             </el-radio-group>
-            <br>
+            <br />
             <el-input
               v-if="self_rcode === '1'"
               v-model="form.self_consume_code"
@@ -369,10 +363,8 @@
                   <el-button type="primary">{{ $t('dba53da0.c3202e') }}</el-button>
                 </el-upload>
                 <el-button type="primary" @click="uploadHandleTemplate()">
-{{
-                  $t('dba53da0.c3f9a1')
-                }}
-</el-button>
+                  {{ $t('dba53da0.c3f9a1') }}
+                </el-button>
               </template>
             </SkuSelector>
           </div>
@@ -468,10 +460,8 @@
           </el-form-item>
           <div v-if="!zdShopHidden">
             <el-button type="primary" @click="addStoreAction">
-{{
-              $t('dba53da0.86c570')
-            }}
-</el-button>
+              {{ $t('dba53da0.86c570') }}
+            </el-button>
             <el-table v-if="relStores.length > 0" :data="relStores" style="line-height: normal">
               <el-table-column label="ID" prop="wxShopId" width="60" />
               <el-table-column :label="$t('dba53da0.d7ec2d')" prop="storeName" />
@@ -502,10 +492,8 @@
           </el-form-item>
           <div v-if="!zdShopHidden">
             <el-button type="primary" @click="addDistributorAction">
-{{
-              $t('dba53da0.afa2e6')
-            }}
-</el-button>
+              {{ $t('dba53da0.afa2e6') }}
+            </el-button>
             <el-table
               v-if="distributor_info.length > 0"
               :data="distributor_info"
@@ -555,6 +543,18 @@
       @chooseStore="chooseDistributorAction"
       @closeStoreDialog="closeDistributorDialogAction"
     />
+
+    <SpTranslatePopup
+      ref="translatePopup"
+      table-name="kaquan_discount_cards"
+      :data-id="translateContext.dataId"
+      :fields="translateContext.fields"
+      :values="translateContext.values"
+      :source-language="translateContext.sourceLang"
+      @done="onTranslateDone"
+      @save-only="onTranslateSaveOnly"
+      @cancel="onTranslateCancel"
+    />
   </SpPage>
 </template>
 
@@ -570,13 +570,17 @@ import { getWxShopsList } from '@/api/shop'
 import { getItemsList, getCategory, getTagList, getGoodsAttr } from '@/api/goods'
 import { handleUploadFile, exportUploadTemplate } from '../../../api/common'
 import GiftCoupon from './coupon/gift.vue'
+import SpTranslatePopup from '@/components/sp-translate-popup'
+import translateMixin from '@/mixins/translateMixin'
 export default {
+  mixins: [translateMixin],
   components: {
     StoreSelect,
     SkuSelector,
     DistributorSelect,
     Treeselect,
-    GiftCoupon
+    GiftCoupon,
+    SpTranslatePopup
   },
   inject: ['refresh'],
   data() {
@@ -1111,7 +1115,7 @@ export default {
                     duration: 2 * 1000
                   })
                   this.refresh()
-                  this.$router.go(-1)
+                  this.openTranslate(this.form.card_id, ['title', 'description'], [this.form.title || '', this.form.description || ''])
                 } else {
                   this.$message.error(this.$t('dba53da0.445eb0'))
                   this.submitDisabled = false
@@ -1131,7 +1135,9 @@ export default {
                     duration: 2 * 1000
                   })
                   this.refresh()
-                  this.$router.go(-1)
+                  // 创建/编辑保持一致：弹「同步翻译」弹框；仅保存/取消由 mixin 跳回列表
+                  const newCardId = (res.data.data && res.data.data.card_id) || this.form.card_id
+                  this.openTranslate(newCardId, ['title', 'description'], [this.form.title || '', this.form.description || ''])
                 } else {
                   this.$message.error(this.$t('dba53da0.be28db'))
                   this.submitDisabled = false
@@ -1147,6 +1153,7 @@ export default {
         }
       })
     },
+    
     addStoreAction() {
       this.storeVisible = true
       this.setStatus = true

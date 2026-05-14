@@ -137,7 +137,7 @@ function processConfig(config) {
 
     if (shouldUseCompStyle) {
       const { component, ...rest } = item
-      let group = rest.group || i18n.t('b370a342.32789d') 
+      let group = rest.group || i18n.t('b370a342.32789d')
       return {
         ...rest,
         group: group,
