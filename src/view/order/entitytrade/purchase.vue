@@ -1004,7 +1004,9 @@ export default {
           return this.$message.warning(this.$t('931fca81.72b354'))
         }
 
-        this.$refs['deliverGoodsDialogRef'].resetForm()
+        // SpDialog 关闭时不渲染 SpForm，此处 resetForm 在弹窗未打开时无效，需显式清空并待挂载后再 reset
+        this.deliverGoodsForm.delivery_corp = ''
+        this.deliverGoodsForm.delivery_code = ''
         this.deliverGoodsForm.order_id = order_id
         this.deliverGoodsForm.items = items.map((item) => {
           return {
@@ -1019,10 +1021,14 @@ export default {
           this.deliverGoodsFormList[0].disabled = true
           this.deliverGoodsFormList[1].options[4].isShow = true
         } else {
+          this.deliverGoodsForm.delivery_type = 'batch'
           this.deliverGoodsFormList[0].disabled = false
           this.deliverGoodsFormList[1].options[4].isShow = false
         }
         this.deliverGoodsDialog = true
+        this.$nextTick(() => {
+          this.$refs['deliverGoodsDialogRef'] && this.$refs['deliverGoodsDialogRef'].resetForm()
+        })
       } else if (key == 'writeOff') {
         this.$refs['writeOffDialogRef'].resetForm()
         this.writeOffForm.order_id = order_id
