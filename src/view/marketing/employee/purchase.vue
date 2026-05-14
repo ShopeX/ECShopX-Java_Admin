@@ -1029,7 +1029,8 @@ export default {
           label: t('39e3acc2.d0bea4'),
           key: 'discount_description',
           type: 'input',
-          maxlength: 50
+          maxlength: 50,
+          tip: t('39e3acc2.6a03e7')
         }
       ]
     },
