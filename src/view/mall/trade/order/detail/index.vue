@@ -1268,7 +1268,8 @@ export default {
     handleAction({ key }) {
       const { order_id, items, delivery_type, delivery_status } = this.orderInfo
       if (key == 'deliverGoods') {
-        if (this.isBindOMS && this.IS_ADMIN()) {
+        // 已对接 OMS 时仅供应商端可发货，其余端不可操作
+        if (this.isBindOMS && !IS_SUPPLIER()) {
           return this.$message.warning(this.$t('3cdfcea1.72b354'))
         }
         this.$refs['deliverGoodsDialogRef'].resetForm()
