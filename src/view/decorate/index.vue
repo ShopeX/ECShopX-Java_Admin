@@ -10,15 +10,11 @@
       <div class="hd-lf">{{ localTitle }}</div>
       <div class="hd-rg">
         <el-button v-if="mode == 'page'" plain @click="onExit">
-{{
-          $t('c3827da6.5094c1')
-        }}
-</el-button>
+          {{ $t('c3827da6.5094c1') }}
+        </el-button>
         <el-button v-if="mode == 'dialog'" plain @click="onClose">
-{{
-          $t('c3827da6.b15d91')
-        }}
-</el-button>
+          {{ $t('c3827da6.b15d91') }}
+        </el-button>
         <el-button type="primary" @click="onSaveTemplate">{{ $t('c3827da6.be5fbb') }}</el-button>
       </div>
     </div>
@@ -248,7 +244,13 @@ export default {
     },
     headerVisible() {
       // 商城装修(1001)、店铺装修(1003)、个人中心(1008)展示页面设置挂件，1007 分类模版等不展示
-      return this.mode == 'page' && (this.localScene == '1001' || this.localScene == '1003' || this.localScene == '1008' || this.localScene == '1004')
+      return (
+        this.mode == 'page' &&
+        (this.localScene == '1001' ||
+          this.localScene == '1003' ||
+          this.localScene == '1008' ||
+          this.localScene == '1004')
+      )
     },
     widgetCategories() {
       // 通用挂件：轮播、热区图、视频、文字轮播
@@ -327,6 +329,7 @@ export default {
         1002: this.$t('c3827da6.b4f5db'),
         1003: this.$t('c3827da6.eab3fc'),
         1004: this.$t('c3827da6.9d3c40'),
+        1010: this.$t('c3827da6.9d3c40'),
         1007: this.$t('c3827da6.38e3c7'),
         1008: this.$t('c3827da6.fbd049'),
         1009: this.$t('c3827da6.fa06ad')
@@ -431,6 +434,7 @@ export default {
       try {
         if (
           this.localScene == '1004' ||
+          this.localScene == '1010' ||
           this.localScene == '1006' ||
           this.localScene == '1007' ||
           this.localScene == '1008'
@@ -661,6 +665,7 @@ export default {
       console.log('onSaveTemplate data:', data)
       if (
         this.localScene == '1004' ||
+        this.localScene == '1010' ||
         this.localScene == '1006' ||
         this.localScene == '1008' ||
         this.localScene == '1007'

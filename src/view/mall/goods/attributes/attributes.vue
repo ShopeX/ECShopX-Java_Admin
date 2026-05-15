@@ -13,7 +13,7 @@
       @submit="onSearch"
     />
     <div class="action-container mt-4">
-      <el-button type="primary" @click="handleNew"> {{ i18n.t('5db1387d.ac469a') }} </el-button>  
+      <el-button type="primary" @click="handleNew"> {{ i18n.t('5db1387d.ac469a') }} </el-button>
     </div>
     <!-- <div class="action-container">
       <el-button
@@ -38,7 +38,7 @@
             v-for="(item, index) in props.row.attribute_values.list"
             :key="index"
             class="sku-value"
-            ><img v-if="item.image_url" class="sku-img" :src="item.image_url">{{
+            ><img v-if="item.image_url" class="sku-img" :src="item.image_url" />{{
               item.attribute_value
             }}</span
           >
@@ -47,7 +47,7 @@
       <el-table-column :label="i18n.t('5db1387d.2b6bc0')" width="150">
         <template slot-scope="scope">
           <el-button type="text" @click="handleEdit(scope.row)">
-            {{ i18n.t('5db1387d.95b351') }} 
+            {{ i18n.t('5db1387d.95b351') }}
           </el-button>
           <el-button type="text" @click="handleDelete(scope)">
             {{ i18n.t('5db1387d.2f4aad') }}
@@ -56,7 +56,11 @@
       </el-table-column>
       <el-table-column :label="i18n.t('5db1387d.226b09')" width="150">
         <template slot-scope="props">
-          {{ normalizeIsImage(props.row.is_image) ? i18n.t('5db1387d.20def7') : i18n.t('5db1387d.ca746b') }}
+          {{
+            normalizeIsImage(props.row.is_image)
+              ? i18n.t('5db1387d.20def7')
+              : i18n.t('5db1387d.ca746b')
+          }}
         </template>
       </el-table-column>
       <el-table-column prop="attribute_name" :label="i18n.t('5db1387d.023809')" width="200" />
@@ -87,10 +91,22 @@
       <component :is="SpecForm" :value="form" @submit="onFormSubmit" />
       <div slot="footer">
         <el-button type="primary" @click="handleFormSubmit">
-          {{ i18n.t('5db1387d.939d53') }} 
+          {{ i18n.t('5db1387d.939d53') }}
         </el-button>
       </div>
     </sideBar>
+
+    <SpTranslatePopup
+      ref="translatePopup"
+      table-name="items_attributes"
+      :data-id="translateContext.dataId"
+      :fields="translateContext.fields"
+      :values="translateContext.values"
+      :source-language="translateContext.sourceLang"
+      @done="onTranslateDone"
+      @save-only="onTranslateSaveOnly"
+      @cancel="onTranslateCancel"
+    />
   </SpPage>
 </template>
 <script>
@@ -108,15 +124,18 @@ import sideBar from '@/components/element/sideBar'
 import { useForm } from '@/composables'
 import Vue from 'vue'
 import { i18n } from '@/i18n'
+import SpTranslatePopup from '@/components/sp-translate-popup'
+import translateMixin from '@/mixins/translateMixin'
 
 let SpecFormApi = null
 
 export default {
   components: {
     sideBar,
-    imgPicker
+    imgPicker,
+    SpTranslatePopup
   },
-  mixins: [pageMixin],
+  mixins: [pageMixin, translateMixin],
   data() {
     // 创建表单组件和 API
     const [SpecForm, SpecFormApiInstance] = useForm({
@@ -369,15 +388,24 @@ export default {
           this.resetData()
           this.show_sideBar = false
           this.fetchList()
+          // 创建/编辑保持一致：弹「同步翻译」弹框
+          const newAttrId = (res && res.data && res.data.data && (res.data.data.attribute_id || res.data.data.id)) || 0
+          if (newAttrId) {
+            this.openTranslate(newAttrId, ['attribute_name', 'attribute_memo'], [submitData.attribute_name || '', submitData.attribute_memo || ''])
+          }
         })
       } else {
         updateGoodsAttr(params.attribute_id, params).then((res) => {
           this.$message({ type: 'success', message: this.$t('5db1387d.33130f') })
           this.show_sideBar = false
           this.fetchList()
+          this.openTranslate(params.attribute_id, ['attribute_name', 'attribute_memo'], [submitData.attribute_name || '', submitData.attribute_memo || ''])
         })
       }
     },
+    onTranslateDone() {},
+    // 列表页内嵌表单：仅保存/取消停留在当前列表页
+    goBackTranslateList() {},
     onSearch() {
       this.page.pageIndex = 1
       this.fetchList()
