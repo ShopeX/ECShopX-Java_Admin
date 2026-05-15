@@ -3,9 +3,10 @@
     <SpFormPlus
       ref="searchForm"
       v-model="searchParams"
-      class="sp-goods-picker__search -mt-[12px] !bg-white"
+      class="sp-goods-picker__search -mt-[12px] !bg-white !px-0"
       :form-items="searchFormItems"
       form-type="searchForm"
+      label-position="top"
       @submit="onSearch"
       @reset="onReset"
     />
@@ -24,6 +25,16 @@
       @selection-change="onSelectionChange"
       @row-click="onRowClick"
     />
+
+    <div
+      v-if="multiple && selectedRows.length"
+      class="mt-3 flex items-center justify-between rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm text-foreground"
+    >
+      <span>已选 {{ selectedRows.length }} 个商品</span>
+      <el-button type="text" class="!p-0 !text-muted-foreground" @click="clearSelectedRows">
+        清空
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -38,6 +49,14 @@ function normalizeProduct(row = {}) {
     pics: row.pics,
     price: row.price
   }
+}
+
+function createSelectedMap(rows = []) {
+  return rows.reduce((map, item) => {
+    const product = normalizeProduct(item)
+    if (product.item_id) map[product.item_id] = product
+    return map
+  }, {})
 }
 
 export default {
@@ -67,13 +86,19 @@ export default {
         !this.multiple && this.initialSelected && !Array.isArray(this.initialSelected)
           ? { ...this.initialSelected }
           : null,
-      selectedRows:
-        this.multiple && Array.isArray(this.initialSelected) ? [...this.initialSelected] : [],
+      selectedMap:
+        this.multiple && Array.isArray(this.initialSelected)
+          ? createSelectedMap(this.initialSelected)
+          : {},
+      currentPageRows: [],
       brandList: [],
       categoryList: []
     }
   },
   computed: {
+    selectedRows() {
+      return Object.values(this.selectedMap)
+    },
     searchFormItems() {
       return [
         {
@@ -217,6 +242,7 @@ export default {
 
       const selectedIds = new Set(this.selectedRows.map((item) => item.item_id))
       const list = response?.data?.data?.list || []
+      this.currentPageRows = list
       const selectedRows = list.filter((item) => selectedIds.has(item.item_id))
 
       this.$nextTick(() => {
@@ -248,7 +274,19 @@ export default {
     onSelect() {},
     onSelectionChange(rows) {
       if (!this.multiple) return
-      this.selectedRows = rows.map((row) => normalizeProduct(row))
+      const nextPageSelectedIds = new Set((rows || []).map((row) => row.item_id).filter(Boolean))
+      ;(this.currentPageRows || []).forEach((row) => {
+        if (!row?.item_id) return
+        if (!nextPageSelectedIds.has(row.item_id)) this.$delete(this.selectedMap, row.item_id)
+      })
+      ;(rows || []).forEach((row) => {
+        if (row?.item_id) this.$set(this.selectedMap, row.item_id, normalizeProduct(row))
+      })
+    },
+    clearSelectedRows() {
+      this.selectedMap = {}
+      const table = this.$refs.finder?.$refs?.finderTable?.$refs?.finderTable
+      table?.clearSelection?.()
     },
     submit() {
       if (!this.multiple) {

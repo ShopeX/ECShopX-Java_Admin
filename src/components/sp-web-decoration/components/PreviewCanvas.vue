@@ -1,56 +1,50 @@
 <template>
   <div class="h-full flex min-h-0 flex-col bg-[#eef1f5]">
     <div
-      class="relative flex min-h-12 shrink-0 items-center gap-2 border-b border-[#e6e9ef] bg-white px-[14px] py-[10px]"
+      class="relative flex min-h-[42px] shrink-0 items-center gap-2 border-b border-[#e6e9ef] bg-white px-[14px] py-[7px]"
     >
       <div class="min-w-0 max-w-[38%] truncate text-[14px] font-semibold text-[#18222f]">
         {{ $t('01f158e9.2f586b') }}
       </div>
       <div
-        class="absolute left-1/2 top-1/2 z-[1] flex -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 rounded-lg border border-[rgba(17,24,39,0.08)] bg-[rgba(250,251,253,0.95)] p-0.5"
+        class="absolute left-1/2 top-1/2 z-[1] flex -translate-x-1/2 -translate-y-1/2 items-center gap-0.5 rounded-[10px] bg-[rgba(17,24,39,0.06)] p-0.5"
       >
-        <el-button
-          class="!flex !h-7 !w-7 !items-center !justify-center !p-0"
-          circle
-          size="mini"
-          :type="device === 'desktop' ? 'primary' : 'default'"
+        <button
+          type="button"
+          :class="deviceSwitchButtonClass('desktop')"
           :aria-label="$t('30ac5b9e.2828b7')"
           @click="$emit('select-device', 'desktop')"
         >
-          <Monitor :size="16" class="text-current" :stroke-width="2" />
-        </el-button>
-        <el-button
-          class="!flex !h-7 !w-7 !items-center !justify-center !p-0"
-          circle
-          size="mini"
-          :type="device === 'mobile' ? 'primary' : 'default'"
+          <Monitor :size="15" class="text-current" :stroke-width="2" />
+        </button>
+        <button
+          type="button"
+          :class="deviceSwitchButtonClass('mobile')"
           :aria-label="$t('30ac5b9e.68d982')"
           @click="$emit('select-device', 'mobile')"
         >
-          <Smartphone :size="16" class="text-current" :stroke-width="2" />
-        </el-button>
+          <Smartphone :size="15" class="text-current" :stroke-width="2" />
+        </button>
       </div>
       <div class="relative z-[1] ml-auto flex shrink-0 items-center gap-1">
-        <el-button
-          class="!flex !h-7 !w-7 !items-center !justify-center !p-0"
-          circle
-          size="mini"
+        <button
+          type="button"
+          :class="historyButtonClass(canUndo)"
           :disabled="!canUndo"
           :aria-label="$t('30ac5b9e.bd9fcf')"
           @click="$emit('undo')"
         >
-          <RotateCcw :size="16" class="text-[#606266]" :stroke-width="2" />
-        </el-button>
-        <el-button
-          class="!flex !h-7 !w-7 !items-center !justify-center !p-0"
-          circle
-          size="mini"
+          <Undo :size="17" class="text-current" :stroke-width="2" />
+        </button>
+        <button
+          type="button"
+          :class="historyButtonClass(canRedo)"
           :disabled="!canRedo"
           :aria-label="$t('30ac5b9e.c7db6d')"
           @click="$emit('redo')"
         >
-          <RotateCw :size="16" class="text-[#606266]" :stroke-width="2" />
-        </el-button>
+          <Redo :size="17" class="text-current" :stroke-width="2" />
+        </button>
         <div
           :class="
             iframeReady
@@ -71,11 +65,8 @@
         {{ $t('01f158e9.a4a56e') }}
       </div>
 
-      <div v-else class="flex min-h-full w-full items-start box-border p-4">
-        <div
-          :class="previewFrameShellClass"
-          :style="previewFrameShellStyle"
-        >
+      <div v-else :class="previewFrameContainerClass">
+        <div :class="previewFrameShellClass" :style="previewFrameShellStyle">
           <iframe
             ref="previewFrame"
             class="h-full w-full border-0 bg-white"
@@ -89,11 +80,16 @@
 </template>
 
 <script>
+import { Redo, Undo } from 'lucide-vue'
 import { createDecorationMessenger } from '../utils/postMessage.js'
 import { serializeDsl } from '../utils/dsl.js'
 
 export default {
   name: 'PreviewCanvas',
+  components: {
+    Redo,
+    Undo
+  },
   props: {
     dsl: {
       type: Object,
@@ -151,6 +147,7 @@ export default {
       previewError: false,
       updateTimer: null,
       initRetryTimer: null,
+      previewViewportRaf: null,
       previewViewportHeight: 0,
       removeRawDebugListener: null,
       removeListener: null,
@@ -171,15 +168,21 @@ export default {
     previewFrameViewportHeight() {
       const height = Number(this.previewViewportHeight || 0)
       if (!Number.isFinite(height) || height <= 0) return 0
-      return Math.max(0, Math.floor(height - 32))
+      const verticalPadding = this.device === 'mobile' ? 48 : 32
+      return Math.max(0, Math.floor(height - verticalPadding))
     },
     previewFrameHeight() {
       return Math.max(this.previewFrameViewportHeight, this.previewFrameMinHeight)
     },
     previewFrameShellClass() {
       return this.device === 'mobile'
-        ? 'relative mx-auto my-6 w-[420px] max-w-full overflow-hidden rounded-xl bg-white shadow-[0_18px_48px_rgba(15,23,42,0.08)]'
+        ? 'relative mx-auto w-[420px] max-w-full overflow-hidden rounded-xl bg-white shadow-[0_18px_48px_rgba(15,23,42,0.08)]'
         : 'relative w-full overflow-hidden bg-white'
+    },
+    previewFrameContainerClass() {
+      return this.device === 'mobile'
+        ? 'flex min-h-0 w-full items-start box-border px-4 py-6'
+        : 'flex min-h-0 w-full items-start box-border p-4'
     },
     previewFrameShellStyle() {
       const height = this.previewFrameHeight
@@ -248,22 +251,54 @@ export default {
       this.previewViewportObserver.disconnect()
       this.previewViewportObserver = null
     }
-    window.removeEventListener('resize', this.updatePreviewViewportHeight)
+    if (this.previewViewportRaf) {
+      cancelAnimationFrame(this.previewViewportRaf)
+      this.previewViewportRaf = null
+    }
+    window.removeEventListener('resize', this.schedulePreviewViewportHeightUpdate)
   },
   methods: {
+    deviceSwitchButtonClass(value) {
+      const active = this.device === value
+      return [
+        'flex h-7 w-8 items-center justify-center rounded-[8px] border-0 transition-colors',
+        active
+          ? 'bg-white text-[#18222f] shadow-[0_6px_14px_rgba(15,23,42,0.12)]'
+          : 'bg-transparent text-[#7d8796] hover:text-[#18222f]'
+      ]
+    },
+    historyButtonClass(enabled) {
+      return [
+        'flex h-8 w-8 items-center justify-center rounded-md border-0 bg-transparent p-0 transition-colors',
+        enabled
+          ? 'cursor-pointer text-[#606266] hover:bg-[#f3f4f7] hover:text-[#18222f]'
+          : 'cursor-not-allowed text-[#c0c4cc]'
+      ]
+    },
     updatePreviewViewportHeight() {
       const el = this.$refs.previewViewport
       if (!el) return
-      this.previewViewportHeight = el.clientHeight || 0
+      const nextHeight = el.clientHeight || 0
+      if (nextHeight === this.previewViewportHeight) return
+      this.previewViewportHeight = nextHeight
+    },
+    schedulePreviewViewportHeightUpdate() {
+      if (this.previewViewportRaf) return
+      this.previewViewportRaf = requestAnimationFrame(() => {
+        this.previewViewportRaf = null
+        this.updatePreviewViewportHeight()
+      })
     },
     bindPreviewViewportObserver() {
       this.$nextTick(() => {
         this.updatePreviewViewportHeight()
         const el = this.$refs.previewViewport
         if (!el || typeof ResizeObserver === 'undefined') return
-        this.previewViewportObserver = new ResizeObserver(() => this.updatePreviewViewportHeight())
+        this.previewViewportObserver = new ResizeObserver(() =>
+          this.schedulePreviewViewportHeightUpdate()
+        )
         this.previewViewportObserver.observe(el)
-        window.addEventListener('resize', this.updatePreviewViewportHeight)
+        window.addEventListener('resize', this.schedulePreviewViewportHeightUpdate)
       })
     },
     bindRawDebugListener() {
@@ -283,6 +318,17 @@ export default {
     getPreviewContentWindow() {
       const el = this.$refs.previewFrame
       return el && el.contentWindow ? el.contentWindow : null
+    },
+    normalizePreviewAnchor(anchor) {
+      const x = Number(anchor?.clientX)
+      const y = Number(anchor?.clientY)
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return null
+      const rect = this.$refs.previewFrame?.getBoundingClientRect?.()
+      if (!rect) return { clientX: x, clientY: y }
+      return {
+        clientX: rect.left + x,
+        clientY: rect.top + y
+      }
     },
     handleIncomingMessage(event) {
       const { data } = event
@@ -321,7 +367,9 @@ export default {
         this.$emit('add-block-requested', {
           sectionId: data.payload.sectionId,
           insertIndex:
-            typeof data.payload.insertIndex === 'number' ? data.payload.insertIndex : undefined
+            typeof data.payload.insertIndex === 'number' ? data.payload.insertIndex : undefined,
+          anchor: this.normalizePreviewAnchor(data.payload.anchor),
+          area: data.payload.area || ''
         })
         return
       }
@@ -330,7 +378,9 @@ export default {
         this.$emit('add-section-requested', {
           sectionId: data.payload.sectionId,
           insertIndex:
-            typeof data.payload.insertIndex === 'number' ? data.payload.insertIndex : undefined
+            typeof data.payload.insertIndex === 'number' ? data.payload.insertIndex : undefined,
+          anchor: this.normalizePreviewAnchor(data.payload.anchor),
+          area: data.payload.area || ''
         })
         return
       }

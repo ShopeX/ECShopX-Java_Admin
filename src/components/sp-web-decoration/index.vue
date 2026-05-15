@@ -16,6 +16,7 @@
         </div>
       </div>
       <div
+        v-if="false"
         class="flex min-w-0 flex-1 items-center justify-center gap-2.5 max-[1180px]:order-3 max-[1180px]:w-full max-[1180px]:justify-start max-[1180px]:overflow-x-auto"
       >
         <div
@@ -112,6 +113,14 @@
         />
       </div>
     </div>
+    <StructureInsertMenu
+      v-if="previewInsertMenu.kind && previewInsertMenuItems.length"
+      :items="previewInsertMenuItems"
+      :dock-style="previewInsertMenuDockStyle"
+      show-icons
+      :icon-type="previewInsertMenu.kind"
+      @select="handlePreviewInsertMenuSelect"
+    />
   </div>
 </template>
 
@@ -119,13 +128,16 @@
 import StructurePanel from './components/StructurePanel.vue'
 import PreviewCanvas from './components/PreviewCanvas.vue'
 import ConfigPanel from './components/ConfigPanel.vue'
+import StructureInsertMenu from './components/StructureInsertMenu.vue'
 
-import {
-  getAllowedBlockTypes,
-  getSectionTypesByScope,
-  getTypedSectionDefinition
-} from './definitions/registry.js'
+import { getSectionTypesByScope, getTypedSectionDefinition } from './definitions/registry.js'
+import { getAreaSectionInsertPolicy } from './definitions/areas.js'
 import { composeGlobalDsl } from './utils/dsl.js'
+import {
+  createBlockPickerItems,
+  createSectionPickerItems,
+  createSectionPickerItemsForTypes
+} from './utils/insertPicker.js'
 
 function cloneValue(value) {
   return JSON.parse(JSON.stringify(value))
@@ -136,7 +148,8 @@ export default {
   components: {
     StructurePanel,
     PreviewCanvas,
-    ConfigPanel
+    ConfigPanel,
+    StructureInsertMenu
   },
   props: {
     initialDsl: {
@@ -173,7 +186,15 @@ export default {
       viewMode: 'desktop',
       historyPast: [],
       historyFuture: [],
-      isRestoringHistory: false
+      isRestoringHistory: false,
+      previewInsertMenu: {
+        kind: '',
+        sectionId: '',
+        insertIndex: undefined,
+        area: 'template'
+      },
+      previewInsertMenuAnchor: null,
+      previewInsertMenuDockStyle: {}
     }
   },
   computed: {
@@ -227,6 +248,19 @@ export default {
     },
     canRedo() {
       return this.historyFuture.length > 0
+    },
+    previewInsertMenuItems() {
+      if (this.previewInsertMenu.kind === 'block') {
+        const section = this.findSectionById(this.previewInsertMenu.sectionId)
+        return section ? createBlockPickerItems(section.type) : []
+      }
+      if (this.previewInsertMenu.kind === 'section') {
+        const policy = getAreaSectionInsertPolicy(this.previewInsertMenu.area)
+        return policy.types === null
+          ? createSectionPickerItems(this.sectionDefinitions)
+          : createSectionPickerItemsForTypes(policy.types)
+      }
+      return []
     }
   },
   watch: {
@@ -245,6 +279,7 @@ export default {
     }
   },
   beforeDestroy() {
+    this.unbindPreviewInsertMenuEvents()
     this.$store.commit('decoration/resetState')
   },
   methods: {
@@ -318,23 +353,127 @@ export default {
       this.$store.commit('decoration/addBlock', { sectionId, blockType, index })
       this.recordHistory()
     },
-    handlePreviewAddBlockRequested({ sectionId, insertIndex }) {
-      const section = this.dsl.sections?.[sectionId] || this.globalDsl.sections?.[sectionId]
-      if (!section) return
-      const [blockType] = getAllowedBlockTypes(section.type)
-      if (!blockType) return
-      this.handleAddBlock({
-        sectionId,
-        blockType,
-        index: typeof insertIndex === 'number' ? insertIndex : undefined
+    findSectionById(sectionId) {
+      return (
+        this.dsl.sections?.[sectionId] ||
+        this.headerDsl.sections?.[sectionId] ||
+        this.footerDsl.sections?.[sectionId] ||
+        null
+      )
+    },
+    getSectionArea(sectionId) {
+      if (this.headerDsl.sections?.[sectionId]) return 'header'
+      if (this.footerDsl.sections?.[sectionId]) return 'footer'
+      return 'template'
+    },
+    normalizePreviewArea(area, sectionId) {
+      return ['header', 'template', 'footer'].includes(area) ? area : this.getSectionArea(sectionId)
+    },
+    normalizePreviewInsertIndex(insertIndex) {
+      return typeof insertIndex === 'number' ? insertIndex : undefined
+    },
+    openPreviewInsertMenu({ kind, sectionId, insertIndex, anchor, area }) {
+      this.previewInsertMenu = {
+        kind,
+        sectionId: sectionId || '',
+        insertIndex: this.normalizePreviewInsertIndex(insertIndex),
+        area: this.normalizePreviewArea(area, sectionId)
+      }
+      this.previewInsertMenuAnchor = anchor || null
+      this.updatePreviewInsertMenuPosition()
+      this.bindPreviewInsertMenuEvents()
+      this.$nextTick(() => {
+        if (this.previewInsertMenu.kind && !this.previewInsertMenuItems.length) {
+          this.closePreviewInsertMenu()
+        }
       })
     },
-    handlePreviewAddSectionRequested({ insertIndex }) {
-      const [type] = this.sectionDefinitions.map((definition) => definition.type)
-      if (!type) return
-      this.handleAddSection({
-        type,
-        index: typeof insertIndex === 'number' ? insertIndex : undefined
+    closePreviewInsertMenu() {
+      this.previewInsertMenu = {
+        kind: '',
+        sectionId: '',
+        insertIndex: undefined,
+        area: 'template'
+      }
+      this.previewInsertMenuAnchor = null
+      this.previewInsertMenuDockStyle = {}
+      this.unbindPreviewInsertMenuEvents()
+    },
+    bindPreviewInsertMenuEvents() {
+      this.unbindPreviewInsertMenuEvents()
+      window.addEventListener('resize', this.updatePreviewInsertMenuPosition)
+      window.addEventListener('scroll', this.updatePreviewInsertMenuPosition, true)
+      window.addEventListener('mousedown', this.handlePreviewInsertMenuOutside, true)
+    },
+    unbindPreviewInsertMenuEvents() {
+      window.removeEventListener('resize', this.updatePreviewInsertMenuPosition)
+      window.removeEventListener('scroll', this.updatePreviewInsertMenuPosition, true)
+      window.removeEventListener('mousedown', this.handlePreviewInsertMenuOutside, true)
+    },
+    handlePreviewInsertMenuOutside(event) {
+      if (event.target?.closest?.('.sp-structure-insert-menu')) return
+      this.closePreviewInsertMenu()
+    },
+    updatePreviewInsertMenuPosition() {
+      const anchor = this.previewInsertMenuAnchor
+      if (!anchor) {
+        this.previewInsertMenuDockStyle = { right: '320px', top: '96px' }
+        return
+      }
+      const menuWidth = 208
+      const gap = 8
+      const x = Number(anchor.clientX)
+      const y = Number(anchor.clientY)
+      const viewportWidth = window.innerWidth || document.documentElement.clientWidth || menuWidth
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 420
+      const left = Math.min(Math.max(gap, x - menuWidth / 2), viewportWidth - menuWidth - gap)
+      const top = Math.min(Math.max(gap, y + gap), viewportHeight - 160)
+      this.previewInsertMenuDockStyle = {
+        left: `${Math.max(gap, left)}px`,
+        top: `${Math.max(gap, top)}px`
+      }
+    },
+    handlePreviewAddBlockRequested(payload) {
+      if (!payload?.sectionId || !this.findSectionById(payload.sectionId)) return
+      this.openPreviewInsertMenu({
+        kind: 'block',
+        sectionId: payload.sectionId,
+        insertIndex: payload.insertIndex,
+        anchor: payload.anchor,
+        area: payload.area
+      })
+    },
+    handlePreviewAddSectionRequested(payload) {
+      if (!payload?.sectionId) return
+      this.openPreviewInsertMenu({
+        kind: 'section',
+        sectionId: payload.sectionId,
+        insertIndex: payload.insertIndex,
+        anchor: payload.anchor,
+        area: payload.area
+      })
+    },
+    handlePreviewInsertMenuSelect(item) {
+      const context = { ...this.previewInsertMenu }
+      this.closePreviewInsertMenu()
+      if (!item?.type) return
+      if (context.kind === 'block') {
+        this.handleAddBlock({
+          sectionId: context.sectionId,
+          blockType: item.type,
+          index: context.insertIndex
+        })
+        return
+      }
+      const policy = getAreaSectionInsertPolicy(context.area)
+      if (policy.mutation === 'page') {
+        this.handleAddSection({ type: item.type, index: context.insertIndex })
+        return
+      }
+      this.handleAddGlobalSection({
+        type: item.type,
+        area: policy.mutation,
+        index: context.insertIndex
       })
     },
     getSectionScopeDsl(sectionId) {

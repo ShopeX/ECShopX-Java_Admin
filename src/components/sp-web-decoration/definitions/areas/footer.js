@@ -1,7 +1,7 @@
 export default {
   type: 'footer',
   dslKey: 'footerDsl',
-  allowedSections: ['main-carousel', 'image-hotspot', 'product-tab-shelf'],
+  allowedSections: [],
   fixedSections: ['footer'],
   mutation: 'footer'
 }

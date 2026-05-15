@@ -9,8 +9,7 @@ const templateDocument = {
         { type: 'image' },
         { type: 'image' },
         {
-          type: 'image',
-          disabled: true
+          type: 'image'
         }
       ]
     }

@@ -1,7 +1,7 @@
 <template>
   <div class="h-full flex min-h-0 flex-col border-l border-border bg-card">
     <div
-      class="flex min-h-12 items-center justify-between gap-2.5 border-b border-border px-[14px] py-[10px]"
+      class="flex min-h-[44px] items-center justify-between gap-2.5 border-b border-border px-[14px] py-[8px]"
     >
       <div class="text-[14px] font-semibold text-foreground">
         {{ panelTitle }}

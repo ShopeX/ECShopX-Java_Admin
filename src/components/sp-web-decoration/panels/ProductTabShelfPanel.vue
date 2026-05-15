@@ -72,6 +72,7 @@
           size="small"
           @input="updateField('spacing', $event)"
         >
+          <el-radio-button label="none">无</el-radio-button>
           <el-radio-button label="small">小</el-radio-button>
           <el-radio-button label="medium">中</el-radio-button>
           <el-radio-button label="large">大</el-radio-button>
