@@ -29,7 +29,7 @@ export function createTypedBlock(sectionType, blockType, options = {}) {
     disabled: Boolean(options.disabled),
     title: definition.name || '',
     settings: {
-      ...cloneValue(getBlockDefaultSettings(blockType) || definition.defaultSettings || {}),
+      ...cloneValue(getBlockDefaultSettings(blockType) || {}),
       ...cloneValue(options.settings || {})
     }
   }
@@ -67,7 +67,7 @@ export function createTypedSection(type, options = {}) {
     title: definition.name || '',
     disabled: Boolean(options.disabled),
     settings: {
-      ...cloneValue(getSectionDefaultSettings(type) || definition.defaultSettings || {}),
+      ...cloneValue(getSectionDefaultSettings(type) || {}),
       ...cloneValue(options.settings || {})
     },
     blocks,

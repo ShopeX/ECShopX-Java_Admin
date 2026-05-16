@@ -213,7 +213,7 @@ export function createDefaultBlock(type, id) {
     id,
     type,
     disabled: false,
-    settings: cloneValue(getBlockDefaultSettings(type) || definition?.defaultSettings || {})
+    settings: cloneValue(getBlockDefaultSettings(type) || {})
   }
 }
 

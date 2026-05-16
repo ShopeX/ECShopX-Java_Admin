@@ -5,7 +5,6 @@ import imageHotspotSection from './sections/image-hotspot.js'
 import productShelfSection from './sections/product-shelf.js'
 import productTabShelfSection from './sections/product-tab-shelf.js'
 import footerSection from './sections/footer.js'
-import { sectionDefaultSettings, blockDefaultSettings } from './default-settings.js'
 
 import announcementBlock from './blocks/announcement.js'
 import headerProductListBlock from './blocks/header-product-list.js'
@@ -60,11 +59,11 @@ export function getTypedBlockDefinition(type) {
 }
 
 export function getSectionDefaultSettings(type) {
-  return sectionDefaultSettings[type] || null
+  return getTypedSectionDefinition(type)?.defaultSettings || null
 }
 
 export function getBlockDefaultSettings(type) {
-  return blockDefaultSettings[type] || null
+  return getTypedBlockDefinition(type)?.defaultSettings || null
 }
 
 export function getAllowedBlockTypes(sectionType) {

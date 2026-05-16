@@ -12,6 +12,8 @@ export default {
     full_width: true,
     show_price: true,
     show_add_cart: true,
+    color_mode: 'light',
+    color_scheme: 'scheme-1',
     padding_top: 'm',
     padding_bottom: 'm'
   },
