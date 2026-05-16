@@ -1,62 +1,57 @@
 <template>
-  <el-form label-position="top" size="small" class="space-y-3">
-    <div class="grid grid-cols-2 gap-3">
-      <el-form-item :label="$t('b86bb5a2.387f71')">
-        <el-switch :value="settings.full_width" @input="updateField('full_width', $event)" />
-      </el-form-item>
+  <div class="space-y-5 text-foreground">
+    <section class="space-y-2">
+      <div class="text-sm text-muted-foreground">{{ $t('b86bb5a2.f8df05') }}</div>
+      <el-switch :value="settings.auto_rotate" @input="updateField('auto_rotate', $event)" />
+    </section>
 
-      <el-form-item :label="$t('b86bb5a2.f8df05')">
-        <el-switch :value="settings.auto_rotate" @input="updateField('auto_rotate', $event)" />
-      </el-form-item>
-    </div>
-
-    <el-form-item v-if="settings.auto_rotate" :label="$t('b86bb5a2.c01f2f')">
+    <section v-if="settings.auto_rotate" class="space-y-2">
+      <div class="text-sm text-muted-foreground">{{ $t('b86bb5a2.c01f2f') }}</div>
       <el-input-number
         :value="settings.change_slides_speed"
         :min="1"
         :max="30"
+        size="small"
         controls-position="right"
         @change="updateField('change_slides_speed', $event)"
       />
-    </el-form-item>
-
-    <el-form-item :label="$t('b86bb5a2.d18f30')">
-      <el-radio-group :value="settings.color_mode" @input="updateField('color_mode', $event)">
-        <el-radio-button label="light">{{ $t('b86bb5a2.48d0a0') }}</el-radio-button>
-        <el-radio-button label="dark">{{ $t('b86bb5a2.41e8e8') }}</el-radio-button>
-      </el-radio-group>
-    </el-form-item>
+    </section>
 
     <div class="grid grid-cols-2 gap-3">
-      <el-form-item :label="$t('b86bb5a2.9de56a')">
+      <section class="space-y-2">
+        <div class="text-sm text-muted-foreground">{{ $t('b86bb5a2.9de56a') }}</div>
         <el-switch
           :value="settings.enable_country_selector"
           @input="updateField('enable_country_selector', $event)"
         />
-      </el-form-item>
+      </section>
 
-      <el-form-item :label="$t('b86bb5a2.37dba1')">
+      <section class="space-y-2">
+        <div class="text-sm text-muted-foreground">{{ $t('b86bb5a2.37dba1') }}</div>
         <el-switch
           :value="settings.enable_language_selector"
           @input="updateField('enable_language_selector', $event)"
         />
-      </el-form-item>
+      </section>
     </div>
 
     <div class="grid grid-cols-2 gap-3">
-      <el-form-item :label="$t('b86bb5a2.925fac')">
+      <section class="space-y-2">
+        <div class="text-sm text-muted-foreground">{{ $t('b86bb5a2.925fac') }}</div>
         <el-switch
           :value="settings.show_line_separator"
           @input="updateField('show_line_separator', $event)"
         />
-      </el-form-item>
+      </section>
 
-      <el-form-item :label="$t('b86bb5a2.f33ffa')">
+      <section class="space-y-2">
+        <div class="text-sm text-muted-foreground">{{ $t('b86bb5a2.f33ffa') }}</div>
         <el-switch :value="settings.show_social" @input="updateField('show_social', $event)" />
-      </el-form-item>
+      </section>
     </div>
 
-    <el-form-item :label="$t('b86bb5a2.fd1ff1')">
+    <section class="space-y-2">
+      <div class="text-sm text-muted-foreground">{{ $t('b86bb5a2.fd1ff1') }}</div>
       <div class="flex flex-col gap-2">
         <div
           v-for="(blockId, index) in blockOrder"
@@ -103,11 +98,14 @@
           {{ $t('b86bb5a2.fa86f1') }}
         </el-button>
       </div>
-    </el-form-item>
-  </el-form>
+    </section>
+
+    <SectionAppearancePanel :value="settings" @change="updateField" />
+  </div>
 </template>
 
 <script>
+import SectionAppearancePanel from './SectionAppearancePanel.vue'
 import { createTypedBlock as createDefaultBlock } from '../definitions/factory.js'
 import {
   normalizeTypedSectionSettings,
@@ -119,6 +117,7 @@ import {
 
 export default {
   name: 'AnnouncementBarPanel',
+  components: { SectionAppearancePanel },
   props: {
     section: {
       type: Object,

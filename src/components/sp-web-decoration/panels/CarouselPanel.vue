@@ -53,11 +53,6 @@
         <span class="text-sm text-muted-foreground">轮播翻页按钮</span>
         <el-switch :value="settings.enable_arrow" @input="updateField('enable_arrow', $event)" />
       </div>
-
-      <div class="flex items-center justify-between gap-3">
-        <span class="text-sm text-muted-foreground">全屏</span>
-        <el-switch :value="settings.full_width" @input="updateField('full_width', $event)" />
-      </div>
     </section>
 
     <section v-if="settings.enable_auto_play" class="space-y-2">
@@ -84,14 +79,20 @@
         />
       </div>
     </section>
+
+    <SectionAppearancePanel :value="settings" @change="updateField" />
   </div>
 </template>
 
 <script>
+import SectionAppearancePanel from './SectionAppearancePanel.vue'
 import { normalizeTypedSectionSettings } from '../utils/panelState.js'
 
 export default {
   name: 'CarouselPanel',
+  components: {
+    SectionAppearancePanel
+  },
   props: {
     value: {
       type: Object,

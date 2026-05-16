@@ -837,6 +837,11 @@ export default {
       return section.title || ''
     },
     getBlockPickerItems(sectionType) {
+      if (sectionType === 'footer') {
+        return createBlockPickerItems(sectionType).filter((item) =>
+          ['footer-menu', 'footer-image', 'footer-text'].includes(item.type)
+        )
+      }
       return createBlockPickerItems(sectionType)
     },
     getBlockOrder(sectionId) {
@@ -845,8 +850,8 @@ export default {
     getBlockLabel(section, blockId) {
       const block = section?.blocks?.[blockId]
       if (!block) return ''
-      // const definition = getBlockDefinition(section.type, block.type)
-      return block.title || ''
+      const definition = getBlockDefinition(block.type)
+      return block.title || definition?.name || block.type || ''
     },
     handleOrderChange() {
       this.$emit('reorder-sections', this.localOrder.slice())

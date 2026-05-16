@@ -3,13 +3,13 @@ export const sectionDefaultSettings = {
     image_height: 'medium',
     paginate_type: 'point',
     paginate_size: 'medium',
-    enable_auto_play: true,
+    enable_auto_play: false,
     enable_arrow: true,
     full_width: false,
     interval: 5,
     show_text_below: false,
     color_mode: 'light',
-    color_style: 'pure',
+    color_scheme: 'scheme-1',
     padding_top: 'm',
     padding_bottom: 'm'
   },
@@ -20,19 +20,22 @@ export const sectionDefaultSettings = {
     color_mode: 'light',
     show_line_separator: true,
     change_slides_speed: 5,
-    color_style: 'pure',
+    color_scheme: 'scheme-1',
+    padding_top: 'none',
+    padding_bottom: 'none',
     show_social: false,
     enable_language_selector: false
   },
   header: {
     color_mode: 'dark',
+    full_width: false,
     sticky_header_type: 'none',
     padding_top: 'xs',
     menu_color_style: 'pure',
     menu_type_desktop: 'dropdown',
     show_line_separator: true,
     menu: null,
-    color_style: 'pure',
+    color_scheme: 'scheme-1',
     layout: 'middle',
     margin_bottom: 0,
     enable_country_selector: true,
@@ -48,18 +51,16 @@ export const sectionDefaultSettings = {
     content_alignment: 'center',
     title: '',
     copyright: '',
-    backgroundColor: '#0f172a',
     newsletter_heading: '',
     color_mode: 'dark',
     margin_top: 48,
     padding_top: 'm',
-    color_style: 'pure',
+    color_scheme: 'scheme-3',
     show_social: true,
     payment_enable: true,
     newsletter_enable: false,
     enable_country_selector: true,
     show_policy: true,
-    color_scheme: 'scheme-2',
     padding_bottom: 'xs',
     enable_brand_information: true,
     enable_language_selector: true
@@ -70,7 +71,12 @@ export const sectionDefaultSettings = {
     itemIds: [],
     categoryId: '',
     columns: 4,
-    limit: 8
+    limit: 8,
+    color_mode: 'light',
+    color_scheme: 'scheme-1',
+    padding_top: 'm',
+    padding_bottom: 'm',
+    full_width: false
   },
   'product-tab-shelf': {
     title: '',
@@ -82,6 +88,8 @@ export const sectionDefaultSettings = {
     full_width: true,
     show_price: true,
     show_add_cart: true,
+    color_mode: 'light',
+    color_scheme: 'scheme-1',
     padding_top: 'm',
     padding_bottom: 'm'
   },
@@ -92,7 +100,7 @@ export const sectionDefaultSettings = {
     mobile_hotspots: [],
     full_width: true,
     color_mode: 'light',
-    color_style: 'striking',
+    color_scheme: 'scheme-1',
     padding_top: 'm',
     padding_bottom: 'm'
   }
@@ -194,6 +202,28 @@ export const blockDefaultSettings = {
   'footer-link': {
     label: '',
     url: '/help'
+  },
+  'footer-menu': {
+    title: '',
+    menu: null,
+    size: 'small',
+    alignment: 'left',
+    column_span: 3
+  },
+  'footer-image': {
+    image: '',
+    alignment: 'left',
+    width: '100',
+    radius: 'medium',
+    column_span: 4
+  },
+  'footer-text': {
+    title: '',
+    content: '',
+    title_size: 'medium',
+    content_size: 'small',
+    alignment: 'left',
+    column_span: 6
   },
   'nav-item': {
     label: '',

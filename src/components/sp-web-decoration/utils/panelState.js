@@ -93,6 +93,12 @@ function normalizeBlockSettingsValue(type, settings = {}) {
 
   if (type === 'hotspot') return normalizeHotspotCompatibleSettings(nextSettings)
   if (type === 'product-tab') return normalizeProductTabBlockSettings(nextSettings)
+  if (type === 'footer-menu' || type === 'footer-image' || type === 'footer-text') {
+    const span = Number(nextSettings.column_span)
+    nextSettings.column_span = Number.isFinite(span)
+      ? Math.min(12, Math.max(1, Math.round(span)))
+      : 12
+  }
   return nextSettings
 }
 

@@ -12,6 +12,12 @@ const templateDocument = {
           type: 'image'
         }
       ]
+    },
+    {
+      type: 'image-hotspot'
+    },
+    {
+      type: 'product-tab-shelf'
     }
   ]
 }

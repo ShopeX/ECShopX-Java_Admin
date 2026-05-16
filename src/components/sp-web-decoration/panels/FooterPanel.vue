@@ -1,22 +1,26 @@
 <template>
-  <el-form label-position="top" size="small" class="space-y-3">
-    <el-form-item :label="$t('146b63bc.5a02fa')">
-      <el-input :value="value.title" @input="updateSetting('title', $event)" />
-    </el-form-item>
+  <div class="space-y-5 text-foreground">
+    <section class="space-y-2">
+      <div class="text-sm text-muted-foreground">{{ $t('146b63bc.5a02fa') }}</div>
+      <el-input :value="value.title" size="small" @input="updateSetting('title', $event)" />
+    </section>
 
-    <el-form-item :label="$t('146b63bc.ebc0c1')">
-      <el-input :value="value.copyright" @input="updateSetting('copyright', $event)" />
-    </el-form-item>
+    <section class="space-y-2">
+      <div class="text-sm text-muted-foreground">{{ $t('146b63bc.ebc0c1') }}</div>
+      <el-input :value="value.copyright" size="small" @input="updateSetting('copyright', $event)" />
+    </section>
 
-    <el-form-item :label="$t('146b63bc.4573a7')">
-      <el-input :value="value.backgroundColor" @input="updateSetting('backgroundColor', $event)" />
-    </el-form-item>
-  </el-form>
+    <SectionAppearancePanel :value="value" :show-full-width="false" @change="updateSetting" />
+  </div>
 </template>
 
 <script>
+import SectionAppearancePanel from './SectionAppearancePanel.vue'
 export default {
   name: 'FooterPanel',
+  components: {
+    SectionAppearancePanel
+  },
   props: {
     value: {
       type: Object,

@@ -32,24 +32,21 @@
       </div>
     </section>
 
-    <section class="space-y-3">
-      <div class="flex items-center justify-between gap-3">
-        <span class="text-sm text-muted-foreground">全屏</span>
-        <el-switch :value="settings.full_width" @input="updateField('full_width', $event)" />
-      </div>
-    </section>
+    <SectionAppearancePanel :value="settings" @change="updateField" />
   </div>
 </template>
 
 <script>
 import SpImagePicker from '@/components/sp-image-picker/index.vue'
 import ImageHotspotEditorDialog from './ImageHotspotEditorDialog.vue'
+import SectionAppearancePanel from './SectionAppearancePanel.vue'
 import { normalizeTypedSectionSettings } from '../utils/panelState.js'
 
 export default {
   name: 'ImageHotspotPanel',
   components: {
-    SpImagePicker
+    SpImagePicker,
+    SectionAppearancePanel
   },
   props: {
     value: {

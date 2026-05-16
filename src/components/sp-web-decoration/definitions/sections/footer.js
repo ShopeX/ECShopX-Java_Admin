@@ -7,11 +7,11 @@ export default {
   name: i18n.t('d65dbcac.4eb88f'),
   defaultBlocks: [
     {
-      type: 'footer-link'
+      type: 'footer-menu'
     }
   ],
   blocks: {
-    allowed: ['footer-link'],
+    allowed: ['footer-menu', 'footer-image', 'footer-text'],
     addable: true,
     sortable: true,
     removable: true

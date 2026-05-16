@@ -16,6 +16,9 @@ import videoBlock from './blocks/video.js'
 import hotspotBlock from './blocks/hotspot.js'
 import productTabBlock from './blocks/product-tab.js'
 import footerLinkBlock from './blocks/footer-link.js'
+import footerMenuBlock from './blocks/footer-menu.js'
+import footerImageBlock from './blocks/footer-image.js'
+import footerTextBlock from './blocks/footer-text.js'
 
 const sectionDefinitions = {
   [headerSection.type]: headerSection,
@@ -36,7 +39,10 @@ const blockDefinitions = {
   [videoBlock.type]: videoBlock,
   [hotspotBlock.type]: hotspotBlock,
   [productTabBlock.type]: productTabBlock,
-  [footerLinkBlock.type]: footerLinkBlock
+  [footerLinkBlock.type]: footerLinkBlock,
+  [footerMenuBlock.type]: footerMenuBlock,
+  [footerImageBlock.type]: footerImageBlock,
+  [footerTextBlock.type]: footerTextBlock
 }
 
 function getSectionTypesByScope(scope) {

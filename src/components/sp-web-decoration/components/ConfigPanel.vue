@@ -43,6 +43,9 @@ import VideoBlockPanel from '../panels/VideoBlockPanel.vue'
 import HotspotBlockPanel from '../panels/HotspotBlockPanel.vue'
 import NavItemBlockPanel from '../panels/NavItemBlockPanel.vue'
 import FooterLinkBlockPanel from '../panels/FooterLinkBlockPanel.vue'
+import FooterMenuBlockPanel from '../panels/FooterMenuBlockPanel.vue'
+import FooterImageBlockPanel from '../panels/FooterImageBlockPanel.vue'
+import FooterTextBlockPanel from '../panels/FooterTextBlockPanel.vue'
 import AnnouncementBlockPanel from '../panels/AnnouncementBlockPanel.vue'
 import ProductTabBlockPanel from '../panels/ProductTabBlockPanel.vue'
 
@@ -69,6 +72,9 @@ const blockPanelMap = {
   hotspot: HotspotBlockPanel,
   'nav-item': NavItemBlockPanel,
   'footer-link': FooterLinkBlockPanel,
+  'footer-menu': FooterMenuBlockPanel,
+  'footer-image': FooterImageBlockPanel,
+  'footer-text': FooterTextBlockPanel,
   'product-tab': ProductTabBlockPanel
 }
 
@@ -87,6 +93,9 @@ export default {
     HotspotBlockPanel,
     NavItemBlockPanel,
     FooterLinkBlockPanel,
+    FooterMenuBlockPanel,
+    FooterImageBlockPanel,
+    FooterTextBlockPanel,
     AnnouncementBlockPanel,
     ProductTabBlockPanel
   },

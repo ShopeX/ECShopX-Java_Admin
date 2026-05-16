@@ -78,20 +78,21 @@
           <el-radio-button label="large">大</el-radio-button>
         </el-radio-group>
       </section>
-
-      <section class="flex items-center justify-between gap-3">
-        <span class="text-sm text-muted-foreground">全屏</span>
-        <el-switch :value="settings.full_width" @change="updateField('full_width', $event)" />
-      </section>
     </div>
+
+    <SectionAppearancePanel :value="settings" @change="updateField" />
   </div>
 </template>
 
 <script>
+import SectionAppearancePanel from './SectionAppearancePanel.vue'
 import { normalizeProductTabShelfSettings } from '../utils/panelState.js'
 
 export default {
   name: 'ProductTabShelfPanel',
+  components: {
+    SectionAppearancePanel
+  },
   props: {
     section: { type: Object, default: null },
     value: { type: Object, default: () => ({}) }

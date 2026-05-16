@@ -1,21 +1,30 @@
 <template>
-  <el-form label-position="top" size="small" class="space-y-3">
-    <el-form-item :label="$t('6c727f2c.5a02fa')">
-      <el-input :value="value.title" @input="updateField('title', $event)" />
-    </el-form-item>
+  <div class="space-y-5 text-foreground">
+    <section class="space-y-2">
+      <div class="text-sm text-muted-foreground">{{ $t('6c727f2c.5a02fa') }}</div>
+      <el-input :value="value.title" size="small" @input="updateField('title', $event)" />
+    </section>
 
-    <el-form-item :label="$t('6c727f2c.f0c7e9')">
-      <el-select :value="value.sourceMode" @input="updateField('sourceMode', $event)">
+    <section class="space-y-2">
+      <div class="text-sm text-muted-foreground">{{ $t('6c727f2c.f0c7e9') }}</div>
+      <el-select
+        :value="value.sourceMode"
+        size="small"
+        class="w-full"
+        @input="updateField('sourceMode', $event)"
+      >
         <el-option :label="$t('6c727f2c.68924b')" value="manual" />
         <el-option :label="$t('6c727f2c.d282eb')" value="category" />
       </el-select>
-    </el-form-item>
+    </section>
 
-    <el-form-item v-if="value.sourceMode === 'category'" :label="$t('6c727f2c.ae8c70')">
-      <el-input :value="value.categoryId" @input="updateField('categoryId', $event)" />
-    </el-form-item>
+    <section v-if="value.sourceMode === 'category'" class="space-y-2">
+      <div class="text-sm text-muted-foreground">{{ $t('6c727f2c.ae8c70') }}</div>
+      <el-input :value="value.categoryId" size="small" @input="updateField('categoryId', $event)" />
+    </section>
 
-    <el-form-item v-else :label="$t('6c727f2c.9a6484')">
+    <section v-else class="space-y-2">
+      <div class="text-sm text-muted-foreground">{{ $t('6c727f2c.9a6484') }}</div>
       <el-input
         type="textarea"
         :rows="4"
@@ -23,35 +32,46 @@
         :placeholder="$t('6c727f2c.d08db5')"
         @input="updateItemIds"
       />
-    </el-form-item>
+    </section>
 
     <div class="grid grid-cols-2 gap-3">
-      <el-form-item :label="$t('6c727f2c.eb22d4')">
+      <section class="space-y-2">
+        <div class="text-sm text-muted-foreground">{{ $t('6c727f2c.eb22d4') }}</div>
         <el-input-number
           :value="value.columns"
           :min="2"
           :max="6"
+          size="small"
           controls-position="right"
+          class="!w-full"
           @change="updateField('columns', $event)"
         />
-      </el-form-item>
+      </section>
 
-      <el-form-item :label="$t('6c727f2c.d57936')">
+      <section class="space-y-2">
+        <div class="text-sm text-muted-foreground">{{ $t('6c727f2c.d57936') }}</div>
         <el-input-number
           :value="value.limit"
           :min="1"
           :max="50"
+          size="small"
           controls-position="right"
+          class="!w-full"
           @change="updateField('limit', $event)"
         />
-      </el-form-item>
+      </section>
     </div>
-  </el-form>
+
+    <SectionAppearancePanel :value="value" @change="updateField" />
+  </div>
 </template>
 
 <script>
+import SectionAppearancePanel from './SectionAppearancePanel.vue'
+
 export default {
   name: 'ProductShelfPanel',
+  components: { SectionAppearancePanel },
   props: {
     value: {
       type: Object,

@@ -8,10 +8,71 @@ const footerDocument = {
       fixedId: 'footer',
       blocks: [
         {
-          type: 'footer-link',
+          type: 'footer-text',
           settings: {
-            label: '',
-            url: '/help'
+            title: 'PERSPECTIVE',
+            content:
+              '<p><strong>Brand information title</strong></p><p>All products in this store are for demo purposes only.</p>',
+            column_span: 4
+          }
+        },
+        {
+          type: 'footer-menu',
+          settings: {
+            title: 'Shop',
+            menu: null,
+            menu_items: [
+              { label: 'New Arrivals', url: '#' },
+              { label: 'Best Sellers', url: '#' },
+              { label: 'Performance', url: '#' },
+              { label: 'Pricing', url: '#' }
+            ],
+            column_span: 2
+          }
+        },
+        {
+          type: 'footer-menu',
+          settings: {
+            title: 'Company',
+            menu: null,
+            menu_items: [
+              { label: 'About us', url: '#' },
+              { label: 'Careers', url: '#' },
+              { label: 'Press', url: '#' },
+              { label: 'Sustainability', url: '#' }
+            ],
+            column_span: 2
+          }
+        },
+        {
+          type: 'footer-menu',
+          settings: {
+            title: 'Customer',
+            menu: null,
+            menu_items: [
+              { label: 'Contact us', url: '#' },
+              { label: 'Returns', url: '#' },
+              { label: 'Terms of Service', url: '#' },
+              { label: 'Shipping policy', url: '#' }
+            ],
+            column_span: 2
+          }
+        },
+        {
+          type: 'footer-text',
+          settings: {
+            title: '订阅我们的电子邮件',
+            content: '<p>请留下您的邮箱以获取最新资讯。</p>',
+            column_span: 4
+          }
+        },
+        {
+          type: 'footer-image',
+          settings: {
+            image: '',
+            link: '',
+            alt: 'footer image',
+            column_span: 12
           }
         }
       ]
