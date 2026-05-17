@@ -10,22 +10,22 @@ const footerDocument = {
         {
           type: 'footer-text',
           settings: {
-            title: 'PERSPECTIVE',
+            title: '品牌介绍',
             content:
-              '<p><strong>Brand information title</strong></p><p>All products in this store are for demo purposes only.</p>',
+              '<p><strong>关于我们的品牌</strong></p><p>我们专注于提供高品质商品与贴心服务，为每一次购物带来更好的体验。</p>',
             column_span: 4
           }
         },
         {
           type: 'footer-menu',
           settings: {
-            title: 'Shop',
+            title: '购物指南',
             menu: null,
             menu_items: [
-              { label: 'New Arrivals', url: '#' },
-              { label: 'Best Sellers', url: '#' },
-              { label: 'Performance', url: '#' },
-              { label: 'Pricing', url: '#' }
+              { label: '新品上市', url: '#' },
+              { label: '热销商品', url: '#' },
+              { label: '产品系列', url: '#' },
+              { label: '优惠活动', url: '#' }
             ],
             column_span: 2
           }
@@ -33,13 +33,13 @@ const footerDocument = {
         {
           type: 'footer-menu',
           settings: {
-            title: 'Company',
+            title: '关于我们',
             menu: null,
             menu_items: [
-              { label: 'About us', url: '#' },
-              { label: 'Careers', url: '#' },
-              { label: 'Press', url: '#' },
-              { label: 'Sustainability', url: '#' }
+              { label: '品牌故事', url: '#' },
+              { label: '加入我们', url: '#' },
+              { label: '新闻资讯', url: '#' },
+              { label: '可持续发展', url: '#' }
             ],
             column_span: 2
           }
@@ -47,13 +47,13 @@ const footerDocument = {
         {
           type: 'footer-menu',
           settings: {
-            title: 'Customer',
+            title: '客户服务',
             menu: null,
             menu_items: [
-              { label: 'Contact us', url: '#' },
-              { label: 'Returns', url: '#' },
-              { label: 'Terms of Service', url: '#' },
-              { label: 'Shipping policy', url: '#' }
+              { label: '联系我们', url: '#' },
+              { label: '退换货说明', url: '#' },
+              { label: '服务条款', url: '#' },
+              { label: '配送政策', url: '#' }
             ],
             column_span: 2
           }
@@ -71,7 +71,7 @@ const footerDocument = {
           settings: {
             image: '',
             link: '',
-            alt: 'footer image',
+            alt: '页脚图片',
             column_span: 12
           }
         }

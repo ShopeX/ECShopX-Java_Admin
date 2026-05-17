@@ -9,7 +9,7 @@ export default {
     color_mode: 'dark',
     full_width: false,
     sticky_header_type: 'none',
-    padding_top: 'xs',
+    padding_top: 'xxs',
     menu_color_style: 'pure',
     menu_type_desktop: 'dropdown',
     show_line_separator: true,
@@ -22,7 +22,7 @@ export default {
     menu_color_mode: 'dark',
     logo_position: 'center',
     enable_customer_avatar: true,
-    padding_bottom: 'xs',
+    padding_bottom: 'xxs',
     menu_color_scheme: 'scheme-1',
     enable_language_selector: true
   },

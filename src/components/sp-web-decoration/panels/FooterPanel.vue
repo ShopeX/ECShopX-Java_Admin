@@ -10,7 +10,7 @@
       <el-input :value="value.copyright" size="small" @input="updateSetting('copyright', $event)" />
     </section>
 
-    <SectionAppearancePanel :value="value" :show-full-width="false" @change="updateSetting" />
+    <SectionAppearancePanel :value="value" @change="updateSetting" />
   </div>
 </template>
 

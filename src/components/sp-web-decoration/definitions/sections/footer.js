@@ -12,6 +12,7 @@ export default {
     newsletter_heading: '',
     color_mode: 'dark',
     margin_top: 48,
+    full_width: false,
     padding_top: 'm',
     color_scheme: 'scheme-3',
     show_social: true,
