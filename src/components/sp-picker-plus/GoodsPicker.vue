@@ -11,23 +11,22 @@
       @reset="onReset"
     />
 
-    <SpFinder
-      ref="finder"
+    <SpTable
+      ref="table"
       url="/goods/items"
-      class="sp-goods-picker__finder bg-white"
+      class="sp-goods-picker__table bg-white"
       row-key="item_id"
-      :other-config="{ 'max-height': 420 }"
-      :setting="finderSetting"
+      max-height="420"
+      :columns="columns"
       :hooks="{ beforeSearch, afterSearch }"
-      :row-class-name="rowClassName"
-      v-bind="finderExtraProps"
-      @select="onSelect"
-      @selection-change="onSelectionChange"
-      @row-click="onRowClick"
+      :params="searchParams"
+      :selection-mode="multiple ? 'multiple' : 'single'"
+      :reserve-selection="multiple"
+      :selected-rows.sync="selectedRowsValue"
     />
 
     <div
-      v-if="multiple && selectedRows.length"
+      v-if="selectedRows.length"
       class="mt-3 flex items-center justify-between rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm text-foreground"
     >
       <span>已选 {{ selectedRows.length }} 个商品</span>
@@ -39,8 +38,8 @@
 </template>
 
 <script>
-import { createSetting } from '@shopex-ui/finder'
 import SpFormPlus from '@/components/sp-form-plus'
+import SpTable from '@/components/sp-table'
 
 function normalizeProduct(row = {}) {
   return {
@@ -62,7 +61,8 @@ function createSelectedMap(rows = []) {
 export default {
   name: 'GoodsPicker',
   components: {
-    SpFormPlus
+    SpFormPlus,
+    SpTable
   },
   props: {
     multiple: {
@@ -96,8 +96,28 @@ export default {
     }
   },
   computed: {
+    selectedRowsValue: {
+      get() {
+        return this.multiple
+          ? Object.values(this.selectedMap)
+          : this.selectedRow
+          ? [this.selectedRow]
+          : []
+      },
+      set(rows) {
+        if (this.multiple) {
+          this.syncMultipleSelection(rows)
+          return
+        }
+        this.selectedRow = rows?.[0] ? normalizeProduct(rows[0]) : null
+      }
+    },
     selectedRows() {
-      return Object.values(this.selectedMap)
+      return this.multiple
+        ? Object.values(this.selectedMap)
+        : this.selectedRow
+        ? [this.selectedRow]
+        : []
     },
     searchFormItems() {
       return [
@@ -156,69 +176,34 @@ export default {
         }
       ]
     },
-    finderExtraProps() {
-      return this.multiple
-        ? { 'reserve-selection': true }
-        : { 'no-selection': true, 'highlight-current-row': true }
-    },
-    finderSetting() {
-      return createSetting({
-        columns: [
-          ...(!this.multiple
-            ? [
-                {
-                  name: '',
-                  key: '__picker_check__',
-                  width: 48,
-                  align: 'center',
-                  render: (h, { row }) => {
-                    const checked = row.item_id === this.selectedRow?.item_id
-                    return h(
-                      'span',
-                      {
-                        class: [
-                          'inline-flex h-4 w-4 items-center justify-center rounded border border-solid transition-colors',
-                          checked
-                            ? 'border-primary bg-primary text-primary-foreground'
-                            : 'border-border bg-card text-transparent'
-                        ],
-                        on: {
-                          click: (event) => {
-                            event.stopPropagation()
-                            this.onRowClick(row)
-                          }
-                        }
-                      },
-                      [h('i', { class: 'el-icon-check text-xs font-bold leading-none' })]
-                    )
-                  }
-                }
-              ]
-            : []),
-          {
-            name: '图片',
-            key: 'pics',
-            width: 72,
-            render: (h, { row }) =>
+    columns() {
+      return [
+        {
+          name: '图片',
+          key: 'pics',
+          width: 72,
+          render: {
+            functional: true,
+            render: (h, { props }) =>
               h('SpImage', {
                 props: {
-                  src: Array.isArray(row.pics) ? row.pics[0] : row.pics,
+                  src: Array.isArray(props.row.pics) ? props.row.pics[0] : props.row.pics,
                   width: 52,
                   height: 52
                 }
               })
-          },
-          { name: '商品名称', key: 'item_name', minWidth: 220 },
-          { name: '货号', key: 'item_bn', width: 140 },
-          {
-            name: '售价',
-            key: 'price',
-            width: 100,
-            render: (h, { row }) => h('span', {}, `¥${(Number(row.price) / 100).toFixed(2)}`)
-          },
-          { name: '库存', key: 'store', width: 80 }
-        ]
-      })
+          }
+        },
+        { name: '商品名称', key: 'item_name', minWidth: 220 },
+        { name: '货号', key: 'item_bn' },
+        {
+          name: '售价',
+          key: 'price',
+          width: 100,
+          formatter: (value) => `¥${(Number(value || 0) / 100).toFixed(2)}`
+        },
+        { name: '库存', key: 'store', width: 80 }
+      ]
     }
   },
   mounted() {
@@ -238,22 +223,12 @@ export default {
       }
     },
     afterSearch(response) {
-      if (!this.multiple || !this.selectedRows.length) return response
-
-      const selectedIds = new Set(this.selectedRows.map((item) => item.item_id))
-      const list = response?.data?.data?.list || []
+      const list = response?.data?.data?.list || response?.data?.list || response?.list || []
       this.currentPageRows = list
-      const selectedRows = list.filter((item) => selectedIds.has(item.item_id))
-
-      this.$nextTick(() => {
-        const table = this.$refs.finder?.$refs?.finderTable?.$refs?.finderTable
-        if (table && selectedRows.length) table.setSelection(selectedRows)
-      })
-
       return response
     },
     onSearch() {
-      this.$refs.finder.refresh(true)
+      this.$refs.table.refresh(true)
     },
     onReset() {
       this.searchParams = {
@@ -262,17 +237,9 @@ export default {
         brand_id: '',
         category: ''
       }
-      this.$refs.finder.refresh(true)
+      this.$refs.table.refresh(true)
     },
-    rowClassName({ row }) {
-      return !this.multiple && row.item_id === this.selectedRow?.item_id ? 'is-picker-selected' : ''
-    },
-    onRowClick(row) {
-      if (this.multiple) return
-      this.selectedRow = this.selectedRow?.item_id === row.item_id ? null : normalizeProduct(row)
-    },
-    onSelect() {},
-    onSelectionChange(rows) {
+    syncMultipleSelection(rows = []) {
       if (!this.multiple) return
       const nextPageSelectedIds = new Set((rows || []).map((row) => row.item_id).filter(Boolean))
       ;(this.currentPageRows || []).forEach((row) => {
@@ -284,9 +251,9 @@ export default {
       })
     },
     clearSelectedRows() {
+      this.selectedRow = null
       this.selectedMap = {}
-      const table = this.$refs.finder?.$refs?.finderTable?.$refs?.finderTable
-      table?.clearSelection?.()
+      this.$refs.table?.clearSelection?.()
     },
     submit() {
       if (!this.multiple) {
@@ -330,13 +297,8 @@ export default {
 
 <style scoped lang="scss">
 .sp-goods-picker ::v-deep {
-  .el-table__row {
-    cursor: pointer;
-  }
-
-  .el-table__body tr.is-picker-selected > td,
-  .el-table__body tr:hover > td {
-    background: hsl(var(--primary) / 0.08);
+  .sp-goods-picker__search.sp-form-plus--actions-bottom .sp-form-plus__wrapper {
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
   }
 }
 </style>

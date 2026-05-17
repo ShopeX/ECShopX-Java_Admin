@@ -13,6 +13,7 @@ const {
   insertBlock,
   updateBlockSettings,
   removeBlock,
+  duplicateBlock,
   replaceBlockOrder,
   removeSection,
   replaceSection,
@@ -123,11 +124,17 @@ const decorationStore = {
     }
   },
   mutations: {
-    initializeEditor(state, { pageType = 'home', pageId = '', dsl, globalDsl }) {
+    initializeEditor(
+      state,
+      { pageType = 'home', pageId = '', dsl, globalDsl, headerDsl, footerDsl }
+    ) {
       state.pageType = pageType
       state.pageId = String(pageId || '')
       state.dsl = dsl || createHomeDsl({ pageId: state.pageId })
-      if (globalDsl) {
+      if (headerDsl || footerDsl) {
+        state.headerDsl = headerDsl || createHeaderDsl()
+        state.footerDsl = footerDsl || createFooterDsl()
+      } else if (globalDsl) {
         const splitDsl = splitGlobalDsl(globalDsl)
         state.headerDsl = splitDsl.headerDsl
         state.footerDsl = splitDsl.footerDsl
@@ -363,6 +370,16 @@ const decorationStore = {
         state.selectedSectionId = sectionId
         state.selectedBlockId = ''
       }
+    },
+    duplicateBlock(state, { sectionId, blockId }) {
+      const scopeKey = resolveScopeKey(state, sectionId)
+      const beforeOrder = state[scopeKey]?.sections?.[sectionId]?.blockOrder || []
+      state[scopeKey] = duplicateBlock(state[scopeKey], sectionId, blockId)
+      const afterOrder = state[scopeKey]?.sections?.[sectionId]?.blockOrder || []
+      const duplicatedBlockId = afterOrder.find((id) => !beforeOrder.includes(id))
+      state.selectedSectionId = sectionId
+      state.selectedBlockId = duplicatedBlockId || blockId
+      state.editingScope = scopeKey === 'dsl' ? 'page' : 'global'
     },
     toggleBlockDisabled(state, { sectionId, blockId }) {
       if (!sectionId || !blockId) return

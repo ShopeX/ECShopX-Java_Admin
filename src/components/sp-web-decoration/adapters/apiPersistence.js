@@ -1,7 +1,7 @@
 /**
  * PC 模板装修：与 ThemeBundle pctemplate 接口对接，存取 ECX 编辑器 DSL（与 legacy 微件并存时用独立 type 标记）。
  * 页面内容：getTemplateContent / saveTemplateContent（config 为 JSON 数组字符串）
- * 全局头尾合并存一条：getHeaderOrFooter / saveHeaderOrFooter（page_name 固定）
+ * 标头/页脚：getHeaderOrFooter / saveHeaderOrFooter（按 page_name 分开保存）
  */
 import {
   getTemplateContent,
@@ -14,12 +14,17 @@ import {
   createGlobalDsl,
   serializeDsl,
   deserializeDsl,
-  ensureGlobalDslDefaults
+  ensureGlobalDslDefaults,
+  createHeaderDsl,
+  createFooterDsl,
+  splitGlobalDsl
 } from '../utils/dsl.js'
 import { createGlobalSections } from '../definitions/documents/global.js'
 
 export const DSL_ROW_TYPE = 'ECX_SP_WEB_DECORATION_DSL_V1'
 export const GLOBAL_DECORATION_PAGE_NAME = 'ecx_sp_web_decoration_global'
+export const HEADER_DECORATION_PAGE_NAME = 'ecx_sp_web_decoration_header'
+export const FOOTER_DECORATION_PAGE_NAME = 'ecx_sp_web_decoration_footer'
 
 function createPageFallback(templateId, scene) {
   return createHomeDsl({ pageId: String(templateId || ''), scene })
@@ -27,6 +32,14 @@ function createPageFallback(templateId, scene) {
 
 function createGlobalFallback() {
   return createGlobalDsl(createGlobalSections())
+}
+
+function createHeaderFallback() {
+  return createHeaderDsl()
+}
+
+function createFooterFallback() {
+  return createFooterDsl()
 }
 
 function normalizePageDsl(raw, templateId, scene) {
@@ -84,6 +97,31 @@ function normalizeGlobalDsl(raw) {
     return ensureGlobalDslDefaults(d)
   } catch (e) {
     console.warn('[decoration] normalizeGlobalDsl', e)
+    return fallback
+  }
+}
+
+function normalizeScopedDsl(raw, fallback, pageType) {
+  if (raw == null) return fallback
+  let payload = raw
+  if (typeof raw === 'string') {
+    try {
+      payload = JSON.parse(raw)
+    } catch (e) {
+      return fallback
+    }
+  }
+  if (typeof payload !== 'object' || payload === null) return fallback
+  try {
+    const d = deserializeDsl(payload)
+    if (!d || typeof d !== 'object') return fallback
+    if (d.pageType !== pageType) return fallback
+    if (typeof d.sections !== 'object' || d.sections === null) return fallback
+    if (!Array.isArray(d.order)) d.order = fallback.order
+    if (!d.pageId) d.pageId = fallback.pageId
+    return d
+  } catch (e) {
+    console.warn(`[decoration] normalize${pageType}Dsl`, e)
     return fallback
   }
 }
@@ -170,12 +208,96 @@ export async function loadGlobalDslFromApi() {
   }
 }
 
-export async function saveGlobalDslToApi({ dsl }) {
+export async function loadHeaderDslFromApi() {
+  try {
+    const raw = await getHeaderOrFooter({ page_name: HEADER_DECORATION_PAGE_NAME })
+    const payload = unwrapPayload(raw)
+    if (!payload) return { dsl: createHeaderFallback(), source: 'default' }
+    const candidate = payload?.config || payload?.dsl || payload
+    return {
+      dsl: normalizeScopedDsl(candidate, createHeaderFallback(), 'header'),
+      source: 'api'
+    }
+  } catch (e) {
+    console.warn('[decoration] loadHeaderDslFromApi', e)
+    return { dsl: createHeaderFallback(), source: 'default' }
+  }
+}
+
+export async function loadFooterDslFromApi() {
+  try {
+    const raw = await getHeaderOrFooter({ page_name: FOOTER_DECORATION_PAGE_NAME })
+    const payload = unwrapPayload(raw)
+    if (!payload) return { dsl: createFooterFallback(), source: 'default' }
+    const candidate = payload?.config || payload?.dsl || payload
+    return {
+      dsl: normalizeScopedDsl(candidate, createFooterFallback(), 'footer'),
+      source: 'api'
+    }
+  } catch (e) {
+    console.warn('[decoration] loadFooterDslFromApi', e)
+    return { dsl: createFooterFallback(), source: 'default' }
+  }
+}
+
+export async function loadHeaderFooterDslFromApi() {
+  const [header, footer] = await Promise.all([loadHeaderDslFromApi(), loadFooterDslFromApi()])
+  if (header.source !== 'default' || footer.source !== 'default') {
+    return {
+      headerDsl: header.dsl,
+      footerDsl: footer.dsl,
+      source: 'api'
+    }
+  }
+
+  const legacyGlobal = await loadGlobalDslFromApi()
+  if (legacyGlobal.source !== 'default') {
+    return {
+      ...splitGlobalDsl(legacyGlobal.dsl),
+      source: 'legacy-global'
+    }
+  }
+
+  return {
+    headerDsl: header.dsl,
+    footerDsl: footer.dsl,
+    source: 'default'
+  }
+}
+
+function saveScopedDslToApi({ pageName, dsl }) {
   const payload = {
-    page_name: GLOBAL_DECORATION_PAGE_NAME,
+    page_name: pageName,
     config: JSON.stringify(serializeDsl(dsl))
   }
-  await saveHeaderOrFooter(payload)
+  return saveHeaderOrFooter(payload)
+}
+
+export async function saveHeaderDslToApi({ dsl }) {
+  await saveScopedDslToApi({
+    pageName: HEADER_DECORATION_PAGE_NAME,
+    dsl
+  })
+  return {
+    dsl: normalizeScopedDsl(dsl, createHeaderFallback(), 'header')
+  }
+}
+
+export async function saveFooterDslToApi({ dsl }) {
+  await saveScopedDslToApi({
+    pageName: FOOTER_DECORATION_PAGE_NAME,
+    dsl
+  })
+  return {
+    dsl: normalizeScopedDsl(dsl, createFooterFallback(), 'footer')
+  }
+}
+
+export async function saveGlobalDslToApi({ dsl }) {
+  await saveScopedDslToApi({
+    pageName: GLOBAL_DECORATION_PAGE_NAME,
+    dsl
+  })
   return {
     dsl: normalizeGlobalDsl(dsl)
   }
@@ -185,5 +307,10 @@ export default {
   loadPageDslFromApi,
   savePageDslToApi,
   loadGlobalDslFromApi,
-  saveGlobalDslToApi
+  saveGlobalDslToApi,
+  loadHeaderDslFromApi,
+  saveHeaderDslToApi,
+  loadFooterDslFromApi,
+  saveFooterDslToApi,
+  loadHeaderFooterDslFromApi
 }

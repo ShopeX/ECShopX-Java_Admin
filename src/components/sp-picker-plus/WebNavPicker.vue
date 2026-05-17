@@ -3,40 +3,57 @@
     <SpFormPlus
       ref="searchForm"
       v-model="searchParams"
-      class="sp-web-nav-picker__search -mt-[12px] !bg-white"
+      class="sp-web-nav-picker__search -mt-[12px] !bg-white !px-0"
       :form-items="searchFormItems"
       form-type="searchForm"
+      label-position="top"
       @submit="onSearch"
       @reset="onReset"
     />
 
-    <SpFinder
-      ref="finder"
+    <SpTable
+      ref="table"
       url="/web-menus"
-      class="sp-web-nav-picker__finder bg-white"
+      class="sp-web-nav-picker__table bg-white"
       row-key="id"
-      no-selection
-      highlight-current-row
-      :setting="finderSetting"
-      :hooks="{ beforeSearch }"
-      :row-class-name="rowClassName"
-      @row-click="onRowClick"
+      max-height="420"
+      :columns="columns"
+      :hooks="{ beforeSearch, afterSearch }"
+      :params="searchParams"
+      :selection-mode="multiple ? 'multiple' : 'single'"
+      :reserve-selection="multiple"
+      :selected-rows.sync="selectedRowsValue"
     />
+
+    <div
+      v-if="selectedRows.length"
+      class="mt-3 flex items-center justify-between rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm text-foreground"
+    >
+      <span>已选 {{ selectedRows.length }} 个导航菜单</span>
+      <el-button type="text" class="!p-0 !text-muted-foreground" @click="clearSelectedRow">
+        清空
+      </el-button>
+    </div>
   </div>
 </template>
 
 <script>
-import { createSetting } from '@shopex-ui/finder'
 import SpFormPlus from '@/components/sp-form-plus'
+import SpTable from '@/components/sp-table'
 
 export default {
   name: 'WebNavPicker',
   components: {
-    SpFormPlus
+    SpFormPlus,
+    SpTable
   },
   props: {
+    multiple: {
+      type: Boolean,
+      default: false
+    },
     initialSelected: {
-      type: Object,
+      type: [Object, Array],
       default: null
     }
   },
@@ -45,10 +62,40 @@ export default {
       searchParams: {
         name: ''
       },
-      selectedRow: this.initialSelected ? { ...this.initialSelected } : null
+      selectedRow:
+        !this.multiple && this.initialSelected && !Array.isArray(this.initialSelected)
+          ? { ...this.initialSelected }
+          : null,
+      selectedMap:
+        this.multiple && Array.isArray(this.initialSelected)
+          ? this.createSelectedMap(this.initialSelected)
+          : {}
     }
   },
   computed: {
+    selectedRowsValue: {
+      get() {
+        return this.multiple
+          ? Object.values(this.selectedMap)
+          : this.selectedRow
+          ? [this.selectedRow]
+          : []
+      },
+      set(rows) {
+        if (this.multiple) {
+          this.selectedMap = this.createSelectedMap(rows)
+          return
+        }
+        this.selectedRow = rows?.[0] ? this.normalizeSelectedRow(rows[0]) : null
+      }
+    },
+    selectedRows() {
+      return this.multiple
+        ? Object.values(this.selectedMap)
+        : this.selectedRow
+        ? [this.selectedRow]
+        : []
+    },
     searchFormItems() {
       return [
         {
@@ -62,55 +109,29 @@ export default {
         }
       ]
     },
-    finderSetting() {
-      return createSetting({
-        columns: [
-          {
-            name: '',
-            key: '__picker_checkbox__',
-            width: 72,
-            align: 'center',
-            render: (h, { row }) => {
-              const checked = row.id === this.selectedRow?.id
-              return h(
-                'span',
-                {
-                  class: [
-                    'inline-flex h-4 w-4 items-center justify-center rounded border border-solid transition-colors',
-                    checked
-                      ? 'border-primary bg-primary text-primary-foreground'
-                      : 'border-border bg-card text-transparent'
-                  ],
-                  on: {
-                    click: (event) => {
-                      event.stopPropagation()
-                      this.onRowClick(row)
-                    }
-                  }
-                },
-                [h('i', { class: 'el-icon-check text-xs font-bold leading-none' })]
-              )
-            }
-          },
-          { name: '导航菜单', key: 'name', minWidth: 260 },
-          {
-            name: '菜单项',
-            key: 'top_level_item_names',
-            minWidth: 420,
-            render: (h, { row }) =>
+    columns() {
+      return [
+        { name: '导航菜单', key: 'name', minWidth: 260 },
+        {
+          name: '菜单项',
+          key: 'top_level_item_names',
+          minWidth: 420,
+          render: {
+            functional: true,
+            render: (h, { props }) =>
               h(
                 'span',
                 {
                   class: 'text-muted-foreground',
                   attrs: {
-                    title: this.getMenuItemText(row)
+                    title: this.getMenuItemText(props.row)
                   }
                 },
-                this.getMenuItemText(row)
+                this.getMenuItemText(props.row)
               )
           }
-        ]
-      })
+        }
+      ]
     }
   },
   methods: {
@@ -121,33 +142,75 @@ export default {
       }
       return params
     },
+    afterSearch(response) {
+      const list = response?.data?.data?.list || response?.data?.list || response?.list || []
+      this.syncSelectedRows(list)
+      return response
+    },
     onSearch() {
-      this.$refs.finder.refresh(true)
+      this.$refs.table.refresh(true)
     },
     onReset() {
       this.searchParams = { name: '' }
-      this.$refs.finder.refresh(true)
+      this.$refs.table.refresh(true)
     },
-    onRowClick(row) {
-      this.selectedRow = {
+    clearSelectedRow() {
+      this.selectedRow = null
+      this.selectedMap = {}
+    },
+    syncSelectedRows(rows = []) {
+      if (!this.selectedRows.length) return
+      const matchedRows = rows.filter((row) =>
+        this.selectedRows.some((selected) => this.isSameMenu(row, selected))
+      )
+      if (!matchedRows.length) return
+      if (this.multiple) {
+        this.selectedMap = this.createSelectedMap(matchedRows)
+        return
+      }
+      this.selectedRow = this.normalizeSelectedRow(matchedRows[0])
+    },
+    normalizeSelectedRow(row) {
+      return {
         id: row.id,
         name: row.name,
         key: row.key
       }
     },
+    createSelectedMap(rows = []) {
+      return rows.reduce((map, row) => {
+        const item = this.normalizeSelectedRow(row)
+        const key = this.getMenuIdentity(item)
+        if (key) map[key] = item
+        return map
+      }, {})
+    },
+    getMenuIdentity(row = {}) {
+      return String(row.id ?? row.key ?? row.name ?? '').trim()
+    },
+    isSameMenu(row = {}, selected = {}) {
+      const rowId = String(row.id ?? '').trim()
+      const selectedId = String(selected.id ?? '').trim()
+      if (rowId && selectedId && rowId === selectedId) return true
+
+      const rowKey = String(row.key ?? '').trim()
+      const selectedKey = String(selected.key ?? '').trim()
+      if (rowKey && selectedKey && rowKey === selectedKey) return true
+
+      const rowName = String(row.name ?? '').trim()
+      const selectedName = String(selected.name ?? '').trim()
+      return Boolean(rowName && selectedName && rowName === selectedName)
+    },
     getMenuItemText(row) {
       const text = row.top_level_item_names ?? row.menu_item_names ?? row.item_names ?? ''
       return String(text).trim() || '—'
     },
-    rowClassName({ row }) {
-      return row.id === this.selectedRow?.id ? 'is-picker-selected' : ''
-    },
     submit() {
-      if (!this.selectedRow) {
-        this.$message.warning('请先选择一个导航菜单')
+      if (!this.selectedRows.length) {
+        this.$message.warning(this.multiple ? '请至少选择一个导航菜单' : '请先选择一个导航菜单')
         return
       }
-      this.$emit('close', this.selectedRow)
+      this.$emit('close', this.multiple ? this.selectedRows : this.selectedRows[0])
     }
   }
 }
@@ -155,14 +218,8 @@ export default {
 
 <style scoped lang="scss">
 .sp-web-nav-picker ::v-deep {
-  .el-table__row {
-    cursor: pointer;
-  }
-
-  .el-table__body tr.current-row > td,
-  .el-table__body tr.is-picker-selected > td,
-  .el-table__body tr:hover > td {
-    background: hsl(var(--primary) / 0.08);
+  .sp-web-nav-picker__search.sp-form-plus--actions-bottom .sp-form-plus__wrapper {
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
   }
 }
 </style>

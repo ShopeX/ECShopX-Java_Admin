@@ -210,9 +210,11 @@ export default {
     },
     selectedSectionId() {
       this.scheduleUpdate()
+      this.sendSelectionHighlight()
     },
     selectedBlockId() {
       this.scheduleUpdate()
+      this.sendSelectionHighlight()
     }
   },
   mounted() {
@@ -400,6 +402,43 @@ export default {
 
       if (data.type === 'REMOVE_SECTION_REQUESTED' && data.payload?.sectionId) {
         this.$emit('remove-section-requested', data.payload.sectionId)
+        return
+      }
+
+      if (
+        data.type === 'MOVE_BLOCK_REQUESTED' &&
+        data.payload?.sectionId &&
+        data.payload?.blockId
+      ) {
+        this.$emit('move-block-requested', {
+          sectionId: data.payload.sectionId,
+          blockId: data.payload.blockId,
+          direction: data.payload.direction === 'up' ? 'up' : 'down'
+        })
+        return
+      }
+
+      if (
+        data.type === 'DUPLICATE_BLOCK_REQUESTED' &&
+        data.payload?.sectionId &&
+        data.payload?.blockId
+      ) {
+        this.$emit('duplicate-block-requested', {
+          sectionId: data.payload.sectionId,
+          blockId: data.payload.blockId
+        })
+        return
+      }
+
+      if (
+        data.type === 'REMOVE_BLOCK_REQUESTED' &&
+        data.payload?.sectionId &&
+        data.payload?.blockId
+      ) {
+        this.$emit('remove-block-requested', {
+          sectionId: data.payload.sectionId,
+          blockId: data.payload.blockId
+        })
       }
     },
     /** 子帧发出 PREVIEW_READY 时 ref/contentWindow 可能尚未就绪，需 nextTick + 短重试，避免 null.postMessage */
@@ -455,6 +494,15 @@ export default {
       this.messenger.sendMessage(win, 'PREVIEW_READY_ACK', {
         pageType: this.pageType,
         pageId: this.pageId
+      })
+    },
+    sendSelectionHighlight() {
+      const win = this.getPreviewContentWindow()
+      if (!this.iframeReady || !win || !this.messenger || !this.selectedSectionId) return
+      this.messenger.sendMessage(win, 'BLOCK_HIGHLIGHT', {
+        pageType: this.pageType,
+        sectionId: this.selectedSectionId || '',
+        blockId: this.selectedBlockId || ''
       })
     },
     scheduleUpdate() {

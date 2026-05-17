@@ -9,7 +9,7 @@ export default {
     mobile_image: '',
     pc_hotspots: [],
     mobile_hotspots: [],
-    full_width: true,
+    full_width: false,
     color_mode: 'light',
     color_scheme: 'scheme-1',
     padding_top: 'm',

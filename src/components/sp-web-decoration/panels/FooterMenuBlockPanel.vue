@@ -156,10 +156,10 @@ export default {
         props: {
           initialSelected: normalizeSelectedMenu(this.value.menu)
         },
-        size: 'medium'
+        width: '760px'
       })
       if (!selected) return
-      this.updateField('menu', selected.id)
+      this.updateField('menu', selected)
     }
   }
 }

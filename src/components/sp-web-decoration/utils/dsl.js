@@ -3,9 +3,23 @@ import { createHeaderDocumentDsl } from '../definitions/documents/header.js'
 import { createFooterDocumentDsl } from '../definitions/documents/footer.js'
 import { createGlobalSections } from '../definitions/documents/global.js'
 import { createTypedSection } from '../definitions/factory.js'
+import { generateBlockId } from './nanoid.js'
 
 function cloneValue(value) {
   return JSON.parse(JSON.stringify(value))
+}
+
+const HIDDEN_SECTION_TYPES = ['announcement-bar']
+
+function isHiddenSectionType(type) {
+  return HIDDEN_SECTION_TYPES.includes(type)
+}
+
+function filterVisibleSectionIds(order = [], sections = {}) {
+  return (Array.isArray(order) ? order : []).filter((id) => {
+    const section = sections?.[id]
+    return !section || !isHiddenSectionType(section.type)
+  })
 }
 
 function normalizeSectionShape(section, fallbackId) {
@@ -30,10 +44,6 @@ export function createGlobalDsl(sections) {
   const resolvedSections = cloneValue(source)
   const order = ['header']
   if (resolvedSections.footer) order.push('footer')
-  if (resolvedSections['announcement-bar']) {
-    const hi = order.indexOf('header')
-    order.splice(hi >= 0 ? hi + 1 : 0, 0, 'announcement-bar')
-  }
   return {
     pageType: 'global',
     pageId: 'global',
@@ -74,7 +84,7 @@ export function createHeaderDsl(section, extraSections = {}, extraOrder = []) {
   const sections = {
     header: normalizeSectionShape({ ...header, id: 'header' }, 'header')
   }
-  extraOrder.forEach((id) => {
+  filterVisibleSectionIds(extraOrder, extraSections).forEach((id) => {
     if (id !== 'header' && id !== 'footer' && extraSections[id]) {
       sections[id] = normalizeSectionShape(extraSections[id], id)
     }
@@ -83,7 +93,12 @@ export function createHeaderDsl(section, extraSections = {}, extraOrder = []) {
     pageType: 'header',
     pageId: 'header',
     sections,
-    order: ['header', ...extraOrder.filter((id) => id !== 'header' && id !== 'footer')]
+    order: [
+      'header',
+      ...filterVisibleSectionIds(extraOrder, extraSections).filter(
+        (id) => id !== 'header' && id !== 'footer'
+      )
+    ]
   }
 }
 
@@ -154,8 +169,11 @@ export function splitGlobalDsl(globalDsl) {
   const { header, footer } = normalizedGlobalDsl.sections || {}
   const globalOrder = normalizedGlobalDsl.order || []
   const footerIndex = globalOrder.indexOf('footer')
-  const headerOrder = (footerIndex >= 0 ? globalOrder.slice(0, footerIndex) : globalOrder).filter(
-    (id) => id !== 'footer'
+  const headerOrder = filterVisibleSectionIds(
+    (footerIndex >= 0 ? globalOrder.slice(0, footerIndex) : globalOrder).filter(
+      (id) => id !== 'footer'
+    ),
+    normalizedGlobalDsl.sections
   )
   const footerOrder =
     footerIndex >= 0 ? globalOrder.slice(footerIndex).filter((id) => id !== 'footer') : []
@@ -186,7 +204,10 @@ export function composeGlobalDsl({ headerDsl, footerDsl } = {}) {
   const footerSection = footerDsl?.sections?.footer || createDefaultFooterSection()
   const headerOrder =
     Array.isArray(headerDsl?.order) && headerDsl.order.length
-      ? headerDsl.order.filter((id) => id !== 'footer')
+      ? filterVisibleSectionIds(
+          headerDsl.order.filter((id) => id !== 'footer'),
+          headerDsl?.sections || {}
+        )
       : ['header']
   if (!headerOrder.includes('header')) headerOrder.unshift('header')
   const footerOrder = Array.isArray(footerDsl?.order)
@@ -269,6 +290,21 @@ export function removeBlock(dsl, sectionId, blockId) {
   nextDsl.sections[sectionId].blockOrder = (nextDsl.sections[sectionId].blockOrder || []).filter(
     (id) => id !== blockId
   )
+  return nextDsl
+}
+
+export function duplicateBlock(dsl, sectionId, blockId) {
+  const section = dsl.sections[sectionId]
+  const sourceBlock = section?.blocks?.[blockId]
+  if (!sourceBlock) return cloneValue(dsl)
+  const nextDsl = cloneValue(dsl)
+  const duplicatedBlock = cloneValue(sourceBlock)
+  duplicatedBlock.id = generateBlockId(sourceBlock.type)
+  nextDsl.sections[sectionId].blocks[duplicatedBlock.id] = duplicatedBlock
+  const order = (nextDsl.sections[sectionId].blockOrder || []).slice()
+  const sourceIndex = order.indexOf(blockId)
+  order.splice(sourceIndex >= 0 ? sourceIndex + 1 : order.length, 0, duplicatedBlock.id)
+  nextDsl.sections[sectionId].blockOrder = order
   return nextDsl
 }
 
@@ -373,6 +409,7 @@ export default {
   insertBlock,
   updateBlockSettings,
   removeBlock,
+  duplicateBlock,
   replaceBlockOrder,
   removeSection,
   duplicateSection,

@@ -76,6 +76,7 @@
 
       <div class="min-w-0 min-h-0 h-full">
         <PreviewCanvas
+          ref="previewCanvas"
           :dsl="dsl"
           :header-dsl="headerDsl"
           :footer-dsl="footerDsl"
@@ -95,6 +96,9 @@
           @move-section-requested="handlePreviewMoveSectionRequested"
           @duplicate-section-requested="handleDuplicateSection"
           @remove-section-requested="handleRemoveSection"
+          @move-block-requested="handlePreviewMoveBlockRequested"
+          @duplicate-block-requested="handlePreviewDuplicateBlockRequested"
+          @remove-block-requested="handlePreviewRemoveBlockRequested"
           @preview-ready="handlePreviewReady"
           @select-device="viewMode = $event"
           @undo="handleUndo"
@@ -272,7 +276,9 @@ export default {
           pageType: this.pageType,
           pageId: this.templateId,
           dsl: cloneValue(value.dsl || value),
-          globalDsl: cloneValue(value.globalDsl)
+          globalDsl: value.globalDsl ? cloneValue(value.globalDsl) : null,
+          headerDsl: value.headerDsl ? cloneValue(value.headerDsl) : null,
+          footerDsl: value.footerDsl ? cloneValue(value.footerDsl) : null
         })
         this.resetHistory()
       }
@@ -330,9 +336,16 @@ export default {
     },
     handleSelectSection(sectionId) {
       this.$store.commit('decoration/selectSection', sectionId)
+      this.requestPreviewSelectionScroll()
     },
     handleSelectBlock(payload) {
       this.$store.commit('decoration/selectBlock', payload)
+      this.requestPreviewSelectionScroll()
+    },
+    requestPreviewSelectionScroll() {
+      this.$nextTick(() => {
+        this.$refs.previewCanvas?.sendSelectionHighlight?.()
+      })
     },
     handleToggleSection(sectionId) {
       this.$store.commit('decoration/toggleSectionExpanded', sectionId)
@@ -494,6 +507,29 @@ export default {
       this.$store.commit('decoration/moveSection', { sectionId, targetIndex })
       this.recordHistory()
     },
+    handlePreviewMoveBlockRequested({ sectionId, blockId, direction }) {
+      const section = this.findSectionById(sectionId)
+      const order = Array.isArray(section?.blockOrder) ? section.blockOrder.slice() : []
+      const currentIndex = order.indexOf(blockId)
+      if (currentIndex < 0) return
+      const targetIndex = currentIndex + (direction === 'up' ? -1 : 1)
+      if (targetIndex < 0 || targetIndex >= order.length) return
+      order.splice(currentIndex, 1)
+      order.splice(targetIndex, 0, blockId)
+      this.handleReorderBlocks({ sectionId, blockOrder: order })
+    },
+    handlePreviewDuplicateBlockRequested({ sectionId, blockId }) {
+      if (!sectionId || !blockId) return
+      this.$store.commit('decoration/duplicateBlock', { sectionId, blockId })
+      this.recordHistory()
+      this.requestPreviewSelectionScroll()
+    },
+    handlePreviewRemoveBlockRequested({ sectionId, blockId }) {
+      const section = this.findSectionById(sectionId)
+      const order = Array.isArray(section?.blockOrder) ? section.blockOrder : []
+      if (order.length <= 1) return
+      this.handleRemoveBlock({ sectionId, blockId })
+    },
     handleAddGlobalSection(payload) {
       if (typeof payload === 'string') {
         this.$store.commit('decoration/addGlobalSection', payload)
@@ -558,11 +594,14 @@ export default {
       this.restoreSnapshot(nextSnapshot)
     },
     handleSave() {
-      this.$emit('save', {
+      const payload = {
         dsl: cloneValue(this.dsl),
-        globalDsl: cloneValue(this.globalDsl),
+        headerDsl: cloneValue(this.headerDsl),
+        footerDsl: cloneValue(this.footerDsl),
         editingScope: this.editingScope
-      })
+      }
+      console.log('[sp-web-decoration] save click payload', payload)
+      this.$emit('save', payload)
     }
   }
 }

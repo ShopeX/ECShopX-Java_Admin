@@ -18,6 +18,7 @@
     :model="formData"
     :label-width="labelWidth"
     :label-position="labelPosition"
+    @submit.native.prevent="handleSubmit"
   >
     <div
       ref="wrapperRef"

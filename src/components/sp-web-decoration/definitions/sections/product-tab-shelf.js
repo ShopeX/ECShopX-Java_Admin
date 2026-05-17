@@ -9,7 +9,7 @@ export default {
     alignment: 'center',
     columns: 4,
     spacing: 'medium',
-    full_width: true,
+    full_width: false,
     show_price: true,
     show_add_cart: true,
     color_mode: 'light',
