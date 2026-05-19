@@ -65,9 +65,7 @@ export default {
             render: (h, { row }) =>
               h(
                 'span',
-                Number(row.distributor_id || 0) === 0
-                  ? '总部模板'
-                  : `店铺 ${row.distributor_id}`
+                Number(row.distributor_id || 0) === 0 ? '总部模板' : `店铺 ${row.distributor_id}`
               )
           },
           { name: this.$t('8b0d1458.b78454'), key: 'template_title', minWidth: 140 },
