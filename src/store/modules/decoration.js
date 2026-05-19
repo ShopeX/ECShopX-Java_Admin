@@ -19,7 +19,6 @@ const {
   replaceSection,
   composePreviewDsl,
   splitGlobalDsl,
-  composeGlobalDsl,
   createHeaderDsl,
   createFooterDsl
 } = dslUtils
@@ -94,13 +93,6 @@ function moveSectionInDsl(dsl, sectionId, targetIndex) {
   }
 }
 
-function getComposedGlobalDsl(state) {
-  return composeGlobalDsl({
-    headerDsl: state.headerDsl,
-    footerDsl: state.footerDsl
-  })
-}
-
 const decorationStore = {
   namespaced: true,
   state: createState,
@@ -119,14 +111,15 @@ const decorationStore = {
         pageType: state.pageType,
         pageId: state.pageId,
         dsl: state.dsl,
-        globalDsl: getComposedGlobalDsl(state)
+        headerDsl: state.headerDsl,
+        footerDsl: state.footerDsl
       })
     }
   },
   mutations: {
     initializeEditor(
       state,
-      { pageType = 'home', pageId = '', dsl, globalDsl, headerDsl, footerDsl }
+      { pageType = 'home', pageId = '', dsl, legacyGlobalDsl, headerDsl, footerDsl }
     ) {
       state.pageType = pageType
       state.pageId = String(pageId || '')
@@ -134,8 +127,8 @@ const decorationStore = {
       if (headerDsl || footerDsl) {
         state.headerDsl = headerDsl || createHeaderDsl()
         state.footerDsl = footerDsl || createFooterDsl()
-      } else if (globalDsl) {
-        const splitDsl = splitGlobalDsl(globalDsl)
+      } else if (legacyGlobalDsl) {
+        const splitDsl = splitGlobalDsl(legacyGlobalDsl)
         state.headerDsl = splitDsl.headerDsl
         state.footerDsl = splitDsl.footerDsl
       } else {
@@ -144,7 +137,8 @@ const decorationStore = {
       }
       const initialSel = getInitialEditorSelection({
         dsl: state.dsl,
-        globalDsl: getComposedGlobalDsl(state)
+        headerDsl: state.headerDsl,
+        footerDsl: state.footerDsl
       })
       state.selectedSectionId = initialSel.selectedSectionId
       state.selectedBlockId = initialSel.selectedBlockId

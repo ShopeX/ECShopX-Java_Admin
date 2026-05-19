@@ -1,14 +1,11 @@
 import {
   createHomeDsl,
-  createGlobalDsl,
   serializeDsl,
   deserializeDsl,
   createHeaderDsl,
   createFooterDsl,
-  composeGlobalDsl,
   splitGlobalDsl
 } from '../utils/dsl.js'
-import { createGlobalSections } from '../definitions/documents/global.js'
 
 const STORAGE_PREFIX = 'decoration:home:'
 const GLOBAL_STORAGE_KEY = 'decoration:global'
@@ -68,17 +65,12 @@ export async function saveHomeDecoration({ templateId = '', dsl }) {
   }
 }
 
-export async function loadGlobalDecoration() {
+export async function loadHeaderFooterDecoration() {
   const fallbackHeaderDsl = createHeaderDsl()
   const fallbackFooterDsl = createFooterDsl()
-  const fallbackDsl = composeGlobalDsl({
-    headerDsl: fallbackHeaderDsl,
-    footerDsl: fallbackFooterDsl
-  })
   const storage = getStorage()
   if (!storage) {
     return {
-      dsl: fallbackDsl,
       headerDsl: fallbackHeaderDsl,
       footerDsl: fallbackFooterDsl,
       source: 'default'
@@ -95,15 +87,9 @@ export async function loadGlobalDecoration() {
       const footerDsl = rawFooterValue
         ? deserializeDsl(JSON.parse(rawFooterValue))
         : fallbackFooterDsl
-      return {
-        dsl: composeGlobalDsl({ headerDsl, footerDsl }),
-        headerDsl,
-        footerDsl,
-        source: 'session'
-      }
+      return { headerDsl, footerDsl, source: 'session' }
     } catch (error) {
       return {
-        dsl: fallbackDsl,
         headerDsl: fallbackHeaderDsl,
         footerDsl: fallbackFooterDsl,
         source: 'default'
@@ -114,7 +100,6 @@ export async function loadGlobalDecoration() {
   const rawValue = storage.getItem(GLOBAL_STORAGE_KEY)
   if (!rawValue) {
     return {
-      dsl: fallbackDsl,
       headerDsl: fallbackHeaderDsl,
       footerDsl: fallbackFooterDsl,
       source: 'default'
@@ -122,17 +107,14 @@ export async function loadGlobalDecoration() {
   }
 
   try {
-    const dsl = deserializeDsl(JSON.parse(rawValue))
-    const { headerDsl, footerDsl } = splitGlobalDsl(dsl)
+    const { headerDsl, footerDsl } = splitGlobalDsl(deserializeDsl(JSON.parse(rawValue)))
     return {
-      dsl,
       headerDsl,
       footerDsl,
       source: 'session'
     }
   } catch (error) {
     return {
-      dsl: fallbackDsl,
       headerDsl: fallbackHeaderDsl,
       footerDsl: fallbackFooterDsl,
       source: 'default'
@@ -140,20 +122,17 @@ export async function loadGlobalDecoration() {
   }
 }
 
-export async function saveGlobalDecoration({ dsl, headerDsl, footerDsl }) {
+export async function saveHeaderFooterDecoration({ dsl, headerDsl, footerDsl }) {
   const storage = getStorage()
   const splitDsl = dsl ? splitGlobalDsl(dsl) : {}
   const nextHeaderDsl = headerDsl || splitDsl.headerDsl || createHeaderDsl()
   const nextFooterDsl = footerDsl || splitDsl.footerDsl || createFooterDsl()
-  const nextDsl = dsl || composeGlobalDsl({ headerDsl: nextHeaderDsl, footerDsl: nextFooterDsl })
   if (storage) {
-    storage.setItem(GLOBAL_STORAGE_KEY, JSON.stringify(serializeDsl(nextDsl)))
     storage.setItem(HEADER_STORAGE_KEY, JSON.stringify(serializeDsl(nextHeaderDsl)))
     storage.setItem(FOOTER_STORAGE_KEY, JSON.stringify(serializeDsl(nextFooterDsl)))
   }
 
   return {
-    dsl: nextDsl,
     headerDsl: nextHeaderDsl,
     footerDsl: nextFooterDsl,
     persisted: Boolean(storage),
@@ -164,6 +143,6 @@ export async function saveGlobalDecoration({ dsl, headerDsl, footerDsl }) {
 export default {
   loadHomeDecoration,
   saveHomeDecoration,
-  loadGlobalDecoration,
-  saveGlobalDecoration
+  loadHeaderFooterDecoration,
+  saveHeaderFooterDecoration
 }

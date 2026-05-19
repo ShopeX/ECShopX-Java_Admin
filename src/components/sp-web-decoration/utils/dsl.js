@@ -199,34 +199,6 @@ export function splitGlobalDsl(globalDsl) {
   }
 }
 
-export function composeGlobalDsl({ headerDsl, footerDsl } = {}) {
-  const headerSection = headerDsl?.sections?.header || createDefaultHeaderSection()
-  const footerSection = footerDsl?.sections?.footer || createDefaultFooterSection()
-  const headerOrder =
-    Array.isArray(headerDsl?.order) && headerDsl.order.length
-      ? filterVisibleSectionIds(
-          headerDsl.order.filter((id) => id !== 'footer'),
-          headerDsl?.sections || {}
-        )
-      : ['header']
-  if (!headerOrder.includes('header')) headerOrder.unshift('header')
-  const footerOrder = Array.isArray(footerDsl?.order)
-    ? footerDsl.order.filter((id) => id !== 'footer')
-    : []
-  const sections = {
-    ...cloneValue(headerDsl?.sections || {}),
-    ...cloneValue(footerDsl?.sections || {}),
-    header: cloneValue({ ...headerSection, id: 'header' }),
-    footer: cloneValue({ ...footerSection, id: 'footer' })
-  }
-  return {
-    pageType: 'global',
-    pageId: 'global',
-    sections,
-    order: [...headerOrder, ...footerOrder, 'footer']
-  }
-}
-
 export function insertSection(dsl, section, index) {
   const nextDsl = cloneValue(dsl)
   const nextIndex =
@@ -363,19 +335,20 @@ export function replaceSection(dsl, sectionId, nextSection) {
   return nextDsl
 }
 
-export function composePreviewDsl({ pageType = 'home', pageId = '', dsl, globalDsl }) {
-  const gOrder = Array.isArray(globalDsl?.order) ? globalDsl.order.slice() : []
-  const footerIndex = gOrder.indexOf('footer')
-  const prefix = footerIndex >= 0 ? gOrder.slice(0, footerIndex) : gOrder.slice()
-  const suffix = footerIndex >= 0 ? gOrder.slice(footerIndex) : []
+export function composePreviewDsl({ pageType = 'home', pageId = '', dsl, headerDsl, footerDsl }) {
+  const headerOrder = Array.isArray(headerDsl?.order)
+    ? headerDsl.order.filter((id) => id !== 'footer')
+    : []
+  const footerOrder = Array.isArray(footerDsl?.order) ? footerDsl.order.slice() : []
   return {
     pageType,
     pageId,
     sections: {
-      ...(globalDsl?.sections || {}),
+      ...(headerDsl?.sections || {}),
+      ...(footerDsl?.sections || {}),
       ...(dsl?.sections || {})
     },
-    order: [...prefix, ...(dsl?.order || []).slice(), ...suffix],
+    order: [...headerOrder, ...(dsl?.order || []).slice(), ...footerOrder],
     meta: cloneValue(dsl?.meta || {})
   }
 }
@@ -420,7 +393,6 @@ export default {
   deserializeDsl,
   ensureGlobalDslDefaults,
   splitGlobalDsl,
-  composeGlobalDsl,
   createHeaderDsl,
   createFooterDsl
 }

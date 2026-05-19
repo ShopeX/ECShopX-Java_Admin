@@ -476,10 +476,6 @@ export default {
       type: Object,
       required: true
     },
-    globalDsl: {
-      type: Object,
-      default: () => ({})
-    },
     headerDsl: {
       type: Object,
       default: () => ({})
@@ -530,7 +526,7 @@ export default {
   },
   computed: {
     footerSection() {
-      return this.footerDsl.sections?.footer || this.globalDsl.sections?.footer || null
+      return this.footerDsl.sections?.footer || null
     },
     footerBlockOrder() {
       return this.localBlockOrders.footer || []
@@ -548,13 +544,6 @@ export default {
       }
     },
     dsl: {
-      immediate: true,
-      deep: true,
-      handler() {
-        this.syncBlockOrders()
-      }
-    },
-    globalDsl: {
       immediate: true,
       deep: true,
       handler() {
@@ -623,8 +612,11 @@ export default {
     },
     syncBlockOrders() {
       const nextBlockOrders = {}
-      Object.keys(this.globalDsl.sections || {}).forEach((sectionId) => {
-        nextBlockOrders[sectionId] = this.globalDsl.sections?.[sectionId]?.blockOrder?.slice() || []
+      Object.keys(this.headerDsl.sections || {}).forEach((sectionId) => {
+        nextBlockOrders[sectionId] = this.headerDsl.sections?.[sectionId]?.blockOrder?.slice() || []
+      })
+      Object.keys(this.footerDsl.sections || {}).forEach((sectionId) => {
+        nextBlockOrders[sectionId] = this.footerDsl.sections?.[sectionId]?.blockOrder?.slice() || []
       })
       Object.keys(this.dsl.sections || {}).forEach((sectionId) => {
         nextBlockOrders[sectionId] = this.dsl.sections[sectionId].blockOrder?.slice() || []
@@ -826,7 +818,6 @@ export default {
       return (
         this.headerDsl.sections?.[sectionId] ||
         this.footerDsl.sections?.[sectionId] ||
-        this.globalDsl.sections?.[sectionId] ||
         this.dsl.sections?.[sectionId] ||
         null
       )

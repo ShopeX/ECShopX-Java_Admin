@@ -58,6 +58,18 @@ export default {
       return createSetting({
         columns: [
           { name: this.$t('8b0d1458.6872c7'), key: 'theme_pc_template_id', width: 120 },
+          {
+            name: '归属',
+            key: 'distributor_id',
+            width: 120,
+            render: (h, { row }) =>
+              h(
+                'span',
+                Number(row.distributor_id || 0) === 0
+                  ? '总部模板'
+                  : `店铺 ${row.distributor_id}`
+              )
+          },
           { name: this.$t('8b0d1458.b78454'), key: 'template_title', minWidth: 140 },
           { name: this.$t('8b0d1458.abf8f4'), key: 'template_description', minWidth: 160 },
           {
@@ -131,6 +143,17 @@ export default {
     }
   },
   methods: {
+    getDistributorId() {
+      const routeDistributorId = this.$route.query.distributor_id
+      if (routeDistributorId !== undefined && routeDistributorId !== '') {
+        return Number(routeDistributorId)
+      }
+      const shopId = this.$store.getters.shopId
+      if (shopId !== undefined && shopId !== '') {
+        return Number(shopId)
+      }
+      return undefined
+    },
     beforeSearch(query) {
       const q = { ...query }
       if (q.page_size == null && q.pageSize != null) {
@@ -146,6 +169,10 @@ export default {
         }
       }
       q.page_type = this.page_type
+      const distributorId = this.getDistributorId()
+      if (distributorId !== undefined) {
+        q.distributor_id = distributorId
+      }
       return q
     },
     handleTabClick() {
@@ -163,6 +190,7 @@ export default {
             template_title: row.template_title,
             template_description: row.template_description,
             page_type: row.page_type,
+            distributor_id: row.distributor_id,
             status: row.status == 1
           }
         : {
@@ -170,6 +198,7 @@ export default {
             template_title: '',
             template_description: '',
             page_type: this.page_type,
+            distributor_id: this.getDistributorId(),
             status: true
           }
 

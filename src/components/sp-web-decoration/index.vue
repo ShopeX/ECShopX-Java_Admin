@@ -50,7 +50,6 @@
       <div class="min-w-0 min-h-0 h-full">
         <StructurePanel
           :dsl="dsl"
-          :global-dsl="globalDsl"
           :header-dsl="headerDsl"
           :footer-dsl="footerDsl"
           :selected-section-id="selectedSectionId"
@@ -136,7 +135,6 @@ import StructureInsertMenu from './components/StructureInsertMenu.vue'
 
 import { getSectionTypesByScope, getTypedSectionDefinition } from './definitions/registry.js'
 import { getAreaSectionInsertPolicy } from './definitions/areas.js'
-import { composeGlobalDsl } from './utils/dsl.js'
 import {
   createBlockPickerItems,
   createSectionPickerItems,
@@ -211,12 +209,6 @@ export default {
     footerDsl() {
       return this.$store.state.decoration.footerDsl
     },
-    globalDsl() {
-      return composeGlobalDsl({
-        headerDsl: this.headerDsl,
-        footerDsl: this.footerDsl
-      })
-    },
     pageId() {
       return this.$store.state.decoration.pageId
     },
@@ -272,13 +264,34 @@ export default {
       immediate: true,
       handler(value) {
         if (!value) return
+        const pageDsl = value.dsl || value
+        const carouselSectionId = Object.keys(pageDsl?.sections || {}).find(
+          (sectionId) => pageDsl?.sections?.[sectionId]?.type === 'main-carousel'
+        )
+        console.log('[sp-web-decoration] initialDsl before initializeEditor', {
+          pageDsl,
+          carouselSectionId,
+          carouselSection: carouselSectionId ? pageDsl?.sections?.[carouselSectionId] : null
+        })
         this.$store.commit('decoration/initializeEditor', {
           pageType: this.pageType,
           pageId: this.templateId,
-          dsl: cloneValue(value.dsl || value),
-          globalDsl: value.globalDsl ? cloneValue(value.globalDsl) : null,
+          dsl: cloneValue(pageDsl),
           headerDsl: value.headerDsl ? cloneValue(value.headerDsl) : null,
-          footerDsl: value.footerDsl ? cloneValue(value.footerDsl) : null
+          footerDsl: value.footerDsl ? cloneValue(value.footerDsl) : null,
+          legacyGlobalDsl: value.globalDsl ? cloneValue(value.globalDsl) : null
+        })
+        this.$nextTick(() => {
+          const currentDsl = this.$store.state.decoration.dsl
+          const currentCarouselSectionId = Object.keys(currentDsl?.sections || {}).find(
+            (sectionId) => currentDsl?.sections?.[sectionId]?.type === 'main-carousel'
+          )
+          console.log('[sp-web-decoration] store dsl after initializeEditor', {
+            currentCarouselSectionId,
+            carouselSection: currentCarouselSectionId
+              ? currentDsl?.sections?.[currentCarouselSectionId]
+              : null
+          })
         })
         this.resetHistory()
       }
@@ -539,7 +552,11 @@ export default {
       this.recordHistory()
     },
     handleToggleSectionDisabled(sectionId) {
-      const section = this.globalDsl.sections?.[sectionId] || this.dsl.sections?.[sectionId] || null
+      const section =
+        this.headerDsl.sections?.[sectionId] ||
+        this.footerDsl.sections?.[sectionId] ||
+        this.dsl.sections?.[sectionId] ||
+        null
       if (!section) return
       this.$store.commit('decoration/setSectionDisabled', {
         sectionId,

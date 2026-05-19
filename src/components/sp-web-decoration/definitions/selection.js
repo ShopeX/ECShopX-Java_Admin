@@ -1,5 +1,7 @@
-export function isGlobalSectionId(globalDsl, sectionId) {
-  return Boolean(sectionId && globalDsl && globalDsl.sections && globalDsl.sections[sectionId])
+export function isGlobalSectionId({ headerDsl, footerDsl } = {}, sectionId) {
+  return Boolean(
+    sectionId && (headerDsl?.sections?.[sectionId] || footerDsl?.sections?.[sectionId])
+  )
 }
 
 export function findSectionIdByType(dsl, type) {
@@ -95,12 +97,12 @@ function getFallbackSectionRule() {
   return rule
 }
 
-function applyRule(rule, { dsl, globalDsl }) {
+function applyRule(rule, { dsl, headerDsl, footerDsl }) {
   if (!rule || !rule.strategy) return null
 
   if (rule.strategy === 'globalSectionIfExists') {
     const sectionId = rule.globalSectionId
-    if (sectionId && globalDsl?.sections?.[sectionId]) {
+    if (isGlobalSectionId({ headerDsl, footerDsl }, sectionId)) {
       return { sectionId, blockId: '' }
     }
     return null
@@ -127,7 +129,7 @@ function applyFallback(fallback, { dsl }) {
   return { sectionId: '', blockId: '' }
 }
 
-function finalizeSection(partial, globalDsl, defaults) {
+function finalizeSection(partial, { headerDsl, footerDsl }, defaults) {
   const selectedSectionId = partial.sectionId || ''
   const selectedBlockId =
     partial.blockId !== undefined && partial.blockId !== null
@@ -139,7 +141,9 @@ function finalizeSection(partial, globalDsl, defaults) {
 
   let editingScope = 'global'
   if (selectedSectionId) {
-    editingScope = isGlobalSectionId(globalDsl, selectedSectionId) ? 'global' : 'page'
+    editingScope = isGlobalSectionId({ headerDsl, footerDsl }, selectedSectionId)
+      ? 'global'
+      : 'page'
   }
 
   return {
@@ -150,19 +154,19 @@ function finalizeSection(partial, globalDsl, defaults) {
   }
 }
 
-export function getInitialEditorSelection({ dsl, globalDsl }) {
+export function getInitialEditorSelection({ dsl, headerDsl, footerDsl }) {
   const defaults = selectionManifest.defaults || {}
   const rules = getOrderedSectionRules()
 
   for (const rule of rules) {
-    const hit = applyRule(rule, { dsl, globalDsl })
+    const hit = applyRule(rule, { dsl, headerDsl, footerDsl })
     if (hit && hit.sectionId) {
-      return finalizeSection(hit, globalDsl, defaults)
+      return finalizeSection(hit, { headerDsl, footerDsl }, defaults)
     }
   }
 
   const fallback = applyFallback(getFallbackSectionRule(), { dsl })
-  return finalizeSection(fallback, globalDsl, defaults)
+  return finalizeSection(fallback, { headerDsl, footerDsl }, defaults)
 }
 
 export default {

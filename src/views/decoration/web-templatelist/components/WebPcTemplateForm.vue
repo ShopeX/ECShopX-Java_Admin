@@ -45,6 +45,7 @@ export default {
         template_title: '',
         template_description: '',
         page_type: '',
+        distributor_id: undefined,
         status: true
       }
     }
@@ -166,13 +167,20 @@ export default {
         template_description:
           iv.template_description != null ? String(iv.template_description) : '',
         page_type: iv.page_type != null ? String(iv.page_type) : '',
+        distributor_id: iv.distributor_id !== undefined ? Number(iv.distributor_id) : undefined,
         status: iv.status === true || iv.status === '1' || iv.status === 1
       }
     },
     async buildApiParams() {
       await this.validate()
-      const { theme_pc_template_id, template_title, template_description, page_type, status } =
-        this.form
+      const {
+        theme_pc_template_id,
+        template_title,
+        template_description,
+        page_type,
+        distributor_id,
+        status
+      } = this.form
       const params = {
         template_title,
         template_description,
@@ -182,6 +190,9 @@ export default {
       }
       if (theme_pc_template_id !== '') {
         params.theme_pc_template_id = theme_pc_template_id
+      }
+      if (distributor_id !== undefined) {
+        params.distributor_id = distributor_id
       }
       return params
     }

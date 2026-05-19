@@ -1,14 +1,9 @@
 /**
- * PC 模板装修：与 ThemeBundle pctemplate 接口对接，存取 ECX 编辑器 DSL（与 legacy 微件并存时用独立 type 标记）。
- * 页面内容：getTemplateContent / saveTemplateContent（config 为 JSON 数组字符串）
- * 标头/页脚：getHeaderOrFooter / saveHeaderOrFooter（按 page_name 分开保存）
+ * PC 模板装修：与 ThemeBundle pctemplate 接口对接，存取 ECX 编辑器 DSL。
+ * 读取统一走 getDecorationContent，按 page_name 区分 page/header/footer。
+ * 保存仍维持 page 与 header/footer 分开调用，兼容现有后端存储。
  */
-import {
-  getTemplateContent,
-  saveTemplateContent,
-  getHeaderOrFooter,
-  saveHeaderOrFooter
-} from '@/api/webtemplate'
+import { getDecorationContent, saveTemplateContent, saveHeaderOrFooter } from '@/api/webtemplate'
 import {
   createHomeDsl,
   createGlobalDsl,
@@ -22,9 +17,9 @@ import {
 import { createGlobalSections } from '../definitions/documents/global.js'
 
 export const DSL_ROW_TYPE = 'ECX_SP_WEB_DECORATION_DSL_V1'
-export const GLOBAL_DECORATION_PAGE_NAME = 'ecx_sp_web_decoration_global'
-export const HEADER_DECORATION_PAGE_NAME = 'ecx_sp_web_decoration_header'
-export const FOOTER_DECORATION_PAGE_NAME = 'ecx_sp_web_decoration_footer'
+const LEGACY_GLOBAL_DECORATION_PAGE_NAME = 'ecx_sp_web_decoration_global'
+export const HEADER_DECORATION_PAGE_NAME = 'header'
+export const FOOTER_DECORATION_PAGE_NAME = 'footer'
 
 function createPageFallback(templateId, scene) {
   return createHomeDsl({ pageId: String(templateId || ''), scene })
@@ -127,10 +122,113 @@ function normalizeScopedDsl(raw, fallback, pageType) {
 }
 
 function unwrapPayload(res) {
-  if (res == null) return null
-  if (Array.isArray(res)) return res
-  if (res.data !== undefined && res.data !== null) return res.data
-  return res
+  let current = res
+  while (current && typeof current === 'object') {
+    if (Array.isArray(current)) {
+      return current
+    }
+
+    if (
+      current.data !== undefined &&
+      current.headers !== undefined &&
+      current.status !== undefined &&
+      current.config !== undefined
+    ) {
+      current = current.data
+      continue
+    }
+
+    if (
+      current.data !== undefined &&
+      current.data !== null &&
+      current.id === undefined &&
+      current.name === undefined &&
+      current.config === undefined
+    ) {
+      current = current.data
+      continue
+    }
+
+    break
+  }
+  return current == null ? null : current
+}
+
+function parsePageDslRows(payload, templateId, scene) {
+  const rows = Array.isArray(payload)
+    ? payload
+    : payload && typeof payload === 'object'
+    ? [payload]
+    : []
+  if (!rows.length) return null
+
+  for (const row of rows) {
+    console.log('[sp-web-decoration] page config payload', {
+      templateId,
+      rowId: row?.id,
+      rowName: row?.name,
+      config: row?.config
+    })
+    let cfg
+    try {
+      cfg = JSON.parse(row?.config || '[]')
+    } catch (e) {
+      console.warn('[sp-web-decoration] page config parse failed', {
+        templateId,
+        rowId: row?.id,
+        error: e?.message
+      })
+      continue
+    }
+    const target = Array.isArray(cfg)
+      ? cfg.find((item) => item && item.type === DSL_ROW_TYPE)
+      : cfg && cfg.type === DSL_ROW_TYPE && cfg.dsl
+      ? cfg
+      : cfg && cfg.pageType && cfg.sections
+      ? { dsl: cfg }
+      : null
+    console.log('[sp-web-decoration] page config parsed target', {
+      templateId,
+      rowId: row?.id,
+      isArray: Array.isArray(cfg),
+      hasTarget: Boolean(target),
+      targetDsl: target?.dsl
+    })
+    if (!target || !target.dsl) continue
+    return {
+      dsl: normalizePageDsl(target.dsl, templateId, scene),
+      contentRowId: row.id || 0,
+      source: 'api'
+    }
+  }
+
+  return null
+}
+
+function parseScopedDslRow(row, fallback, pageType) {
+  if (!row) return null
+  const candidate = row?.config || row?.params || row?.dsl || row
+  return {
+    dsl: normalizeScopedDsl(candidate, fallback, pageType),
+    source: 'api'
+  }
+}
+
+function parseLegacyGlobalDslRow(row) {
+  if (!row) return null
+  const candidate = row?.config || row?.params || row?.dsl || row
+  return {
+    dsl: normalizeGlobalDsl(candidate),
+    source: 'api'
+  }
+}
+
+function createPageLoadFallback(templateId, scene) {
+  return {
+    dsl: createPageFallback(templateId, scene),
+    contentRowId: 0,
+    source: 'default'
+  }
 }
 
 export async function loadPageDslFromApi({ templateId, scene }) {
@@ -142,27 +240,12 @@ export async function loadPageDslFromApi({ templateId, scene }) {
   if (!templateId) return fallback
 
   try {
-    const raw = await getTemplateContent({ theme_pc_template_id: templateId })
+    const raw = await getDecorationContent({
+      page_name: 'page',
+      theme_pc_template_id: templateId
+    })
     const list = unwrapPayload(raw)
-    if (!Array.isArray(list) || !list.length) return fallback
-
-    for (const row of list) {
-      let cfg
-      try {
-        cfg = JSON.parse(row?.config || '[]')
-      } catch (e) {
-        continue
-      }
-      const target = Array.isArray(cfg)
-        ? cfg.find((item) => item && item.type === DSL_ROW_TYPE)
-        : null
-      if (!target || !target.dsl) continue
-      return {
-        dsl: normalizePageDsl(target.dsl, templateId, scene),
-        contentRowId: row.id || 0,
-        source: 'api'
-      }
-    }
+    return parsePageDslRows(list, templateId, scene) || fallback
   } catch (e) {
     console.warn('[decoration] loadPageDslFromApi', e)
   }
@@ -192,28 +275,30 @@ export async function savePageDslToApi({ templateId, contentRowId, dsl, scene })
   }
 }
 
-export async function loadGlobalDslFromApi() {
+async function loadLegacyGlobalDslFromApi() {
   try {
-    const raw = await getHeaderOrFooter({ page_name: GLOBAL_DECORATION_PAGE_NAME })
+    const raw = await getDecorationContent({
+      page_name: LEGACY_GLOBAL_DECORATION_PAGE_NAME
+    })
     const payload = unwrapPayload(raw)
     if (!payload) return { dsl: createGlobalFallback(), source: 'default' }
-    const candidate = payload?.config || payload?.dsl || payload
+    const candidate = payload?.config || payload?.params || payload?.dsl || payload
     return {
       dsl: normalizeGlobalDsl(candidate),
       source: 'api'
     }
   } catch (e) {
-    console.warn('[decoration] loadGlobalDslFromApi', e)
+    console.warn('[decoration] loadLegacyGlobalDslFromApi', e)
     return { dsl: createGlobalFallback(), source: 'default' }
   }
 }
 
 export async function loadHeaderDslFromApi() {
   try {
-    const raw = await getHeaderOrFooter({ page_name: HEADER_DECORATION_PAGE_NAME })
+    const raw = await getDecorationContent({ page_name: HEADER_DECORATION_PAGE_NAME })
     const payload = unwrapPayload(raw)
     if (!payload) return { dsl: createHeaderFallback(), source: 'default' }
-    const candidate = payload?.config || payload?.dsl || payload
+    const candidate = payload?.config || payload?.params || payload?.dsl || payload
     return {
       dsl: normalizeScopedDsl(candidate, createHeaderFallback(), 'header'),
       source: 'api'
@@ -226,10 +311,10 @@ export async function loadHeaderDslFromApi() {
 
 export async function loadFooterDslFromApi() {
   try {
-    const raw = await getHeaderOrFooter({ page_name: FOOTER_DECORATION_PAGE_NAME })
+    const raw = await getDecorationContent({ page_name: FOOTER_DECORATION_PAGE_NAME })
     const payload = unwrapPayload(raw)
     if (!payload) return { dsl: createFooterFallback(), source: 'default' }
-    const candidate = payload?.config || payload?.dsl || payload
+    const candidate = payload?.config || payload?.params || payload?.dsl || payload
     return {
       dsl: normalizeScopedDsl(candidate, createFooterFallback(), 'footer'),
       source: 'api'
@@ -250,7 +335,7 @@ export async function loadHeaderFooterDslFromApi() {
     }
   }
 
-  const legacyGlobal = await loadGlobalDslFromApi()
+  const legacyGlobal = await loadLegacyGlobalDslFromApi()
   if (legacyGlobal.source !== 'default') {
     return {
       ...splitGlobalDsl(legacyGlobal.dsl),
@@ -262,6 +347,59 @@ export async function loadHeaderFooterDslFromApi() {
     headerDsl: header.dsl,
     footerDsl: footer.dsl,
     source: 'default'
+  }
+}
+
+export async function loadDecorationContentFromApi({ templateId, scene }) {
+  const fallbackPage = createPageLoadFallback(templateId, scene)
+  if (!templateId) {
+    return {
+      page: fallbackPage,
+      headerDsl: createHeaderFallback(),
+      footerDsl: createFooterFallback(),
+      source: 'default'
+    }
+  }
+
+  try {
+    const [page, headerFooter] = await Promise.all([
+      loadPageDslFromApi({ templateId, scene }),
+      loadHeaderFooterDslFromApi()
+    ])
+    if (headerFooter.source === 'legacy-global') {
+      return {
+        page,
+        headerDsl: headerFooter.headerDsl,
+        footerDsl: headerFooter.footerDsl,
+        source: 'legacy-global'
+      }
+    }
+    if (page.source !== 'default' || headerFooter.source !== 'default') {
+      return {
+        page,
+        headerDsl: headerFooter.headerDsl,
+        footerDsl: headerFooter.footerDsl,
+        source: 'api'
+      }
+    }
+    return {
+      page,
+      headerDsl: headerFooter.headerDsl,
+      footerDsl: headerFooter.footerDsl,
+      source: 'default'
+    }
+  } catch (e) {
+    console.warn('[decoration] loadDecorationContentFromApi fallback', e)
+    const [page, headerFooter] = await Promise.all([
+      loadPageDslFromApi({ templateId, scene }),
+      loadHeaderFooterDslFromApi()
+    ])
+    return {
+      page,
+      headerDsl: headerFooter.headerDsl,
+      footerDsl: headerFooter.footerDsl,
+      source: headerFooter.source || page.source
+    }
   }
 }
 
@@ -293,21 +431,10 @@ export async function saveFooterDslToApi({ dsl }) {
   }
 }
 
-export async function saveGlobalDslToApi({ dsl }) {
-  await saveScopedDslToApi({
-    pageName: GLOBAL_DECORATION_PAGE_NAME,
-    dsl
-  })
-  return {
-    dsl: normalizeGlobalDsl(dsl)
-  }
-}
-
 export default {
+  loadDecorationContentFromApi,
   loadPageDslFromApi,
   savePageDslToApi,
-  loadGlobalDslFromApi,
-  saveGlobalDslToApi,
   loadHeaderDslFromApi,
   saveHeaderDslToApi,
   loadFooterDslFromApi,

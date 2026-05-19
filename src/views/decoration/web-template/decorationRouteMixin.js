@@ -3,8 +3,7 @@
  */
 import SpWebDecoration from '@/components/sp-web-decoration/index.vue'
 import {
-  loadPageDslFromApi,
-  loadHeaderFooterDslFromApi,
+  loadDecorationContentFromApi,
   savePageDslToApi,
   saveHeaderDslToApi,
   saveFooterDslToApi
@@ -13,8 +12,8 @@ import {
 const {
   loadHomeDecoration,
   saveHomeDecoration,
-  loadGlobalDecoration,
-  saveGlobalDecoration
+  loadHeaderFooterDecoration,
+  saveHeaderFooterDecoration
 } = require('@/components/sp-web-decoration/adapters/homeDecoration')
 
 export default {
@@ -40,29 +39,28 @@ export default {
       this.isLoading = true
       try {
         if (this.templateId) {
-          const page = await loadPageDslFromApi({
+          const decoration = await loadDecorationContentFromApi({
             templateId: this.templateId,
             scene: this.scene
           })
-          const headerFooter = await loadHeaderFooterDslFromApi()
+          const page = decoration.page
           this.contentRowId = page.contentRowId || 0
           this.initialDsl = {
             dsl: page.dsl,
-            headerDsl: headerFooter.headerDsl,
-            footerDsl: headerFooter.footerDsl
+            headerDsl: decoration.headerDsl,
+            footerDsl: decoration.footerDsl
           }
         } else {
           const { dsl } = await loadHomeDecoration({
             templateId: this.templateId,
             scene: this.scene
           })
-          const global = await loadGlobalDecoration()
+          const headerFooter = await loadHeaderFooterDecoration()
           this.contentRowId = 0
           this.initialDsl = {
             dsl,
-            headerDsl: global.headerDsl,
-            footerDsl: global.footerDsl,
-            globalDsl: global.dsl
+            headerDsl: headerFooter.headerDsl,
+            footerDsl: headerFooter.footerDsl
           }
         }
       } finally {
@@ -96,7 +94,7 @@ export default {
             templateId: this.templateId,
             dsl
           })
-          await saveGlobalDecoration({ headerDsl, footerDsl })
+          await saveHeaderFooterDecoration({ headerDsl, footerDsl })
           this.$message.success(this.$t(result.messageKey))
         }
       } finally {
