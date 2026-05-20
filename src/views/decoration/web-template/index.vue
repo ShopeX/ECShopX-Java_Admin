@@ -35,6 +35,7 @@
 
 <script>
 import decorationRouteMixin from './decorationRouteMixin'
+import { normalizeDecorationPageType } from '@/components/sp-web-decoration/utils/pageTypes'
 
 /**
  * PC 商城装修器入口（全屏 /decoration/web/template/edit 与布局内 /decoration/web/edit/:pageType 共用）
@@ -50,7 +51,8 @@ export default {
       return String(this.$route.query.scene || '1001')
     },
     routePageType() {
-      return String(this.$route.params.pageType || 'home')
+      const queryPageType = this.$route.query.page_type || this.$route.query.pageType
+      return normalizeDecorationPageType(queryPageType || this.$route.params.pageType || 'home')
     },
     isSupportedScene() {
       return this.scene === '1001'

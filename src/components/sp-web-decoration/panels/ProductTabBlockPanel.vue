@@ -191,7 +191,6 @@ export default {
       const result = await this.$dialog.open(GoodsPicker, {
         parent: this,
         title: '选择商品',
-        width: '760px',
         props: {
           multiple: true,
           initialSelected: this.selectedProductItems

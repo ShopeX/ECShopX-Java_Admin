@@ -75,6 +75,8 @@ import Draggable from 'vuedraggable'
 import SpFormPlus from '@/components/sp-form-plus'
 import MenuItemForm from './components/MenuItemForm.vue'
 import WebMenuItemBlock from './components/WebMenuItemBlock.vue'
+import { LINK_PATH } from '@/consts'
+import { MENU_ITEM_PAGE_PRESETS } from './components/menuItemPagePresets'
 
 const defaultMenuForm = () => ({
   name: '',
@@ -146,10 +148,24 @@ export default {
     itemLinkLabel(item) {
       const lt = item.link_type || 'url'
       const v = item.link_value != null ? String(item.link_value) : ''
-      if (lt === 'url' || lt === 'none') {
-        return v || '—'
+      const title = String(item.link_extra?.title || '').trim()
+      const typeLabel = LINK_PATH[lt] || lt
+
+      if (lt === 'none' || (!title && !v)) {
+        return '—'
       }
-      return `${lt}${v ? `：${v}` : ''}`
+
+      if (title) {
+        return typeLabel ? `${typeLabel}：${title}` : title
+      }
+
+      if (lt === 'url') {
+        const preset = MENU_ITEM_PAGE_PRESETS.find((entry) => entry.value === v)
+        const presetLabel = preset ? this.$t(preset.labelKey) : v || '—'
+        return typeLabel ? `${typeLabel}：${presetLabel}` : presetLabel
+      }
+
+      return typeLabel ? `${typeLabel}：${v || '—'}` : v || '—'
     },
     bootstrap() {
       if (this.isCreate) {
@@ -219,14 +235,24 @@ export default {
       if (!this.menuId) return
       const editingItemId = item ? item.id : null
       const currentParentId = item ? item.parent_id : parentIdForCreate
+      const normalizeLinkType = (linkType) => {
+        const value = String(linkType || '').trim()
+        return value && value !== 'none' ? value : ''
+      }
       const initialValue = item
         ? {
             id: item.id,
             name: item.name,
-            pagePath: item.link_value != null ? String(item.link_value) : '',
+            path: {
+              linkPage: normalizeLinkType(item.link_type),
+              title: item.link_extra?.title || item.name || '',
+              id: item.link_value != null ? String(item.link_value) : '',
+              extra: item.link_extra || {}
+            },
+            imageUrl: item.image_url != null ? item.image_url : '',
             sort: item.sort
           }
-        : { name: '', pagePath: '', sort: 0 }
+        : { name: '', path: null, imageUrl: '', sort: 0 }
 
       const formVmHolder = { vm: null }
       const h = this.$createElement
@@ -247,10 +273,21 @@ export default {
             throw new Error(this.$t('80206cbf.a733c4'))
           }
           await formVm.validate()
+          const selectedPath = formVm.form.path || {}
+          const hasSelectedPath = Boolean(
+            selectedPath.linkPage && selectedPath.id != null && selectedPath.id !== ''
+          )
           const payload = {
             name: formVm.form.name,
-            link_type: 'url',
-            link_value: formVm.form.pagePath != null ? String(formVm.form.pagePath) : '',
+            link_type: hasSelectedPath ? selectedPath.linkPage : 'none',
+            link_value: hasSelectedPath ? String(selectedPath.id) : '',
+            link_extra: hasSelectedPath
+              ? {
+                  ...(selectedPath.extra || {}),
+                  title: selectedPath.title || ''
+                }
+              : {},
+            image_url: formVm.form.imageUrl || '',
             sort: formVm.form.sort != null ? Number(formVm.form.sort) : 0,
             status: editingItemId != null && item && item.status != null ? Number(item.status) : 1,
             parent_id: currentParentId

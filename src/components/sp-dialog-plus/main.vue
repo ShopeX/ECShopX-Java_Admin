@@ -68,15 +68,15 @@ export default {
       })
     },
     width: {
-      type: String,
-      default: '1008px'
+      type: String
     },
     value: {
       type: Object,
       default: () => ({})
     },
     size: {
-      type: String
+      type: String,
+      default: 'medium'
     },
     isShow: Boolean
   },
@@ -88,7 +88,7 @@ export default {
         small: '800px',
         mini: '600px'
       }
-      return SIZE[this.size] || '1200px'
+      return this.width || SIZE[this.size] || '1200px'
     },
     computedButtonCancel() {
       return {

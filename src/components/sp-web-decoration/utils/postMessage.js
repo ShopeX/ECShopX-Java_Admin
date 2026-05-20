@@ -1,3 +1,5 @@
+import { normalizeDecorationPageType, resolveDecorationPreviewPath } from './pageTypes'
+
 function resolvePreviewWebsiteOrigin(websiteUrl) {
   if (!websiteUrl) return ''
   try {
@@ -54,7 +56,8 @@ export function createDecorationMessenger(websiteUrl) {
 
   function getPreviewUrl({ templateId, pageType = 'home' }) {
     if (!websiteUrl) return ''
-    const pageId = templateId || pageType
+    const normalizedPageType = normalizeDecorationPageType(pageType)
+    const pageId = templateId || normalizedPageType
     try {
       const base =
         typeof window !== 'undefined' && window.location?.href
@@ -63,18 +66,20 @@ export function createDecorationMessenger(websiteUrl) {
       if (!base.pathname || base.pathname === '') {
         base.pathname = '/'
       }
+      base.pathname = resolveDecorationPreviewPath(normalizedPageType, pageId)
       base.searchParams.set('designMode', '1')
-      base.searchParams.set('pageType', pageType)
+      base.searchParams.set('pageType', normalizedPageType)
       base.searchParams.set('pageId', String(pageId))
       return base.toString()
     } catch {
       const originOnly = String(websiteUrl).split('?')[0].replace(/\/+$/, '') || ''
       const qs = new URLSearchParams({
         designMode: '1',
-        pageType: String(pageType),
+        pageType: String(normalizedPageType),
         pageId: String(pageId)
       })
-      return `${originOnly}/?${qs.toString()}`
+      const path = resolveDecorationPreviewPath(normalizedPageType, pageId).replace(/\/$/, '')
+      return `${originOnly}${path}/?${qs.toString()}`
     }
   }
 

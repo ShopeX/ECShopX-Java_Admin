@@ -1,7 +1,3 @@
-<!--
-  菜单项表单 — $dialog.open 内容区（整表 SpFormPlus）
-  跳转路径：FormField 支持 component 为函数，用 ctx.h 渲染 el-select（弹窗内内置 renderSelect 不可靠）
--->
 <template>
   <div class="menu-item-form-sp w-full max-w-[600px]">
     <SpFormPlus
@@ -18,11 +14,12 @@
 
 <script>
 import SpFormPlus from '@/components/sp-form-plus'
-import { MENU_ITEM_PAGE_PRESETS, defaultPresetPath } from './menuItemPagePresets'
+import SpImagePicker from '@/components/sp-image-picker/index.vue'
+import SpPathSelector from '@/components/sp-path-selector/index.vue'
 
 export default {
   name: 'MenuItemForm',
-  components: { SpFormPlus },
+  components: { SpFormPlus, SpImagePicker, SpPathSelector },
   props: {
     initialValue: {
       type: Object,
@@ -33,24 +30,13 @@ export default {
     return {
       form: {
         name: '',
-        pagePath: '',
+        path: null,
+        imageUrl: '',
         sort: 0
       }
     }
   },
   computed: {
-    pageSelectOptions() {
-      const base = MENU_ITEM_PAGE_PRESETS.map((o) => ({
-        label: this.$t(o.labelKey),
-        value: o.value
-      }))
-      const presetVals = MENU_ITEM_PAGE_PRESETS.map((o) => o.value)
-      const u = (this.form.pagePath || '').trim()
-      if (u && !presetVals.includes(u)) {
-        return [{ label: this.$t('7856f5b5.fbdd56', { path: u }), value: u }, ...base]
-      }
-      return base
-    },
     formItems() {
       return [
         {
@@ -65,26 +51,34 @@ export default {
           }
         },
         {
-          fieldName: 'pagePath',
+          fieldName: 'path',
           label: this.$t('7856f5b5.0fec18'),
-          component: (ctx) => this.renderPagePathSelect(ctx),
-          formItemClass: 'w-full',
-          rules: [{ required: true, message: this.$t('7856f5b5.575623'), trigger: 'change' }],
-          componentProps: {
-            filterable: true,
-            placeholder: this.$t('7856f5b5.4ef9f6'),
-            options: this.pageSelectOptions
-          }
+          component: ({ value, onInput }) => (
+            <SpPathSelector value={value} platform='web' on-input={onInput} />
+          ),
+          formItemClass: 'w-full'
+        },
+        {
+          fieldName: 'imageUrl',
+          label: this.$t('d6124b35.6bfb9b'),
+          component: ({ value, onInput }) => <SpImagePicker value={value} on-input={onInput} />,
+          formItemClass: 'w-full'
         },
         {
           fieldName: 'sort',
           label: this.$t('7856f5b5.c360e9'),
-          component: 'input',
-          formItemClass: 'w-full',
-          componentProps: {
-            type: 'number',
-            placeholder: '0'
-          }
+          component: ({ value, onInput }) => (
+            <el-input-number
+              class='menu-item-form-sp__sort-input'
+              value={Number.isFinite(Number(value)) ? Number(value) : 0}
+              min={0}
+              step={1}
+              precision={0}
+              controlsPosition='right'
+              onInput={onInput}
+            />
+          ),
+          formItemClass: 'menu-item-form-sp__sort'
         }
       ]
     }
@@ -101,59 +95,15 @@ export default {
     this.syncForm()
   },
   methods: {
-    /** FormField：component 为函数时传入 ctx（含与 render 同源的 h） */
-    renderPagePathSelect(ctx) {
-      const { h, value, onInput, props } = ctx
-      const {
-        options: rawOptions = [],
-        filterable = true,
-        placeholder = this.$t('7856f5b5.4ef9f6')
-      } = props || {}
-      const children = (rawOptions || []).map((opt, idx) =>
-        h('el-option', {
-          key: opt.value != null ? String(opt.value) : `path-${idx}`,
-          props: {
-            label: opt.label,
-            value: opt.value,
-            disabled: opt.disabled
-          }
-        })
-      )
-      return h(
-        'el-select',
-        {
-          class: 'w-full',
-          style: { width: '100%' },
-          props: {
-            value,
-            filterable,
-            placeholder,
-            popperAppendToBody: true
-          },
-          on: {
-            input: onInput
-          }
-        },
-        children
-      )
-    },
     validate() {
       return this.$refs.formPlusRef.validate()
     },
     syncForm() {
       const iv = this.initialValue || {}
-      let pagePath =
-        iv.pagePath != null
-          ? String(iv.pagePath).trim()
-          : iv.url != null
-          ? String(iv.url).trim()
-          : ''
-      if (!pagePath) {
-        pagePath = defaultPresetPath()
-      }
       this.form = {
         name: iv.name != null ? iv.name : '',
-        pagePath,
+        path: iv.path || null,
+        imageUrl: iv.imageUrl != null ? iv.imageUrl : iv.image_url != null ? iv.image_url : '',
         sort: iv.sort != null ? Number(iv.sort) : 0
       }
     },
@@ -174,7 +124,8 @@ export default {
         this.$emit('close', {
           id: iv.id,
           name: this.form.name,
-          url: this.form.pagePath,
+          path: this.form.path,
+          imageUrl: this.form.imageUrl,
           sort: this.form.sort
         })
       } catch (e) {
@@ -187,8 +138,10 @@ export default {
 }
 </script>
 
-<style scoped>
-.menu-item-form-sp ::v-deep .el-select {
-  width: 100%;
+<style scoped lang="scss">
+.menu-item-form-sp ::v-deep {
+  .menu-item-form-sp__sort .el-input-number {
+    width: 180px;
+  }
 }
 </style>

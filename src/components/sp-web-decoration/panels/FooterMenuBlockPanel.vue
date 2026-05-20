@@ -102,22 +102,7 @@
 import { Menu as MenuIcon, Trash2 } from 'lucide-vue'
 import WebNavPicker from '@/components/sp-picker-plus/WebNavPicker.vue'
 import SpRichTextEditor from '@/components/sp-rich-text-editor/index.vue'
-
-const MENU_LABEL_MAP = {
-  'main-menu': 'Company'
-}
-
-function normalizeSelectedMenu(menu) {
-  if (!menu) return null
-  if (typeof menu === 'object') return menu
-  const key = String(menu).trim()
-  if (!key) return null
-  return {
-    id: key,
-    key,
-    name: MENU_LABEL_MAP[key] || key
-  }
-}
+import { normalizeSelectedMenu, pickMenuValue } from '../utils/menuSelection.js'
 
 export default {
   name: 'FooterMenuBlockPanel',
@@ -132,13 +117,32 @@ export default {
       default: () => ({})
     }
   },
+  data() {
+    return {
+      menuNameCache: ''
+    }
+  },
   computed: {
+    currentMenu() {
+      return normalizeSelectedMenu(pickMenuValue(this.value))
+    },
     currentMenuLabel() {
-      const menu = normalizeSelectedMenu(this.value.menu)
-      return menu?.name || '未选择菜单'
+      return this.currentMenu?.name || this.menuNameCache || '未选择菜单'
     },
     hasSelectedMenu() {
-      return Boolean(normalizeSelectedMenu(this.value.menu))
+      return Boolean(this.currentMenu || this.menuNameCache)
+    }
+  },
+  watch: {
+    currentMenu: {
+      immediate: true,
+      handler(menu) {
+        if (menu?.name) {
+          this.menuNameCache = menu.name
+          return
+        }
+        this.resolveMenuName(menu)
+      }
     }
   },
   methods: {
@@ -148,17 +152,31 @@ export default {
       })
     },
     clearMenu() {
+      this.menuNameCache = ''
       this.updateField('menu', '')
+    },
+    async resolveMenuName(menu) {
+      const menuId = String(menu?.id || menu?.key || '').trim()
+      if (!menuId) {
+        this.menuNameCache = ''
+        return
+      }
+      try {
+        const detail = await this.$api.decoration.getMenuDetail(menuId)
+        this.menuNameCache = detail?.name || ''
+      } catch (error) {
+        this.menuNameCache = ''
+      }
     },
     async openMenuPicker() {
       const selected = await this.$dialog.open(WebNavPicker, {
         title: '选择导航菜单',
         props: {
-          initialSelected: normalizeSelectedMenu(this.value.menu)
-        },
-        width: '760px'
+          initialSelected: this.currentMenu
+        }
       })
       if (!selected) return
+      this.menuNameCache = selected?.name || ''
       this.updateField('menu', selected)
     }
   }

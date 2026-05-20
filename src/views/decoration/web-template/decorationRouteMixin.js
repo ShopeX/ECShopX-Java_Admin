@@ -41,7 +41,8 @@ export default {
         if (this.templateId) {
           const decoration = await loadDecorationContentFromApi({
             templateId: this.templateId,
-            scene: this.scene
+            scene: this.scene,
+            pageType: this.routePageType
           })
           const page = decoration.page
           this.contentRowId = page.contentRowId || 0
@@ -84,7 +85,8 @@ export default {
             savePageDslToApi({
               templateId: this.templateId,
               dsl,
-              contentRowId: this.contentRowId
+              contentRowId: this.contentRowId,
+              pageType: this.routePageType
             }),
             saveFooterDslToApi({ dsl: footerDsl })
           ])

@@ -6,6 +6,7 @@
 import { getDecorationContent, saveTemplateContent, saveHeaderOrFooter } from '@/api/webtemplate'
 import {
   createHomeDsl,
+  createCustomDsl,
   createGlobalDsl,
   serializeDsl,
   deserializeDsl,
@@ -21,8 +22,13 @@ const LEGACY_GLOBAL_DECORATION_PAGE_NAME = 'ecx_sp_web_decoration_global'
 export const HEADER_DECORATION_PAGE_NAME = 'header'
 export const FOOTER_DECORATION_PAGE_NAME = 'footer'
 
-function createPageFallback(templateId, scene) {
-  return createHomeDsl({ pageId: String(templateId || ''), scene })
+function createPageFallback(templateId, scene, pageType = 'home') {
+  if (pageType === 'custom') {
+    return createCustomDsl({ pageId: String(templateId || ''), scene })
+  }
+  const dsl = createHomeDsl({ pageId: String(templateId || ''), scene })
+  dsl.pageType = pageType
+  return dsl
 }
 
 function createGlobalFallback() {
@@ -37,8 +43,8 @@ function createFooterFallback() {
   return createFooterDsl()
 }
 
-function normalizePageDsl(raw, templateId, scene) {
-  const fallback = createPageFallback(templateId, scene)
+function normalizePageDsl(raw, templateId, scene, pageType = 'home') {
+  const fallback = createPageFallback(templateId, scene, pageType)
   if (raw == null) return fallback
   let payload = raw
   if (typeof raw === 'string') {
@@ -54,8 +60,8 @@ function normalizePageDsl(raw, templateId, scene) {
     if (!d || typeof d !== 'object') return fallback
     if (typeof d.sections !== 'object' || d.sections === null) return fallback
     if (!Array.isArray(d.order)) d.order = []
-    if (!d.pageType) d.pageType = fallback.pageType
-    if (d.pageId === undefined || d.pageId === null) d.pageId = fallback.pageId
+    d.pageType = fallback.pageType
+    d.pageId = fallback.pageId
     if (!d.meta || typeof d.meta !== 'object') d.meta = { ...(fallback.meta || {}) }
     return d
   } catch (e) {
@@ -154,7 +160,7 @@ function unwrapPayload(res) {
   return current == null ? null : current
 }
 
-function parsePageDslRows(payload, templateId, scene) {
+function parsePageDslRows(payload, templateId, scene, pageType = 'home') {
   const rows = Array.isArray(payload)
     ? payload
     : payload && typeof payload === 'object'
@@ -196,7 +202,7 @@ function parsePageDslRows(payload, templateId, scene) {
     })
     if (!target || !target.dsl) continue
     return {
-      dsl: normalizePageDsl(target.dsl, templateId, scene),
+      dsl: normalizePageDsl(target.dsl, templateId, scene, pageType),
       contentRowId: row.id || 0,
       source: 'api'
     }
@@ -223,17 +229,17 @@ function parseLegacyGlobalDslRow(row) {
   }
 }
 
-function createPageLoadFallback(templateId, scene) {
+function createPageLoadFallback(templateId, scene, pageType = 'home') {
   return {
-    dsl: createPageFallback(templateId, scene),
+    dsl: createPageFallback(templateId, scene, pageType),
     contentRowId: 0,
     source: 'default'
   }
 }
 
-export async function loadPageDslFromApi({ templateId, scene }) {
+export async function loadPageDslFromApi({ templateId, scene, pageType = 'home' }) {
   const fallback = {
-    dsl: createPageFallback(templateId, scene),
+    dsl: createPageFallback(templateId, scene, pageType),
     contentRowId: 0,
     source: 'default'
   }
@@ -245,17 +251,24 @@ export async function loadPageDslFromApi({ templateId, scene }) {
       theme_pc_template_id: templateId
     })
     const list = unwrapPayload(raw)
-    return parsePageDslRows(list, templateId, scene) || fallback
+    return parsePageDslRows(list, templateId, scene, pageType) || fallback
   } catch (e) {
     console.warn('[decoration] loadPageDslFromApi', e)
   }
   return fallback
 }
 
-export async function savePageDslToApi({ templateId, contentRowId, dsl, scene }) {
+export async function savePageDslToApi({
+  templateId,
+  contentRowId,
+  dsl,
+  scene,
+  pageType = 'home'
+}) {
+  const normalizedDsl = normalizePageDsl(dsl, templateId, scene, pageType)
   const payload = {
     type: DSL_ROW_TYPE,
-    dsl: serializeDsl(dsl)
+    dsl: serializeDsl(normalizedDsl)
   }
   const config = JSON.stringify([payload])
   const body = {
@@ -270,7 +283,7 @@ export async function savePageDslToApi({ templateId, contentRowId, dsl, scene })
   await saveTemplateContent(body)
 
   return {
-    dsl: normalizePageDsl(dsl, templateId, scene),
+    dsl: normalizedDsl,
     contentRowId: contentRowId || 0
   }
 }
@@ -295,7 +308,10 @@ async function loadLegacyGlobalDslFromApi() {
 
 export async function loadHeaderDslFromApi() {
   try {
-    const raw = await getDecorationContent({ page_name: HEADER_DECORATION_PAGE_NAME })
+    const raw = await getDecorationContent({
+      page_name: HEADER_DECORATION_PAGE_NAME,
+      page_type: HEADER_DECORATION_PAGE_NAME
+    })
     const payload = unwrapPayload(raw)
     if (!payload) return { dsl: createHeaderFallback(), source: 'default' }
     const candidate = payload?.config || payload?.params || payload?.dsl || payload
@@ -311,7 +327,10 @@ export async function loadHeaderDslFromApi() {
 
 export async function loadFooterDslFromApi() {
   try {
-    const raw = await getDecorationContent({ page_name: FOOTER_DECORATION_PAGE_NAME })
+    const raw = await getDecorationContent({
+      page_name: FOOTER_DECORATION_PAGE_NAME,
+      page_type: FOOTER_DECORATION_PAGE_NAME
+    })
     const payload = unwrapPayload(raw)
     if (!payload) return { dsl: createFooterFallback(), source: 'default' }
     const candidate = payload?.config || payload?.params || payload?.dsl || payload
@@ -350,8 +369,8 @@ export async function loadHeaderFooterDslFromApi() {
   }
 }
 
-export async function loadDecorationContentFromApi({ templateId, scene }) {
-  const fallbackPage = createPageLoadFallback(templateId, scene)
+export async function loadDecorationContentFromApi({ templateId, scene, pageType = 'home' }) {
+  const fallbackPage = createPageLoadFallback(templateId, scene, pageType)
   if (!templateId) {
     return {
       page: fallbackPage,
@@ -363,7 +382,7 @@ export async function loadDecorationContentFromApi({ templateId, scene }) {
 
   try {
     const [page, headerFooter] = await Promise.all([
-      loadPageDslFromApi({ templateId, scene }),
+      loadPageDslFromApi({ templateId, scene, pageType }),
       loadHeaderFooterDslFromApi()
     ])
     if (headerFooter.source === 'legacy-global') {
@@ -391,7 +410,7 @@ export async function loadDecorationContentFromApi({ templateId, scene }) {
   } catch (e) {
     console.warn('[decoration] loadDecorationContentFromApi fallback', e)
     const [page, headerFooter] = await Promise.all([
-      loadPageDslFromApi({ templateId, scene }),
+      loadPageDslFromApi({ templateId, scene, pageType }),
       loadHeaderFooterDslFromApi()
     ])
     return {

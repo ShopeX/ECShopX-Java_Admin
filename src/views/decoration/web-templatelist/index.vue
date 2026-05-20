@@ -14,7 +14,7 @@
           <el-tab-pane
             v-for="(item, index) of tabList"
             :key="index"
-            :label="$t(item.labelKey)"
+            :label="getPageTypeLabel(item)"
             :name="item.name"
           />
         </el-tabs>
@@ -42,7 +42,8 @@ import WebPcTemplateForm from './components/WebPcTemplateForm.vue'
 
 const tabList = [
   { labelKey: '8b0d1458.db1c89', name: 'index' },
-  { labelKey: '8b0d1458.ec20e4', name: 'custom' }
+  { labelKey: '8b0d1458.ec20e4', name: 'custom' },
+  { label: '列表页', name: 'product_list' }
 ]
 
 export default {
@@ -50,7 +51,8 @@ export default {
   data() {
     return {
       tabList,
-      page_type: 'index'
+      page_type: 'index',
+      statusLoadingMap: {}
     }
   },
   computed: {
@@ -58,57 +60,38 @@ export default {
       return createSetting({
         columns: [
           { name: this.$t('8b0d1458.6872c7'), key: 'theme_pc_template_id', width: 120 },
-          {
-            name: '归属',
-            key: 'distributor_id',
-            width: 120,
-            render: (h, { row }) =>
-              h(
-                'span',
-                Number(row.distributor_id || 0) === 0 ? '总部模板' : `店铺 ${row.distributor_id}`
-              )
-          },
-          { name: this.$t('8b0d1458.b78454'), key: 'template_title', minWidth: 140 },
-          { name: this.$t('8b0d1458.abf8f4'), key: 'template_description', minWidth: 160 },
+          { name: this.$t('8b0d1458.b78454'), key: 'template_title' },
+          { name: this.$t('8b0d1458.abf8f4'), key: 'template_description' },
           {
             name: this.$t('8b0d1458.46f391'),
             key: 'page_type',
-            width: 120,
             render: (h, scope) => {
-              const isIndex = scope.row.page_type === 'index'
-              return h('span', isIndex ? this.$t('8b0d1458.db1c89') : this.$t('8b0d1458.ec20e4'))
+              return h('span', this.getPageTypeLabel(scope.row.page_type))
             }
           },
           {
-            // key 勿用 status：Finder 会对 status 列走内置 switch 等逻辑，未配 url 时单元格可能空白
             name: this.$t('8b0d1458.53c3dd'),
             key: 'status_label',
-            width: 100,
-            render: (h, scope) => {
-              const on = scope.row.status == 1
-              return h(
-                'div',
-                on
-                  ? h('el-tag', { props: { type: 'success' } }, this.$t('8b0d1458.7854b5'))
-                  : h('el-tag', { props: { type: 'info' } }, this.$t('8b0d1458.463776'))
-              )
+            width: 120,
+            render: (h, { row }) => {
+              return h('el-switch', {
+                props: {
+                  value: row.status == 1,
+                  disabled: !!this.statusLoadingMap[row.theme_pc_template_id]
+                },
+                on: {
+                  change: () => this.handleDisable(row)
+                }
+              })
             }
           },
           {
             name: this.$t('8b0d1458.2b6bc0'),
             key: '_actions',
-            width: 260,
+            width: 220,
             fixed: 'right',
             render: (h, { row }) => {
               return h('div', [
-                h(
-                  'el-button',
-                  {
-                    props: { type: 'text', size: 'mini' },
-                    on: { click: () => this.handleDisable(row) }
-                  },
-                  row.status == 1 ? this.$t('8b0d1458.710ad0') : this.$t('8b0d1458.7854b5')
-                ),
                 h(
                   'el-button',
                   {
@@ -141,6 +124,14 @@ export default {
     }
   },
   methods: {
+    getPageTypeLabel(pageType) {
+      const pageTypeName = typeof pageType === 'string' ? pageType : pageType && pageType.name
+      const tab = this.tabList.find((item) => item.name === pageTypeName)
+      if (!tab) {
+        return pageTypeName || ''
+      }
+      return tab.labelKey ? this.$t(tab.labelKey) : tab.label
+    },
     getDistributorId() {
       const routeDistributorId = this.$route.query.distributor_id
       if (routeDistributorId !== undefined && routeDistributorId !== '') {
@@ -238,14 +229,20 @@ export default {
         }
       })
     },
-    handleRenovation({ theme_pc_template_id }) {
+    handleRenovation({ theme_pc_template_id, page_type }) {
+      const pageType = page_type || this.page_type
       const { href } = this.$router.resolve({
         path: '/decoration/web/template/edit',
-        query: { id: theme_pc_template_id }
+        query: {
+          id: theme_pc_template_id,
+          page_type: pageType
+        }
       })
       window.open(href, '_blank', 'noopener,noreferrer')
     },
     async handleDisable({ status, created, updated, deleted_at, ...rest }) {
+      const rowId = rest.theme_pc_template_id
+      this.$set(this.statusLoadingMap, rowId, true)
       try {
         await editPageTemplate({
           status: status == 1 ? '2' : '1',
@@ -256,6 +253,8 @@ export default {
         }
       } catch (err) {
         console.error(err)
+      } finally {
+        this.$set(this.statusLoadingMap, rowId, false)
       }
     },
     async handleDelete({ theme_pc_template_id: id }) {
