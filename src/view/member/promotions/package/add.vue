@@ -344,7 +344,12 @@ export default {
         this.form.free_postage = response.data.data.free_postage
         this.form.package_name = response.data.data.package_name
         this.form.source_id = response.data.data.source_id
-        this.validGrade = response.data.data.valid_grade
+        this.validGrade = (response.data.data.valid_grade || []).map((id) => {
+          if (id === 'vip' || id === 'svip') return id
+          if (typeof id === 'number') return id
+          const num = Number(id)
+          return Number.isFinite(num) ? num : id
+        })
         response.data.data.itemTreeLists.forEach((item) => {
           if (item.spec_items && item.spec_items.length > 0) {
             item.spec_items.map((specItem) => {
