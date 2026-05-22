@@ -186,7 +186,12 @@ export default {
   data() {
     const formData = {}
     this.formItems
-      .filter((item) => item.component !== 'group')
+      .filter((item) => {
+        const isLayoutComponent =
+          typeof item.component === 'string' &&
+          ['group', 'divider'].includes(item.component.toLowerCase())
+        return !isLayoutComponent
+      })
       .forEach((item) => {
         formData[item.fieldName] =
           typeof item.value === 'undefined'

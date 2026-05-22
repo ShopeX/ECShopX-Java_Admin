@@ -137,14 +137,14 @@ const routes = [
       // },
       {
         name: 'loginPage',
-        path: 'web/login-page',
+        path: 'web/config',
         meta: {
           aliasName: 'loginPageSetting',
           icon: 'pay-circle',
-          title: i18n.t('7d3fbb6d.7de289'),
+          title: '商城全局配置',
           permissions: ['wxapp-template.pcmall.loginPageSetting']
         },
-        component: () => import('@/view/pc/pctemplate/login')
+        component: () => import('@/views/decoration/web-config')
       },
       {
         name: 'seoConfiguration',
@@ -152,10 +152,10 @@ const routes = [
         meta: {
           aliasName: 'seo',
           icon: 'pay-circle',
-          title: i18n.t('7d3fbb6d.e807b2'),
+          title: '商城全局配置',
           permissions: ['wxapp-template.pcmall.seo']
         },
-        component: () => import('@/view/pc/tdk/globalset')
+        component: () => import('@/views/decoration/web-config')
       },
       {
         name: 'page-seo',

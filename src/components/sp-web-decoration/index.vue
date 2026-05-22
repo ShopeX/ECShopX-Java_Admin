@@ -10,7 +10,7 @@
         <div class="flex min-w-0 flex-col items-start gap-0.5">
           <div class="text-sm font-semibold leading-5 text-[#18222f]">{{ titleText }}</div>
           <div class="flex items-center gap-2 whitespace-nowrap text-[11px] text-[#6b7785]">
-            <span>{{ $t('30ac5b9e.425e37') }}</span>
+            <span>{{ subtitleText }}</span>
             <span v-if="templateId">#{{ templateId }}</span>
           </div>
         </div>
@@ -141,6 +141,16 @@ import {
   createSectionPickerItemsForTypes
 } from './utils/insertPicker.js'
 
+const PAGE_TYPE_LABEL_MAP = {
+  home: '首页模板',
+  index: '首页模板',
+  custom: '自定义页模板',
+  list: '列表页模板',
+  product_list: '商品列表模板',
+  header: '标头模板',
+  footer: '页脚模板'
+}
+
 function cloneValue(value) {
   return JSON.parse(JSON.stringify(value))
 }
@@ -236,8 +246,14 @@ export default {
     sectionDefinitions() {
       return getSectionTypesByScope('template').map((type) => getTypedSectionDefinition(type))
     },
+    pageTypeLabel() {
+      return PAGE_TYPE_LABEL_MAP[this.pageType] || PAGE_TYPE_LABEL_MAP.home
+    },
     titleText() {
-      return this.title || this.$t('30ac5b9e.6741a0')
+      return this.title || `${this.pageTypeLabel}装修`
+    },
+    subtitleText() {
+      return `${this.pageTypeLabel}编辑`
     },
     canUndo() {
       return this.historyPast.length > 1
@@ -493,7 +509,7 @@ export default {
       }
       const policy = getAreaSectionInsertPolicy(context.area)
       if (policy.mutation === 'page') {
-        this.handleAddSection({ type: item.type, index: context.insertIndex })
+        this.handleAddSection({ type: item.type, index: context.insertIndex, area: context.area })
         return
       }
       this.handleAddGlobalSection({

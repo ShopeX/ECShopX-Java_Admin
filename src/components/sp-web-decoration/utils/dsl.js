@@ -1,5 +1,6 @@
 import { createTemplateDocumentDsl } from '../definitions/documents/template.js'
 import { createCustomDocumentDsl } from '../definitions/documents/custom.js'
+import { createProductListDocumentDsl } from '../definitions/documents/product-list.js'
 import { createHeaderDocumentDsl } from '../definitions/documents/header.js'
 import { createFooterDocumentDsl } from '../definitions/documents/footer.js'
 import { createGlobalSections } from '../definitions/documents/global.js'
@@ -39,6 +40,10 @@ export function createHomeDsl({ pageId = '', scene = '1001' } = {}) {
 
 export function createCustomDsl({ pageId = '', scene = '1001' } = {}) {
   return createCustomDocumentDsl({ pageId, scene })
+}
+
+export function createProductListDsl({ pageId = '', scene = '1001' } = {}) {
+  return createProductListDocumentDsl({ pageId, scene })
 }
 
 export function createGlobalDsl(sections) {
@@ -382,6 +387,7 @@ export function deserializeDsl(dsl) {
 export default {
   createHomeDsl,
   createCustomDsl,
+  createProductListDsl,
   createGlobalDsl,
   insertSection,
   updateSectionSettings,

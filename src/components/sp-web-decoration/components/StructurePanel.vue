@@ -165,7 +165,8 @@
                   :show-expand-icon="canSectionContainBlocks(sectionId)"
                   drag-handle="section"
                   :disabled="isSectionDisabled(sectionId)"
-                  :can-delete="true"
+                  :can-delete="canDeletePageSection(sectionId)"
+                  :can-toggle-disabled="canTogglePageSection(sectionId)"
                   :remove-title="$t('54e3d97e.8e22a6')"
                   :toggle-title="$t('54e3d97e.b11041')"
                   @select="$emit('select-section', $event)"
@@ -602,6 +603,20 @@ export default {
     canDeleteHeaderZoneSection(sectionId) {
       if (sectionId === 'header' || sectionId === 'footer') return false
       return this.getSectionType(sectionId) === 'announcement-bar'
+    },
+    isLockedSection(sectionId) {
+      const section = this.getSection(sectionId)
+      return Boolean(
+        section?.locked === true ||
+          section?.settings?.locked === true ||
+          section?.type === 'native-product-list'
+      )
+    },
+    canDeletePageSection(sectionId) {
+      return !this.isLockedSection(sectionId)
+    },
+    canTogglePageSection(sectionId) {
+      return !this.isLockedSection(sectionId)
     },
     sectionPickerItemsFor(anchor) {
       const cfg = getAreaSectionInsertPolicy(anchor)

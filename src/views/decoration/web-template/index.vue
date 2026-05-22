@@ -26,7 +26,7 @@
       :page-type="routePageType"
       :scene="scene"
       :template-id="templateId"
-      :title="$t('f9eb643d.6741a0')"
+      :title="decorationTitle"
       @back="decorationHandleBack"
       @save="decorationHandleSave"
     />
@@ -36,6 +36,16 @@
 <script>
 import decorationRouteMixin from './decorationRouteMixin'
 import { normalizeDecorationPageType } from '@/components/sp-web-decoration/utils/pageTypes'
+
+const PAGE_TYPE_LABEL_MAP = {
+  home: '首页模板',
+  index: '首页模板',
+  custom: '自定义页模板',
+  list: '列表页模板',
+  product_list: '商品列表模板',
+  header: '标头模板',
+  footer: '页脚模板'
+}
 
 /**
  * PC 商城装修器入口（全屏 /decoration/web/template/edit 与布局内 /decoration/web/edit/:pageType 共用）
@@ -53,6 +63,10 @@ export default {
     routePageType() {
       const queryPageType = this.$route.query.page_type || this.$route.query.pageType
       return normalizeDecorationPageType(queryPageType || this.$route.params.pageType || 'home')
+    },
+    decorationTitle() {
+      const label = PAGE_TYPE_LABEL_MAP[this.routePageType] || PAGE_TYPE_LABEL_MAP.home
+      return `${label}装修`
     },
     isSupportedScene() {
       return this.scene === '1001'

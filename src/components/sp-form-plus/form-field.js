@@ -86,11 +86,10 @@ export default {
 
       this.componentProps.onChange?.(val, this.formData)
     },
-    // 渲染 input 组件
     renderInput(props = {}, hCreate = hCompat) {
       return hCreate('el-input', {
         attrs: {
-          ...this.componentProps,
+          ...props,
           size: this.size
         },
         props: {
@@ -100,6 +99,20 @@ export default {
           input: this.handleInput
         }
       })
+    },
+    renderTextarea(props = {}, hCreate = hCompat) {
+      return this.renderInput(
+        {
+          rows: 3,
+          ...props,
+          type: 'textarea'
+        },
+        hCreate
+      )
+    },
+    renderDivider(props = {}) {
+      const label = props.label || this.label
+      return <div class='form-field-divider'>{label}</div>
     },
     // 渲染 select 组件（options 仅用于生成 el-option 子节点，不可传入 el-select）
     // style/class 须放在 vnode 根上；el-option 的 key 须为 vnode.key（勿放在 props 内，否则弹窗/表格内可能不渲染）
@@ -345,13 +358,15 @@ export default {
         const renderMap = {
           button: (props) => this.renderButton(props, hFn),
           checkbox: (props) => this.renderCheckbox(props, hFn),
-          datepicker: this.renderDatePicker,
-          datetimepicker: this.renderDateTimePicker,
+          datepicker: (props) => this.renderDatePicker(props),
+          datetimepicker: (props) => this.renderDateTimePicker(props),
+          divider: (props) => this.renderDivider(props),
           input: (props) => this.renderInput(props, hFn),
-          imagepicker: this.renderImagePicker,
+          imagepicker: (props) => this.renderImagePicker(props),
           radio: (props) => this.renderRadio(props, hFn),
           select: (props) => this.renderSelect(props, hFn),
-          switch: this.renderSwitch,
+          switch: () => this.renderSwitch(),
+          textarea: (props) => this.renderTextarea(props, hFn),
           upload: (props) => this.renderUpload(props, hFn),
           cascader: (props) => this.renderCascader(props, hFn)
         }
@@ -381,15 +396,17 @@ export default {
     }
   },
   render(h) {
-    if (this.component === 'group') {
-      return <div class='form-field-group'>{this.label}</div>
-    }
-
     // 检查是否应该显示该字段
     const shouldShow = this.isShow ? this.isShow(this.modelValue) : true
     if (!shouldShow) {
       // 如果不需要显示，直接返回 null，不占据任何空间
       return null
+    }
+
+    const isDivider =
+      isString(this.component) && ['group', 'divider'].includes(this.component.toLowerCase())
+    if (isDivider) {
+      return this.renderDivider(this.componentProps)
     }
 
     // 获取对应的渲染函数（与当前 render 共用 h）

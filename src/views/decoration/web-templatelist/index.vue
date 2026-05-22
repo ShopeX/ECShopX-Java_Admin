@@ -43,7 +43,7 @@ import WebPcTemplateForm from './components/WebPcTemplateForm.vue'
 const tabList = [
   { labelKey: '8b0d1458.db1c89', name: 'index' },
   { labelKey: '8b0d1458.ec20e4', name: 'custom' },
-  { label: '列表页', name: 'product_list' }
+  { label: '商品列表页', name: 'product_list' }
 ]
 
 export default {

@@ -4,6 +4,7 @@ import carouselSection from './sections/carousel.js'
 import imageHotspotSection from './sections/image-hotspot.js'
 import productShelfSection from './sections/product-shelf.js'
 import productTabShelfSection from './sections/product-tab-shelf.js'
+import nativeProductListSection from './sections/native-product-list.js'
 import footerSection from './sections/footer.js'
 
 import announcementBlock from './blocks/announcement.js'
@@ -24,6 +25,7 @@ const sectionDefinitions = {
   [announcementBarSection.type]: announcementBarSection,
   [carouselSection.type]: carouselSection,
   [imageHotspotSection.type]: imageHotspotSection,
+  [nativeProductListSection.type]: nativeProductListSection,
   [productShelfSection.type]: productShelfSection,
   [productTabShelfSection.type]: productTabShelfSection,
   [footerSection.type]: footerSection
@@ -46,7 +48,7 @@ const blockDefinitions = {
 
 function getSectionTypesByScope(scope) {
   return Object.values(sectionDefinitions)
-    .filter((definition) => definition.scope === scope)
+    .filter((definition) => definition.scope === scope && definition.addable !== false)
     .map((definition) => definition.type)
 }
 

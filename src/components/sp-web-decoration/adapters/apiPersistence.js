@@ -7,6 +7,7 @@ import { getDecorationContent, saveTemplateContent, saveHeaderOrFooter } from '@
 import {
   createHomeDsl,
   createCustomDsl,
+  createProductListDsl,
   createGlobalDsl,
   serializeDsl,
   deserializeDsl,
@@ -25,6 +26,9 @@ export const FOOTER_DECORATION_PAGE_NAME = 'footer'
 function createPageFallback(templateId, scene, pageType = 'home') {
   if (pageType === 'custom') {
     return createCustomDsl({ pageId: String(templateId || ''), scene })
+  }
+  if (pageType === 'product_list') {
+    return createProductListDsl({ pageId: String(templateId || 'product_list'), scene })
   }
   const dsl = createHomeDsl({ pageId: String(templateId || ''), scene })
   dsl.pageType = pageType

@@ -20,7 +20,8 @@ const {
   composePreviewDsl,
   splitGlobalDsl,
   createHeaderDsl,
-  createFooterDsl
+  createFooterDsl,
+  createProductListDsl
 } = dslUtils
 
 function cloneDeep(value) {
@@ -93,6 +94,14 @@ function moveSectionInDsl(dsl, sectionId, targetIndex) {
   }
 }
 
+function isLockedSection(section) {
+  return Boolean(
+    section?.locked === true ||
+      section?.settings?.locked === true ||
+      section?.type === 'native-product-list'
+  )
+}
+
 const decorationStore = {
   namespaced: true,
   state: createState,
@@ -123,7 +132,11 @@ const decorationStore = {
     ) {
       state.pageType = pageType
       state.pageId = String(pageId || '')
-      state.dsl = dsl || createHomeDsl({ pageId: state.pageId })
+      state.dsl =
+        dsl ||
+        (pageType === 'product_list'
+          ? createProductListDsl({ pageId: state.pageId || 'product_list' })
+          : createHomeDsl({ pageId: state.pageId }))
       if (headerDsl || footerDsl) {
         state.headerDsl = headerDsl || createHeaderDsl()
         state.footerDsl = footerDsl || createFooterDsl()
@@ -281,6 +294,7 @@ const decorationStore = {
       const scopeKey = resolveScopeKey(state, sectionId)
       const section = state[scopeKey]?.sections?.[sectionId]
       if (!section) return
+      if (isLockedSection(section)) return
       section.disabled = Boolean(disabled)
     },
     updateSectionSettings(state, { sectionId, patch }) {
@@ -301,7 +315,8 @@ const decorationStore = {
       if (!sectionId) return
       if (sectionId === 'header' || sectionId === 'footer') return
       const scopeKey = resolveScopeKey(state, sectionId)
-      if (!state[scopeKey]?.sections?.[sectionId]) return
+      const section = state[scopeKey]?.sections?.[sectionId]
+      if (!section || isLockedSection(section)) return
       state[scopeKey] = removeSection(state[scopeKey], sectionId)
       state.expandedSectionIds = state.expandedSectionIds.filter((id) => id !== sectionId)
       if (state.selectedSectionId === sectionId) {
@@ -314,6 +329,8 @@ const decorationStore = {
     duplicateSection(state, sectionId) {
       if (!sectionId || sectionId === 'header' || sectionId === 'footer') return
       const scopeKey = resolveScopeKey(state, sectionId)
+      const section = state[scopeKey]?.sections?.[sectionId]
+      if (!section || isLockedSection(section)) return
       state[scopeKey] = duplicateSectionInDsl(state[scopeKey], sectionId)
       const order = state[scopeKey]?.order || []
       const sourceIndex = order.indexOf(sectionId)

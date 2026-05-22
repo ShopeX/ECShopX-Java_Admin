@@ -16,16 +16,25 @@
         {{ $t('250dc970.b2fac9') }}
       </div>
 
-      <component
-        :is="currentPanel"
-        v-else-if="currentPanel"
-        :section="section"
-        :block="block"
-        :value="currentValue"
-        @change="handleChange"
-        @change-section="$emit('update-section', $event)"
-        @select-block="$emit('select-block', $event)"
-      />
+      <template v-else>
+        <div
+          v-if="showLockedSectionNotice"
+          class="rounded-lg border border-dashed border-[#d7dde7] bg-[#fbfbfc] p-4 text-sm leading-6 text-[#6b7785]"
+        >
+          这是页面固定业务组件，会在前台渲染原有商品列表逻辑。可在结构树中调整它与其他装修组件的顺序，但不能编辑、隐藏、复制或删除。
+        </div>
+
+        <component
+          :is="currentPanel"
+          v-else-if="currentPanel"
+          :section="section"
+          :block="block"
+          :value="currentValue"
+          @change="handleChange"
+          @change-section="$emit('update-section', $event)"
+          @select-block="$emit('select-block', $event)"
+        />
+      </template>
     </div>
   </div>
 </template>
@@ -119,6 +128,15 @@ export default {
     currentValue() {
       if (this.block) return this.block.settings
       return this.section ? this.section.settings : null
+    },
+    showLockedSectionNotice() {
+      return (
+        !this.block &&
+        this.section &&
+        (this.section.locked === true ||
+          this.section.settings?.locked === true ||
+          this.section.type === 'native-product-list')
+      )
     },
     sectionTitle() {
       if (!this.section) return ''
