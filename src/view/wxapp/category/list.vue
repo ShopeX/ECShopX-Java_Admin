@@ -104,7 +104,7 @@ export default {
             render: (h, { row }) =>
               h('el-switch', {
                 props: {
-                  'value': row.is_open,
+                  'value': row.is_open == 1 || row.is_open === true ? '1' : '0',
                   'active-value': '1',
                   'inactive-value': '0'
                 },
