@@ -339,10 +339,15 @@
           </el-table>
         </SpDrawer>
 
-        <el-dialog :title="$t('d41d8cd9.s6t7u8')" :visible.sync="dialogVisibleExamine" width="30%">
+        <el-dialog
+          :title="$t('d41d8cd9.s6t7u8')"
+          :visible.sync="dialogVisibleExamine"
+          width="30%"
+          @closed="resetExamineForm"
+        >
           <el-form ref="form" :model="examineForm" label-width="80px">
             <el-form-item :label="$t('d41d8cd9.v9w0x1')">
-              <el-radio-group v-model="examineForm.audit_status">
+              <el-radio-group v-model="examineForm.audit_status" @change="onExamineAuditStatusChange">
                 <el-radio label="approved"> {{ $t('d41d8cd9.y2z3a4') }} </el-radio>
                 <el-radio label="rejected"> {{ $t('d41d8cd9.b5c6d7') }} </el-radio>
               </el-radio-group>
@@ -683,13 +688,15 @@ export default {
             name: this.$t('d41d8cd9.c2d3e4'),
             key: 'item_id',
             align: 'right',
-            headerAlign: 'center'
+            headerAlign: 'center',
+            width: 120
           },
           {
             name: this.$t('d41d8cd9.f5g6h7'),
             key: 'main_item_id',
             align: 'right',
-            headerAlign: 'center'
+            headerAlign: 'center',
+            width: 120
           },
           {
             name: this.$t('d41d8cd9.i8j9k0'),
@@ -741,29 +748,29 @@ export default {
             }
           },
           { name: this.$t('d41d8cd9.0888fc'), key: 'item_bn' },
-          { name: this.$t('d41d8cd9.55c61d'), key: 'supplier_name' },
-          {
-            name: this.$t('d41d8cd9.g4h5i6'),
-            key: 'tagList',
-            render: (h, scope) => (
-              <div style='white-space: normal;'>
-                {scope.row.tagList.map((item) => (
-                  <span
-                    style={{
-                      color: item.font_color,
-                      'background-color': item.tag_color,
-                      'font-size': '12px',
-                      padding: '2px 5px',
-                      'border-radius': '2px',
-                      margin: '0 8px 8px 0'
-                    }}
-                  >
-                    {item.tag_name}
-                  </span>
-                ))}
-              </div>
-            )
-          },
+          { name: this.$t('d41d8cd9.55c61d'), key: 'supplier_name', width: 120 },
+          // {
+          //   name: this.$t('d41d8cd9.g4h5i6'),
+          //   key: 'tagList',
+          //   render: (h, scope) => (
+          //     <div style='white-space: normal;'>
+          //       {scope.row.tagList.map((item) => (
+          //         <span
+          //           style={{
+          //             color: item.font_color,
+          //             'background-color': item.tag_color,
+          //             'font-size': '12px',
+          //             padding: '2px 5px',
+          //             'border-radius': '2px',
+          //             margin: '0 8px 8px 0'
+          //           }}
+          //         >
+          //           {item.tag_name}
+          //         </span>
+          //       ))}
+          //     </div>
+          //   )
+          // },
           // {
           //   name: '商品税率',
           //   key: 'tax_rate',
@@ -1090,6 +1097,17 @@ export default {
         this.$message.error(this.$t('58789194.ace302'))
       }
     },
+    resetExamineForm() {
+      this.examineForm = {
+        audit_status: 'approved',
+        audit_reason: ''
+      }
+    },
+    onExamineAuditStatusChange(val) {
+      if (val === 'approved') {
+        this.examineForm.audit_reason = ''
+      }
+    },
     // 批量审批
     Examine() {
       if (this.selectionItems.length === 0) {
@@ -1097,13 +1115,17 @@ export default {
         return false
       }
 
+      this.resetExamineForm()
       this.dialogVisibleExamine = true
     },
     // 审核确定
     onSubmitExamine() {
-      this.examineForm.item_ids = this.selectionItems.map((item) => item.item_id).join(',')
+      const payload = {
+        ...this.examineForm,
+        item_ids: this.selectionItems.map((item) => item.item_id).join(',')
+      }
       this.examineLoading = true
-      batchReviewItems(this.examineForm)
+      batchReviewItems(payload)
         .then((res) => {
           this.$message.success(this.$t('58789194.3b1083'))
           this.dialogVisibleExamine = false

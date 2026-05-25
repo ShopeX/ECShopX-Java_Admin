@@ -2,7 +2,7 @@ import { i18n } from '@/i18n'
 
 export default {
   type: 'video',
-  name: i18n.t('decorationeditor.block.video'),
+  name: i18n.t('bdd52c70.7fcf42'),
   defaultSettings: {
     videoUrl: '',
     posterUrl: '',

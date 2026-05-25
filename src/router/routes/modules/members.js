@@ -6,6 +6,8 @@ import { BasicLayout } from '@/layout/basic'
 import { VERSION_IN_PURCHASE } from '@/utils'
 import { i18n } from '@/i18n'
 
+/** meta.title 使用 `i18n.t()`：依赖切换语言时整页重载，路由会按新 locale 重新注册（见 @/utils/menuI18n）。 */
+
 const routes = [
   {
     component: BasicLayout,
@@ -296,6 +298,16 @@ const routes = [
           permissions: ['member.memberlmana.member-tag']
         },
         component: () => import('@/view/mall/goods/physical/normalGoodsTagUpload')
+      },
+      {
+        name: 'deposit',
+        path: 'deposit',
+        meta: {
+          aliasName: 'deposit',
+          title: '会员储值',
+          permissions: ['member.deposit']
+        },
+        component: () => import('@/views/members/deposit/index')
       }
       // {
       //   name: 'modification',

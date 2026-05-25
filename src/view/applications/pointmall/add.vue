@@ -16,13 +16,15 @@
 
     <el-form
       ref="form"
+      v-loading="pageLoading"
+      element-loading-custom-class="pointmall-add-loading"
       :model="form"
       label-width="auto"
       label-position="left"
       class="demo-ruleForm"
     >
       <template v-if="!isEditor || (isEditor && !form.item_main_cat_id)">
-        <el-card v-loading="mainCateLoader" shadow="never" :header="$t('4b43f5ef.c50637')">
+        <el-card shadow="never" :header="$t('4b43f5ef.c50637')">
           <el-cascader
             v-model="selectedMainCategory"
             :options="mainCategory"
@@ -31,7 +33,7 @@
           />
         </el-card>
       </template>
-      <div v-else v-loading="loader" class="content-padded flex items-center">
+      <div v-else-if="isEditor && form.item_main_cat_id" class="content-padded flex items-center">
         <div>{{ $t('4b43f5ef.ca079c') }}</div>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="inline">
           <el-breadcrumb-item v-for="(item, index) in categoryNames" :key="index">
@@ -40,7 +42,7 @@
         </el-breadcrumb>
       </div>
       <template v-if="(!isEditor && selectedMainCategory.length > 0) || isEditor">
-        <el-card v-loading="loader" shadow="never">
+        <el-card shadow="never">
           <div slot="header" class="clearfix">
             <span>{{ $t('4b43f5ef.6ea1fe') }}</span>
             <el-button
@@ -131,15 +133,13 @@
                 </el-col> -->
                 <el-col :xs="24" :sm="12" :md="12">
                   <el-form-item :label="$t('4b43f5ef.728f47')" label-width="110px">
-                    <treeselect
+                    <el-cascader
                       v-model="form.item_category"
-                      :no-children-text="$t('4b43f5ef.6ef104')"
-                      :no-options-text="$t('4b43f5ef.4b327e')"
-                      :no-results-text="$t('4b43f5ef.f46047')"
-                      :options="categoryList"
-                      :show-count="true"
-                      :multiple="true"
-                      :disable-branch-nodes="true"
+                      clearable
+                      filterable
+                      :props="cascaderProps"
+                      :options="saleCategoryList"
+                      style="width: 100%"
                     />
                   </el-form-item>
                 </el-col>
@@ -217,7 +217,7 @@
             <el-radio label="drug">处方药</el-radio>
           </el-radio-group>
         </el-card> -->
-        <el-card v-loading="loader" shadow="never">
+        <el-card shadow="never">
           <div slot="header" class="clearfix">
             <span>{{ $t('4b43f5ef.8686bb') }}</span>
             <el-button
@@ -265,7 +265,7 @@
             </div>
           </transition>
         </el-card>
-        <el-card v-loading="loader" shadow="never">
+        <el-card shadow="never">
           <div slot="header" class="flex">
             <div class="view-flex-item">{{ $t('4b43f5ef.5fceb3') }}</div>
             <template v-if="!isEditor">
@@ -307,7 +307,7 @@
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item :label="$t('4b43f5ef.0eac88')">
+                <el-form-item :label="$t('4b43f5ef.fcd943')">
                   <el-input v-model="form.store" type="number" required min="0" placeholder="" />
                 </el-form-item>
               </el-col>
@@ -317,14 +317,14 @@
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item :label="$t('4b43f5ef.fcd943')">
+                <el-form-item :label="$t('4b43f5ef.8c0d75')">
                   <el-input v-model="form.weight" type="number" required min="0" placeholder="">
                     <template slot="append"> kg </template>
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item :label="$t('4b43f5ef.972d5f')">
+                <el-form-item :label="$t('4b43f5ef.3b35fa')">
                   <el-input v-model="form.volume" type="number" required min="0" placeholder="">
                     <template slot="append"> m³ </template>
                   </el-input>
@@ -494,7 +494,7 @@
                   </el-select>
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('4b43f5ef.0eac88')">
+              <el-table-column :label="$t('4b43f5ef.fcd943')">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.store"
@@ -516,12 +516,12 @@
                   />
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('4b43f5ef.fcd943')">
+              <el-table-column :label="$t('4b43f5ef.8c0d75')">
                 <template slot-scope="scope">
                   <el-input v-model="scope.row.weight" :maxlength="60" size="mini" placeholder="" />
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('4b43f5ef.972d5f')">
+              <el-table-column :label="$t('4b43f5ef.3b35fa')">
                 <template slot-scope="scope">
                   <el-input v-model="scope.row.volume" :maxlength="60" size="mini" placeholder="" />
                 </template>
@@ -650,7 +650,7 @@
                   </el-select>
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('4b43f5ef.0eac88')" :render-header="renderRequire">
+              <el-table-column :label="$t('4b43f5ef.fcd943')" :render-header="renderRequire">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.store"
@@ -827,7 +827,7 @@
           </el-form-item>
         </el-card> -->
 
-        <el-card v-loading="loader" :header="$t('4b43f5ef.7db2d6')" shadow="never">
+        <el-card :header="$t('4b43f5ef.7db2d6')" shadow="never">
           <el-form-item :label="$t('4b43f5ef.f0789e')">
             <el-radio-group v-model="mode">
               <el-radio :label="'richText'"> {{ $t('4b43f5ef.e2591e') }} </el-radio>
@@ -854,7 +854,6 @@
 <script>
 import store from '@/store'
 import { mapGetters } from 'vuex'
-import Treeselect from '@riophae/vue-treeselect'
 import draggable from 'vuedraggable'
 import { getItemsDetail, createItems, updateItems } from '@/api/pointsmall'
 import { getGoodsAttr, getCategory, getCategoryInfo } from '@/api/goods'
@@ -865,8 +864,6 @@ import richTextEditor from '@/components/function/richTextEditor'
 import imgBox from '@/components/element/imgBox'
 import district from '@/common/district.json'
 import { getOrigincountry } from '@/api/crossborder'
-import { transformTree } from '@/utils'
-
 export default {
   beforeRouteLeave(to, from, next) {
     if (this.$refs['decorateRef'].dialogVisible) {
@@ -877,14 +874,19 @@ export default {
   },
   components: {
     videoPicker,
-    Treeselect,
     draggable,
     richTextEditor,
     imgBox
   },
   inject: ['refresh'],
   data() {
+    const cascaderProps = {
+      multiple: true,
+      value: 'value',
+      children: 'children'
+    }
     return {
+      cascaderProps,
       // 跨境设置
       origincountry: [], // 产地国
       itemVideo: {},
@@ -893,8 +895,7 @@ export default {
       mainCategory: [],
       selectedMainCategory: [],
       categoryNames: [],
-      mainCateLoader: false,
-      loader: true,
+      pageLoading: true,
       submitLoading: false,
       isEditor: false,
       isLeave: false,
@@ -916,7 +917,7 @@ export default {
         { title: '4b43f5ef.fe94ed', value: 'online' },
         { title: '4b43f5ef.30bee6', value: 'mix' }
       ],
-      categoryList: [],
+      saleCategoryList: [],
       brandList: [],
       content: [],
       dragIssuesOptions: {
@@ -1003,6 +1004,9 @@ export default {
     ...mapGetters(['editingSkus'])
   },
   mounted() {
+    if (this.$route.params.itemId) {
+      this.isEditor = true
+    }
     console.log(this.$route.path.split('/')[2])
     if (this.$route.path.split('/')[2] === 'godsphysicalkj') {
       console.log('跨境商品')
@@ -1017,9 +1021,9 @@ export default {
       if (_self.$route.query.is_new) {
         _self.is_new = _self.$route.query.is_new
       }
+      _self.pageLoading = true
+      try {
       if (_self.$route.params.itemId) {
-        _self.isEditor = true
-        _self.mainCateLoader = true
         // 初始化门店数据
         const response = await getItemsDetail(_self.$route.params.itemId)
         let itemsDetailData = response.data.data
@@ -1082,7 +1086,7 @@ export default {
         }
         _self.picsOldLen = _self.form.pics.length
         if (!itemsDetailData.item_main_cat_id) {
-          _self.fetchMainCate()
+          await _self.fetchMainCate()
         } else {
           let category = itemsDetailData.item_category_main
           _self.categoryNames = [
@@ -1143,13 +1147,14 @@ export default {
         // .catch(error => {
         //   _self.$router.go(-1)
         // })
-        _self.loader = false
         _self.itemVideo = { media_id: _self.form.videos, url: _self.form.videos_url }
       } else {
-        _self.fetchMainCate()
-        _self.loader = false
+        await _self.fetchMainCate()
       }
       await _self.init()
+      } finally {
+        _self.pageLoading = false
+      }
     }
     onload()
     this.getOrigincountry()
@@ -1171,7 +1176,7 @@ export default {
       this.form.item_address_city = this.select_regions_value[1]
     },
     fetchMainCate() {
-      getCategory({ is_main_category: true }).then((res) => {
+      return getCategory({ is_main_category: true }).then((res) => {
         let list = []
         res.data.data.forEach((item) => {
           let obj = {
@@ -1201,7 +1206,6 @@ export default {
           list.push(obj)
         })
         this.mainCategory = list
-        this.mainCateLoader = false
       })
     },
     handleCategoryChange(val) {
@@ -1372,8 +1376,15 @@ export default {
       }
       this.form.spec_images = JSON.stringify(this.specImages)
       this.form.spec_items = JSON.stringify(formSkuItem)
+      const itemCategory = this.form.item_category || []
+      const submitForm = {
+        ...this.form,
+        item_category: itemCategory.map((item) =>
+          item && item.length ? item[item.length - 1] : item
+        )
+      }
       if (this.form.item_id && !this.is_new) {
-        updateItems(this.form.item_id, this.form)
+        updateItems(this.form.item_id, submitForm)
           .then((response) => {
             this.$message({
               message: this.$t('4b43f5ef.55aa63'),
@@ -1391,7 +1402,7 @@ export default {
             this.submitLoading = false
           })
       } else {
-        createItems(this.form)
+        createItems(submitForm)
           .then((response) => {
             this.$message({
               message: this.$t('4b43f5ef.3fdaea'),
@@ -1794,7 +1805,7 @@ export default {
     },
     init() {
       this.getBrandList('', true)
-      getShippingTemplatesList(this.templatesListParams).then((response) => {
+      const templatesPromise = getShippingTemplatesList(this.templatesListParams).then((response) => {
         if (response.data.data.list.length > 0) {
           for (var i in response.data.data.list) {
             this.templatesList.push({
@@ -1811,17 +1822,30 @@ export default {
         }
       })
 
-      getCategory({ is_show: false }).then((response) => {
-        this.categoryList = transformTree(response.data.data, {
-          id: 'category_id',
-          label: 'category_name',
-          children: 'children'
-        })
-        if (this.$route.params.itemId) {
-          this.form.item_category = this.form.item_category_temp
+      const categoryPromise = getCategory({ is_show: false }).then((response) => {
+        const res = response.data.data
+        function _deepCategory(cate, temp) {
+          cate.forEach((item) => {
+            const _temp = {
+              label: item.category_name,
+              value: item.category_id
+            }
+            if (item.children) {
+              _temp.children = []
+              _deepCategory(item.children, _temp.children)
+            }
+            temp.push(_temp)
+          })
+        }
+        const saleCategoryList = []
+        _deepCategory(res, saleCategoryList)
+        this.saleCategoryList = saleCategoryList
+        if (this.$route.params.itemId && this.form.item_category_temp) {
+          this.form.item_category = this.deepSalesCategory(this.form.item_category_temp)
           delete this.form.item_category_temp
         }
       })
+      return Promise.all([templatesPromise, categoryPromise])
     },
     // profitStatusChange(val) {
     //   if (val) {
@@ -1830,6 +1854,32 @@ export default {
     //     this.form.is_profit = false
     //   }
     // },
+    deepSalesCategory(value) {
+      const { saleCategoryList } = this
+      function findPathById(tree, id, path) {
+        if (typeof path === 'undefined') {
+          path = []
+        }
+        for (let i = 0; i < tree.length; i++) {
+          const tempPath = [...path]
+          tempPath.push(tree[i].value)
+          if (tree[i].value == id) {
+            return tempPath
+          }
+          if (tree[i].children) {
+            const result = findPathById(tree[i].children, id, tempPath)
+            if (result) {
+              return result
+            }
+          }
+        }
+      }
+      const list = []
+      value.forEach((v) => {
+        list.push(findPathById(saleCategoryList, v))
+      })
+      return list
+    },
     // select值变化
     paramsChange(e) {
       const params = this.params
@@ -1867,11 +1917,23 @@ export default {
 }
 </script>
 <style lang="scss">
-.vue-treeselect__placeholder {
-  line-height: 40px;
+/* 表单很高时，默认 loading 会居中在整页表单中部；改为固定视口遮罩 */
+.pointmall-add-loading {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  z-index: 2000 !important;
 }
-</style>
-<style lang="scss">
+.el-cascader {
+  width: 100%;
+
+  .el-input {
+    width: 100%;
+    max-width: initial;
+  }
+}
 .fallback-class {
   width: 118px;
   height: 118px;

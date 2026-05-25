@@ -121,6 +121,21 @@ const routes = [
         component: () => import('@/views/settings/systemConfig/publicsetting')
       },
       {
+        name: `systemConfigMailService`,
+        path: 'system-config/mail-service',
+        meta: {
+          aliasName: 'mailServiceSetting',
+          icon: 'icon-products',
+          title: '181fc9cc.905eb5',
+          // 与 publicsetting 并存：后台未单独下发 mail 权限时，拥有「通用设置」的用户仍可注册该路由
+          permissions: [
+            'setting.systemsetting.mailServiceSetting',
+            'setting.systemsetting.publicsetting'
+          ]
+        },
+        component: () => import('@/views/settings/systemConfig/mailServiceSetting.vue')
+      },
+      {
         name: `systemConfigInvoinceConfiguration`,
         path: 'system-config/invoince-configuration',
         meta: {
@@ -582,6 +597,17 @@ const routes = [
           permissions: ['setting.systemsetting.certificate']
         },
         component: () => import('@/views/settings/systemConfig/ShangPai-erp')
+      },
+      {
+        name: `usercenter`,
+        path: 'ShangPai/usercenter',
+        meta: {
+          aliasName: 'usercenter',
+          icon: 'icon-products',
+          title: '商派用户中心',
+          permissions: ['setting.systemsetting.usercenter']
+        },
+        component: () => import('@/views/settings/systemConfig/ShangPai-usercenter')
       },
       {
         name: `shopmenus`,

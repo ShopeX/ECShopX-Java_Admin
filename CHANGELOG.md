@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.6.3](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.2...v4.6.3) (2026-05-21)
+
+### [4.6.2](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.1...v4.6.2) (2026-05-19)
+
+### [4.6.1](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.0...v4.6.1) (2026-05-16)
+
+## [4.6.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.5.4...v4.6.0) (2026-05-15)
+
+### [4.5.4](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.5.3...v4.5.4) (2026-05-09)
+
+### [4.5.3](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.5.2...v4.5.3) (2026-04-30)
+
+### [4.5.2](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.5.1...v4.5.2) (2026-04-29)
+
+### [4.5.1](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.5.0...v4.5.1) (2026-04-24)
+
+## [4.5.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.4.2...v4.5.0) (2026-04-17)
+
+### [4.4.2](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.4.1...v4.4.2) (2026-04-10)
+
+### [4.4.1](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.4.0...v4.4.1) (2026-04-03)
+
+
+### Features
+
+* **i18n:** sidebar menu locale, invoice keys, and related fixes ([8d82817](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/8d82817dd398cde0186096b68f486d765cef0f7a))
+
 ## [4.4.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.6...v4.4.0) (2026-03-27)
 
 ### [4.3.6](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.5...v4.3.6) (2026-03-26)

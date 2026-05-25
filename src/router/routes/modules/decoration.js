@@ -146,17 +146,17 @@ const routes = [
         },
         component: () => import('@/views/decoration/web-config')
       },
-      {
-        name: 'seoConfiguration',
-        path: 'web/seo-configuration',
-        meta: {
-          aliasName: 'seo',
-          icon: 'pay-circle',
-          title: '商城全局配置',
-          permissions: ['wxapp-template.pcmall.seo']
-        },
-        component: () => import('@/views/decoration/web-config')
-      },
+      // {
+      //   name: 'seoConfiguration',
+      //   path: 'web/seo-configuration',
+      //   meta: {
+      //     aliasName: 'seo',
+      //     icon: 'pay-circle',
+      //     title: '商城全局配置',
+      //     permissions: ['wxapp-template.pcmall.seo']
+      //   },
+      //   component: () => import('@/views/decoration/web-config')
+      // },
       {
         name: 'page-seo',
         path: 'web/page-seo',

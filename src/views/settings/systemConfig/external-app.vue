@@ -86,9 +86,6 @@ export default {
       formData: {
         app_name: ''
       },
-      formItems: [],
-      // 规则
-      rules: {},
       // modal title
       modalTitle: '',
       // 是否显示modal
@@ -100,9 +97,7 @@ export default {
         app_id: '',
         app_name: '',
         app_desc: ''
-      },
-      //SpFinder的配置
-      setting: {}
+      }
     }
   },
   computed: {
@@ -147,22 +142,22 @@ export default {
           {
             name: this.$t('f06fa37c.d70fe9'),
             key: 'app_id',
-            width: 250
+            minWidth: 250
           },
           {
             name: this.$t('f06fa37c.d34f1f'),
             key: 'app_name',
-            width: 272
+            minWidth: 272
           },
           {
             name: this.$t('f06fa37c.3bdd08'),
             key: 'app_desc',
-            width: 300
+            minWidth: 300
           },
           {
             name: this.$t('f06fa37c.2b6bc0'),
             key: 'actions',
-            width: 230,
+            minWidth: 230,
             render: (h, { row }) => {
               return h('div', [
                 h(

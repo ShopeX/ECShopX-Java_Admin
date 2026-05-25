@@ -78,6 +78,8 @@ const SCENE_1003 = {
 
 // 自定义页面装修
 const SCENE_1004 = SCENE_1001
+// 企业内购门店首页装修（不支持页面设置）
+const SCENE_1010 = SCENE_1001
 
 // 软文
 const SCENE_1005 = {
@@ -102,7 +104,8 @@ const SCENE_1008 = {
   WgtHotZone,
   WgtFilm,
   WgtMarquees,
-  wgtOrderNavigation
+  wgtOrderNavigation,
+  WgtGoods
 }
 
 // 分类页面（storeAlphabet 仅在此页可用；店铺挂件仅 BBC 展示）
@@ -112,7 +115,8 @@ const SCENE_1007 = {
   WgtFilm,
   ...(!VERSION_STANDARD() ? { WgtShop } : {}),
   WgtStoreAlphabet,
-  WgtClassify
+  WgtClassify,
+  WgtGoods
   // WgtTask
 }
 
@@ -130,5 +134,6 @@ export default {
   1006: SCENE_1006,
   1007: SCENE_1007,
   1008: SCENE_1008,
-  1009: SCENE_1009
+  1009: SCENE_1009,
+  1010: SCENE_1010
 }

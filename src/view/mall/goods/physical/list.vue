@@ -329,7 +329,12 @@
         @onSubmit="onBatchChangeStateSubmit"
       />
 
-      <el-dialog :title="sunCodeTitle" :visible.sync="sunCode" width="360px">
+      <el-dialog
+        custom-class="goods-self-products-sun-code-dialog"
+        :title="sunCodeTitle"
+        :visible.sync="sunCode"
+        width="360px"
+      >
         <div class="page-code">
           <img class="page-code-img" :src="appCodeUrl" />
           <div class="page-btns">
@@ -1149,7 +1154,7 @@ export default {
             render: (h, scope) => (
               <div>
                 <span>{GOODS_APPLY_STATUS[scope.row.audit_status]}</span>
-                {scope.row.audit_status == 'rejected' && loginType == 'supplier' && (
+                {scope.row.audit_status == 'rejected' && IS_SUPPLIER() && (
                   <div class='physical-cell-reason'>
                     {this.$t('d41d8cd9.a36d88')}
                     {scope.row.audit_reason}
@@ -1794,9 +1799,9 @@ export default {
       if (this.selectionItems.length > 0) {
         await this.$confirm(
           `${status == 'stop' ? this.$t('d41d8cd9.965407') : this.$t('d41d8cd9.1cc97f')}${this.$t(
-            'd41d8cd9.p0q1r2'
+            'd41d8cd9.g8h9i0j1'
           )}`,
-          this.$t('d41d8cd9.s3t4u5')
+          this.$t('d41d8cd9.02d981')
         )
         const params = {
           goods_id: this.selectionItems.map((item) => item.goods_id),
@@ -1809,9 +1814,9 @@ export default {
       } else {
         await this.$confirm(
           `${status == 'stop' ? this.$t('d41d8cd9.965407') : this.$t('d41d8cd9.1cc97f')}${this.$t(
-            'd41d8cd9.v6w7x8'
+            'd41d8cd9.k2l3m4n5'
           )}`,
-          this.$t('d41d8cd9.s3t4u5')
+          this.$t('d41d8cd9.02d981')
         )
         const params = {
           is_market: status == 'stop' ? '0' : '1',
@@ -1885,12 +1890,12 @@ export default {
       let distributorIds = '_all'
       if (!isAll) {
         const { data } = await this.$picker.shop({
-          queryParams: { is_valid: 'true' }
+          queryParams: { is_valid: 'true', show_distributor_self: 1 }
         })
         distributorIds = data.map((item) => item.distributor_id)
       }
       if (this.selectionItems.length == 0) {
-        await this.$confirm(this.$t('d41d8cd9.y9z0a1'), this.$t('d41d8cd9.s3t4u5'))
+        await this.$confirm(this.$t('6f19b2ab.6b3d7e'), this.$t('d41d8cd9.02d981'))
         await this.$api.marketing.saveDistributorItems({
           distributor_ids: distributorIds,
           item_ids: '_all',
@@ -1913,7 +1918,7 @@ export default {
         this.$message.error(this.$t('dc9cefd6.ace302'))
         return
       }
-      await this.$confirm(this.$t('d41d8cd9.b2c3d4'), this.$t('d41d8cd9.298be1'), {
+      await this.$confirm(this.$t('d41d8cd9.b1a2c3'), this.$t('d41d8cd9.298be1'), {
         confirmButtonText: this.$t('d41d8cd9.aa7527'),
         cancelButtonText: this.$t('d41d8cd9.625fb2')
       })
@@ -2171,6 +2176,32 @@ export default {
 .page-code-img {
   width: 200px;
   height: 200px;
+}
+/* 自营商品列表太阳码弹窗：二维码与按钮居中（与 saleCategory 投放弹层一致） */
+.goods-self-products-sun-code-dialog {
+  .el-dialog__body {
+    padding-top: 16px;
+  }
+  .page-code {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .page-code-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    flex-shrink: 0;
+  }
+  .page-btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    width: 100%;
+  }
 }
 </style>
 <style lang="scss">

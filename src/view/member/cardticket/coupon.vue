@@ -216,6 +216,22 @@
                 <span>{{ scope.row.use_num || 0 }}</span>
               </template>
             </el-table-column>
+            <el-table-column width="120" :label="$t('9cc0c982.fea789')">
+              <template slot-scope="scope">
+                {{
+                  0 >= parseInt(scope.row.source_id, 10) ||
+                  !(scope.row.source_name || scope.row.store_name || scope.row.shop_name)
+                    ? $t('9cc0c982.498128')
+                    : scope.row.source_name || scope.row.store_name || scope.row.shop_name
+                }}
+              </template>
+            </el-table-column>
+            <el-table-column width="120" :label="$t('9cc0c982.eb4307')">
+              <template slot-scope="scope">
+                {{ scope.row.use_all_shops == 1 ? $t('9cc0c982.77678b') : $t('9cc0c982.fcf7d8') }}
+              </template>
+            </el-table-column>
+            <el-table-column width="200" prop="source_name" label="店铺" />
           </el-table>
           <div class="mt-4 text-right">
             <el-pagination
