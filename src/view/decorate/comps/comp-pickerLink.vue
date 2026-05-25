@@ -167,10 +167,7 @@ export default {
   computed: {
     needsOfficialRawId() {
       const { linkPage, id } = this.localValue
-      return (
-        linkPage === 'customer_service' &&
-        (id === 'officialProfile' || id === 'officialChat')
-      )
+      return linkPage === 'customer_service' && (id === 'officialProfile' || id === 'officialChat')
     },
     needsOfficialArticleLink() {
       const { linkPage, id } = this.localValue
@@ -215,8 +212,7 @@ export default {
       const needRaw =
         res?.linkPage === 'customer_service' &&
         (res?.id === 'officialProfile' || res?.id === 'officialChat')
-      const needArticle =
-        res?.linkPage === 'customer_service' && res?.id === 'official'
+      const needArticle = res?.linkPage === 'customer_service' && res?.id === 'official'
       if (needRaw) {
         next.officialAccountRawId = this.localValue.officialAccountRawId || ''
         next.officialArticleLink = ''

@@ -748,7 +748,9 @@ export default {
             if (this.form.isSpecs) {
               const { specItems, skus } = value
               const isSkuFieldFilled = (v) => v != null && v !== ''
-              const approveStatus = specItems.find(({ approve_status }) => isSkuFieldFilled(approve_status))
+              const approveStatus = specItems.find(({ approve_status }) =>
+                isSkuFieldFilled(approve_status)
+              )
               const store = specItems.find(({ store }) => isSkuFieldFilled(store))
               const price = specItems.find(({ price }) => isSkuFieldFilled(price))
               const max_num = specItems.find(({ max_num }) => isSkuFieldFilled(max_num))
