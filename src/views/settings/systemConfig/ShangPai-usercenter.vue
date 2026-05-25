@@ -154,8 +154,7 @@ export default {
     async loadAuthorizeIframe() {
       const response = await getUsercenterAuthorizeUrl()
       const data = response?.data?.data
-      this.authorizeUrl =
-        (typeof data === 'string' ? data : '') || data?.url || ''
+      this.authorizeUrl = (typeof data === 'string' ? data : '') || data?.url || ''
       if (!this.authorizeUrl) {
         this.$message.error(this.$t('1f7b7edc.f50bf4'))
       }
