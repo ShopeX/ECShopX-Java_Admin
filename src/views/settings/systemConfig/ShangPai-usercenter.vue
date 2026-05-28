@@ -4,191 +4,221 @@
 -->
 
 <template>
-  <SpPage v-loading="loading">
-    <div v-if="loggedIn" class="user-center-info">
-      <SpFormPlus
-        v-model="userInfo"
-        :form-items="formItems"
-        form-type="form"
-        label-width="150px"
-        :show-default-actions="false"
-      />
-      <div class="user-center-actions">
-        <el-button type="primary" @click="openUserCenter">进入用户中心</el-button>
+  <SpPage v-loading="loading && !dialogVisible" class="user-center-page">
+    <el-dialog
+      :visible.sync="dialogVisible"
+      fullscreen
+      custom-class="user-center-app-dialog"
+      :show-close="false"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      @closed="handleDialogClosed"
+    >
+      <div v-loading="loading" class="appcenter-embed">
+        <div class="appcenter-hero" :style="heroStyle">
+          <div class="appcenter-badge">应用中心</div>
+          <h1>{{ pageInfo.title || channel }}</h1>
+          <p v-if="pageInfo.description">{{ pageInfo.description }}</p>
+        </div>
+
+        <div
+          v-if="!loading && goodsList.length === 0"
+          class="appcenter-empty"
+        >
+          {{ pageInfo.empty_text || '暂无可展示应用' }}
+        </div>
+        <div v-else class="appcenter-items appcenter-layout-grid">
+          <div
+            v-for="item in goodsList"
+            :key="item.goods_bn"
+            class="appcenter-card"
+            :data-goods-bn="item.goods_bn"
+          >
+            <div class="appcenter-card-main">
+              <h2>{{ item.display_name || item.goods?.name }}</h2>
+              <p>{{ item.goods_bn }}</p>
+              <div class="appcenter-meta">
+                <span>商品 BN：{{ item.goods?.bn || item.goods_bn }}</span>
+                <span>价格：¥{{ formatPrice(item.goods?.price) }}</span>
+              </div>
+            </div>
+            <form class="appcenter-buy-form" @submit.prevent="handleBuy(item)">
+              <button
+                type="submit"
+                class="appcenter-action"
+                :disabled="buyingBn === item.goods_bn"
+                data-appcenter-buy="1"
+              >
+                {{ buyingBn === item.goods_bn ? '处理中...' : '立即购买' }}
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
-    <div v-else-if="authorizeUrl" class="user-center-iframe-wrap">
-      <iframe
-        :src="authorizeUrl"
-        class="user-center-iframe"
-        frameborder="0"
-        scrolling="auto"
-        title="商派用户中心登录"
-      />
-    </div>
+    </el-dialog>
   </SpPage>
 </template>
 
 <script>
-import { getCertificate, getUsercenterAuthorizeUrl, loginUsercenter } from '@/api/company'
+import '@/styles/appcenter-embed.css'
+import {
+  getAppcenterUrl,
+  getUsercenterAuthorizeUrl,
+  getAppcenterGoods,
+  loginUsercenter
+} from '@/api/company'
+import {
+  isUsercenterLoggedIn,
+  setUsercenterLoginSuccess
+} from '@/utils/usercenter-storage'
 
 export default {
   data() {
     return {
+      dialogVisible: false,
       loading: false,
-      loggedIn: false,
-      authorizeUrl: '',
-      userInfo: {
-        node_id: '',
-        shopex_uid: ''
-      }
+      buyingBn: '',
+      pageInfo: {},
+      goodsList: [],
+      openBaseUrl: '',
+      channel: 'ecshopx'
     }
   },
   computed: {
-    formItems() {
-      return [
-        {
-          fieldName: '__group_title',
-          component: 'group',
-          label: '商派用户中心'
-        },
-        {
-          fieldName: 'node_id',
-          label: this.$t('ef95ad08.cdd576'),
-          formItemClass: 'w-1/2',
-          component: 'input',
-          componentProps: {
-            readonly: true
-          }
-        },
-        {
-          fieldName: 'shopex_uid',
-          label: 'Shopex ID',
-          formItemClass: 'w-1/2',
-          component: 'input',
-          componentProps: {
-            readonly: true
-          }
-        }
-      ]
+    heroStyle() {
+      const color = this.pageInfo.theme_color || '#2f80ed'
+      return { background: color }
     }
   },
   mounted() {
-    if (this.bubbleIframeCallbackToTop()) return
     this.initPage()
   },
   methods: {
-    bubbleIframeCallbackToTop() {
-      try {
-        const inIframe = window.self !== window.top
-        if (!inIframe) return false
-        const code = (this.$route.query.code || '').trim()
-        if (!code) return false
-        this.loading = true
-        window.top.location.href = window.location.href
-        return true
-      } catch (e) {
-        return false
-      }
-    },
     async initPage() {
       const code = (this.$route.query.code || '').trim()
       if (code) {
-        await this.exchangeCodeAndLogin(code)
-        return
+        const redirected = await this.exchangeCodeAndLogin(code)
+        if (redirected) {
+          return
+        }
       }
-      await this.loadPageState()
+
+      if (isUsercenterLoggedIn()) {
+        this.loading = true
+        try {
+          await this.redirectToAppcenter()
+          return
+        } catch (error) {
+          this.$message.error(this.resolveErrorMessage(error))
+        } finally {
+          this.loading = false
+        }
+      }
+
+      this.dialogVisible = true
+      await this.loadGoods()
     },
     async exchangeCodeAndLogin(code) {
       this.loading = true
-      this.loggedIn = false
-      this.authorizeUrl = ''
       try {
         await loginUsercenter({ code })
+        setUsercenterLoginSuccess()
         await this.$router.replace({ path: this.$route.path, query: {} })
-        await this.loadPageState()
+        this.$message.success('授权登录成功')
+        await this.redirectToAppcenter()
+        return true
       } catch (error) {
-        const errMsg =
-          error?.data?.data?.message ||
-          error?.data?.message ||
-          error?.response?.data?.data?.message ||
-          error?.response?.data?.message ||
-          error?.message ||
-          this.$t('1f7b7edc.f50bf4')
-        this.$message.error(errMsg)
+        this.$message.error(this.resolveErrorMessage(error))
         await this.$router.replace({ path: this.$route.path, query: {} })
-        await this.loadPageState()
-      } finally {
-        this.loading = false
-      }
-    },
-    async loadPageState() {
-      this.loading = true
-      this.loggedIn = false
-      this.authorizeUrl = ''
-      try {
-        const loggedIn = await this.loadLoggedInInfo()
-        if (!loggedIn) {
-          await this.loadAuthorizeIframe()
-        }
-      } catch (error) {
-        await this.loadAuthorizeIframe()
-      } finally {
-        this.loading = false
-      }
-    },
-    async loadLoggedInInfo() {
-      const response = await getCertificate()
-      const data = response?.data?.data || {}
-      const nodeId = (data.node_id || '').trim()
-      if (!nodeId) {
         return false
-      }
-      this.loggedIn = true
-      this.userInfo = {
-        node_id: nodeId,
-        shopex_uid: (data.shopex_uid || '').trim()
-      }
-      return true
-    },
-    async loadAuthorizeIframe() {
-      const response = await getUsercenterAuthorizeUrl()
-      const data = response?.data?.data
-      this.authorizeUrl = (typeof data === 'string' ? data : '') || data?.url || ''
-      if (!this.authorizeUrl) {
-        this.$message.error(this.$t('1f7b7edc.f50bf4'))
+      } finally {
+        this.loading = false
       }
     },
-    openUserCenter() {
-      window.open('https://www.shopex.cn', '_blank')
+    async redirectToAppcenter() {
+      const urlResponse = await getAppcenterUrl()
+      const urlData = urlResponse?.data?.data
+      const appcenterUrl =
+        (typeof urlData === 'string' ? urlData : '') || urlData?.url || ''
+      if (!appcenterUrl) {
+        throw new Error('获取用户中心地址失败')
+      }
+      window.location.href = appcenterUrl
+    },
+    async loadGoods() {
+      this.loading = true
+      try {
+        const goodsRes = await getAppcenterGoods()
+        const data = goodsRes?.data?.data || {}
+        this.pageInfo = data.page || {}
+        this.goodsList = Array.isArray(data.items) ? data.items : []
+        this.channel = data.channel || 'ecshopx'
+        this.openBaseUrl = (data.open_base_url || '').replace(/\/$/, '')
+      } catch (error) {
+        this.$message.error(this.resolveErrorMessage(error))
+        this.goodsList = []
+      } finally {
+        this.loading = false
+      }
+    },
+    async handleBuy(item) {
+      if (this.buyingBn) return
+      this.buyingBn = item.goods_bn
+      try {
+        const response = await getUsercenterAuthorizeUrl()
+        const data = response?.data?.data
+        const url = (typeof data === 'string' ? data : '') || data?.url || ''
+        if (!url) {
+          this.$message.error('获取授权链接失败')
+          return
+        }
+        window.location.href = url
+      } catch (error) {
+        this.$message.error(this.resolveErrorMessage(error))
+      } finally {
+        this.buyingBn = ''
+      }
+    },
+    formatPrice(price) {
+      const num = Number(price)
+      if (Number.isNaN(num)) return price || '0.00'
+      return num.toFixed(2)
+    },
+    resolveErrorMessage(error) {
+      return (
+        error?.data?.data?.message ||
+        error?.data?.message ||
+        error?.response?.data?.data?.message ||
+        error?.response?.data?.message ||
+        error?.message ||
+        '操作失败'
+      )
+    },
+    handleDialogClosed() {
+      if (this.$route.query.code) return
+      this.$router.back()
     }
   }
 }
 </script>
 
+<style lang="scss">
+.user-center-app-dialog {
+  .el-dialog__header {
+    display: none;
+  }
+
+  .el-dialog__body {
+    padding: 0;
+    height: 100vh;
+    overflow: auto;
+    background: #f5f7fb;
+  }
+}
+</style>
+
 <style lang="scss" scoped>
-.user-center-info {
-  max-width: 800px;
-}
-
-.user-center-actions {
-  padding-left: 150px;
-  margin-top: 8px;
-}
-
-.user-center-iframe-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: calc(100vh - 180px);
-  padding: 24px 0;
-  background: #fff;
-}
-
-.user-center-iframe {
-  width: 100%;
-  max-width: 480px;
-  min-height: 520px;
-  border: none;
+.user-center-page {
+  min-height: 0;
 }
 </style>
