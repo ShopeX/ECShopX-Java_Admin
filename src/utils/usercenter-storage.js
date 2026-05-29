@@ -5,12 +5,17 @@
 
 export const USERCENTER_LOGIN_STORAGE_KEY = 'ecshopx_usercenter_login'
 
+/** 用户中心登录态有效期：2 小时 */
+export const USERCENTER_LOGIN_TTL_MS = 2 * 60 * 60 * 1000
+
 export function setUsercenterLoginSuccess(extra = {}) {
+  const loggedInAt = Date.now()
   localStorage.setItem(
     USERCENTER_LOGIN_STORAGE_KEY,
     JSON.stringify({
       loggedIn: true,
-      loggedInAt: Date.now(),
+      loggedInAt,
+      expiresAt: loggedInAt + USERCENTER_LOGIN_TTL_MS,
       ...extra
     })
   )
@@ -21,8 +26,21 @@ export function getUsercenterLoginState() {
     const raw = localStorage.getItem(USERCENTER_LOGIN_STORAGE_KEY)
     if (!raw) return null
     const data = JSON.parse(raw)
-    return data && data.loggedIn ? data : null
+    if (!data || !data.loggedIn) {
+      return null
+    }
+
+    const expiresAt =
+      data.expiresAt ||
+      (data.loggedInAt ? data.loggedInAt + USERCENTER_LOGIN_TTL_MS : 0)
+    if (!expiresAt || Date.now() >= expiresAt) {
+      clearUsercenterLoginState()
+      return null
+    }
+
+    return data
   } catch (e) {
+    clearUsercenterLoginState()
     return null
   }
 }
