@@ -118,6 +118,7 @@
 
       <SpFinder
         ref="finder"
+        :row-key="getRowKey"
         :url="IS_DISTRIBUTOR() ? '/distributor/items' : '/goods/items'"
         fixed-row-action
         :row-actions-align="'left'"
@@ -1121,9 +1122,10 @@ export default {
             render: (h, scope) => (
               <div>
                 <span>{GOODS_APPLY_STATUS[scope.row.audit_status]}</span>
-                {scope.row.audit_status == 'rejected' && loginType == 'supplier' && (
-                  <div class='physical-cell-reason'>拒绝原因：{scope.row.audit_reason}</div>
-                )}
+                {scope.row.audit_status == 'rejected' &&
+                  this.$store.getters.login_type == 'supplier' && (
+                    <div class='physical-cell-reason'>拒绝原因：{scope.row.audit_reason}</div>
+                  )}
               </div>
             )
           },
@@ -1555,8 +1557,11 @@ export default {
         }
       })
     },
+    getRowKey(row) {
+      return row.item_id ?? row.itemId ?? row.goods_id
+    },
     afterSearch(val) {
-      this.warning_store = val.data.data.warning_store
+      this.warning_store = val?.data?.data?.warning_store
     },
     async onSaveMemberPrice() {
       const param = {
