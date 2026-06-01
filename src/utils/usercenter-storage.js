@@ -31,8 +31,7 @@ export function getUsercenterLoginState() {
     }
 
     const expiresAt =
-      data.expiresAt ||
-      (data.loggedInAt ? data.loggedInAt + USERCENTER_LOGIN_TTL_MS : 0)
+      data.expiresAt || (data.loggedInAt ? data.loggedInAt + USERCENTER_LOGIN_TTL_MS : 0)
     if (!expiresAt || Date.now() >= expiresAt) {
       clearUsercenterLoginState()
       return null
