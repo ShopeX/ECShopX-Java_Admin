@@ -23,9 +23,6 @@ export function createShippingTemplates(params) {
   return fetch({
     url: '/shipping/templates/create',
     method: 'post',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
     params: params
   })
 }
