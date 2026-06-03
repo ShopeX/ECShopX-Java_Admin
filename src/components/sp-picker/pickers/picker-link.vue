@@ -106,8 +106,7 @@ export default {
         { id: 'settings', title: this.$t('223cc8af.e366cc') },
         { id: 'kujiale', title: this.$t('223cc8af.f2d3e5') },
         { id: 'nearby_store', title: this.$t('223cc8af.3b02dd') },
-        { id: 'nearby_store', title: this.$t('223cc8af.3b02dd') },
-        { id: 'itemList', title: '商品列表' }
+        { id: 'itemList', title: this.$t('223cc8af.437974') }
       ],
       multiple: this.value?.multiple ?? true
     }
