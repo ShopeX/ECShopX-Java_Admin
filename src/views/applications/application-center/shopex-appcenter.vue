@@ -110,7 +110,8 @@ export default {
       iframeUrl: '',
       authDialogVisible: false,
       authIframeUrl: '',
-      authRedirecting: false
+      authRedirecting: false,
+      codeLoginPromise: null
     }
   },
   computed: {
@@ -122,15 +123,28 @@ export default {
   mounted() {
     this.initPage()
   },
+  beforeDestroy() {
+    this.codeLoginPromise = null
+  },
   methods: {
     async initPage() {
       const code = (this.$route.query.code || '').trim()
       if (code) {
-        const ok = await this.exchangeCodeAndLogin(code)
-        if (ok) {
-          await this.openAppcenterIframe()
-        } else {
-          await this.bootstrapGoodsView()
+        // 授权回调会先落在弹窗 iframe 内，避免在 iframe 中重复换票
+        if (window.self !== window.top) {
+          return
+        }
+
+        if (this.codeLoginPromise) {
+          await this.codeLoginPromise
+          return
+        }
+
+        this.codeLoginPromise = this.handleOAuthCallback(code)
+        try {
+          await this.codeLoginPromise
+        } finally {
+          this.codeLoginPromise = null
         }
         return
       }
@@ -141,6 +155,14 @@ export default {
       }
 
       await this.bootstrapGoodsView()
+    },
+    async handleOAuthCallback(code) {
+      const ok = await this.exchangeCodeAndLogin(code)
+      if (ok) {
+        await this.openAppcenterIframe()
+      } else {
+        await this.bootstrapGoodsView()
+      }
     },
     async hasAppcenterCertificate() {
       try {
