@@ -391,10 +391,14 @@ export default {
     },
     editActivityAction(index, row) {
       this.activityItemDialog = true
-      this.form = row
-      this.form.start_time = row.start_time * 1000
-      this.form.end_time = row.end_time * 1000
-      if (this.form.cycle_type == 1) {
+      this.form = {
+        ...row,
+        cycle_type: String(row.cycle_type),
+        status: String(row.status),
+        start_time: row.start_time * 1000,
+        end_time: row.end_time * 1000
+      }
+      if (this.form.cycle_type === '1') {
         this.monthChange()
       }
     },
