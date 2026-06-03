@@ -123,3 +123,27 @@ export function createTransformOutBase(
     return transformOutBase(v, baseKeys, styleKeys)
   }
 }
+
+/** 兼容 data / children 多种落库结构：[]、{ data: [] }、{ list: [] }、单对象 */
+export function normalizeWidgetListField(field) {
+  if (!field) return []
+  if (Array.isArray(field)) return field
+  if (typeof field !== 'object') return []
+  if (Array.isArray(field.data)) return field.data
+  if (Array.isArray(field.list)) return field.list
+  if (Array.isArray(field.content)) return field.content
+  if (Array.isArray(field.config)) return field.config
+  if (field.name) return [field]
+  return []
+}
+
+export function findWgtConfigByName(wgtList, eleName) {
+  if (!eleName || !Array.isArray(wgtList)) return null
+  const normalized = String(eleName).toLowerCase()
+  const wgt = wgtList.find(
+    (item) =>
+      item?.name?.toLowerCase() === normalized ||
+      item?.config?.name?.toLowerCase() === normalized
+  )
+  return wgt?.config || null
+}

@@ -135,7 +135,7 @@ export default {
   name: 'NearbyShop',
   wgtName: '附近商家',
   wgtDesc: '',
-  wgtIcon: 'wgt-nearby-shop',
+  wgtIcon: 'local-two',
   config: config,
   props: {
     value: [Object, Array]

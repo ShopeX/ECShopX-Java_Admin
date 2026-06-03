@@ -146,7 +146,12 @@
                   <SpIcon name="copy" @click="onCopyComp(index, wgt)" />
                   <SpIcon name="delete" @click="onDeleteComp(index)" />
                 </div>
-                <component v-if="wgt && wgt.name" :is="wgt.name" :value="wgt" />
+                <component
+                  v-if="wgt && wgt.name"
+                  ref="previewWgts"
+                  :is="getComponentName(wgt)"
+                  :value="wgt"
+                />
               </div>
             </draggable>
           </div>
@@ -163,7 +168,7 @@
             :info="getComponentAttr(contentComps[activeCompIndex])"
           />
         </div>
-        <div v-if="activeCompIndex == null && hackReset && headerAttr && localScene != '1007'">
+        <div v-if="activeCompIndex == null && hackReset && headerAttr && headerVisible">
           <div class="wgt-name">{{ headerAttr.wgtName }}</div>
           <attrPanel v-model="headerData" :info="headerAttr" />
         </div>
@@ -234,8 +239,14 @@ export default {
       }
     },
     headerVisible() {
-      // 仅商城装修(1001)展示页面设置挂件，1007 分类模版等不展示
-      return this.mode == 'page' && this.localScene == '1001'
+      // 商城装修(1001)、店铺装修(1003)、个人中心(1008)展示页面设置挂件，1007 分类模版等不展示
+      return (
+        this.mode == 'page' &&
+        (this.localScene == '1001' ||
+          this.localScene == '1003' ||
+          this.localScene == '1008' ||
+          this.localScene == '1004')
+      )
     },
     widgetCategories() {
       // 通用挂件：轮播、热区图、视频、文字轮播
@@ -250,7 +261,8 @@ export default {
         'Group',
         'hotranking',
         'Ranking',
-        'goods'
+        'goods',
+        'goodsCard'
       ]
       // 专用挂件：订单导航
       const dedicatedNames = ['OrderNavigation']
@@ -313,6 +325,7 @@ export default {
         1002: '商品详情',
         1003: '店铺装修',
         1004: '自定义页装修',
+        1010: '自定义页装修',
         1007: '分类模版装修',
         1008: '个人中心模版装修',
         1009: '导购模板装修'
@@ -331,19 +344,73 @@ export default {
   mounted() {},
   methods: {
     regsiterWgts() {
-      // const { scene = '1001' } = this.$route.query
       const wgts = gWgts[this.localScene]
       Object.keys(wgts).forEach((index) => {
         this.widgets.push(wgts[index])
-        Vue.component(wgts[index].name, wgts[index])
+        this.registerWidgetComponent(wgts[index])
+      })
+      // 内容分区内部可能嵌套 1001 挂件（商品/热销榜等），需全局注册才能渲染并触发 widget/items 接口
+      this.getExtraSceneWidgets().forEach((wgt) => {
+        this.registerWidgetComponent(wgt)
       })
     },
+    registerWidgetComponent(wgt) {
+      if (!wgt?.name) return
+      Vue.component(wgt.name, wgt)
+      const configName = wgt.config?.name
+      if (configName && configName !== wgt.name) {
+        Vue.component(configName, wgt)
+      }
+    },
+    // 1003 等场景左侧栏不含 1001 挂件，但内容分区 transformIn 需要完整挂件列表解析子组件
+    getExtraSceneWidgets() {
+      const scene = String(this.localScene || '1001')
+      if (scene === '1001' || scene === '1004') return []
+      const extra = []
+      const seen = new Set(
+        this.widgets.map((w) => String(w.config?.name || w.name || '').toLowerCase())
+      )
+      Object.values(gWgts['1001'] || {}).forEach((wgt) => {
+        const key = String(wgt.config?.name || wgt.name || '').toLowerCase()
+        if (key && !seen.has(key)) {
+          extra.push(wgt)
+          seen.add(key)
+        }
+      })
+      return extra
+    },
+    getWidgetTransformList() {
+      return [...this.widgets, ...this.getExtraSceneWidgets()]
+    },
     resetDecorateTheme() {},
+    // 落库 name 多为 config.name（如 goodsCard），与 Vue 组件名（如 Goods）可能不一致
+    findWidgetForPersistedName(persistedName) {
+      const key = String(persistedName || '').toLowerCase()
+      if (!key || !this.widgets.length) return null
+      let w = this.widgets.find((item) => (item.name || '').toLowerCase() === key)
+      if (w) return w
+      w = this.widgets.find((item) => String(item.config?.name || '').toLowerCase() === key)
+      if (w) return w
+      if (String(this.localScene) === '1005' && key === 'goods') {
+        return (
+          this.widgets.find(
+            (item) => String(item.config?.name || '').toLowerCase() === 'goodscard'
+          ) ||
+          this.widgets.find((item) => (item.name || '').toLowerCase() === 'goods') ||
+          null
+        )
+      }
+      return null
+    },
+    // 用 widgets 中注册的组件名（如 LocationModule）渲染，避免 config.name（如 locationModule）与 Vue 注册名大小写不一致导致预览不显示
+    getComponentName(item) {
+      if (!item?.name || !this.widgets.length) return item?.name || ''
+      const w = this.findWidgetForPersistedName(item.name)
+      return w ? w.name : item.name
+    },
     getComponentAttr(item) {
       if (!item) return { wgtName: '', config: {} }
-      const wgt = this.widgets.find((wgt) => {
-        return wgt.name?.toLowerCase() == item.name?.toLowerCase()
-      })
+      const wgt = this.findWidgetForPersistedName(item.name)
       if (!wgt) return { wgtName: item.wgtName || item.name || '', ...(item.config || {}) }
       return {
         wgtName: wgt.wgtName,
@@ -390,12 +457,33 @@ export default {
       const { setting } = wgt.config
       return setting
     },
+    normalizeTemplateContentList(templateContent) {
+      if (!templateContent) return []
+      if (Array.isArray(templateContent)) return templateContent
+      if (typeof templateContent === 'string') {
+        try {
+          return this.normalizeTemplateContentList(JSON.parse(templateContent))
+        } catch (e) {
+          return []
+        }
+      }
+      const list = templateContent.list || templateContent.content || templateContent.config
+      return Array.isArray(list) ? list : []
+    },
+    getTemplateItemPayload(item) {
+      if (!item) return {}
+      if (item.params && typeof item.params === 'object') {
+        return { id: item.id, ...item.params }
+      }
+      return item
+    },
     async getTemplateDetial() {
       const { id } = this.$route.query
       let list = []
       try {
         if (
           this.localScene == '1004' ||
+          this.localScene == '1010' ||
           this.localScene == '1006' ||
           this.localScene == '1007' ||
           this.localScene == '1008'
@@ -405,12 +493,12 @@ export default {
             page_name: `custom_${id}`,
             version: 'v1.0.1'
           })
-          list = resTemplate?.list || []
+          list = this.normalizeTemplateContentList(resTemplate?.config || resTemplate?.list)
         } else {
           const { template_content } = await this.$api.template.getPagesTemplateDetail({
             pages_template_id: id
           })
-          list = template_content?.list || []
+          list = this.normalizeTemplateContentList(template_content)
         }
       } catch (e) {
         console.error(e)
@@ -430,8 +518,8 @@ export default {
       const wgtHeader = list.find((item) => item.name == 'page')
       if (wgtHeader) {
         const headParams = Header.config.transformIn(
-          { id: wgtHeader?.id, ...wgtHeader.params },
-          this.widgets
+          this.getTemplateItemPayload(wgtHeader),
+          this.getWidgetTransformList()
         )
         headerData = {
           // 初始数据
@@ -445,13 +533,14 @@ export default {
         ...Header.config
       }
 
+      const transformWgtList = this.getWidgetTransformList()
+
       list.forEach((li) => {
-        // 是否存在挂件
-        const wgt = this.widgets.find((item) => item.name?.toLowerCase() == li.name?.toLowerCase())
+        if (li.name === 'page') return
+        const wgt = this.findWidgetForPersistedName(li.name)
         if (wgt) {
-          // console.log('getTemplateDetial wgt:', wgt)
           const wgtInitParams = this.cloneDefaultField(wgt)
-          const params = wgt.config.transformIn({ id: li?.id, ...li.params }, this.widgets)
+          const params = wgt.config.transformIn(this.getTemplateItemPayload(li), transformWgtList)
           this.contentComps.push({
             wgtName: wgt.wgtName,
             ...wgtInitParams,
@@ -472,7 +561,10 @@ export default {
         this.$message.error(this.getMutualExclusiveMessage(wgt.name))
         return
       }
-      this.contentComps.splice(index + 1, 0, cloneDeep(wgt))
+      const copy = cloneDeep(wgt)
+      // 与原件共用同一服务端 id 时，保存后后端会按 id 合并/覆盖，再次进入装修页副本会丢失
+      delete copy.id
+      this.contentComps.splice(index + 1, 0, copy)
     },
     onDeleteComp(index) {
       if (this.contentComps.length == index + 1) {
@@ -549,7 +641,7 @@ export default {
     // 是否为有效挂件（在 widgets 中注册且可渲染）
     isValidContentComp(c) {
       if (!c || typeof c !== 'object' || !c.name) return false
-      return this.widgets.some((w) => (w.name || '').toLowerCase() === (c.name || '').toLowerCase())
+      return !!this.findWidgetForPersistedName(c.name)
     },
     // 检查是否可以添加挂件（互斥逻辑：店铺字母列表、整屏滑动 与其余挂件互斥）
     canAddWgt(wgtName) {
@@ -595,22 +687,35 @@ export default {
     getMutualExclusiveMessage(wgtName) {
       return `该挂件与其他挂件互斥，无法同时添加`
     },
+    async syncSliderFirstScreenHeights() {
+      await this.$nextTick()
+      const refs = this.$refs.previewWgts
+      const list = Array.isArray(refs) ? refs : refs ? [refs] : []
+      await Promise.all(
+        list
+          .filter((c) => c && typeof c.measureFirstScreenHeight === 'function')
+          .map((c) => Promise.resolve(c.measureFirstScreenHeight()))
+      )
+      await this.$nextTick()
+    },
     async onSaveTemplate() {
+      await this.syncSliderFirstScreenHeights()
       // console.log('onSaveTemplate:', JSON.stringify(data))
       if (this.mode == 'dialog') {
         this.$emit('change', this.contentComps)
         return
       }
       const data = this.contentComps.map((item) => {
-        const { transformOut } = this.widgets.find(
-          (wgt) => wgt.name?.toLowerCase() == item.name?.toLowerCase()
-        )?.config
-        return transformOut(item, this.widgets)
+        const wgt = this.findWidgetForPersistedName(item.name)
+        const { transformOut } = wgt?.config || {}
+        return transformOut ? transformOut(item, this.widgets) : item
       })
       data.unshift(this.headerAttr.transformOut(this.headerData, this.widgets))
       const { id } = this.$route.query
+      console.log('onSaveTemplate data:', data)
       if (
         this.localScene == '1004' ||
+        this.localScene == '1010' ||
         this.localScene == '1006' ||
         this.localScene == '1008' ||
         this.localScene == '1007'

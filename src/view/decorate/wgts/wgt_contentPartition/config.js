@@ -1,6 +1,11 @@
 import { pickBy } from '@/utils'
 import NavItem from './nav-item.vue'
-import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
+import {
+  transformInBase,
+  createTransformOutBase,
+  normalizeWidgetListField,
+  findWgtConfigByName
+} from '../../comps/transform-utils'
 
 const config = {
   name: 'contentPartition',
@@ -15,6 +20,16 @@ const config = {
         { name: '否', label: false }
       ],
       value: true
+    },
+    {
+      label: '吸顶背景色',
+      group: '内容设置',
+      key: 'statusBarBgColor',
+      component: 'color',
+      value: '#ffffff',
+      isShow: function () {
+        return this.value.navSticky
+      }
     },
     {
       label: '圆角',
@@ -98,15 +113,8 @@ const config = {
     }
   ],
   transformIn: (v, wgtList) => {
-    const {
-      name,
-      base,
-      data: { data },
-      uuid,
-      meber_tags,
-      no_meber_tags,
-      tagsType
-    } = v
+    const { name, base, data: dataField, uuid, meber_tags, no_meber_tags, tagsType } = v
+    const data = normalizeWidgetListField(dataField)
 
     // 使用公共函数处理 base 中的样式数据转换（将 rpx 转换为 px）
     const transformedBase = transformInBase(base, ['outerMargin', 'navitemarea'])
@@ -158,6 +166,7 @@ const config = {
     }
 
     return {
+      id: v?.id,
       name,
       uuid,
       animate: 'horizontal', // 固定为横向
@@ -178,12 +187,11 @@ const config = {
           configType = 'widget',
           ...item
         }) => {
-          let _children = children
+          const childList = normalizeWidgetListField(children)
+          let _children = childList
           if (configType == 'widget') {
-            _children = children?.map((ele) => {
-              const { transformIn } =
-                wgtList.find((wgt) => wgt.name.toLowerCase() == ele.name.toLowerCase())?.config ||
-                {}
+            _children = childList.map((ele) => {
+              const { transformIn } = findWgtConfigByName(wgtList, ele.name) || {}
               if (transformIn) {
                 return { ...transformIn(ele, wgtList), wgtName: ele.wgtName }
               }
@@ -206,6 +214,7 @@ const config = {
   },
   transformOut: (v, wgtList) => {
     return pickBy(v, {
+      id: 'id',
       name: 'name',
       meber_tags: 'tags.meber_tags',
       no_meber_tags: 'tags.no_meber_tags',
@@ -227,6 +236,7 @@ const config = {
           track: 'track',
           animate: () => 'horizontal', // 固定为横向
           navSticky: 'navSticky',
+          statusBarBgColor: 'statusBarBgColor',
           navitemheight: (v) => (v.navitemheight || 0) * 2,
           navitemmargin: (v) => (v.navitemmargin || 0) * 2,
           leftimgUrl: 'leftimgUrl',
@@ -247,12 +257,11 @@ const config = {
           data: ({ data }) => {
             return data.map(({ children, ...item }) => {
               const { tags, configType, ...rest } = item
-              let _children = children
+              const childList = normalizeWidgetListField(children)
+              let _children = childList
               if (configType == 'widget') {
-                _children = children?.map((ele) => {
-                  const { transformOut } =
-                    wgtList.find((wgt) => wgt.name.toLowerCase() == ele.name.toLowerCase())
-                      ?.config || {}
+                _children = childList.map((ele) => {
+                  const { transformOut } = findWgtConfigByName(wgtList, ele.name) || {}
                   if (transformOut) {
                     return { ...transformOut(ele, wgtList), wgtName: ele.wgtName }
                   }
@@ -265,7 +274,7 @@ const config = {
                 meber_tags: tags.meber_tags || [],
                 tagsType: tags.type,
                 configType,
-                children: children ? _children : []
+                children: _children
               }
             })
           }

@@ -68,6 +68,7 @@ const SCENE_1003 = {
   WgtFilm,
   WgtCoupon,
   WgtMarquees,
+  WgtContentPartition,
   ...(!VERSION_STANDARD() ? { WgtShop } : {}),
   WgtNearbyShop,
   WgtClassify
