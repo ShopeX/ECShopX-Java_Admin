@@ -118,12 +118,3 @@ export function setShuyunCrmSetting(query) {
     showError: false
   })
 }
-
-export function createShuyunCrmPlatform(query) {
-  return fetch({
-    url: '/shuyun/open-platform/platform/register',
-    method: 'post',
-    params: query,
-    showError: false
-  })
-}
