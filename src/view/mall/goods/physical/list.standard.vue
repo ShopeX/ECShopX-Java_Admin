@@ -1265,21 +1265,23 @@ export default {
       if (this.item_id.length) {
         this.isGiftsData.item_id = Object.assign({}, this.item_id)
         this.isGiftsData.status = status
-        saveIsGifts(this.isGiftsData).then((res) => {
-          if (res.data.data.status == true) {
-            this.$message({
-              type: 'success',
-              message: '操作成功',
-              duration: 2000
-            })
-          } else {
-            this.$message({
-              type: 'error',
-              message: '操作失败',
-              duration: 2000
-            })
-          }
-        })
+        saveIsGifts(this.isGiftsData)
+          .then((res) => {
+            if (res.data.data.status == true) {
+              this.$message({
+                type: 'success',
+                message: '操作成功',
+                duration: 2000
+              })
+            } else {
+              this.$message({
+                type: 'error',
+                message: '操作失败',
+                duration: 2000
+              })
+            }
+          })
+          .catch(() => {})
       } else {
         this.$message({
           type: 'error',

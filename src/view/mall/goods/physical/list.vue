@@ -34,8 +34,12 @@
         <el-button v-if="!IS_SUPPLIER()" type="primary" @click="batchChangeStore">
           更改状态
         </el-button>
-        <el-button type="primary" @click="batchGifts('true')"> 设为赠品 </el-button>
-        <el-button type="primary" @click="batchGifts('false')"> 设为非赠品 </el-button>
+        <el-button v-if="!IS_SUPPLIER()" type="primary" @click="batchGifts('true')">
+          设为赠品
+        </el-button>
+        <el-button v-if="!IS_SUPPLIER()" type="primary" @click="batchGifts('false')">
+          设为非赠品
+        </el-button>
 
         <el-button v-if="IS_SUPPLIER()" type="primary" @click="() => changeHaltTheSales('stop')">
           停售
@@ -1685,21 +1689,23 @@ export default {
           this.selectionItems.map((item) => item.item_id)
         )
         this.isGiftsData.status = status
-        saveIsGifts(this.isGiftsData).then((res) => {
-          if (res.data.data.status == true) {
-            this.$message({
-              type: 'success',
-              message: '操作成功',
-              duration: 2000
-            })
-          } else {
-            this.$message({
-              type: 'error',
-              message: '操作失败',
-              duration: 2000
-            })
-          }
-        })
+        saveIsGifts(this.isGiftsData)
+          .then((res) => {
+            if (res.data.data.status == true) {
+              this.$message({
+                type: 'success',
+                message: '操作成功',
+                duration: 2000
+              })
+            } else {
+              this.$message({
+                type: 'error',
+                message: '操作失败',
+                duration: 2000
+              })
+            }
+          })
+          .catch(() => {})
       } else {
         this.$message({
           type: 'error',
