@@ -428,24 +428,6 @@ export default {
       const { setting } = wgt.config
       return setting
     },
-    resolveCustomPageDistributorId() {
-      const { distributor_id } = this.$route.query || {}
-      if (distributor_id && Number(distributor_id) > 0) {
-        return Number(distributor_id)
-      }
-      const shopId = this.$store?.getters?.shopId
-      if (shopId && Number(shopId) > 0) {
-        return Number(shopId)
-      }
-      return 0
-    },
-    buildCustomPageParams(base) {
-      const distributorId = this.resolveCustomPageDistributorId()
-      if (distributorId > 0) {
-        return { ...base, distributor_id: distributorId }
-      }
-      return base
-    },
     async getTemplateDetial() {
       const { id } = this.$route.query
       let list = []
@@ -457,13 +439,11 @@ export default {
           this.localScene == '1007' ||
           this.localScene == '1008'
         ) {
-          const resTemplate = await this.$api.wxa.getParamByTempName(
-            this.buildCustomPageParams({
-              template_name: 'yykweishop',
-              page_name: `custom_${id}`,
-              version: 'v1.0.1'
-            })
-          )
+          const resTemplate = await this.$api.wxa.getParamByTempName({
+            template_name: 'yykweishop',
+            page_name: `custom_${id}`,
+            version: 'v1.0.1'
+          })
           list = resTemplate?.list || []
         } else {
           const { template_content } = await this.$api.template.getPagesTemplateDetail({
@@ -690,14 +670,12 @@ export default {
         this.localScene == '1008' ||
         this.localScene == '1007'
       ) {
-        await this.$api.wxa.savePageParams(
-          this.buildCustomPageParams({
-            template_name: 'yykweishop',
-            page_name: `custom_${id}`,
-            version: 'v1.0.1',
-            config: JSON.stringify(data)
-          })
-        )
+        await this.$api.wxa.savePageParams({
+          template_name: 'yykweishop',
+          page_name: `custom_${id}`,
+          version: 'v1.0.1',
+          config: JSON.stringify(data)
+        })
       } else {
         await this.$api.template.savePagesTemplate({
           pages_template_id: id,
