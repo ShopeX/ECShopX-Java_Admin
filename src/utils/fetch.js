@@ -209,6 +209,7 @@ function createAxios(inst, isJson = true) {
             }
           } else {
             errorToast(resData)
+            return Promise.reject(resData)
           }
         } else {
           return res
