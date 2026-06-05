@@ -50,12 +50,9 @@
           >
             <i class="iconfont icon-cog" /> {{ $t('a066f499.701fa5') }}
           </el-button>
-          <!-- ECX-8712: 总部/店铺模版装修隐藏导航配置 -->
-          <!--
           <el-button @click="handleShowTabConfig">
             <i class="iconfont icon-cog" /> {{ $t('a066f499.f9a598') }}
           </el-button>
-          -->
         </div>
       </div>
 

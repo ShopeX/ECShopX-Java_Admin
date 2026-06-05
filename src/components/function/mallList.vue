@@ -45,11 +45,9 @@
           <i class="el-icon-setting" style="color: #8080ff" /> {{ $t('6880d32e.701fa5') }}
         </el-button>
         <!-- ECX-8712: 总部/店铺模版装修隐藏导航配置 -->
-        <!--
         <el-button type="text" @click="handleShowTabConfig">
           <i class="el-icon-setting" style="color: #8080ff" /> {{ $t('6880d32e.f9a598') }}
         </el-button>
-        -->
       </div>
     </div>
 
