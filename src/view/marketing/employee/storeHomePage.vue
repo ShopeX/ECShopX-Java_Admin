@@ -172,7 +172,10 @@ export default {
         path: '/wxapp/manage/decorate',
         query: {
           id: String(cid),
-          scene: '1010'
+          scene: '1010',
+          ...(row.distributor_id && Number(row.distributor_id) > 0
+            ? { distributor_id: String(row.distributor_id) }
+            : {})
         }
       })
     },
