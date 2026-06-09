@@ -16,16 +16,16 @@
           <buyerTemplates ref="buyerTemplates" :get-status="buyerTemplates" />
         </el-tab-pane>
         <el-tab-pane label="按重量运费模板" name="second">
-          <weightTemplates :get-status="weightTemplates" />
+          <weightTemplates ref="weightTemplates" :get-status="weightTemplates" />
         </el-tab-pane>
         <el-tab-pane label="按件数运费模板" name="third">
-          <numberTemplates :get-status="numberTemplates" />
+          <numberTemplates ref="numberTemplates" :get-status="numberTemplates" />
         </el-tab-pane>
         <el-tab-pane label="按金额运费模板" name="fourth">
-          <priceTemplates :get-status="priceTemplates" />
+          <priceTemplates ref="priceTemplates" :get-status="priceTemplates" />
         </el-tab-pane>
         <el-tab-pane label="按体积运费模板" name="fifth">
-          <volumeTemplates :get-status="volumeTemplates" />
+          <volumeTemplates ref="volumeTemplates" :get-status="volumeTemplates" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -89,7 +89,14 @@ export default {
       }
     },
     getList() {
-      this.$refs.getShippingTemplatesList
+      ;['buyerTemplates', 'weightTemplates', 'numberTemplates', 'priceTemplates', 'volumeTemplates'].forEach(
+        (refName) => {
+          const comp = this.$refs[refName]
+          if (comp && comp.getShippingTemplatesList) {
+            comp.getShippingTemplatesList()
+          }
+        }
+      )
     }
   }
 }
