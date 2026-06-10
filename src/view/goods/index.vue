@@ -103,7 +103,14 @@
 
 <script>
 import _uniqBy from 'lodash/uniqBy'
-import { isObject, isString, isArray, IS_SUPPLIER, getRegionNameById } from '@/utils'
+import {
+  isObject,
+  isString,
+  isArray,
+  IS_SUPPLIER,
+  getRegionNameById,
+  normalizeRegionsId
+} from '@/utils'
 import GoodsParams from './components/GoodsParams'
 import SpecParams from './components/SpecParams'
 import SkuParams from './components/SkuParams'
@@ -1108,7 +1115,10 @@ export default {
       this.form.brandId = brand_id + ''
       this.form.itemUnit = item_unit
       this.form.sort = sort
-      this.form.regionsId = regions_id
+      if (!this.regionsList.length) {
+        await this.getAddress()
+      }
+      this.form.regionsId = normalizeRegionsId(regions_id)
       this.form.isGift = is_gift
       this.form.taxRate = tax_rate
       this.form.videos = videos || ''
