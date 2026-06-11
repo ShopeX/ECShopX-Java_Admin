@@ -4,48 +4,56 @@
 -->
 
 <template>
-  <SpPage v-loading="loading && viewMode !== 'iframe'" class="user-center-page">
+  <SpPage
+    v-loading="loading && viewMode !== 'iframe'"
+    class="user-center-page"
+    :no-sticky="true"
+  >
     <div v-if="viewMode === 'goods'" v-loading="loading" class="appcenter-embed">
-      <div class="appcenter-hero" :style="heroStyle">
-        <div class="appcenter-badge">应用中心</div>
-        <h1>{{ pageInfo.title || channel }}</h1>
-        <p v-if="pageInfo.description">{{ pageInfo.description }}</p>
-      </div>
+      <div class="appcenter-workspace">
+        <div class="appcenter-tabs appcenter-tabs--no-user">
+          <div class="appcenter-tabs-main">
+            <button type="button" class="appcenter-tab active">应用市场</button>
+          </div>
+        </div>
 
-      <div
-        v-if="!loading && goodsList.length === 0"
-        class="appcenter-empty"
-      >
-        {{ pageInfo.empty_text || '暂无可展示应用' }}
-      </div>
-      <div v-else class="appcenter-items appcenter-layout-grid">
-        <div
-          v-for="item in goodsList"
-          :key="item.goods_bn"
-          class="appcenter-card"
-          :data-goods-bn="item.goods_bn"
-        >
-          <div class="appcenter-card-main">
-            <h2>{{ item.display_name || item.goods?.name }}</h2>
-            <p>{{ item.goods_bn }}</p>
-            <div class="appcenter-meta">
-              <span>商品 BN：{{ item.goods?.bn || item.goods_bn }}</span>
-              <span>价格：¥{{ formatPrice(item.goods?.price) }}</span>
+        <div class="appcenter-tab-panel active">
+          <div
+            v-if="!loading && goodsList.length === 0"
+            class="appcenter-empty"
+          >
+            {{ pageInfo.empty_text || '暂无可展示应用' }}
+          </div>
+          <div v-else class="appcenter-items appcenter-layout-grid">
+            <div
+              v-for="item in goodsList"
+              :key="item.goods_bn"
+              class="appcenter-card"
+              :data-goods-bn="item.goods_bn"
+            >
+              <div class="appcenter-card-main">
+                <h2>{{ item.display_name || item.goods?.name }}</h2>
+                <p>{{ item.goods_bn }}</p>
+                <div class="appcenter-meta">
+                  <span>商品 BN：{{ item.goods?.bn || item.goods_bn }}</span>
+                  <span>价格：¥{{ formatPrice(item.goods?.price) }}</span>
+                </div>
+              </div>
+              <form
+                class="appcenter-buy-form"
+                @submit.prevent="handleAppClick(item)"
+              >
+                <button
+                  type="submit"
+                  class="appcenter-action"
+                  :disabled="openingBn === item.goods_bn"
+                  data-appcenter-buy="1"
+                >
+                  {{ openingBn === item.goods_bn ? '处理中...' : '立即购买' }}
+                </button>
+              </form>
             </div>
           </div>
-          <form
-            class="appcenter-buy-form"
-            @submit.prevent="handleAppClick(item)"
-          >
-            <button
-              type="submit"
-              class="appcenter-action"
-              :disabled="openingBn === item.goods_bn"
-              data-appcenter-buy="1"
-            >
-              {{ openingBn === item.goods_bn ? '处理中...' : '立即购买' }}
-            </button>
-          </form>
         </div>
       </div>
     </div>
@@ -110,27 +118,35 @@ export default {
       iframeUrl: '',
       authDialogVisible: false,
       authIframeUrl: '',
-      authRedirecting: false
-    }
-  },
-  computed: {
-    heroStyle() {
-      const color = this.pageInfo.theme_color || '#2f80ed'
-      return { background: color }
+      authRedirecting: false,
+      codeLoginPromise: null
     }
   },
   mounted() {
     this.initPage()
   },
+  beforeDestroy() {
+    this.codeLoginPromise = null
+  },
   methods: {
     async initPage() {
       const code = (this.$route.query.code || '').trim()
       if (code) {
-        const ok = await this.exchangeCodeAndLogin(code)
-        if (ok) {
-          await this.openAppcenterIframe()
-        } else {
-          await this.bootstrapGoodsView()
+        // 授权回调会先落在弹窗 iframe 内，避免在 iframe 中重复换票
+        if (window.self !== window.top) {
+          return
+        }
+
+        if (this.codeLoginPromise) {
+          await this.codeLoginPromise
+          return
+        }
+
+        this.codeLoginPromise = this.handleOAuthCallback(code)
+        try {
+          await this.codeLoginPromise
+        } finally {
+          this.codeLoginPromise = null
         }
         return
       }
@@ -141,6 +157,14 @@ export default {
       }
 
       await this.bootstrapGoodsView()
+    },
+    async handleOAuthCallback(code) {
+      const ok = await this.exchangeCodeAndLogin(code)
+      if (ok) {
+        await this.openAppcenterIframe()
+      } else {
+        await this.bootstrapGoodsView()
+      }
     },
     async hasAppcenterCertificate() {
       try {
@@ -280,9 +304,16 @@ export default {
 </script>
 
 <style lang="scss">
-.user-center-page {
+.sp-page.user-center-page {
   min-height: 0;
-  padding: 0;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+
+  .sp-page__content {
+    padding: 14px;
+    background: #fff;
+  }
 
   .appcenter-embed {
     box-sizing: border-box;
@@ -290,6 +321,7 @@ export default {
     margin: 0;
     padding: 0;
     background: #f5f7fb;
+    overflow: hidden;
     color: #263445;
     font-family: 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
     font-size: 14px;
@@ -303,37 +335,55 @@ export default {
     }
   }
 
-  .appcenter-hero {
-    padding: 24px 28px;
-    color: #fff;
+  .appcenter-workspace {
+    position: relative;
+    margin: 14px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(20, 35, 60, 0.05);
+  }
 
-    h1 {
-      margin: 8px 0 6px;
-      padding: 0;
-      font-size: 24px;
-      line-height: 1.25;
-      font-weight: 600;
-      color: #fff;
-    }
+  .appcenter-tabs {
+    min-height: 0;
+    padding: 0 16px;
+    border-bottom: 1px solid #e5ebf3;
+    background: #fbfcfe;
+    border-radius: 8px 8px 0 0;
 
-    p {
-      margin: 0;
-      padding: 0;
-      opacity: 0.9;
-      font-size: 14px;
-      line-height: 1.6;
-      color: #fff;
+    &.appcenter-tabs--no-user {
+      padding-right: 16px;
     }
   }
 
-  .appcenter-badge {
+  .appcenter-tabs-main {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .appcenter-tab {
     display: inline-block;
-    padding: 3px 8px;
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    border-radius: 12px;
-    font-size: 12px;
-    opacity: 0.95;
-    line-height: 1.4;
+    margin: 0 22px 0 0;
+    padding: 11px 2px 9px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: #667789;
+    font-size: 14px;
+    cursor: default;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+
+    &.active {
+      border-bottom-color: #263445;
+      color: #1f2d3d;
+      font-weight: 600;
+    }
+  }
+
+  .appcenter-tab-panel {
+    display: block;
   }
 
   .appcenter-items {
@@ -427,11 +477,16 @@ export default {
     text-align: center;
   }
 
+  .appcenter-card-main {
+    display: block;
+  }
+
   .usercenter-iframe-wrap {
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 160px);
     background: #f5f7fb;
+    overflow: hidden;
   }
 
   .usercenter-iframe {
@@ -448,8 +503,8 @@ export default {
   }
 
   @media (max-width: 640px) {
-    .appcenter-hero {
-      padding: 20px 18px;
+    .sp-page__content {
+      padding: 14px;
     }
 
     .appcenter-layout-grid .appcenter-card {
