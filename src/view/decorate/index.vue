@@ -360,9 +360,11 @@ export default {
     findWidgetForPersistedName(persistedName) {
       const key = String(persistedName || '').toLowerCase()
       if (!key || !this.widgets.length) return null
-      let w = this.widgets.find((item) => (item.name || '').toLowerCase() === key)
+      // 附近商家已合并到店铺挂件，历史数据 name 仍为 nearbyShop
+      const lookupKey = key === 'nearbyshop' ? 'shop' : key
+      let w = this.widgets.find((item) => (item.name || '').toLowerCase() === lookupKey)
       if (w) return w
-      w = this.widgets.find((item) => String(item.config?.name || '').toLowerCase() === key)
+      w = this.widgets.find((item) => String(item.config?.name || '').toLowerCase() === lookupKey)
       if (w) return w
       if (String(this.localScene) === '1005' && key === 'goods') {
         return (
@@ -430,6 +432,10 @@ export default {
       const { setting } = wgt.config
       return setting
     },
+    resolveCustomPageVersion() {
+      const { version } = this.$route.query || {}
+      return version || 'v1.0.1'
+    },
     async getTemplateDetial() {
       const { id } = this.$route.query
       let list = []
@@ -444,7 +450,7 @@ export default {
           const resTemplate = await this.$api.wxa.getParamByTempName({
             template_name: 'yykweishop',
             page_name: `custom_${id}`,
-            version: 'v1.0.1'
+            version: this.resolveCustomPageVersion()
           })
           list = resTemplate?.list || []
         } else {
@@ -675,7 +681,7 @@ export default {
         await this.$api.wxa.savePageParams({
           template_name: 'yykweishop',
           page_name: `custom_${id}`,
-          version: 'v1.0.1',
+          version: this.resolveCustomPageVersion(),
           config: JSON.stringify(data)
         })
       } else {
