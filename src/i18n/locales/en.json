@@ -18027,6 +18027,7 @@
   "39e3acc2.e8b1b1": "Confirm",
   "39e3acc2.e8b1b2": "Random",
   "39e3acc2.e8b1b3": "Generate one random passphrase per enterprise in the list. Existing values will be overwritten.",
+  "39e3acc2.e8b1b4": "At least 1 digit or English letter",
   "de51ee4c.7bc81f": "Activity basic config",
   "de51ee4c.902a3d": "Activity title",
   "de51ee4c.c0e2a5": "Enter activity title",
