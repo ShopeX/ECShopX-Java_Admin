@@ -93,20 +93,33 @@ export default {
     // this.fetch()
   },
   methods: {
-    beforeSearch({ page, pageSize }) {
-      let params = {
-        page_no: page,
-        page_size: pageSize,
+    beforeSearch(params) {
+      return {
+        ...params,
+        page_no: params.page ?? params.pageNum ?? 1,
+        page_size: params.pageSize ?? 10,
         name: this.formData.keywords
       }
-      return params
     },
     afterSearch(response) {
-      const { list } = response.data.data
-      const { data = [] } = this.value
-      const selectRow = list.filter((item) => data.includes(item.pages_template_id))
-      const finderTable = this.$refs['finder'].$refs.finderTable.$refs.finderTable
+      const payload = response?.data?.data ?? response?.data ?? {}
+      const data = payload.data ?? payload
+      const list = data.list || data.records || data.content || []
+      const total_count = data.total_count ?? data.total ?? data.count ?? list.length
 
+      if (response?.data?.data) {
+        Object.assign(response.data.data, { list, total_count })
+      }
+
+      const raw = this.value?.data
+      if (raw == null || raw === '') return
+      const selectedIds = Array.isArray(raw) ? raw : [raw]
+      const selectRow = list.filter((item) =>
+        selectedIds.map(String).includes(String(item.pages_template_id))
+      )
+      if (!selectRow.length) return
+      const finderTable = this.$refs.finder?.$refs?.finderTable?.$refs?.finderTable
+      if (!finderTable) return
       setTimeout(() => {
         finderTable.setSelection(selectRow)
       })
