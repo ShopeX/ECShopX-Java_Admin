@@ -109,7 +109,8 @@ import {
   isArray,
   IS_SUPPLIER,
   getRegionNameById,
-  normalizeRegionsId
+  normalizeRegionsId,
+  normalizeSelectId
 } from '@/utils'
 import GoodsParams from './components/GoodsParams'
 import SpecParams from './components/SpecParams'
@@ -934,8 +935,8 @@ export default {
   created() {
     this.getPointRule()
     this.getMainCategory()
-    this.getShippingTemplates()
-    this.getBrandList()
+    this.templatesReady = this.getShippingTemplates()
+    this.brandReady = this.getBrandList()
     this.addressReady = this.getAddress()
     this.getBaseSetting()
   },
@@ -1027,6 +1028,7 @@ export default {
         templates_id,
         templates_name,
         brand_id,
+        goods_brand,
         item_unit,
         sort,
         regions_id,
@@ -1111,12 +1113,14 @@ export default {
       this.form.item_id = item_id
       this.form.supplier_id = supplier_id
       this.form.brief = brief
-      this.form.templatesId = templates_id?.toString() || ''
+      await Promise.all([this.templatesReady, this.brandReady, this.addressReady])
+      this.ensureSelectOption('templatesId', templates_id, templates_name)
+      this.ensureSelectOption('brandId', brand_id, goods_brand)
+      this.$set(this.form, 'templatesId', normalizeSelectId(templates_id))
       this.form.templatesName = templates_name
-      this.form.brandId = brand_id + ''
+      this.$set(this.form, 'brandId', normalizeSelectId(brand_id))
       this.form.itemUnit = item_unit
       this.form.sort = sort
-      await this.addressReady
       this.$set(this.form, 'regionsId', normalizeRegionsId(regions_id))
       this.form.isGift = is_gift
       this.form.taxRate = tax_rate
@@ -1262,16 +1266,35 @@ export default {
         pageSize: 99,
         status: 1
       })
+      const index = this.formList.findIndex((item) => item.key == 'templatesId')
+      if (index === -1) {
+        return
+      }
       if (list.length > 0) {
-        const index = this.formList.findIndex((item) => item.key == 'templatesId')
-        this.formList[index].options = list.map((item) => {
-          return {
-            value: item.template_id,
-            title: item.name
-          }
-        })
+        this.formList[index].options = list.map((item) => ({
+          value: normalizeSelectId(item.template_id),
+          title: item.name
+        }))
       } else {
+        this.formList[index].options = []
         this.$message.error('请先添加运费模板')
+      }
+    },
+    ensureSelectOption(formKey, id, title) {
+      if (id == null || id === '') {
+        return
+      }
+      const normalized = normalizeSelectId(id)
+      const index = this.formList.findIndex((item) => item.key === formKey)
+      if (index === -1) {
+        return
+      }
+      const options = this.formList[index].options || []
+      if (!options.some((op) => op.value == normalized)) {
+        this.$set(this.formList[index], 'options', [
+          ...options,
+          { value: normalized, title: title || String(id) }
+        ])
       }
     },
     // 获取品牌列表
@@ -1282,14 +1305,14 @@ export default {
         attribute_type: 'brand'
         // attribute_name: searchVal
       })
-      console.log('-----------', this.formList)
       const index = this.formList.findIndex((item) => item.key == 'brandId')
-      this.formList[index].options = list.map(({ attribute_id, attribute_name }) => {
-        return {
-          value: attribute_id,
-          title: attribute_name
-        }
-      })
+      if (index === -1) {
+        return
+      }
+      this.formList[index].options = list.map(({ attribute_id, attribute_name }) => ({
+        value: normalizeSelectId(attribute_id),
+        title: attribute_name
+      }))
     },
     // 获取地区列表
     async getAddress() {

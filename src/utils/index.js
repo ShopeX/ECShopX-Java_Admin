@@ -219,6 +219,17 @@ export function getRegionNameById(region, district) {
   return result
 }
 
+export function normalizeSelectId(id) {
+  if (id == null || id === '') {
+    return ''
+  }
+  if (typeof id === 'number') {
+    return id
+  }
+  const n = Number(String(id).trim())
+  return Number.isNaN(n) ? id : n
+}
+
 /**
  * 规范化商品产地 ID 数组，兼容后端误存为 Java List#toString 的历史数据。
  * 级联选项来自 /espier/address，value 为 number，故纯数字 ID 转为 number 以便 el-cascader 匹配。
