@@ -188,20 +188,6 @@ export function camelToShortline(camelStr) {
     .replaceAll(' ', '-')
 }
 
-export function normalizeRegionsId(regionsId) {
-  if (!regionsId) return []
-  let ids = regionsId
-  if (typeof regionsId === 'string') {
-    try {
-      ids = JSON.parse(regionsId)
-    } catch {
-      return []
-    }
-  }
-  if (!Array.isArray(ids)) return []
-  return ids.map((id) => Number(id))
-}
-
 export function getRegionNameById(region, district) {
   let result = []
   function getRegionName(_district, index) {
