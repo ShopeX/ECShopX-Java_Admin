@@ -314,6 +314,7 @@ export default {
           key: 'regionsId',
           component: ({ key }, value) => (
             <el-cascader
+              key={`${(value[key] || []).join('-')}-${this.regionsList.length}`}
               disabled={disabled}
               v-model={value[key]}
               clearable
@@ -935,7 +936,7 @@ export default {
     this.getMainCategory()
     this.getShippingTemplates()
     this.getBrandList()
-    this.getAddress()
+    this.addressReady = this.getAddress()
     this.getBaseSetting()
   },
   methods: {
@@ -1115,10 +1116,8 @@ export default {
       this.form.brandId = brand_id + ''
       this.form.itemUnit = item_unit
       this.form.sort = sort
-      if (!this.regionsList.length) {
-        await this.getAddress()
-      }
-      this.form.regionsId = normalizeRegionsId(regions_id)
+      await this.addressReady
+      this.$set(this.form, 'regionsId', normalizeRegionsId(regions_id))
       this.form.isGift = is_gift
       this.form.taxRate = tax_rate
       this.form.videos = videos || ''

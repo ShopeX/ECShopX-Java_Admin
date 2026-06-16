@@ -219,6 +219,64 @@ export function getRegionNameById(region, district) {
   return result
 }
 
+/**
+ * 规范化商品产地 ID 数组，兼容后端误存为 Java List#toString 的历史数据。
+ * 级联选项来自 /espier/address，value 为 number，故纯数字 ID 转为 number 以便 el-cascader 匹配。
+ */
+function toRegionIdValue(id) {
+  const s = String(id).trim()
+  if (/^\d+$/.test(s)) {
+    return Number(s)
+  }
+  return s
+}
+
+export function normalizeRegionsId(raw) {
+  if (raw == null || raw === '') {
+    return []
+  }
+  if (typeof raw === 'string') {
+    let s = raw.trim()
+    if (!s) {
+      return []
+    }
+    if (s.startsWith('[') && s.endsWith(']')) {
+      s = s.slice(1, -1)
+    }
+    return s
+      .split(',')
+      .map((part) => toRegionIdValue(part.trim().replace(/^\[+/, '').replace(/\]+$/, '').trim()))
+      .filter((v) => v !== '' && v != null)
+  }
+  if (!Array.isArray(raw)) {
+    return []
+  }
+  if (raw.length === 1 && typeof raw[0] === 'string' && raw[0].includes(',')) {
+    const only = raw[0].trim()
+    if (only.startsWith('[')) {
+      return normalizeRegionsId(only)
+    }
+  }
+  const needsFix = raw.some((item) => {
+    const s = String(item).trim()
+    return s.startsWith('[') || s.endsWith(']')
+  })
+  if (needsFix) {
+    return raw
+      .map((item) =>
+        toRegionIdValue(
+          String(item)
+            .trim()
+            .replace(/^\[+/, '')
+            .replace(/\]+$/, '')
+            .trim()
+        )
+      )
+      .filter((v) => v !== '' && v != null)
+  }
+  return raw.map((item) => toRegionIdValue(item)).filter((v) => v !== '' && v != null)
+}
+
 export function getRegionIdByName(region, district) {
   let result = []
   function getRegionValue(_district, index) {

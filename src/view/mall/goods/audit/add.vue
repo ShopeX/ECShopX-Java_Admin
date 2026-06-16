@@ -150,6 +150,7 @@ import CmGoodsParams from './comps/CmGoodsParams'
 import CmSkuForm from './comps/CmSkuForm'
 import { getOrigincountry, getTaxstrategyList } from '../../../../api/crossborder'
 import { getPointRule } from '../../../../api/promotions'
+import { normalizeRegionsId } from '@/utils'
 
 export default {
   inject: ['refresh'],
@@ -350,7 +351,7 @@ export default {
         brandId: goodsDetail.brand_id,
         itemUnit: goodsDetail.item_unit,
         sort: goodsDetail.sort,
-        regionsId: goodsDetail.regions_id,
+        regionsId: normalizeRegionsId(goodsDetail.regions_id),
         taxRate: goodsDetail.tax_rate,
         isProfit: goodsDetail.is_profit,
         isPackageItems: goodsDetail.is_package_items,
