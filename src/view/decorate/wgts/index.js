@@ -9,7 +9,6 @@ import WgtFilm from './wgt_film'
 import WgtCoupon from './wgt_coupon'
 import WgtShop from './wgt_shop'
 import WgtMarquees from './wgt_marquees'
-import WgtNearbyShop from './wgt_nearbyShop'
 import WgtGoodsCard from './wgt_goodsCard'
 import WgtWriting from './wgt_writing'
 import WgtHeading from './wgt_heading'
@@ -68,10 +67,13 @@ const SCENE_1003 = {
   WgtFilm,
   WgtCoupon,
   WgtMarquees,
+  WgtFullSlider,
+  WgtClassify,
+  WgtLocationModule,
   WgtContentPartition,
-  ...(!VERSION_STANDARD() ? { WgtShop } : {}),
-  WgtNearbyShop,
-  WgtClassify
+  WgtHotRanking,
+  WgtGoods,
+  ...(!VERSION_STANDARD() ? { WgtShop } : {})
 }
 
 // 自定义页面装修
