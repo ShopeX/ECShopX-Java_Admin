@@ -167,6 +167,7 @@
       is-valid-filter="cloud_all"
       :rel-data-ids="relDistributors"
       :get-status="DistributorStatus"
+      :query-params="{ show_distributor_self: 1 }"
       @chooseStore="DistributorChooseAction"
       @closeStoreDialog="closeDialogAction"
     />
