@@ -352,6 +352,22 @@
         />
       </el-card>
 
+      <el-dialog
+        :title="$t('2ff5650c.6a4607')"
+        :visible.sync="importDialog"
+        width="900px"
+        @closed="onImportDialogClosed"
+      >
+        <RelatedUpload
+          v-if="importDialog"
+          file-type="employee_purchase_activity_items"
+          :related-id="$route.params.id"
+          :file-name="$t('5f45d286.3dd83a')"
+          :table-height="420"
+          :extra-params="importExtraParams"
+        />
+      </el-dialog>
+
       <SpDialog
         ref="patchDialogRef"
         v-model="patchDialog"
@@ -366,14 +382,19 @@
 
 <script>
 import Pages from '@/utils/pages'
+import RelatedUpload from '@/components/related-upload'
 export default {
   name: '',
+  components: {
+    RelatedUpload
+  },
   data() {
     return {
       formBase: {
         value: '1'
       },
       distributor_id: null,
+      importDialog: false,
       patchDialog: false,
       patchForm: {
         item_id: [],
@@ -408,6 +429,11 @@ export default {
   computed: {
     adminDisabled() {
       return this.IS_ADMIN() && this.distributor_id != '0'
+    },
+    importExtraParams() {
+      return {
+        distributor_id: this.distributor_id || '0'
+      }
     },
     formBaseList() {
       return [
@@ -457,20 +483,10 @@ export default {
   },
   methods: {
     handleImport() {
-      let path
-      if (this.IS_DISTRIBUTOR()) {
-        if (this.VERSION_STANDARD()) {
-          path =
-            '/shopadmin/products/store-product-manage/physicalupload?file_type=employee_purchase_activity_items'
-        } else {
-          path =
-            '/shopadmin/products/product-manage/product-import?file_type=employee_purchase_activity_items'
-        }
-      } else {
-        path =
-          '/products/product-manage/self-products/product-import?file_type=employee_purchase_activity_items'
-      }
-      this.$router.push({ path })
+      this.importDialog = true
+    },
+    onImportDialogClosed() {
+      this.pagesQuery.refresh()
     },
     handlePatchAction() {
       const selectItems = this.tableData.filter((item) => !!item.checked)
