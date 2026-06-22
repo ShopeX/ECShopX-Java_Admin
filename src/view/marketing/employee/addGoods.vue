@@ -5,13 +5,77 @@
 
 <style lang="scss">
 .marketing-employee-addgoods {
-  .sp-filter-form {
+  .activity-goods-filter-wrap {
+    position: relative;
     margin-bottom: 16px;
+
+    .sp-filter-form {
+      margin-bottom: 0;
+    }
+
+    .activity-goods-filter.sp-filter-form.shouqi {
+      max-height: none;
+      overflow: visible;
+    }
+
+    .filter-row-break {
+      flex-basis: 100%;
+      width: 0;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .filter-category-toggle {
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+
+      .extend-icon.extend-active {
+        transform: rotate(180deg);
+      }
+    }
   }
+
   .base-form {
     margin: 10px 0;
+
+    &.sp-form .el-form-item,
     .el-form-item {
-      margin: 0;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      margin-bottom: 0;
+    }
+
+    .el-form-item__label {
+      float: none;
+      flex: 0 0 auto;
+      width: auto !important;
+      min-width: 80px;
+      padding-right: 12px;
+      line-height: 32px;
+      white-space: nowrap;
+    }
+
+    .el-form-item__content {
+      float: none;
+      flex: 0 1 auto;
+      margin-left: 0 !important;
+      line-height: 32px;
+      white-space: nowrap;
+    }
+
+    .el-radio-group {
+      white-space: nowrap;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .el-radio {
+      margin-right: 20px;
     }
   }
   .el-table__expand-icon {
@@ -54,49 +118,96 @@
     margin-right: 6px;
   }
 }
+.activity-page-subtitle {
+  margin: -12px 0 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #999;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 12px;
+
+  &__divider {
+    color: #dcdfe6;
+  }
+}
 </style>
 <template>
   <SpPage :title="$t('2ff5650c.498c0f')">
+    <p v-if="activityId" class="activity-page-subtitle">
+      <span>{{ $t('39c20259.be3322') }}：{{ activityId }}</span>
+      <span v-if="activityName" class="activity-page-subtitle__divider">|</span>
+      <span v-if="activityName">{{ $t('39c20259.39834b') }}：{{ activityName }}</span>
+    </p>
     <div class="marketing-employee-addgoods">
       <el-card class="el-card--normal" :header="$t('2ff5650c.42f9f7')">
         <SpForm
           ref="formBase"
           v-model="formBase"
           class="base-form"
+          label-position="left"
           :label-width="'80px'"
           :form-list="formBaseList"
           :submit="false"
         />
         <!-- {{ queryForm }} -->
-        <SpFilterForm :model="queryForm" @onSearch="onSearch" @onReset="onSearch">
-          <SpFilterFormItem prop="main_cat_id" :label="$t('2ff5650c.e73602')">
-            <el-cascader
-              v-model="queryForm.main_cat_id"
-              :options="categoryList"
-              :props="{ checkStrictly: true, label: 'category_name', value: 'category_id' }"
-              clearable
-            />
-          </SpFilterFormItem>
-          <SpFilterFormItem prop="category" :label="$t('2ff5650c.7ef1b3')">
-            <el-cascader
-              v-model="queryForm.category"
-              :options="salesCategoryList"
-              :props="{
-                checkStrictly: true,
-                label: 'category_name',
-                value: 'category_id',
-                emitPath: false
-              }"
-              clearable
-            />
-          </SpFilterFormItem>
-          <SpFilterFormItem prop="item_name" :label="$t('2ff5650c.752597')">
-            <el-input v-model="queryForm.item_name" :placeholder="$t('2ff5650c.d83187')" />
-          </SpFilterFormItem>
-          <SpFilterFormItem prop="item_bn" :label="$t('2ff5650c.d1d3e6')">
-            <el-input v-model="queryForm.item_bn" :placeholder="$t('2ff5650c.40a487')" />
-          </SpFilterFormItem>
-        </SpFilterForm>
+        <div class="activity-goods-filter-wrap">
+          <SpFilterForm
+            class="activity-goods-filter"
+            :model="queryForm"
+            @onSearch="onSearch"
+            @onReset="onFilterReset"
+          >
+            <SpFilterFormItem prop="item_name" :label="$t('2ff5650c.752597')">
+              <el-input v-model="queryForm.item_name" :placeholder="$t('2ff5650c.d83187')" />
+            </SpFilterFormItem>
+            <SpFilterFormItem prop="item_bn" :label="$t('2ff5650c.d1d3e6')">
+              <el-input v-model="queryForm.item_bn" :placeholder="$t('2ff5650c.40a487')" />
+            </SpFilterFormItem>
+            <div class="filter-row-break" />
+            <SpFilterFormItem prop="shelf_status" :label="$t('d41d8cd9.3fea7c')">
+              <el-select v-model="queryForm.shelf_status" clearable :placeholder="$t('b7aea01d.a8b0c2')">
+                <el-option :label="$t('b7aea01d.4a5098')" :value="1" />
+                <el-option :label="$t('b7aea01d.d2379a')" :value="0" />
+              </el-select>
+            </SpFilterFormItem>
+            <SpFilterFormItem prop="category" :label="$t('2ff5650c.7ef1b3')">
+              <el-cascader
+                v-model="queryForm.category"
+                :options="salesCategoryList"
+                :props="{
+                  checkStrictly: true,
+                  label: 'category_name',
+                  value: 'category_id',
+                  emitPath: false
+                }"
+                clearable
+              />
+            </SpFilterFormItem>
+            <template v-if="categoryFilterVisible">
+              <SpFilterFormItem prop="main_cat_id" :label="$t('2ff5650c.e73602')">
+                <el-cascader
+                  v-model="queryForm.main_cat_id"
+                  :options="categoryList"
+                  :props="{ checkStrictly: true, label: 'category_name', value: 'category_id' }"
+                  clearable
+                />
+              </SpFilterFormItem>
+            </template>
+          </SpFilterForm>
+          <div class="filter-category-toggle">
+            <el-button type="text" @click="toggleCategoryFilter">
+              <div class="flex items-center">
+                <span>{{ categoryFilterToggleText }}</span>
+                <SpIcon
+                  :class="{ 'extend-icon': true, 'extend-active': categoryFilterVisible }"
+                  name="chevrons-down"
+                />
+              </div>
+            </el-button>
+          </div>
+        </div>
 
         <div class="action-container">
           <!-- 平台端 来源店铺非平台则隐藏 -->
@@ -330,12 +441,12 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="shelf_status" :label="$t('2ff5650c.f3a8c1')" width="90">
+          <el-table-column prop="shelf_status" :label="$t('d41d8cd9.3fea7c')" width="90">
             <template
               v-if="(scope.row.nospec == 'false' && scope.row.is_sku) || scope.row.nospec == 'true'"
               slot-scope="scope"
             >
-              <span>{{ Number(scope.row.shelf_status) === 1 ? $t('2ff5650c.e7b2d4') : $t('2ff5650c.c9f1a6') }}</span>
+              <span>{{ Number(scope.row.shelf_status) === 1 ? $t('b7aea01d.4a5098') : $t('b7aea01d.d2379a') }}</span>
             </template>
           </el-table-column>
           <el-table-column fixed="left" :label="$t('2ff5650c.2b6bc0')" width="120px">
@@ -345,7 +456,7 @@
                 type="text"
                 @click="toggleShelfStatus(scope.row)"
               >
-                {{ Number(scope.row.shelf_status) === 1 ? $t('2ff5650c.c9f1a6') : $t('2ff5650c.e7b2d4') }}
+                {{ Number(scope.row.shelf_status) === 1 ? $t('b7aea01d.d2379a') : $t('b7aea01d.4a5098') }}
               </el-button>
             </template>
           </el-table-column>
@@ -424,7 +535,8 @@ export default {
         main_cat_id: [],
         category: '',
         item_name: '',
-        item_bn: ''
+        item_bn: '',
+        shelf_status: ''
       },
       categoryList: [],
       salesCategoryList: [],
@@ -433,6 +545,9 @@ export default {
       pageSize: 20,
       total: 0,
       loading: false,
+      activityName: '',
+      activityId: '',
+      categoryFilterVisible: false,
       tempModify: {
         activity_price: 0,
         activity_store: 0,
@@ -481,6 +596,12 @@ export default {
         { label: this.$t('2ff5650c.343488'), key: 'limit_num', type: 'input' },
         { label: this.$t('2ff5650c.8a34e8'), key: 'limit_fee', type: 'input' }
       ]
+    },
+    categoryFilterToggleText() {
+      const action = this.categoryFilterVisible
+        ? this.$t('7a07d52e.def9e9')
+        : this.$t('7a07d52e.e2edde')
+      return `${action}${this.$t('1f1701db.d0771a')}`
     }
   },
   async created() {
@@ -498,6 +619,16 @@ export default {
     }).nextPage()
   },
   methods: {
+    toggleCategoryFilter() {
+      this.categoryFilterVisible = !this.categoryFilterVisible
+    },
+    onFilterReset() {
+      if (!this.categoryFilterVisible) {
+        this.queryForm.main_cat_id = []
+      }
+      this.categoryFilterVisible = false
+      this.onSearch()
+    },
     handleImport() {
       this.importDialog = true
     },
@@ -556,8 +687,10 @@ export default {
     },
     async getActivityItemDetail() {
       const { id } = this.$route.params
-      const { if_share_store } = await this.$api.marketing.getActivityItemDetail(id)
-      this.formBase.value = if_share_store ? '1' : '2'
+      const res = await this.$api.marketing.getActivityItemDetail(id)
+      this.activityId = res.id || id
+      this.activityName = res.name || ''
+      this.formBase.value = res.if_share_store ? '1' : '2'
     },
     async onSelectGoods() {
       const {
