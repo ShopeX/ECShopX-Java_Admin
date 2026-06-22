@@ -368,6 +368,7 @@
           :file-name="$t('5f45d286.3dd83a')"
           :table-height="420"
           :extra-params="importExtraParams"
+          :operation-tip="$t('2ff5650c.c7d8e9')"
         />
       </el-dialog>
 
