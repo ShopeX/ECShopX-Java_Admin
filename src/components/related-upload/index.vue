@@ -208,11 +208,19 @@ export default {
         page: this.page,
         pageSize: this.pageSize
       }
-      getUploadLists(params).then((response) => {
-        this.uploadList = response.data.data.list
-        this.total_count = response.data.data.total_count
-        this.loading = false
-      })
+      getUploadLists(params)
+        .then((response) => {
+          const payload = response?.data?.data || {}
+          this.uploadList = payload.list || []
+          this.total_count = payload.total_count || 0
+        })
+        .catch(() => {
+          this.uploadList = []
+          this.total_count = 0
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }

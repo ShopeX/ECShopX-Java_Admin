@@ -356,9 +356,12 @@
         :title="$t('2ff5650c.6a4607')"
         :visible.sync="importDialog"
         width="900px"
+        append-to-body
+        destroy-on-close
+        :close-on-click-modal="false"
         @closed="onImportDialogClosed"
       >
-        <RelatedUpload
+        <related-upload
           v-if="importDialog"
           file-type="employee_purchase_activity_items"
           :related-id="$route.params.id"
