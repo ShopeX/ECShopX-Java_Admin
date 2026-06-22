@@ -330,10 +330,22 @@
               </el-popover>
             </template>
           </el-table-column>
+          <el-table-column prop="shelf_status" :label="$t('2ff5650c.f3a8c1')" width="90">
+            <template
+              v-if="(scope.row.nospec == 'false' && scope.row.is_sku) || scope.row.nospec == 'true'"
+              slot-scope="scope"
+            >
+              <span>{{ Number(scope.row.shelf_status) === 1 ? $t('2ff5650c.e7b2d4') : $t('2ff5650c.c9f1a6') }}</span>
+            </template>
+          </el-table-column>
           <el-table-column fixed="left" :label="$t('2ff5650c.2b6bc0')" width="120px">
             <template slot-scope="scope">
-              <el-button v-if="!adminDisabled" type="text" @click="removeActivityItem(scope.row)">
-                {{ $t('2ff5650c.86048b') }}
+              <el-button
+                v-if="!adminDisabled && ((scope.row.nospec == 'false' && scope.row.is_sku) || scope.row.nospec == 'true')"
+                type="text"
+                @click="toggleShelfStatus(scope.row)"
+              >
+                {{ Number(scope.row.shelf_status) === 1 ? $t('2ff5650c.c9f1a6') : $t('2ff5650c.e7b2d4') }}
               </el-button>
             </template>
           </el-table-column>
@@ -599,12 +611,14 @@ export default {
         item['limit_fee'] = item.limit_fee / 100
         item['tid'] = ++tindex
         item['checked'] = false
+        item['shelf_status'] = item.shelf_status === undefined || item.shelf_status === null ? 1 : Number(item.shelf_status)
         if (typeof item.spec_items != 'undefined') {
           item.spec_items.forEach((sitem) => {
             sitem['is_sku'] = true
             sitem['activity_price'] = sitem.activity_price / 100
             sitem['limit_fee'] = sitem.limit_fee / 100
             sitem['tid'] = ++tindex
+            sitem['shelf_status'] = sitem.shelf_status === undefined || sitem.shelf_status === null ? 1 : Number(sitem.shelf_status)
           })
         }
       })
@@ -629,15 +643,19 @@ export default {
       })
       this.pagesQuery.reset()
     },
-    async removeActivityItem({ item_id, is_sku }) {
+    async toggleShelfStatus({ item_id, is_sku, shelf_status }) {
       const { id } = this.$route.params
-      await this.$confirm(this.$t('2ff5650c.b28efa'), this.$t('bea3f44a.02d981'))
-      let params = {}
-      if (!is_sku) {
-        params['all'] = 1
+      const params = {
+        activity_id: id,
+        item_id,
+        shelf_status: Number(shelf_status) === 1 ? 0 : 1
       }
-      await this.$api.marketing.deleteActivityItem(id, item_id, params)
-      this.pagesQuery.reset()
+      if (!is_sku) {
+        params.all = 1
+      }
+      await this.$api.marketing.updateActivityItem(params)
+      this.$message.success(this.$t('2ff5650c.33130f'))
+      this.pagesQuery.refresh()
     },
     async onModifyActivityItem(item, key) {
       const { id } = this.$route.params
