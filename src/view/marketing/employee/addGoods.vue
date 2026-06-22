@@ -11,9 +11,18 @@
 
     .sp-filter-form {
       margin-bottom: 0;
+
+      .extend-wrap {
+        display: none;
+      }
     }
 
     .activity-goods-filter.sp-filter-form.shouqi {
+      max-height: 220px;
+      overflow: hidden;
+    }
+
+    .activity-goods-filter.is-category-expanded.sp-filter-form.shouqi {
       max-height: none;
       overflow: visible;
     }
@@ -155,6 +164,7 @@
         <div class="activity-goods-filter-wrap">
           <SpFilterForm
             class="activity-goods-filter"
+            :class="{ 'is-category-expanded': categoryFilterVisible }"
             :model="queryForm"
             @onSearch="onSearch"
             @onReset="onFilterReset"
@@ -185,6 +195,7 @@
                 clearable
               />
             </SpFilterFormItem>
+            <div class="filter-row-break" />
             <template v-if="categoryFilterVisible">
               <SpFilterFormItem prop="main_cat_id" :label="$t('2ff5650c.e73602')">
                 <el-cascader
