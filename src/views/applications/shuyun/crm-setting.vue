@@ -18,29 +18,6 @@
 
       <div class="settings-divider" />
 
-      <section class="settings-section">
-        <div class="settings-label settings-label--block">{{ $t('8b2c4d1e.e003') }}</div>
-        <el-button
-          type="primary"
-          class="settings-action-btn"
-          native-type="button"
-          :disabled="hasPlatform"
-          :loading="createLoading"
-          @click="handleCreatePlatform"
-        >
-          {{ hasPlatform ? $t('8b2c4d1e.e012') : $t('8b2c4d1e.e003') }}
-        </el-button>
-        <div v-if="hasPlatform" class="settings-platform-block">
-          <div class="settings-hint">{{ $t('8b2c4d1e.e014') }}</div>
-          <div class="settings-hint settings-platform-code">{{ platCodeDisplay }}</div>
-        </div>
-        <div v-else class="settings-hint settings-hint--error">
-          {{ $t('8b2c4d1e.e004') }}
-        </div>
-      </section>
-
-      <div class="settings-divider" />
-
       <form
         v-if="credentialsRendered"
         class="shuyun-crm-credentials"
@@ -101,8 +78,6 @@ export default {
     return {
       loading: false,
       saveLoading: false,
-      createLoading: false,
-      plat_code: '',
       credentialsRendered: false,
       credentialInputKey: 0,
       appSecretMaskedSnapshot: '',
@@ -111,15 +86,6 @@ export default {
         app_id: '',
         app_secret: ''
       }
-    }
-  },
-  computed: {
-    hasPlatform() {
-      return Boolean(this.platCodeDisplay)
-    },
-    platCodeDisplay() {
-      const v = this.plat_code == null ? '' : String(this.plat_code).trim()
-      return v
     }
   },
   mounted() {
@@ -150,8 +116,6 @@ export default {
       } else {
         this.form.app_secret = ''
       }
-      const pc = data.plat_code
-      this.plat_code = pc == null || pc === '' ? '' : String(pc).trim()
     },
     async loadConfig() {
       this.loading = true
@@ -166,32 +130,6 @@ export default {
         this.$nextTick(() => {
           this.credentialsRendered = true
         })
-      }
-    },
-    async handleCreatePlatform() {
-      if (
-        this.appSecretMaskedSnapshot &&
-        this.form.app_secret === this.appSecretMaskedSnapshot
-      ) {
-        this.$message.warning(this.$t('8b2c4d1e.e015'))
-        return
-      }
-      this.createLoading = true
-      try {
-        const res = await this.$api.third.createShuyunCrmPlatform({
-          app_id: this.form.app_id,
-          app_secret: this.form.app_secret
-        })
-        if (res && res.plat_code != null && String(res.plat_code).trim() !== '') {
-          this.plat_code = String(res.plat_code).trim()
-        }
-        this.$message.success(this.$t('8b2c4d1e.e00d'))
-        await this.loadConfig()
-      } catch (e) {
-        const msg = e?.data?.message || e?.data?.error || this.$t('8b2c4d1e.e00e')
-        this.$message.error(msg)
-      } finally {
-        this.createLoading = false
       }
     },
     async handleSave() {
@@ -276,28 +214,11 @@ export default {
   background: #ebeef5;
 }
 
-.settings-action-btn {
-  border-radius: 6px;
-}
-
 .settings-hint {
   margin-top: 8px;
   font-size: 13px;
   line-height: 20px;
   color: #999;
-}
-
-.settings-hint--error {
-  color: #f56c6c;
-}
-
-.settings-platform-block {
-  margin-top: 8px;
-}
-
-.settings-platform-code {
-  margin-top: 4px;
-  word-break: break-all;
 }
 
 .settings-input {
