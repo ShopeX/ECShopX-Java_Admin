@@ -11,6 +11,11 @@
 }
 .related-upload__operation-tip {
   margin-bottom: 12px;
+
+  .el-alert__title {
+    white-space: pre-line;
+    line-height: 1.6;
+  }
 }
 </style>
 

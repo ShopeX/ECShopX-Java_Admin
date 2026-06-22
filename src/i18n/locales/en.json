@@ -17968,7 +17968,7 @@
   "2ff5650c.8a34e8": "Limit per person",
   "2ff5650c.c5c5f2": "Please select goods",
   "2ff5650c.b28efa": "Confirm delete?",
-  "2ff5650c.c7d8e9": "Do not switch inventory type while processing!",
+  "2ff5650c.c7d8e9": "Note\n1. This import fully replaces activity products; successful rows will overwrite the current list.\n2. Do not switch inventory mode (shared mall stock / activity-only stock) until processing completes.",
   "39e3acc2.34213d": "Employee purchase activity",
   "39e3acc2.6ea1fe": "Basic info",
   "39e3acc2.02a217": "Activity rules",
