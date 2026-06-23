@@ -231,6 +231,9 @@
           <el-button type="primary" :disabled="adminDisabled" plain @click="handlePatchAction">
             {{ $t('2ff5650c.475dd0') }}
           </el-button>
+          <el-button type="primary" :disabled="adminDisabled" plain @click="handleBatchShelfAction">
+            {{ $t('2ff5650c.d8f1a2') }}
+          </el-button>
         </div>
 
         <el-table
@@ -514,6 +517,15 @@
         :form-list="patchFormList"
         @onSubmit="onPatchChangeSubmit"
       />
+
+      <SpDialog
+        ref="batchShelfDialogRef"
+        v-model="batchShelfDialog"
+        :title="$t('2ff5650c.d8f1a2')"
+        :form="batchShelfForm"
+        :form-list="batchShelfFormList"
+        @onSubmit="onBatchShelfSubmit"
+      />
     </div>
   </SpPage>
 </template>
@@ -534,6 +546,11 @@ export default {
       distributor_id: null,
       importDialog: false,
       patchDialog: false,
+      batchShelfDialog: false,
+      batchShelfForm: {
+        item_id: [],
+        shelf_status: 1
+      },
       patchForm: {
         item_id: [],
         activity_price: 0,
@@ -608,6 +625,19 @@ export default {
         { label: this.$t('2ff5650c.8a34e8'), key: 'limit_fee', type: 'input' }
       ]
     },
+    batchShelfFormList() {
+      return [
+        {
+          label: this.$t('d41d8cd9.3fea7c'),
+          key: 'shelf_status',
+          type: 'radio',
+          options: [
+            { name: this.$t('b7aea01d.4a5098'), label: 1 },
+            { name: this.$t('b7aea01d.d2379a'), label: 0 }
+          ]
+        }
+      ]
+    },
     categoryFilterToggleText() {
       const action = this.categoryFilterVisible
         ? this.$t('7a07d52e.def9e9')
@@ -646,25 +676,55 @@ export default {
     onImportDialogClosed() {
       this.pagesQuery.refresh()
     },
-    handlePatchAction() {
+    collectSelectedItemIds() {
       const selectItems = this.tableData.filter((item) => !!item.checked)
-      if (selectItems.length > 0) {
-        let itemIds = []
-        selectItems.forEach((item) => {
-          // 单规格
-          if (item.nospec == 'true') {
-            itemIds.push(item.item_id)
-          } else if (typeof item.spec_items != 'undefined') {
-            item.spec_items.forEach((sitem) => {
-              itemIds.push(sitem.item_id)
-            })
-          }
-        })
+      if (!selectItems.length) {
+        return []
+      }
+      const itemIds = []
+      selectItems.forEach((item) => {
+        if (item.nospec == 'true') {
+          itemIds.push(item.item_id)
+        } else if (typeof item.spec_items != 'undefined') {
+          item.spec_items.forEach((sitem) => {
+            itemIds.push(sitem.item_id)
+          })
+        }
+      })
+      return itemIds
+    },
+    handlePatchAction() {
+      const itemIds = this.collectSelectedItemIds()
+      if (itemIds.length > 0) {
         this.patchForm.item_id = itemIds
         this.patchDialog = true
       } else {
         this.$message.error(this.$t('2ff5650c.c5c5f2'))
       }
+    },
+    handleBatchShelfAction() {
+      const itemIds = this.collectSelectedItemIds()
+      if (itemIds.length > 0) {
+        this.batchShelfForm = {
+          item_id: itemIds,
+          shelf_status: 1
+        }
+        this.batchShelfDialog = true
+      } else {
+        this.$message.error(this.$t('2ff5650c.c5c5f2'))
+      }
+    },
+    async onBatchShelfSubmit() {
+      const { id } = this.$route.params
+      const { item_id, shelf_status } = this.batchShelfForm
+      await this.$api.marketing.updateActivityItem({
+        activity_id: id,
+        item_id,
+        shelf_status: Number(shelf_status)
+      })
+      this.batchShelfDialog = false
+      this.$message.success(this.$t('2ff5650c.33130f'))
+      this.pagesQuery.refresh()
     },
     async onPatchChangeSubmit() {
       const { id } = this.$route.params
