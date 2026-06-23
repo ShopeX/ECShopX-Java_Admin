@@ -153,6 +153,7 @@
             <span v-if="refundDetail.pay_type == 'ebuy'">{{ $t('eb172bd4.a2e703') }}</span>
             <span v-if="refundDetail.pay_type == 'point'">{{ $t('eb172bd4.accd19') }}</span>
             <span v-if="refundDetail.pay_type == 'pos'">{{ $t('eb172bd4.d37dec') }}</span>
+            <span v-if="refundDetail.pay_type == 'doumen_intl'">斗门国际</span>
           </el-col>
         </el-row>
         <el-row>
