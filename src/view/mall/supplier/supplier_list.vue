@@ -213,7 +213,10 @@ export default {
       this.$refs['finder'].refresh(true)
     },
     async editRow(row) {
-      this.editForm = { ...row }
+      this.editForm = {
+        ...row,
+        is_check: row.is_check != null && row.is_check !== '' ? String(row.is_check) : '0'
+      }
       this.editDialog = true
       this.loading = false
     },
