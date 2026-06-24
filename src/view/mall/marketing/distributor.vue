@@ -293,6 +293,7 @@
               v-model="scope.row.auto_sync_goods"
               active-color="#13ce66"
               inactive-color="#cccccc"
+              :disabled="scope.row.is_platform_store_buy"
               @change="switchChangeAutoSyncGoods(scope.$index, scope.row)"
             />
           </template>
@@ -357,13 +358,13 @@
             />
           </template>
         </el-table-column> -->
-        <el-table-column width="120" :label="$t('b2fe051e.2e433b')">
+        <el-table-column width="150" :label="$t('b2fe051e.2e433b')">
           <template v-if="scope.row.is_valid !== 'delete'" slot-scope="scope">
             <el-switch
               v-model="scope.row.is_platform_store_buy"
               active-color="#13ce66"
               inactive-color="#cccccc"
-              @change="switchChange(scope.$index, scope.row)"
+              @change="switchChangePlatformStoreBuy(scope.$index, scope.row)"
             />
           </template>
         </el-table-column>
@@ -1369,9 +1370,31 @@ export default {
       })
     },
     switchChangeAutoSyncGoods(index, row) {
+      if (row.is_platform_store_buy) {
+        row.auto_sync_goods = false
+        return
+      }
       var params = {
         distributor_id: row.distributor_id,
         auto_sync_goods: row.auto_sync_goods
+      }
+      saveDistributor(params).then((response) => {
+        this.detailDialog = false
+        this.fetchList()
+        this.$message({
+          type: 'success',
+          message: this.$t('b2fe051e.3b1083')
+        })
+      })
+    },
+    switchChangePlatformStoreBuy(index, row) {
+      const params = {
+        distributor_id: row.distributor_id,
+        is_platform_store_buy: row.is_platform_store_buy
+      }
+      if (row.is_platform_store_buy) {
+        row.auto_sync_goods = false
+        params.auto_sync_goods = false
       }
       saveDistributor(params).then((response) => {
         this.detailDialog = false
