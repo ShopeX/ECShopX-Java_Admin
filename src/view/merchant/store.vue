@@ -129,6 +129,10 @@ export default {
         value: 1
       })
     }
+    const isCloudStore = this.VERSION_STANDARD()
+    const storeStatusEnableKey = isCloudStore ? '027707af.c8f21a' : '027707af.7854b5'
+    const storeStatusDisableKey = isCloudStore ? '027707af.d9e32b' : '027707af.710ad0'
+    const storeStatusTipKey = isCloudStore ? '027707af.e0f43c' : '027707af.3c751e'
     return {
       form: {
         distribution_type: 0, // 店铺类型： 0=自营；1=加盟
@@ -470,10 +474,10 @@ export default {
           label: this.$t('027707af.6d7cb8'),
           key: 'is_valid',
           type: 'radio',
-          tip: this.$t('027707af.3c751e'),
+          tip: this.$t(storeStatusTipKey),
           options: [
-            { name: this.$t('027707af.7854b5'), label: 'true' },
-            { name: this.$t('027707af.710ad0'), label: 'false' },
+            { name: this.$t(storeStatusEnableKey), label: 'true' },
+            { name: this.$t(storeStatusDisableKey), label: 'false' },
             { name: this.$t('027707af.d2b1c3'), label: 'closed' },
             { name: this.$t('027707af.0044f6'), label: 'delete' }
           ],
