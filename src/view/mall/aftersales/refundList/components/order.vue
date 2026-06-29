@@ -227,7 +227,7 @@
             <span v-if="scope.row.pay_type == 'hfpay'">{{ $t('822436ab.bb68ee') }}</span>
             <span v-if="scope.row.pay_type == 'chinaums'">{{ $t('822436ab.1d7dae') }}</span>
             <span v-if="scope.row.pay_type == 'offline_pay'">{{ $t('822436ab.2d8019') }}</span>
-            <span v-if="scope.row.pay_type == 'doumen_intl'">斗门国际</span>
+            <span v-if="scope.row.pay_type == 'doumen_intl'">{{ $t('822436ab.e37lpb') }}</span>
           </template>
         </el-table-column>
         <el-table-column width="180" :label="$t('822436ab.a0cd4c')">
