@@ -259,6 +259,14 @@ export default {
           icon: require('@/assets/pay_logo/paypal.png'),
           enabled: false,
           isShow: true
+        },
+        {
+          name: 'doumen_intl',
+          title: '斗门国际',
+          descriptionKey: '10d92d52.ed7207',
+          icon: '',
+          enabled: false,
+          isShow: true
         }
       ],
 
@@ -269,7 +277,8 @@ export default {
         chinaumspay: {},
         offline_pay: {},
         bspay: {},
-        paypal: {}
+        paypal: {},
+        doumen_intl: {}
       },
       publicKeyDialogForm: {
         rsa_public_key: ''
@@ -339,6 +348,10 @@ export default {
     paypalFormItems() {
       // PayPal
       return this.getPaypalFormItems()
+    },
+    doumenIntlFormItems() {
+      // 斗门国际
+      return this.getDoumenIntlFormItems()
     },
     accountsSetting() {
       return {
@@ -443,7 +456,8 @@ export default {
         'adapay',
         'offline_pay',
         'bspay',
-        'paypal'
+        'paypal',
+        'doumen_intl'
       ]
 
       for (const payType of paymentTypes) {
@@ -508,7 +522,8 @@ export default {
         chinaumspay: this.getChinaumspayFormItems(),
         offline_pay: this.getOfflineFormItems(),
         bspay: this.getBspayFormItems(),
-        paypal: this.getPaypalFormItems()
+        paypal: this.getPaypalFormItems(),
+        doumen_intl: this.getDoumenIntlFormItems()
       }
 
       return formConfigs[payType] || []
@@ -1059,6 +1074,65 @@ export default {
       ]
     },
 
+    // 斗门国际表单配置
+    getDoumenIntlFormItems() {
+      const formData = this.paymentForms.doumen_intl || {}
+      const maskedSecret = this.isMaskedSecret(formData['X-SecretKey'])
+      return [
+        {
+          fieldName: 'group1',
+          label: '基础配置',
+          component: 'group'
+        },
+        {
+          fieldName: 'X-AccessCode',
+          label: 'X-AccessCode',
+          component: 'input',
+          value: formData['X-AccessCode'] || '',
+          componentProps: {
+            placeholder: '请输入 X-AccessCode',
+            style: 'width: 300px'
+          }
+        },
+        {
+          fieldName: 'X-SecretKey',
+          label: 'X-SecretKey',
+          component: 'input',
+          value: maskedSecret ? '' : formData['X-SecretKey'] || '',
+          componentProps: {
+            type: 'password',
+            placeholder: maskedSecret ? `${formData['X-SecretKey']}（留空则不修改）` : '请输入 X-SecretKey',
+            style: 'width: 300px'
+          }
+        },
+        {
+          fieldName: 'appId',
+          label: 'appId',
+          component: 'input',
+          value: formData.appId || '',
+          componentProps: {
+            placeholder: '请输入 appId',
+            style: 'width: 300px'
+          }
+        },
+        {
+          fieldName: 'return_url',
+          label: 'return_url',
+          component: 'input',
+          formItemClass: 'w-3/4',
+          value: formData.return_url || '',
+          componentProps: {
+            placeholder: '请输入支付完成跳转地址',
+            style: 'width: 600px'
+          }
+        }
+      ]
+    },
+
+    isMaskedSecret(value) {
+      return typeof value === 'string' && value.startsWith('****')
+    },
+
     // PayPal表单配置
     getPaypalFormItems() {
       const formData = this.paymentForms.paypal || {}
@@ -1153,6 +1227,12 @@ export default {
           delete params.cert_url
           delete params.cert_key_name
           delete params.cert_key_url
+        }
+        if (payType === 'doumen_intl') {
+          const secretKey = params['X-SecretKey']
+          if (!secretKey || this.isMaskedSecret(secretKey)) {
+            params['X-SecretKey'] = ''
+          }
         }
 
         await this.$api.trade.setPaymentSetting(params)
