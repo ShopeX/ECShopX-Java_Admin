@@ -21,7 +21,7 @@
       <el-table-column prop="title" :label="$t('7c0967bc.dfeeea')" />
       <el-table-column prop="currency" :label="$t('7c0967bc.64bc57')" />
       <el-table-column prop="symbol" :label="$t('7c0967bc.61134f')" />
-      <el-table-column prop="rate" :label="$t('7c0967bc.f8d735')" />
+      <!-- <el-table-column prop="rate" :label="$t('7c0967bc.f8d735')" /> -->
       <el-table-column prop="is_default" :label="$t('7c0967bc.69c562')">
         <template slot-scope="scope">
           <el-switch
@@ -74,7 +74,7 @@
               <el-input v-model="form.symbol" required :placeholder="$t('7c0967bc.0875ef')" />
             </el-col>
           </el-form-item>
-          <el-form-item :label="$t('7c0967bc.f8d735')" prop="rate">
+          <!-- <el-form-item :label="$t('7c0967bc.f8d735')" prop="rate">
             <el-col :span="10">
               <el-input v-model="form.rate" required placeholder="1" />
             </el-col>
@@ -84,15 +84,15 @@
             <el-col v-else-if="form.rate && form.currency" :span="10">
               1 {{ form.currency }} = {{ form.rate }} RMB
             </el-col>
-          </el-form-item>
+          </el-form-item> -->
 
-          <el-form-item :label="$t('7c0967bc.e84cc3')" prop="rate">
+          <!-- <el-form-item :label="$t('7c0967bc.e84cc3')" prop="rate">
             <el-col :span="10">
               <el-radio v-model="form.use_platform" label="normal" value="normal">
                 {{ $t('7c0967bc.635670') }}
               </el-radio>
             </el-col>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
       </template>
       <div slot="footer" class="dialog-footer">
@@ -126,7 +126,7 @@ export default {
         symbol: '',
         currency: '',
         title: '',
-        rate: '',
+        rate: 1, //'',
         is_default: false,
         use_platform: 'normal'
       },
@@ -161,7 +161,7 @@ export default {
       this.form.symbol = ''
       this.form.currency = ''
       this.form.title = ''
-      this.form.rate = ''
+      this.form.rate = 1 //''
       this.form.is_default = false
       this.id = ''
     },
