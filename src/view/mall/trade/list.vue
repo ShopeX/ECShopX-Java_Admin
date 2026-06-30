@@ -184,6 +184,16 @@
             <el-table-column :label="$t('35ec026d.a6d10d')" width="200">
               <template slot-scope="scope">
                 <div class="order-num">
+                  {{ scope.row.orderId }}
+                  <el-tooltip effect="dark" :content="$t('35ec026d.79d3ab')" placement="top-start">
+                    <i
+                      v-clipboard:copy="scope.row.orderId"
+                      v-clipboard:success="onCopySuccess"
+                      class="el-icon-document-copy"
+                    />
+                  </el-tooltip>
+                </div>
+                <div class="order-num">
                   <el-tooltip effect="dark" :content="$t('35ec026d.b58943')" placement="top-start">
                     <i class="el-icon-mobile" />
                   </el-tooltip>
