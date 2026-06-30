@@ -6,6 +6,13 @@ export default {
   defaultSettings: {
     pc_image: '',
     mobile_image: '',
+    link: {
+      linkType: 0,
+      linkUrl: '',
+      linkPage: '',
+      id: '',
+      title: ''
+    },
     introduction: '提供背景或介绍，吸引用户注意',
     introduction_size: 's',
     heading: '关键主题或焦点，简明直接',
