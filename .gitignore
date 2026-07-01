@@ -23,4 +23,5 @@ openspec/
 dist/
 .cursor/commit-summary/
 .codegraph/
+.cursor/skills/
 
