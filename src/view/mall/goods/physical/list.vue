@@ -150,79 +150,101 @@
       <SpDrawer
         v-model="showMemberPriceDrawer"
         :title="$t('dc9cefd6.fb2f7a')"
-        :width="800"
+        :width="1200"
         :confirm-text="$t('dc9cefd6.be5fbb')"
         @confirm="onSaveMemberPrice"
       >
-        <el-table v-loading="skuLoading" border :data="specItems" height="100%">
-          <el-table-column :label="$t('dc9cefd6.ea887b')" prop="item_spec_desc" min-width="120" />
-          <el-table-column :label="$t('dc9cefd6.818fc4')" prop="market_price" width="160">
-            <template slot-scope="scope">
-              <el-input-number
-                v-model="scope.row.market_price"
-                controls-position="right"
-                :min="0"
-                :precision="2"
-                style="width: 120px"
-                @change="updateGoodsSkuPrice(scope.row, 'market_price')"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('dc9cefd6.e29575')" width="160">
-            <template slot-scope="scope">
-              <el-input-number
-                v-model="scope.row.price"
-                controls-position="right"
-                :min="0"
-                :precision="2"
-                style="width: 120px"
-                @change="updateGoodsSkuPrice(scope.row, 'price')"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('dc9cefd6.2e2ce2')" width="160">
-            <template slot-scope="scope">
-              <el-input-number
-                v-model="scope.row.cost_price"
-                controls-position="right"
-                :min="0"
-                :precision="2"
-                style="width: 120px"
-                @change="updateGoodsSkuPrice(scope.row, 'cost_price')"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('dc9cefd6.4d9dd5')">
-            <el-table-column v-for="(item, index) in grade" :key="index" :label="item.grade_name">
-              <template slot-scope="scope">
-                <el-input-number
-                  v-model="scope.row.grade[index].mprice"
-                  controls-position="right"
-                  :min="0"
-                  :precision="2"
-                  style="width: 120px"
-                />
-              </template>
-            </el-table-column>
-          </el-table-column>
-          <el-table-column :label="$t('dc9cefd6.bc0883')">
+        <el-alert
+          class="mb-4"
+          type="info"
+          :closable="false"
+          show-icon
+          :title="$t('dc9cefd6.b8f2c1')"
+        />
+        <div class="member-price-drawer-table">
+          <el-table v-loading="skuLoading" border :data="specItems">
             <el-table-column
-              v-for="(item, index) in vipGrade"
-              :key="index"
-              :label="item.grade_name"
-            >
+              :label="$t('dc9cefd6.ea887b')"
+              prop="item_spec_desc"
+              min-width="140"
+              fixed
+            />
+            <el-table-column :label="$t('dc9cefd6.818fc4')" width="150" align="center">
               <template slot-scope="scope">
                 <el-input-number
-                  v-model="scope.row.vipGrade[index].mprice"
+                  v-model="scope.row.market_price"
+                  class="member-price-input"
                   controls-position="right"
                   :min="0"
                   :precision="2"
-                  style="width: 120px"
+                  @blur="updateGoodsSkuPrice(scope.row, 'market_price')"
                 />
               </template>
             </el-table-column>
-          </el-table-column>
-        </el-table>
+            <el-table-column :label="$t('dc9cefd6.e29575')" width="150" align="center">
+              <template slot-scope="scope">
+                <el-input-number
+                  v-model="scope.row.price"
+                  class="member-price-input"
+                  controls-position="right"
+                  :min="0"
+                  :precision="2"
+                  @blur="updateGoodsSkuPrice(scope.row, 'price')"
+                />
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('dc9cefd6.2e2ce2')" width="150" align="center">
+              <template slot-scope="scope">
+                <el-input-number
+                  v-model="scope.row.cost_price"
+                  class="member-price-input"
+                  controls-position="right"
+                  :min="0"
+                  :precision="2"
+                  @blur="updateGoodsSkuPrice(scope.row, 'cost_price')"
+                />
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('dc9cefd6.4d9dd5')" align="center">
+              <el-table-column
+                v-for="(item, index) in grade"
+                :key="`grade-${item.vip_grade_id || index}`"
+                :label="item.grade_name"
+                width="130"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <el-input-number
+                    v-model="scope.row.grade[index].mprice"
+                    class="member-price-input"
+                    controls-position="right"
+                    :min="0"
+                    :precision="2"
+                  />
+                </template>
+              </el-table-column>
+            </el-table-column>
+            <el-table-column :label="$t('dc9cefd6.bc0883')" align="center">
+              <el-table-column
+                v-for="(item, index) in vipGrade"
+                :key="`vip-${item.vip_grade_id || index}`"
+                :label="item.grade_name"
+                width="130"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <el-input-number
+                    v-model="scope.row.vipGrade[index].mprice"
+                    class="member-price-input"
+                    controls-position="right"
+                    :min="0"
+                    :precision="2"
+                  />
+                </template>
+              </el-table-column>
+            </el-table-column>
+          </el-table>
+        </div>
       </SpDrawer>
 
       <!-- 设置商品库存 -->
@@ -567,6 +589,7 @@ export default {
       showMemberPriceDrawer: false,
       showItemStoreDrawer: false,
       specItems: [],
+      specItemsSnapshot: {},
       storeItemsList: [],
       skuLoading: false,
       showItemSkuDrawer: false,
@@ -1533,22 +1556,28 @@ export default {
       this.skuLoading = true
       this.showMemberPriceDrawer = true
       const specItems = []
+      const specItemsSnapshot = {}
       const { list } = await this.$api.goods.getGoodsPrice(item_id)
       list.forEach((item) => {
+        const price = item.price / 100
+        const cost_price = item.cost_price / 100
+        const market_price = item.market_price / 100
         specItems.push({
           item_id: item.item_id,
           item_spec_desc: item.item_spec_desc || item.itemName,
           is_edit: false,
-          price: item.price / 100,
-          cost_price: item.cost_price / 100,
-          market_price: item.market_price / 100,
+          price,
+          cost_price,
+          market_price,
           grade: this.generatePrice(item.memberGrade.grade),
           vipGrade: this.generatePrice(item.memberGrade.vipGrade)
         })
+        specItemsSnapshot[item.item_id] = { price, cost_price, market_price }
       })
       this.grade = this.generatePrice(list[0].memberGrade.grade)
       this.vipGrade = this.generatePrice(list[0].memberGrade.vipGrade)
       this.specItems = specItems
+      this.specItemsSnapshot = specItemsSnapshot
       this.skuLoading = false
     },
     handleShow({ goods_id, itemName }) {
@@ -1611,7 +1640,6 @@ export default {
         item_id: this.currentId,
         mprice: ''
       }
-      console.log('specItems', this.specItems)
       let skus = {}
       this.specItems.forEach((item) => {
         let grade = {}
@@ -2079,20 +2107,25 @@ export default {
         this.$message.error(this.$t('dc9cefd6.dd51ab'))
       }
     },
-    async updateGoodsSkuPrice({ item_id, price, cost_price, market_price }, priceType) {
-      const priceMap = {
-        price: price,
-        cost_price: cost_price,
-        market_price: market_price
+    async updateGoodsSkuPrice(row, priceType) {
+      const priceValue = row[priceType]
+      if (priceValue == null || priceValue === '' || Number.isNaN(Number(priceValue))) {
+        return
+      }
+      const original = this.specItemsSnapshot[row.item_id]
+      if (original && Number(original[priceType]) === Number(priceValue)) {
+        return
       }
       await this.$api.goods.updateGoodsInfo({
-        item_id,
-        [priceType]: priceMap[priceType],
+        item_id: row.item_id,
+        [priceType]: priceValue,
         operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
       })
+      if (this.specItemsSnapshot[row.item_id]) {
+        this.specItemsSnapshot[row.item_id][priceType] = priceValue
+      }
       this.$message.success(this.$t('dc9cefd6.33130f'))
     },
-
     async setWarningStore() {
       await this.$api.goods.getItemWarningStore({ store: this.warning_store })
       this.$refs['finder'].refresh()
@@ -2220,6 +2253,30 @@ export default {
 }
 .page-code {
   text-align: center;
+}
+/* 设置价格抽屉：列宽与输入框对齐 */
+.member-price-drawer-table {
+  overflow-x: auto;
+
+  ::v-deep {
+    .el-table .cell {
+      padding: 8px;
+      line-height: normal;
+    }
+
+    .el-table td {
+      padding: 10px 0;
+    }
+
+    .member-price-input {
+      width: 100%;
+    }
+
+    .member-price-input.el-input-number.is-controls-right .el-input__inner {
+      padding-left: 8px;
+      padding-right: 42px;
+    }
+  }
 }
 .page-code-img {
   width: 200px;
