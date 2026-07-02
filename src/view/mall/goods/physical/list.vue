@@ -623,7 +623,7 @@ export default {
       saleCategoryDialog: false,
       saleCategoryForm: {
         item_id: [],
-        category_id: ''
+        category_id: []
       },
       saleCategoryFormList: [
         {
@@ -1673,9 +1673,66 @@ export default {
     onSelectionChange(selection) {
       this.selectionItems = selection
     },
-    changeCategory() {
+    getSaleCategoryIdsFromItem(item) {
+      if (Array.isArray(item.item_category) && item.item_category.length) {
+        return item.item_category.map((id) => Number(id))
+      }
+      if (Array.isArray(item.item_category_info) && item.item_category_info.length) {
+        return item.item_category_info.map((category) => Number(category.category_id))
+      }
+      return null
+    },
+    getSaleCategoryPaths(categories, targetIds) {
+      const normalizedTargetIds = targetIds.map((id) => Number(id))
+      const paths = {}
+
+      const findPath = (node, currentPath) => {
+        const categoryId = Number(node.category_id)
+        const newPath = [...currentPath, categoryId]
+        if (normalizedTargetIds.includes(categoryId)) {
+          paths[categoryId] = newPath
+        }
+        if (node.children?.length) {
+          node.children.forEach((child) => findPath(child, newPath))
+        }
+      }
+
+      categories.forEach((root) => findPath(root, []))
+      return normalizedTargetIds.map((id) => paths[id] || []).filter((path) => path.length)
+    },
+    async resolveSelectionSaleCategoryIds() {
+      const categoryIds = new Set()
+      const needFetchItemIds = []
+
+      this.selectionItems.forEach((item) => {
+        const itemCategoryIds = this.getSaleCategoryIdsFromItem(item)
+        if (itemCategoryIds) {
+          itemCategoryIds.forEach((id) => categoryIds.add(id))
+          return
+        }
+        needFetchItemIds.push(item.item_id)
+      })
+
+      if (needFetchItemIds.length) {
+        const details = await Promise.all(
+          needFetchItemIds.map((itemId) =>
+            this.$api.goods.getItemsDetail(itemId, {
+              operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
+            })
+          )
+        )
+        details.forEach((detail) => {
+          ;(detail.item_category || []).forEach((id) => categoryIds.add(Number(id)))
+        })
+      }
+
+      return [...categoryIds]
+    },
+    async changeCategory() {
       if (this.selectionItems.length > 0) {
         this.saleCategoryForm.item_id = this.selectionItems.map((item) => item.item_id)
+        const categoryIds = await this.resolveSelectionSaleCategoryIds()
+        this.saleCategoryForm.category_id = this.getSaleCategoryPaths(this.categoryList, categoryIds)
         this.saleCategoryDialog = true
       } else {
         this.$message.error(this.$t('dc9cefd6.ace302'))
