@@ -1187,10 +1187,46 @@ export default {
       ]
     },
 
+    isDoumenIntlEnabled() {
+      const doumenItem = this.allPaymentList.find((item) => item.name === 'doumen_intl')
+      return !!(doumenItem && doumenItem.enabled)
+    },
+
     // 处理支付平台开关切换
-    handleTogglePayment(paymentItem) {
+    async handleTogglePayment(paymentItem) {
+      const newEnabled = paymentItem.enabled
+
+      if (newEnabled && paymentItem.name !== 'doumen_intl' && this.isDoumenIntlEnabled()) {
+        this.$message.warning('请先关闭斗门国际收银台')
+        paymentItem.enabled = false
+        return
+      }
+
+      if (newEnabled && paymentItem.name === 'doumen_intl') {
+        try {
+          await this.$confirm(
+            '请确认是否启用斗门国际收银台，启用会默认关闭其他支付方式',
+            '提示',
+            {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }
+          )
+        } catch {
+          paymentItem.enabled = false
+          return
+        }
+      }
+
       this.$set(this.paymentForms[paymentItem.name], 'is_open', paymentItem.enabled)
-      this.savePaymentConfig(paymentItem.name)
+
+      try {
+        await this.savePaymentConfig(paymentItem.name)
+      } catch (error) {
+        paymentItem.enabled = !newEnabled
+        this.$set(this.paymentForms[paymentItem.name], 'is_open', paymentItem.enabled)
+      }
     },
 
     // 强制刷新表单数据
@@ -1201,6 +1237,23 @@ export default {
     // 处理表单提交
     async handleSubmit(payType) {
       await this.savePaymentConfig(payType)
+    },
+
+    extractApiErrorMessage(error, fallback) {
+      const data = error?.response?.data
+      if (typeof data === 'string' && data) {
+        return data
+      }
+      if (data?.message) {
+        return data.message
+      }
+      if (data?.error?.message) {
+        return data.error.message
+      }
+      if (error?.message) {
+        return error.message
+      }
+      return fallback
     },
 
     // 保存支付配置
@@ -1237,11 +1290,26 @@ export default {
           }
         }
 
+        if (
+          payType !== 'doumen_intl' &&
+          params.is_open === 'true' &&
+          this.isDoumenIntlEnabled()
+        ) {
+          throw new Error('请先关闭斗门国际收银台')
+        }
+
         await this.$api.trade.setPaymentSetting(params)
+
+        if (payType === 'doumen_intl' && params.is_open === 'true') {
+          await this.loadAllPaymentConfigs()
+        }
+
         this.$message.success(this.$t('10d92d52.3b1083'))
       } catch (error) {
-        this.$message.error(this.$t('10d92d52.6de920'))
+        const message = this.extractApiErrorMessage(error, this.$t('10d92d52.6de920'))
+        this.$message.error(message)
         console.error('保存支付配置失败:', error)
+        throw error
       } finally {
         this.loading = false
       }
