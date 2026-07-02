@@ -136,12 +136,13 @@ export default {
     async getArticle() {
       const res = await this.$api.article.getArticleInfo(this.$route.query.id)
       if (res) {
+        const categoryId = res.category_id
         this.articleForm = {
           title: res.title,
           summary: res.summary,
           author: res.author,
           head_portrait: res.head_portrait,
-          category_id: res.category_id,
+          category_id: categoryId !== '' && categoryId != null ? Number(categoryId) : categoryId,
           regions_id: res.regions_id,
           regions: res.regions,
           image_url: res.image_url,
