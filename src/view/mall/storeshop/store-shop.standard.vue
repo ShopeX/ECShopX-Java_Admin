@@ -649,8 +649,7 @@ export default {
       const exportParams = {
         ...this.searchParams,
         goods_ids: this.selectItems.map((item) => item.goods_id),
-        is_can_sale:
-          this.activeTab == 'second' ? true : this.activeTab == 'third' ? false : '_all',
+        is_can_sale: this.activeTab == 'second' ? true : this.activeTab == 'third' ? false : '_all',
         is_sku: true
       }
       const { status } = await this.$api.marketing.exportDistributorItems(exportParams)

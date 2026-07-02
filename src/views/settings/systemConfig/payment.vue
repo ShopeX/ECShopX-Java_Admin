@@ -1101,7 +1101,9 @@ export default {
           value: maskedSecret ? '' : formData['X-SecretKey'] || '',
           componentProps: {
             type: 'password',
-            placeholder: maskedSecret ? `${formData['X-SecretKey']}（留空则不修改）` : '请输入 X-SecretKey',
+            placeholder: maskedSecret
+              ? `${formData['X-SecretKey']}（留空则不修改）`
+              : '请输入 X-SecretKey',
             style: 'width: 300px'
           }
         },
