@@ -440,12 +440,7 @@ export default {
                 <el-cascader v-model={value['regions_id']} class='regions' options={district} />
                 <el-input
                   v-model={value['address']}
-                  class={[
-                    'address',
-                    {
-                      'is-error': !value['address']
-                    }
-                  ]}
+                  class='address'
                   placeholder={this.$t('027707af.f375e0')}
                 />
                 <el-input
@@ -457,13 +452,6 @@ export default {
                 </el-button>
               </div>
             )
-          },
-          validator: (rule, value, callback) => {
-            if (!this.form.address) {
-              callback(new Error(this.$t('027707af.a95544')))
-            } else {
-              callback()
-            }
           }
         },
         {
@@ -729,13 +717,6 @@ export default {
     this.distributor_self = distributor_type === 'distributor_self' ? 1 : 0
     if (distributor_type === 'distributor_self' && !distributor_id) {
       this.form.is_delivery = true
-    }
-    // 当distributor_self为1时，移除地理位置表单项的validator
-    if (distributor_type === 'distributor_self') {
-      const addressItem = this.formList.find((item) => item.key === 'address')
-      if (addressItem && addressItem.validator) {
-        delete addressItem.validator
-      }
     }
     console.log(process.env.VUE_APP_LOCAL_DELIVERY_DIRVER)
     if (process.env.VUE_APP_LOCAL_DELIVERY_DIRVER == 'shansong') {
