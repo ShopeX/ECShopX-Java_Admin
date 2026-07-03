@@ -106,6 +106,7 @@ import draggable from 'vuedraggable'
 import { GripVertical, Image as ImageIcon, Trash2 } from 'lucide-vue'
 import { GoodsPicker } from '@/components/sp-picker-plus'
 import { normalizeProductTabBlockSettings } from '../utils/panelState.js'
+import { fetchProductTabProducts, mergeProductTabProducts } from '../utils/productTabProducts.js'
 
 function normalizeProductSnapshot(product = {}) {
   return {
@@ -124,6 +125,20 @@ export default {
     block: { type: Object, default: null },
     value: { type: Object, default: () => ({}) }
   },
+  data() {
+    return {
+      remoteProductItems: [],
+      productRefreshSeq: 0
+    }
+  },
+  watch: {
+    selectedProductKey: {
+      immediate: true,
+      handler() {
+        this.refreshProductItems()
+      }
+    }
+  },
   computed: {
     settings() {
       return normalizeProductTabBlockSettings(this.value)
@@ -131,12 +146,14 @@ export default {
     selectedProducts() {
       return Array.isArray(this.settings.product_ids) ? this.settings.product_ids : []
     },
+    selectedProductKey() {
+      return this.selectedProducts.join(',')
+    },
     selectedProductItems() {
-      const snapshotMap = new Map(
-        (this.settings.product_snapshots || []).map((product) => [product.item_id, product])
-      )
-      return this.selectedProducts.map(
-        (id) => snapshotMap.get(id) || { item_id: id, item_name: id }
+      return mergeProductTabProducts(
+        this.selectedProducts,
+        this.remoteProductItems,
+        this.settings.product_snapshots || []
       )
     }
   },
@@ -148,12 +165,29 @@ export default {
       const snapshots = products
         .map((product) => normalizeProductSnapshot(product))
         .filter((product) => product.item_id)
+      this.remoteProductItems = snapshots
       this.$emit('change', {
         product_ids: snapshots.map((product) => product.item_id),
         product_snapshots: snapshots
       })
     },
+    async refreshProductItems() {
+      const productIds = this.selectedProducts.slice()
+      const refreshSeq = ++this.productRefreshSeq
+      if (!productIds.length) {
+        this.remoteProductItems = []
+        return
+      }
+      try {
+        const latestProducts = await fetchProductTabProducts(productIds)
+        if (refreshSeq !== this.productRefreshSeq) return
+        this.remoteProductItems = latestProducts
+      } catch (error) {
+        if (refreshSeq === this.productRefreshSeq) this.remoteProductItems = []
+      }
+    },
     clearProducts() {
+      this.remoteProductItems = []
       this.$emit('change', { product_ids: [], product_snapshots: [] })
     },
     removeProduct(productId) {
