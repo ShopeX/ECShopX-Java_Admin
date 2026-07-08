@@ -19,6 +19,7 @@ import footerLinkBlock from './blocks/footer-link.js'
 import footerMenuBlock from './blocks/footer-menu.js'
 import footerImageBlock from './blocks/footer-image.js'
 import footerTextBlock from './blocks/footer-text.js'
+import { resolveDecorationI18nValue } from '../utils/i18n.js'
 
 const sectionDefinitions = {
   [headerSection.type]: headerSection,
@@ -61,11 +62,11 @@ export function getTypedBlockDefinition(type) {
 }
 
 export function getSectionDefaultSettings(type) {
-  return getTypedSectionDefinition(type)?.defaultSettings || null
+  return resolveDecorationI18nValue(getTypedSectionDefinition(type)?.defaultSettings || null)
 }
 
 export function getBlockDefaultSettings(type) {
-  return getTypedBlockDefinition(type)?.defaultSettings || null
+  return resolveDecorationI18nValue(getTypedBlockDefinition(type)?.defaultSettings || null)
 }
 
 export function getAllowedBlockTypes(sectionType) {
@@ -80,7 +81,11 @@ export function getSectionBlockTypes(sectionType) {
   return getAllowedBlockTypes(sectionType)
 }
 
-export { sectionDefinitions, blockDefinitions, getSectionTypesByScope }
+export {
+  sectionDefinitions,
+  blockDefinitions,
+  getSectionTypesByScope
+}
 
 export default {
   sectionDefinitions,

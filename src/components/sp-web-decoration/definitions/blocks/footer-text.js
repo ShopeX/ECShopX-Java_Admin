@@ -1,8 +1,8 @@
-import { i18n } from '@/i18n'
+import { i18nValue } from '../../utils/i18n.js'
 
 export default {
   type: 'footer-text',
-  name: '文本',
+  name: i18nValue('2aa23f1e.97d076', '文本'),
   defaultSettings: {
     title: '',
     content: '',
