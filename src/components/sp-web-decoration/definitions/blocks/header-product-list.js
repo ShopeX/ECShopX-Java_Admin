@@ -1,8 +1,8 @@
-import { i18n } from '@/i18n'
+import { i18nValue } from '../../utils/i18n.js'
 
 export default {
   type: 'header_product_list',
-  name: '产品菜单',
+  name: i18nValue('530618aa.14b3cc', '产品菜单'),
   defaultSettings: {
     title: '',
     link: '',
