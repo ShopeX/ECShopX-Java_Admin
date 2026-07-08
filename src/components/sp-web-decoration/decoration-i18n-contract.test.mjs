@@ -21,6 +21,7 @@ const visibleUiFiles = [
   'src/components/sp-web-decoration/panels/VideoBlockPanel.vue',
   'src/components/sp-web-decoration/panels/HeaderPanel.vue',
   'src/components/sp-web-decoration/components/ConfigPanel.vue',
+  'src/components/sp-web-decoration/components/StructurePanel.vue',
   'src/components/sp-web-decoration/index.vue',
   'src/views/decoration/web-template/index.vue'
 ]
@@ -51,11 +52,17 @@ function loadDecorationI18nHelper(locale = 'en') {
   const messages = {
     en: {
       'test.name': 'English name',
-      'test.heading': 'English heading'
+      'test.heading': 'English heading',
+      'd65dbcac.081a81': 'Image Hotspot',
+      'd65dbcac.0c0180': 'Slideshow',
+      '6daca440.78964b': 'Tabbed collections'
     },
     'zh-CN': {
       'test.name': '中文名称',
-      'test.heading': '中文标题'
+      'test.heading': '中文标题',
+      'd65dbcac.081a81': '图片热区',
+      'd65dbcac.0c0180': '轮播图',
+      '6daca440.78964b': 'Tab产品系列'
     }
   }
   const i18n = {
@@ -73,6 +80,38 @@ function loadDecorationI18nHelper(locale = 'en') {
     'i18n',
     `${source}\nreturn { decorationT, i18nValue, resolveDecorationI18nValue }`
   )(i18n)
+}
+
+function loadStructurePanelTitleHelpers(helper) {
+  const languages = {
+    zhcn: {
+      locale: 'zh-CN',
+      messages: {
+        'd65dbcac.081a81': '图片热区',
+        'd65dbcac.0c0180': '轮播图',
+        '6daca440.78964b': 'Tab产品系列'
+      }
+    },
+    en: {
+      locale: 'en',
+      messages: {
+        'd65dbcac.081a81': 'Image Hotspot',
+        'd65dbcac.0c0180': 'Slideshow',
+        '6daca440.78964b': 'Tabbed collections'
+      }
+    }
+  }
+  const source = read('src/components/sp-web-decoration/components/StructurePanel.vue')
+    .match(/<script>([\s\S]*?)<\/script>/)[1]
+    .replace(/import[\s\S]*?from\s+'.*?'\n/g, '')
+    .replace(/export\s+function\s+/g, 'function ')
+    .replace(/export\s+default\s+\{[\s\S]*$/, '')
+
+  return new Function(
+    'LANGUAGES',
+    'resolveDecorationI18nValue',
+    `${source}\nreturn { resolveStructureDisplayTitle }`
+  )(languages, helper.resolveDecorationI18nValue)
 }
 
 function loadFactoryWithStubs(helper) {
@@ -176,4 +215,48 @@ test('locale files contain decoration i18n keys', () => {
       assert.ok(messages[key])
     }
   }
+})
+
+test('structure tree localizes legacy default titles without mutating DSL', () => {
+  const helper = loadDecorationI18nHelper('en')
+  const { resolveStructureDisplayTitle } = loadStructurePanelTitleHelpers(helper)
+  const sectionDefinition = {
+    name: helper.i18nValue('d65dbcac.081a81', '图片热区')
+  }
+  const blockDefinition = {
+    name: helper.i18nValue('6daca440.78964b', 'Tab产品系列')
+  }
+  const legacySection = {
+    type: 'image-hotspot',
+    title: '图片热区'
+  }
+  const legacyBlock = {
+    type: 'product-tab',
+    title: 'Tab产品系列'
+  }
+  const customSection = {
+    type: 'main-carousel',
+    title: '首页主视觉'
+  }
+
+  assert.equal(
+    resolveStructureDisplayTitle(legacySection.title, sectionDefinition, legacySection.type),
+    'Image Hotspot'
+  )
+  assert.equal(
+    resolveStructureDisplayTitle(legacyBlock.title, blockDefinition, legacyBlock.type),
+    'Tabbed collections'
+  )
+  assert.equal(
+    resolveStructureDisplayTitle(customSection.title, sectionDefinition, customSection.type),
+    '首页主视觉'
+  )
+  assert.deepEqual(legacySection, {
+    type: 'image-hotspot',
+    title: '图片热区'
+  })
+  assert.deepEqual(legacyBlock, {
+    type: 'product-tab',
+    title: 'Tab产品系列'
+  })
 })
