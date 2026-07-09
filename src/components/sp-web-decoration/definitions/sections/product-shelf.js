@@ -1,9 +1,9 @@
-import { i18n } from '@/i18n'
+import { i18nValue } from '../../utils/i18n.js'
 
 export default {
   type: 'product-shelf',
   scope: 'template',
-  name: i18n.t('d65dbcac.4a02ad'),
+  name: i18nValue('d65dbcac.4a02ad', '商品货架'),
   defaultSettings: {
     title: '',
     sourceMode: 'manual',

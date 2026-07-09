@@ -1,9 +1,9 @@
-import { i18n } from '@/i18n'
+import { i18nValue } from '../../utils/i18n.js'
 
 export default {
   type: 'main-carousel',
   scope: 'template',
-  name: i18n.t('d65dbcac.0c0180'),
+  name: i18nValue('d65dbcac.0c0180', '轮播图'),
   defaultSettings: {
     image_height: 'medium',
     paginate_type: 'point',

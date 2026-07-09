@@ -1,8 +1,8 @@
-import { i18n } from '@/i18n'
+import { i18nValue } from '../../utils/i18n.js'
 
 export default {
   type: 'mega_menu',
-  name: '超级菜单',
+  name: i18nValue('f3183cce.50663a', '超级菜单'),
   defaultSettings: {
     mega_menu_item: '',
     alignment: 'page',

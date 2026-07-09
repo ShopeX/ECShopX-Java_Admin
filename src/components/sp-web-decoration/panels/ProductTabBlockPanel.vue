@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-5 text-foreground">
     <section class="space-y-2">
-      <div class="text-sm font-semibold text-foreground">产品系列</div>
+      <div class="text-sm font-semibold text-foreground">{{ $t('f504c8cf.81af76') }}</div>
       <div class="rounded-lg border border-border bg-background p-3">
         <draggable
           v-if="selectedProductItems.length"
@@ -52,7 +52,9 @@
           >
             <ImageIcon :size="16" :stroke-width="1.8" />
           </div>
-          <div class="min-w-0 flex-1 truncate text-sm text-foreground">全部产品</div>
+          <div class="min-w-0 flex-1 truncate text-sm text-foreground">
+            {{ $t('f504c8cf.ce1f19') }}
+          </div>
         </div>
       </div>
       <div class="flex items-center gap-2">
@@ -61,13 +63,13 @@
           class="h-8 flex-1 rounded-lg border-0 bg-muted px-3 text-sm font-medium text-foreground hover:bg-muted/80"
           @click="openProductPicker"
         >
-          {{ selectedProductItems.length ? '继续添加' : '添加商品' }}
+          {{ selectedProductItems.length ? $t('f504c8cf.47a049') : $t('f504c8cf.fa3aee') }}
         </button>
       </div>
     </section>
 
     <section class="space-y-2">
-      <div class="text-sm text-muted-foreground">最大产品数</div>
+      <div class="text-sm text-muted-foreground">{{ $t('f504c8cf.933d90') }}</div>
       <div class="flex items-center gap-3">
         <el-input-number
           :value="settings.limit"
@@ -91,10 +93,10 @@
     </section>
 
     <section class="space-y-2">
-      <div class="text-sm text-muted-foreground">标题</div>
+      <div class="text-sm text-muted-foreground">{{ $t('f504c8cf.32c65d') }}</div>
       <SpRichTextEditor
         :value="settings.tab_label"
-        placeholder="请输入标题"
+        :placeholder="$t('f504c8cf.96641a')"
         @input="updateField('tab_label', $event)"
       />
     </section>
@@ -201,7 +203,7 @@ export default {
     async openProductPicker() {
       const result = await this.$dialog.open(GoodsPicker, {
         parent: this,
-        title: '选择商品',
+        title: this.$t('f504c8cf.43d1e2'),
         props: {
           multiple: true,
           initialSelected: this.selectedProductItems
