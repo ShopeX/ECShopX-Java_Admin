@@ -33,6 +33,7 @@ function resolveTitle(vm, title) {
 function findRouteForMenu(vm, menuItem) {
   const routes = vm.$router.getRoutes()
   let candidates = []
+  const alias = normalizeAlias(menuItem.alias_name)
 
   if (menuItem.permission) {
     candidates = routes.filter((route) => {
@@ -41,7 +42,16 @@ function findRouteForMenu(vm, menuItem) {
     })
   }
 
-  const alias = normalizeAlias(menuItem.alias_name)
+  // 多路由共用同一 permission 时，用 aliasName 精确匹配（如 publicsetting vs mailService）
+  if (alias && candidates.length > 1) {
+    const byAlias = candidates.filter(
+      (route) => normalizeAlias(route.meta?.aliasName) === alias
+    )
+    if (byAlias.length) {
+      candidates = byAlias
+    }
+  }
+
   if (candidates.length === 0 && alias) {
     candidates = routes.filter((route) => normalizeAlias(route.meta?.aliasName) === alias)
   }
@@ -58,6 +68,7 @@ function findRouteForMenu(vm, menuItem) {
   if (candidates.length === 0) return null
 
   return (
+    candidates.find((route) => alias && normalizeAlias(route.meta?.aliasName) === alias) ||
     candidates.find((route) => route.name === 'webMenu') ||
     candidates.find((route) => isI18nKey(route.meta?.title)) ||
     candidates.find(
