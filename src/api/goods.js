@@ -615,6 +615,15 @@ export function batchSyncToPool(query) {
   })
 }
 
+//批量同步供应商商品到店铺（Platform 店铺）
+export function batchSyncToShop(query) {
+  return fetch({
+    url: '/supplier/batch_sync_to_shop',
+    method: 'post',
+    params: query
+  })
+}
+
 export function uploadWdtErpItems(data) {
   return fetch({
     url: '/goods/upload/wdterp/items',

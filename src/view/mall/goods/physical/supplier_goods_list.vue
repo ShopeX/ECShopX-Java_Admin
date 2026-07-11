@@ -193,10 +193,9 @@
         <el-button v-if="IS_SUPPLIER()" type="primary" plain @click="changeFreightTemplate">
           更改运费模板
         </el-button>
-        <el-button v-if="!IS_ADMIN()" type="primary" plain @click="onBatchSubmitItems">
+        <el-button v-if="!IS_ADMIN() && !isShopSupplierGoodsManage" type="primary" plain @click="onBatchSubmitItems">
           批量提交
         </el-button>
-        <el-button type="primary" plain @click="changeItemsStore"> 统一库存 </el-button>
         <!-- <el-button type="primary" plain @click="() => changeHaltTheSales('stop')"> 停售 </el-button>
         <el-button type="primary" plain @click="() => changeHaltTheSales('start')">
           开售
@@ -498,8 +497,14 @@ import { getPageCode } from '@/api/marketing'
 import { GOODS_APPLY_STATUS } from '@/consts'
 
 export default {
+  computed: {
+    isShopSupplierGoodsManage() {
+      return !!(this.$route.meta && this.$route.meta.supplierGoodsManage)
+    }
+  },
   data() {
     const loginType = this.$store.getters.login_type
+    const isShopSupplierGoodsManage = !!this.$route.meta?.supplierGoodsManage
     let updateStatusOption = [
       { title: '前台可销售', value: 'onsale' },
       { title: '前台不展示', value: 'offline_sale' },
@@ -507,7 +512,9 @@ export default {
       { title: '不可销售', value: 'instock' }
     ]
     let statusOption
-    if (loginType == 'distributor') {
+    if (isShopSupplierGoodsManage) {
+      statusOption = [{ title: '全部', value: '' }, ...updateStatusOption]
+    } else if (loginType == 'distributor') {
       statusOption = [
         { title: '全部', value: '' },
         { title: '审核驳回', value: 'rejected' },
@@ -522,7 +529,12 @@ export default {
     }
 
     let tabList = []
-    if (IS_SUPPLIER()) {
+    if (isShopSupplierGoodsManage) {
+      tabList = [
+        { name: '全部商品', value: 'all', activeName: 'first' },
+        { name: '库存预警商品', value: 'true', activeName: 'second' }
+      ]
+    } else if (IS_SUPPLIER()) {
       tabList = [
         { name: '全部商品', value: 'all', activeName: 'first' },
         { name: '待提交', value: 'submiting', activeName: 'submiting' },
@@ -797,7 +809,7 @@ export default {
             key: 'edit',
             type: 'button',
             buttonType: 'text',
-            visible: (row) => IS_SUPPLIER() || IS_ADMIN(),
+            visible: (row) => IS_SUPPLIER() || IS_ADMIN() || this.isShopSupplierGoodsManage,
             action: {
               type: 'link',
               handler: ([row]) => {
@@ -992,7 +1004,7 @@ export default {
         ],
         columns: [
           { name: '供应商品ID', key: 'supplier_item_id', width: 120 },
-          { name: '平台商品ID', key: 'goods_id', width: 120 },
+          { name: '商品ID', key: 'goods_id', width: 120 },
           {
             name: '商品',
             key: 'itemName',
@@ -1236,8 +1248,12 @@ export default {
         ...params,
         item_type: 'normal',
         operate_source: IS_SUPPLIER() ? 'supplier' : 'platform',
-        ...this.searchParams,
-        item_source: 'supplier'
+        ...this.searchParams
+      }
+      if (this.isShopSupplierGoodsManage) {
+        params.item_holder = 'supplier'
+      } else {
+        params.item_source = 'supplier'
       }
       return params
     },
@@ -1610,8 +1626,12 @@ export default {
     },
     async exportItemsData() {
       const exportParams = {
-        ...this.searchParams,
-        item_source: 'supplier'
+        ...this.searchParams
+      }
+      if (this.isShopSupplierGoodsManage) {
+        exportParams.item_holder = 'supplier'
+      } else {
+        exportParams.item_source = 'supplier'
       }
       if (this.selectionItems.length > 0) {
         exportParams['item_id'] = this.selectionItems.map((item) => item.item_id)
@@ -1628,6 +1648,9 @@ export default {
       const exportParams = {
         ...this.searchParams
       }
+      if (this.isShopSupplierGoodsManage) {
+        exportParams.item_holder = 'supplier'
+      }
       if (this.selectionItems.length > 0) {
         exportParams['item_id'] = this.selectionItems.map((item) => item.item_id)
       }
@@ -1643,12 +1666,16 @@ export default {
       const exportParams = {
         ...this.searchParams
       }
+      if (this.isShopSupplierGoodsManage) {
+        exportParams.item_holder = 'supplier'
+      } else {
+        exportParams.item_source = 'supplier'
+      }
       if (this.selectionItems.length > 0) {
         exportParams['item_id'] = this.selectionItems.map((item) => item.item_id)
       }
       const { status } = await this.$api.goods.exportGoodsCode({
         ...exportParams,
-        item_source: 'supplier',
         export_type: exportType
       })
       if (status) {
