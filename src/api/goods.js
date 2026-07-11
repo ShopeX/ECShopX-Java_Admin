@@ -606,6 +606,15 @@ export function batchReviewItems(query) {
   })
 }
 
+//批量同步供应商商品到商品池
+export function batchSyncToPool(query) {
+  return fetch({
+    url: '/supplier/batch_sync_to_pool',
+    method: 'post',
+    params: query
+  })
+}
+
 export function uploadWdtErpItems(data) {
   return fetch({
     url: '/goods/upload/wdterp/items',
