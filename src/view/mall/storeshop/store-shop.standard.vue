@@ -365,8 +365,7 @@ export default {
                 props: {
                   value: !row.is_total_store,
                   'active-value': true,
-                  'inactive-value': false,
-                  disabled: this.IS_ADMIN() && this.VERSION_STANDARD() && row.supplier_id != '0'
+                  'inactive-value': false
                 },
                 on: {
                   change: async (e) => {
@@ -647,11 +646,7 @@ export default {
         }
       } else if (command == '3' || command == '4') {
         this.loading = true
-        let remainItems = []
-        if (this.IS_ADMIN() && this.VERSION_STANDARD()) {
-          //云店需要过滤供应商商品的
-          remainItems = this.selectItems.filter((item) => item.supplier_id == '0')
-        }
+        const remainItems = this.selectItems || []
         if (!remainItems.length) {
           this.$refs.finder.refresh(true)
           return
