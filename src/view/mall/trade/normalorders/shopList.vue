@@ -484,7 +484,7 @@
                         controls-position="right"
                         :min="0"
                         :max="scope.row.num - scope.row.delivery_item_num"
-                        :disabled="IS_ADMIN() && scope.row.supplier_id > 0"
+                        :disabled="!IS_SUPPLIER() && scope.row.supplier_id > 0"
                       />
                       <!-- <el-input v-model="scope.row.delivery_num" :maxlength=20 placeholder="发货数量"></el-input> -->
                       <span v-if="scope.row.num - scope.row.delivery_item_num == 0">已发完</span>
@@ -781,7 +781,7 @@ import {
   SELF_ORDER_CATEGORY,
   GOOD_CATEGORY_MAP
 } from '@/consts'
-import { IS_ADMIN } from '../../../../utils'
+import { IS_ADMIN, IS_SUPPLIER } from '../../../../utils'
 
 export default {
   components: {
@@ -1192,7 +1192,10 @@ export default {
         } else {
           this.deliveryForm.sepInfo = JSON.stringify(
             JSON.parse(JSON.stringify(this.deliveryData.orderInfo.items)).filter(
-              (item) => item.delivery_num && item.delivery_num != ''
+              (item) =>
+                item.delivery_num &&
+                item.delivery_num != '' &&
+                (IS_SUPPLIER() || !(Number(item.supplier_id) > 0))
             )
           )
         }

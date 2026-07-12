@@ -896,7 +896,7 @@ export default {
                       size='mini'
                       v-model={row.delivery_num}
                       min={1}
-                      disabled={IS_ADMIN() && row.supplier_id > 0}
+                      disabled={!IS_SUPPLIER() && row.supplier_id > 0}
                       max={row.num - row.delivery_item_num}
                     ></el-input-number>
                   )
@@ -1500,10 +1500,11 @@ export default {
         const isLogistics = receipt_type == 'logistics'
         const isSelfDelivery = receipt_type == 'merchant'
 
+        // 店铺登录时，纯供应商订单（order_holder=supplier）不走本分支发货，改由供应商后台发货
         if (
           receipt_type == 'ziti' ||
           ((VERSION_STANDARD() || distributor_id == 0) && order_holder != 'supplier') ||
-          this.login_type == 'distributor'
+          (this.login_type == 'distributor' && order_holder != 'supplier')
         ) {
           if (
             !isDada &&
@@ -1759,10 +1760,15 @@ export default {
         this.deliverGoodsForm.order_id = order_id
         this.deliverGoodsForm.receipt_type = receipt_type
         this.deliverGoodsForm.items = items.map((item) => {
-          return {
+          const row = {
             ...item,
             price: item.price / 100
           }
+          // 非供应商端打开发货时，供应商商品行不可填数量
+          if (!IS_SUPPLIER() && Number(item.supplier_id) > 0) {
+            row.delivery_num = undefined
+          }
+          return row
         })
         this.deliverGoodsForm.type = delivery_type
         this.deliverGoodsForm.delivery_type = 'batch'
@@ -2043,9 +2049,13 @@ export default {
         }
       }
 
-      // 拆单发货
+      // 拆单发货：非供应商端不得提交供应商商品行
       if (delivery_type == 'sep') {
-        params['sepInfo'] = JSON.stringify(items.filter((item) => item.delivery_num))
+        params['sepInfo'] = JSON.stringify(
+          items.filter(
+            (item) => item.delivery_num && (IS_SUPPLIER() || !(Number(item.supplier_id) > 0))
+          )
+        )
       }
 
       console.log(params)

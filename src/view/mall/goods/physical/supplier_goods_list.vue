@@ -196,6 +196,7 @@
         <el-button v-if="!IS_ADMIN() && !isShopSupplierGoodsManage" type="primary" plain @click="onBatchSubmitItems">
           批量提交
         </el-button>
+        <el-button type="primary" plain @click="changeItemsStore"> 统一库存 </el-button>
         <!-- <el-button type="primary" plain @click="() => changeHaltTheSales('stop')"> 停售 </el-button>
         <el-button type="primary" plain @click="() => changeHaltTheSales('start')">
           开售
@@ -921,11 +922,11 @@ export default {
             key: 'change_store',
             type: 'button',
             buttonType: 'text',
-            visible: (row) => IS_SUPPLIER(),
+            visible: () => IS_SUPPLIER() || IS_ADMIN() || this.isShopSupplierGoodsManage,
             action: {
               type: 'link',
               handler: async ([row]) => {
-                this.getSkuStoreByGoods(row.item_id)
+                this.getSkuStoreByGoods(row.item_id || row.itemId)
               }
             }
           },
@@ -972,7 +973,7 @@ export default {
                 await this.$api.goods.updateItemsStatus({
                   items: [{ goods_id: row.item_id }],
                   status: 'instock',
-                  operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
+                  operate_source: this.resolveStoreOperateSource()
                 })
                 this.$message.success('操作成功')
                 this.$refs['finder'].refresh()
@@ -994,7 +995,7 @@ export default {
                 await this.$api.goods.updateItemsStatus({
                   items: [{ goods_id: row.item_id }],
                   status: 'onsale',
-                  operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
+                  operate_source: this.resolveStoreOperateSource()
                 })
                 this.$message.success('操作成功')
                 this.$refs['finder'].refresh()
@@ -1235,6 +1236,10 @@ export default {
     }
   },
   methods: {
+    // 商品管理（平台/店铺）读写 items 本地库存；仅供应商后台读写 supplier_items
+    resolveStoreOperateSource() {
+      return IS_SUPPLIER() ? 'supplier' : 'platform'
+    },
     async fetchWechatList() {
       const { list } = await this.$api.minimanage.gettemplateweapplist()
       list.forEach((item, i) => {
@@ -1247,7 +1252,7 @@ export default {
       params = {
         ...params,
         item_type: 'normal',
-        operate_source: IS_SUPPLIER() ? 'supplier' : 'platform',
+        operate_source: this.resolveStoreOperateSource(),
         ...this.searchParams
       }
       if (this.isShopSupplierGoodsManage) {
@@ -1334,7 +1339,7 @@ export default {
       this.skuLoading = true
       const { list } = await this.$api.goods.getItemsList({
         item_type: 'normal',
-        operate_source: IS_SUPPLIER() ? 'supplier' : 'platform',
+        operate_source: this.resolveStoreOperateSource(),
         item_id,
         is_sku: true,
         page: 1,
@@ -1392,7 +1397,7 @@ export default {
     async onSaveItemStore() {
       const params = {
         items: JSON.stringify(this.storeItemsList),
-        operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
+        operate_source: this.resolveStoreOperateSource()
       }
       await this.$api.goods.updateItemsStore(params)
       this.$message.success('修改成功')
@@ -1477,7 +1482,7 @@ export default {
       })
       await this.$api.goods.updateItemsStore({
         items: JSON.stringify(data),
-        operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
+        operate_source: this.resolveStoreOperateSource()
       })
       this.$message.success('操作成功')
       this.storeItemDialog = false
@@ -1489,7 +1494,7 @@ export default {
         const params = {
           goods_id: this.selectionItems.map((item) => item.goods_id),
           is_market: status == 'stop' ? '0' : '1',
-          operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
+          operate_source: this.resolveStoreOperateSource()
         }
         await this.$api.goods.updateGoodsInfo(params)
         this.$message.success('操作成功')
@@ -1498,7 +1503,7 @@ export default {
         await this.$confirm(`${status == 'stop' ? '停售' : '开售'}所有商品, 是否继续?`, '提示')
         const params = {
           is_market: status == 'stop' ? '0' : '1',
-          operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
+          operate_source: this.resolveStoreOperateSource()
         }
         await this.$api.goods.updateGoodsInfo(params)
         this.$message.success('操作成功')
@@ -1589,7 +1594,7 @@ export default {
       })
       await this.$api.goods.updateGoodsInfo({
         goods_id: this.selectionItems.map((item) => item.item_id),
-        operate_source: IS_SUPPLIER() ? 'supplier' : 'platform',
+        operate_source: this.resolveStoreOperateSource(),
         audit_status: 'processing'
       })
       this.$message.success('操作成功')
@@ -1707,7 +1712,7 @@ export default {
       await this.$api.goods.updateGoodsInfo({
         item_id,
         [priceType]: priceMap[priceType],
-        operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
+        operate_source: this.resolveStoreOperateSource()
       })
       this.$message.success('操作成功')
     },
@@ -1741,7 +1746,7 @@ export default {
       this.skuLoading = true
       const { list } = await this.$api.goods.getItemsList({
         item_type: 'normal',
-        operate_source: IS_SUPPLIER() ? 'supplier' : 'platform',
+        operate_source: this.resolveStoreOperateSource(),
         item_id: item.item_id,
         is_sku: true,
         page: 1,

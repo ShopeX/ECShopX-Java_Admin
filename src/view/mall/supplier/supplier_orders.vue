@@ -761,7 +761,13 @@ export default {
         } = item
         const isDada = receipt_type == 'dada'
         const isLogistics = receipt_type == 'logistics'
-        if (VERSION_STANDARD() || distributor_id == 0 || this.login_type == 'distributor') {
+        // 供应商登录需处理店铺来源单（distributor_id>0），不能再要求 distributor_id==0
+        if (
+          VERSION_STANDARD() ||
+          distributor_id == 0 ||
+          this.login_type == 'distributor' ||
+          this.login_type == 'supplier'
+        ) {
           if (
             !isDada &&
             cancel_status == 'NO_APPLY_CANCEL' &&
