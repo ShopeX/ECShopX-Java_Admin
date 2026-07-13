@@ -1,8 +1,8 @@
-import { i18n } from '@/i18n'
+import { i18nValue } from '../../utils/i18n.js'
 
 export default {
   type: 'footer-menu',
-  name: '菜单',
+  name: i18nValue('e29ee542.4ccbdc', '菜单'),
   defaultSettings: {
     title: '',
     menu: null,

@@ -129,6 +129,10 @@ export default {
         value: 1
       })
     }
+    const isCloudStore = this.VERSION_STANDARD()
+    const storeStatusEnableKey = isCloudStore ? '027707af.c8f21a' : '027707af.7854b5'
+    const storeStatusDisableKey = isCloudStore ? '027707af.d9e32b' : '027707af.710ad0'
+    const storeStatusTipKey = isCloudStore ? '027707af.e0f43c' : '027707af.3c751e'
     return {
       form: {
         distribution_type: 0, // 店铺类型： 0=自营；1=加盟
@@ -436,12 +440,7 @@ export default {
                 <el-cascader v-model={value['regions_id']} class='regions' options={district} />
                 <el-input
                   v-model={value['address']}
-                  class={[
-                    'address',
-                    {
-                      'is-error': !value['address']
-                    }
-                  ]}
+                  class='address'
                   placeholder={this.$t('027707af.f375e0')}
                 />
                 <el-input
@@ -453,13 +452,6 @@ export default {
                 </el-button>
               </div>
             )
-          },
-          validator: (rule, value, callback) => {
-            if (!this.form.address) {
-              callback(new Error(this.$t('027707af.a95544')))
-            } else {
-              callback()
-            }
           }
         },
         {
@@ -470,10 +462,10 @@ export default {
           label: this.$t('027707af.6d7cb8'),
           key: 'is_valid',
           type: 'radio',
-          tip: this.$t('027707af.3c751e'),
+          tip: this.$t(storeStatusTipKey),
           options: [
-            { name: this.$t('027707af.7854b5'), label: 'true' },
-            { name: this.$t('027707af.710ad0'), label: 'false' },
+            { name: this.$t(storeStatusEnableKey), label: 'true' },
+            { name: this.$t(storeStatusDisableKey), label: 'false' },
             { name: this.$t('027707af.d2b1c3'), label: 'closed' },
             { name: this.$t('027707af.0044f6'), label: 'delete' }
           ],
@@ -726,13 +718,6 @@ export default {
     if (distributor_type === 'distributor_self' && !distributor_id) {
       this.form.is_delivery = true
     }
-    // 当distributor_self为1时，移除地理位置表单项的validator
-    if (distributor_type === 'distributor_self') {
-      const addressItem = this.formList.find((item) => item.key === 'address')
-      if (addressItem && addressItem.validator) {
-        delete addressItem.validator
-      }
-    }
     console.log(process.env.VUE_APP_LOCAL_DELIVERY_DIRVER)
     if (process.env.VUE_APP_LOCAL_DELIVERY_DIRVER == 'shansong') {
       this.getShansongInfo()
@@ -745,6 +730,13 @@ export default {
   },
   mounted() {},
   methods: {
+    normalizeCategoryId(value) {
+      if (value === '' || value == null) {
+        return ''
+      }
+      const num = Number(value)
+      return Number.isNaN(num) ? value : num
+    },
     async getOrderSetting() {
       const res = await this.$api.trade.getOrderSetting()
       this.offline_freight_status = res.is_refund_freight != 1
@@ -848,7 +840,7 @@ export default {
         this.formList.forEach((item) => {
           if (item.key === 'distributor_category_id') {
             item.options = this.categoryList.map((category) => ({
-              value: category.category_id,
+              value: this.normalizeCategoryId(category.category_id),
               title: category.category_name
             }))
           }
@@ -888,7 +880,7 @@ export default {
         const salespersonTypeFromApi = showSalespersonApi === 2 ? 2 : 1
         this.form = {
           distribution_type: res.distribution_type,
-          distributor_category_id: res.distributor_category_id,
+          distributor_category_id: this.normalizeCategoryId(res.distributor_category_id),
           merchant_id: res.merchant_id,
           shop_code: res.shop_code,
           name: res.name,

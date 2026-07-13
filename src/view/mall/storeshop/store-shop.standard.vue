@@ -66,6 +66,12 @@
           <el-dropdown-item command="2">
             <span>{{ $t('8c556aa3.d5e015') }}</span>
           </el-dropdown-item>
+          <el-dropdown-item command="3">
+            <span>{{ $t('8c556aa3.7fcc60') }}</span>
+          </el-dropdown-item>
+          <el-dropdown-item command="4">
+            <span>{{ $t('8c556aa3.12e91b') }}</span>
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -619,32 +625,42 @@ export default {
       this.$message.success(this.$t('8c556aa3.a6cbc7'))
       this.$refs.finder.refresh(true)
     },
-    handleBatchDownload(val) {
+    async handleBatchDownload() {
       if (this.selectItems.length == 0) {
         return this.$message.error(this.$t('8c556aa3.20e46f'))
       }
       const zip = new JSZip()
-      const requests = []
       const { distributor_id } = this.searchParams
-      this.selectItems.forEach((item) => {
-        const url = `${this.BASE_API}/goods/distributionGoodsWxaCodeStream?item_id=${item.itemId}&distributor_id=${distributor_id}`
-        requests.push(getFileBlob(url))
-      })
-      Promise.all(requests).then((res) => {
-        res.forEach((file, index) => {
-          zip.file(`${this.selectItems[index].itemName}.png`, file, { binary: true })
+      const results = await Promise.allSettled(
+        this.selectItems.map((item) => {
+          const url = `${this.BASE_API}/goods/distributionGoodsWxaCodeStream?item_id=${item.itemId}&distributor_id=${distributor_id}`
+          return getFileBlob(url).then((file) => ({ item, file }))
         })
-        zip.generateAsync({ type: 'blob' }).then((content) => {
-          FileSaver.saveAs(content, this.$t('8c556aa3.b9bca0'))
-        })
+      )
+      let successCount = 0
+      results.forEach((result) => {
+        if (result.status === 'fulfilled') {
+          const { item, file } = result.value
+          zip.file(`${item.itemName}.png`, file, { binary: true })
+          successCount++
+        }
       })
+      if (!successCount) {
+        return this.$message.error(this.$t('8c556aa3.5fa802'))
+      }
+      const content = await zip.generateAsync({ type: 'blob' })
+      FileSaver.saveAs(content, this.$t('8c556aa3.b9bca0'))
+      if (successCount < this.selectItems.length) {
+        this.$message.warning(
+          `部分商品码下载失败（成功 ${successCount}/${this.selectItems.length}）`
+        )
+      }
     },
     async handleExport() {
       const exportParams = {
         ...this.searchParams,
         goods_ids: this.selectItems.map((item) => item.goods_id),
-        is_can_sale:
-          this.activeTab == 'second' ? true : this.activeTab == 'third' ? false : '_all',
+        is_can_sale: this.activeTab == 'second' ? true : this.activeTab == 'third' ? false : '_all',
         is_sku: true
       }
       const { status } = await this.$api.marketing.exportDistributorItems(exportParams)
@@ -685,15 +701,15 @@ export default {
           this.loading = false
         }
       } else if (command == '3' || command == '4') {
-        this.loading = true
-        let remainItems = []
+        let remainItems = this.selectItems
         if (this.IS_ADMIN() && this.VERSION_STANDARD()) {
           remainItems = this.selectItems.filter((item) => item.supplier_id == '0')
         }
         if (!remainItems.length) {
-          this.$refs.finder.refresh(true)
+          this.$message.error(this.$t('8c556aa3.20e46f'))
           return
         }
+        this.loading = true
         try {
           await this.$api.marketing.updateDistributorItem({
             distributor_id: this.searchParams.distributor_id,
@@ -701,7 +717,7 @@ export default {
             is_total_store: command == '3'
           })
           this.$message.success(this.$t('8c556aa3.33130f'))
-          this.$refs.finder.refresh(true)
+          this.$refs.finder.refresh()
         } catch (error) {
           this.$message.error(this.$t('8c556aa3.5fa802'))
         } finally {

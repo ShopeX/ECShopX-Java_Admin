@@ -1,9 +1,9 @@
-import { i18n } from '@/i18n'
+import { i18nValue } from '../../utils/i18n.js'
 
 export default {
   type: 'announcement-bar',
   scope: 'header',
-  name: i18n.t('d65dbcac.3921b6'),
+  name: i18nValue('d65dbcac.3921b6', '公告栏'),
   defaultSettings: {
     full_width: false,
     auto_rotate: false,

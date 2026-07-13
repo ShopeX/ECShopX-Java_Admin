@@ -66,7 +66,7 @@
                 <span
                   class="block w-full"
                   @click="handleSubmenuTitleClick(item.alias_name, $event)"
-                  >{{ item.name }}</span
+                  >{{ menuDisplayName(item) }}</span
                 >
               </template>
               <!-- 三级菜单 -->
@@ -78,7 +78,7 @@
                   :index="child.alias_name"
                   @click="handleSubMenuClick(child)"
                 >
-                  <span>{{ child.name }}</span>
+                  <span>{{ menuDisplayName(child) }}</span>
                 </el-menu-item>
               </template>
             </el-submenu>
@@ -91,7 +91,7 @@
               :index="item.alias_name"
               @click="handleSubMenuClick(item)"
             >
-              <span>{{ item.name }}</span>
+              <span>{{ menuDisplayName(item) }}</span>
             </el-menu-item>
           </template>
         </template>
@@ -102,6 +102,7 @@
 
 <script>
 import { getBasePath, getSystemTitle } from '@/utils'
+import { getMenuDisplayName } from '@/utils/menuI18n'
 import Config from '@/config'
 
 export default {
@@ -181,6 +182,9 @@ export default {
     this.updateSubMenus()
   },
   methods: {
+    menuDisplayName(menuItem) {
+      return getMenuDisplayName(this, menuItem)
+    },
     // 更新中间二级菜单列表
     updateSubMenus() {
       const [mainRoute] = this.$route.matched
