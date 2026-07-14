@@ -16,9 +16,6 @@ export function createCompanyLogistics(params) {
   return fetch({
     url: '/company/logistics/create',
     method: 'post',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
     params: params
   })
 }
