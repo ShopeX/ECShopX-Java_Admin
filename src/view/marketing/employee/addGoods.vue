@@ -229,6 +229,9 @@
           <el-button type="primary" :disabled="adminDisabled" plain @click="handleImport">
             {{ $t('2ff5650c.6a4607') }}
           </el-button>
+          <el-button type="primary" :disabled="adminDisabled" plain @click="handleSortImport">
+            导入排序
+          </el-button>
           <el-button type="primary" :disabled="adminDisabled" plain @click="onSelectGoods">
             {{ $t('2ff5650c.43d1e2') }}
           </el-button>
@@ -522,6 +525,26 @@
         />
       </el-dialog>
 
+      <el-dialog
+        title="导入排序"
+        :visible.sync="sortImportDialog"
+        width="900px"
+        append-to-body
+        destroy-on-close
+        :close-on-click-modal="false"
+        @closed="onImportDialogClosed"
+      >
+        <related-upload
+          v-if="sortImportDialog"
+          file-type="employee_purchase_activity_items_sort"
+          :related-id="$route.params.id"
+          file-name="导入排序"
+          :table-height="420"
+          :extra-params="importExtraParams"
+          operation-tip="排序数字越大越靠前；留空默认为0；每次导入覆盖当前排序。"
+        />
+      </el-dialog>
+
       <SpDialog
         ref="patchDialogRef"
         v-model="patchDialog"
@@ -558,6 +581,7 @@ export default {
       },
       distributor_id: null,
       importDialog: false,
+      sortImportDialog: false,
       patchDialog: false,
       batchShelfDialog: false,
       batchShelfForm: {
@@ -685,6 +709,9 @@ export default {
     },
     handleImport() {
       this.importDialog = true
+    },
+    handleSortImport() {
+      this.sortImportDialog = true
     },
     onImportDialogClosed() {
       this.pagesQuery.refresh()
