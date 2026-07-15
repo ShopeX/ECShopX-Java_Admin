@@ -59,7 +59,7 @@
           </el-col>
         </el-row>
       </el-form-item>
-      <el-form-item label="拼团库存" prop="store" :rules="rules.store">
+      <el-form-item v-show="specRows.length === 0" label="拼团库存" prop="store" :rules="rules.store">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-input v-model="form.store" placeholder="" />
@@ -67,13 +67,52 @@
           <el-col :span="2"> 件 </el-col>
         </el-row>
       </el-form-item>
-      <el-form-item label="拼团价格" prop="act_price" :rules="rules.act_price">
+      <el-form-item v-show="specRows.length === 0" label="拼团价格" prop="act_price" :rules="rules.act_price">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-input v-model="form.act_price" placeholder=""> 元 </el-input>
           </el-col>
           <el-col :span="2"> 元 </el-col>
         </el-row>
+      </el-form-item>
+      <el-form-item v-if="specRows.length > 0" label="规格设置">
+        <el-table :data="specRows" border style="width: 100%">
+          <el-table-column width="55">
+            <template slot="header">
+              <el-checkbox
+                :value="allSpecChecked"
+                :indeterminate="specIndeterminate"
+                :disabled="!show"
+                @change="toggleAllSpec"
+              />
+            </template>
+            <template slot-scope="scope">
+              <el-checkbox v-model="scope.row.checked" :disabled="!show" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="item_spec_desc" label="规格" min-width="120">
+            <template slot-scope="scope">
+              {{ scope.row.item_spec_desc || '默认规格' }}
+            </template>
+          </el-table-column>
+          <el-table-column label="原价" width="100">
+            <template slot-scope="scope">
+              {{ cursymbol }}{{ scope.row.price }}
+            </template>
+          </el-table-column>
+          <el-table-column label="拼团价" width="120">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.act_price" size="mini" :disabled="!show || !scope.row.checked">
+                <i slot="prefix" class="el-input__icon">{{ cursymbol }}</i>
+              </el-input>
+            </template>
+          </el-table-column>
+          <el-table-column label="库存" width="100">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.store" size="mini" :disabled="!show || !scope.row.checked" />
+            </template>
+          </el-table-column>
+        </el-table>
       </el-form-item>
       <el-form-item label="成团人数" prop="person_num" :rules="rules.person_num">
         <el-row :gutter="20">
@@ -179,7 +218,7 @@
         <el-table-column prop="itemName" label="状态">
           <template slot-scope="scope">
             <el-button
-              v-if="form.goods_id != scope.row.itemId"
+              v-if="selectedProductId != (scope.row.default_item_id || scope.row.itemId)"
               type="text"
               @click="chooseItem(scope.row)"
             >
@@ -238,13 +277,14 @@ export default {
         share_desc: ''
       },
       goods: {},
+      specRows: [],
+      selectedProductId: '',
       itemsList: [],
       itemsParams: {
         page: 1,
         pageSize: 20,
         // consume_type: 'every',
         item_type: 'normal',
-        nospec: true,
         keywords: ''
       },
       itemsTotalCount: 0,
@@ -282,6 +322,15 @@ export default {
       goodsTypeTitle: '服务类商品'
     }
   },
+  computed: {
+    allSpecChecked() {
+      return this.specRows.length > 0 && this.specRows.every((r) => r.checked)
+    },
+    specIndeterminate() {
+      const checked = this.specRows.filter((r) => r.checked).length
+      return checked > 0 && checked < this.specRows.length
+    }
+  },
   mounted() {
     if (this.$route.query.show) {
       this.show = false
@@ -295,6 +344,11 @@ export default {
   methods: {
     submitItemsAction(formName) {
       const that = this
+      if (this.specRows.length > 0) {
+        if (!this.syncItemsFromSpecRows()) {
+          return false
+        }
+      }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (!this.form.pics) {
@@ -370,7 +424,116 @@ export default {
       this.goodsDialogVisible = false
       this.goods = row
       this.goods.price = this.goods.price / 100
+      this.selectedProductId = row.default_item_id || row.itemId
       this.form.goods_id = row.itemId
+      this.loadSpecRows(row)
+    },
+    isNospecGoods(row) {
+      const v = row && row.nospec
+      return v === true || v === 1 || v === '1' || v === 'true'
+    },
+    toggleAllSpec(val) {
+      this.specRows.forEach((r) => {
+        r.checked = val
+      })
+    },
+    buildSpecRow(sku, savedItems) {
+      const itemId = sku.itemId || sku.item_id
+      const savedItem = savedItems.find((s) => String(s.item_id) === String(itemId))
+      const hasSaved = savedItems.length > 0
+      return {
+        checked: hasSaved ? !!savedItem : true,
+        itemId,
+        item_spec_desc: sku.item_spec_desc || '',
+        price: Number(sku.price || 0) / 100,
+        act_price: savedItem ? savedItem.act_price / 100 : '',
+        store: savedItem ? savedItem.store : ''
+      }
+    },
+    loadSpecRows(row, savedItems = []) {
+      if (this.isNospecGoods(row)) {
+        this.specRows = [this.buildSpecRow(row, savedItems)]
+        return
+      }
+      // 多规格必须传 is_sku=true；item_id 须用 default_item_id：
+      // 传非默认 SKU（如活动 goods_id=7226）时接口只返回该一行，编辑页会只剩一个规格
+      const seedId = row.default_item_id || row.itemId || row.item_id
+      getItemsList({
+        page: 1,
+        pageSize: -1,
+        item_type: 'normal',
+        approve_status: ['onsale', 'offline_sale'],
+        is_sku: 'true',
+        item_id: seedId
+      })
+        .then((response) => {
+          const list = (response.data.data && response.data.data.list) || []
+          const parentId = String(row.itemId || row.item_id || '')
+          const defaultId = String(row.default_item_id || parentId)
+          let skus = list.filter((sku) => {
+            const skuDefault = String(sku.default_item_id || '')
+            const skuId = String(sku.itemId || sku.item_id || '')
+            return (
+              skuDefault === parentId ||
+              skuDefault === defaultId ||
+              skuId === parentId ||
+              skuId === defaultId
+            )
+          })
+          if (!skus.length) {
+            skus = list
+          }
+          // 货品接口仍不全时，用详情已保存的 items 兜底展示
+          if (skus.length <= 1 && savedItems.length > 1) {
+            this.specRows = savedItems.map((item) => this.buildSpecRow(item, savedItems))
+            return
+          }
+          this.specRows = skus.length
+            ? skus.map((sku) => this.buildSpecRow(sku, savedItems))
+            : [this.buildSpecRow(row, savedItems)]
+        })
+        .catch(() => {
+          if (savedItems.length > 1) {
+            this.specRows = savedItems.map((item) => this.buildSpecRow(item, savedItems))
+            return
+          }
+          this.specRows = [this.buildSpecRow(row, savedItems)]
+          this.$message.error('获取商品规格失败')
+        })
+    },
+    syncItemsFromSpecRows() {
+      const pricePattern = /^(?=.*[1-9])\d+(\.\d{1,2})?$/
+      const storePattern = /^[1-9]\d{0,4}$/
+      const items = this.specRows
+        .filter((r) => r.checked)
+        .map((r) => {
+          if (!pricePattern.test(String(r.act_price))) {
+            return null
+          }
+          if (!storePattern.test(String(r.store))) {
+            return null
+          }
+          return {
+            item_id: r.itemId,
+            act_price: String(r.act_price),
+            store: Number(r.store)
+          }
+        })
+      if (items.some((item) => item === null)) {
+        this.$message.error('请为已选规格填写有效的拼团价和库存')
+        return false
+      }
+      if (!items.length) {
+        this.$message.error('请至少选择一个规格')
+        return false
+      }
+      this.form.items = items
+      this.form.goods_id = items[0].item_id
+      const prices = items.map((item) => Number(item.act_price))
+      const stores = items.map((item) => item.store)
+      this.form.act_price = String(Math.min(...prices))
+      this.form.store = String(stores.reduce((sum, n) => sum + n, 0))
+      return true
     },
     goodsHandleCurrentChange(val) {
       this.itemsParams.page = val
@@ -402,19 +565,38 @@ export default {
     getGroupsInfo() {
       getGroupsInfo(this.groups_activity_id)
         .then((response) => {
-          this.form = response.data.data
+          const data = response.data.data
+          this.form = data
           this.form.act_price = this.form.act_price / 100
-          this.form.goods.price = this.form.goods.price / 100
-          this.form.goods.market_price = this.form.goods.market_price / 100
+          if (this.form.goods && this.form.goods.price) {
+            this.form.goods.price = this.form.goods.price / 100
+            this.form.goods.market_price = this.form.goods.market_price / 100
+          }
           this.form.date = [
-            new Date(response.data.data.begin_time * 1000),
-            new Date(response.data.data.end_time * 1000)
+            new Date(data.begin_time * 1000),
+            new Date(data.end_time * 1000)
           ]
-          this.form.robot = response.data.data.robot == 1 ? '1' : '0'
-          this.form.rig_up = response.data.data.rig_up == 1 ? '1' : '0'
-          this.form.free_post = response.data.data.free_post == 1 ? '1' : '0'
-          this.logo_url = this.wximageurl + response.data.data.pics
-          this.goods = response.data.data.goods
+          this.form.robot = data.robot == 1 ? '1' : '0'
+          this.form.rig_up = data.rig_up == 1 ? '1' : '0'
+          this.form.free_post = data.free_post == 1 ? '1' : '0'
+          this.logo_url = this.wximageurl + data.pics
+          this.goods = data.goods || {}
+          if (this.goods.price) {
+            this.goods.price = this.goods.price / 100
+          }
+          const savedItems = data.items || []
+          if (this.goods.item_id || this.goods.itemId) {
+            this.selectedProductId =
+              this.goods.default_item_id || this.goods.item_id || this.goods.itemId
+            const goodsRow = Object.assign({}, this.goods, {
+              itemId: this.goods.item_id || this.goods.itemId,
+              nospec: this.isNospecGoods(this.goods)
+            })
+            this.loadSpecRows(goodsRow, savedItems)
+          } else if (savedItems.length) {
+            this.specRows = savedItems.map((item) => this.buildSpecRow(item, savedItems))
+            this.selectedProductId = savedItems[0].item_id
+          }
         })
         .catch((error) => {
           this.$message({

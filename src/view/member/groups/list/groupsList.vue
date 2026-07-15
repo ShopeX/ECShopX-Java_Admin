@@ -65,7 +65,7 @@
       </el-table-column>
       <el-table-column prop="act_price" label="拼团价格" width="100">
         <template slot-scope="scope">
-          <span>{{ cursymbol + scope.row.act_price / 100 }}</span>
+          <span>{{ cursymbol + scope.row.act_price / 100 }}{{ scope.row.items && scope.row.items.length > 1 ? '起' : '' }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="disabled" label="状态" width="100">
