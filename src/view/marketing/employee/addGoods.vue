@@ -232,6 +232,7 @@
           <el-button type="primary" :disabled="adminDisabled" plain @click="handleSortImport">
             导入排序
           </el-button>
+          <el-button type="primary" plain @click="handleExport">导出商品</el-button>
           <el-button type="primary" :disabled="adminDisabled" plain @click="onSelectGoods">
             {{ $t('2ff5650c.43d1e2') }}
           </el-button>
@@ -712,6 +713,17 @@ export default {
     },
     handleSortImport() {
       this.sortImportDialog = true
+    },
+    async handleExport() {
+      const res = await this.$api.marketing.exportActivityItems({
+        activity_id: this.$route.params.id,
+        distributor_id: this.distributor_id,
+        ...this.queryForm
+      })
+      if (res && res.status) {
+        this.$message.success('导出任务已创建')
+        this.$export_open_blank('employee_purchase_activity_items')
+      }
     },
     onImportDialogClosed() {
       this.pagesQuery.refresh()
