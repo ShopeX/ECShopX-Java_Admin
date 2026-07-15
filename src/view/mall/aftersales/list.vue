@@ -136,12 +136,6 @@
               <el-button v-if="showAftersale" type="primary" plain @click="aftersalesRemindAction">
                 售后提醒内容
               </el-button>
-              <el-button type="primary" plain @click="aftersalesAction('approved')">
-                批量审核
-              </el-button>
-              <el-button type="primary" plain @click="aftersalesAction('refund')">
-                批量退款
-              </el-button>
             </div>
           </template>
         </SpFinder>
