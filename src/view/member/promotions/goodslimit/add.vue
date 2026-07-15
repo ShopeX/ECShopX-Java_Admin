@@ -372,7 +372,12 @@ export default {
         Object.assign(this.form, data)
         this.rule = JSON.parse(response.data.data.rule)
         this.relItems = response.data.data.itemTreeLists
-        this.validGrade = response.data.data.valid_grade
+        this.validGrade = (response.data.data.valid_grade || []).map((id) => {
+          if (id === 'vip' || id === 'svip') return id
+          if (typeof id === 'number') return id
+          const num = Number(id)
+          return Number.isFinite(num) ? num : id
+        })
         this.activity_date = [response.data.data.start_time, response.data.data.end_time]
         this.zdItemHidden = true
         this.categoryHidden = true
