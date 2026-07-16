@@ -243,7 +243,7 @@ export function delActivityCollection(id) {
 // 拼团活动
 export function getGroupsTeamList(group_id, query) {
   return fetch({
-    url: '/promotions/groups/' + group_id + '/team/',
+    url: '/promotions/groups/' + group_id + '/team',
     method: 'get',
     params: query
   })
