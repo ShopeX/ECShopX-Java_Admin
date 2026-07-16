@@ -715,10 +715,12 @@ export default {
       this.sortImportDialog = true
     },
     async handleExport() {
+      const itemIds = this.collectSelectedItemIds()
       const res = await this.$api.marketing.exportActivityItems({
         activity_id: this.$route.params.id,
         distributor_id: this.distributor_id,
-        ...this.queryForm
+        ...this.queryForm,
+        ...(itemIds.length ? { item_id: itemIds } : {})
       })
       if (res && res.status) {
         this.$message.success('导出任务已创建')
