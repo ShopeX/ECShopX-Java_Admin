@@ -447,6 +447,10 @@ export default {
         // 更新表单数据（使用深拷贝避免引用问题）
         const formData = JSON.parse(JSON.stringify(data))
         formData.is_open = data.is_open === 'true' || data.is_open === true
+        // 接口常返回字符串 'false'/'true'，需转成布尔，避免 'false' 被当成真值
+        if (Object.prototype.hasOwnProperty.call(data, 'is_servicer')) {
+          formData.is_servicer = data.is_servicer === 'true' || data.is_servicer === true
+        }
         this.$set(this.paymentForms, payType, formData)
 
         // 更新开关状态
@@ -571,7 +575,7 @@ export default {
           fieldName: 'is_servicer',
           label: '是否特约商户',
           component: 'switch',
-          value: formData.is_servicer || false,
+          value: formData.is_servicer === true || formData.is_servicer === 'true',
           componentProps: {
             activeColor: '#13ce66',
             inactiveColor: '#ff4949'
@@ -744,7 +748,7 @@ export default {
             autoUpload: false,
             onChange: (file, fileList) => {
               console.log('上传:', file, fileList)
-              tthis.paymentForms.chinaumspay.rsa_private = file.raw
+              this.paymentForms.chinaumspay.rsa_private = file.raw
             }
           }
         },
@@ -768,7 +772,7 @@ export default {
             autoUpload: false,
             onChange: (file, fileList) => {
               console.log('上传:', file, fileList)
-              tthis.paymentForms.chinaumspay.rsa_public = file.raw
+              this.paymentForms.chinaumspay.rsa_public = file.raw
             }
           }
         }
@@ -1094,10 +1098,33 @@ export default {
       this.loading = true
       try {
         const formData = this.paymentForms[payType]
-        // 使用深拷贝避免引用问题
+        // File/Blob 无法被 JSON.stringify 序列化（会变成 {} → FormData 变成 "[object Object]"），需单独保留
+        const fileFieldKeys = [
+          'cert',
+          'cert_key',
+          'rsa_private',
+          'rsa_public',
+          'pfx_file',
+          'ca_pfx_file',
+          'oca31_pfx_file'
+        ]
+        const uploadedFiles = {}
+        fileFieldKeys.forEach((key) => {
+          const value = formData[key]
+          if (typeof Blob !== 'undefined' && value instanceof Blob) {
+            uploadedFiles[key] = value
+          }
+        })
+
+        // 使用深拷贝避免引用问题（不含 File）
         const params = JSON.parse(JSON.stringify(formData))
         params.pay_type = payType
-        params.is_open = formData.is_open ? 'true' : 'false'
+        params.is_open = formData.is_open === true || formData.is_open === 'true' ? 'true' : 'false'
+        if (Object.prototype.hasOwnProperty.call(formData, 'is_servicer')) {
+          // 不能用 truthy 判断：字符串 'false' 在 JS 里为真，会误传 is_servicer=true
+          params.is_servicer =
+            formData.is_servicer === true || formData.is_servicer === 'true' ? 'true' : 'false'
+        }
         params.isUploadFile = true
         // 过滤掉值为 undefined 的参数
         Object.keys(params).forEach((key) => {
@@ -1111,7 +1138,16 @@ export default {
           delete params.cert_url
           delete params.cert_key_name
           delete params.cert_key_url
+          // 未重新上传时不要回传 PEM 字符串/空对象；后端会沿用 Redis 已有证书
+          delete params.cert
+          delete params.cert_key
         }
+        if (payType == 'chinaumspay') {
+          delete params.rsa_private
+          delete params.rsa_public
+        }
+
+        Object.assign(params, uploadedFiles)
 
         await this.$api.trade.setPaymentSetting(params)
         this.$message.success('保存成功')
