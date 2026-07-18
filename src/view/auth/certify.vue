@@ -172,10 +172,10 @@ export default {
             bank_account,
             audit_remark
           }
-          this.is_check = is_check
-          if (is_check) {
-            this.certify_status = check_map[is_check] || ''
-          }
+          // 兼容接口返回数字/字符串，统一转字符串
+          this.is_check = String(is_check)
+          this.certify_status = check_map[this.is_check] || ''
+
         })
       }
     },
