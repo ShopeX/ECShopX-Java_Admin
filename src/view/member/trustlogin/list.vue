@@ -44,20 +44,20 @@
         <el-form-item :label="$t('b64b502c.d7ec2d')">
           <el-input v-model="form.name" />
         </el-form-item>
-        <el-form-item label="app_id">
-          <el-input v-model="form.app_id" />
-        </el-form-item>
-        <el-form-item label="secret">
-          <el-input v-model="form.secret" />
-        </el-form-item>
         <template v-if="form.type === 'apple'">
-          <el-form-item label="team_id">
+          <el-form-item label="Services ID">
+            <el-input
+              v-model="form.app_id"
+              placeholder="ecshopx-shop.ex-sandbox.com"
+            />
+          </el-form-item>
+          <el-form-item label="Team ID">
             <el-input v-model="form.apple_team_id" placeholder="J78N572P2G" />
           </el-form-item>
-          <el-form-item label="key_id">
+          <el-form-item label="Key ID">
             <el-input v-model="form.apple_key_id" placeholder="V6MAPA8UM5" />
           </el-form-item>
-          <el-form-item label="private_key (.p8)">
+          <el-form-item label="私钥 (.p8)">
             <el-input
               v-model="form.apple_private_key"
               type="textarea"
@@ -67,15 +67,23 @@
             />
           </el-form-item>
         </template>
-        <el-form-item v-else label="extra_config">
-          <el-input
-            v-model="form.extra_config"
-            type="textarea"
-            :rows="6"
-            placeholder="可选 JSON 扩展配置"
-            data-testid="member-trustlogin-extra-config"
-          />
-        </el-form-item>
+        <template v-else>
+          <el-form-item label="app_id">
+            <el-input v-model="form.app_id" />
+          </el-form-item>
+          <el-form-item label="secret">
+            <el-input v-model="form.secret" />
+          </el-form-item>
+          <el-form-item label="extra_config">
+            <el-input
+              v-model="form.extra_config"
+              type="textarea"
+              :rows="6"
+              placeholder="可选 JSON 扩展配置"
+              data-testid="member-trustlogin-extra-config"
+            />
+          </el-form-item>
+        </template>
         <el-form-item :label="$t('b64b502c.3fea7c')">
           <el-switch v-model="form.status" />
         </el-form-item>
@@ -171,9 +179,12 @@ export default {
       }
     },
     validateAppleForm() {
+      if (!String(this.form.app_id || '').trim()) {
+        return '请填写 Services ID'
+      }
       const extra = this.buildAppleExtraConfigPayload()
       if (!extra.team_id || !extra.key_id) {
-        return '请填写 team_id 和 key_id'
+        return '请填写 Team ID 和 Key ID'
       }
       if (!extra.private_key) {
         return '请粘贴完整 .p8 私钥（可多行）'
@@ -192,6 +203,7 @@ export default {
           return
         }
         payload.extra_config = this.buildAppleExtraConfigPayload()
+        payload.secret = ''
         delete payload.apple_team_id
         delete payload.apple_key_id
         delete payload.apple_private_key
