@@ -50,12 +50,29 @@
         <el-form-item label="secret">
           <el-input v-model="form.secret" />
         </el-form-item>
-        <el-form-item label="extra_config">
+        <template v-if="form.type === 'apple'">
+          <el-form-item label="team_id">
+            <el-input v-model="form.apple_team_id" placeholder="J78N572P2G" />
+          </el-form-item>
+          <el-form-item label="key_id">
+            <el-input v-model="form.apple_key_id" placeholder="V6MAPA8UM5" />
+          </el-form-item>
+          <el-form-item label="private_key (.p8)">
+            <el-input
+              v-model="form.apple_private_key"
+              type="textarea"
+              :rows="10"
+              placeholder="直接粘贴 .p8 文件全文（可多行）"
+              data-testid="member-trustlogin-apple-private-key"
+            />
+          </el-form-item>
+        </template>
+        <el-form-item v-else label="extra_config">
           <el-input
             v-model="form.extra_config"
             type="textarea"
-            :rows="10"
-            placeholder='Apple 示例：{"team_id":"J78N572P2G","key_id":"V6MAPA8UM5","private_key":"-----BEGIN PRIVATE KEY-----\\n...\\n-----END PRIVATE KEY-----"}'
+            :rows="6"
+            placeholder="可选 JSON 扩展配置"
             data-testid="member-trustlogin-extra-config"
           />
         </el-form-item>
@@ -88,6 +105,9 @@ export default {
         app_id: '',
         secret: '',
         extra_config: '',
+        apple_team_id: '',
+        apple_key_id: '',
+        apple_private_key: '',
         status: false,
         loginversion: 'touch',
         type: ''
@@ -113,58 +133,70 @@ export default {
         this.loading = false
       })
     },
+    parseExtraConfig(extraConfig) {
+      if (!extraConfig) {
+        return {}
+      }
+      if (typeof extraConfig === 'object') {
+        return extraConfig
+      }
+      try {
+        const parsed = JSON.parse(extraConfig)
+        return parsed && typeof parsed === 'object' ? parsed : {}
+      } catch (e) {
+        return {}
+      }
+    },
     handleEdit(data) {
       this.show_sideBar = true
       this.form.name = data.name
       this.form.status = data.status
       this.form.app_id = data.app_id
       this.form.secret = data.secret
-      this.form.extra_config = this.sanitizeExtraConfigForEdit(data.extra_config || '')
       this.form.type = data.type
       this.form.loginversion = 'touch'
+      const extra = this.parseExtraConfig(data.extra_config || '')
+      this.form.apple_team_id = extra.team_id || ''
+      this.form.apple_key_id = extra.key_id || ''
+      this.form.apple_private_key =
+        extra.private_key && extra.private_key !== '***' ? extra.private_key : ''
+      this.form.extra_config =
+        data.type === 'apple' ? '' : data.extra_config || ''
     },
-    sanitizeExtraConfigForEdit(extraConfig) {
-      if (!extraConfig) {
-        return ''
+    buildAppleExtraConfigPayload() {
+      return {
+        team_id: String(this.form.apple_team_id || '').trim(),
+        key_id: String(this.form.apple_key_id || '').trim(),
+        private_key: String(this.form.apple_private_key || '').trim()
       }
-      try {
-        const parsed = JSON.parse(extraConfig)
-        if (parsed && typeof parsed === 'object' && parsed.private_key === '***') {
-          delete parsed.private_key
-          return JSON.stringify(parsed, null, 2)
-        }
-      } catch (e) {
-        // keep raw string
-      }
-      return extraConfig
     },
-    validateAppleExtraConfig(extraConfig) {
-      if (!extraConfig || !String(extraConfig).trim()) {
-        return '请填写 extra_config（含 team_id、key_id、private_key）'
+    validateAppleForm() {
+      const extra = this.buildAppleExtraConfigPayload()
+      if (!extra.team_id || !extra.key_id) {
+        return '请填写 team_id 和 key_id'
       }
-      let parsed
-      try {
-        parsed = JSON.parse(extraConfig)
-      } catch (e) {
-        return 'extra_config 不是合法 JSON；私钥换行请写成 \\n，不要直接换行'
+      if (!extra.private_key) {
+        return '请粘贴完整 .p8 私钥（可多行）'
       }
-      if (!parsed.team_id || !parsed.key_id) {
-        return 'extra_config 缺少 team_id 或 key_id'
-      }
-      if (!parsed.private_key || parsed.private_key === '***') {
-        return '请粘贴完整 private_key（.p8 文件 PEM 内容）'
+      if (!extra.private_key.includes('BEGIN PRIVATE KEY')) {
+        return '私钥格式不正确，请粘贴完整 PEM 内容'
       }
       return ''
     },
     statusChange(data) {
+      const payload = { ...data }
       if (data.type === 'apple') {
-        const error = this.validateAppleExtraConfig(data.extra_config || '')
+        const error = this.validateAppleForm()
         if (error) {
           this.$message.error(error)
           return
         }
+        payload.extra_config = this.buildAppleExtraConfigPayload()
+        delete payload.apple_team_id
+        delete payload.apple_key_id
+        delete payload.apple_private_key
       }
-      saveStatusSetting(data)
+      saveStatusSetting(payload)
         .then(() => {
           this.$message({
             type: 'success',
@@ -173,11 +205,12 @@ export default {
           this.show_sideBar = false
           this.getConfig()
         })
-        .catch(() => {
-          this.$message({
-            type: 'error',
-            message: this.$t('b64b502c.6de920')
-          })
+        .catch((err) => {
+          const msg =
+            err?.data?.message ||
+            err?.message ||
+            this.$t('b64b502c.6de920')
+          this.$message.error(msg)
         })
     }
   }
