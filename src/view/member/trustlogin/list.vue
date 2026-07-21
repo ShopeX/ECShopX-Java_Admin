@@ -54,8 +54,8 @@
           <el-input
             v-model="form.extra_config"
             type="textarea"
-            :rows="4"
-            placeholder='{"team_id":"","key_id":"","private_key":""}'
+            :rows="10"
+            placeholder='Apple 示例：{"team_id":"J78N572P2G","key_id":"V6MAPA8UM5","private_key":"-----BEGIN PRIVATE KEY-----\\n...\\n-----END PRIVATE KEY-----"}'
             data-testid="member-trustlogin-extra-config"
           />
         </el-form-item>
@@ -119,11 +119,51 @@ export default {
       this.form.status = data.status
       this.form.app_id = data.app_id
       this.form.secret = data.secret
-      this.form.extra_config = data.extra_config || ''
+      this.form.extra_config = this.sanitizeExtraConfigForEdit(data.extra_config || '')
       this.form.type = data.type
       this.form.loginversion = 'touch'
     },
+    sanitizeExtraConfigForEdit(extraConfig) {
+      if (!extraConfig) {
+        return ''
+      }
+      try {
+        const parsed = JSON.parse(extraConfig)
+        if (parsed && typeof parsed === 'object' && parsed.private_key === '***') {
+          delete parsed.private_key
+          return JSON.stringify(parsed, null, 2)
+        }
+      } catch (e) {
+        // keep raw string
+      }
+      return extraConfig
+    },
+    validateAppleExtraConfig(extraConfig) {
+      if (!extraConfig || !String(extraConfig).trim()) {
+        return '请填写 extra_config（含 team_id、key_id、private_key）'
+      }
+      let parsed
+      try {
+        parsed = JSON.parse(extraConfig)
+      } catch (e) {
+        return 'extra_config 不是合法 JSON；私钥换行请写成 \\n，不要直接换行'
+      }
+      if (!parsed.team_id || !parsed.key_id) {
+        return 'extra_config 缺少 team_id 或 key_id'
+      }
+      if (!parsed.private_key || parsed.private_key === '***') {
+        return '请粘贴完整 private_key（.p8 文件 PEM 内容）'
+      }
+      return ''
+    },
     statusChange(data) {
+      if (data.type === 'apple') {
+        const error = this.validateAppleExtraConfig(data.extra_config || '')
+        if (error) {
+          this.$message.error(error)
+          return
+        }
+      }
       saveStatusSetting(data)
         .then(() => {
           this.$message({
