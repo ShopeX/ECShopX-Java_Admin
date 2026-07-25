@@ -546,6 +546,10 @@ export default {
         })
       // console.log('this.value.skuItemImages', this.value.skuItemImages)
     },
+    // 数字 0 需保留；仅 null/undefined 转为空串（避免 store: 0 被 || '' 吃掉）
+    blankIfNil(v) {
+      return v === undefined || v === null ? '' : v
+    },
     getSkuItems(value) {
       /**
        * 1. 获取商品默认规格后后,空的数据要过滤
@@ -555,6 +559,8 @@ export default {
        * 1. 拿到同步过来的规格数据,过滤调空数据保存后后续继续操作
        * 2. 编辑规格时按需插入规格数据
        */
+      // 详情回填时传入 value；勾选规格变更时不传。回填不能被缓存空行覆盖。
+      const fromApi = Array.isArray(value)
       // 获取选择的规格值
       const skuMartix = this.value.skus.map(({ checkedSku }) => checkedSku)
       // 计算规格组合
@@ -563,8 +569,8 @@ export default {
       let _specItems = []
       // 拿到同步过来的规格数据,过滤空数据,保存后后续继续操作
       // 初始化 也是 格式化
-      if (value || this.value.specItems) {
-        const _value = value || this.value.specItems
+      if (fromApi || this.value.specItems) {
+        const _value = fromApi ? value : this.value.specItems
         _specItems = _value.map((item) => {
           const vKey =
             item.item_spec?.map(({ spec_value_id }) => spec_value_id)?.sort((a, b) => a - b) || []
@@ -576,21 +582,21 @@ export default {
             item_id: item.item_id || '',
             is_default: false,
             approve_status: item.approve_status || '',
-            store: item.store || '',
-            max_num: item.max_num || '',
+            store: this.blankIfNil(item.store),
+            max_num: this.blankIfNil(item.max_num),
             item_bn: item.item_bn || '',
-            weight: item.weight || '',
+            weight: this.blankIfNil(item.weight),
             item_spec: item.item_spec || [],
-            delivery_time: item.delivery_time || '',
-            volume: item.volume || '',
+            delivery_time: this.blankIfNil(item.delivery_time),
+            volume: this.blankIfNil(item.volume),
             price: isNaN(item.price / 100) ? '' : item.price / 100,
             cost_price: isNaN(item.cost_price / 100) ? '' : item.cost_price / 100,
             market_price: isNaN(item.market_price / 100) ? '' : item.market_price / 100,
-            start_num: item.start_num || '',
+            start_num: this.blankIfNil(item.start_num),
             barcode: item.barcode || '',
-            point_num: item.point_num || '',
+            point_num: this.blankIfNil(item.point_num),
             supplier_goods_bn: item.supplier_goods_bn || '',
-            tax_rate: item.tax_rate || ''
+            tax_rate: this.blankIfNil(item.tax_rate)
           }
         })
       }
@@ -626,22 +632,22 @@ export default {
             sku_id: key,
             spec_name: this.getSpecName(item),
             is_default: false,
-            approve_status: item.approve_status || '',
-            store: item.store || '',
-            max_num: item.max_num || '',
-            item_bn: item.item_bn || '',
-            weight: item.weight || '',
-            volume: item.volume || '',
-            price: isNaN(item.price / 100) ? '' : item.price / 100,
-            cost_price: isNaN(item.cost_price / 100) ? '' : item.cost_price / 100,
-            market_price: isNaN(item.market_price / 100) ? '' : item.market_price / 100,
-            start_num: item.start_num || '',
-            barcode: item.barcode || '',
-            point_num: item.point_num || '',
-            supplier_goods_bn: item.supplier_goods_bn || '',
-            tax_rate: item.tax_rate || '',
-            delivery_time: item.delivery_time || '',
-            item_spec: item.item_spec || []
+            approve_status: '',
+            store: '',
+            max_num: '',
+            item_bn: '',
+            weight: '',
+            volume: '',
+            price: '',
+            cost_price: '',
+            market_price: '',
+            start_num: '',
+            barcode: '',
+            point_num: '',
+            supplier_goods_bn: '',
+            tax_rate: '',
+            delivery_time: '',
+            item_spec: []
           })
         }
       })
@@ -650,7 +656,11 @@ export default {
         _specItems = _specItems.filter((el) => _temp.includes(el.sku_id))
       }
       // _specItems = _specItems.filter((el) => el.item_name)
-      // 与前一次编辑的缓存数据合并
+      // 详情回填以接口数据为准；勾选变更时再与本地编辑缓存合并
+      if (fromApi) {
+        this.value.specItems = _specItems
+        return
+      }
       this.value.specItems = _specItems.map((item) => {
         const fd = this.value.specItems.find(({ sku_id }) => sku_id == item.sku_id)
         if (fd) {
