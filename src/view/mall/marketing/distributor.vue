@@ -192,11 +192,13 @@
           >
             新增默认虚拟店信息
           </el-button>
-          <template v-else>
-            <el-button v-if="!IS_MERCHANT()" type="primary" @click="editDistributorSelf()">
-              编辑默认虚拟店信息
-            </el-button>
-          </template>
+          <el-button
+            v-else-if="IS_ADMIN()"
+            type="primary"
+            @click="editDistributorSelf()"
+          >
+            编辑默认虚拟店信息
+          </el-button>
         </div>
       </div>
 
