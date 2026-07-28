@@ -781,8 +781,13 @@ export default {
             if (this.form.isSpecs) {
               const { specItems, skus } = value
               const approveStatus = specItems.find(({ approve_status }) => !!approve_status)
-              const store = specItems.find(({ store }) => !!store)
-              const price = specItems.find(({ price }) => !!price)
+              // 库存/价格允许为 0，不能用 !!value（0 会被当成未填）
+              const hasStore = specItems.some(
+                ({ store }) => store !== '' && store !== null && store !== undefined
+              )
+              const hasPrice = specItems.some(
+                ({ price }) => price !== '' && price !== null && price !== undefined
+              )
               const max_num = specItems.find(({ max_num }) => !!max_num)
 
               const isSkusUnChecked = skus?.some((item) => !item.checkedSku.length)
@@ -792,9 +797,9 @@ export default {
 
               if (!IS_SUPPLIER() && !this.routerParams.isSupplierGoods && !approveStatus) {
                 callback('请选择商品状态')
-              } else if (!store) {
+              } else if (!hasStore) {
                 callback('请输入商品库存')
-              } else if (!price) {
+              } else if (!hasPrice) {
                 callback('请输入商品销售价格')
               } else if (!max_num && this.medicinePrescription) {
                 callback('请输入最大开方数量')
