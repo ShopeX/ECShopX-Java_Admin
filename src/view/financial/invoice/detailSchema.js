@@ -320,7 +320,7 @@ const infoTable = {
       name: '税率',
       width: 100,
       render(_, { row }) {
-        return <span> {row.invoice_tax_rate}% </span>
+        return <span> {row.invoice_tax_rate} </span>
       }
     },
     {
