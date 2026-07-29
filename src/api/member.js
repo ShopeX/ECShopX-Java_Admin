@@ -153,7 +153,7 @@ export function deleteTag(tagId) {
 
 export function usersRelTagsDel(query) {
   return fetch({
-    url: '/member/reltagdel/',
+    url: '/member/reltagdel',
     method: 'post',
     params: query
   })
