@@ -62,9 +62,6 @@
       <el-tab-pane label="商品标签" name="tag">
         <PickerTag v-if="tabValue == 'tag'" ref="tag" :value="value" />
       </el-tab-pane>
-      <el-tab-pane label="文章" name="article">
-        <PickerArticle v-if="tabValue == 'article'" ref="article" :value="value" />
-      </el-tab-pane>
       <el-tab-pane label="软文" name="planting">
         <PickerPlanting v-if="tabValue == 'planting'" ref="planting" :value="value" />
       </el-tab-pane>
@@ -84,7 +81,7 @@
           :value="value"
         />
       </el-tab-pane>
-      <el-tab-pane label="秒杀" name="seckill">
+      <el-tab-pane v-if="false" label="秒杀" name="seckill">
         <PickerSeckill v-if="tabValue == 'seckill'" ref="seckill" :value="value" />
       </el-tab-pane>
       <el-tab-pane label="自定义页面" name="custom_page">
@@ -117,7 +114,6 @@ import PickerGoods from './picker-goods'
 import PickerSaleCategory from './picker-saleCategory'
 import PickerCategory from './picker-category'
 import PickerTag from './picker-tag'
-import PickerArticle from './picker-article'
 import PickerPlanting from './picker-planting'
 import PickerLink from './picker-link'
 import PickerMarketing from './picker-marketing'
@@ -141,7 +137,6 @@ export default {
     PickerSaleCategory,
     PickerCategory,
     PickerTag,
-    PickerArticle,
     PickerPlanting,
     PickerLink,
     PickerMarketing,
@@ -165,9 +160,11 @@ export default {
   props: ['value'],
   data() {
     const { tab } = this.value
+    // 已下线「文章」路径；历史数据若仍为 article，打开弹窗时落到默认 tab
+    const safeTab = tab === 'article' ? 'goods' : tab
     return {
       pathValue: null,
-      tabValue: tab || 'goods'
+      tabValue: safeTab || 'goods'
     }
   },
   created() {
@@ -223,12 +220,6 @@ export default {
           return pickBy(data, {
             id: 'tag_id',
             title: 'tag_name'
-          })
-        },
-        article: () => {
-          return pickBy(data, {
-            id: 'article_id',
-            title: 'title'
           })
         },
         planting: () => {
