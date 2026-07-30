@@ -45,41 +45,41 @@
           <el-input v-model="form.name" />
         </el-form-item>
         <template v-if="form.type === 'apple'">
-          <el-form-item label="Services ID">
+          <el-form-item :label="$t('b64b502c.f8a201')">
             <el-input
               v-model="form.app_id"
               placeholder="ecshopx-shop.ex-sandbox.com"
             />
           </el-form-item>
-          <el-form-item label="Team ID">
+          <el-form-item :label="$t('b64b502c.f8a202')">
             <el-input v-model="form.apple_team_id" placeholder="J78N572P2G" />
           </el-form-item>
-          <el-form-item label="Key ID">
+          <el-form-item :label="$t('b64b502c.f8a203')">
             <el-input v-model="form.apple_key_id" placeholder="V6MAPA8UM5" />
           </el-form-item>
-          <el-form-item label="私钥 (.p8)">
+          <el-form-item :label="$t('b64b502c.f8a204')">
             <el-input
               v-model="form.apple_private_key"
               type="textarea"
               :rows="10"
-              placeholder="直接粘贴 .p8 文件全文（可多行）"
+              :placeholder="$t('b64b502c.f8a205')"
               data-testid="member-trustlogin-apple-private-key"
             />
           </el-form-item>
         </template>
         <template v-else>
-          <el-form-item label="app_id">
+          <el-form-item :label="$t('b64b502c.f8a208')">
             <el-input v-model="form.app_id" />
           </el-form-item>
-          <el-form-item label="secret">
+          <el-form-item :label="$t('b64b502c.f8a209')">
             <el-input v-model="form.secret" />
           </el-form-item>
-          <el-form-item label="extra_config">
+          <el-form-item :label="$t('b64b502c.f8a206')">
             <el-input
               v-model="form.extra_config"
               type="textarea"
               :rows="6"
-              placeholder="可选 JSON 扩展配置"
+              :placeholder="$t('b64b502c.f8a207')"
               data-testid="member-trustlogin-extra-config"
             />
           </el-form-item>
@@ -180,17 +180,17 @@ export default {
     },
     validateAppleForm() {
       if (!String(this.form.app_id || '').trim()) {
-        return '请填写 Services ID'
+        return this.$t('b64b502c.f8a20a')
       }
       const extra = this.buildAppleExtraConfigPayload()
       if (!extra.team_id || !extra.key_id) {
-        return '请填写 Team ID 和 Key ID'
+        return this.$t('b64b502c.f8a20b')
       }
       if (!extra.private_key) {
-        return '请粘贴完整 .p8 私钥（可多行）'
+        return this.$t('b64b502c.f8a20c')
       }
       if (!extra.private_key.includes('BEGIN PRIVATE KEY')) {
-        return '私钥格式不正确，请粘贴完整 PEM 内容'
+        return this.$t('b64b502c.f8a20d')
       }
       return ''
     },
