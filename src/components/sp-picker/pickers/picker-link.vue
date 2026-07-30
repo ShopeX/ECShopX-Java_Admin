@@ -84,7 +84,7 @@ const BASE_LINK_PAGES = [
   { id: 'homeSearch', title: '搜索' },
   { id: 'settings', title: '切换语言' },
   { id: 'kujiale', title: '酷家乐案例库' },
-  { id: 'nearby_store', title: '所有门店列表' },
+  // { id: 'nearby_store', title: '附近商家' },
   { id: 'itemList', title: '商品列表' }
 ]
 
