@@ -17,6 +17,7 @@ const config = {
       options: [
         { label: '按价格区间', value: 'price' },
         { label: '按指定商品', value: 'items' },
+        { label: '积分商品', value: 'pointsmall_items' },
         { label: '按管理分类', value: 'main_category' },
         { label: '按销售分类', value: 'category' },
         { label: '按浏览记录', value: 'history' }

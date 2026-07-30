@@ -58,13 +58,18 @@
             </span>
           </div>
           <div class="goods-price-wrapper">
-            <div class="current-price">
-              <span class="price-symbol">¥</span>
-              <span class="price-value">{{ formatPrice(item.price) }}</span>
+            <div class="current-price" v-if="value.dataType === 'pointsmall_items'">
+              <span class="price-value">{{ formatPointPrice(item) }}</span>
             </div>
-            <div class="original-price" v-if="item.market_price && item.market_price > item.price">
-              {{ formatPrice(item.market_price) }}
-            </div>
+            <template v-else>
+              <div class="current-price">
+                <span class="price-symbol">¥</span>
+                <span class="price-value">{{ formatPrice(item.price) }}</span>
+              </div>
+              <div class="original-price" v-if="item.market_price && item.market_price > item.price">
+                {{ formatPrice(item.market_price) }}
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -98,6 +103,18 @@ export default {
     }
   },
   methods: {
+    getItemImg(item) {
+      if (item.main_img) return item.main_img
+      const first = item.pics && item.pics[0]
+      return first ? (typeof first === 'string' ? first : first.url || '') : ''
+    },
+    formatPointPrice(item) {
+      const point = item.point != null ? item.point : 0
+      const pointStr = point + '积分'
+      const price = item.price != null && item.price !== '' ? Number(item.price) : 0
+      if (!price || price === 0) return pointStr
+      return pointStr + '+' + this.formatPrice(price) + '元'
+    },
     // 格式化价格（除以100）
     formatPrice(price) {
       if (!price) return '0.00'

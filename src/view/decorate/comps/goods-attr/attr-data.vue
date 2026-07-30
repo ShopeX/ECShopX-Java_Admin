@@ -30,6 +30,16 @@
       <i class="el-icon-arrow-right" />
     </div>
 
+    <!-- 积分商品 -->
+    <div
+      v-if="type === 'pointsmall_items'"
+      class="attr-data-specified"
+      @click="handleSelectPointGoods"
+    >
+      <span class="specified-text">{{ pointGoodsDisplayText }}</span>
+      <i class="el-icon-arrow-right" />
+    </div>
+
     <!-- 品类热销榜单 -->
     <CompButton
       v-if="type === 'category_ranking'"
@@ -118,8 +128,12 @@ export default {
       return this.localValue ? this.localValue.split(',') : []
     },
     itemsDisplayText() {
-      const count = this.localValue?.info?.length
+      const count = this.getSelectedItemCount(this.localValue)
       return count > 0 ? `已选择 ${count} 件商品` : '请选择商品'
+    },
+    pointGoodsDisplayText() {
+      const count = this.getSelectedItemCount(this.localValue)
+      return count > 0 ? `已选择 ${count} 件商品` : '选择积分商品'
     }
   },
   watch: {
@@ -130,25 +144,71 @@ export default {
           this.minPrice = Number(min) || 0
           this.maxPrice = Number(max) || 0
         } else if (newVal === 'items') {
-          if (this.value?.info?.type === 'group_id') {
-            this.localValue = cloneDeep(this.value)
-          } else {
-            this.localValue = {
-              id: this.value?.id,
-              info: {
-                length: this.value?.id ? this.value?.id?.split(',')?.length : 0,
-                type: ''
-              }
-            }
-          }
+          this.syncItemsLocalValue(this.value)
+        } else if (newVal === 'pointsmall_items') {
+          this.syncPointGoodsLocalValue(this.value)
         } else {
           this.localValue = cloneDeep(this.value)
         }
       },
       immediate: true
+    },
+    value: {
+      handler(val) {
+        if (this.type === 'items') {
+          this.syncItemsLocalValue(val)
+        } else if (this.type === 'pointsmall_items') {
+          this.syncPointGoodsLocalValue(val)
+        } else if (this.type === 'price' && val?.id) {
+          const [min, max] = String(val.id).split(',')
+          this.minPrice = Number(min) || 0
+          this.maxPrice = Number(max) || 0
+        } else if (val) {
+          this.localValue = cloneDeep(val)
+        }
+      },
+      deep: true
     }
   },
   methods: {
+    getSelectedItemCount(data) {
+      if (!data) return 0
+      if (typeof data.info?.length === 'number') return data.info.length
+      if (Array.isArray(data.info?.length)) return data.info.length
+      if (!data.id) return 0
+      return String(data.id).split(',').filter(Boolean).length
+    },
+    syncItemsLocalValue(val) {
+      const id = (val?.id || '').trim()
+      const ids = id ? id.split(',').filter(Boolean) : []
+      const type = val?.info?.type === 'group_id' || ids.length ? 'group_id' : ''
+      this.localValue = {
+        id,
+        info: {
+          length: ids.length,
+          type
+        }
+      }
+    },
+    syncPointGoodsLocalValue(val) {
+      const id = (val?.id || '').trim()
+      const ids = id ? id.split(',').filter(Boolean) : []
+      this.localValue = {
+        id,
+        info: {
+          length: ids.length,
+          type: 'point'
+        }
+      }
+    },
+    buildPickerDataFromIds(idStr) {
+      if (!idStr) return []
+      return idStr
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .map((id) => ({ item_id: id, itemId: id }))
+    },
     // 选择管理分类
     async handleSelectMainCategory(v) {
       const { data } = await this.$picker.category({
@@ -187,20 +247,25 @@ export default {
     },
     // 选择指定商品（使用 goodsitem 弹窗，goodsCheck 在 plugin 中未注册）
     async handleSelectGoods() {
-      const idStr = this.localValue?.info?.type === 'group_id' ? this.localValue?.id || '' : ''
-      const list = idStr ? idStr.split(',').map((id) => ({ item_id: id, itemId: id })) : []
+      const idStr = (this.localValue?.id || this.value?.id || '').trim()
       const result = await this.$picker.goodsitem({
         isPointGoods: false,
         multiple: true,
         rowKey: 'item_id',
-        data: list,
+        data: this.buildPickerDataFromIds(idStr),
         regionauth_id: this.$route.query.regionauth_id,
         distributor_id: this.$route.query.distributor_id,
         distributor_name: this.$route.query.distributor_name
       })
       if (!result || !result.data) return
-      const selected = result.data || []
-      const ids = selected.map((item) => item.item_id || item.itemId).filter(Boolean)
+      const ids = [
+        ...new Set(
+          (result.data || [])
+            .map((item) => item.item_id ?? item.itemId)
+            .filter((id) => id != null && id !== '')
+            .map(String)
+        )
+      ]
       const data = ids.join(',')
       const length = ids.length
       this.localValue = {
@@ -211,6 +276,35 @@ export default {
         }
       }
       this.$emit('input', { id: data, info: { length, type: 'group_id' } })
+    },
+    // 选择积分商品
+    async handleSelectPointGoods() {
+      const idStr = (this.localValue?.id || this.value?.id || '').trim()
+      const result = await this.$picker.goodsitem({
+        isPointGoods: true,
+        multiple: true,
+        rowKey: 'item_id',
+        data: this.buildPickerDataFromIds(idStr),
+        regionauth_id: this.$route.query.regionauth_id,
+        distributor_id: this.$route.query.distributor_id,
+        distributor_name: this.$route.query.distributor_name
+      })
+      if (!result || !result.data) return
+      const ids = [
+        ...new Set(
+          (result.data || [])
+            .map((item) => item.item_id ?? item.itemId)
+            .filter((id) => id != null && id !== '')
+            .map(String)
+        )
+      ]
+      const data = ids.join(',')
+      const length = ids.length
+      this.localValue = {
+        id: data,
+        info: { length, type: 'point' }
+      }
+      this.$emit('input', { id: data, info: { length, type: 'point' } })
     },
     // 选择拼团活动
     async handleSelectGroup() {
