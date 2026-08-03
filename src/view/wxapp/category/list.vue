@@ -12,7 +12,7 @@
     <SpDialog
       ref="groupDialogRef"
       v-model="showSettingSaleClassify"
-      title="关联销售分类"
+      :title="linkCategoryLabel"
       :form="saleClassifyForm"
       :form-list="saleClassifyFormList"
       @onSubmit="onSaleClassifyFormSubmit"
@@ -68,6 +68,18 @@ export default {
     }
   },
   computed: {
+    isB2B2C() {
+      return this.VERSION_PLATFORM()
+    },
+    linkCategoryLabel() {
+      return this.isB2B2C ? '关联管理分类' : '关联销售分类'
+    },
+    categoryFormLabel() {
+      return this.isB2B2C ? '管理分类' : '销售分类'
+    },
+    categoryFormPlaceholder() {
+      return this.isB2B2C ? '请输入管理分类' : '请输入销售分类'
+    },
     setting() {
       return createSetting({
         search: [
@@ -95,7 +107,7 @@ export default {
           },
           {
             key: 'category_name',
-            name: '关联销售分类',
+            name: this.linkCategoryLabel,
             minWidth: 120
           },
           {
@@ -157,16 +169,16 @@ export default {
             }
           },
           {
-            name: '关联销售分类',
+            name: this.linkCategoryLabel,
             key: 'link',
             type: 'button',
             buttonType: 'text',
             action: {
               handler: async ([row]) => {
                 this.categoryList = []
-                const res = await this.$api.goods.getCategory({
-                  parent_id: 0
-                })
+                const res = await this.$api.goods.getCategory(
+                  this.isB2B2C ? { is_main_category: true } : { parent_id: 0 }
+                )
                 const list = res.map((item) => ({
                   title: item.category_name,
                   value: item.category_id
@@ -230,11 +242,11 @@ export default {
     saleClassifyFormList() {
       return [
         {
-          label: '销售分类',
+          label: this.categoryFormLabel,
           key: 'category_id',
           type: 'select',
           maxlength: 150,
-          placeholder: '请输入销售分类',
+          placeholder: this.categoryFormPlaceholder,
           required: true,
           message: '不能为空',
           options: this.categoryList
