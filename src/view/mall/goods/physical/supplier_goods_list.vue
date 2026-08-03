@@ -1644,7 +1644,7 @@ export default {
       const { status } = await this.$api.goods.exportItemsData(exportParams)
       if (status) {
         this.$message.success('已加入执行队列，请在设置-导出列表中下载')
-        this.$export_open('items')
+        this.$export_open('supplier_goods')
       } else {
         this.$message.error('导出失败')
       }
