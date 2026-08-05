@@ -4,44 +4,41 @@
 -->
 
 <template>
-  <div>
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <el-button type="primary" icon="plus" @click="addRoleLabels"> 添加角色 </el-button>
-      </el-col>
-      <el-col :span="12">
-        <el-input v-model="params.role_name" placeholder="角色名称">
-          <el-button slot="append" icon="el-icon-search" @click="roleSearch" />
-        </el-input>
-      </el-col>
-    </el-row>
-    <el-table v-loading="loading" :data="rolesList" :height="wheight - 160">
+  <SpPage>
+    <div class="action-container">
+      <el-button type="primary" icon="plus" @click="addRoleLabels"> 添加角色 </el-button>
+    </div>
+    <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onSearch">
+      <SpFilterFormItem prop="role_name" label="角色名称:">
+        <el-input v-model="params.role_name" placeholder="请输入角色名称" />
+      </SpFilterFormItem>
+    </SpFilterForm>
+
+    <el-table v-loading="loading" border :data="rolesList">
+      <el-table-column label="操作" width="120">
+        <template slot-scope="scope">
+          <el-button type="text" @click="editRoleAction(scope.$index, scope.row)">
+            编辑
+          </el-button>
+          <el-button type="text" @click="deleteRoleAction(scope.$index, scope.row)">
+            删除
+          </el-button>
+        </template>
+      </el-table-column>
       <el-table-column prop="role_name" label="角色名称" />
       <el-table-column prop="permission" label="角色权限">
         <template slot-scope="scope">
           <el-tree :data="scope.row.permission_tree" :props="defaultProps" />
         </template>
       </el-table-column>
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <div class="operating-icons gap-2">
-            <el-button type="text" @click="editRoleAction(scope.$index, scope.row)">
-              编辑
-            </el-button>
-            <el-button type="text" @click="deleteRoleAction(scope.$index, scope.row)">
-              删除
-            </el-button>
-          </div>
-        </template>
-      </el-table-column>
     </el-table>
-    <div v-if="total_count > params.pageSize" class="content-center content-top-padded">
+    <div class="content-center content-top-padded">
       <el-pagination
         layout="prev, pager, next"
-        :current-page.sync="params.page"
+        :current-page.sync="page.pageIndex"
         :total="total_count"
-        :page-size="params.pageSize"
-        @current-change="handleCurrentChange"
+        :page-size="page.pageSize"
+        @current-change="onCurrentChange"
       />
     </div>
     <!-- 添加、编辑标识-开始 -->
@@ -75,20 +72,20 @@
       </div>
     </el-dialog>
     <!-- 添加、编辑基础物料-结束 -->
-  </div>
+  </SpPage>
 </template>
 <script>
-import { mapGetters } from 'vuex'
-import { Message } from 'element-ui'
 import {
   createRoles,
-  getRolesInfo,
   getRolesList,
   updateRolesInfo,
   deleteRole,
   getPermissionList
 } from '../../../api/company'
+import { pageMixin } from '@/mixins'
+
 export default {
+  mixins: [pageMixin],
   data() {
     return {
       defaultProps: {
@@ -110,31 +107,23 @@ export default {
       total_count: 0,
       params: {
         role_name: '',
-        role_source: 'distributor',
-        page: 1,
-        pageSize: 20
+        role_source: 'distributor'
       },
       menuTreeData: []
     }
   },
-  computed: {
-    ...mapGetters(['wheight'])
-  },
   mounted() {
     this.getMenu()
-    this.getRolesDataList()
+    this.fetchList()
   },
   methods: {
     handleCancel() {
       this.editRoleVisible = false
-      this.$refs.tree.setCheckedKeys([])
-    },
-    handleCurrentChange(page_num) {
-      this.params.page = page_num
-      this.getRolesDataList()
+      if (this.$refs.tree) {
+        this.$refs.tree.setCheckedKeys([])
+      }
     },
     addRoleLabels() {
-      // 添加物料弹框
       this.editRoleTitle = '角色添加'
       this.editRoleVisible = true
       this.isEdit = false
@@ -142,7 +131,6 @@ export default {
       this.form.role_id = ''
       this.form.role_source = 'distributor'
       this.form.permission = []
-      console.log(this.$refs.tree)
       if (this.$refs.tree) {
         this.$refs.tree.setCheckedKeys([])
       } else {
@@ -150,7 +138,6 @@ export default {
       }
     },
     editRoleAction(index, row) {
-      // 编辑物料弹框
       this.editRoleTitle = '角色编辑'
       this.editRoleVisible = true
       this.isEdit = true
@@ -164,46 +151,46 @@ export default {
       }
     },
     submitRoleAction() {
-      // 提交物料
-
-      var checkedNodes = this.$refs.tree.getCheckedNodes()
-      var checkedKeys = []
+      const checkedNodes = this.$refs.tree.getCheckedNodes()
+      const checkedKeys = []
       checkedNodes.forEach((item) => {
         if (!item.isChildrenMenu) {
           checkedKeys.push(item.alias_name)
         }
       })
 
-      var version = 3 //this.$store.getters.menus[0].version
+      const version = 3
       this.form.permission = { shopmenu_alias_name: checkedKeys, version: version }
       if (this.form.role_id) {
-        updateRolesInfo(this.form.role_id, this.form).then((response) => {
+        updateRolesInfo(this.form.role_id, this.form).then(() => {
           this.editRoleVisible = false
-          this.getRolesDataList()
+          this.fetchList()
           this.handleCancel()
         })
       } else {
-        createRoles(this.form).then((response) => {
+        createRoles(this.form).then(() => {
           this.editRoleVisible = false
-          this.getRolesDataList()
+          this.fetchList()
           this.handleCancel()
         })
       }
     },
-    roleSearch() {
-      this.params.page = 1
-      this.getRolesDataList()
-    },
-    getRolesDataList() {
+    fetchList() {
       this.loading = true
-      this.params.service_type = 'timescard'
-      getRolesList(this.params)
+      const { pageIndex: page, pageSize } = this.page
+      const query = {
+        page,
+        pageSize,
+        service_type: 'timescard',
+        ...this.params
+      }
+      getRolesList(query)
         .then((response) => {
           this.rolesList = response.data.data.list
           this.total_count = response.data.data.total_count
           this.loading = false
         })
-        .catch((error) => {
+        .catch(() => {
           this.loading = false
           this.$message({
             type: 'error',
@@ -218,7 +205,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          deleteRole(row.role_id).then((response) => {
+          deleteRole(row.role_id).then(() => {
             this.rolesList.splice(index, 1)
             this.$message({
               message: '删除成功',
@@ -235,40 +222,16 @@ export default {
         })
     },
     getMenu() {
-      let param = { version: 3 }
+      const param = { version: 3 }
       getPermissionList(param).then((res) => {
         this.menuTreeData = res.data.data
-        console.log(this.menuTreeData)
       })
     }
   }
 }
 </script>
-<style lang="scss">
-.el-row {
-  margin-bottom: 20px;
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-.el-col {
-  border-radius: 4px;
-}
-.bg-purple-dark {
-  background: #99a9bf;
-}
-.bg-purple {
-  background: #d3dce6;
-}
-.bg-purple-light {
-  background: #e5e9f2;
-}
-.grid-content {
-  border-radius: 4px;
-  min-height: 10px;
-}
-.row-bg {
-  padding: 10px 0;
-  background-color: #f9fafc;
+<style scoped lang="scss">
+.sp-filter-form {
+  margin-bottom: 16px;
 }
 </style>
