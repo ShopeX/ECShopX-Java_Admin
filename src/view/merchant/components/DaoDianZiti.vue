@@ -12,7 +12,7 @@
 <template>
   <div class="daodianziti">
     <div class="tip">{{ $t('e18035cd.f3240d') }}</div>
-    <el-button type="text" @click="onSelectZiti">{{ $t('e18035cd.47c2de') }}</el-button>
+    <!-- <el-button type="text" @click="onSelectZiti">{{ $t('e18035cd.47c2de') }}</el-button> -->
     <SpFinder
       ref="finder"
       no-selection
