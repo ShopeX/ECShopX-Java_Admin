@@ -252,7 +252,10 @@ export function putRulesInfo(query) {
   return fetch({
     url: '/shops/protocol',
     method: 'put',
-    params: query
+    params: query,
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
 }
 

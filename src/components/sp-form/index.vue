@@ -71,6 +71,16 @@
     margin-bottom: 10px;
   }
 }
+
+/* 仅透明度；进出场同速同曲线 */
+.sp-form-item-fade-enter-active,
+.sp-form-item-fade-leave-active {
+  transition: opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sp-form-item-fade-enter,
+.sp-form-item-fade-leave-to {
+  opacity: 0;
+}
 </style>
 
 <script>
@@ -89,7 +99,7 @@ export default {
     },
     resetBtnText: {
       type: String,
-      default: '重置'
+      default: null
     },
     submitBtn: {
       type: Boolean,
@@ -97,7 +107,7 @@ export default {
     },
     submitBtnText: {
       type: String,
-      default: '确定'
+      default: null
     },
     size: {
       type: String,
@@ -114,6 +124,15 @@ export default {
     labelPosition: {
       type: String,
       default: ''
+    },
+    /** 为每项表单项包一层 transition，配合 v-show 做显隐过渡（如口令开关联动多项显示） */
+    itemTransition: {
+      type: Boolean,
+      default: false
+    },
+    itemTransitionName: {
+      type: String,
+      default: 'sp-form-item-fade'
     },
     value: [Number, String, Object]
   },
@@ -203,7 +222,7 @@ export default {
         <el-input
           clearable
           type='textarea'
-          placeholder={placeholder || '请输入内容'}
+          placeholder={placeholder || this.$t('9f19bb67.a11cc7')}
           rows={5}
           maxlength={maxlength}
           v-model={value[key]}
@@ -222,7 +241,7 @@ export default {
           disabled={isFunction(disabled) ? disabled() : disabled}
           maxlength={maxlength}
           showWordLimit={!!maxlength}
-          placeholder={placeholder || '请输入内容'}
+          placeholder={placeholder || this.$t('9f19bb67.a11cc7')}
           v-model={value[key]}
         >
           <template slot='append'>{append}</template>
@@ -249,7 +268,7 @@ export default {
         //   min={min}
         //   max={max}
         //   disabled={disabled}
-        //   placeholder={placeholder || '请输入内容'}
+        //   placeholder={placeholder || this.$t('9f19bb67.a11cc7')}
         //   v-model={value[key]}
         // >
         //   <template slot='append'>{append}</template>
@@ -277,7 +296,7 @@ export default {
           clearable={clearable ?? true}
           filterable
           v-model={value[key]}
-          placeholder={placeholder || '请选择'}
+          placeholder={placeholder || this.$t('9f19bb67.708c9d')}
           onChange={onChange}
           disabled={isFunction(disabled) ? disabled() : disabled}
         >
@@ -381,7 +400,7 @@ export default {
               value[key] = initValue
             }}
           >
-            重置
+            {this.$t('9f19bb67.4b9c32')}
           </el-button>
         </div>
       )
@@ -430,7 +449,7 @@ export default {
       if (item.validator) {
         rules[item.key] = [{ validator: item.validator }]
       } else if (item.required) {
-        rules[item.key] = [{ required: true, message: item.message || '不能为空' }]
+        rules[item.key] = [{ required: true, message: item.message || this.$t('9f19bb67.281bad') }]
       }
     })
     this.localComps = localComps
@@ -454,13 +473,18 @@ export default {
       >
         {formList.map((item, index) => {
           if (item.type == 'group') {
-            return (
+            const groupNode = (
               <div class='sp-form-group' v-show={this.getItemShow(item)}>
                 {item.label}
               </div>
             )
+            return this.itemTransition ? (
+              <transition name={this.itemTransitionName}>{groupNode}</transition>
+            ) : (
+              groupNode
+            )
           } else {
-            return (
+            const formItemNode = (
               <el-form-item
                 label={item.label ? `${item.label}:` : ''}
                 prop={item.key}
@@ -475,14 +499,21 @@ export default {
                   }
                 ]}
                 style={{
-                  width: item.width ? item.width : 'auto'
+                  width: item.width ? item.width : 'auto',
+                  ...(item.style && typeof item.style === 'object' ? item.style : {})
                 }}
                 showMessage={typeof item.showMessage == 'undefined' ? true : item.showMessage}
                 v-show={this.getItemShow(item)}
+                label-width={item.labelWidth ? item.labelWidth : labelWidth}
               >
                 {getComponentByType(item)}
                 <div class='form-item-tip' domPropsInnerHTML={item.tip}></div>
               </el-form-item>
+            )
+            return this.itemTransition ? (
+              <transition name={this.itemTransitionName}>{formItemNode}</transition>
+            ) : (
+              formItemNode
             )
           }
         })}
@@ -490,12 +521,12 @@ export default {
           <el-form-item>
             {this.resetBtn && (
               <el-button class='mr-5' type='default' onClick={this.resetForm}>
-                {this.resetBtnText}
+                {this.resetBtnText != null ? this.resetBtnText : this.$t('9f19bb67.4b9c32')}
               </el-button>
             )}
             {this.submitBtn && (
               <el-button type='primary' onClick={this.onSubmit}>
-                {this.submitBtnText}
+                {this.submitBtnText != null ? this.submitBtnText : this.$t('9f19bb67.38cf16')}
               </el-button>
             )}
           </el-form-item>

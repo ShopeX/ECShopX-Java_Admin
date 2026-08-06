@@ -6,6 +6,7 @@
 <template>
   <SpPage>
     <div v-loading="loading">
+      <SpPlatformTip v-if="!VERSION_SHUYUN()" h5 app alipay :text-val="$t('59579ae2.c5d4d8')" />
       <SpFormPlus
         ref="form"
         v-model="form"
@@ -15,7 +16,9 @@
         :show-default-actions="false"
       />
       <div class="section-footer with-border content-center">
-        <el-button v-loading="lock" type="primary" @click="onSubmit"> 保存 </el-button>
+        <el-button v-loading="lock" type="primary" @click="onSubmit">
+          {{ $t('59579ae2.be5fbb') }}
+        </el-button>
       </div>
     </div>
   </SpPage>
@@ -75,7 +78,7 @@ export default {
         },
         {
           fieldName: 'is_open',
-          label: '是否启用',
+          label: this.$t('59579ae2.53c3dd'),
           component: 'switch',
           componentProps: {
             'active-color': '#13ce66',
@@ -109,7 +112,7 @@ export default {
         this.lock = false
         this.$message({
           type: 'success',
-          message: '保存成功'
+          message: this.$t('59579ae2.3b1083')
         })
       } catch (error) {
         this.lock = false

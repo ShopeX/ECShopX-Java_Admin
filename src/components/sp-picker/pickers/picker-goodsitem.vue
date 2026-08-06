@@ -57,10 +57,10 @@
   <div class="picker-goods">
     <SpFilterForm :model="formData" @onSearch="onSearch" @onReset="onReset">
       <SpFilterFormItem prop="keywords">
-        <el-input v-model="formData.keywords" clearable placeholder="请输入商品名称" />
+        <el-input v-model="formData.keywords" clearable :placeholder="$t('3157a2d5.d83187')" />
       </SpFilterFormItem>
       <SpFilterFormItem v-if="!value.isPointGoods" prop="approve_status">
-        <el-select v-model="formData.approve_status" clearable placeholder="请选择">
+        <el-select v-model="formData.approve_status" clearable :placeholder="$t('3157a2d5.708c9d')">
           <el-option
             v-for="item in salesStatus"
             :key="item.value"
@@ -73,7 +73,7 @@
       <SpFilterFormItem v-if="!value.isPointGoods" prop="brand_id">
         <el-select
           v-model="formData.brand_id"
-          placeholder="请选择品牌"
+          :placeholder="$t('3157a2d5.f70267')"
           remote
           filterable
           clearable
@@ -90,7 +90,7 @@
       <SpFilterFormItem v-if="!value.isPointGoods" prop="category">
         <el-cascader
           v-model="formData.category"
-          placeholder="请选择分类"
+          :placeholder="$t('3157a2d5.8bb820')"
           clearable
           :options="categoryList"
           :props="{ value: 'category_id', label: 'category_name', checkStrictly: true }"
@@ -103,18 +103,19 @@
         <SpSelectShop
           v-model="formData.distributor_id"
           clearable
-          placeholder="请选择店铺"
+          :placeholder="$t('3157a2d5.06accf')"
+          :query-params="{ show_distributor_self: 1 }"
           @change="onSearch"
         />
       </SpFilterFormItem>
       <SpFilterFormItem v-if="!value.isPointGoods" prop="supplier_name">
-        <el-input v-model="formData.supplier_name" placeholder="所属供应商" />
+        <el-input v-model="formData.supplier_name" :placeholder="$t('3157a2d5.40b1be')" />
       </SpFilterFormItem>
       <SpFilterFormItem prop="item_bn">
-        <el-input v-model="formData.item_bn" placeholder="请输入商品货号" />
+        <el-input v-model="formData.item_bn" :placeholder="$t('3157a2d5.35a59c')" />
       </SpFilterFormItem>
       <SpFilterFormItem prop="item_holder">
-        <el-select v-model="formData.item_holder" placeholder="请选择商品类型" clearable>
+        <el-select v-model="formData.item_holder" :placeholder="$t('3157a2d5.77ccd0')" clearable>
           <el-option
             v-for="item in goodCategory"
             :key="item.value"
@@ -124,15 +125,19 @@
         </el-select>
       </SpFilterFormItem>
       <SpFilterFormItem v-if="!value.isPointGoods" prop="is_gift">
-        <el-select v-model="formData.is_gift" placeholder="是否为赠品" clearable>
-          <el-option :value="true" label="是" />
-          <el-option :value="false" label="否" />
+        <el-select v-model="formData.is_gift" :placeholder="$t('3157a2d5.674022')" clearable>
+          <el-option :value="true" :label="$t('3157a2d5.0a60ac')" />
+          <el-option :value="false" :label="$t('3157a2d5.c9744f')" />
         </el-select>
       </SpFilterFormItem>
       <SpFilterFormItem v-if="!value.isPointGoods" prop="is_prescription">
-        <el-select v-model="formData.is_prescription" placeholder="是否处方药" clearable>
-          <el-option :value="1" label="是" />
-          <el-option :value="0" label="否" />
+        <el-select
+          v-model="formData.is_prescription"
+          :placeholder="$t('3157a2d5.9c251b')"
+          clearable
+        >
+          <el-option :value="1" :label="$t('3157a2d5.0a60ac')" />
+          <el-option :value="0" :label="$t('3157a2d5.c9744f')" />
         </el-select>
       </SpFilterFormItem>
     </SpFilterForm>
@@ -145,65 +150,9 @@
         'header-cell-class-name': cellClass
       }"
       :url="url"
-      :show-pager-text="`已选中：${localSelection.length}`"
+      :show-pager-text="`${$t('3157a2d5.a9e74f')}${localSelection.length}`"
       :fixed-row-action="true"
-      :setting="{
-        columns: [
-          { name: '商品ID', key: 'item_id', width: 80 },
-          {
-            name: '商品名称',
-            key: 'page_name',
-            width: 200,
-            render: (h, { row }) =>
-              h('div', { class: 'item-info' }, [
-                h('div', { class: 'item-image' }, [
-                  h('SpImage', {
-                    props: {
-                      src: row.pics[0],
-                      width: 60,
-                      height: 60
-                    }
-                  })
-                ]),
-                h('div', { class: 'item-name' }, row.itemName)
-              ])
-          },
-          { name: 'SKU编码', key: 'item_bn', width: 120 },
-          {
-            name: '商品类型',
-            key: 'item_holder',
-            width: 80,
-            render: (h, { row }) => h('span', {}, goodCategoryMap[row.item_holder])
-          },
-          {
-            name: '是否赠品',
-            key: 'is_gift',
-            width: 80,
-            render: (h, { row }) => h('span', {}, row.is_gift == '1' ? '是' : '否')
-          },
-          { name: '所属供应商', key: 'supplier_name', width: 100 },
-
-          {
-            name: '市场价（¥）',
-            key: 'market_price',
-            width: 100,
-            render: (h, { row }) => h('span', {}, row.market_price / 100)
-          },
-          {
-            name: '销售价（¥）',
-            key: 'price',
-            width: 100,
-            render: (h, { row }) => h('span', {}, row.price / 100)
-          },
-          {
-            name: '成本价（¥）',
-            key: 'cost_price',
-            width: 100,
-            render: (h, { row }) => h('span', {}, row.cost_price / 100)
-          },
-          { name: '库存', key: 'store', width: 100 }
-        ]
-      }"
+      :setting="goodsitemSetting"
       :hooks="{
         beforeSearch: beforeSearch,
         afterSearch: afterSearch
@@ -243,6 +192,8 @@ export default {
     }
     const formData = Object.assign(defaultParams, queryParams)
     return {
+      type: 'pickerGoodsItem',
+      defaultVal: [],
       formData,
       salesStatus: SALES_STATUS,
       list: [],
@@ -258,7 +209,9 @@ export default {
       },
       categoryList: [],
       multiple: this.value?.multiple ?? true,
-      localSelection: []
+      localSelection: [],
+      rowKey: this.value?.rowKey || 'item_id',
+      restoringSelection: false
     }
   },
   computed: {
@@ -272,11 +225,73 @@ export default {
           return '/goods/items'
         }
       }
+    },
+    goodsitemSetting() {
+      const t = this.$t.bind(this)
+      const goodCategoryMap = this.goodCategoryMap
+      return {
+        columns: [
+          { name: t('3157a2d5.858526'), key: 'item_id', width: 80 },
+          {
+            name: t('3157a2d5.1fd1d5'),
+            key: 'page_name',
+            width: 200,
+            render: (h, { row }) =>
+              h('div', { class: 'item-info' }, [
+                h('div', { class: 'item-image' }, [
+                  h('SpImage', {
+                    props: {
+                      src: row.pics[0],
+                      width: 60,
+                      height: 60
+                    }
+                  })
+                ]),
+                h('div', { class: 'item-name' }, row.itemName)
+              ])
+          },
+          { name: t('3157a2d5.b54bd0'), key: 'item_bn', width: 120 },
+          {
+            name: t('3157a2d5.2af133'),
+            key: 'item_holder',
+            width: 80,
+            render: (h, { row }) => h('span', {}, goodCategoryMap[row.item_holder])
+          },
+          {
+            name: t('3157a2d5.792518'),
+            key: 'is_gift',
+            width: 80,
+            render: (h, { row }) =>
+              h('span', {}, row.is_gift == '1' ? t('3157a2d5.0a60ac') : t('3157a2d5.c9744f'))
+          },
+          { name: t('3157a2d5.40b1be'), key: 'supplier_name', width: 100 },
+          {
+            name: t('3157a2d5.5cd87e'),
+            key: 'market_price',
+            width: 100,
+            render: (h, { row }) => h('span', {}, row.market_price / 100)
+          },
+          {
+            name: t('3157a2d5.cf0170'),
+            key: 'price',
+            width: 100,
+            render: (h, { row }) => h('span', {}, row.price / 100)
+          },
+          {
+            name: t('3157a2d5.066804'),
+            key: 'cost_price',
+            width: 100,
+            render: (h, { row }) => h('span', {}, row.cost_price / 100)
+          },
+          { name: t('3157a2d5.0eac88'), key: 'store', width: 100 }
+        ]
+      }
     }
   },
   created() {
-    this.localSelection = cloneDeep(this.value.data) || []
-    this.rowKey = this.value?.rowKey || 'item_id'
+    this.$options.config.title = this.$t('3157a2d5.43d1e2')
+    this.localSelection = this.normalizeSelectionList(this.value.data)
+    this.syncLocalValFromSelection()
   },
   mounted() {
     this.getGoodsBranchList()
@@ -306,16 +321,53 @@ export default {
       }
       return params
     },
+    rowId(row) {
+      if (!row) return ''
+      const id = row[this.rowKey] ?? row.item_id ?? row.itemId
+      return id != null && id !== '' ? String(id) : ''
+    },
+    normalizeSelectionList(list) {
+      if (!Array.isArray(list)) return []
+      const map = new Map()
+      list.forEach((item) => {
+        if (item == null) return
+        if (typeof item === 'string' || typeof item === 'number') {
+          const id = String(item)
+          map.set(id, { item_id: id, itemId: id })
+          return
+        }
+        const id = this.rowId(item)
+        if (id) {
+          map.set(id, {
+            ...item,
+            item_id: item.item_id ?? item.itemId ?? id,
+            itemId: item.itemId ?? item.item_id ?? id
+          })
+        }
+      })
+      return Array.from(map.values())
+    },
+    syncLocalValFromSelection() {
+      this.localVal = { data: this.localSelection }
+    },
+    dedupeSelectionList(list) {
+      return this.normalizeSelectionList(list)
+    },
     afterSearch(response) {
       const { list } = response.data.data
-      if (this.localSelection.length > 0) {
-        const { finderTable } = this.$refs.finder.$refs
-        const ids = this.localSelection.map((m) => m[this.rowKey])
-        const selectRows = list.filter((item) => ids.includes(item[this.rowKey]))
-        setTimeout(() => {
-          finderTable.$refs.finderTable.setSelection(selectRows)
+      const idSet = new Set(this.localSelection.map((m) => this.rowId(m)).filter(Boolean))
+      if (!idSet.size) return
+      const selectRows = list.filter((item) => idSet.has(this.rowId(item)))
+      const finderTable = this.$refs.finder?.$refs?.finderTable?.$refs?.finderTable
+      if (!finderTable || !selectRows.length) return
+      this.restoringSelection = true
+      this.$nextTick(() => {
+        const sidSet = new Set((finderTable.selection || []).map((m) => this.rowId(m)))
+        finderTable.setSelection(selectRows.filter((f) => !sidSet.has(this.rowId(f))))
+        this.$nextTick(() => {
+          this.restoringSelection = false
         })
-      }
+      })
     },
     onReset() {
       this.$refs.finder.refresh(true)
@@ -324,24 +376,30 @@ export default {
       this.$refs.finder.initData(true)
     },
     onSelect(selection, row) {
+      if (this.restoringSelection) return
       if (!this.multiple) {
         const { finderTable } = this.$refs.finder.$refs
         finderTable.clearSelection()
-        this.localSelection = [row]
+        this.localSelection = row ? [row] : []
         this.$nextTick(() => {
           finderTable.$refs.finderTable.setSelection(selection.length > 0 ? [row] : [])
         })
       } else {
         const isAdd = selection.includes(row)
-        const idx = this.localSelection.findIndex((f) => f[this.rowKey] === row[this.rowKey])
+        const rowKeyVal = this.rowId(row)
+        const idx = this.localSelection.findIndex((f) => this.rowId(f) === rowKeyVal)
 
-        if (isAdd && idx === -1) {
-          this.localSelection.push(row)
-        } else if (!isAdd && idx !== -1) {
+        if (isAdd) {
+          if (idx === -1) {
+            this.localSelection.push(row)
+          } else {
+            this.localSelection.splice(idx, 1, row)
+          }
+        } else if (idx !== -1) {
           this.localSelection.splice(idx, 1)
         }
       }
-      this.localSelection = this.localSelection.filter((item) => item.itemId)
+      this.localSelection = this.dedupeSelectionList(this.localSelection)
       this.updateVal(this.localSelection)
     },
     /**
@@ -350,31 +408,27 @@ export default {
      * @param list 当前页勾选数据 如果localSelection存在未来页数据 那么页码切换的时候 list中也会有
      */
     async handleSelectAll(list) {
+      if (this.restoringSelection) return
       const { finderTable } = this.$refs.finder.$refs
       const currentPageData = finderTable.$refs.finderTable.list
-      const currentPageDataIds = currentPageData.map((m) => m[this.rowKey])
+      const currentPageIdSet = new Set(currentPageData.map((m) => this.rowId(m)).filter(Boolean))
 
-      // 获取当前页面已选中的数据
-      const currentPageSelectList = list.filter((item) =>
-        currentPageDataIds.includes(item[this.rowKey])
-      )
+      const currentPageSelectList = list.filter((item) => currentPageIdSet.has(this.rowId(item)))
 
-      // 先移除当前页的所有选中项
       this.localSelection = this.localSelection.filter(
-        (item) => !currentPageDataIds.includes(item[this.rowKey])
+        (item) => !currentPageIdSet.has(this.rowId(item))
       )
 
-      // 如果有选中项，则添加到 localSelection
       if (currentPageSelectList.length > 0) {
-        this.localSelection.push(...currentPageData)
+        this.localSelection.push(...currentPageSelectList)
       }
 
+      this.localSelection = this.dedupeSelectionList(this.localSelection)
       this.updateVal(this.localSelection)
 
-      // 更新表格选中状态
       this.$nextTick(() => {
         if (currentPageSelectList.length > 0) {
-          finderTable.$refs.finderTable.setSelection(currentPageData)
+          finderTable.$refs.finderTable.setSelection(currentPageSelectList)
         } else {
           finderTable.$refs.finderTable.clearSelection()
         }

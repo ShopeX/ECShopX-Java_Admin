@@ -7,13 +7,15 @@ import Vue from 'vue'
 import qs from 'qs'
 import store from '../store'
 import Router from '../router'
+import { i18n } from '@/i18n'
 import {
   isInSalesCenter,
   goLink,
   isInMerchant,
   isObject,
   IS_DISTRIBUTOR,
-  IS_SUPPLIER
+  IS_SUPPLIER,
+  resolveAppPath
 } from '@/utils'
 
 function resolveGetMethod(inst) {
@@ -43,7 +45,7 @@ export function errorToast(data) {
 
   const { status_code, message } = data
   if (status_code == 40101) {
-    Vue.prototype.$message.error('账号密码错误，请重新登录')
+    Vue.prototype.$message.error(i18n.t('6a105397.f78837'))
   } else if (status_code == 401) {
     // Token has expired
     if (isInSalesCenter()) {
@@ -54,13 +56,13 @@ export function errorToast(data) {
     // Router.push( { path: '/auth/login', replace: true } )
     // 如果是商家入驻
     if (isInMerchant()) {
-      window.location.href = '/merchant'
+      window.location.href = resolveAppPath('/merchant')
     } else if (IS_DISTRIBUTOR()) {
-      window.location.href = '/shopadmin'
+      window.location.href = resolveAppPath('/shopadmin')
     } else if (IS_SUPPLIER()) {
-      window.location.href = '/supplier'
+      window.location.href = resolveAppPath('/supplier')
     } else {
-      window.location.href = '/'
+      window.location.href = resolveAppPath('/')
     }
   } else {
     Vue.prototype.$message.error(message)

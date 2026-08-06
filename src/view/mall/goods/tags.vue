@@ -14,7 +14,7 @@
     />
 
     <div class="action-container mt-4">
-      <el-button type="primary" @click="addTemplate"> 添加商品标签 </el-button>
+      <el-button type="primary" @click="addTemplate"> {{ $t('e1bd2c70.476f3e') }} </el-button>
     </div>
 
     <SpFinder
@@ -30,10 +30,15 @@
         beforeSearch: beforeSearch
       }"
     />
-    <sideBar :visible.sync="show_sideBar" :title="form.tag_id ? '编辑商品标签' : '新增商品标签'">
+    <sideBar
+      :visible.sync="show_sideBar"
+      :title="editingTagId ? $t('e1bd2c70.9d98ce') : $t('e1bd2c70.01d3b0')"
+    >
       <TagForm :value="form" @submit="onFormSubmit" />
       <div slot="footer">
-        <el-button type="primary" @click="handleFormSubmit"> 确定保存 </el-button>
+        <el-button type="primary" @click="handleFormSubmit">
+          {{ $t('e1bd2c70.b75381') }}
+        </el-button>
       </div>
     </sideBar>
   </SpPage>
@@ -45,6 +50,7 @@ import { saveTag, getTagList, getTagInfo, updateTag, deleteTag } from '../../../
 import sideBar from '@/components/element/sideBar'
 import { createSetting } from '@shopex-ui/finder'
 import { useForm } from '@/composables'
+import { i18n } from '@/i18n'
 
 // 预定义颜色常量
 const PREDEFINE_COLORS = [
@@ -65,27 +71,27 @@ const [TagForm, TagFormApi] = useForm({
   formItems: [
     {
       fieldName: 'tag_name',
-      label: '标签名称',
+      label: i18n.t('e1bd2c70.341fe8'),
       component: 'input',
       value: '',
       componentProps: {
-        placeholder: '请输入标签名称'
+        placeholder: i18n.t('e1bd2c70.6f81f3')
       },
-      rules: [{ required: true, message: '请输入标签名称', trigger: 'blur' }]
+      rules: [{ required: true, message: i18n.t('e1bd2c70.6f81f3'), trigger: 'blur' }]
     },
     {
       fieldName: 'description',
-      label: '标签说明',
+      label: i18n.t('e1bd2c70.beff13'),
       component: 'textarea',
       value: '',
       componentProps: {
-        placeholder: '请输入标签说明',
+        placeholder: i18n.t('e1bd2c70.92f284'),
         rows: 3
       }
     },
     {
       fieldName: 'tag_color',
-      label: '标签颜色',
+      label: i18n.t('e1bd2c70.0a6bfb'),
       component: ({ h, value, onInput }) => {
         return h('el-color-picker', {
           props: {
@@ -104,7 +110,7 @@ const [TagForm, TagFormApi] = useForm({
     },
     {
       fieldName: 'font_color',
-      label: '字体颜色',
+      label: i18n.t('e1bd2c70.690660'),
       component: ({ h, value, onInput }) => {
         return h('el-color-picker', {
           props: {
@@ -123,13 +129,13 @@ const [TagForm, TagFormApi] = useForm({
     },
     {
       fieldName: 'front_show',
-      label: '前台显示',
+      label: i18n.t('e1bd2c70.1a7c7c'),
       component: 'radio',
       value: '0',
       componentProps: {
         options: [
-          { label: '显示', value: '1' },
-          { label: '隐藏', value: '0' }
+          { label: i18n.t('e1bd2c70.4d775d'), value: '1' },
+          { label: i18n.t('e1bd2c70.dce537'), value: '0' }
         ]
       }
     }
@@ -145,24 +151,12 @@ export default {
     return {
       show_sideBar: false,
       isEdit: false,
+      editingTagId: '',
       searchParams: {
         tag_name: '',
-        tag_source: 'all' //全部就是 all  店铺 distributor 平台 platform
+        tag_source: 'all'
       },
-      options: [
-        {
-          value: 'all',
-          label: '全部'
-        },
-        {
-          value: 'distributor',
-          label: '店铺标签'
-        },
-        {
-          value: 'platform',
-          label: '平台标签'
-        }
-      ],
+      options: [],
       form: {
         tag_id: '',
         tag_name: '',
@@ -175,28 +169,34 @@ export default {
   },
   computed: {
     ...mapGetters(['wheight']),
-    // 搜索表单配置
+    optionsWithLabel() {
+      return [
+        { value: 'all', label: this.$t('e1bd2c70.a8b0c2') },
+        { value: 'distributor', label: this.$t('e1bd2c70.e86c4b') },
+        { value: 'platform', label: this.$t('e1bd2c70.85d9b3') }
+      ]
+    },
     searchFormItems() {
       return [
         {
           fieldName: 'tag_name',
-          label: '标签名称',
+          label: this.$t('e1bd2c70.341fe8'),
           component: 'input',
           cellWidth: 1.3,
           componentProps: {
             clearable: true,
-            placeholder: '请输入标签名称'
+            placeholder: this.$t('e1bd2c70.6f81f3')
           }
         },
         {
           fieldName: 'tag_source',
-          label: '标签类型',
+          label: this.$t('e1bd2c70.200948'),
           component: 'select',
           cellWidth: 1.3,
           isShow: () => this.$store.getters.login_type != 'distributor',
           componentProps: {
-            placeholder: '请选择',
-            options: this.options.map((item) => ({
+            placeholder: this.$t('e1bd2c70.708c9d'),
+            options: this.optionsWithLabel.map((item) => ({
               label: item.label,
               value: item.value
             }))
@@ -204,12 +204,11 @@ export default {
         }
       ]
     },
-    // 表格配置
     tableSetting() {
       return createSetting({
         actions: [
           {
-            name: '编辑',
+            name: this.$t('e1bd2c70.95b351'),
             key: 'edit',
             type: 'button',
             buttonType: 'text',
@@ -221,7 +220,7 @@ export default {
             }
           },
           {
-            name: '删除',
+            name: this.$t('e1bd2c70.2f4aad'),
             key: 'delete',
             type: 'button',
             buttonType: 'text',
@@ -235,7 +234,7 @@ export default {
         ],
         columns: [
           {
-            name: '标签名称',
+            name: this.$t('e1bd2c70.341fe8'),
             key: 'tag_name',
             width: 250,
             render: (h, scope) => {
@@ -257,11 +256,11 @@ export default {
             }
           },
           {
-            name: '店铺名称',
+            name: this.$t('e1bd2c70.0d4934'),
             key: 'distributor_name'
           },
           {
-            name: '标签描述',
+            name: this.$t('e1bd2c70.da5bf4'),
             key: 'description'
           }
         ]
@@ -274,6 +273,12 @@ export default {
     }
   },
   methods: {
+    normalizeFrontShow(value) {
+      if (value === true || value === 1 || value === '1') {
+        return '1'
+      }
+      return '0'
+    },
     onSearch() {
       this.$refs.finder.refresh(true)
     },
@@ -284,25 +289,24 @@ export default {
       }
     },
     addTemplate() {
-      // 添加商品
-      this.show_sideBar = true
       this.resetData()
-      this.$nextTick(() => {
-        if (TagFormApi.resetFields) {
-          TagFormApi.resetFields()
-        }
-        if (TagFormApi.setFieldsValue) {
-          TagFormApi.setFieldsValue({
-            tag_name: '',
-            description: '',
-            tag_color: '#ff1939',
-            font_color: '#ffffff',
-            front_show: '0'
-          })
-        }
-      })
+      if (TagFormApi.setFieldsValue) {
+        TagFormApi.setFieldsValue({
+          tag_id: '',
+          tag_name: '',
+          description: '',
+          tag_color: '#ff1939',
+          font_color: '#ffffff',
+          front_show: '0'
+        })
+      }
+      if (TagFormApi.resetFields) {
+        TagFormApi.resetFields()
+      }
+      this.show_sideBar = true
     },
     resetData() {
+      this.editingTagId = ''
       this.form = {
         tag_id: '',
         tag_name: '',
@@ -313,17 +317,26 @@ export default {
       }
     },
     editAction(index, row) {
-      // 编辑商品弹框
+      const frontShow = this.normalizeFrontShow(row.front_show)
+      this.editingTagId = row.tag_id
+      this.form = {
+        tag_id: row.tag_id,
+        tag_name: row.tag_name,
+        tag_color: row.tag_color,
+        font_color: row.font_color,
+        description: row.description || '',
+        front_show: frontShow
+      }
       this.show_sideBar = true
       this.$nextTick(() => {
         TagFormApi.setFieldsValue({
+          tag_id: row.tag_id,
           tag_name: row.tag_name,
-          description: row.description,
+          description: row.description || '',
           tag_color: row.tag_color,
           font_color: row.font_color,
-          front_show: row.front_show
+          front_show: frontShow
         })
-        this.form = { ...row }
       })
     },
     preview(index, row) {
@@ -332,16 +345,16 @@ export default {
       this.dataInfo = row
     },
     deleteAction(index, row) {
-      this.$confirm('此操作将删除数据, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('e1bd2c70.38c88c'), this.$t('e1bd2c70.02d981'), {
+        confirmButtonText: this.$t('e1bd2c70.38cf16'),
+        cancelButtonText: this.$t('e1bd2c70.625fb2'),
         type: 'warning'
       })
         .then(() => {
           deleteTag(row.tag_id)
             .then((response) => {
               this.$message({
-                message: '删除成功',
+                message: this.$t('e1bd2c70.0007d1'),
                 type: 'success',
                 duration: 5 * 1000
               })
@@ -350,14 +363,14 @@ export default {
             .catch(() => {
               this.$message({
                 type: 'error',
-                message: '删除失败'
+                message: this.$t('e1bd2c70.acf066')
               })
             })
         })
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: this.$t('e1bd2c70.2111cc')
           })
         })
     },
@@ -384,16 +397,21 @@ export default {
       }
     },
     onFormSubmit(formData) {
+      const tagId = this.editingTagId
       const submitData = {
         ...this.form,
-        ...formData
+        ...formData,
+        tag_id: tagId,
+        front_show: this.normalizeFrontShow(
+          formData.front_show != null ? formData.front_show : this.form.front_show
+        )
       }
-      if (submitData.tag_id) {
+      if (tagId) {
         updateTag(submitData).then((res) => {
           if (res.data.data) {
             this.$message({
               type: 'success',
-              message: '保存成功'
+              message: this.$t('e1bd2c70.3b1083')
             })
             this.show_sideBar = false
             this.$refs.finder.refresh()
@@ -404,7 +422,7 @@ export default {
           if (res.data.data) {
             this.$message({
               type: 'success',
-              message: '保存成功'
+              message: this.$t('e1bd2c70.3b1083')
             })
             this.show_sideBar = false
             this.$refs.finder.refresh()

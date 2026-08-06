@@ -40,7 +40,7 @@
       :setting="{
         columns: [
           { name: 'ID', key: 'article_id', width: 80 },
-          { name: '软文标题', key: 'title' }
+          { name: $t('ef3ae776.64cebd'), key: 'title' }
         ]
       }"
       :hooks="{
@@ -64,6 +64,9 @@ export default {
     title: '选择软文'
   },
   props: ['value'],
+  created() {
+    this.$options.config.title = this.$t('ef3ae776.8f5d8d')
+  },
   data() {
     return {
       formData: {
@@ -72,7 +75,6 @@ export default {
       multiple: this.value?.multiple ?? true
     }
   },
-  created() {},
   methods: {
     beforeSearch(params) {
       params = {
@@ -90,13 +92,18 @@ export default {
     },
     afterSearch(response) {
       const { list } = response.data.data
-      if (this.value.data) {
-        const selectRows = list.filter((item) => this.value.data.includes(item.article_id))
-        const { finderTable } = this.$refs.finder.$refs
-        setTimeout(() => {
-          finderTable.$refs.finderTable.setSelection(selectRows)
-        })
-      }
+      const raw = this.value?.data
+      if (raw == null || raw === '') return
+      const selectedIds = Array.isArray(raw) ? raw : [raw]
+      const selectRows = list.filter((item) =>
+        selectedIds.map(String).includes(String(item.article_id))
+      )
+      if (!selectRows.length) return
+      const finderTable = this.$refs.finder?.$refs?.finderTable
+      if (!finderTable?.$refs?.finderTable) return
+      setTimeout(() => {
+        finderTable.$refs.finderTable.setSelection(selectRows)
+      })
     },
     onSearch() {
       this.$refs.finder.refresh(true)

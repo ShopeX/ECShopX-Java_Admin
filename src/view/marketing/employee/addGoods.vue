@@ -5,13 +5,86 @@
 
 <style lang="scss">
 .marketing-employee-addgoods {
-  .sp-filter-form {
+  .activity-goods-filter-wrap {
+    position: relative;
     margin-bottom: 16px;
+
+    .sp-filter-form {
+      margin-bottom: 0;
+
+      .extend-wrap {
+        display: none;
+      }
+    }
+
+    .activity-goods-filter.sp-filter-form.shouqi {
+      max-height: 220px;
+      overflow: hidden;
+    }
+
+    .activity-goods-filter.is-category-expanded.sp-filter-form.shouqi {
+      max-height: none;
+      overflow: visible;
+    }
+
+    .filter-row-break {
+      flex-basis: 100%;
+      width: 0;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .filter-category-toggle {
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+
+      .extend-icon.extend-active {
+        transform: rotate(180deg);
+      }
+    }
   }
+
   .base-form {
     margin: 10px 0;
+
+    &.sp-form .el-form-item,
     .el-form-item {
-      margin: 0;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      margin-bottom: 0;
+    }
+
+    .el-form-item__label {
+      float: none;
+      flex: 0 0 auto;
+      width: auto !important;
+      min-width: 80px;
+      padding-right: 12px;
+      line-height: 32px;
+      white-space: nowrap;
+    }
+
+    .el-form-item__content {
+      float: none;
+      flex: 0 1 auto;
+      margin-left: 0 !important;
+      line-height: 32px;
+      white-space: nowrap;
+    }
+
+    .el-radio-group {
+      white-space: nowrap;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .el-radio {
+      margin-right: 20px;
     }
   }
   .el-table__expand-icon {
@@ -54,60 +127,120 @@
     margin-right: 6px;
   }
 }
+.activity-page-subtitle {
+  margin: -12px 0 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #999;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 12px;
+
+  &__divider {
+    color: #dcdfe6;
+  }
+}
 </style>
 <template>
-  <SpPage title="添加活动商品">
+  <SpPage :title="$t('2ff5650c.498c0f')">
+    <p v-if="activityId" class="activity-page-subtitle">
+      <span>{{ $t('39c20259.be3322') }}：{{ activityId }}</span>
+      <span v-if="activityName" class="activity-page-subtitle__divider">|</span>
+      <span v-if="activityName">{{ $t('39c20259.39834b') }}：{{ activityName }}</span>
+    </p>
     <div class="marketing-employee-addgoods">
-      <el-card class="el-card--normal" header="活动商品">
+      <el-card class="el-card--normal" :header="$t('2ff5650c.42f9f7')">
         <SpForm
           ref="formBase"
           v-model="formBase"
           class="base-form"
+          label-position="left"
           :label-width="'80px'"
           :form-list="formBaseList"
           :submit="false"
         />
         <!-- {{ queryForm }} -->
-        <SpFilterForm :model="queryForm" @onSearch="onSearch" @onReset="onSearch">
-          <SpFilterFormItem prop="main_cat_id" label="管理分类:">
-            <el-cascader
-              v-model="queryForm.main_cat_id"
-              :options="categoryList"
-              :props="{ checkStrictly: true, label: 'category_name', value: 'category_id' }"
-              clearable
-            />
-          </SpFilterFormItem>
-          <SpFilterFormItem prop="category" label="销售分类:">
-            <el-cascader
-              v-model="queryForm.category"
-              :options="salesCategoryList"
-              :props="{
-                checkStrictly: true,
-                label: 'category_name',
-                value: 'category_id',
-                emitPath: false
-              }"
-              clearable
-            />
-          </SpFilterFormItem>
-          <SpFilterFormItem prop="item_name" label="商品名称:">
-            <el-input v-model="queryForm.item_name" placeholder="请输入商品名称" />
-          </SpFilterFormItem>
-          <SpFilterFormItem prop="item_bn" label="货号:">
-            <el-input v-model="queryForm.item_bn" placeholder="请输入货号" />
-          </SpFilterFormItem>
-        </SpFilterForm>
+        <div class="activity-goods-filter-wrap">
+          <SpFilterForm
+            class="activity-goods-filter"
+            :class="{ 'is-category-expanded': categoryFilterVisible }"
+            :model="queryForm"
+            @onSearch="onSearch"
+            @onReset="onFilterReset"
+          >
+            <SpFilterFormItem prop="item_name" :label="$t('2ff5650c.752597')">
+              <el-input v-model="queryForm.item_name" :placeholder="$t('2ff5650c.d83187')" />
+            </SpFilterFormItem>
+            <SpFilterFormItem prop="item_bn" :label="$t('2ff5650c.d1d3e6')">
+              <el-input v-model="queryForm.item_bn" :placeholder="$t('2ff5650c.40a487')" />
+            </SpFilterFormItem>
+            <div class="filter-row-break" />
+            <SpFilterFormItem prop="shelf_status" :label="$t('d41d8cd9.3fea7c')">
+              <el-select
+                v-model="queryForm.shelf_status"
+                clearable
+                :placeholder="$t('b7aea01d.a8b0c2')"
+              >
+                <el-option :label="$t('b7aea01d.4a5098')" :value="1" />
+                <el-option :label="$t('b7aea01d.d2379a')" :value="0" />
+              </el-select>
+            </SpFilterFormItem>
+            <SpFilterFormItem prop="category" :label="$t('2ff5650c.7ef1b3')">
+              <el-cascader
+                v-model="queryForm.category"
+                :options="salesCategoryList"
+                :props="{
+                  checkStrictly: true,
+                  label: 'category_name',
+                  value: 'category_id',
+                  emitPath: false
+                }"
+                clearable
+              />
+            </SpFilterFormItem>
+            <div class="filter-row-break" />
+            <template v-if="categoryFilterVisible">
+              <SpFilterFormItem prop="main_cat_id" :label="$t('2ff5650c.e73602')">
+                <el-cascader
+                  v-model="queryForm.main_cat_id"
+                  :options="categoryList"
+                  :props="{ checkStrictly: true, label: 'category_name', value: 'category_id' }"
+                  clearable
+                />
+              </SpFilterFormItem>
+            </template>
+          </SpFilterForm>
+          <div class="filter-category-toggle">
+            <el-button type="text" @click="toggleCategoryFilter">
+              <div class="flex items-center">
+                <span>{{ categoryFilterToggleText }}</span>
+                <SpIcon
+                  :class="{ 'extend-icon': true, 'extend-active': categoryFilterVisible }"
+                  name="chevrons-down"
+                />
+              </div>
+            </el-button>
+          </div>
+        </div>
 
         <div class="action-container">
           <!-- 平台端 来源店铺非平台则隐藏 -->
           <el-button type="primary" :disabled="adminDisabled" plain @click="handleImport">
-            导入商品
+            {{ $t('2ff5650c.6a4607') }}
           </el-button>
+          <el-button type="primary" :disabled="adminDisabled" plain @click="handleSortImport">
+            导入排序
+          </el-button>
+          <el-button type="primary" plain @click="handleExport">导出商品</el-button>
           <el-button type="primary" :disabled="adminDisabled" plain @click="onSelectGoods">
-            选择商品
+            {{ $t('2ff5650c.43d1e2') }}
           </el-button>
           <el-button type="primary" :disabled="adminDisabled" plain @click="handlePatchAction">
-            批量设置
+            {{ $t('2ff5650c.475dd0') }}
+          </el-button>
+          <el-button type="primary" :disabled="adminDisabled" plain @click="handleBatchShelfAction">
+            {{ $t('2ff5650c.d8f1a2') }}
           </el-button>
         </div>
 
@@ -126,7 +259,7 @@
               <el-checkbox v-if="!scope.row.is_sku" v-model="scope.row.checked" />
             </template>
           </el-table-column>
-          <el-table-column prop="item_name" label="商品标题" width="380">
+          <el-table-column prop="item_name" :label="$t('2ff5650c.07ec01')" width="380">
             <template slot-scope="scope">
               <div v-if="!scope.row.is_sku" class="item-info">
                 <div>
@@ -135,14 +268,14 @@
                 <div>
                   <div class="item-name">{{ scope.row.item_name }}</div>
                   <div class="item-bn">
-                    货号：{{ scope.row.item_bn }}
+                    {{ $t('2ff5650c.4bb294') }}{{ scope.row.item_bn }}
                     <el-button
                       v-if="scope.row.nospec != 'true' && !adminDisabled"
                       style="margin-left: 4px"
                       type="text"
                       @click="onSelectSku(scope.row)"
                     >
-                      选择规格
+                      {{ $t('2ff5650c.a0f99d') }}
                     </el-button>
                   </div>
                 </div>
@@ -152,7 +285,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="store" label="商城库存">
+          <el-table-column prop="store" :label="$t('2ff5650c.50b64f')">
             <template
               v-if="(scope.row.nospec == 'false' && scope.row.is_sku) || scope.row.nospec == 'true'"
               slot-scope="scope"
@@ -160,12 +293,12 @@
               {{ scope.row.store }}
             </template>
           </el-table-column>
-          <el-table-column prop="price" label="销售价（元）" width="120">
+          <el-table-column prop="price" :label="$t('2ff5650c.3af230')" width="120">
             <template slot-scope="scope">
               {{ scope.row.price / 100 }}
             </template>
           </el-table-column>
-          <el-table-column prop="price" label="商城价格（元）" width="120">
+          <el-table-column prop="price" :label="$t('2ff5650c.140b3a')" width="120">
             <template
               v-if="(scope.row.nospec == 'false' && scope.row.is_sku) || scope.row.nospec == 'true'"
               slot-scope="scope"
@@ -173,7 +306,7 @@
               {{ scope.row.price / 100 }}
             </template>
           </el-table-column>
-          <el-table-column prop="activity_price" label="活动价格（元）" width="120">
+          <el-table-column prop="activity_price" :label="$t('2ff5650c.49e9e4')" width="120">
             <template
               v-if="(scope.row.nospec == 'false' && scope.row.is_sku) || scope.row.nospec == 'true'"
               slot-scope="scope"
@@ -196,7 +329,7 @@
                     size="mini"
                     @click="onModifyActivityItem(scope.row, 'activity_price')"
                   >
-                    确定
+                    {{ $t('2ff5650c.38cf16') }}
                   </el-button>
                 </div>
                 <el-button slot="reference" type="text">
@@ -205,7 +338,7 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="activity_store" label="活动库存">
+          <el-table-column prop="activity_store" :label="$t('2ff5650c.a43d00')">
             <template
               v-if="(scope.row.nospec == 'false' && scope.row.is_sku) || scope.row.nospec == 'true'"
               slot-scope="scope"
@@ -228,7 +361,7 @@
                     size="mini"
                     @click="onModifyActivityItem(scope.row, 'activity_store')"
                   >
-                    确定
+                    {{ $t('2ff5650c.38cf16') }}
                   </el-button>
                 </div>
                 <el-button slot="reference" :disabled="formBase.value == '1'" type="text">
@@ -237,7 +370,7 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="sort" label="排序">
+          <el-table-column prop="sort" :label="$t('2ff5650c.c360e9')">
             <template slot-scope="scope">
               <span>{{ scope.row.sort }}</span>
               <el-popover
@@ -257,7 +390,7 @@
                     size="mini"
                     @click="onModifyActivityItem(scope.row, 'sort')"
                   >
-                    确定
+                    {{ $t('2ff5650c.38cf16') }}
                   </el-button>
                 </div>
                 <el-button slot="reference" type="text">
@@ -266,7 +399,7 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="limit_num" label="每人限购（件）" width="120">
+          <el-table-column prop="limit_num" :label="$t('2ff5650c.9542cd')" width="120">
             <template
               v-if="(scope.row.nospec == 'false' && scope.row.is_sku) || scope.row.nospec == 'true'"
               slot-scope="scope"
@@ -289,7 +422,7 @@
                     size="mini"
                     @click="onModifyActivityItem(scope.row, 'limit_num')"
                   >
-                    确定
+                    {{ $t('2ff5650c.38cf16') }}
                   </el-button>
                 </div>
                 <el-button slot="reference" type="text">
@@ -298,7 +431,7 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="limit_fee" label="每人限额（元）" width="120">
+          <el-table-column prop="limit_fee" :label="$t('2ff5650c.0588d2')" width="120">
             <template
               v-if="(scope.row.nospec == 'false' && scope.row.is_sku) || scope.row.nospec == 'true'"
               slot-scope="scope"
@@ -321,7 +454,7 @@
                     size="mini"
                     @click="onModifyActivityItem(scope.row, 'limit_fee')"
                   >
-                    确定
+                    {{ $t('2ff5650c.38cf16') }}
                   </el-button>
                 </div>
                 <el-button slot="reference" type="text">
@@ -330,11 +463,31 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column fixed="left" label="操作" width="120px">
+          <el-table-column prop="shelf_status" :label="$t('d41d8cd9.3fea7c')" width="90">
+            <template
+              v-if="(scope.row.nospec == 'false' && scope.row.is_sku) || scope.row.nospec == 'true'"
+              slot-scope="scope"
+            >
+              <span>{{
+                Number(scope.row.shelf_status) === 1 ? $t('b7aea01d.4a5098') : $t('b7aea01d.d2379a')
+              }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column fixed="left" :label="$t('2ff5650c.2b6bc0')" width="120px">
             <template slot-scope="scope">
-              <!-- 平台端 来源店铺非平台则隐藏 -->
-              <el-button v-if="!adminDisabled" type="text" @click="removeActivityItem(scope.row)">
-                移除
+              <el-button
+                v-if="
+                  !adminDisabled &&
+                  ((scope.row.nospec == 'false' && scope.row.is_sku) || scope.row.nospec == 'true')
+                "
+                type="text"
+                @click="toggleShelfStatus(scope.row)"
+              >
+                {{
+                  Number(scope.row.shelf_status) === 1
+                    ? $t('b7aea01d.d2379a')
+                    : $t('b7aea01d.4a5098')
+                }}
               </el-button>
             </template>
           </el-table-column>
@@ -353,13 +506,62 @@
         />
       </el-card>
 
+      <el-dialog
+        :title="$t('2ff5650c.6a4607')"
+        :visible.sync="importDialog"
+        width="900px"
+        append-to-body
+        destroy-on-close
+        :close-on-click-modal="false"
+        @closed="onImportDialogClosed"
+      >
+        <related-upload
+          v-if="importDialog"
+          file-type="employee_purchase_activity_items"
+          :related-id="$route.params.id"
+          :file-name="$t('5f45d286.3dd83a')"
+          :table-height="420"
+          :extra-params="importExtraParams"
+          :operation-tip="$t('2ff5650c.c7d8e9')"
+        />
+      </el-dialog>
+
+      <el-dialog
+        title="导入排序"
+        :visible.sync="sortImportDialog"
+        width="900px"
+        append-to-body
+        destroy-on-close
+        :close-on-click-modal="false"
+        @closed="onImportDialogClosed"
+      >
+        <related-upload
+          v-if="sortImportDialog"
+          file-type="employee_purchase_activity_items_sort"
+          :related-id="$route.params.id"
+          file-name="导入排序"
+          :table-height="420"
+          :extra-params="importExtraParams"
+          operation-tip="排序数字越大越靠前；留空默认为0；每次导入覆盖当前排序。"
+        />
+      </el-dialog>
+
       <SpDialog
         ref="patchDialogRef"
         v-model="patchDialog"
-        :title="`批量设置`"
+        :title="$t('2ff5650c.475dd0')"
         :form="patchForm"
         :form-list="patchFormList"
         @onSubmit="onPatchChangeSubmit"
+      />
+
+      <SpDialog
+        ref="batchShelfDialogRef"
+        v-model="batchShelfDialog"
+        :title="$t('2ff5650c.d8f1a2')"
+        :form="batchShelfForm"
+        :form-list="batchShelfFormList"
+        @onSubmit="onBatchShelfSubmit"
       />
     </div>
   </SpPage>
@@ -367,35 +569,26 @@
 
 <script>
 import Pages from '@/utils/pages'
+import RelatedUpload from '@/components/related-upload'
 export default {
   name: '',
+  components: {
+    RelatedUpload
+  },
   data() {
     return {
       formBase: {
         value: '1'
       },
-      formBaseList: [
-        {
-          label: '商品库存',
-          key: 'value',
-          type: 'radio',
-          disabled: () => this.IS_ADMIN() && this.distributor_id != '0',
-          options: [
-            { name: '共享商城库存', label: '1' },
-            { name: '活动独立库存', label: '2' }
-          ],
-          onChange: async () => {
-            const { id } = this.$route.params
-            await this.$api.marketing.setActivityShareStore({
-              activity_id: id,
-              if_share_store: this.formBase.value == '1' ? 1 : 0
-            })
-            this.$message.success('操作成功')
-          }
-        }
-      ],
       distributor_id: null,
+      importDialog: false,
+      sortImportDialog: false,
       patchDialog: false,
+      batchShelfDialog: false,
+      batchShelfForm: {
+        item_id: [],
+        shelf_status: 1
+      },
       patchForm: {
         item_id: [],
         activity_price: 0,
@@ -404,38 +597,12 @@ export default {
         limit_num: 0,
         limit_fee: 0
       },
-      patchFormList: [
-        {
-          label: '活动价格',
-          key: 'activity_price',
-          type: 'input'
-        },
-        {
-          label: '活动库存',
-          key: 'activity_store',
-          type: 'input'
-        },
-        {
-          label: '排序',
-          key: 'sort',
-          type: 'input'
-        },
-        {
-          label: '每人限购',
-          key: 'limit_num',
-          type: 'input'
-        },
-        {
-          label: '每人限额',
-          key: 'limit_fee',
-          type: 'input'
-        }
-      ],
       queryForm: {
         main_cat_id: [],
         category: '',
         item_name: '',
-        item_bn: ''
+        item_bn: '',
+        shelf_status: ''
       },
       categoryList: [],
       salesCategoryList: [],
@@ -444,6 +611,9 @@ export default {
       pageSize: 20,
       total: 0,
       loading: false,
+      activityName: '',
+      activityId: '',
+      categoryFilterVisible: false,
       tempModify: {
         activity_price: 0,
         activity_store: 0,
@@ -456,6 +626,61 @@ export default {
   computed: {
     adminDisabled() {
       return this.IS_ADMIN() && this.distributor_id != '0'
+    },
+    importExtraParams() {
+      return {
+        distributor_id: this.distributor_id || '0'
+      }
+    },
+    formBaseList() {
+      return [
+        {
+          label: this.$t('2ff5650c.24bc52'),
+          key: 'value',
+          type: 'radio',
+          disabled: () => this.IS_ADMIN() && this.distributor_id != '0',
+          options: [
+            { name: this.$t('2ff5650c.32925f'), label: '1' },
+            { name: this.$t('2ff5650c.97596e'), label: '2' }
+          ],
+          onChange: async () => {
+            const { id } = this.$route.params
+            await this.$api.marketing.setActivityShareStore({
+              activity_id: id,
+              if_share_store: this.formBase.value == '1' ? 1 : 0
+            })
+            this.$message.success(this.$t('2ff5650c.33130f'))
+          }
+        }
+      ]
+    },
+    patchFormList() {
+      return [
+        { label: this.$t('2ff5650c.b5ad46'), key: 'activity_price', type: 'input' },
+        { label: this.$t('2ff5650c.a43d00'), key: 'activity_store', type: 'input' },
+        { label: this.$t('2ff5650c.c360e9'), key: 'sort', type: 'input' },
+        { label: this.$t('2ff5650c.343488'), key: 'limit_num', type: 'input' },
+        { label: this.$t('2ff5650c.8a34e8'), key: 'limit_fee', type: 'input' }
+      ]
+    },
+    batchShelfFormList() {
+      return [
+        {
+          label: this.$t('d41d8cd9.3fea7c'),
+          key: 'shelf_status',
+          type: 'radio',
+          options: [
+            { name: this.$t('b7aea01d.4a5098'), label: 1 },
+            { name: this.$t('b7aea01d.d2379a'), label: 0 }
+          ]
+        }
+      ]
+    },
+    categoryFilterToggleText() {
+      const action = this.categoryFilterVisible
+        ? this.$t('7a07d52e.def9e9')
+        : this.$t('7a07d52e.e2edde')
+      return `${action}${this.$t('1f1701db.d0771a')}`
     }
   },
   async created() {
@@ -473,41 +698,87 @@ export default {
     }).nextPage()
   },
   methods: {
-    handleImport() {
-      let path
-      if (this.IS_DISTRIBUTOR()) {
-        if (this.VERSION_STANDARD()) {
-          path =
-            '/shopadmin/products/store-product-manage/physicalupload?file_type=employee_purchase_activity_items'
-        } else {
-          path =
-            '/shopadmin/products/product-manage/product-import?file_type=employee_purchase_activity_items'
-        }
-      } else {
-        path =
-          '/products/product-manage/self-products/product-import?file_type=employee_purchase_activity_items'
+    toggleCategoryFilter() {
+      this.categoryFilterVisible = !this.categoryFilterVisible
+    },
+    onFilterReset() {
+      if (!this.categoryFilterVisible) {
+        this.queryForm.main_cat_id = []
       }
-      this.$router.push({ path })
+      this.categoryFilterVisible = false
+      this.onSearch()
+    },
+    handleImport() {
+      this.importDialog = true
+    },
+    handleSortImport() {
+      this.sortImportDialog = true
+    },
+    async handleExport() {
+      const itemIds = this.collectSelectedItemIds()
+      const res = await this.$api.marketing.exportActivityItems({
+        activity_id: this.$route.params.id,
+        distributor_id: this.distributor_id,
+        ...this.queryForm,
+        ...(itemIds.length ? { item_id: itemIds } : {})
+      })
+      if (res && res.status) {
+        this.$message.success('导出任务已创建')
+        this.$export_open_blank('employee_purchase_activity_items')
+      }
+    },
+    onImportDialogClosed() {
+      this.pagesQuery.refresh()
+    },
+    collectSelectedItemIds() {
+      const selectItems = this.tableData.filter((item) => !!item.checked)
+      if (!selectItems.length) {
+        return []
+      }
+      const itemIds = []
+      selectItems.forEach((item) => {
+        if (item.nospec == 'true') {
+          itemIds.push(item.item_id)
+        } else if (typeof item.spec_items != 'undefined') {
+          item.spec_items.forEach((sitem) => {
+            itemIds.push(sitem.item_id)
+          })
+        }
+      })
+      return itemIds
     },
     handlePatchAction() {
-      const selectItems = this.tableData.filter((item) => !!item.checked)
-      if (selectItems.length > 0) {
-        let itemIds = []
-        selectItems.forEach((item) => {
-          // 单规格
-          if (item.nospec == 'true') {
-            itemIds.push(item.item_id)
-          } else if (typeof item.spec_items != 'undefined') {
-            item.spec_items.forEach((sitem) => {
-              itemIds.push(sitem.item_id)
-            })
-          }
-        })
+      const itemIds = this.collectSelectedItemIds()
+      if (itemIds.length > 0) {
         this.patchForm.item_id = itemIds
         this.patchDialog = true
       } else {
-        this.$message.error('请选择商品')
+        this.$message.error(this.$t('2ff5650c.c5c5f2'))
       }
+    },
+    handleBatchShelfAction() {
+      const itemIds = this.collectSelectedItemIds()
+      if (itemIds.length > 0) {
+        this.batchShelfForm = {
+          item_id: itemIds,
+          shelf_status: 1
+        }
+        this.batchShelfDialog = true
+      } else {
+        this.$message.error(this.$t('2ff5650c.c5c5f2'))
+      }
+    },
+    async onBatchShelfSubmit() {
+      const { id } = this.$route.params
+      const { item_id, shelf_status } = this.batchShelfForm
+      await this.$api.marketing.updateActivityItem({
+        activity_id: id,
+        item_id,
+        shelf_status: Number(shelf_status)
+      })
+      this.batchShelfDialog = false
+      this.$message.success(this.$t('2ff5650c.33130f'))
+      this.pagesQuery.refresh()
     },
     async onPatchChangeSubmit() {
       const { id } = this.$route.params
@@ -541,8 +812,10 @@ export default {
     },
     async getActivityItemDetail() {
       const { id } = this.$route.params
-      const { if_share_store } = await this.$api.marketing.getActivityItemDetail(id)
-      this.formBase.value = if_share_store ? '1' : '2'
+      const res = await this.$api.marketing.getActivityItemDetail(id)
+      this.activityId = res.id || id
+      this.activityName = res.name || ''
+      this.formBase.value = res.if_share_store ? '1' : '2'
     },
     async onSelectGoods() {
       const {
@@ -596,12 +869,20 @@ export default {
         item['limit_fee'] = item.limit_fee / 100
         item['tid'] = ++tindex
         item['checked'] = false
+        item['shelf_status'] =
+          item.shelf_status === undefined || item.shelf_status === null
+            ? 1
+            : Number(item.shelf_status)
         if (typeof item.spec_items != 'undefined') {
           item.spec_items.forEach((sitem) => {
             sitem['is_sku'] = true
             sitem['activity_price'] = sitem.activity_price / 100
             sitem['limit_fee'] = sitem.limit_fee / 100
             sitem['tid'] = ++tindex
+            sitem['shelf_status'] =
+              sitem.shelf_status === undefined || sitem.shelf_status === null
+                ? 1
+                : Number(sitem.shelf_status)
           })
         }
       })
@@ -626,15 +907,19 @@ export default {
       })
       this.pagesQuery.reset()
     },
-    async removeActivityItem({ item_id, is_sku }) {
+    async toggleShelfStatus({ item_id, is_sku, shelf_status }) {
       const { id } = this.$route.params
-      await this.$confirm(`确认删除？`, '提示')
-      let params = {}
-      if (!is_sku) {
-        params['all'] = 1
+      const params = {
+        activity_id: id,
+        item_id,
+        shelf_status: Number(shelf_status) === 1 ? 0 : 1
       }
-      await this.$api.marketing.deleteActivityItem(id, item_id, params)
-      this.pagesQuery.reset()
+      if (!is_sku) {
+        params.all = 1
+      }
+      await this.$api.marketing.updateActivityItem(params)
+      this.$message.success(this.$t('2ff5650c.33130f'))
+      this.pagesQuery.refresh()
     },
     async onModifyActivityItem(item, key) {
       const { id } = this.$route.params

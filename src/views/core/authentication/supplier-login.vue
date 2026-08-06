@@ -6,9 +6,9 @@
 <template>
   <div class="bg-white relative flex flex-col justify-center">
     <div>
-      <img src="/images/logo.png" alt="logo" width="300" />
-      <div class="text-[14px] mt-2 ml-2 text-[#BЗBЗB3]">供应商端</div>
-      <div class="text-[28px] font-helvca mt-8 ml-2 text-[#333]">请登录</div>
+      <img :src="logoSrc" alt="logo" width="300" />
+      <div class="text-[14px] mt-2 ml-2 text-[#BЗBЗB3]">{{ $t('65ffe27b.14f5bc') }}</div>
+      <div class="text-[28px] font-helvca mt-8 ml-2 text-[#333]">{{ $t('24b2720c.7d1eb0') }}</div>
     </div>
 
     <div class="mt-8 ml-2">
@@ -22,7 +22,7 @@
         :loading="loading"
         @click="handleLogin"
       >
-        登录
+        {{ $t('24b2720c.402d19') }}
       </el-button>
     </div>
   </div>
@@ -31,7 +31,7 @@
 <script>
 import { useForm } from '@/composables'
 import Config from '@/config'
-import { getSystemTitle } from '@/utils'
+import { decodeJwtPayload, getSystemTitle, resolveAppPath, resolvePublicAsset } from '@/utils'
 
 const [Form, FormApi] = useForm({
   formItems: [
@@ -69,7 +69,8 @@ export default {
     return {
       formApi: FormApi,
       loading: false,
-      recoderNumber: Config.recoder_number
+      recoderNumber: Config.recoder_number,
+      logoSrc: resolvePublicAsset('images/logo.png')
     }
   },
   computed: {
@@ -96,32 +97,29 @@ export default {
           // agreement_id
         })
         if (token) {
-          const tokenArray = token.split('.')
-          const { menu_type } = JSON.parse(atob(tokenArray[1]))
+          const { menu_type } = decodeJwtPayload(token)
           this.$store.commit('system/setVersionMode', { versionMode: menu_type })
           this.$store.commit('user/setToken', { token })
           this.$store.commit('user/setLoginType', { login_type: 'supplier' })
-          this.$message.success('登录成功')
+          this.$message.success(this.$t('24b2720c.71fa3b'))
           await this.$store.dispatch('user/fetchAccessMenus')
           await this.$store.dispatch('user/fetchAccountInfo')
           setTimeout(() => {
-            window.location.href = '/supplier'
+            window.location.href = resolveAppPath('/supplier')
           }, 700)
         }
       } catch (error) {
-        // console.error('登录失败:', error)
+        console.error('登录失败:', error)
         // this.$message.error(error.message || '登录失败')
       } finally {
         this.loading = false
       }
     },
     handleError(error) {
-      console.error('表单错误:', error)
-      this.$message.error('表单验证失败，请检查输入')
+      this.$message.error(this.$t('24b2720c.653132'))
     },
     handleReset() {
-      console.log('表单重置')
-      this.$message.info('表单已重置')
+      this.$message.info(this.$t('65ffe27b.a865cc'))
     }
   }
 }

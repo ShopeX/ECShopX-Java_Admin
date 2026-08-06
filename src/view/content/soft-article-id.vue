@@ -9,7 +9,12 @@
     <div class="flex gap-5">
       <div class="px-5">
         <SpIphone>
-          <SpDecorate ref="decorateRef" v-model="content" scene="1005" title="软文装修" />
+          <SpDecorate
+            ref="decorateRef"
+            v-model="content"
+            scene="1005"
+            :title="$t('5815f596.cb118f')"
+          />
         </SpIphone>
       </div>
       <div class="flex-1">
@@ -28,52 +33,52 @@
 
 <script>
 export default {
-  inject: ['refresh'],
   data() {
     return {
+      submitting: false,
       articleForm: {
         title: '',
         summary: '',
         author: '',
         head_portrait: '',
         category_id: '',
-        region_id: [],
-        region_name: [],
+        regions_id: [],
+        regions: [],
         image_url: '',
         share_image_url: ''
       },
       articleFormList: [
         {
-          label: '标题',
+          label: this.$t('5815f596.32c65d'),
           key: 'title',
           type: 'input'
         },
         {
-          label: '副标题',
+          label: this.$t('5815f596.72cf37'),
           key: 'summary',
           type: 'input'
         },
         {
-          label: '作者名称',
+          label: this.$t('5815f596.ad0c76'),
           key: 'author',
           type: 'input'
         },
         {
-          label: '作者头像',
+          label: this.$t('5815f596.c08f0c'),
           key: 'head_portrait',
           component: ({ key }, form) => {
             return <SpImagePicker v-model={form[key]} />
           }
         },
         {
-          label: '文章类目选择',
+          label: this.$t('5815f596.c7a058'),
           key: 'category_id',
           type: 'select',
           options: []
         },
         {
-          label: '地区选择',
-          key: 'region_id',
+          label: this.$t('5815f596.9b711a'),
+          key: 'regions_id',
           component: ({ key }, form) => {
             return (
               <div class='flex gap-2'>
@@ -83,27 +88,27 @@ export default {
                   style='width: 260px;'
                 />
                 <el-button type='default' onClick={this.asyncToArticleTitle}>
-                  点击同步到标题
+                  {this.$t('5815f596.0abc91')}
                 </el-button>
               </div>
             )
           }
         },
         {
-          label: '封面图片',
+          label: this.$t('5815f596.9cbbc8'),
           key: 'image_url',
           component: ({ key }, form) => {
             return <SpImagePicker v-model={form[key]} />
           },
-          tip: '建议尺寸：200像素 * 200像素'
+          tip: this.$t('5815f596.9f9b2a')
         },
         {
-          label: '分享图片',
+          label: this.$t('5815f596.106d52'),
           key: 'share_image_url',
           component: ({ key }, form) => {
             return <SpImagePicker v-model={form[key]} />
           },
-          tip: '建议尺寸：200像素 * 200像素'
+          tip: this.$t('5815f596.9f9b2a')
         }
       ],
       content: []
@@ -111,28 +116,35 @@ export default {
   },
   computed: {
     pageTitle() {
-      return this.$route.query.id ? '编辑软文' : '创建软文'
+      return this.$route.query.id ? this.$t('5815f596.f48bbd') : this.$t('5815f596.13e8aa')
     }
   },
   mounted() {
     if (this.$route.query.id) {
       this.getArticle()
     }
-    this.$route.meta.name = this.$route.query.id ? 'edit' : 'create'
     this.getArticleCategory()
   },
   methods: {
+    backToList() {
+      const listPath = this.$route.path.replace(/\/editor(\/.*)?$/, '')
+      if (!listPath || listPath === this.$route.path) {
+        return Promise.resolve()
+      }
+      return this.$router.replace({ path: listPath }).catch(() => {})
+    },
     async getArticle() {
       const res = await this.$api.article.getArticleInfo(this.$route.query.id)
       if (res) {
+        const categoryId = res.category_id
         this.articleForm = {
           title: res.title,
           summary: res.summary,
           author: res.author,
           head_portrait: res.head_portrait,
-          category_id: res.category_id,
-          region_id: res.regions_id,
-          region_name: res.regions,
+          category_id: categoryId !== '' && categoryId != null ? Number(categoryId) : categoryId,
+          regions_id: res.regions_id,
+          regions: res.regions,
           image_url: res.image_url,
           share_image_url: res.share_image_url
         }
@@ -153,27 +165,37 @@ export default {
     },
     asyncToArticleTitle() {
       const title = this.articleForm.title.replace(/^\[(.+?)\]/g, '')
-      this.articleForm.title = `[${this.articleForm.region_name.join('')}]${title}`
+      this.articleForm.title = `[${this.articleForm.regions?.join('')}]${title}`
     },
-    handleRegionChange({ region_name }) {
-      this.articleForm.region_name = region_name
+    handleRegionChange(data) {
+      const { region_name } = data
+      this.articleForm.regions = region_name
     },
     async onSubmitTabList() {
-      const params = {
-        ...this.articleForm,
-        article_type: 'bring',
-        content: this.content
+      if (this.submitting) {
+        return
       }
-      if (this.$route.query.id) {
-        await this.$api.article.updateArticle(this.$route.query.id, params)
-        this.$message.success('修改文章成功')
-        this.refresh()
-        this.$router.go(-1)
-      } else {
-        await this.$api.article.createArticle(params)
-        this.$message.success('添加文章成功')
-        this.refresh()
-        this.$router.go(-1)
+      this.submitting = true
+      try {
+        const params = {
+          ...this.articleForm,
+          article_type: 'bring',
+          content: this.content
+        }
+        if (!params.regions_id?.length) {
+          delete params.regions_id
+          delete params.regions
+        }
+        if (this.$route.query.id) {
+          await this.$api.article.updateArticle(this.$route.query.id, params)
+          this.$message.success(this.$t('5815f596.6d2221'))
+        } else {
+          await this.$api.article.createArticle(params)
+          this.$message.success(this.$t('5815f596.e04b36'))
+        }
+        await this.backToList()
+      } finally {
+        this.submitting = false
       }
     }
   }

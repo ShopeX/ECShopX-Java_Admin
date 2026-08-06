@@ -37,25 +37,50 @@
   <div class="comp-picker-link">
     <!-- {{ localValue }} -->
     <el-radio-group v-model="localValue.linkType" class="linktype-radio" @change="onChangeLinkType">
-      <el-radio :label="0"> {{ '选择路径' }} </el-radio>
-      <el-radio v-if="isShowH5Link" :label="1">{{ 'H5链接' }} </el-radio>
+      <el-radio :label="0">{{ i18n.t('098e5620.e3cf91') }}</el-radio>
+      <el-radio v-if="isShowH5Link" :label="1">{{ i18n.t('098e5620.4e99fd') }}</el-radio>
     </el-radio-group>
-    <div v-if="localValue.linkType == 0" class="btn-linkpath" @click="onPickerPath">
-      {{ getLabelName() }}
-    </div>
+    <template v-if="localValue.linkType == 0">
+      <div class="btn-linkpath" @click="onPickerPath">
+        {{ getLabelName() }}
+      </div>
+      <div v-if="needsOfficialRawId" style="margin-top: 8px">
+        <div style="font-size: 12px; color: #333; margin-bottom: 4px">
+          {{ i18n.t('cc5110aa.d10654') }}
+        </div>
+        <el-input
+          v-model="localValue.officialAccountRawId"
+          size="small"
+          :placeholder="i18n.t('cc5110aa.e20765')"
+          @input="onOfficialRawIdInput"
+        />
+      </div>
+      <div v-if="needsOfficialArticleLink" style="margin-top: 8px">
+        <div style="font-size: 12px; color: #333; margin-bottom: 4px">
+          {{ i18n.t('cc5110aa.f30876') }}
+        </div>
+        <el-input
+          v-model="localValue.officialArticleLink"
+          size="small"
+          :placeholder="i18n.t('cc5110aa.g40987')"
+          @input="onOfficialArticleLinkInput"
+        />
+      </div>
+    </template>
     <el-input
       v-else
       v-model="localValue.linkUrl"
       class="h5-link"
       size="small"
       type="text"
-      :placeholder="'请填写自定义链接'"
+      :placeholder="i18n.t('098e5620.11b162')"
       @change="onChangeLinkUrl"
     />
   </div>
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import { cloneDeep } from 'lodash'
 import { isObject } from '@/utils'
 import { LINK_PATH } from '@/consts'
@@ -75,17 +100,28 @@ export default {
   },
   data() {
     return {
+      i18n,
       localValue: {
         linkType: 0,
         linkUrl: '',
         linkPage: '',
         id: '',
-        title: ''
+        title: '',
+        officialAccountRawId: '',
+        officialArticleLink: ''
       }
     }
   },
   computed: {
-    ...mapGetters(['lang'])
+    ...mapGetters(['lang']),
+    needsOfficialRawId() {
+      const { linkPage, id } = this.localValue
+      return linkPage === 'customer_service' && (id === 'officialProfile' || id === 'officialChat')
+    },
+    needsOfficialArticleLink() {
+      const { linkPage, id } = this.localValue
+      return linkPage === 'customer_service' && id === 'official'
+    }
   },
   watch: {
     value: {
@@ -130,9 +166,36 @@ export default {
         params.isShowPils = isShowPils
       }
       const res = await this.$picker.path(params)
-      console.log('localValue---', res)
-      this.$emit('input', res)
-      this.$emit('change', res)
+      const next = {
+        ...this.localValue,
+        ...res,
+        linkType: this.localValue.linkType
+      }
+      const needRaw =
+        res?.linkPage === 'customer_service' &&
+        (res?.id === 'officialProfile' || res?.id === 'officialChat')
+      const needArticle = res?.linkPage === 'customer_service' && res?.id === 'official'
+      if (needRaw) {
+        next.officialAccountRawId = this.localValue.officialAccountRawId || ''
+        next.officialArticleLink = ''
+      } else if (needArticle) {
+        next.officialArticleLink = this.localValue.officialArticleLink || ''
+        next.officialAccountRawId = ''
+      } else {
+        next.officialAccountRawId = ''
+        next.officialArticleLink = ''
+      }
+      this.localValue = next
+      this.$emit('input', next)
+      this.$emit('change', next)
+    },
+    onOfficialRawIdInput() {
+      this.$emit('input', { ...this.localValue })
+      this.$emit('change', { ...this.localValue })
+    },
+    onOfficialArticleLinkInput() {
+      this.$emit('input', { ...this.localValue })
+      this.$emit('change', { ...this.localValue })
     },
     onChangeLinkType() {
       this.$emit('input', this.localValue)
@@ -148,7 +211,7 @@ export default {
       if (linkPage) {
         return `${LINK_PATH[linkPage]}: ${t}`
       } else {
-        return '选择路径'
+        return i18n.t('098e5620.e3cf91')
       }
     }
   }

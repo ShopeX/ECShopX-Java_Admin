@@ -39,10 +39,10 @@ import ColumnGoods from '../../comps/goods-layout/columngoods.vue'
 import GridGoods from '../../comps/goods-layout/gridgoods.vue'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 import saledata from './mock/saledata.json'
-
+import { i18n } from '@/i18n'
 export default {
-  name: 'hotranking',
-  wgtName: '热销榜单',
+  name: 'Hotranking',
+  wgtName: i18n.t('f3e1de8d.f09c11'),
   wgtDesc: '',
   wgtIcon: 'ranking-list',
   wgtType: 2,
@@ -73,11 +73,11 @@ export default {
   methods: {
     // 获取热销榜单商品列表（按销量排序）
     async getHotRankingGoodsList() {
-      const effectiveDataCount = this.value?.dataCount ?? this.value?.base?.dataCount ?? 4
+      const effectiveDataCount = this.value?.dataCount ?? 4
       let params = {
         data_type: 'sales',
         data_value: '',
-        data_count: effectiveDataCount,
+        num: effectiveDataCount,
         distributor_id: ''
       }
 

@@ -8,7 +8,16 @@
     <SpPage>
       <SpPlatformTip v-if="!VERSION_SHUYUN()" h5 app alipay />
 
-      <SearchForm class="mb-4" @submit="handleSearch" />
+      <SpFormPlus
+        ref="searchForm"
+        class="mb-4"
+        v-model="searchParams"
+        form-type="searchForm"
+        :inline="true"
+        :form-items="searchFormItems"
+        @submit="handleSearch"
+        @reset="handleSearch"
+      />
 
       <SpTabs :tab-list="tabList" v-model="activeTab" @change="handleTabChange" />
 
@@ -43,71 +52,9 @@ import {
 import { IS_ADMIN, VERSION_STANDARD, formatPrice } from '@/utils'
 import { useForm } from '@/composables'
 import hqbdlycorp from '@/common/hqbdlycorp.json'
+import { i18n } from '@/i18n'
 
 const LOCAL_ORDER_TYPE = _map(ORDER_TYPE, (item) => ({ label: item.title, value: item.value }))
-
-const [SearchForm, SearchFormApi] = useForm({
-  formType: 'searchForm',
-  formItems: [
-    {
-      component: 'Input',
-      componentProps: {
-        placeholder: '请输入手机号'
-      },
-      fieldName: 'mobile',
-      // formItemClass: 'col-start-3',
-      label: '手机号',
-      value: ''
-    },
-    {
-      component: 'Input',
-      componentProps: {
-        placeholder: '请输入订单号'
-      },
-      fieldName: 'order_id',
-      label: '订单号',
-      value: ''
-    },
-    {
-      component: 'Select',
-      componentProps: {
-        placeholder: '请选择订单类型',
-        options: LOCAL_ORDER_TYPE
-      },
-      fieldName: 'order_class',
-      label: '订单类型',
-      value: ''
-    },
-    {
-      component: 'DateTimePicker',
-      componentProps: {
-        type: 'datetimerange'
-      },
-      fieldName: 'create_time',
-      formItemClass: 'col-span-2',
-      label: '订单时间',
-      value: []
-    }
-    // {
-    //   component: ({ h, value, onInput }) => {
-    //     return (
-    //       <SpSelectShop
-    //         value={value}
-    //         size="small"
-    //         placeholder="请选择店铺"
-    //         onChange={val => {
-    //           onInput(val)
-    //         }}
-    //       />
-    //     )
-    //   },
-    //   fieldName: 'distributor_id',
-    //   label: '店铺',
-    //   value: ''
-    // }
-  ],
-  inline: true
-})
 
 const [DeliveryForm, DeliveryFormApi] = useForm({
   formItems: [
@@ -115,17 +62,17 @@ const [DeliveryForm, DeliveryFormApi] = useForm({
       component: ({ h, value }) => {
         return <div>{value}</div>
       },
-      label: '订单号',
+      label: i18n.t('2345face.1e8dc2'),
       fieldName: 'order_id'
     },
     {
       component: ({ h, value }) => {
         return (
           <el-table border data={value} style='width: 100%'>
-            <el-table-column prop='item_name' label='商品名' />
-            <el-table-column prop='num' label='数量' width='80' />
+            <el-table-column prop='item_name' label={i18n.t('2345face.de5472')} />
+            <el-table-column prop='num' label={i18n.t('2345face.0bf60b')} width='80' />
             <el-table-column
-              label='总价'
+              label={i18n.t('2345face.4df53f')}
               width='160'
               scopedSlots={{
                 default: (scope) => <span>{formatPrice(scope.row.total_fee)}</span>
@@ -134,13 +81,13 @@ const [DeliveryForm, DeliveryFormApi] = useForm({
           </el-table>
         )
       },
-      label: '商品信息',
+      label: i18n.t('2345face.b433e6'),
       fieldName: 'goods_info',
       value: []
     },
     {
       component: 'Select',
-      label: '快递公司',
+      label: i18n.t('2345face.f3af96'),
       fieldName: 'delivery_corp',
       formItemClass: 'w-1/3',
       componentProps: {
@@ -150,30 +97,33 @@ const [DeliveryForm, DeliveryFormApi] = useForm({
           value: item.value
         }))
       },
-      rules: [{ required: true, message: '请选择快递公司' }]
+      rules: [{ required: true, message: i18n.t('2345face.8367e8') }]
     },
     {
       component: 'Input',
-      label: '快递单号',
+      label: i18n.t('2345face.3c016d'),
       fieldName: 'delivery_no',
       formItemClass: 'w-1/3',
-      rules: [{ required: true, message: '快递单号不能为空' }]
+      rules: [{ required: true, message: i18n.t('2345face.a8318c') }]
     }
   ],
   showDefaultActions: false
 })
 
 export default {
-  components: {
-    SearchForm: SearchForm
-  },
   data() {
     return {
+      searchParams: {
+        mobile: '',
+        order_id: '',
+        order_class: '',
+        create_time: []
+      },
       datapass_block: 1,
       finderSetting: createSetting({
         actions: [
           {
-            name: '详情',
+            name: this.$t('2345face.f26225'),
             key: 'detail',
             type: 'button',
             buttonType: 'text',
@@ -190,7 +140,7 @@ export default {
             }
           },
           {
-            name: '发货',
+            name: this.$t('2345face.045315'),
             key: 'delivery',
             type: 'button',
             buttonType: 'text',
@@ -199,7 +149,7 @@ export default {
                 const { orderInfo } = await this.$api.trade.getOrderDetail(row.order_id)
                 const goodsInfo = orderInfo?.items || []
                 await this.$dialog.open({
-                  title: '发货',
+                  title: this.$t('2345face.045315'),
                   content: (
                     <DeliveryForm
                       value={{
@@ -212,7 +162,7 @@ export default {
                     try {
                       await DeliveryFormApi.validate()
                     } catch (error) {
-                      throw new Error('表单验证失败')
+                      throw new Error(this.$t('2345face.53aadf'))
                     }
                   }
                 })
@@ -222,7 +172,7 @@ export default {
                   delivery_corp: res.delivery_corp,
                   delivery_code: res.delivery_code
                 })
-                this.$message.success('发货成功')
+                this.$message.success(this.$t('2345face.2c8dba'))
                 this.$refs.finder.refresh()
               }
             },
@@ -238,7 +188,7 @@ export default {
         ],
         columns: [
           {
-            name: '订单号',
+            name: this.$t('2345face.1e8dc2'),
             key: 'order_id',
             width: 220,
             render(h, { row }) {
@@ -254,7 +204,7 @@ export default {
             }
           },
           {
-            name: '订单时间',
+            name: this.$t('2345face.56e3f8'),
             key: 'create_time',
             width: 180,
             formatter: (value, row, col) => {
@@ -262,7 +212,7 @@ export default {
             }
           },
           {
-            name: '运费',
+            name: this.$t('2345face.9a935b'),
             key: 'freight_fee',
             width: 100,
             formatter: (value, row, col) => {
@@ -270,27 +220,27 @@ export default {
             }
           },
           {
-            name: '订单金额',
+            name: this.$t('2345face.b1862e'),
             key: 'total_fee',
             width: 120,
             formatter: (value, row, col) => `${formatPrice(value)}`
           },
           {
-            name: '联系电话',
+            name: this.$t('2345face.09a1f6'),
             key: 'mobile',
             render(h, { row }) {
               return <SpClipboard content={row.mobile} />
             }
           },
           {
-            name: '订单类型',
+            name: this.$t('2345face.5cd56b'),
             key: 'order_class',
             formatter: (value) => {
               return LOCAL_ORDER_TYPE.find((item) => item.value == value)?.label
             }
           },
           {
-            name: '订单状态',
+            name: this.$t('2345face.86f6cf'),
             key: 'order_status',
             render(h, { row }) {
               return h(
@@ -309,19 +259,61 @@ export default {
       }),
       activeTab: 'all',
       tabList: [
-        { label: '全部订单', name: 'all' },
-        { label: '待发货', name: 'notship' },
-        { label: '已完成', name: 'done' },
-        { label: '未支付', name: 'notpay' },
-        { label: '已取消', name: 'cancel' }
+        { label: this.$t('2345face.dbb4d8'), name: 'all' },
+        { label: this.$t('2345face.d8476e'), name: 'notship' },
+        { label: this.$t('2345face.fad522'), name: 'done' },
+        { label: this.$t('2345face.608afd'), name: 'notpay' },
+        { label: this.$t('2345face.2111cc'), name: 'cancel' }
       ]
     }
   },
-  mounted() {},
+  computed: {
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'mobile',
+          label: this.$t('2345face.8098e2'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('2345face.6e4f4b')
+          }
+        },
+        {
+          fieldName: 'order_id',
+          label: this.$t('2345face.1e8dc2'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('2345face.e9e836')
+          }
+        },
+        {
+          fieldName: 'order_class',
+          label: this.$t('2345face.5cd56b'),
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('2345face.249ee7'),
+            options: LOCAL_ORDER_TYPE
+          }
+        },
+        {
+          fieldName: 'create_time',
+          label: this.$t('2345face.56e3f8'),
+          component: 'datetimepicker',
+          cellWidth: 2,
+          componentProps: {
+            type: 'datetimerange'
+          }
+        }
+      ]
+    }
+  },
   methods: {
     beforeSearch(params) {
-      const { create_time, mobile, order_id, order_class, distributor_id } =
-        SearchFormApi.getFieldsValue()
+      const { create_time, mobile, order_id, order_class, distributor_id } = this.searchParams
       const _params = {
         ...params,
         order_type: 'normal',
@@ -329,9 +321,13 @@ export default {
         is_distribution: 1
       }
 
-      if (create_time.length > 0) {
-        _params.time_start_begin = create_time[0].getTime() / 1000
-        _params.time_start_end = create_time[1].getTime() / 1000
+      if (create_time && create_time.length > 0) {
+        const start = create_time[0]
+        const end = create_time[1]
+        _params.time_start_begin =
+          typeof start?.getTime === 'function' ? start.getTime() / 1000 : start / 1000
+        _params.time_start_end =
+          typeof end?.getTime === 'function' ? end.getTime() / 1000 : end / 1000
       }
 
       order_id && (_params.order_id = order_id)
@@ -351,7 +347,7 @@ export default {
     handleTabChange(tab) {
       this.$refs.finder.refresh(true)
     },
-    handleSearch(form) {
+    handleSearch() {
       this.$refs.finder.refresh(true)
     }
   }

@@ -18,7 +18,7 @@
             <svg class="svg-icon" aria-hidden="true">
               <use xlink:href="icon-loucengtupian" />
             </svg>
-            图片
+            {{ $t('583f92dd.20def7') }}
           </template>
         </div>
       </draggable>
@@ -46,7 +46,7 @@
             >
               <transition name="el-fade-in-linear">
                 <div v-if="k == editorIndex" @click="removeCurrent">
-                  <i class="el-icon-delete-solid"></i>
+                  <i class="el-icon-delete-solid" />
                 </div>
               </transition>
             </component>
@@ -69,7 +69,9 @@
       </div>
     </section>
     <section class="content-padded-s section-white content-center">
-      <el-button class="btn-save" type="primary" @click="saveConfig"> 保存 </el-button>
+      <el-button class="btn-save" type="primary" @click="saveConfig">
+        {{ $t('583f92dd.be5fbb') }}
+      </el-button>
     </section>
   </div>
 </template>
@@ -80,8 +82,7 @@ import draggable from 'vuedraggable'
 import Vue from 'vue'
 import plugins from './components/plugins/index'
 import { savePageParams, getParamByTempName } from '@/api/pctemplate'
-const generate = require('nanoid/generate')
-const str = '1234567890abcdef'
+import generateComponentUuid from '@/utils/nanoidAlphabet'
 export default {
   components: {
     draggable
@@ -183,7 +184,7 @@ export default {
     onStart(evt) {
       if (evt.target.className === 'components-view') {
         let item = this.initData[evt.oldIndex]
-        item.uuid = generate(str, 10)
+        item.uuid = generateComponentUuid()
         this.saveInit = JSON.stringify(item)
       } else {
         console.log('onstart')
@@ -208,7 +209,7 @@ export default {
       // console.log('editorData', this.editorData)
     },
     removeCurrent() {
-      this.$confirm('确认删除当前组件？')
+      this.$confirm(this.$t('583f92dd.815e89'))
         .then((_) => {
           this.editorData = {}
           this.components.splice(this.editorIndex, 1)
@@ -228,7 +229,7 @@ export default {
       savePageParams(filter).then((res) => {
         if (res.data.data.status) {
           this.$message({
-            message: '保存成功',
+            message: this.$t('583f92dd.3b1083'),
             type: 'success'
           })
         }
@@ -640,3 +641,4 @@ export default {
   transition: all 0.3s ease;
 }
 </style>
+tyle>

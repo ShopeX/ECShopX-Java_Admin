@@ -31,7 +31,7 @@
         </el-header>
 
         <el-main class="!px-0 !py-0" style="height: calc(100vh - 100px)">
-          <LayoutContent v-if="!$route.path.includes('/decoration/web/template/edit')">
+          <LayoutContent>
             <!-- <RouterView /> -->
             <router-view v-slot="{ Component }">
               <Transition name="fade" appear mode="out-in">
@@ -40,7 +40,7 @@
             </router-view>
           </LayoutContent>
 
-          <div id="design-view" v-else class="relative h-full" />
+          <!-- <div id="design-view" v-else class="relative h-full" /> -->
         </el-main>
 
         <el-footer class="flex justify-center items-center gap-2" height="50px">
@@ -54,7 +54,6 @@
 <script>
 import DEFAULT_CONFIG from '@/config'
 import { getSystemTitle } from '@/utils'
-import { micrApp } from '@/utils/micr-app'
 import LayoutSidebar from './layout-sidebar.vue'
 import LayoutContent from './layout-content.vue'
 import LayoutHeader from './layout-header.vue'
@@ -91,7 +90,7 @@ export default {
         }
       }
       // 否则返回默认系统标题
-      return getSystemTitle()
+      return this.$t(getSystemTitle())
     }
   },
 
@@ -101,7 +100,6 @@ export default {
     this.subMenus =
       this.mainMenus.find((item) => item.alias_name === mainRoute?.meta?.aliasName)?.children || []
     this.getSystemSetting()
-    micrApp.init()
   },
   methods: {
     async getSystemSetting() {

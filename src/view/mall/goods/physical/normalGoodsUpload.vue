@@ -5,77 +5,23 @@
 
 <template>
   <SpPage>
-    <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+    <el-tabs v-model="activeName" type="card">
       <div class="tip-info">
         <p>
-          上传文件如果有处理失败的行数后将会生成错误文件，请及时查看错误信息修改后重新下载，错误描述文件只保留<strong>15天</strong>。
+          {{ $t('5f45d286.08f306') }}
         </p>
-        <p>超过<strong>15天</strong>的错误描述文件将会删除，不再提供下载查看</p>
+        <p>{{ $t('5f45d286.4f6279') }}</p>
       </div>
       <template v-for="item in pane_list">
         <el-tab-pane :key="item.name" :label="item.label" :name="item.name">
-          <el-form ref="form" label-width="100px">
-            <div class="action-container">
-              <el-upload
-                action=""
-                :on-change="uploadHandleChange"
-                :auto-upload="false"
-                :show-file-list="false"
-              >
-                <el-button size="small" type="primary"> 点击上传 </el-button>
-              </el-upload>
-              <el-button size="small" type="primary" @click="uploadHandleTemplate()">
-                下载模版
-              </el-button>
-            </div>
-            <el-table
-              border
-              v-loading="loading"
-              :data="uploadList"
-              :height="wheight - 220"
-              element-loading-text="数据加载中"
-            >
-              <el-table-column prop="file_name" label="上传文件" min-width="100" />
-              <el-table-column prop="created_date" label="上传时间" min-width="80" />
-              <el-table-column prop="file_size_format" label="文件大小" min-width="60" />
-              <el-table-column label="处理状态" min-width="50">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.handle_status == 'wait'">等待处理</span>
-                  <span v-if="scope.row.handle_status == 'processing'">处理中</span>
-                  <span v-if="scope.row.handle_status == 'finish'">处理完成</span>
-                </template>
-              </el-table-column>
-              <el-table-column prop="finish_date" label="处理完成时间" />
-              <el-table-column label="处理成功">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.handle_message"
-                    >{{ scope.row.handle_message.successLine }}行</span
-                  >
-                </template>
-              </el-table-column>
-              <el-table-column label="处理失败">
-                <template slot-scope="scope">
-                  <span v-if="scope.row.handle_message"
-                    >{{ scope.row.handle_message.errorLine }}行</span
-                  >
-                  <a
-                    v-if="scope.row.handle_message && scope.row.handle_message.errorLine > 0"
-                    type="primary"
-                    @click="exportErrorFile(scope.row.id, scope.row.file_type)"
-                    >下载错误详情</a
-                  >
-                </template>
-              </el-table-column>
-            </el-table>
-            <div v-if="total_count > pageSize" class="content-top-padded content-center">
-              <el-pagination
-                layout="total, prev, pager, next"
-                :total="total_count"
-                :page-size="pageSize"
-                @current-change="handleCurrentChange"
-              />
-            </div>
-          </el-form>
+          <related-upload
+            v-if="activeName == item.name"
+            :file-type="getFileType()"
+            :related-id="relatedId"
+            :file-name="getFileName()"
+            :table-height="wheight - 220"
+            :extra-params="uploadExtraParams"
+          />
         </el-tab-pane>
       </template>
     </el-tabs>
@@ -83,134 +29,50 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import {
-  handleUploadFile,
-  getUploadLists,
-  exportUploadErrorFile,
-  exportUploadTemplate
-} from '../../../../api/common'
-import { IS_ADMIN, IS_SUPPLIER } from '@/utils'
+import RelatedUpload from '@/components/related-upload'
+import { IS_SUPPLIER } from '@/utils'
+import { i18n } from '@/i18n'
 
 export default {
+  components: {
+    RelatedUpload
+  },
   data() {
-    const paneList = [
-      { name: 'upload_tb_items', label: '上传淘宝链接' },
-      { name: 'normal_goods', label: '上传实体类商品' }
-    ]
+    const paneList = [{ name: 'normal_goods', label: i18n.t('5f45d286.9e6dce') }]
 
     if (!IS_SUPPLIER()) {
-      paneList.push({ name: 'employee_purchase_activity_items', label: '上传内购活动商品' })
+      paneList.push({ name: 'employee_purchase_activity_items', label: i18n.t('5f45d286.4482b6') })
     }
 
     return {
       pane_list: paneList,
-      loading: false,
-      total_count: 0,
-      pageSize: 20,
-      page: 1,
       activeName: '',
-      uploadList: []
+      relatedId: ''
     }
   },
   computed: {
-    ...mapGetters(['wheight'])
-  },
-  mounted() {
-    const { file_type = 'normal_goods' } = this.$route.query
-    this.activeName = file_type
-    this.getUploadList()
-  },
-  methods: {
-    getDistributorId() {
+    ...mapGetters(['wheight']),
+    uploadExtraParams() {
       return {
         distributor_id: this.$store.getters.shopId || 0
       }
+    }
+  },
+  mounted() {
+    const { file_type = 'normal_goods', relation_id = '' } = this.$route.query
+    const validNames = this.pane_list.map((item) => item.name)
+    this.activeName = validNames.includes(file_type) ? file_type : 'normal_goods'
+    this.relatedId = relation_id
+  },
+  methods: {
+    getFileType() {
+      return IS_SUPPLIER() && this.activeName == 'normal_goods' ? 'supplier_goods' : this.activeName
     },
-    handleClick() {
-      this.getUploadList()
-    },
-    uploadHandleChange(file, fileList) {
-      let params = {
-        isUploadFile: true,
-        file: file.raw,
-        ...this.getDistributorId(),
-        file_type: IS_SUPPLIER() ? 'supplier_goods' : 'normal_goods'
-      }
-      if (this.activeName == 'upload_tb_items') {
-        params.file_type = 'upload_tb_items'
-      }
-      handleUploadFile(params).then((response) => {
-        this.$message({
-          type: 'success',
-          message: '上传成功，等待处理'
-        })
-        this.getUploadList()
-      })
-    },
-    uploadHandleTemplate() {
-      let fileName = '新增商品'
+    getFileName() {
       if (this.activeName == 'employee_purchase_activity_items') {
-        fileName = '新增内购活动商品'
+        return this.$t('5f45d286.3dd83a')
       }
-      let params = {
-        file_type: IS_SUPPLIER() ? 'supplier_goods' : 'normal_goods',
-        file_name: fileName
-      }
-      if (this.activeName == 'upload_tb_items') {
-        params.file_type = 'upload_tb_items'
-      }
-      exportUploadTemplate(params).then((response) => {
-        if (response.data.data.file) {
-          var a = document.createElement('a')
-          a.href = response.data.data.file
-          a.download = response.data.data.name
-          document.body.appendChild(a)
-          a.click()
-          a.remove()
-        } else {
-          this.$message({
-            type: 'error',
-            message: '没有相关数据可导出'
-          })
-        }
-      })
-    },
-    exportErrorFile(id, fileType) {
-      let params = { file_type: fileType }
-      exportUploadErrorFile(id, params).then((response) => {
-        if (response.data.data.file) {
-          var a = document.createElement('a')
-          a.href = response.data.data.file
-          a.download = response.data.data.name
-          document.body.appendChild(a)
-          a.click()
-          a.remove()
-        } else {
-          this.$message({
-            type: 'error',
-            message: '没有相关数据可导出'
-          })
-        }
-      })
-    },
-    handleCurrentChange(val) {
-      this.page = val
-      this.getUploadList()
-    },
-    getUploadList() {
-      this.loading = true
-      let params = {
-        file_type:
-          IS_SUPPLIER() && this.activeName == 'normal_goods' ? 'supplier_goods' : this.activeName,
-        page: this.page,
-        pageSize: this.pageSize,
-        ...this.getDistributorId()
-      }
-      getUploadLists(params).then((response) => {
-        this.uploadList = response.data.data.list
-        this.total_count = response.data.data.total_count
-        this.loading = false
-      })
+      return this.$t('5f45d286.27fabd')
     }
   }
 }

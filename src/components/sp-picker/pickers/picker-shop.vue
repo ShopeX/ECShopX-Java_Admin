@@ -31,21 +31,36 @@
           v-model="formData.region"
           filterable
           clearable
-          placeholder="选择地区筛选店铺"
+          :placeholder="$t('3a1ca73b.d525df')"
           :options="district"
         />
       </SpFilterFormItem>
       <SpFilterFormItem prop="keywords">
-        <el-input v-model="formData.keywords" placeholder="请输入店铺名称" />
+        <el-input v-model="formData.keywords" :placeholder="$t('3a1ca73b.867738')" />
       </SpFilterFormItem>
       <SpFilterFormItem prop="shop_code">
-        <el-input v-model="formData.shop_code" placeholder="请输入店铺号" />
+        <el-input v-model="formData.shop_code" :placeholder="$t('3a1ca73b.68f04a')" />
       </SpFilterFormItem>
-      <SpFilterFormItem prop="is_valid">
-        <el-select v-model="formData.is_valid" clearable placeholder="状态">
-          <el-option value="true" label="启用" />
-          <el-option value="false" label="禁用" />
-          <el-option value="delete" label="废弃" />
+      <SpFilterFormItem prop="distributor_category_id">
+        <el-select
+          v-model="formData.distributor_category_id"
+          clearable
+          :placeholder="$t('3a1ca73b.459c3e')"
+        >
+          <el-option
+            v-for="item in categoryList"
+            :key="item.category_id"
+            :label="item.category_name"
+            :value="item.category_id"
+          />
+        </el-select>
+      </SpFilterFormItem>
+      <SpFilterFormItem v-if="!isValidFixed" prop="is_valid">
+        <el-select v-model="formData.is_valid" clearable :placeholder="$t('a523b3a5.e1c965')">
+          <el-option value="true" :label="$t('3a1ca73b.7854b5')" />
+          <el-option value="false" :label="$t('3a1ca73b.710ad0')" />
+          <el-option value="closed" :label="$t('3a1ca73b.621f97')" />
+          <el-option value="delete" :label="$t('3a1ca73b.0044f6')" />
         </el-select>
       </SpFilterFormItem>
     </SpFilterForm>
@@ -73,6 +88,7 @@
 
 <script>
 import { createSetting } from '@shopex-ui/finder'
+import { i18n } from '@/i18n'
 import district from '@/common/district.json'
 import BasePicker from './base'
 import PageMixin from '../mixins/page'
@@ -81,56 +97,73 @@ export default {
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
-    title: '选择店铺'
+    title: i18n.t('3a1ca73b.afa2e6')
   },
   props: ['value'],
+  created() {
+    this.$options.config.title = this.$t('3a1ca73b.afa2e6')
+  },
   data() {
     return {
       formData: {
         region: [],
         keywords: '',
         shop_code: '',
+        distributor_category_id: '',
         is_valid: ''
       },
       district,
+      categoryList: [],
       regionArea: [],
       loading: false,
       multiple: this.value?.multiple ?? true
     }
   },
   computed: {
+    // 调用方固定 is_valid 为 true/false/closed/delete 时不展示；cloud_all 为默认范围，仍允许按状态筛选
+    isValidFixed() {
+      const fixed = this.value?.queryParams?.is_valid
+      if (fixed === undefined || fixed === '' || fixed === 'cloud_all') {
+        return false
+      }
+      return true
+    },
     setting() {
+      const t = this.$t.bind(this)
       const columns = [
-        { name: '店铺名称', key: 'name' },
+        { name: t('3a1ca73b.0d4934'), key: 'name' },
+        { name: t('3a1ca73b.2419d0'), key: 'distributor_category_name', width: 120 },
         {
-          name: '店铺类型',
+          name: t('3a1ca73b.1dbb0d'),
           key: 'distribution_type',
           width: 100,
           formatter: (value, row, col) => {
             if (value == '1') {
-              return '加盟'
+              return t('3a1ca73b.059670')
             } else if (value == '0') {
-              return '自营'
+              return t('3a1ca73b.491c0c')
             }
           },
           visible: this.VERSION_PLATFORM()
         },
-        { name: '店铺号', key: 'shop_code' },
+        { name: t('3a1ca73b.f6d738'), key: 'shop_code' },
         {
-          name: '状态',
+          name: t('3a1ca73b.3fea7c'),
           key: 'is_valid',
           width: 100,
           formatter: (value, row, col) => {
             return value == 'true'
-              ? '启用'
+              ? t('3a1ca73b.7854b5')
               : value == 'false'
-              ? '禁用'
+              ? t('3a1ca73b.710ad0')
+              : value == 'closed'
+              ? t('3a1ca73b.621f97')
               : value == 'delete'
-              ? '废弃'
+              ? t('3a1ca73b.0044f6')
               : ''
           }
         },
-        { name: '店铺地址', key: 'store_address' }
+        { name: t('3a1ca73b.9198af'), key: 'store_address' }
       ]
       return createSetting({
         columns: columns.filter(({ visible }) => visible !== false)
@@ -139,6 +172,7 @@ export default {
   },
   created() {
     // this.fetch()
+    this.getCategoryList()
   },
   methods: {
     beforeSearch(params) {
@@ -157,28 +191,38 @@ export default {
         getRegionLabel(this.district, 0)
       }
       const [province = '', city = '', area = ''] = regionLabels
+      const isValid =
+        this.formData.is_valid !== '' && this.formData.is_valid != null
+          ? this.formData.is_valid
+          : queryParams.is_valid || undefined
       params = {
         ...params,
         name: this.formData.keywords,
         shop_code: this.formData.shop_code,
+        distributor_category_id: this.formData.distributor_category_id,
         province: province,
         city: city,
         area: area,
         distribution_type: this.value?.distribution_type,
-        is_valid: this.formData.is_valid,
-        ...queryParams
+        ...queryParams,
+        is_valid: isValid
       }
       return params
     },
     afterSearch(response) {
       const { list } = response.data.data
-      if (this.value.data) {
-        const selectRows = list.filter((item) => this.value.data.includes(item.distributor_id))
-        const { finderTable } = this.$refs.finder.$refs
-        setTimeout(() => {
-          finderTable.$refs.finderTable.setSelection(selectRows)
-        })
-      }
+      const raw = this.value?.data
+      if (raw == null || raw === '') return
+      const selectedIds = Array.isArray(raw) ? raw : [raw]
+      const selectRows = list.filter((item) =>
+        selectedIds.map(String).includes(String(item.distributor_id))
+      )
+      if (!selectRows.length) return
+      const finderTable = this.$refs.finder?.$refs?.finderTable
+      if (!finderTable?.$refs?.finderTable) return
+      setTimeout(() => {
+        finderTable.$refs.finderTable.setSelection(selectRows)
+      })
     },
     onSearch() {
       this.$refs.finder.refresh(true)
@@ -198,6 +242,17 @@ export default {
     },
     onSelectionChange(selection) {
       this.updateVal(selection)
+    },
+    async getCategoryList() {
+      try {
+        const res = await this.$api.store.getStoreCategoryList({
+          page: 1,
+          pageSize: 1000
+        })
+        this.categoryList = res.list || []
+      } catch (error) {
+        console.error('获取门店分类列表失败:', error)
+      }
     }
   }
 }

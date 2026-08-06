@@ -255,6 +255,38 @@ export function getCertificate() {
   })
 }
 
+export function getUsercenterAuthorizeUrl(params) {
+  return fetch({
+    url: '/company/usercenter/authorizeurl',
+    method: 'get',
+    params
+  })
+}
+
+export function getAppcenterGoods(params) {
+  return fetch({
+    url: '/company/appcenter/goods',
+    method: 'get',
+    params
+  })
+}
+
+export function getAppcenterUrl(params) {
+  return fetch({
+    url: '/company/appcenter/url',
+    method: 'get',
+    params
+  })
+}
+
+export function loginUsercenter(params) {
+  return fetch({
+    url: '/company/usercenter/login',
+    method: 'post',
+    params
+  })
+}
+
 export function deleteCertificateInfo() {
   return fetch({
     url: '/third/saascert/delete/certificate',
@@ -273,6 +305,22 @@ export function acceptRelation() {
   return fetch({
     url: '/third/saascert/accept/bindrelation',
     method: 'get'
+  })
+}
+
+export function getShopexBindStatus() {
+  return fetch({
+    url: '/operator/shopex-bind/status',
+    method: 'get'
+  })
+}
+
+export function bindShopexAccount(params) {
+  return fetch({
+    url: '/operator/shopex-bind',
+    method: 'post',
+    params,
+    showError: false
   })
 }
 

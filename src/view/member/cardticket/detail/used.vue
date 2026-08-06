@@ -5,19 +5,32 @@
 
 <template>
   <div>
+    <div class="search-bar">
+      <el-input
+        v-model="params.mobile"
+        clearable
+        style="width: 240px"
+        :placeholder="$t('ff557c54.6e4f4b')"
+        @keyup.enter.native="onSearch"
+        @clear="onSearch"
+      />
+      <el-button type="primary" @click="onSearch">{{ $t('223cc8af.e5f71f') }}</el-button>
+    </div>
     <el-table v-loading="loading" :data="cardList" style="width: 100%" border height="600">
       <!-- <el-table-column prop="title" label="优惠券名称" width="200"></el-table-column> -->
-      <el-table-column prop="code" label="优惠券码" width="120" />
-      <el-table-column prop="username" label="用户名字" width="150" />
-      <el-table-column prop="mobile" label="手机号" width="120" />
-      <el-table-column prop="used_status" label="操作途径" width="100">
+      <el-table-column prop="code" :label="$t('de5acab9.390c08')" width="120" />
+      <el-table-column prop="username" :label="$t('de5acab9.5b95ee')" width="150" />
+      <el-table-column prop="mobile" :label="$t('de5acab9.8098e2')" width="120" />
+      <el-table-column prop="used_status" :label="$t('de5acab9.b63552')" width="100">
         <template slot-scope="scope">
-          <template v-if="scope.row.used_status == 'callback'"> 回退 </template>
-          <template v-else> 核销 </template>
+          <template v-if="scope.row.used_status == 'callback'">
+            {{ $t('de5acab9.c3cb48') }}
+          </template>
+          <template v-else> {{ $t('de5acab9.e7d31e') }} </template>
         </template>
       </el-table-column>
-      <el-table-column prop="used_time" label="记录时间" width="170" />
-      <el-table-column prop="shop_name" label="核销门店" />
+      <el-table-column prop="used_time" :label="$t('de5acab9.48188a')" width="170" />
+      <el-table-column prop="shop_name" :label="$t('de5acab9.50cb5e')" />
     </el-table>
     <el-pagination
       background
@@ -45,6 +58,7 @@ export default {
       params: {
         card_id: 0,
         is_use: true,
+        mobile: '',
         page: 1,
         pageSize: 20
       }
@@ -63,6 +77,10 @@ export default {
     }
   },
   methods: {
+    onSearch() {
+      this.params.page = 1
+      this.getCardUserList()
+    },
     handleCurrentChange(val) {
       this.params.page = val
       this.getCardUserList()
@@ -92,4 +110,10 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+</style>

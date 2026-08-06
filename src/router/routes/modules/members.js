@@ -4,6 +4,9 @@
  */
 import { BasicLayout } from '@/layout/basic'
 import { VERSION_IN_PURCHASE } from '@/utils'
+import { i18n } from '@/i18n'
+
+/** meta.title 使用 `i18n.t()`：依赖切换语言时整页重载，路由会按新 locale 重新注册（见 @/utils/menuI18n）。 */
 
 const routes = [
   {
@@ -12,7 +15,7 @@ const routes = [
       aliasName: 'member',
       icon: 'light-member',
       keepAlive: true,
-      title: '会员'
+      title: i18n.t('3ed22e5e.4d9dd5')
     },
     name: 'member',
     path: '/members',
@@ -23,7 +26,7 @@ const routes = [
         meta: {
           aliasName: 'memberlist',
           icon: 'pay-circle',
-          title: '会员列表',
+          title: i18n.t('3ed22e5e.5386bb'),
           permissions: ['member.memberlmana.memberlist']
         },
         component: () => import('@/views/members/member_list'),
@@ -44,30 +47,29 @@ const routes = [
         meta: {
           aliasName: 'managecustomer',
           icon: 'pay-circle',
-          title: '批量更新',
+          title: i18n.t('3ed22e5e.463e2b'),
           permissions: ['member.memberlmana.managecustomer']
         },
         component: () => import('@/view/member/members/uploade')
       },
-      // {
-      //   name: 'memberTags',
-      //   path: 'member-manage/member-tags',
-      //   meta: {
-      //     aliasName: 'Managetag',
-      //     icon: 'pay-circle',
-      //     title: '会员标签',
-      //     permissions: ['member.memberlmana.Managetag']
-      //   },
-      //   component: () => import('@/view/member/members/tags')
-      // },
-      // TODO: 补充会员路由
+      {
+        name: 'memberTags',
+        path: 'member-manage/member-tags',
+        meta: {
+          aliasName: 'Managetag',
+          icon: 'pay-circle',
+          title: i18n.t('d251b20e.3cc026'),
+          permissions: ['member.memberlmana.Managetag']
+        },
+        component: () => import('@/view/member/members/tags')
+      },
       {
         name: 'memberLevel',
         path: 'member-benefit/member-level',
         meta: {
           aliasName: 'managecard',
           icon: 'pay-circle',
-          title: '会员等级',
+          title: i18n.t('3ed22e5e.6c1583'),
           permissions: ['member.card.managecard']
         },
         component: () => import('@/view/member/level')
@@ -78,7 +80,7 @@ const routes = [
         meta: {
           aliasName: 'customerTags',
           icon: 'pay-circle',
-          title: '客户标签',
+          title: i18n.t('3ed22e5e.68c1b8'),
           permissions: ['member.tagsmanage.customerTags']
         },
         component: () => import('@/views/members/customer_tags')
@@ -89,7 +91,7 @@ const routes = [
         meta: {
           aliasName: 'crowdMarking',
           icon: 'pay-circle',
-          title: '人群打标',
+          title: i18n.t('3ed22e5e.d8c9e1'),
           permissions: ['member.tagsmanage.crowdMarking']
         },
         component: () => import('@/views/members/crowd_marking'),
@@ -106,7 +108,7 @@ const routes = [
         meta: {
           aliasName: 'managecardorder',
           icon: 'pay-circle',
-          title: '付费记录',
+          title: i18n.t('3ed22e5e.08b4d7'),
           permissions: ['member.card.managecardorder']
         },
         component: () => import('@/view/member/membercard/list')
@@ -117,7 +119,7 @@ const routes = [
         meta: {
           aliasName: 'pointrule',
           icon: 'pay-circle',
-          title: '积分规则',
+          title: i18n.t('3ed22e5e.09d011'),
           permissions: ['member.card.pointrule']
         },
         component: () => import('@/view/member/point/index.vue')
@@ -128,7 +130,7 @@ const routes = [
         meta: {
           aliasName: 'pointoverview',
           icon: 'pay-circle',
-          title: '积分流水',
+          title: i18n.t('3ed22e5e.dd182d'),
           permissions: ['member.card.pointoverview']
         },
         component: () => import('@/view/member/point/overview.vue')
@@ -139,7 +141,7 @@ const routes = [
         meta: {
           aliasName: 'smssend',
           icon: 'pay-circle',
-          title: '群发短信',
+          title: i18n.t('3ed22e5e.43e10b'),
           permissions: ['member.membertouch.smssend']
         },
         component: () => import('@/views/members/member_list'),
@@ -156,7 +158,7 @@ const routes = [
         meta: {
           aliasName: 'arrivalnotice',
           icon: 'pay-circle',
-          title: '到货通知',
+          title: i18n.t('3ed22e5e.46a6b2'),
           permissions: ['member.membertouch.arrivalnotice']
         },
         component: () => import('@/view/goods/arrivalNotice')
@@ -167,7 +169,7 @@ const routes = [
         meta: {
           aliasName: 'manageinfomation',
           icon: 'pay-circle',
-          title: '注册配置',
+          title: i18n.t('3ed22e5e.78ed32'),
           permissions: ['member.membersetting.manageinfomation']
         },
         component: () => import('@/view/member/register')
@@ -179,7 +181,7 @@ const routes = [
         meta: {
           aliasName: 'closeAccount',
           icon: 'pay-circle',
-          title: '注销配置',
+          title: i18n.t('3ed22e5e.e5bdf5'),
           permissions: ['member.membersetting.closeAccount']
         },
         component: () => import('@/views/members/logout_member')
@@ -190,7 +192,7 @@ const routes = [
         meta: {
           aliasName: 'trustlogin',
           icon: 'pay-circle',
-          title: '信任登录',
+          title: i18n.t('3ed22e5e.7c7579'),
           permissions: ['member.membersetting.trustlogin']
         },
         component: () => import('@/view/member/trustlogin/list')
@@ -201,7 +203,7 @@ const routes = [
         meta: {
           aliasName: 'whitelistlist',
           icon: 'pay-circle',
-          title: '会员白名单',
+          title: i18n.t('3ed22e5e.05a2d8'),
           permissions: ['member.whitelistlist']
         },
         component: () => {
@@ -218,7 +220,7 @@ const routes = [
         meta: {
           aliasName: 'whitelistuploade',
           icon: 'pay-circle',
-          title: '白名单导入',
+          title: i18n.t('3ed22e5e.eba44e'),
           permissions: ['member.whitelistuploade']
         },
         component: () => import('@/view/member/whitelist/uploadeindex')
@@ -242,7 +244,7 @@ const routes = [
         meta: {
           aliasName: 'member-add-rights',
           icon: 'pay-circle',
-          title: '添加权益',
+          title: i18n.t('3ed22e5e.ba6956'),
           permissions: ['member.memberlmana.member-add-rights']
         },
         component: () => import('@/view/member/members/rightsList')
@@ -253,7 +255,7 @@ const routes = [
         meta: {
           aliasName: 'member-list-view',
           icon: 'pay-circle',
-          title: '会员信息查看',
+          title: i18n.t('3ed22e5e.9a8766'),
           permissions: ['member.memberlmana.member-list-view']
         },
         component: () => import('@/view/member/register')
@@ -264,7 +266,7 @@ const routes = [
         meta: {
           aliasName: 'member-send-coupons',
           icon: 'pay-circle',
-          title: '群发优惠券',
+          title: i18n.t('3ed22e5e.dfa362'),
           permissions: ['member.memberlmana.member-send-coupons']
         },
         component: () => import('@/views/members/member_list'),
@@ -281,7 +283,7 @@ const routes = [
         meta: {
           aliasName: 'member-send-sms',
           icon: 'pay-circle',
-          title: '群发短信',
+          title: i18n.t('3ed22e5e.43e10b'),
           permissions: ['member.memberlmana.member-send-sms']
         },
         component: () => import('@/views/members/member_list')
@@ -292,10 +294,20 @@ const routes = [
         meta: {
           aliasName: 'member-tag',
           icon: 'pay-circle',
-          title: '打标签',
+          title: i18n.t('3ed22e5e.fedbca'),
           permissions: ['member.memberlmana.member-tag']
         },
         component: () => import('@/view/mall/goods/physical/normalGoodsTagUpload')
+      },
+      {
+        name: 'deposit',
+        path: 'deposit',
+        meta: {
+          aliasName: 'deposit',
+          title: '会员储值',
+          permissions: ['member.deposit']
+        },
+        component: () => import('@/views/members/deposit/index')
       }
       // {
       //   name: 'modification',

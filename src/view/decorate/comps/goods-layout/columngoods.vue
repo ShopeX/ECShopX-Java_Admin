@@ -22,7 +22,7 @@
         class="header-more"
         :style="{ color: value.moreBtn.color }"
       >
-        查看更多<el-icon class="el-icon-arrow-right" />
+        {{ $t('16c372fc.90ef7c') }}<el-icon class="el-icon-arrow-right" />
       </div>
     </div>
 
@@ -40,7 +40,7 @@
             <img :src="getItemImg(item)" class="goods-image" alt="" />
             <!-- 已售罄标签 -->
             <div v-if="isSoldOut(item)" class="sold-out-mask">
-              <span class="sold-out-text">已售罄</span>
+              <span class="sold-out-text">{{ $t('16c372fc.b12876') }}</span>
             </div>
           </div>
 
@@ -81,7 +81,7 @@
                 </div>
                 <div class="discount-tag" v-if="getDiscount(item)">
                   {{ getDiscount(item) }}
-                  <span class="discount-tag-text">折</span>
+                  <span class="discount-tag-text">{{ $t('16c372fc.96c015') }}</span>
                 </div>
               </template>
             </div>
@@ -101,7 +101,7 @@
             <img :src="getItemImg(item)" class="goods-image" alt="" />
             <!-- 已售罄标签 -->
             <div v-if="isSoldOut(item)" class="sold-out-mask">
-              <span class="sold-out-text">已售罄</span>
+              <span class="sold-out-text">{{ $t('16c372fc.b12876') }}</span>
             </div>
           </div>
 
@@ -142,7 +142,7 @@
                 </div>
                 <div class="discount-tag" v-if="getDiscount(item)">
                   {{ getDiscount(item) }}
-                  <span class="discount-tag-text">折</span>
+                  <span class="discount-tag-text">{{ $t('16c372fc.96c015') }}</span>
                 </div>
               </template>
             </div>
@@ -195,7 +195,7 @@ export default {
     },
     formatPointPrice(item) {
       const point = item.point != null ? item.point : 0
-      const pointStr = point + '积分'
+      const pointStr = point + this.$t('5c0a1eb5.9f68a8')
       const price = item.price != null && item.price !== '' ? Number(item.price) : 0
       if (!price || price === 0) return pointStr
       return pointStr + '+' + this.formatPrice(price) + '元'

@@ -7,13 +7,12 @@
   <SpPage>
     <!-- 境内支付平台 -->
     <div class="payment-section">
-      <h3 class="section-title">境内支付平台</h3>
+      <h3 class="section-title">{{ $t('10d92d52.737661') }}</h3>
       <el-collapse v-model="activeDomestic" accordion>
         <el-collapse-item
-          v-for="item in domesticPaymentList"
+          v-for="item in domesticPaymentListWithTitle.filter((i) => i.isShow)"
           :key="item.name"
           :name="item.name"
-          v-if="item.isShow"
         >
           <template slot="title">
             <div class="payment-item-header">
@@ -46,13 +45,12 @@
 
     <!-- 境外支付平台 -->
     <div class="payment-section">
-      <h3 class="section-title">境外支付平台</h3>
+      <h3 class="section-title">{{ $t('10d92d52.0760e2') }}</h3>
       <el-collapse v-model="activeInternational" accordion>
         <el-collapse-item
-          v-for="item in internationalPaymentList"
+          v-for="item in internationalPaymentListWithTitle.filter((i) => i.isShow)"
           :key="item.name"
           :name="item.name"
-          v-if="item.isShow"
         >
           <template slot="title">
             <div class="payment-item-header">
@@ -203,50 +201,50 @@ export default {
   },
   data() {
     return {
-      activeDomestic: 'wxpay',
-      activeInternational: 'paypal',
+      activeDomestic: '',
+      activeInternational: '',
       isHfpay: false,
       loading: false,
 
-      // 境内支付平台列表
+      // 境内支付平台列表（titleKey/descriptionKey 在 computed 中译为 title/description）
       domesticPaymentList: [
         {
           name: 'wxpay',
-          title: '微信支付配置',
+          titleKey: '10d92d52.ccf3d2',
+          descriptionKey: '10d92d52.907a49',
           icon: require('@/assets/pay_logo/wepay.png'),
-          description: '支持客户端:移动商城(微信小程序、H5)、PC商城',
           enabled: false,
           isShow: true
         },
         {
           name: 'alipay',
-          title: '支付宝支付配置',
+          titleKey: '10d92d52.25f2a4',
+          descriptionKey: '10d92d52.ed7207',
           icon: require('@/assets/pay_logo/alipay.png'),
-          description: '支持客户端:移动商城(H5)、PC商城',
           enabled: false,
           isShow: !this.isHfpay && !this.VERSION_IN_PURCHASE() && !this.VERSION_SHUYUN()
         },
         {
           name: 'chinaumspay',
-          title: '银联商务支付配置',
+          titleKey: '10d92d52.13eff4',
+          descriptionKey: '10d92d52.ec52e1',
           icon: require('@/assets/pay_logo/unionpay.png'),
-          description: '支持客户端:移动商城(微信小程序、H5)',
           enabled: false,
           isShow: !this.VERSION_SHUYUN()
         },
         {
           name: 'offline_pay',
-          title: '线下转账',
+          titleKey: '10d92d52.2d8019',
+          descriptionKey: '10d92d52.ed7207',
           icon: '',
-          description: '支持客户端:移动商城(H5)、PC商城',
           enabled: false,
           isShow: !this.VERSION_SHUYUN() && !this.VERSION_B2C()
         },
         {
           name: 'bspay',
-          title: '汇付斗拱支付配置',
+          titleKey: '10d92d52.fc8a0f',
+          descriptionKey: '10d92d52.907a49',
           icon: require('@/assets/pay_logo/huifu.png'),
-          description: '支持客户端:移动商城(微信小程序、H5)、PC商城',
           enabled: false,
           isShow: true
         }
@@ -257,8 +255,16 @@ export default {
         {
           name: 'paypal',
           title: 'PayPal',
+          descriptionKey: '10d92d52.ed7207',
           icon: require('@/assets/pay_logo/paypal.png'),
-          description: '支持客户端:移动商城(H5)、PC商城',
+          enabled: false,
+          isShow: true
+        },
+        {
+          name: 'doumen_intl',
+          title: '斗门国际',
+          descriptionKey: '10d92d52.ed7207',
+          icon: '',
           enabled: false,
           isShow: true
         }
@@ -271,7 +277,8 @@ export default {
         chinaumspay: {},
         offline_pay: {},
         bspay: {},
-        paypal: {}
+        paypal: {},
+        doumen_intl: {}
       },
       publicKeyDialogForm: {
         rsa_public_key: ''
@@ -285,66 +292,6 @@ export default {
         remark: '',
         china_ums_no: '',
         is_default: null
-      },
-      accountsSetting: {
-        columns: [
-          { name: '收款人户名', key: 'bank_account_name' },
-          { name: '银行账号', key: 'bank_account_no' },
-          { name: '开户银行', key: 'bank_name' },
-          { name: '银联号', key: 'china_ums_no' },
-          {
-            name: '银行LOGO',
-            width: 100,
-            key: 'pic',
-            render: (h, { row }) => {
-              return <SpImage src={row.pic} width={60} height={60} />
-            }
-          },
-          { name: '备注', key: 'remark' },
-          {
-            name: '是否默认',
-            width: 100,
-            key: 'staff_attribute',
-            render: (h, { row }) => {
-              return <span>{row.is_default === 'true' ? '是' : '否'}</span>
-            }
-          }
-        ],
-        actions: [
-          {
-            name: '编辑',
-            key: 'detail',
-            type: 'button',
-            buttonType: 'text',
-            action: {
-              handler: ([row]) => {
-                // 使用深拷贝避免引用问题
-                this.accountsForm = JSON.parse(JSON.stringify(row))
-                this.addDeliveryman('edit')
-              }
-            }
-          },
-          {
-            name: '删除',
-            key: 'apply',
-            type: 'button',
-            buttonType: 'text',
-            action: {
-              handler: async ([row]) => {
-                await this.$confirm(`确认删除？`, '提示', {
-                  confirmButtonText: '确定',
-                  cancelButtonText: '取消'
-                })
-                try {
-                  await this.$api.offline.deleteOfflineAccount(row.id)
-                  this.getOfflineList()
-                } catch (error) {
-                  console.log('error', error)
-                }
-              }
-            }
-          }
-        ]
       }
     }
   },
@@ -359,8 +306,22 @@ export default {
     }
   },
   computed: {
+    domesticPaymentListWithTitle() {
+      return this.domesticPaymentList.map((item) => ({
+        ...item,
+        title: item.title || this.$t(item.titleKey),
+        description: this.$t(item.descriptionKey)
+      }))
+    },
+    internationalPaymentListWithTitle() {
+      return this.internationalPaymentList.map((item) => ({
+        ...item,
+        title: item.title || (item.titleKey ? this.$t(item.titleKey) : ''),
+        description: item.descriptionKey ? this.$t(item.descriptionKey) : item.description || ''
+      }))
+    },
     allPaymentList() {
-      return [...this.domesticPaymentList, ...this.internationalPaymentList]
+      return [...this.domesticPaymentListWithTitle, ...this.internationalPaymentListWithTitle]
     },
 
     // 动态生成表单配置，确保数据回显
@@ -387,6 +348,77 @@ export default {
     paypalFormItems() {
       // PayPal
       return this.getPaypalFormItems()
+    },
+    doumenIntlFormItems() {
+      // 斗门国际
+      return this.getDoumenIntlFormItems()
+    },
+    accountsSetting() {
+      return {
+        columns: [
+          { name: this.$t('10d92d52.84fc41'), key: 'bank_account_name' },
+          { name: this.$t('10d92d52.954218'), key: 'bank_account_no' },
+          { name: this.$t('10d92d52.cc5ca0'), key: 'bank_name' },
+          { name: this.$t('10d92d52.4402fa'), key: 'china_ums_no' },
+          {
+            name: this.$t('10d92d52.e277b7'),
+            width: 100,
+            key: 'pic',
+            render: (h, { row }) => {
+              return <SpImage src={row.pic} width={60} height={60} />
+            }
+          },
+          { name: this.$t('10d92d52.2432b5'), key: 'remark' },
+          {
+            name: this.$t('10d92d52.d1c357'),
+            width: 100,
+            key: 'staff_attribute',
+            render: (h, { row }) => {
+              return (
+                <span>
+                  {row.is_default === 'true'
+                    ? this.$t('10d92d52.0a60ac')
+                    : this.$t('10d92d52.c9744f')}
+                </span>
+              )
+            }
+          }
+        ],
+        actions: [
+          {
+            name: this.$t('10d92d52.95b351'),
+            key: 'detail',
+            type: 'button',
+            buttonType: 'text',
+            action: {
+              handler: ([row]) => {
+                this.accountsForm = JSON.parse(JSON.stringify(row))
+                this.addDeliveryman('edit')
+              }
+            }
+          },
+          {
+            name: this.$t('10d92d52.2f4aad'),
+            key: 'apply',
+            type: 'button',
+            buttonType: 'text',
+            action: {
+              handler: async ([row]) => {
+                await this.$confirm(this.$t('10d92d52.b28efa'), this.$t('10d92d52.02d981'), {
+                  confirmButtonText: this.$t('10d92d52.38cf16'),
+                  cancelButtonText: this.$t('10d92d52.625fb2')
+                })
+                try {
+                  await this.$api.offline.deleteOfflineAccount(row.id)
+                  this.getOfflineList()
+                } catch (error) {
+                  console.log('error', error)
+                }
+              }
+            }
+          }
+        ]
+      }
     }
   },
 
@@ -402,10 +434,8 @@ export default {
         const res = await hfpayVersionStatus()
         const data = res.data.data
         if (data.hfpay_version_status) {
-          this.activeDomestic = 'hfpay'
           this.isHfpay = true
         } else {
-          this.activeDomestic = 'offline_pay'
           this.isHfpay = false
         }
       } catch (error) {
@@ -426,7 +456,8 @@ export default {
         'adapay',
         'offline_pay',
         'bspay',
-        'paypal'
+        'paypal',
+        'doumen_intl'
       ]
 
       for (const payType of paymentTypes) {
@@ -447,9 +478,14 @@ export default {
         // 更新表单数据（使用深拷贝避免引用问题）
         const formData = JSON.parse(JSON.stringify(data))
         formData.is_open = data.is_open === 'true' || data.is_open === true
-        // 接口常返回字符串 'false'/'true'，需转成布尔，避免 'false' 被当成真值
-        if (Object.prototype.hasOwnProperty.call(data, 'is_servicer')) {
-          formData.is_servicer = data.is_servicer === 'true' || data.is_servicer === true
+        // 汇付支付渠道：接口可能返回字符串，统一转为数组，避免勾选错乱
+        if (payType === 'bspay' && formData.pay_channel != null) {
+          formData.pay_channel = Array.isArray(formData.pay_channel)
+            ? formData.pay_channel
+            : String(formData.pay_channel)
+                .split(',')
+                .map((s) => s.trim())
+                .filter(Boolean)
         }
         this.$set(this.paymentForms, payType, formData)
 
@@ -468,6 +504,16 @@ export default {
       }
     },
 
+    /** 支付渠道统一为数组，避免接口返回字符串导致勾选错乱（复选需数组） */
+    normalizePayChannel(v) {
+      if (Array.isArray(v)) return v
+      if (v == null || v === '') return []
+      return String(v)
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+    },
+
     // 获取表单配置项
     getFormItems(payType) {
       const formConfigs = {
@@ -476,7 +522,8 @@ export default {
         chinaumspay: this.getChinaumspayFormItems(),
         offline_pay: this.getOfflineFormItems(),
         bspay: this.getBspayFormItems(),
-        paypal: this.getPaypalFormItems()
+        paypal: this.getPaypalFormItems(),
+        doumen_intl: this.getDoumenIntlFormItems()
       }
 
       return formConfigs[payType] || []
@@ -575,7 +622,7 @@ export default {
           fieldName: 'is_servicer',
           label: '是否特约商户',
           component: 'switch',
-          value: formData.is_servicer === true || formData.is_servicer === 'true',
+          value: formData.is_servicer || false,
           componentProps: {
             activeColor: '#13ce66',
             inactiveColor: '#ff4949'
@@ -612,6 +659,7 @@ export default {
             autoUpload: false,
             multiple: false,
             onChange: (file, fileList) => {
+              if (!file?.raw) return
               this.paymentForms.wxpay.cert = file.raw
             }
           },
@@ -627,6 +675,7 @@ export default {
             autoUpload: false,
             multiple: false,
             onChange: (file, fileList) => {
+              if (!file?.raw) return
               this.paymentForms.wxpay.cert_key = file.raw
             }
           },
@@ -748,7 +797,7 @@ export default {
             autoUpload: false,
             onChange: (file, fileList) => {
               console.log('上传:', file, fileList)
-              this.paymentForms.chinaumspay.rsa_private = file.raw
+              tthis.paymentForms.chinaumspay.rsa_private = file.raw
             }
           }
         },
@@ -772,7 +821,7 @@ export default {
             autoUpload: false,
             onChange: (file, fileList) => {
               console.log('上传:', file, fileList)
-              this.paymentForms.chinaumspay.rsa_public = file.raw
+              tthis.paymentForms.chinaumspay.rsa_public = file.raw
             }
           }
         }
@@ -843,7 +892,7 @@ export default {
             return (
               <div>
                 <el-button type='primary' plain onClick={() => this.addDeliveryman('add')}>
-                  添加收款账户
+                  {this.$t('10d92d52.89beb5')}
                 </el-button>
                 <SpFinder
                   ref='finder'
@@ -938,7 +987,7 @@ export default {
           fieldName: 'pay_channel',
           label: '支付渠道',
           component: 'checkbox',
-          value: formData.pay_channel || [],
+          value: this.normalizePayChannel(formData.pay_channel),
           componentProps: {
             options: [
               { label: '微信小程序支付', value: 'wx_lite' },
@@ -1025,6 +1074,67 @@ export default {
       ]
     },
 
+    // 斗门国际表单配置
+    getDoumenIntlFormItems() {
+      const formData = this.paymentForms.doumen_intl || {}
+      const maskedSecret = this.isMaskedSecret(formData['X-SecretKey'])
+      return [
+        {
+          fieldName: 'group1',
+          label: '基础配置',
+          component: 'group'
+        },
+        {
+          fieldName: 'X-AccessCode',
+          label: 'X-AccessCode',
+          component: 'input',
+          value: formData['X-AccessCode'] || '',
+          componentProps: {
+            placeholder: '请输入 X-AccessCode',
+            style: 'width: 300px'
+          }
+        },
+        {
+          fieldName: 'X-SecretKey',
+          label: 'X-SecretKey',
+          component: 'input',
+          value: maskedSecret ? '' : formData['X-SecretKey'] || '',
+          componentProps: {
+            type: 'password',
+            placeholder: maskedSecret
+              ? `${formData['X-SecretKey']}（留空则不修改）`
+              : '请输入 X-SecretKey',
+            style: 'width: 300px'
+          }
+        },
+        {
+          fieldName: 'appId',
+          label: 'appId',
+          component: 'input',
+          value: formData.appId || '',
+          componentProps: {
+            placeholder: '请输入 appId',
+            style: 'width: 300px'
+          }
+        },
+        {
+          fieldName: 'return_url',
+          label: 'return_url',
+          component: 'input',
+          formItemClass: 'w-3/4',
+          value: formData.return_url || '',
+          componentProps: {
+            placeholder: '请输入支付完成跳转地址',
+            style: 'width: 600px'
+          }
+        }
+      ]
+    },
+
+    isMaskedSecret(value) {
+      return typeof value === 'string' && value.startsWith('****')
+    },
+
     // PayPal表单配置
     getPaypalFormItems() {
       const formData = this.paymentForms.paypal || {}
@@ -1077,10 +1187,46 @@ export default {
       ]
     },
 
+    isDoumenIntlEnabled() {
+      const doumenItem = this.allPaymentList.find((item) => item.name === 'doumen_intl')
+      return !!(doumenItem && doumenItem.enabled)
+    },
+
     // 处理支付平台开关切换
-    handleTogglePayment(paymentItem) {
+    async handleTogglePayment(paymentItem) {
+      const newEnabled = paymentItem.enabled
+
+      if (newEnabled && paymentItem.name !== 'doumen_intl' && this.isDoumenIntlEnabled()) {
+        this.$message.warning('请先关闭斗门国际收银台')
+        paymentItem.enabled = false
+        return
+      }
+
+      if (newEnabled && paymentItem.name === 'doumen_intl') {
+        try {
+          await this.$confirm(
+            '请确认是否启用斗门国际收银台，启用会默认关闭其他支付方式',
+            '提示',
+            {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }
+          )
+        } catch {
+          paymentItem.enabled = false
+          return
+        }
+      }
+
       this.$set(this.paymentForms[paymentItem.name], 'is_open', paymentItem.enabled)
-      this.savePaymentConfig(paymentItem.name)
+
+      try {
+        await this.savePaymentConfig(paymentItem.name)
+      } catch (error) {
+        paymentItem.enabled = !newEnabled
+        this.$set(this.paymentForms[paymentItem.name], 'is_open', paymentItem.enabled)
+      }
     },
 
     // 强制刷新表单数据
@@ -1093,38 +1239,36 @@ export default {
       await this.savePaymentConfig(payType)
     },
 
+    extractApiErrorMessage(error, fallback) {
+      const data = error?.response?.data
+      if (typeof data === 'string' && data) {
+        return data
+      }
+      if (data?.message) {
+        return data.message
+      }
+      if (data?.error?.message) {
+        return data.error.message
+      }
+      if (error?.message) {
+        return error.message
+      }
+      return fallback
+    },
+
     // 保存支付配置
     async savePaymentConfig(payType) {
       this.loading = true
       try {
         const formData = this.paymentForms[payType]
-        // File/Blob 无法被 JSON.stringify 序列化（会变成 {} → FormData 变成 "[object Object]"），需单独保留
-        const fileFieldKeys = [
-          'cert',
-          'cert_key',
-          'rsa_private',
-          'rsa_public',
-          'pfx_file',
-          'ca_pfx_file',
-          'oca31_pfx_file'
-        ]
-        const uploadedFiles = {}
-        fileFieldKeys.forEach((key) => {
-          const value = formData[key]
-          if (typeof Blob !== 'undefined' && value instanceof Blob) {
-            uploadedFiles[key] = value
-          }
-        })
-
-        // 使用深拷贝避免引用问题（不含 File）
+        // 使用深拷贝避免引用问题（File 无法被 JSON 序列化，需单独保留）
         const params = JSON.parse(JSON.stringify(formData))
-        params.pay_type = payType
-        params.is_open = formData.is_open === true || formData.is_open === 'true' ? 'true' : 'false'
-        if (Object.prototype.hasOwnProperty.call(formData, 'is_servicer')) {
-          // 不能用 truthy 判断：字符串 'false' 在 JS 里为真，会误传 is_servicer=true
-          params.is_servicer =
-            formData.is_servicer === true || formData.is_servicer === 'true' ? 'true' : 'false'
+        if (payType === 'wxpay') {
+          if (formData.cert instanceof File) params.cert = formData.cert
+          if (formData.cert_key instanceof File) params.cert_key = formData.cert_key
         }
+        params.pay_type = payType
+        params.is_open = formData.is_open ? 'true' : 'false'
         params.isUploadFile = true
         // 过滤掉值为 undefined 的参数
         Object.keys(params).forEach((key) => {
@@ -1138,22 +1282,34 @@ export default {
           delete params.cert_url
           delete params.cert_key_name
           delete params.cert_key_url
-          // 未重新上传时不要回传 PEM 字符串/空对象；后端会沿用 Redis 已有证书
-          delete params.cert
-          delete params.cert_key
         }
-        if (payType == 'chinaumspay') {
-          delete params.rsa_private
-          delete params.rsa_public
+        if (payType === 'doumen_intl') {
+          const secretKey = params['X-SecretKey']
+          if (!secretKey || this.isMaskedSecret(secretKey)) {
+            params['X-SecretKey'] = ''
+          }
         }
 
-        Object.assign(params, uploadedFiles)
+        if (
+          payType !== 'doumen_intl' &&
+          params.is_open === 'true' &&
+          this.isDoumenIntlEnabled()
+        ) {
+          throw new Error('请先关闭斗门国际收银台')
+        }
 
         await this.$api.trade.setPaymentSetting(params)
-        this.$message.success('保存成功')
+
+        if (payType === 'doumen_intl' && params.is_open === 'true') {
+          await this.loadAllPaymentConfigs()
+        }
+
+        this.$message.success(this.$t('10d92d52.3b1083'))
       } catch (error) {
-        this.$message.error('保存失败')
+        const message = this.extractApiErrorMessage(error, this.$t('10d92d52.6de920'))
+        this.$message.error(message)
         console.error('保存支付配置失败:', error)
+        throw error
       } finally {
         this.loading = false
       }
@@ -1189,14 +1345,14 @@ export default {
         }
       }
       await this.$dialog.open({
-        title: type == 'edit' ? '编辑收款账户' : '添加收款账户',
+        title: type == 'edit' ? this.$t('10d92d52.27e12d') : this.$t('10d92d52.89beb5'),
         size: 'medium',
         content: <CompAccountForm ref='accountsForm' value={this.accountsForm} />,
         confirmBefore: async () => {
           try {
             await AccountFormApi.validate()
           } catch (error) {
-            throw new Error('表单验证失败')
+            throw new Error(this.$t('10d92d52.53aadf'))
           }
         }
       })
@@ -1208,10 +1364,10 @@ export default {
       }
       if (params.id) {
         await this.$api.offline.updateOfflineAccount(params)
-        this.$message.success('编辑成功')
+        this.$message.success(this.$t('10d92d52.3bb47b'))
       } else {
         await this.$api.offline.createOfflineAccount(params)
-        this.$message.success('保存成功')
+        this.$message.success(this.$t('10d92d52.3b1083'))
       }
       this.getOfflineList()
     },

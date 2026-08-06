@@ -23,8 +23,9 @@
     .placeholder {
       height: 48px;
     }
-    .el-icon-camera {
-      font-size: 18px;
+    .picker-placeholder-icon {
+      width: 18px;
+      height: 18px;
     }
     .add-text {
       font-size: 10px;
@@ -72,11 +73,10 @@
     align-items: center;
     justify-content: center;
   }
-  .el-icon-camera {
-    font-size: 24px;
+  .picker-placeholder-icon {
+    width: 24px;
+    height: 24px;
     color: #d9d9d9;
-    line-height: initial;
-    // margin-top: 12px;
   }
   .add-text {
     font-size: 12px;
@@ -149,10 +149,12 @@
 <script>
 import Vue from 'vue'
 import { isArray, isEmpty, isString, isObject } from '@/utils'
+import { i18n } from '@/i18n'
 import draggable from 'vuedraggable'
+import { Camera } from 'lucide-vue'
 export default {
   name: 'SpImagePicker',
-  components: { draggable },
+  components: { draggable, Camera },
   props: {
     value: {
       type: [Object, Array, String]
@@ -271,13 +273,13 @@ export default {
           />
           <el-image
             class='img-content'
-            src={item?.url || item}
+            src={(item && item.url) || item}
             fit='cover'
             id='imageRef'
             preview-src-list={this.showViewer}
           />
           <span class='image-meta' on-click={this.onUpdateImage.bind(this, index)}>
-            更换图片
+            {i18n.t('967e77ce.7c543f')}
           </span>
         </div>
       )
@@ -308,16 +310,18 @@ export default {
         )}
         {max > 1 && value.length < max && (
           <div class='image-item placeholder' on-click={this.handleSelectImage}>
-            <i class='el-icon-camera' />
-            <div class='add-text'>图片({`${value.length}/${max}`})</div>
+            <Camera class='picker-placeholder-icon' strokeWidth={1.8} />
+            <div class='add-text'>
+              {i18n.t('967e77ce.20def7')}({`${value.length}/${max}`})
+            </div>
           </div>
         )}
 
         {max == 1 && !isEmpty(value) && this._renderImage(value)}
         {max == 1 && isEmpty(value) && (
           <div class='image-item placeholder' on-click={this.handleSelectImage}>
-            <i class='el-icon-camera' />
-            <div class='add-text'>添加图片</div>
+            <Camera class='picker-placeholder-icon' strokeWidth={1.8} />
+            <div class='add-text'>{i18n.t('967e77ce.b89fb3')}</div>
           </div>
         )}
       </div>

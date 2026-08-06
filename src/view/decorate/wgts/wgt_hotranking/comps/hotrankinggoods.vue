@@ -22,7 +22,7 @@
         class="header-more"
         :style="{ color: value.moreBtn.color }"
       >
-        查看更多<el-icon class="el-icon-arrow-right" />
+        {{ i18n.t('e968027c.90ef7c') }}<el-icon class="el-icon-arrow-right" />
       </div>
     </div>
 
@@ -62,6 +62,8 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
+
 export default {
   name: 'HotRankingGoods',
   props: {
@@ -77,6 +79,9 @@ export default {
       type: Object,
       default: () => ({})
     }
+  },
+  data() {
+    return { i18n }
   },
   computed: {
     topGoods() {

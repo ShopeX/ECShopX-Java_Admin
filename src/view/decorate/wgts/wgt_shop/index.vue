@@ -24,7 +24,7 @@
             <div class="favorite-btn">
               <i class="el-icon-star-off" />
             </div>
-            <div class="enter-shop-btn">进店逛逛</div>
+            <div class="enter-shop-btn">{{ i18n.t('1d819fcf.0f2d3a') }}</div>
           </div>
         </div>
         <div class="shop-products">
@@ -38,7 +38,7 @@
                 <div slot="error" class="image-slot" />
               </el-image>
             </div>
-            <div class="product-title">{{ product?.item_name || '商品名称' }}</div>
+            <div class="product-title">{{ product?.item_name || i18n.t('1d819fcf.1fd1d5') }}</div>
             <div class="product-tags">
               <span
                 v-for="(tag, tagIndex) in productTags(product)"
@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 
@@ -82,7 +83,7 @@ function clampCount(n, fallback = 4, max = 100) {
 
 export default {
   name: 'Shop',
-  wgtName: '店铺',
+  wgtName: i18n.t('1d819fcf.295713'),
   wgtDesc: '',
   wgtIcon: 'application',
   wgtType: 2,
@@ -92,6 +93,7 @@ export default {
   },
   data() {
     return {
+      i18n,
       defaultShopLogo,
       distributorData: []
     }
@@ -111,7 +113,7 @@ export default {
         return Array.from({ length: this.nearbyMerchantsCount }, (_, index) => ({
           _placeholder: true,
           distributor_id: `nearby-placeholder-${index}`,
-          name: '附近商家'
+          name: i18n.t('5e1ae7f2.0c0d95')
         }))
       }
       return this.value?.data || []
@@ -157,7 +159,7 @@ export default {
       if (this.isNearbyType) {
         return Array.from({ length: this.nearbyProductsCount }, () => ({
           ...NEARBY_PLACEHOLDER_PRODUCT,
-          item_name: '商品名称'
+          item_name: i18n.t('1d819fcf.1fd1d5')
         }))
       }
       return this.distributorData || []

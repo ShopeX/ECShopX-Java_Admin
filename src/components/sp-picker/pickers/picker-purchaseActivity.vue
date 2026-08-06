@@ -54,21 +54,7 @@
       }"
       url="/employeepurchase/activities"
       :fixed-row-action="true"
-      :setting="{
-        columns: [
-          { name: 'ID', key: 'id', width: 80 },
-          { name: '内购活动名称', key: 'name' },
-          { name: '来源店铺', key: 'distributor_name' },
-          {
-            name: '购买时间',
-            key: 'employee_end_time',
-            formatter: (value, { employee_end_time, employee_begin_time }, col) => {
-              return `${momentFunc(employee_begin_time)} ~ ${momentFunc(employee_end_time)}`
-            }
-          },
-          { name: '状态', key: 'status_desc' }
-        ]
-      }"
+      :setting="purchaseActivitySetting"
       :hooks="{
         beforeSearch: beforeSearch,
         afterSearch: afterSearch
@@ -84,7 +70,7 @@ import BasePicker from './base'
 import PageMixin from '../mixins/page'
 import moment from 'moment'
 export default {
-  name: 'PickerPages',
+  name: 'PickerPurchaseActivity',
   extends: BasePicker,
   mixins: [PageMixin],
   config: {
@@ -99,7 +85,30 @@ export default {
       multiple: this.value?.multiple ?? true
     }
   },
-  created() {},
+  computed: {
+    purchaseActivitySetting() {
+      const t = this.$t.bind(this)
+      const momentFunc = this.momentFunc
+      return {
+        columns: [
+          { name: 'ID', key: 'id', width: 80 },
+          { name: t('ad117ebf.5da03b'), key: 'name' },
+          { name: t('ad117ebf.53cc55'), key: 'distributor_name' },
+          {
+            name: t('ad117ebf.059c1e'),
+            key: 'employee_end_time',
+            formatter: (value, { employee_end_time, employee_begin_time }, col) => {
+              return `${momentFunc(employee_begin_time)} ~ ${momentFunc(employee_end_time)}`
+            }
+          },
+          { name: t('ad117ebf.3fea7c'), key: 'status_desc' }
+        ]
+      }
+    }
+  },
+  created() {
+    this.$options.config.title = this.$t('ad117ebf.b2e230')
+  },
   methods: {
     beforeSearch(params) {
       params = {
@@ -109,14 +118,16 @@ export default {
     },
     afterSearch(response) {
       const { list } = response.data.data
-      if (this.value.data) {
-        const valueData = this.multiple ? valueData : this.value.data + ''
-        const selectRows = list.filter((item) => valueData.includes(item.id))
-        const { finderTable } = this.$refs.finder.$refs
-        setTimeout(() => {
-          finderTable.$refs.finderTable.setSelection(selectRows)
-        })
-      }
+      const raw = this.value?.data
+      if (raw == null || raw === '') return
+      const selectedIds = Array.isArray(raw) ? raw : [raw]
+      const selectRows = list.filter((item) => selectedIds.map(String).includes(String(item.id)))
+      if (!selectRows.length) return
+      const finderTable = this.$refs.finder?.$refs?.finderTable
+      if (!finderTable?.$refs?.finderTable) return
+      setTimeout(() => {
+        finderTable.$refs.finderTable.setSelection(selectRows)
+      })
     },
     onSearch() {
       this.$refs.finder.refresh(true)

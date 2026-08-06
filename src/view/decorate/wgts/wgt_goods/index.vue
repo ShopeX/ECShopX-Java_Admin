@@ -39,10 +39,10 @@ import ColumnGoods from '../../comps/goods-layout/columngoods.vue'
 import GridGoods from '../../comps/goods-layout/gridgoods.vue'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 import saledata from './mock/saledata.json'
-
+import { i18n } from '@/i18n'
 export default {
-  name: 'goods',
-  wgtName: '商品',
+  name: 'Goods',
+  wgtName: i18n.t('8865eba5.9897d8'),
   wgtDesc: '',
   wgtIcon: 'waterfalls-h',
   wgtType: 2,
@@ -110,7 +110,7 @@ export default {
         }
       }
 
-      const effectiveDataCount = this.value?.dataCount ?? this.value?.base?.dataCount ?? 4
+      const effectiveDataCount = this.value?.dataCount ?? 4
       let params = {
         data_type: dataType,
         data_value: this.value.data?.id || '',

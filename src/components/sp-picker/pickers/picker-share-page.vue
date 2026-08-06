@@ -43,7 +43,7 @@
   <div class="picker-pages">
     <SpFilterForm :model="formData" size="small" @onSearch="onSearch" @onReset="onSearch">
       <SpFilterFormItem prop="keywords">
-        <el-input v-model="formData.keywords" placeholder="请输入页面名称" />
+        <el-input v-model="formData.keywords" :placeholder="$t('f1ff8c0d.7d5cc3')" />
       </SpFilterFormItem>
     </SpFilterForm>
     <SpFinder
@@ -54,13 +54,7 @@
       }"
       url="/wxa/customizepage/list?page_type=task_share"
       :fixed-row-action="true"
-      :setting="{
-        columns: [
-          { name: 'ID', key: 'id', width: 80 },
-          { name: '页面名称', key: 'page_name' },
-          { name: '页面描述', key: 'page_description' }
-        ]
-      }"
+      :setting="sharePageSetting"
       :hooks="{
         beforeSearch: beforeSearch,
         afterSearch: afterSearch
@@ -82,6 +76,18 @@ export default {
     title: '选择分享页面'
   },
   props: ['value'],
+  computed: {
+    sharePageSetting() {
+      const t = this.$t.bind(this)
+      return {
+        columns: [
+          { name: 'ID', key: 'id', width: 80 },
+          { name: t('f1ff8c0d.b78454'), key: 'page_name' },
+          { name: t('f1ff8c0d.abf8f4'), key: 'page_description' }
+        ]
+      }
+    }
+  },
   data() {
     return {
       formData: {
@@ -90,7 +96,9 @@ export default {
       multiple: this.value?.multiple ?? true
     }
   },
-  created() {},
+  created() {
+    this.$options.config.title = this.$t('f1ff8c0d.995897')
+  },
   methods: {
     beforeSearch(params) {
       console.log('params:', params, this.value)
@@ -110,13 +118,16 @@ export default {
     },
     afterSearch(response) {
       const { list } = response.data.data
-      if (this.value.data) {
-        const selectRows = list.filter((item) => this.value.data.includes(item.id))
-        const { finderTable } = this.$refs.finder.$refs
-        setTimeout(() => {
-          finderTable.$refs.finderTable.setSelection(selectRows)
-        })
-      }
+      const raw = this.value?.data
+      if (raw == null || raw === '') return
+      const selectedIds = Array.isArray(raw) ? raw : [raw]
+      const selectRows = list.filter((item) => selectedIds.map(String).includes(String(item.id)))
+      if (!selectRows.length) return
+      const finderTable = this.$refs.finder?.$refs?.finderTable
+      if (!finderTable?.$refs?.finderTable) return
+      setTimeout(() => {
+        finderTable.$refs.finderTable.setSelection(selectRows)
+      })
     },
     onSearch() {
       this.$refs.finder.refresh(true)

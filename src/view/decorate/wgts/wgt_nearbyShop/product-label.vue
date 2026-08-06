@@ -6,8 +6,8 @@
 <template>
   <div class="attr-category">
     <CompButton
-      placeholder="选择标签"
-      format="{0}个标签"
+      :placeholder="i18n.t('5a06e75a.f9b05d')"
+      :format="i18n.t('5a06e75a.d9dd77')"
       :value="value.length"
       :view-btn="false"
       @click="onAddLabel"
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import { cloneDeep } from 'lodash'
 import { queryTagShop } from '@/api/marketing'
 import CompButton from '../../comps/comp-button'
@@ -26,6 +27,7 @@ export default {
   props: ['value'],
   data() {
     return {
+      i18n,
       tagSelectVisible: false,
       localTagList: [],
       dragItemsOptions: {

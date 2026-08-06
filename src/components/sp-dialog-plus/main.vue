@@ -15,12 +15,11 @@
       <slot name="title" />
     </template>
 
-    <template v-if="$slots.body">
+    <!-- 勿用 v-if($slots.body)/v-else 二选一：在部分路由 + $dialog.open 场景下会误判，导致正文整段空白 -->
+    <div class="sp-dialog-plus__body">
       <slot name="body" />
-    </template>
-    <template v-else>
       <slot />
-    </template>
+    </div>
 
     <span slot="footer" class="dialog-footer">
       <div>
@@ -50,6 +49,8 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
+
 export default {
   name: 'SpDialogPlus',
 
@@ -57,27 +58,25 @@ export default {
     buttonCancel: {
       type: Object,
       default: () => ({
-        visible: true,
-        text: '取消'
+        visible: true
       })
     },
     buttonConfirm: {
       type: Object,
       default: () => ({
-        visible: true,
-        text: '确定'
+        visible: true
       })
     },
     width: {
-      type: String,
-      default: '1008px'
+      type: String
     },
     value: {
       type: Object,
       default: () => ({})
     },
     size: {
-      type: String
+      type: String,
+      default: 'medium'
     },
     isShow: Boolean
   },
@@ -89,19 +88,19 @@ export default {
         small: '800px',
         mini: '600px'
       }
-      return SIZE[this.size] || '1200px'
+      return this.width || SIZE[this.size] || '1200px'
     },
     computedButtonCancel() {
       return {
         visible: true,
-        text: '取消',
+        text: i18n.t('d6ce3fc7.625fb2'),
         ...this.buttonCancel
       }
     },
     computedButtonConfirm() {
       return {
         visible: true,
-        text: '确定',
+        text: i18n.t('d6ce3fc7.38cf16'),
         ...this.buttonConfirm
       }
     }

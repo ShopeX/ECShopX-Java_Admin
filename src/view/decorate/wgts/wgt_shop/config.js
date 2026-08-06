@@ -1,4 +1,5 @@
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import AttrStore from './attr-store'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
 
@@ -30,15 +31,15 @@ function isNearbyDataType(v, raw = {}) {
 
 function buildNearbySetting() {
   return [
-    { label: '组件间距', key: 'padded', component: 'switch', value: false },
+    { label: i18n.t('9b7fb994.4707ba'), key: 'padded', component: 'switch', value: false },
     {
-      label: '显示更多附近商家',
+      label: i18n.t('9b7fb994.f417a5'),
       key: 'show_nearby_merchants',
       component: 'switch',
       value: false
     },
     {
-      label: '显示附近商家数量',
+      label: i18n.t('9b7fb994.35f408'),
       key: 'merchantsNumber',
       component: 'number',
       value: 4,
@@ -46,7 +47,7 @@ function buildNearbySetting() {
       max: 100
     },
     {
-      label: '显示附近商品数量',
+      label: i18n.t('9b7fb994.81756c'),
       key: 'quantityNumber',
       component: 'number',
       value: 4,
@@ -60,24 +61,24 @@ const config = {
   name: 'shop',
   setting: [
     {
-      label: '自定义挂件名称',
+      label: i18n.t('ca99873f.aebb0a'),
       key: 'wgtCustName',
       component: 'input',
       value: ''
     },
     {
-      label: '埋点上报参数',
+      label: i18n.t('ca99873f.095e43'),
       key: 'track',
       component: 'input',
       value: ''
     },
     {
-      label: '数据类型',
+      label: i18n.t('ca99873f.185f7b'),
       key: 'dataType',
       component: 'select',
       options: [
-        { label: '指定店铺', value: 'specify' },
-        { label: '附近商家', value: 'nearby' }
+        { label: i18n.t('ca99873f.fcf7d8'), value: 'specify' },
+        { label: i18n.t('5e1ae7f2.0c0d95'), value: 'nearby' }
       ],
       value: 'specify',
       onchange: function (e, vm) {
@@ -87,7 +88,7 @@ const config = {
       }
     },
     {
-      label: '数据设置',
+      label: i18n.t('ca99873f.e7af71'),
       key: 'data',
       component: function (h, { key }) {
         return (

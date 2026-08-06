@@ -63,41 +63,67 @@
 <template>
   <div class="comp-picker-link-wrapper">
     <!-- {{ localValue }} -->
-    <div class="tracking-params-wrapper">
-      <label class="tracking-params-label">模式</label>
+    <div class="tracking-params-wrapper" v-if="isShowH5Link">
+      <label class="tracking-params-label">{{ $t('4a0a5782.f0789e') }}</label>
       <el-radio-group
         v-model="localValue.linkType"
         class="linktype-radio"
         @change="onChangeLinkType"
         size="small"
       >
-        <el-radio-button :label="0"> 选择路径 </el-radio-button>
-        <el-radio-button v-if="isShowH5Link" :label="1">H5链接</el-radio-button>
+        <el-radio-button :label="0">{{ $t('4a0a5782.e3cf91') }}</el-radio-button>
+        <el-radio-button :label="1">
+          {{ $t('4a0a5782.4e99fd') }}
+        </el-radio-button>
       </el-radio-group>
     </div>
-    <div v-if="localValue.linkType == 0" class="tracking-params-wrapper" @click="onPickerPath">
-      <label class="tracking-params-label">路径</label>
-      <div class="btn-linkpath">{{ getLabelName() }}</div>
-    </div>
-    <div class="tracking-params-wrapper" v-else>
-      <label class="tracking-params-label">H5链接</label>
+    <template v-if="localValue.linkType == 0">
+      <div class="tracking-params-wrapper" @click="onPickerPath">
+        <label class="tracking-params-label">{{ $t('4a0a5782.4f35e8') }}</label>
+        <div class="btn-linkpath">{{ getLabelName() }}</div>
+      </div>
+      <div v-if="needsOfficialRawId" class="tracking-params-wrapper">
+        <label class="tracking-params-label">{{ $t('cc5110aa.d10654') }}</label>
+        <el-input
+          v-model="localValue.officialAccountRawId"
+          class="tracking-params-input"
+          size="small"
+          type="text"
+          :placeholder="$t('cc5110aa.e20765')"
+          @input="onOfficialRawIdInput"
+        />
+      </div>
+      <div v-if="needsOfficialArticleLink" class="tracking-params-wrapper">
+        <label class="tracking-params-label">{{ $t('cc5110aa.f30876') }}</label>
+        <el-input
+          v-model="localValue.officialArticleLink"
+          class="tracking-params-input"
+          size="small"
+          type="text"
+          :placeholder="$t('cc5110aa.g40987')"
+          @input="onOfficialArticleLinkInput"
+        />
+      </div>
+    </template>
+    <div v-else class="tracking-params-wrapper">
+      <label class="tracking-params-label">{{ $t('4a0a5782.4e99fd') }}</label>
       <el-input
         v-model="localValue.linkUrl"
         class="h5-link"
         size="small"
         type="text"
-        placeholder="请填写自定义链接"
+        :placeholder="$t('4a0a5782.11b162')"
         @change="onChangeLinkUrl"
       />
     </div>
-    <div class="tracking-params-wrapper">
-      <label class="tracking-params-label">埋点参数</label>
+    <div v-if="showTrackingParams" class="tracking-params-wrapper">
+      <label class="tracking-params-label">{{ $t('4a0a5782.965470') }}</label>
       <el-input
         v-model="localValue.trackingParams"
         class="tracking-params-input"
         size="small"
         type="text"
-        placeholder="请输入埋点参数"
+        :placeholder="$t('4a0a5782.7bb892')"
         @change="onChangeTrackingParams"
       />
     </div>
@@ -105,8 +131,8 @@
 </template>
 
 <script>
-import { cloneDeep } from 'lodash'
 import { LINK_PATH } from '@/consts'
+import { i18n } from '@/i18n'
 export default {
   name: 'CompPickerLink',
   props: {
@@ -116,6 +142,10 @@ export default {
     },
     isShowH5Link: {
       // 不展示自定义链接label true：展示
+      type: Boolean,
+      default: true
+    },
+    showTrackingParams: {
       type: Boolean,
       default: true
     }
@@ -128,8 +158,20 @@ export default {
         linkPage: '',
         id: '',
         title: '',
-        trackingParams: ''
+        trackingParams: '',
+        officialAccountRawId: '',
+        officialArticleLink: ''
       }
+    }
+  },
+  computed: {
+    needsOfficialRawId() {
+      const { linkPage, id } = this.localValue
+      return linkPage === 'customer_service' && (id === 'officialProfile' || id === 'officialChat')
+    },
+    needsOfficialArticleLink() {
+      const { linkPage, id } = this.localValue
+      return linkPage === 'customer_service' && id === 'official'
     }
   },
   watch: {
@@ -162,8 +204,36 @@ export default {
             ? true
             : false // 为了兼容导购装修模板
       })
-      this.$emit('input', res)
-      this.$emit('change', res)
+      const next = {
+        ...this.localValue,
+        ...res,
+        linkType: this.localValue.linkType
+      }
+      const needRaw =
+        res?.linkPage === 'customer_service' &&
+        (res?.id === 'officialProfile' || res?.id === 'officialChat')
+      const needArticle = res?.linkPage === 'customer_service' && res?.id === 'official'
+      if (needRaw) {
+        next.officialAccountRawId = this.localValue.officialAccountRawId || ''
+        next.officialArticleLink = ''
+      } else if (needArticle) {
+        next.officialArticleLink = this.localValue.officialArticleLink || ''
+        next.officialAccountRawId = ''
+      } else {
+        next.officialAccountRawId = ''
+        next.officialArticleLink = ''
+      }
+      this.localValue = next
+      this.$emit('input', next)
+      this.$emit('change', next)
+    },
+    onOfficialRawIdInput() {
+      this.$emit('input', { ...this.localValue })
+      this.$emit('change', { ...this.localValue })
+    },
+    onOfficialArticleLinkInput() {
+      this.$emit('input', { ...this.localValue })
+      this.$emit('change', { ...this.localValue })
     },
     onChangeLinkType() {
       this.$emit('input', this.localValue)
@@ -182,7 +252,7 @@ export default {
       if (linkPage) {
         return `${LINK_PATH[linkPage]}：${title}`
       } else {
-        return '选择路径'
+        return this.$t('4a0a5782.e3cf91')
       }
     }
   }

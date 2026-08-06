@@ -8,41 +8,28 @@
     <SpRouterView>
       <SpPlatformTip v-if="!VERSION_SHUYUN()" h5 app alipay />
 
-      <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onReset">
-        <SpFilterFormItem prop="field_title" label="活动名称:">
-          <el-input v-model="params.field_title" placeholder="活动名称" />
-        </SpFilterFormItem>
-        <SpFilterFormItem prop="status" label="状态:">
-          <el-select v-model="params.status" placeholder="状态">
-            <el-option
-              v-for="(item, index) in statusOption"
-              :key="index"
-              :label="item.name"
-              :value="item.value"
-            />
-          </el-select>
-        </SpFilterFormItem>
-        <SpFilterFormItem prop="create_time" label="时间:">
-          <el-date-picker
-            v-model="params.create_time"
-            type="daterange"
-            value-format="yyyy/MM/dd"
-            placeholder="根据添加时间筛选"
-          />
-        </SpFilterFormItem>
-        <SpFilterFormItem prop="distributor_id" label="店铺名称:">
-          <SpSelectShop v-model="params.distributor_id" clearable placeholder="请选择" />
-        </SpFilterFormItem>
-      </SpFilterForm>
+      <SpFormPlus
+        ref="searchForm"
+        v-model="params"
+        form-type="searchForm"
+        :inline="true"
+        :form-items="searchFormItems"
+        @submit="onSearch"
+        @reset="onReset"
+      />
 
-      <div class="action-container">
+      <div class="action-container mt-4">
         <el-button type="primary" icon="iconfont icon-xinzengcaozuo-01" @click="addElement">
-          活动添加
+          {{ $t('15ecc99b.e8c939') }}
         </el-button>
       </div>
 
       <el-table v-loading="loading" border :data="tableList" style="width: 100%">
-        <el-table-column label="操作" fixed="left" :width="IS_DISTRIBUTOR() ? 150 : 250">
+        <el-table-column
+          :label="$t('8da83775.2b6bc0')"
+          fixed="left"
+          :width="IS_DISTRIBUTOR() ? 150 : 250"
+        >
           <template slot-scope="scope">
             <el-button
               v-if="
@@ -52,53 +39,63 @@
               type="text"
               @click="onOperationChange(scope.row, 'edit')"
             >
-              编辑
+              {{ $t('15ecc99b.95b351') }}
             </el-button>
             <el-button
               v-if="scope.row.status === 'end' || IS_DISTRIBUTOR()"
               type="text"
               @click="onOperationChange(scope.row, 'detail')"
             >
-              查看
+              {{ $t('15ecc99b.607e7a') }}
             </el-button>
             <el-button
               v-if="scope.row.status === 'waiting' && !IS_DISTRIBUTOR()"
               type="text"
               @click="onStopChange(scope.row)"
             >
-              终止
+              {{ $t('15ecc99b.ff6c6a') }}
             </el-button>
-            <!-- <el-button v-if="scope.row.status === 'ongoing' && !IS_DISTRIBUTOR()" type="text" @click="onShowChange(scope.row)">企业</el-button> -->
             <el-button type="text" @click="onOperationChange(scope.row, 'record')">
-              报名记录
+              {{ $t('15ecc99b.42a5b5') }}
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="activity_id" label="编号" width="100" />
-        <el-table-column prop="activity_name" label="活动名称" width="200" />
-        <el-table-column label="是否核销" width="120">
+        <el-table-column :label="$t('5cceb5ec.ae57b1')" width="100">
           <template slot-scope="scope">
-            {{ scope.row.is_offline_verify == 1 ? '是' : '否' }}
+            <el-switch
+              v-model="scope.row.is_show"
+              :active-value="1"
+              :inactive-value="0"
+              :disabled="IS_DISTRIBUTOR()"
+              @change="onIsShowChange(scope.row)"
+            />
           </template>
         </el-table-column>
-        <el-table-column prop="gift_points" label="获取积分" width="120" />
-        <el-table-column label="进白名单" width="120">
+        <el-table-column prop="activity_id" :label="$t('15ecc99b.c515f3')" width="100" />
+        <el-table-column prop="activity_name" :label="$t('15ecc99b.39834b')" width="200" />
+        <el-table-column :label="$t('15ecc99b.8c5a3c')" width="120">
           <template slot-scope="scope">
-            {{ scope.row.is_white_list == 1 ? '是' : '否' }}
+            {{ scope.row.is_offline_verify == 1 ? $t('15ecc99b.0a60ac') : $t('15ecc99b.c9744f') }}
           </template>
         </el-table-column>
-        <el-table-column label="活动时间" width="300">
+        <el-table-column prop="gift_points" :label="$t('15ecc99b.c07abe')" width="120" />
+        <el-table-column :label="$t('15ecc99b.ac7bd3')" width="120">
+          <template slot-scope="scope">
+            {{ scope.row.is_white_list == 1 ? $t('15ecc99b.0a60ac') : $t('15ecc99b.c9744f') }}
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('15ecc99b.c799f5')" width="300">
           <template slot-scope="scope">
             {{ scope.row.start_date }} ~ {{ scope.row.end_date }}
           </template>
         </el-table-column>
-        <el-table-column label="报名人数" width="120">
+        <el-table-column :label="$t('15ecc99b.a06b35')" width="120">
           <template slot-scope="scope">
             {{ scope.row.total_join_num || 0 }}
           </template>
         </el-table-column>
-        <el-table-column prop="status_name" label="状态" width="120" />
-        <el-table-column prop="distributor_name" label="店铺" width="120" />
+        <el-table-column prop="status_name" :label="$t('15ecc99b.3fea7c')" width="120" />
+        <el-table-column prop="distributor_name" :label="$t('15ecc99b.295713')" width="120" />
       </el-table>
       <div class="content-center content-top-padded">
         <el-pagination
@@ -137,7 +134,7 @@ export default {
   },
   data() {
     const initialParams = {
-      field_title: undefined,
+      field_title: '',
       status: '',
       create_time: [],
       distributor_id: ''
@@ -149,14 +146,83 @@ export default {
       },
       loading: false,
       statusOption: [
-        { name: '全部', value: '' },
-        { name: '待开始', value: 'waiting' },
-        { name: '进行中', value: 'ongoing' },
-        { name: '已结束', value: 'end' }
+        { nameKey: 'ac2a6290.a8b0c2', value: '' },
+        { nameKey: '15ecc99b.1568ba', value: 'waiting' },
+        { nameKey: '15ecc99b.fb852f', value: 'ongoing' },
+        { nameKey: '15ecc99b.047fab', value: 'end' }
       ],
       shopList: [],
       dialogData: {},
       dialogVisible: false
+    }
+  },
+  computed: {
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'field_title',
+          label: this.$t('15ecc99b.39834b'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('15ecc99b.39834b'),
+            clearable: true
+          }
+        },
+        {
+          fieldName: 'status',
+          label: this.$t('15ecc99b.3fea7c'),
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('15ecc99b.3fea7c'),
+            options: this.statusOption.map((item) => ({
+              label: this.$t(item.nameKey),
+              value: item.value
+            }))
+          }
+        },
+        {
+          fieldName: 'distributor_id',
+          label: this.$t('6b57cb80.4de1b7'),
+          cellWidth: 1.3,
+          component: ({ h, value, onInput }) => {
+            return h('SpSelectShop', {
+              props: {
+                value,
+                clearable: true,
+                size: 'small',
+                placeholder: this.$t('ac2a6290.708c9d')
+              },
+              on: {
+                input: onInput
+              }
+            })
+          }
+        },
+        {
+          fieldName: 'create_time',
+          label: this.$t('6b57cb80.374856'),
+          cellWidth: 2,
+          component: ({ h, value, onInput }) => {
+            return h('el-date-picker', {
+              props: {
+                value: value || [],
+                type: 'daterange',
+                valueFormat: 'yyyy/MM/dd',
+                clearable: true,
+                size: 'small',
+                startPlaceholder: this.$t('6b57cb80.e08045'),
+                endPlaceholder: this.$t('6b57cb80.e08045')
+              },
+              on: {
+                input: (val) => onInput(val || [])
+              }
+            })
+          }
+        }
+      ]
     }
   },
   watch: {},
@@ -182,7 +248,7 @@ export default {
     getParams() {
       const time = {}
       const create_time = this.params.create_time
-      if (create_time.length) {
+      if (Array.isArray(create_time) && create_time.length >= 2) {
         time.start_time = this.dateStrToTimeStamp(create_time[0] + ' 00:00:00')
         time.end_time = this.dateStrToTimeStamp(create_time[1] + ' 00:00:00')
       }
@@ -202,7 +268,10 @@ export default {
         ...this.getParams()
       }
       const { list, total_count } = await this.$api.selfhelpform.regActivityList(params)
-      this.tableList = list
+      this.tableList = (list || []).map((item) => ({
+        ...item,
+        is_show: item.is_show === false || item.is_show === 0 || item.is_show === '0' ? 0 : 1
+      }))
       this.page.total = total_count
       this.loading = false
     },
@@ -239,17 +308,16 @@ export default {
       }
     },
     onStopChange(row) {
-      var msg = '此操作将永久终止该活动, 是否继续?'
-      this.$confirm(msg, '提示', {
-        cancelButtonText: '取消',
-        confirmButtonText: '确定',
+      this.$confirm(this.$t('15ecc99b.01be42'), this.$t('8da83775.02d981'), {
+        cancelButtonText: this.$t('8da83775.625fb2'),
+        confirmButtonText: this.$t('8da83775.38cf16'),
         type: 'warning',
         beforeClose: (action, instance, done) => {
           if (action === 'confirm') {
             regActivityInvalid({ activity_id: row.activity_id }).then((res) => {
               this.fetchList()
               this.$message({
-                message: '修改活动状态成功',
+                message: this.$t('15ecc99b.69be67'),
                 type: 'success',
                 duration: 5 * 1000
               })
@@ -258,6 +326,19 @@ export default {
           done()
         }
       })
+    },
+    async onIsShowChange(row) {
+      const nextValue = row.is_show
+      try {
+        await this.$api.selfhelpform.regActivitySetIsShow({
+          activity_id: row.activity_id,
+          is_show: nextValue
+        })
+        this.$message.success(this.$t('15ecc99b.69be67'))
+        this.fetchList()
+      } catch (e) {
+        row.is_show = nextValue === 1 ? 0 : 1
+      }
     },
     onShowChange(row) {
       this.dialogData = row
@@ -280,10 +361,6 @@ export default {
   img {
     width: 90%;
   }
-}
-
-.sp-filter-form {
-  margin-bottom: 16px;
 }
 
 .el-col {

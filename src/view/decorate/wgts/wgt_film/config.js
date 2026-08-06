@@ -3,7 +3,9 @@
  * See LICENSE file for license details.
  */
 import { pickBy } from '@/utils'
+import { i18n } from '@/i18n'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
+import VideoPicker from '@/components/sp-picker-plus/VideoPicker.vue'
 
 export const proportions = [
   {
@@ -31,17 +33,17 @@ export const proportions = [
 const config = {
   name: 'film',
   setting: [
-    { label: '组件间距', key: 'padded', component: 'switch', value: true },
+    { label: i18n.t('735ae7b3.4707ba'), key: 'padded', component: 'switch', value: true },
     {
-      label: '选择视频',
+      label: i18n.t('735ae7b3.543018'),
       key: 'data',
       component: function (h, { key }) {
-        return <SpVideoPicker v-model={this.value[key]} size='small' />
+        return <VideoPicker v-model={this.value[key]} size='small' />
       },
       value: {}
     },
     {
-      label: '视频比例',
+      label: i18n.t('735ae7b3.df0134'),
       key: 'proportion',
       component: 'radiobutton',
       options: proportions,

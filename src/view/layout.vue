@@ -122,11 +122,11 @@
                 </div>
                 <div class="username">
                   <div>{{ nick_name || name }}</div>
-                  <small class="muted">账号信息</small>
+                  <small class="muted">{{ $t('28310bc9.53cab4') }}</small>
                 </div>
               </div>
               <div v-if="!VERSION_SHUYUN()" class="popover-row exit-system" @click="logout">
-                退出登录
+                {{ $t('28310bc9.44efd1') }}
               </div>
 
               <img v-if="avatar" slot="reference" class="user-avatar" :src="avatar" />
@@ -151,7 +151,7 @@
           <img v-if="VERSION_PLATFORM()" :src="loginBottomPlatform" alt="" class="system-image" />
           <img v-if="VERSION_STANDARD()" :src="loginBottomStandard" alt="" class="system-image" />
         </div>
-        <div id="design-view" />
+        <!-- <div id="design-view" /> -->
       </el-main>
     </el-container>
   </el-container>
@@ -166,7 +166,6 @@ import { mapGetters, mapMutations, mapState } from 'vuex'
 import { getAuthorizelogout } from '@/api/login'
 import { ICON_MAP } from '@/consts'
 import { VERSION_STANDARD, isInSalesCenter } from '@/utils'
-import { micrApp } from '@/utils/micr-app'
 import store from '@/store'
 export default {
   beforeRouteEnter(to, from, next) {
@@ -248,7 +247,6 @@ export default {
   },
   mounted() {
     this.getSystemSetting()
-    micrApp.init()
 
     console.log(this.$route)
     // window.init = () => {}

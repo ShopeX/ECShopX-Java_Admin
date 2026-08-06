@@ -39,10 +39,10 @@ import ColumnGoods from '../../comps/goods-layout/columngoods.vue'
 import GridGoods from '../../comps/goods-layout/gridgoods.vue'
 import { getOuterStyle, getInnerStyle } from '../../comps/style-utils'
 import groupdata from './mock/group.json'
-
+import { i18n } from '@/i18n'
 export default {
   name: 'Group',
-  wgtName: '拼团',
+  wgtName: i18n.t('5141b31a.0dc5dc'),
   wgtDesc: '',
   wgtIcon: 'wgt-store',
   wgtType: 2,
@@ -90,7 +90,7 @@ export default {
       let params = {
         data_type: 'group',
         data_value: this.value.data?.id || '',
-        data_count: this.value.dataCount,
+        num: this.value.dataCount,
         distributor_id: this.value.data?.distributor_id || '',
         pages_template_id: this.$route.query.id
       }

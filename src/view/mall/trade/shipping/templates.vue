@@ -4,32 +4,33 @@
 -->
 
 <template>
-  <SpRouterView>
-    <SpPage>
-      <div>
-        <div class="action-container">
-          <el-button type="primary" icon="plus" @click="addTemplates"> 新增运费模板 </el-button>
-        </div>
-        <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-          <el-tab-pane label="卖家承担运费" name="first">
-            <buyerTemplates ref="buyerTemplates" :get-status="buyerTemplates" />
-          </el-tab-pane>
-          <el-tab-pane label="按重量运费模板" name="second">
-            <weightTemplates ref="weightTemplates" :get-status="weightTemplates" />
-          </el-tab-pane>
-          <el-tab-pane label="按件数运费模板" name="third">
-            <numberTemplates ref="numberTemplates" :get-status="numberTemplates" />
-          </el-tab-pane>
-          <el-tab-pane label="按金额运费模板" name="fourth">
-            <priceTemplates ref="priceTemplates" :get-status="priceTemplates" />
-          </el-tab-pane>
-          <el-tab-pane label="按体积运费模板" name="fifth">
-            <volumeTemplates ref="volumeTemplates" :get-status="volumeTemplates" />
-          </el-tab-pane>
-        </el-tabs>
+  <div>
+    <router-view v-if="isEditorRoute" :key="$route.fullPath" />
+    <SpPage v-else>
+      <div class="action-container">
+        <el-button type="primary" icon="plus" @click="addTemplates">
+          {{ $t('c8abf6d9.a8c029') }}
+        </el-button>
       </div>
+      <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+        <el-tab-pane lazy :label="$t('c8abf6d9.882490')" name="first">
+          <buyerTemplates ref="buyerTemplates" :get-status="buyerTemplates" />
+        </el-tab-pane>
+        <el-tab-pane lazy :label="$t('c8abf6d9.843135')" name="second">
+          <weightTemplates ref="weightTemplates" :get-status="weightTemplates" />
+        </el-tab-pane>
+        <el-tab-pane lazy :label="$t('c8abf6d9.5555b9')" name="third">
+          <numberTemplates ref="numberTemplates" :get-status="numberTemplates" />
+        </el-tab-pane>
+        <el-tab-pane lazy :label="$t('c8abf6d9.877ec9')" name="fourth">
+          <priceTemplates ref="priceTemplates" :get-status="priceTemplates" />
+        </el-tab-pane>
+        <el-tab-pane lazy :label="$t('c8abf6d9.a95569')" name="fifth">
+          <volumeTemplates ref="volumeTemplates" :get-status="volumeTemplates" />
+        </el-tab-pane>
+      </el-tabs>
     </SpPage>
-  </SpRouterView>
+  </div>
 </template>
 
 <script>
@@ -47,11 +48,6 @@ export default {
     priceTemplates,
     volumeTemplates
   },
-  provide() {
-    return {
-      refresh: this.getList
-    }
-  },
   data() {
     return {
       loading: false,
@@ -64,14 +60,26 @@ export default {
       list: []
     }
   },
+  computed: {
+    isEditorRoute() {
+      return /\/editor(?:\/|$)/.test(this.$route.path)
+    }
+  },
   mounted() {
     if ('undefined' != typeof this.$route.query.activeName) {
       this.activeName = this.$route.query.activeName
     }
+    this.$nextTick(() => this.getList())
+  },
+  watch: {
+    $route(to, from) {
+      if (from && from.path.includes('editor') && to && !to.path.includes('editor')) {
+        this.$nextTick(() => this.getList())
+      }
+    }
   },
   methods: {
     addTemplates() {
-      // 添加运费模板
       this.$router.push({ path: this.matchRoutePath('editor') })
     },
     handleClick(tab, event) {
@@ -87,15 +95,22 @@ export default {
         this.volumeTemplates = true
       }
     },
+    getActiveTabRef() {
+      const refMap = {
+        first: 'buyerTemplates',
+        second: 'weightTemplates',
+        third: 'numberTemplates',
+        fourth: 'priceTemplates',
+        fifth: 'volumeTemplates'
+      }
+      const refName = refMap[this.activeName]
+      return refName ? this.$refs[refName] : null
+    },
     getList() {
-      ;['buyerTemplates', 'weightTemplates', 'numberTemplates', 'priceTemplates', 'volumeTemplates'].forEach(
-        (refName) => {
-          const comp = this.$refs[refName]
-          if (comp && comp.getShippingTemplatesList) {
-            comp.getShippingTemplatesList()
-          }
-        }
-      )
+      const ref = this.getActiveTabRef()
+      if (ref && typeof ref.getShippingTemplatesList === 'function') {
+        ref.getShippingTemplatesList()
+      }
     }
   }
 }

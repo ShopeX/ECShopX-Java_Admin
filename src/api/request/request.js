@@ -60,11 +60,23 @@ class RequestClient {
         ar: 'ar-SA'
       }
       if (lang && !skipCountryCode) {
+        const countryCode = langMap[lang]
         if (config.data) {
-          config.data.country_code = langMap[lang]
+          if (typeof config.data === 'string') {
+            const hasCountryCode = /(?:^|&)country_code=/.test(config.data)
+            if (!hasCountryCode) {
+              config.data =
+                config.data +
+                (config.data ? '&' : '') +
+                'country_code=' +
+                encodeURIComponent(countryCode)
+            }
+          } else if (!config.data.country_code) {
+            config.data.country_code = countryCode
+          }
         } else {
           config.data = {
-            country_code: langMap[lang]
+            country_code: countryCode
           }
         }
       }

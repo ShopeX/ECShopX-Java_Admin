@@ -3,6 +3,7 @@
  * See LICENSE file for license details.
  */
 import { BasicLayout } from '@/layout/basic'
+import { i18n } from '@/i18n'
 
 const routes = [
   {
@@ -11,7 +12,7 @@ const routes = [
       aliasName: 'site',
       icon: 'oceanengine',
       keepAlive: true,
-      title: '内容'
+      title: i18n.t('c488b2d6.2d711b')
     },
     name: 'content',
     path: '/content',
@@ -22,14 +23,14 @@ const routes = [
         meta: {
           aliasName: 'planting',
           icon: 'pay-circle',
-          title: '软文列表',
+          title: i18n.t('c488b2d6.73bfff'),
           permissions: ['site.article.planting']
         },
         component: () => import('@/view/content/soft-article'),
         children: [
           {
             path: 'editor/:itemId?',
-            name: '软文-编辑',
+            name: 'c488b2d6.328f76',
             component: () => import('@/view/content/soft-article-id')
           }
         ]
@@ -40,7 +41,7 @@ const routes = [
         meta: {
           aliasName: 'articlecolumns',
           icon: 'pay-circle',
-          title: '软文频道',
+          title: i18n.t('c488b2d6.39345b'),
           permissions: ['site.article.articlecolumns']
         },
         component: () => import('@/view/base/article/columns')
@@ -51,7 +52,7 @@ const routes = [
         meta: {
           aliasName: 'brandmaterial',
           icon: 'pay-circle',
-          title: '素材管理',
+          title: i18n.t('c488b2d6.b49e2f'),
           permissions: ['site.material.brandmaterial']
         },
         component: () => import('@/views/content/aterialmanagement'),
@@ -68,14 +69,14 @@ const routes = [
         meta: {
           aliasName: 'basearticle',
           icon: 'pay-circle',
-          title: '文章列表',
+          title: i18n.t('c488b2d6.b8337d'),
           permissions: ['site.text.basearticle']
         },
         component: () => import('@/view/base/article/index'),
         children: [
           {
             path: 'editor',
-            name: '软文-编辑',
+            name: 'c488b2d6.328f76',
             component: () => import('@/view/base/article/editor')
           }
         ]
@@ -86,7 +87,7 @@ const routes = [
         meta: {
           aliasName: 'Articlegeneralcolumns',
           icon: 'pay-circle',
-          title: '文章分类',
+          title: i18n.t('c488b2d6.c1ed55'),
           permissions: ['site.text.Articlegeneralcolumns']
         },
         component: () => import('@/view/base/article/generalcolumns')
@@ -97,7 +98,7 @@ const routes = [
         meta: {
           aliasName: 'ugcindex',
           icon: 'pay-circle',
-          title: '笔记管理',
+          title: i18n.t('c488b2d6.1c9adf'),
           permissions: ['site.ugc.ugcindex']
         },
         component: () => import('@/view/member/ugc/ugcIndex'),
@@ -114,7 +115,7 @@ const routes = [
         meta: {
           aliasName: 'ugcflags',
           icon: 'pay-circle',
-          title: '角标管理',
+          title: i18n.t('c488b2d6.6864e1'),
           permissions: ['site.ugc.ugcflags']
         },
         component: () => import('@/view/member/ugc/ugcFlags')
@@ -125,7 +126,7 @@ const routes = [
         meta: {
           aliasName: 'ugctopic',
           icon: 'pay-circle',
-          title: '笔记话题',
+          title: i18n.t('c488b2d6.b6d3b4'),
           permissions: ['site.ugc.ugctopic']
         },
         component: () => import('@/view/member/ugc/ugcTopic')
@@ -136,7 +137,7 @@ const routes = [
         meta: {
           aliasName: 'ugcreview',
           icon: 'pay-circle',
-          title: '笔记评论',
+          title: i18n.t('c488b2d6.570831'),
           permissions: ['site.ugc.ugcreview']
         },
         component: () => import('@/view/member/ugc/ugcReview')
@@ -147,7 +148,7 @@ const routes = [
         meta: {
           aliasName: 'ugcpoint',
           icon: 'pay-circle',
-          title: '评论设置',
+          title: i18n.t('c488b2d6.ff3d97'),
           permissions: ['site.ugc.ugcpoint']
         },
         component: () => import('@/view/member/ugc/ugcPoint')
@@ -158,7 +159,7 @@ const routes = [
         meta: {
           aliasName: 'sharesetting',
           icon: 'pay-circle',
-          title: '分享设置',
+          title: i18n.t('c488b2d6.b3cec2'),
           permissions: ['site.share.sharesetting']
         },
         component: () => import('@/view/base/setting/sharesetting')
@@ -169,7 +170,7 @@ const routes = [
         meta: {
           aliasName: 'rate',
           icon: 'pay-circle',
-          title: '商品评价',
+          title: i18n.t('c488b2d6.d58254'),
           permissions: ['site.evaluate.rate']
         },
         component: () => import('@/view/goods/rate')

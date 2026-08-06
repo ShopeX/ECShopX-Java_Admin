@@ -22,7 +22,7 @@
         class="header-more"
         :style="{ color: value.moreBtn.color }"
       >
-        查看更多<el-icon class="el-icon-arrow-right" />
+        {{ i18n.t('e5a1185d.90ef7c') }}<el-icon class="el-icon-arrow-right" />
       </div>
     </div>
 
@@ -57,8 +57,13 @@
 </template>
 
 <script>
+import { i18n } from '@/i18n'
+
 export default {
   name: 'GoodsGoods',
+  data() {
+    return { i18n }
+  },
   props: {
     value: {
       type: Object,
@@ -87,10 +92,10 @@ export default {
       const first = item.pics && item.pics[0]
       return first ? (typeof first === 'string' ? first : first.url || '') : ''
     },
-    /** 积分商品：纯积分显示「5000积分」，积分+现金显示「5000积分+0.1元」 */
+    /** 积分商品展示：纯积分显示「5000积分」，积分+现金显示「5000积分+0.1元」 */
     formatPointPrice(item) {
       const point = item.point != null ? item.point : 0
-      const pointStr = point + '积分'
+      const pointStr = point + i18n.t('5c0a1eb5.9f68a8')
       const price = item.price != null && item.price !== '' ? Number(item.price) : 0
       if (!price || price === 0) return pointStr
       return pointStr + '+' + this.formatPrice(price) + '元'
@@ -175,6 +180,7 @@ export default {
     max-width: 77px;
     border-radius: 6px;
     overflow: hidden;
+    background: #fff;
 
     .goods-img-wrapper {
       width: 100%;

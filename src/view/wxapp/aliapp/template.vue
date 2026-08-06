@@ -80,7 +80,7 @@
             </div>
             <div class="content-padded">
               <el-button v-if="item.is_open" type="default" disabled class="template-opend-btn">
-                已开通
+                {{ $t('a99e1750.3caba8') }}
               </el-button>
               <el-button
                 v-else
@@ -88,7 +88,7 @@
                 type="danger"
                 @click="openTemp(item.template_name)"
               >
-                免费开通
+                {{ $t('a99e1750.61de5a') }}
               </el-button>
             </div>
           </div>
@@ -111,15 +111,15 @@ export default {
       currentType: 0,
       type: [
         {
-          name: '门店',
+          name: 'a99e1750.a7da92',
           icon: 'business'
         },
         {
-          name: '商城',
+          name: 'a99e1750.2c7b38',
           icon: 'shopping_cart'
         },
         {
-          name: '营销',
+          name: 'a99e1750.916801',
           icon: 'payment'
         }
       ]

@@ -2,6 +2,87 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.11.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.10.0...v4.11.0) (2026-07-31)
+
+## [4.10.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.9.1...v4.10.0) (2026-07-24)
+
+### [4.9.1](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.9.0...v4.9.1) (2026-07-18)
+
+## [4.9.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.8.1...v4.9.0) (2026-07-17)
+
+### [4.8.1](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.8.0...v4.8.1) (2026-07-15)
+
+## [4.8.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.7.0...v4.8.0) (2026-07-03)
+
+## [4.7.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.9...v4.7.0) (2026-06-26)
+
+## [4.7.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.9...v4.7.0) (2026-06-26)
+
+### [4.6.10](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.9...v4.6.10) (2026-06-26)
+
+### [4.6.9](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.8...v4.6.9) (2026-06-26)
+
+### [4.6.8](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.7...v4.6.8) (2026-06-12)
+
+### [4.6.7](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.5...v4.6.7) (2026-06-09)
+
+### [4.6.6](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.5...v4.6.6) (2026-06-05)
+
+### [4.6.5](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.4...v4.6.5) (2026-05-29)
+
+### [4.6.4](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.3...v4.6.4) (2026-05-22)
+
+### [4.6.3](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.2...v4.6.3) (2026-05-21)
+
+### [4.6.2](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.1...v4.6.2) (2026-05-19)
+
+### [4.6.1](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.6.0...v4.6.1) (2026-05-16)
+
+## [4.6.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.5.4...v4.6.0) (2026-05-15)
+
+### [4.5.4](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.5.3...v4.5.4) (2026-05-09)
+
+### [4.5.3](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.5.2...v4.5.3) (2026-04-30)
+
+### [4.5.2](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.5.1...v4.5.2) (2026-04-29)
+
+### [4.5.1](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.5.0...v4.5.1) (2026-04-24)
+
+## [4.5.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.4.2...v4.5.0) (2026-04-17)
+
+### [4.4.2](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.4.1...v4.4.2) (2026-04-10)
+
+### [4.4.1](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.4.0...v4.4.1) (2026-04-03)
+
+
+### Features
+
+* **i18n:** sidebar menu locale, invoice keys, and related fixes ([8d82817](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/8d82817dd398cde0186096b68f486d765cef0f7a))
+
+## [4.4.0](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.6...v4.4.0) (2026-03-27)
+
+### [4.3.6](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.5...v4.3.6) (2026-03-26)
+
+
+### Features
+
+* configurable document title via VUE_APP_PAGE_TITLE ([0bc82d3](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/0bc82d3b8cbf0122541c8bae25648e03d19e7292))
+
+### [4.3.5](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.4...v4.3.5) (2026-03-23)
+
+
+### Bug Fixes
+
+* **decorate:** cap slider dialog preview height with viewport-based max-height ([2f20aeb](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/2f20aeb5d11fb84ce9d2afdf5a117ef4fb50ae25))
+* **decorate:** show page settings header for custom page scene (1004) ([32bf2ae](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/32bf2ae4948f37bc52b7c997567610959fbc0e22))
+
+### [4.3.4](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.3...v4.3.4) (2026-03-17)
+
+
+### Bug Fixes
+
+* shipping template form encoding and sale category customize_page_id ([281b471](https://github.com/shopeX-2002/ECShopX_AdminFrontend/commit/281b471e4357d047d7d30cc7f09e69a887214a62))
+
 ### [4.3.3](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.2...v4.3.3) (2026-02-06)
 
 ### [4.3.2](https://github.com/shopeX-2002/ECShopX_AdminFrontend/compare/v4.3.1...v4.3.2) (2026-02-06)

@@ -14,7 +14,7 @@
     />
 
     <div class="action-container mt-4">
-      <el-button type="primary" @click="handleNew"> 新增参数 </el-button>
+      <el-button type="primary" @click="handleNew">{{ $t('07504bf6.4c0eea') }}</el-button>
     </div>
 
     <SpFinder
@@ -30,10 +30,13 @@
         beforeSearch: beforeSearch
       }"
     />
-    <sideBar :visible.sync="show_sideBar" :title="form.attribute_id ? '编辑参数' : '新增参数'">
+    <sideBar
+      :visible.sync="show_sideBar"
+      :title="editingAttributeId ? $t('07504bf6.b51408') : $t('07504bf6.4c0eea')"
+    >
       <ParamsForm :value="form" @submit="onFormSubmit" />
       <div slot="footer">
-        <el-button type="primary" @click="handleFormSubmit"> 提交 </el-button>
+        <el-button type="primary" @click="handleFormSubmit">{{ $t('07504bf6.939d53') }}</el-button>
       </div>
     </sideBar>
   </SpPage>
@@ -45,6 +48,7 @@ import sideBar from '@/components/element/sideBar'
 import { createSetting } from '@shopex-ui/finder'
 import { useForm } from '@/composables'
 import Vue from 'vue'
+import { i18n } from '@/i18n'
 
 const [ParamsForm, ParamsFormApi] = useForm({
   formType: 'normalForm',
@@ -54,50 +58,51 @@ const [ParamsForm, ParamsFormApi] = useForm({
   formItems: [
     {
       fieldName: 'attribute_name',
-      label: '参数名称',
+      label: i18n.t('07504bf6.5f49be'),
       component: 'input',
       value: '',
       componentProps: {
-        placeholder: '请输入参数名称'
+        placeholder: i18n.t('07504bf6.0e7839')
       },
-      rules: [{ required: true, message: '请输入参数名称', trigger: 'blur' }]
+      rules: [{ required: true, message: i18n.t('07504bf6.0e7839'), trigger: 'blur' }]
     },
     {
       fieldName: 'attribute_memo',
-      label: '参数备注',
+      label: i18n.t('07504bf6.dc14a1'),
       component: 'input',
       value: '',
       componentProps: {
-        placeholder: '请输入参数备注'
+        placeholder: i18n.t('07504bf6.50261b')
       }
     },
     {
       fieldName: 'is_show',
-      label: '参数类型',
+      label: i18n.t('07504bf6.91bb21'),
       component: 'radio',
-      value: true,
+      value: false,
       componentProps: {
         options: [
-          { label: '支持商品高级筛选', value: true },
-          { label: '仅用于商品详情展示', value: false }
+          { label: i18n.t('07504bf6.159985'), value: true },
+          { label: i18n.t('07504bf6.ae6d82'), value: false }
         ]
       }
     },
     {
       fieldName: 'attribute_values',
-      label: '参数值',
+      label: i18n.t('07504bf6.bfed49'),
       component: ({ h, value, onInput, formData }) => {
+        const list = Array.isArray(value) ? value : []
         return (
           <div>
-            {value.map((item, index) => (
+            {list.map((item, index) => (
               <div key={index} class='flex items-center mb-2 bg-gray-50 rounded'>
                 <div class='flex-1 mr-2.5'>
                   <el-input
                     value={item.attribute_value}
-                    placeholder='参数值名称'
+                    placeholder={i18n.t('07504bf6.a0386a')}
                     on-input={(val) => {
-                      const newValues = [...value]
-                      newValues[index].attribute_value = val
+                      const newValues = [...list]
+                      newValues[index] = { ...item, attribute_value: val }
                       onInput(newValues)
                     }}
                   />
@@ -106,12 +111,16 @@ const [ParamsForm, ParamsFormApi] = useForm({
                   class='cursor-pointer flex items-center text-gray-500 p-1 rounded'
                   onClick={async () => {
                     try {
-                      await Vue.prototype.$confirm('确认删除当前值？', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                      })
-                      const newValues = [...value]
+                      await Vue.prototype.$confirm(
+                        i18n.t('07504bf6.167628'),
+                        i18n.t('07504bf6.02d981'),
+                        {
+                          confirmButtonText: i18n.t('07504bf6.38cf16'),
+                          cancelButtonText: i18n.t('07504bf6.625fb2'),
+                          type: 'warning'
+                        }
+                      )
+                      const newValues = [...list]
                       newValues.splice(index, 1)
                       onInput(newValues)
                     } catch (e) {
@@ -129,15 +138,18 @@ const [ParamsForm, ParamsFormApi] = useForm({
                 size='small'
                 class='border-dashed'
                 onClick={() => {
-                  if (value.length >= 50) {
-                    Vue.prototype.$message({ type: 'warning', message: '最多添加50项' })
+                  if (list.length >= 50) {
+                    Vue.prototype.$message({
+                      type: 'warning',
+                      message: i18n.t('07504bf6.94360c')
+                    })
                     return
                   }
-                  const newValues = [...value, { attribute_value: '' }]
+                  const newValues = [...list, { attribute_value: '' }]
                   onInput(newValues)
                 }}
               >
-                添加参数值
+                {i18n.t('07504bf6.308c56')}
               </el-button>
             </div>
           </div>
@@ -160,14 +172,15 @@ export default {
         attribute_id: '',
         attribute_name: '',
         attribute_memo: '',
-        is_show: true,
+        is_show: false,
         attribute_values: []
       },
       searchParams: {
         attribute_type: 'item_params',
         attribute_name: ''
       },
-      show_sideBar: false
+      show_sideBar: false,
+      editingAttributeId: ''
     }
   },
   mounted() {},
@@ -182,91 +195,90 @@ export default {
       }
     },
     handleDelete(data) {
-      this.$confirm('确认删除该参数？')
+      this.$confirm(this.$t('07504bf6.67d5b6'))
         .then((_) => {
           deleteGoodsAttr(data.row.attribute_id).then((res) => {
-            this.$message({ type: 'success', message: '操作成功' })
+            this.$message({ type: 'success', message: this.$t('07504bf6.33130f') })
             this.$refs.finder.refresh()
           })
         })
         .catch((_) => {})
     },
     handleNew() {
-      this.show_sideBar = true
       this.resetData()
-      this.$nextTick(() => {
-        if (ParamsFormApi.resetFields) {
-          ParamsFormApi.resetFields()
-        }
-        if (ParamsFormApi.setFieldsValue) {
-          ParamsFormApi.setFieldsValue({
-            attribute_name: '',
-            attribute_memo: '',
-            is_show: true,
-            attribute_values: []
-          })
-        }
-      })
+      if (ParamsFormApi.setFieldsValue) {
+        ParamsFormApi.setFieldsValue({
+          attribute_id: '',
+          attribute_name: '',
+          attribute_memo: '',
+          is_show: false,
+          attribute_values: []
+        })
+      }
+      if (ParamsFormApi.resetFields) {
+        ParamsFormApi.resetFields()
+      }
+      this.show_sideBar = true
     },
     resetData() {
+      this.editingAttributeId = ''
       this.form = {
         attribute_type: 'item_params',
         attribute_id: '',
         attribute_name: '',
         attribute_memo: '',
-        is_show: true,
+        is_show: false,
         attribute_values: []
       }
     },
     handleEdit(data) {
+      let isShow = data.is_show
+      if (typeof data.is_show === 'string') {
+        try {
+          if (data.is_show.trim() === '') {
+            isShow = false
+          } else {
+            isShow = JSON.parse(data.is_show)
+          }
+        } catch (e) {
+          isShow = data.is_show === 'true' || data.is_show === true
+        }
+      }
+
+      let attributeValues = []
+      if (data.attribute_values) {
+        if (typeof data.attribute_values === 'string') {
+          try {
+            const parsed = JSON.parse(data.attribute_values)
+            attributeValues = parsed.list || parsed || []
+          } catch (e) {
+            attributeValues = []
+          }
+        } else if (data.attribute_values.list) {
+          attributeValues = data.attribute_values.list
+        } else if (Array.isArray(data.attribute_values)) {
+          attributeValues = data.attribute_values
+        }
+      }
+
+      this.editingAttributeId = data.attribute_id
+      this.form = {
+        attribute_id: data.attribute_id,
+        attribute_type: data.attribute_type,
+        attribute_name: data.attribute_name,
+        attribute_memo: data.attribute_memo,
+        is_show: isShow,
+        attribute_values: attributeValues
+      }
       this.show_sideBar = true
       this.$nextTick(() => {
-        // 安全地解析 is_show
-        let isShow = data.is_show
-        if (typeof data.is_show === 'string') {
-          try {
-            if (data.is_show.trim() === '') {
-              isShow = false
-            } else {
-              isShow = JSON.parse(data.is_show)
-            }
-          } catch (e) {
-            // 如果解析失败，尝试直接比较字符串
-            isShow = data.is_show === 'true' || data.is_show === true
-          }
-        }
-
-        // 安全地处理 attribute_values
-        let attributeValues = []
-        if (data.attribute_values) {
-          if (typeof data.attribute_values === 'string') {
-            try {
-              const parsed = JSON.parse(data.attribute_values)
-              attributeValues = parsed.list || parsed || []
-            } catch (e) {
-              attributeValues = []
-            }
-          } else if (data.attribute_values.list) {
-            attributeValues = data.attribute_values.list
-          } else if (Array.isArray(data.attribute_values)) {
-            attributeValues = data.attribute_values
-          }
-        }
-
         ParamsFormApi.setFieldsValue({
+          attribute_id: data.attribute_id,
           attribute_name: data.attribute_name,
           attribute_memo: data.attribute_memo,
           is_show: isShow,
           attribute_values: attributeValues
         })
-        this.form = {
-          attribute_id: data.attribute_id,
-          attribute_type: data.attribute_type,
-          attribute_name: data.attribute_name,
-          attribute_memo: data.attribute_memo,
-          is_show: isShow,
-          attribute_values: attributeValues
-        }
       })
     },
     async handleFormSubmit() {
@@ -279,27 +291,28 @@ export default {
       }
     },
     onFormSubmit(formData) {
+      const attributeId = this.editingAttributeId
       const submitData = {
         ...this.form,
-        ...formData
+        ...formData,
+        attribute_id: attributeId
       }
       if (submitData.attribute_values.length === 0 && submitData.is_show == true) {
-        this.$message({ type: 'error', message: '参数类型为高级筛选类型，参数值不能为空' })
+        this.$message({ type: 'error', message: this.$t('07504bf6.ad4589') })
         return
       }
       const params = JSON.parse(JSON.stringify(submitData))
       params.attribute_values = JSON.stringify(params.attribute_values)
-      // 如果没有id，则表示为新增
-      if (!submitData.attribute_id) {
+      if (!attributeId) {
         addGoodsAttr(params).then((res) => {
-          this.$message({ type: 'success', message: '操作成功' })
+          this.$message({ type: 'success', message: this.$t('07504bf6.33130f') })
           this.resetData()
           this.show_sideBar = false
           this.$refs.finder.refresh(true)
         })
       } else {
-        updateGoodsAttr(params.attribute_id, params).then((res) => {
-          this.$message({ type: 'success', message: '操作成功' })
+        updateGoodsAttr(attributeId, params).then((res) => {
+          this.$message({ type: 'success', message: this.$t('07504bf6.33130f') })
           this.show_sideBar = false
           this.$refs.finder.refresh()
         })
@@ -308,27 +321,25 @@ export default {
   },
   computed: {
     ...mapGetters(['wheight']),
-    // 搜索表单配置
     searchFormItems() {
       return [
         {
           fieldName: 'attribute_name',
-          label: '参数名称',
+          label: this.$t('07504bf6.5f49be'),
           component: 'input',
           cellWidth: 1.3,
           componentProps: {
             clearable: true,
-            placeholder: '请输入参数名称'
+            placeholder: this.$t('07504bf6.0e7839')
           }
         }
       ]
     },
-    // 表格配置
     tableSetting() {
       return createSetting({
         actions: [
           {
-            name: '编辑',
+            name: this.$t('07504bf6.95b351'),
             key: 'edit',
             type: 'button',
             buttonType: 'text',
@@ -340,7 +351,7 @@ export default {
             }
           },
           {
-            name: '删除',
+            name: this.$t('07504bf6.2f4aad'),
             key: 'delete',
             type: 'button',
             buttonType: 'text',
@@ -354,35 +365,34 @@ export default {
         ],
         columns: [
           {
-            name: '参数类型',
+            name: this.$t('07504bf6.91bb21'),
             key: 'is_show',
             formatter: (value) => {
               if (value == null || value === '') {
-                return '纯显示'
+                return this.$t('07504bf6.26ab96')
               }
               let isShow = value
               if (typeof value === 'string') {
                 try {
                   isShow = JSON.parse(value)
                 } catch (e) {
-                  // 如果解析失败，尝试直接比较字符串
                   isShow = value === 'true' || value === true
                 }
               }
-              return isShow ? '高级筛选' : '纯显示'
+              return isShow ? this.$t('07504bf6.df2f0a') : this.$t('07504bf6.26ab96')
             }
           },
           {
-            name: '参数名称',
+            name: this.$t('07504bf6.5f49be'),
             key: 'attribute_name',
             width: 200
           },
           {
-            name: '参数备注',
+            name: this.$t('07504bf6.dc14a1'),
             key: 'attribute_memo'
           },
           {
-            name: '参数值',
+            name: this.$t('07504bf6.bfed49'),
             key: 'attribute_values',
             render: (h, scope) => {
               const attributeValues = scope.row.attribute_values

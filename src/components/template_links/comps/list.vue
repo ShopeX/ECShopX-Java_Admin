@@ -20,7 +20,7 @@
         />
         <el-table-column
           property="title"
-          :label="type === 'other_wxapp' ? '页面路径' : '标题名称'"
+          :label="type === 'other_wxapp' ? $t('14a23340.e3a8a6') : $t('14a23340.40ec7d')"
         />
       </el-table>
       <el-pagination
@@ -42,7 +42,7 @@
       @current-change="handleCurrentChange"
     >
       <el-table-column prop="id" label="ID" width="180" />
-      <el-table-column prop="title" label="分类名" />
+      <el-table-column prop="title" :label="$t('14a23340.28474c')" />
     </el-table>
   </div>
 </template>
@@ -333,7 +333,7 @@ export default {
         case 'link':
           let list = [
             {
-              title: '会员开通',
+              title: this.$t('223cc8af.f035ca'),
               id: 'vipgrades'
             },
             // {
@@ -341,7 +341,7 @@ export default {
             //   id: 'pointitems'
             // },
             {
-              title: '社区团长申请',
+              title: this.$t('223cc8af.38d966'),
               id: 'applyChief'
             }
           ]
@@ -358,12 +358,16 @@ export default {
         case 'marketing':
           this.list = [
             {
-              title: '限时团购',
+              title: this.$t('223cc8af.f38e72'),
               id: 'groups_list'
             },
             {
-              title: '优惠券',
+              title: this.$t('223cc8af.2f3635'),
               id: 'coupon_list'
+            },
+            {
+              title: this.$t('223cc8af.a8f3e2'),
+              id: 'my_coupon'
             }
           ]
           this.total = 1

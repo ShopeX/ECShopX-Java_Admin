@@ -70,11 +70,10 @@
 import config from './config'
 import gWgts from '../index'
 import { getOuterStyle } from '../../comps/style-utils'
-import Vue from 'vue'
-
+import { i18n } from '@/i18n'
 export default {
   name: 'ContentPartition',
-  wgtName: '内容分区',
+  wgtName: i18n.t('dfa780ca.b3876f'),
   wgtDesc: '',
   wgtIcon: 'app-switch',
   config: config,
@@ -218,30 +217,19 @@ export default {
     // 加载所有挂件组件
     loadWidgetComponents() {
       const scene = this.$route?.query?.scene || '1001'
-      const scenesToLoad = scene === '1001' ? ['1001'] : [scene, '1001']
-      scenesToLoad.forEach((sceneKey) => {
-        const wgts = gWgts[sceneKey] || {}
-        Object.keys(wgts).forEach((key) => {
-          const wgt = wgts[key]
-          if (wgt && wgt.name) {
-            Vue.component(wgt.name, wgt)
-            if (wgt.config?.name && wgt.config.name !== wgt.name) {
-              Vue.component(wgt.config.name, wgt)
-            }
-            this.widgetComponents[wgt.name.toLowerCase()] = wgt
-            if (wgt.config?.name) {
-              this.widgetComponents[wgt.config.name.toLowerCase()] = wgt
-            }
-          }
-        })
+      const wgts = gWgts[scene] || gWgts['1001'] || {}
+      Object.keys(wgts).forEach((key) => {
+        const wgt = wgts[key]
+        if (wgt && wgt.name) {
+          this.widgetComponents[wgt.name.toLowerCase()] = wgt
+        }
       })
     },
-    // 返回已注册的组件名，供 :is 动态渲染（商品/热销榜等挂载后会调 widget/items）
+    // 获取挂件组件
     getWidgetComponent(name) {
       if (!name) return null
       const wgt = this.widgetComponents[name.toLowerCase()]
-      if (!wgt) return null
-      return wgt.config?.name || wgt.name
+      return wgt || null
     },
     // 获取单个导航项样式
     getNavItemStyle(item, index) {

@@ -7,22 +7,24 @@
   <SpPage class="section section-white">
     <template slot="page-footer">
       <div class="text-center">
-        <el-button @click.native="handleCancel"> 取消 </el-button>
+        <el-button @click.native="handleCancel"> {{ $t('4b43f5ef.625fb2') }} </el-button>
         <el-button type="primary" :loading="submitLoading" @click="submitItemsActionConfirm">
-          {{ submitLoading ? '提交中' : '保存' }}
+          {{ submitLoading ? $t('4b43f5ef.7ef44a') : $t('4b43f5ef.be5fbb') }}
         </el-button>
       </div>
     </template>
 
     <el-form
       ref="form"
+      v-loading="pageLoading"
+      element-loading-custom-class="pointmall-add-loading"
       :model="form"
       label-width="auto"
       label-position="left"
       class="demo-ruleForm"
     >
       <template v-if="!isEditor || (isEditor && !form.item_main_cat_id)">
-        <el-card v-loading="mainCateLoader" shadow="never" header="选择管理分类">
+        <el-card shadow="never" :header="$t('4b43f5ef.c50637')">
           <el-cascader
             v-model="selectedMainCategory"
             :options="mainCategory"
@@ -31,8 +33,8 @@
           />
         </el-card>
       </template>
-      <div v-else v-loading="loader" class="content-padded flex items-center">
-        <div>管理分类：</div>
+      <div v-else-if="isEditor && form.item_main_cat_id" class="content-padded flex items-center">
+        <div>{{ $t('4b43f5ef.ca079c') }}</div>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="inline">
           <el-breadcrumb-item v-for="(item, index) in categoryNames" :key="index">
             {{ item }}
@@ -40,9 +42,9 @@
         </el-breadcrumb>
       </div>
       <template v-if="(!isEditor && selectedMainCategory.length > 0) || isEditor">
-        <el-card v-loading="loader" shadow="never">
+        <el-card shadow="never">
           <div slot="header" class="clearfix">
-            <span>基础信息</span>
+            <span>{{ $t('4b43f5ef.6ea1fe') }}</span>
             <el-button
               style="float: right; padding: 3px 0"
               type="text"
@@ -55,18 +57,18 @@
             <div v-show="panel.base" class="form-collapse">
               <el-row :gutter="20">
                 <el-col :xs="24" :sm="12" :md="8">
-                  <el-form-item label="*商品标题">
+                  <el-form-item :label="$t('4b43f5ef.3ac6c1')">
                     <el-input v-model="form.item_name" :maxlength="100" placeholder="" />
                   </el-form-item>
                 </el-col>
                 <el-col :xs="24" :sm="12" :md="8">
-                  <el-form-item label="副标题">
+                  <el-form-item :label="$t('4b43f5ef.72cf37')">
                     <el-input v-model="form.brief" :maxlength="30" placeholder="" />
                   </el-form-item>
                 </el-col>
                 <el-col :xs="24" :sm="12" :md="8">
-                  <el-form-item label="*运费模板">
-                    <el-select v-model="form.templates_id" placeholder="请选择">
+                  <el-form-item :label="$t('4b43f5ef.a1f07e')">
+                    <el-select v-model="form.templates_id" :placeholder="$t('4b43f5ef.708c9d')">
                       <el-option
                         v-for="item in templatesList"
                         :key="item.template_id"
@@ -77,14 +79,14 @@
                   </el-form-item>
                 </el-col>
                 <el-col :xs="24" :sm="12" :md="8">
-                  <el-form-item label="*品牌">
+                  <el-form-item :label="$t('4b43f5ef.07595d')">
                     <el-select
                       v-model="form.brand_id"
                       remote
                       filterable
                       :remote-method="getBrandList"
                       clearable
-                      placeholder="请选择"
+                      :placeholder="$t('4b43f5ef.708c9d')"
                     >
                       <el-option
                         v-for="item in brandList"
@@ -96,20 +98,20 @@
                   </el-form-item>
                 </el-col>
                 <el-col :xs="24" :sm="12" :md="8">
-                  <el-form-item label="计量单位">
+                  <el-form-item :label="$t('4b43f5ef.251549')">
                     <el-input v-model="form.item_unit" :maxlength="60" placeholder="" />
                   </el-form-item>
                 </el-col>
                 <el-col :xs="24" :sm="12" :md="8">
-                  <el-form-item label="排序编号">
+                  <el-form-item :label="$t('4b43f5ef.e8373a')">
                     <el-input v-model="form.sort" placeholder="" />
                   </el-form-item>
                 </el-col>
                 <el-col :xs="24" :sm="12" :md="8">
-                  <el-form-item label="产地">
+                  <el-form-item :label="$t('4b43f5ef.2b6d31')">
                     <el-cascader
                       v-model="select_regions_value"
-                      placeholder="选择地区"
+                      :placeholder="$t('4b43f5ef.e9a36d')"
                       :options="regions"
                       @change="regionChange"
                     />
@@ -130,16 +132,14 @@
                   </el-form-item>
                 </el-col> -->
                 <el-col :xs="24" :sm="12" :md="12">
-                  <el-form-item label="*商品销售分类" label-width="110px">
-                    <treeselect
+                  <el-form-item :label="$t('4b43f5ef.728f47')" label-width="110px">
+                    <el-cascader
                       v-model="form.item_category"
-                      no-children-text="没有子选项"
-                      no-options-text="等待加载..."
-                      no-results-text="没有匹配的结果"
-                      :options="categoryList"
-                      :show-count="true"
-                      :multiple="true"
-                      :disable-branch-nodes="true"
+                      clearable
+                      filterable
+                      :props="cascaderProps"
+                      :options="saleCategoryList"
+                      style="width: 100%"
                     />
                   </el-form-item>
                 </el-col>
@@ -156,7 +156,7 @@
                 </el-col>
                 -->
                 <el-col :xs="24">
-                  <el-form-item label="*商品图">
+                  <el-form-item :label="$t('4b43f5ef.9dcb7e')">
                     <div>
                       <div class="pics-box">
                         <ul class="goodspic-wrap">
@@ -188,19 +188,18 @@
                       <div class="frm-tips">
                         <p>
                           1.
-                          最多可上传9张图片，文件格式为bmp、png、jpeg、jpg或gif，大小不超过2M（建议尺寸：500px
-                          * 500px）
+                          {{ $t('4b43f5ef.f0e1d4') }}
                         </p>
-                        <p>2. 拖动图片进行可排序</p>
+                        <p>{{ $t('4b43f5ef.2eceaf') }}</p>
                       </div>
                     </div>
                   </el-form-item>
                 </el-col>
                 <el-col :xs="24">
-                  <el-form-item label="上传视频">
+                  <el-form-item :label="$t('4b43f5ef.afddcb')">
                     <videoPicker :data="itemVideo" @change="pickVideo" />
                     <el-button v-if="itemVideo.media_id" type="text" @click="deleteVideo">
-                      删除
+                      {{ $t('4b43f5ef.2f4aad') }}
                     </el-button>
                   </el-form-item>
                 </el-col>
@@ -218,9 +217,9 @@
             <el-radio label="drug">处方药</el-radio>
           </el-radio-group>
         </el-card> -->
-        <el-card v-loading="loader" shadow="never">
+        <el-card shadow="never">
           <div slot="header" class="clearfix">
-            <span>商品参数</span>
+            <span>{{ $t('4b43f5ef.8686bb') }}</span>
             <el-button
               style="float: right; padding: 3px 0"
               type="text"
@@ -244,7 +243,7 @@
                     <el-select
                       v-if="item.children.length > 0"
                       v-model="form.item_params[index].attribute_value_id"
-                      placeholder="请选择"
+                      :placeholder="$t('4b43f5ef.708c9d')"
                       @change="paramsChange"
                     >
                       <el-option
@@ -266,27 +265,25 @@
             </div>
           </transition>
         </el-card>
-        <el-card v-loading="loader" shadow="never">
+        <el-card shadow="never">
           <div slot="header" class="flex">
-            <div class="view-flex-item">商品规格</div>
+            <div class="view-flex-item">{{ $t('4b43f5ef.5fceb3') }}</div>
             <template v-if="!isEditor">
-              <span v-if="skus.length === 0" class="small mark"
-                >添加多规格商品请先为当前管理分类绑定规格!</span
-              >
+              <span v-if="skus.length === 0" class="small mark">{{ $t('4b43f5ef.fdd179') }}</span>
               <template v-if="skus.length > 0">
                 <el-switch
                   v-model="form.nospec"
                   style="margin-left: 30px"
                   active-color="#13ce66"
                   inactive-color="#efefef"
-                  active-text="统一规格"
-                  inactive-text="多规格"
+                  :active-text="$t('4b43f5ef.fb49c4')"
+                  :inactive-text="$t('4b43f5ef.5d60de')"
                 />
               </template>
             </template>
             <template v-if="!form.nospec">
               <span style="margin-left: 30px">
-                <span style="margin-right: 10px">是否在商详页成列图片规格</span>
+                <span style="margin-right: 10px">{{ $t('4b43f5ef.b51e8b') }}</span>
                 <el-switch
                   v-model="form.is_show_specimg"
                   active-color="#13ce66"
@@ -298,36 +295,36 @@
           <template v-if="form.nospec">
             <el-row :gutter="20">
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item label="商品状态" :render-header="renderRequire">
-                  <el-select v-model="form.approve_status" placeholder="请选择">
+                <el-form-item :label="$t('4b43f5ef.ce0008')" :render-header="renderRequire">
+                  <el-select v-model="form.approve_status" :placeholder="$t('4b43f5ef.708c9d')">
                     <el-option
                       v-for="item in statusOption"
                       :key="item.value"
-                      :label="item.title"
+                      :label="$t(item.title)"
                       :value="item.value"
                     />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item label="库存">
+                <el-form-item :label="$t('4b43f5ef.fcd943')">
                   <el-input v-model="form.store" type="number" required min="0" placeholder="" />
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item label="商品货号">
+                <el-form-item :label="$t('4b43f5ef.e9de29')">
                   <el-input v-model="form.item_bn" :maxlength="60" placeholder="" />
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item label="重量">
+                <el-form-item :label="$t('4b43f5ef.8c0d75')">
                   <el-input v-model="form.weight" type="number" required min="0" placeholder="">
                     <template slot="append"> kg </template>
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item label="体积">
+                <el-form-item :label="$t('4b43f5ef.3b35fa')">
                   <el-input v-model="form.volume" type="number" required min="0" placeholder="">
                     <template slot="append"> m³ </template>
                   </el-input>
@@ -339,14 +336,14 @@
                 </el-form-item>
               </el-col> -->
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item label="成本价">
+                <el-form-item :label="$t('4b43f5ef.2e2ce2')">
                   <el-input v-model="form.cost_price" type="number" required min="0" placeholder="">
                     <template slot="prepend"> ¥ </template>
                   </el-input>
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item label="市场价">
+                <el-form-item :label="$t('4b43f5ef.818fc4')">
                   <el-input
                     v-model="form.market_price"
                     type="number"
@@ -359,26 +356,26 @@
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item label="条形码">
+                <el-form-item :label="$t('4b43f5ef.1e8836')">
                   <el-input v-model="form.barcode" required min="0" placeholder="" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item label="支付方式" :render-header="renderRequire">
-                  <el-select v-model="form.pay_class" placeholder="请选择">
+                <el-form-item :label="$t('4b43f5ef.0c9d2b')" :render-header="renderRequire">
+                  <el-select v-model="form.pay_class" :placeholder="$t('4b43f5ef.708c9d')">
                     <el-option
                       v-for="item in payClass"
                       :key="item.value"
-                      :label="item.title"
+                      :label="$t(item.title)"
                       :value="item.value"
                     />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item label="销售价">
+                <el-form-item :label="$t('4b43f5ef.e29575')">
                   <el-input
                     v-if="form.pay_class === 'online' || form.pay_class === 'mix'"
                     v-model="form.price"
@@ -393,7 +390,7 @@
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :sm="12" :md="8">
-                <el-form-item label="积分价格">
+                <el-form-item :label="$t('4b43f5ef.bf6d40')">
                   <el-input
                     v-if="form.pay_class === 'point' || form.pay_class === 'mix'"
                     v-model="form.point"
@@ -402,7 +399,7 @@
                     min="0"
                     placeholder=""
                   >
-                    <template slot="append"> 积分 </template>
+                    <template slot="append"> {{ $t('4b43f5ef.9f68a8') }} </template>
                   </el-input>
                   <span v-if="!form.pay_class || form.pay_class === 'online'">-</span>
                 </el-form-item>
@@ -442,10 +439,10 @@
               </div>
             </el-card>
             <div v-if="specImages.length > 0" class="content-bottom-padded">
-              <div class="content-padded h3">设置规格图片</div>
+              <div class="content-padded h3">{{ $t('4b43f5ef.693413') }}</div>
               <el-table :data="specImages" :header-cell-style="{ background: '#f5f7fa' }">
-                <el-table-column label="规格" prop="item_spec" width="240" />
-                <el-table-column label="规格图">
+                <el-table-column :label="$t('4b43f5ef.ea887b')" prop="item_spec" width="240" />
+                <el-table-column :label="$t('4b43f5ef.22826b')">
                   <template slot-scope="scope">
                     <imgBox
                       v-for="(item, index) in scope.row.item_image_url"
@@ -468,27 +465,36 @@
                 </el-table-column>
               </el-table>
             </div>
-            <div class="content-padded h3">设置规格</div>
+            <div class="content-padded h3">{{ $t('4b43f5ef.29725a') }}</div>
             <el-table :data="bulkFilling" :show-header="false" :highlight-current-row="false">
               <el-table-column>
                 <template slot-scope="scope">
-                  {{ scope.row.custom_attribute_value || scope.row.item_spec }}
+                  {{
+                    scope.row.custom_attribute_value ||
+                    (scope.row.item_spec === '批量填充'
+                      ? $t('4b43f5ef.d87166')
+                      : scope.row.item_spec)
+                  }}
                 </template>
               </el-table-column>
-              <el-table-column label="*状态">
+              <el-table-column :label="$t('4b43f5ef.47f00b')">
                 <template slot-scope="scope">
-                  <el-select v-model="scope.row.approve_status" size="mini" placeholder="请选择">
+                  <el-select
+                    v-model="scope.row.approve_status"
+                    size="mini"
+                    :placeholder="$t('4b43f5ef.708c9d')"
+                  >
                     <el-option
                       v-for="item in statusOption"
                       :key="item.value"
-                      :label="item.title"
+                      :label="$t(item.title)"
                       size="mini"
                       :value="item.value"
                     />
                   </el-select>
                 </template>
               </el-table-column>
-              <el-table-column label="库存">
+              <el-table-column :label="$t('4b43f5ef.fcd943')">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.store"
@@ -500,7 +506,7 @@
                   />
                 </template>
               </el-table-column>
-              <el-table-column label="货号">
+              <el-table-column :label="$t('4b43f5ef.9b979b')">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.item_bn"
@@ -510,12 +516,12 @@
                   />
                 </template>
               </el-table-column>
-              <el-table-column label="重量">
+              <el-table-column :label="$t('4b43f5ef.8c0d75')">
                 <template slot-scope="scope">
                   <el-input v-model="scope.row.weight" :maxlength="60" size="mini" placeholder="" />
                 </template>
               </el-table-column>
-              <el-table-column label="体积">
+              <el-table-column :label="$t('4b43f5ef.3b35fa')">
                 <template slot-scope="scope">
                   <el-input v-model="scope.row.volume" :maxlength="60" size="mini" placeholder="" />
                 </template>
@@ -525,7 +531,7 @@
                   <el-input type="number" required min="0" v-model="scope.row.price" size="mini" placeholder=""></el-input>
                 </template>
               </el-table-column> -->
-              <el-table-column label="成本价">
+              <el-table-column :label="$t('4b43f5ef.2e2ce2')">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.cost_price"
@@ -537,7 +543,7 @@
                   />
                 </template>
               </el-table-column>
-              <el-table-column label="市场价">
+              <el-table-column :label="$t('4b43f5ef.818fc4')">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.market_price"
@@ -549,20 +555,24 @@
                   />
                 </template>
               </el-table-column>
-              <el-table-column label="*支付方式">
+              <el-table-column :label="$t('4b43f5ef.0c9d2b')">
                 <template slot-scope="scope">
-                  <el-select v-model="scope.row.pay_class" size="mini" placeholder="请选择">
+                  <el-select
+                    v-model="scope.row.pay_class"
+                    size="mini"
+                    :placeholder="$t('4b43f5ef.708c9d')"
+                  >
                     <el-option
                       v-for="item in payClass"
                       :key="item.value"
-                      :label="item.title"
+                      :label="$t(item.title)"
                       size="mini"
                       :value="item.value"
                     />
                   </el-select>
                 </template>
               </el-table-column>
-              <el-table-column label="销售价">
+              <el-table-column :label="$t('4b43f5ef.e29575')">
                 <template slot-scope="scope">
                   <el-input
                     v-if="scope.row.pay_class === 'online' || scope.row.pay_class === 'mix'"
@@ -576,7 +586,7 @@
                   <span v-if="!scope.row.pay_class || scope.row.pay_class === 'point'">-</span>
                 </template>
               </el-table-column>
-              <el-table-column label="积分价格">
+              <el-table-column :label="$t('4b43f5ef.bf6d40')">
                 <template slot-scope="scope">
                   <el-input
                     v-if="scope.row.pay_class === 'point' || scope.row.pay_class === 'mix'"
@@ -590,7 +600,7 @@
                   <span v-if="!scope.row.pay_class || scope.row.pay_class === 'online'">-</span>
                 </template>
               </el-table-column>
-              <el-table-column label="条形码">
+              <el-table-column :label="$t('4b43f5ef.1e8836')">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.barcode"
@@ -604,7 +614,9 @@
               </el-table-column>
               <el-table-column width="80">
                 <template slot-scope="scope">
-                  <el-button type="primary" size="mini" @click="fillSku"> 填充 </el-button>
+                  <el-button type="primary" size="mini" @click="fillSku">
+                    {{ $t('4b43f5ef.756e44') }}
+                  </el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -613,32 +625,32 @@
               :header-cell-style="{ background: '#f5f7fa' }"
               style="width: 100%"
             >
-              <el-table-column label="规格值">
+              <el-table-column :label="$t('4b43f5ef.94d502')">
                 <template slot-scope="scope">
                   <span v-for="(item, index) in scope.row.item_spec" :key="index">
                     {{ item.spec_custom_value_name || item.spec_value_name }}
                   </span>
                 </template>
               </el-table-column>
-              <el-table-column label="状态" :render-header="renderRequire">
+              <el-table-column :label="$t('4b43f5ef.3fea7c')" :render-header="renderRequire">
                 <template slot-scope="scope">
                   <el-select
                     v-model="scope.row.approve_status"
                     size="mini"
-                    placeholder="请选择"
+                    :placeholder="$t('4b43f5ef.708c9d')"
                     @change="upadateState(scope.row)"
                   >
                     <el-option
                       v-for="item in statusOption"
                       :key="item.value"
-                      :label="item.title"
+                      :label="$t(item.title)"
                       size="mini"
                       :value="item.value"
                     />
                   </el-select>
                 </template>
               </el-table-column>
-              <el-table-column label="库存" :render-header="renderRequire">
+              <el-table-column :label="$t('4b43f5ef.fcd943')" :render-header="renderRequire">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.store"
@@ -651,7 +663,7 @@
                   />
                 </template>
               </el-table-column>
-              <el-table-column label="货号">
+              <el-table-column :label="$t('4b43f5ef.9b979b')">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.item_bn"
@@ -662,7 +674,7 @@
                   />
                 </template>
               </el-table-column>
-              <el-table-column label="重量(kg)">
+              <el-table-column :label="$t('4b43f5ef.8c0d75')">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.weight"
@@ -673,7 +685,7 @@
                   />
                 </template>
               </el-table-column>
-              <el-table-column label="体积(m³)">
+              <el-table-column :label="$t('4b43f5ef.3b35fa')">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.volume"
@@ -685,11 +697,11 @@
                 </template>
               </el-table-column>
               <!-- <el-table-column label="销售价" :render-header="renderRequire">
-                <template slot-scope="scope">
-                  <el-input type="number" required min="0" v-model="scope.row.price" size="mini" placeholder="" @change="upadateState(scope.row)"></el-input>
-                </template>
-              </el-table-column> -->
-              <el-table-column label="成本价">
+              <template slot-scope="scope">
+                <el-input type="number" required min="0" v-model="scope.row.price" size="mini" placeholder="" @change="upadateState(scope.row)"></el-input>
+              </template>
+            </el-table-column> -->
+              <el-table-column :label="$t('4b43f5ef.2e2ce2')">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.cost_price"
@@ -702,7 +714,7 @@
                   />
                 </template>
               </el-table-column>
-              <el-table-column label="市场价">
+              <el-table-column :label="$t('4b43f5ef.818fc4')">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.market_price"
@@ -715,25 +727,25 @@
                   />
                 </template>
               </el-table-column>
-              <el-table-column label="支付方式" :render-header="renderRequire">
+              <el-table-column :label="$t('4b43f5ef.0c9d2b')" :render-header="renderRequire">
                 <template slot-scope="scope">
                   <el-select
                     v-model="scope.row.pay_class"
                     size="mini"
-                    placeholder="请选择"
+                    :placeholder="$t('4b43f5ef.708c9d')"
                     @change="upadateState(scope.row)"
                   >
                     <el-option
                       v-for="item in payClass"
                       :key="item.value"
-                      :label="item.title"
+                      :label="$t(item.title)"
                       size="mini"
                       :value="item.value"
                     />
                   </el-select>
                 </template>
               </el-table-column>
-              <el-table-column label="销售价">
+              <el-table-column :label="$t('4b43f5ef.e29575')">
                 <template slot-scope="scope">
                   <el-input
                     v-if="scope.row.pay_class === 'online' || scope.row.pay_class === 'mix'"
@@ -748,7 +760,7 @@
                   <span v-if="!scope.row.pay_class || scope.row.pay_class === 'point'">-</span>
                 </template>
               </el-table-column>
-              <el-table-column label="积分价格(积分)">
+              <el-table-column :label="$t('4b43f5ef.d42050')">
                 <template slot-scope="scope">
                   <el-input
                     v-if="scope.row.pay_class === 'point' || scope.row.pay_class === 'mix'"
@@ -763,7 +775,7 @@
                   <span v-if="!scope.row.pay_class || scope.row.pay_class === 'online'">-</span>
                 </template>
               </el-table-column>
-              <el-table-column label="条形码">
+              <el-table-column :label="$t('4b43f5ef.1e8836')">
                 <template slot-scope="scope">
                   <el-input
                     v-model="scope.row.barcode"
@@ -778,7 +790,9 @@
               </el-table-column>
               <el-table-column width="80">
                 <template slot-scope="scope">
-                  <el-button type="text" @click="clearSku(scope.$index)"> 清除 </el-button>
+                  <el-button type="text" @click="clearSku(scope.$index)">
+                    {{ $t('4b43f5ef.4403fc') }}
+                  </el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -813,11 +827,11 @@
           </el-form-item>
         </el-card> -->
 
-        <el-card v-loading="loader" header="图文详情" shadow="never">
-          <el-form-item label="模式">
+        <el-card :header="$t('4b43f5ef.7db2d6')" shadow="never">
+          <el-form-item :label="$t('4b43f5ef.f0789e')">
             <el-radio-group v-model="mode">
-              <el-radio :label="'richText'"> 富文本 </el-radio>
-              <el-radio :label="'component'"> 组件式 </el-radio>
+              <el-radio :label="'richText'"> {{ $t('4b43f5ef.e2591e') }} </el-radio>
+              <el-radio :label="'component'"> {{ $t('4b43f5ef.b09ce9') }} </el-radio>
             </el-radio-group>
           </el-form-item>
           <template v-if="mode === 'richText'">
@@ -840,7 +854,6 @@
 <script>
 import store from '@/store'
 import { mapGetters } from 'vuex'
-import Treeselect from '@riophae/vue-treeselect'
 import draggable from 'vuedraggable'
 import { getItemsDetail, createItems, updateItems } from '@/api/pointsmall'
 import { getGoodsAttr, getCategory, getCategoryInfo } from '@/api/goods'
@@ -851,8 +864,6 @@ import richTextEditor from '@/components/function/richTextEditor'
 import imgBox from '@/components/element/imgBox'
 import district from '@/common/district.json'
 import { getOrigincountry } from '@/api/crossborder'
-import { transformTree } from '@/utils'
-
 export default {
   beforeRouteLeave(to, from, next) {
     if (this.$refs['decorateRef'].dialogVisible) {
@@ -863,14 +874,19 @@ export default {
   },
   components: {
     videoPicker,
-    Treeselect,
     draggable,
     richTextEditor,
     imgBox
   },
   inject: ['refresh'],
   data() {
+    const cascaderProps = {
+      multiple: true,
+      value: 'value',
+      children: 'children'
+    }
     return {
+      cascaderProps,
       // 跨境设置
       origincountry: [], // 产地国
       itemVideo: {},
@@ -879,8 +895,7 @@ export default {
       mainCategory: [],
       selectedMainCategory: [],
       categoryNames: [],
-      mainCateLoader: false,
-      loader: true,
+      pageLoading: true,
       submitLoading: false,
       isEditor: false,
       isLeave: false,
@@ -892,38 +907,17 @@ export default {
       is_new: false,
       isGetVideo: false,
       statusOption: [
-        {
-          title: '前台可销售',
-          value: 'onsale'
-        },
-        {
-          title: '前台不展示',
-          value: 'offline_sale'
-        },
-        {
-          title: '前台仅展示',
-          value: 'only_show'
-        },
-        {
-          title: '不可销售',
-          value: 'instock'
-        }
+        { title: '4b43f5ef.9b7481', value: 'onsale' },
+        { title: '4b43f5ef.2c50a0', value: 'offline_sale' },
+        { title: '4b43f5ef.acf86b', value: 'only_show' },
+        { title: '4b43f5ef.ae83a3', value: 'instock' }
       ],
       payClass: [
-        {
-          title: '积分支付',
-          value: 'point'
-        },
-        {
-          title: '在线支付',
-          value: 'online'
-        },
-        {
-          title: '混合支付',
-          value: 'mix'
-        }
+        { title: '4b43f5ef.accd19', value: 'point' },
+        { title: '4b43f5ef.fe94ed', value: 'online' },
+        { title: '4b43f5ef.30bee6', value: 'mix' }
       ],
-      categoryList: [],
+      saleCategoryList: [],
       brandList: [],
       content: [],
       dragIssuesOptions: {
@@ -1010,6 +1004,9 @@ export default {
     ...mapGetters(['editingSkus'])
   },
   mounted() {
+    if (this.$route.params.itemId) {
+      this.isEditor = true
+    }
     console.log(this.$route.path.split('/')[2])
     if (this.$route.path.split('/')[2] === 'godsphysicalkj') {
       console.log('跨境商品')
@@ -1024,139 +1021,142 @@ export default {
       if (_self.$route.query.is_new) {
         _self.is_new = _self.$route.query.is_new
       }
-      if (_self.$route.params.itemId) {
-        _self.isEditor = true
-        _self.mainCateLoader = true
-        // 初始化门店数据
-        const response = await getItemsDetail(_self.$route.params.itemId)
-        let itemsDetailData = response.data.data
-        const categoryInfoRes = await getCategoryInfo(itemsDetailData.item_main_cat_id, {
-          is_point: 1,
-          item_id: _self.$route.params.itemId
-        })
-        const categoryInfoDetail = categoryInfoRes.data.data
-        if (itemsDetailData.regions_id) {
-          _self.select_regions_value = itemsDetailData.regions_id
-        }
-        _self.form.pics = itemsDetailData.pics
-        // 处理图片列表
-        var picList = []
-        for (var item in itemsDetailData.pics) {
-          var newpic = {}
-          newpic.url = _self.wximageurl + itemsDetailData.pics[item]
-          picList.push(newpic)
-        }
-        _self.picsList = picList
-        let obj = _self.form
-        _self.form = { obj } = {
-          item_id: _self.is_new ? '' : itemsDetailData.item_id,
-          item_source: itemsDetailData.item_source,
-          item_type: itemsDetailData.item_type,
-          special_type: itemsDetailData.special_type,
-          item_category_temp:
-            itemsDetailData.item_category.length > 0 ? itemsDetailData.item_category : [],
-          item_name: itemsDetailData.item_name,
-          sort: itemsDetailData.sort,
-          tax_rate: itemsDetailData.tax_rate,
-          item_bn: _self.is_new ? '' : itemsDetailData.item_bn,
-          brief: itemsDetailData.brief,
-          weight: itemsDetailData.weight,
-          volume: itemsDetailData.volume,
-          price: itemsDetailData.price / 100,
-          market_price: itemsDetailData.market_price / 100,
-          cost_price: itemsDetailData.cost_price / 100,
-          point: itemsDetailData.point,
-          pay_class: itemsDetailData.pay_class,
-          barcode: itemsDetailData.barcode,
-          item_unit: itemsDetailData.item_unit,
-          // rebate: itemsDetailData.rebate/100,
-          store: itemsDetailData.store,
-          brand_id: itemsDetailData.brand_id,
-          templates_id: itemsDetailData.templates_id ? itemsDetailData.templates_id.toString() : '',
-          approve_status: itemsDetailData.approve_status,
-          pics: itemsDetailData.pics,
-          videos: itemsDetailData.videos,
-          videos_url: itemsDetailData.videos_url,
-          nospec: itemsDetailData.nospec,
-          is_show_specimg: itemsDetailData.is_show_specimg,
-          item_params: itemsDetailData.item_params,
-          item_main_cat_id: itemsDetailData.item_main_cat_id,
-          // is_gift: itemsDetailData.is_gift,
-          crossborder_tax_rate: itemsDetailData.crossborder_tax_rate,
-          origincountry_id: itemsDetailData.origincountry_id,
-          type: itemsDetailData.type
-          // is_profit: itemsDetailData.is_profit,
-        }
-        _self.picsOldLen = _self.form.pics.length
-        if (!itemsDetailData.item_main_cat_id) {
-          _self.fetchMainCate()
-        } else {
-          let category = itemsDetailData.item_category_main
-          _self.categoryNames = [
-            category[0].category_name,
-            category[0].children[0].category_name,
-            category[0].children[0].children[0].category_name
-          ]
-          _self.generateParams(itemsDetailData.item_params_list)
-        }
-        if (!_self.form.nospec) {
-          _self.generateSpec(categoryInfoDetail.goods_spec, itemsDetailData.spec_items)
-          _self.specImages = itemsDetailData.spec_images
-          // 恢复规格勾选状态
-          itemsDetailData.spec_items.forEach((item) => {
-            item.item_spec.forEach((child) => {
-              let checkedIndex = _self.skus.findIndex((n) => child.spec_id === n.sku_id)
-              if (checkedIndex > -1) {
-                let isin = _self.skus[checkedIndex].checked_sku.findIndex(
-                  (k) => child.spec_value_id === k
-                )
-                if (isin === -1) {
-                  _self.skus[checkedIndex].checked_sku.push(child.spec_value_id)
+      _self.pageLoading = true
+      try {
+        if (_self.$route.params.itemId) {
+          // 初始化门店数据
+          const response = await getItemsDetail(_self.$route.params.itemId)
+          let itemsDetailData = response.data.data
+          const categoryInfoRes = await getCategoryInfo(itemsDetailData.item_main_cat_id, {
+            is_point: 1,
+            item_id: _self.$route.params.itemId
+          })
+          const categoryInfoDetail = categoryInfoRes.data.data
+          if (itemsDetailData.regions_id) {
+            _self.select_regions_value = itemsDetailData.regions_id
+          }
+          _self.form.pics = itemsDetailData.pics
+          // 处理图片列表
+          var picList = []
+          for (var item in itemsDetailData.pics) {
+            var newpic = {}
+            newpic.url = _self.wximageurl + itemsDetailData.pics[item]
+            picList.push(newpic)
+          }
+          _self.picsList = picList
+          let obj = _self.form
+          _self.form = { obj } = {
+            item_id: _self.is_new ? '' : itemsDetailData.item_id,
+            item_source: itemsDetailData.item_source,
+            item_type: itemsDetailData.item_type,
+            special_type: itemsDetailData.special_type,
+            item_category_temp:
+              itemsDetailData.item_category.length > 0 ? itemsDetailData.item_category : [],
+            item_name: itemsDetailData.item_name,
+            sort: itemsDetailData.sort,
+            tax_rate: itemsDetailData.tax_rate,
+            item_bn: _self.is_new ? '' : itemsDetailData.item_bn,
+            brief: itemsDetailData.brief,
+            weight: itemsDetailData.weight,
+            volume: itemsDetailData.volume,
+            price: itemsDetailData.price / 100,
+            market_price: itemsDetailData.market_price / 100,
+            cost_price: itemsDetailData.cost_price / 100,
+            point: itemsDetailData.point,
+            pay_class: itemsDetailData.pay_class,
+            barcode: itemsDetailData.barcode,
+            item_unit: itemsDetailData.item_unit,
+            // rebate: itemsDetailData.rebate/100,
+            store: itemsDetailData.store,
+            brand_id: itemsDetailData.brand_id,
+            templates_id: itemsDetailData.templates_id
+              ? itemsDetailData.templates_id.toString()
+              : '',
+            approve_status: itemsDetailData.approve_status,
+            pics: itemsDetailData.pics,
+            videos: itemsDetailData.videos,
+            videos_url: itemsDetailData.videos_url,
+            nospec: itemsDetailData.nospec,
+            is_show_specimg: itemsDetailData.is_show_specimg,
+            item_params: itemsDetailData.item_params,
+            item_main_cat_id: itemsDetailData.item_main_cat_id,
+            // is_gift: itemsDetailData.is_gift,
+            crossborder_tax_rate: itemsDetailData.crossborder_tax_rate,
+            origincountry_id: itemsDetailData.origincountry_id,
+            type: itemsDetailData.type
+            // is_profit: itemsDetailData.is_profit,
+          }
+          _self.picsOldLen = _self.form.pics.length
+          if (!itemsDetailData.item_main_cat_id) {
+            await _self.fetchMainCate()
+          } else {
+            let category = itemsDetailData.item_category_main
+            _self.categoryNames = [
+              category[0].category_name,
+              category[0].children[0].category_name,
+              category[0].children[0].children[0].category_name
+            ]
+            _self.generateParams(itemsDetailData.item_params_list)
+          }
+          if (!_self.form.nospec) {
+            _self.generateSpec(categoryInfoDetail.goods_spec, itemsDetailData.spec_items)
+            _self.specImages = itemsDetailData.spec_images
+            // 恢复规格勾选状态
+            itemsDetailData.spec_items.forEach((item) => {
+              item.item_spec.forEach((child) => {
+                let checkedIndex = _self.skus.findIndex((n) => child.spec_id === n.sku_id)
+                if (checkedIndex > -1) {
+                  let isin = _self.skus[checkedIndex].checked_sku.findIndex(
+                    (k) => child.spec_value_id === k
+                  )
+                  if (isin === -1) {
+                    _self.skus[checkedIndex].checked_sku.push(child.spec_value_id)
+                  }
                 }
-              }
-            })
-          })
-
-          itemsDetailData.spec_items.forEach((item) => {
-            let sku = Object.assign({}, item)
-            sku.market_price = item.market_price / 100
-            sku.cost_price = item.cost_price / 100
-            sku.price = item.price / 100
-            sku.item_bn = _self.is_new ? '' : item.item_bn
-            let itemId = []
-            let specs = []
-            item.item_spec.forEach((sub) => {
-              specs.push({
-                spec_id: sub.spec_id,
-                spec_value_id: sub.spec_value_id,
-                spec_value_name: sub.spec_value_name,
-                spec_custom_value_name: sub.spec_custom_value_name || ''
               })
-              itemId.push(sub.spec_value_id)
             })
-            sku.item_spec = specs
-            itemId = itemId.join('_')
-            Object.assign(sku, { sku_id: itemId })
-            store.dispatch('setSku', sku)
-          })
-          _self.updateSku()
-        }
-        if (typeof itemsDetailData.intro === 'object') {
-          _self.mode = 'component'
-          _self.content = itemsDetailData.intro
+
+            itemsDetailData.spec_items.forEach((item) => {
+              let sku = Object.assign({}, item)
+              sku.market_price = item.market_price / 100
+              sku.cost_price = item.cost_price / 100
+              sku.price = item.price / 100
+              sku.item_bn = _self.is_new ? '' : item.item_bn
+              let itemId = []
+              let specs = []
+              item.item_spec.forEach((sub) => {
+                specs.push({
+                  spec_id: sub.spec_id,
+                  spec_value_id: sub.spec_value_id,
+                  spec_value_name: sub.spec_value_name,
+                  spec_custom_value_name: sub.spec_custom_value_name || ''
+                })
+                itemId.push(sub.spec_value_id)
+              })
+              sku.item_spec = specs
+              itemId = itemId.join('_')
+              Object.assign(sku, { sku_id: itemId })
+              store.dispatch('setSku', sku)
+            })
+            _self.updateSku()
+          }
+          if (typeof itemsDetailData.intro === 'object') {
+            _self.mode = 'component'
+            _self.content = itemsDetailData.intro
+          } else {
+            _self.form.intro = itemsDetailData.intro
+          }
+          // .catch(error => {
+          //   _self.$router.go(-1)
+          // })
+          _self.itemVideo = { media_id: _self.form.videos, url: _self.form.videos_url }
         } else {
-          _self.form.intro = itemsDetailData.intro
+          await _self.fetchMainCate()
         }
-        // .catch(error => {
-        //   _self.$router.go(-1)
-        // })
-        _self.loader = false
-        _self.itemVideo = { media_id: _self.form.videos, url: _self.form.videos_url }
-      } else {
-        _self.fetchMainCate()
-        _self.loader = false
+        await _self.init()
+      } finally {
+        _self.pageLoading = false
       }
-      await _self.init()
     }
     onload()
     this.getOrigincountry()
@@ -1178,7 +1178,7 @@ export default {
       this.form.item_address_city = this.select_regions_value[1]
     },
     fetchMainCate() {
-      getCategory({ is_main_category: true }).then((res) => {
+      return getCategory({ is_main_category: true }).then((res) => {
         let list = []
         res.data.data.forEach((item) => {
           let obj = {
@@ -1208,7 +1208,6 @@ export default {
           list.push(obj)
         })
         this.mainCategory = list
-        this.mainCateLoader = false
       })
     },
     handleCategoryChange(val) {
@@ -1374,16 +1373,23 @@ export default {
       }
       if (this.form.type === 1 && !this.form.origincountry_id) {
         this.submitLoading = false
-        this.$message({ message: '请选择产地国', type: 'error' })
+        this.$message({ message: this.$t('4b43f5ef.4f9c70'), type: 'error' })
         return
       }
       this.form.spec_images = JSON.stringify(this.specImages)
       this.form.spec_items = JSON.stringify(formSkuItem)
+      const itemCategory = this.form.item_category || []
+      const submitForm = {
+        ...this.form,
+        item_category: itemCategory.map((item) =>
+          item && item.length ? item[item.length - 1] : item
+        )
+      }
       if (this.form.item_id && !this.is_new) {
-        updateItems(this.form.item_id, this.form)
+        updateItems(this.form.item_id, submitForm)
           .then((response) => {
             this.$message({
-              message: '更新成功',
+              message: this.$t('4b43f5ef.55aa63'),
               type: 'success',
               duration: 2 * 1000,
               onClose() {
@@ -1398,10 +1404,10 @@ export default {
             this.submitLoading = false
           })
       } else {
-        createItems(this.form)
+        createItems(submitForm)
           .then((response) => {
             this.$message({
-              message: '添加成功',
+              message: this.$t('4b43f5ef.3fdaea'),
               type: 'success',
               duration: 2 * 1000,
               onClose() {
@@ -1453,7 +1459,7 @@ export default {
           if (imgHtml) {
             // 将图片HTML追加到现有内容中
             this.form.intro = this.form.intro + imgHtml
-            this.$message.success('图片插入成功')
+            this.$message.success(this.$t('4b43f5ef.cc33a9'))
           }
         }
       } catch (error) {
@@ -1492,7 +1498,7 @@ export default {
       try {
         const remaining = 9 - this.picsOldLen
         if (remaining <= 0) {
-          this.$message.error('最多上传9张图片!')
+          this.$message.error(this.$t('4b43f5ef.4352be'))
           return
         }
 
@@ -1525,7 +1531,7 @@ export default {
         this.currentSku = index
         const remaining = 5 - this.specImages[index].item_image_url.length
         if (remaining <= 0) {
-          this.$message.error('最多添加5张图片!')
+          this.$message.error(this.$t('4b43f5ef.5bd788'))
           this.currentSku = -1
           return
         }
@@ -1570,9 +1576,9 @@ export default {
       store.dispatch('setPage', list)
     },
     clearSku(index) {
-      this.$confirm('确定清除当前规格的数据吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('4b43f5ef.3dd6cf'), this.$t('4b43f5ef.02d981'), {
+        confirmButtonText: this.$t('4b43f5ef.38cf16'),
+        cancelButtonText: this.$t('4b43f5ef.625fb2'),
         type: 'warning'
       }).then(() => {
         let skuItem = this.specItems[this.currentPage - 1][index]
@@ -1801,34 +1807,49 @@ export default {
     },
     init() {
       this.getBrandList('', true)
-      getShippingTemplatesList(this.templatesListParams).then((response) => {
-        if (response.data.data.list.length > 0) {
-          for (var i in response.data.data.list) {
-            this.templatesList.push({
-              template_id: response.data.data.list[i].template_id,
-              name: response.data.data.list[i].name
+      const templatesPromise = getShippingTemplatesList(this.templatesListParams).then(
+        (response) => {
+          if (response.data.data.list.length > 0) {
+            for (var i in response.data.data.list) {
+              this.templatesList.push({
+                template_id: response.data.data.list[i].template_id,
+                name: response.data.data.list[i].name
+              })
+            }
+          } else {
+            this.$message({
+              type: 'error',
+              message: this.$t('4b43f5ef.e9d74f')
             })
+            this.$router.push({ path: this.matchInternalRoute('shippingtemplates') })
           }
-        } else {
-          this.$message({
-            type: 'error',
-            message: '请先添加运费模板'
-          })
-          this.$router.push({ path: this.matchInternalRoute('shippingtemplates') })
         }
-      })
+      )
 
-      getCategory({ is_show: false }).then((response) => {
-        this.categoryList = transformTree(response.data.data, {
-          id: 'category_id',
-          label: 'category_name',
-          children: 'children'
-        })
-        if (this.$route.params.itemId) {
-          this.form.item_category = this.form.item_category_temp
+      const categoryPromise = getCategory({ is_show: false }).then((response) => {
+        const res = response.data.data
+        function _deepCategory(cate, temp) {
+          cate.forEach((item) => {
+            const _temp = {
+              label: item.category_name,
+              value: item.category_id
+            }
+            if (item.children) {
+              _temp.children = []
+              _deepCategory(item.children, _temp.children)
+            }
+            temp.push(_temp)
+          })
+        }
+        const saleCategoryList = []
+        _deepCategory(res, saleCategoryList)
+        this.saleCategoryList = saleCategoryList
+        if (this.$route.params.itemId && this.form.item_category_temp) {
+          this.form.item_category = this.deepSalesCategory(this.form.item_category_temp)
           delete this.form.item_category_temp
         }
       })
+      return Promise.all([templatesPromise, categoryPromise])
     },
     // profitStatusChange(val) {
     //   if (val) {
@@ -1837,6 +1858,32 @@ export default {
     //     this.form.is_profit = false
     //   }
     // },
+    deepSalesCategory(value) {
+      const { saleCategoryList } = this
+      function findPathById(tree, id, path) {
+        if (typeof path === 'undefined') {
+          path = []
+        }
+        for (let i = 0; i < tree.length; i++) {
+          const tempPath = [...path]
+          tempPath.push(tree[i].value)
+          if (tree[i].value == id) {
+            return tempPath
+          }
+          if (tree[i].children) {
+            const result = findPathById(tree[i].children, id, tempPath)
+            if (result) {
+              return result
+            }
+          }
+        }
+      }
+      const list = []
+      value.forEach((v) => {
+        list.push(findPathById(saleCategoryList, v))
+      })
+      return list
+    },
     // select值变化
     paramsChange(e) {
       const params = this.params
@@ -1854,9 +1901,9 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     if (!this.isLeave) {
-      this.$confirm('确定要离开当前页面，您将丢失已编辑的数据？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('4b43f5ef.3ba67c'), this.$t('4b43f5ef.02d981'), {
+        confirmButtonText: this.$t('4b43f5ef.38cf16'),
+        cancelButtonText: this.$t('4b43f5ef.625fb2'),
         type: 'warning'
       })
         .then((res) => {
@@ -1874,11 +1921,23 @@ export default {
 }
 </script>
 <style lang="scss">
-.vue-treeselect__placeholder {
-  line-height: 40px;
+/* 表单很高时，默认 loading 会居中在整页表单中部；改为固定视口遮罩 */
+.pointmall-add-loading {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  z-index: 2000 !important;
 }
-</style>
-<style lang="scss">
+.el-cascader {
+  width: 100%;
+
+  .el-input {
+    width: 100%;
+    max-width: initial;
+  }
+}
 .fallback-class {
   width: 118px;
   height: 118px;

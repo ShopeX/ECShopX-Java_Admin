@@ -58,7 +58,7 @@
                     <p>{{ item.price | price }}</p>
                   </div>
                   <div class="goods-footer__submit">
-                    <el-button size="mini" type="danger"> 加入购物车 </el-button>
+                    <el-button size="mini" type="danger">{{ $t('0d376b91.62d369') }}</el-button>
                   </div>
                 </div>
               </div>

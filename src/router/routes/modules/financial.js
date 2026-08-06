@@ -3,6 +3,7 @@
  * See LICENSE file for license details.
  */
 import { BasicLayout } from '@/layout/basic'
+import { i18n } from '@/i18n'
 
 const routes = [
   {
@@ -11,7 +12,7 @@ const routes = [
       aliasName: 'financial',
       icon: 'funds',
       keepAlive: true,
-      title: '财务'
+      title: i18n.t('a38a4db1.b8fe8d')
     },
     name: 'financial',
     path: '/financial',
@@ -22,7 +23,7 @@ const routes = [
         meta: {
           aliasName: 'financialManageservicepayment',
           icon: 'pay-circle',
-          title: '交易单',
+          title: i18n.t('a38a4db1.8ab066'),
           permissions: ['financial.financialManage.financialManageservicepayment']
         },
         component: () => import('@/view/mall/trade/list')
@@ -33,7 +34,7 @@ const routes = [
         meta: {
           aliasName: 'financialFinancialManageAftersalesrefundlist',
           icon: 'pay-circle',
-          title: '退款单',
+          title: i18n.t('a38a4db1.51e9e1'),
           permissions: ['financial.financialManage.financialFinancialManageAftersalesrefundlist']
         },
         component: () => import('@/view/mall/aftersales/refundList'),
@@ -50,7 +51,7 @@ const routes = [
         meta: {
           aliasName: 'Refunderrorlogs',
           icon: 'pay-circle',
-          title: '退款失败',
+          title: i18n.t('a38a4db1.7c2544'),
           permissions: ['financial.financialManage.Refunderrorlogs']
         },
         component: () => import('@/view/mall/trade/refunderrorlogs')
@@ -61,7 +62,7 @@ const routes = [
         meta: {
           aliasName: 'configure',
           icon: 'pay-circle',
-          title: '结算配置',
+          title: i18n.t('a38a4db1.3965e5'),
           permissions: ['financial.settlement.configure']
         },
         component: () => import('@/view/financial/settlement/configure')
@@ -72,7 +73,7 @@ const routes = [
         meta: {
           aliasName: 'configure_supplier',
           icon: 'pay-circle',
-          title: '结算汇总',
+          title: i18n.t('a38a4db1.070f26'),
           permissions: ['financial.settlement.summary']
         },
         component: () => import('@/view/financial/settlement/summary'),
@@ -90,7 +91,7 @@ const routes = [
         meta: {
           aliasName: 'configure_supplier',
           icon: 'pay-circle',
-          title: '供应商结算配置',
+          title: i18n.t('a38a4db1.385f74'),
           permissions: ['financial.settlement_supplier.configure_supplier']
         },
         component: () => import('@/views/financial/configure_supplier')
@@ -101,7 +102,7 @@ const routes = [
         meta: {
           aliasName: 'summary_supplier',
           icon: 'pay-circle',
-          title: '供应商结算汇总',
+          title: i18n.t('a38a4db1.4c48e9'),
           permissions: ['financial.settlement_supplier.summary_supplier']
         },
         component: () => import('@/views/financial/summary_supplier'),
@@ -119,7 +120,7 @@ const routes = [
         meta: {
           aliasName: 'transfer',
           icon: 'pay-circle',
-          title: '转账凭证审核',
+          title: i18n.t('a38a4db1.682360'),
           permissions: ['financial.examine.transfer']
         },
         component: () => import('@/view/mall/trade/examineTransfer'),
@@ -136,7 +137,7 @@ const routes = [
         meta: {
           aliasName: 'invoiceList',
           icon: 'pay-circle',
-          title: '开票申请',
+          title: i18n.t('a38a4db1.d16abb'),
           permissions: ['financial.invoice.invoice-list']
         },
         component: () => import('@/view/financial/invoice/list'),
@@ -157,7 +158,7 @@ const routes = [
         meta: {
           aliasName: 'invoiceSetting',
           icon: 'pay-circle',
-          title: '发票配置',
+          title: i18n.t('a38a4db1.bcd859'),
           permissions: ['financial.invoice.invoiceSetting']
         },
         component: () => import('@/view/financial/invoice/setting')
@@ -168,7 +169,7 @@ const routes = [
         meta: {
           aliasName: 'invoiceInfo',
           icon: 'pay-circle',
-          title: '销方信息',
+          title: i18n.t('a38a4db1.91d8a5'),
           permissions: ['financial.invoice.invoiceInfo']
         },
         component: () => import('@/view/financial/invoice/information')
@@ -179,7 +180,7 @@ const routes = [
         meta: {
           aliasName: 'invoiceTax',
           icon: 'pay-circle',
-          title: '开票税率',
+          title: i18n.t('a38a4db1.e4a771'),
           permissions: ['financial.invoice.invoiceTax']
         },
         component: () => import('@/view/financial/invoice/invoiceTax')
@@ -190,7 +191,7 @@ const routes = [
         meta: {
           aliasName: 'invoiceConfirmation',
           icon: 'pay-circle',
-          title: '专票确认书',
+          title: i18n.t('a38a4db1.30117a'),
           permissions: ['financial.invoice.invoiceConfirmation']
         },
         component: () => import('@/view/financial/invoice/invoiceConfirmation')

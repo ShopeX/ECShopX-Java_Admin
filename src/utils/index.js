@@ -3,6 +3,7 @@
  * See LICENSE file for license details.
  */
 import log from './log'
+import { i18n } from '@/i18n'
 import CommonUtil from '@/common/js/util'
 import _pickBy from 'lodash/pickBy'
 import _get from 'lodash/get'
@@ -13,6 +14,9 @@ import { isArray, isString, isFunction, isObject } from './src/type-helper'
 export * from './src/type-helper'
 
 export * from './src/utils'
+
+export * from './jwt'
+export { getPublicPath, resolvePublicAsset, resolveAppPath } from './publicPath'
 
 export { install as VuePrototype } from './src/prototype'
 
@@ -319,7 +323,7 @@ export function pickBy(arr = [], keyMaps = {}) {
 
 export function hex2rgb(hex) {
   if (![4, 7].includes(hex.length)) {
-    throw new Error('格式错误')
+    throw new Error(i18n.t('8968c625.0257f0'))
   }
   let result = hex.slice(1)
   // 如果是颜色叠值, 统一转换成6位颜色值

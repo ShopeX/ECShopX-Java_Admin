@@ -17,9 +17,13 @@ import { install as Directives } from '@/directives'
 import { VuePrototype } from '@/utils'
 import { install as Finder } from './finder'
 import { install as Component } from './component'
+import { i18n } from '@/i18n'
+import { installLucideGlobal } from '@/components/sp-icon/lucide-registry'
 
 async function bootstrap() {
   Vue.use(API)
+
+  installLucideGlobal(Vue)
 
   Vue.use(ElementUI)
 
@@ -117,6 +121,7 @@ async function bootstrap() {
   new Vue({
     router,
     store,
+    i18n,
     mounted() {},
     render: (h) => h(App)
   }).$mount('#app')

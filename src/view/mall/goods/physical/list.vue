@@ -14,88 +14,96 @@
         @submit="onSearch"
       />
       <div class="action-container mt-4">
-        <el-button type="primary" @click="addItems"> 添加商品 </el-button>
+        <el-button type="primary" @click="addItems"> {{ $t('d41d8cd9.fa3aee') }} </el-button>
 
         <el-button v-if="!IS_SUPPLIER()" type="primary" @click="changeCategory">
-          更改销售分类
+          {{ $t('d41d8cd9.51af77') }}
         </el-button>
         <el-button v-if="!IS_SUPPLIER()" type="primary" @click="changeGoodsLabel">
-          打标签
+          {{ $t('d41d8cd9.fedbca') }}
         </el-button>
-        <el-button type="primary" @click="changeFreightTemplate"> 更改运费模板 </el-button>
+        <el-button type="primary" @click="changeFreightTemplate">
+          {{ $t('d41d8cd9.a7aae3') }}
+        </el-button>
         <el-button
           v-if="!IS_ADMIN() && !IS_DISTRIBUTOR()"
           type="primary"
           @click="onBatchSubmitItems"
         >
-          批量提交审核
+          {{ $t('d41d8cd9.298be1') }}
         </el-button>
-        <el-button type="primary" @click="changeItemsStore"> 统一库存 </el-button>
+        <el-button type="primary" @click="changeItemsStore">
+          {{ $t('d41d8cd9.0648ad') }}
+        </el-button>
         <el-button v-if="!IS_SUPPLIER()" type="primary" @click="batchChangeStore">
-          更改状态
+          {{ $t('d41d8cd9.836304') }}
         </el-button>
-        <el-button v-if="!IS_SUPPLIER()" type="primary" @click="batchGifts('true')">
-          设为赠品
+        <el-button type="primary" @click="batchGifts('true')">
+          {{ $t('d41d8cd9.86a83b') }}
         </el-button>
-        <el-button v-if="!IS_SUPPLIER()" type="primary" @click="batchGifts('false')">
-          设为非赠品
+        <el-button type="primary" @click="batchGifts('false')">
+          {{ $t('d41d8cd9.389203') }}
         </el-button>
 
         <el-button v-if="IS_SUPPLIER()" type="primary" @click="() => changeHaltTheSales('stop')">
-          停售
+          {{ $t('d41d8cd9.965407') }}
         </el-button>
         <el-button v-if="IS_SUPPLIER()" type="primary" @click="() => changeHaltTheSales('start')">
-          开售
+          {{ $t('d41d8cd9.1cc97f') }}
         </el-button>
         <!-- <el-button type="primary" plain @click="changeGoodsPrice"> 批量改价 </el-button> -->
         <el-dropdown @command="handleImport">
           <el-button type="primary" icon="iconfont icon-daorucaozuo-01">
-            导入<i class="el-icon-arrow-down el-icon--right" />
+            {{ $t('d41d8cd9.8d9a07') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item
               v-if="$store.getters.login_type != 'merchant'"
               command="product-import"
             >
-              商品导入
+              {{ $t('d41d8cd9.9745ac') }}
             </el-dropdown-item>
-            <el-dropdown-item command="stock-import"> 库存导入 </el-dropdown-item>
+            <el-dropdown-item command="stock-import">
+              {{ $t('d41d8cd9.ac5320') }}
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <el-dropdown @command="handleExport">
           <el-button type="primary">
-            导出<i class="el-icon-arrow-down el-icon--right" />
+            {{ $t('d41d8cd9.55405e') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="product-info"> 商品信息 </el-dropdown-item>
+            <el-dropdown-item command="product-info">
+              {{ $t('d41d8cd9.b433e6') }}
+            </el-dropdown-item>
             <el-dropdown-item v-if="!IS_SUPPLIER()" command="product-tag">
-              商品标签
+              {{ $t('d41d8cd9.0f394b') }}
             </el-dropdown-item>
             <el-dropdown-item v-if="!IS_SUPPLIER()" command="wxapp-qrcode">
-              小程序码
+              {{ $t('d41d8cd9.b85b43') }}
             </el-dropdown-item>
             <el-dropdown-item v-if="!VERSION_SHUYUN() && !IS_SUPPLIER()" command="h5-qrcode">
-              H5二维码
+              {{ $t('d41d8cd9.cde87b') }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <el-button v-if="isBindJstErp" size="small" type="primary" @click="uploadJstErpItems()">
-          上传商品到聚水潭
+          {{ $t('d41d8cd9.78a38b') }}
         </el-button>
         <!-- <el-button size="small" v-if="isBindJstErp" type="primary" @click="queryInventory()">同步聚水潭商品库存</el-button> -->
         <el-button v-if="isBindWdtErp" size="small" type="primary" @click="uploadWdtErpItems()">
-          上传商品到旺店通
+          {{ $t('d41d8cd9.fe2216') }}
         </el-button>
         <el-dropdown v-if="VERSION_STANDARD() && IS_ADMIN()">
           <el-button type="primary">
-            同步商品<i class="el-icon-arrow-down el-icon--right" />
+            {{ $t('d41d8cd9.5aa3a7') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <span @click="() => syncToShop()">同步至店铺</span>
+              <span @click="() => syncToShop()">{{ $t('d41d8cd9.2b7f47') }}</span>
             </el-dropdown-item>
             <el-dropdown-item>
-              <span @click="syncToShop('all')"> 同步至所有店铺 </span>
+              <span @click="syncToShop('all')"> {{ $t('d41d8cd9.b634bc') }} </span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -112,9 +120,11 @@
         >
           <div v-if="activeName == 'second'" class="tab-tools">
             <div class="warn-input">
-              <label class="label text-sm text-normary">预警数量:</label>
+              <label class="label text-sm text-normary">{{ $t('d41d8cd9.7bee86') }}</label>
               <el-input v-model="warning_store" size="small" value="warning_store" />
-              <el-button type="text" @click="setWarningStore"> 保存 </el-button>
+              <el-button type="text" @click="setWarningStore">
+                {{ $t('d41d8cd9.be5fbb') }}
+              </el-button>
             </div>
           </div>
         </el-tab-pane>
@@ -122,7 +132,6 @@
 
       <SpFinder
         ref="finder"
-        :row-key="getRowKey"
         :url="IS_DISTRIBUTOR() ? '/distributor/items' : '/goods/items'"
         fixed-row-action
         :row-actions-align="'left'"
@@ -140,92 +149,114 @@
       <!-- 设置会员价 -->
       <SpDrawer
         v-model="showMemberPriceDrawer"
-        title="设置价格"
-        :width="800"
-        confirm-text="保存"
+        :title="$t('dc9cefd6.fb2f7a')"
+        :width="1200"
+        :confirm-text="$t('dc9cefd6.be5fbb')"
         @confirm="onSaveMemberPrice"
       >
-        <el-table v-loading="skuLoading" border :data="specItems" height="100%">
-          <el-table-column label="规格" prop="item_spec_desc" min-width="120" />
-          <el-table-column label="市场价" prop="market_price" width="160">
-            <template slot-scope="scope">
-              <el-input-number
-                v-model="scope.row.market_price"
-                controls-position="right"
-                :min="0"
-                :precision="2"
-                style="width: 120px"
-                @change="updateGoodsSkuPrice(scope.row, 'market_price')"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="销售价" width="160">
-            <template slot-scope="scope">
-              <el-input-number
-                v-model="scope.row.price"
-                controls-position="right"
-                :min="0"
-                :precision="2"
-                style="width: 120px"
-                @change="updateGoodsSkuPrice(scope.row, 'price')"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="成本价" width="160">
-            <template slot-scope="scope">
-              <el-input-number
-                v-model="scope.row.cost_price"
-                controls-position="right"
-                :min="0"
-                :precision="2"
-                style="width: 120px"
-                @change="updateGoodsSkuPrice(scope.row, 'cost_price')"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="会员">
-            <el-table-column v-for="(item, index) in grade" :key="index" :label="item.grade_name">
-              <template slot-scope="scope">
-                <el-input-number
-                  v-model="scope.row.grade[index].mprice"
-                  controls-position="right"
-                  :min="0"
-                  :precision="2"
-                  style="width: 120px"
-                />
-              </template>
-            </el-table-column>
-          </el-table-column>
-          <el-table-column label="付费会员">
+        <el-alert
+          class="mb-4"
+          type="info"
+          :closable="false"
+          show-icon
+          :title="$t('dc9cefd6.b8f2c1')"
+        />
+        <div class="member-price-drawer-table">
+          <el-table v-loading="skuLoading" border :data="specItems">
             <el-table-column
-              v-for="(item, index) in vipGrade"
-              :key="index"
-              :label="item.grade_name"
-            >
+              :label="$t('dc9cefd6.ea887b')"
+              prop="item_spec_desc"
+              min-width="140"
+              fixed
+            />
+            <el-table-column :label="$t('dc9cefd6.818fc4')" width="150" align="center">
               <template slot-scope="scope">
                 <el-input-number
-                  v-model="scope.row.vipGrade[index].mprice"
+                  v-model="scope.row.market_price"
+                  class="member-price-input"
                   controls-position="right"
                   :min="0"
                   :precision="2"
-                  style="width: 120px"
+                  @blur="updateGoodsSkuPrice(scope.row, 'market_price')"
                 />
               </template>
             </el-table-column>
-          </el-table-column>
-        </el-table>
+            <el-table-column :label="$t('dc9cefd6.e29575')" width="150" align="center">
+              <template slot-scope="scope">
+                <el-input-number
+                  v-model="scope.row.price"
+                  class="member-price-input"
+                  controls-position="right"
+                  :min="0"
+                  :precision="2"
+                  @blur="updateGoodsSkuPrice(scope.row, 'price')"
+                />
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('dc9cefd6.2e2ce2')" width="150" align="center">
+              <template slot-scope="scope">
+                <el-input-number
+                  v-model="scope.row.cost_price"
+                  class="member-price-input"
+                  controls-position="right"
+                  :min="0"
+                  :precision="2"
+                  @blur="updateGoodsSkuPrice(scope.row, 'cost_price')"
+                />
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('dc9cefd6.4d9dd5')" align="center">
+              <el-table-column
+                v-for="(item, index) in grade"
+                :key="`grade-${item.vip_grade_id || index}`"
+                :label="item.grade_name"
+                width="130"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <el-input-number
+                    v-model="scope.row.grade[index].mprice"
+                    class="member-price-input"
+                    controls-position="right"
+                    :min="0"
+                    :precision="2"
+                  />
+                </template>
+              </el-table-column>
+            </el-table-column>
+            <el-table-column :label="$t('dc9cefd6.bc0883')" align="center">
+              <el-table-column
+                v-for="(item, index) in vipGrade"
+                :key="`vip-${item.vip_grade_id || index}`"
+                :label="item.grade_name"
+                width="130"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <el-input-number
+                    v-model="scope.row.vipGrade[index].mprice"
+                    class="member-price-input"
+                    controls-position="right"
+                    :min="0"
+                    :precision="2"
+                  />
+                </template>
+              </el-table-column>
+            </el-table-column>
+          </el-table>
+        </div>
       </SpDrawer>
 
       <!-- 设置商品库存 -->
       <SpDrawer
         v-model="showItemStoreDrawer"
-        title="设置商品库存"
+        :title="$t('dc9cefd6.b20f18')"
         :width="800"
         @confirm="onSaveItemStore"
       >
         <el-table v-loading="skuLoading" border :data="storeItemsList" height="100%">
-          <el-table-column label="规格" prop="item_spec_desc" min-width="120" />
-          <el-table-column label="库存">
+          <el-table-column :label="$t('dc9cefd6.ea887b')" prop="item_spec_desc" min-width="120" />
+          <el-table-column :label="$t('dc9cefd6.0eac88')">
             <template slot-scope="scope">
               <el-input-number
                 v-model="scope.row.store"
@@ -243,7 +274,7 @@
       <SpDialog
         ref="saleCategoryDialogRef"
         v-model="saleCategoryDialog"
-        title="更改销售分类"
+        :title="$t('dc9cefd6.51af77')"
         :form="saleCategoryForm"
         :form-list="saleCategoryFormList"
         @onSubmit="onSaleCategorySubmit"
@@ -253,7 +284,7 @@
       <SpDialog
         ref="freightTemplateDialogRef"
         v-model="freightTemplateDialog"
-        title="更改运费模板"
+        :title="$t('dc9cefd6.a7aae3')"
         :form="freightTemplateForm"
         :form-list="freightTemplateFormList"
         @onSubmit="onFreightTemplateSubmit"
@@ -263,7 +294,7 @@
       <SpDialog
         ref="storeItemDialogRef"
         v-model="storeItemDialog"
-        title="批量修改库存"
+        :title="$t('dc9cefd6.ad7f06')"
         :form="storeItemForm"
         :form-list="storeItemFormList"
         @onSubmit="onStoreItemSubmit"
@@ -273,7 +304,7 @@
       <!-- <SpDialog
         ref="changePriceDialogRef"
         v-model="changePriceDialog"
-        title="批量改价"
+        :title="$t('d41d8cd9.g1h2i3')"
         :form="changePriceForm"
         :form-list="changePriceFormList"
         @onSubmit="onChangePriceSubmit"
@@ -283,26 +314,26 @@
       <SpDialog
         ref="labelDialogRef"
         v-model="labelDialog"
-        title="标签"
+        :title="$t('dc9cefd6.14d342')"
         :modal="false"
         :form="labelForm"
         :form-list="labelFormList"
         @onSubmit="onLabelFormSubmit"
       />
 
-      <el-dialog title="设置商品佣金" width="600px" :visible.sync="commissionDialog">
+      <el-dialog :title="$t('dc9cefd6.d513d9')" width="600px" :visible.sync="commissionDialog">
         <el-form ref="form" :model="commissionForm" label-width="150px">
-          <el-form-item label="平台佣金比例:">
+          <el-form-item :label="$t('dc9cefd6.43ae04')">
             <el-input v-model="commissionForm.commission_ratio" maxlength="5" style="width: 160px">
               <template slot="append">%</template>
             </el-input>
-            <div class="frm-tips">* 0-100之间，最多两位小数</div>
+            <div class="frm-tips">{{ $t('d41d8cd9.e3c004') }}</div>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" :loading="formLoading" @click="commissionSubmit">
-              保存设置
+              {{ $t('d41d8cd9.4323be') }}
             </el-button>
-            <el-button @click="commissionDialog = false">取消</el-button>
+            <el-button @click="commissionDialog = false">{{ $t('d41d8cd9.625fb2') }}</el-button>
           </el-form-item>
         </el-form>
       </el-dialog>
@@ -310,30 +341,37 @@
       <SpDialog
         ref="sendNumDialogRef"
         v-model="batchChangeStateDialog"
-        title="更改商品状态"
+        :title="$t('dc9cefd6.85b124')"
         :width="'500px'"
         :form="batchChangeStateForm"
         :form-list="batchChangeStateFormList"
         @onSubmit="onBatchChangeStateSubmit"
       />
 
-      <el-dialog :title="sunCodeTitle" :visible.sync="sunCode" width="360px">
+      <el-dialog
+        custom-class="goods-self-products-sun-code-dialog"
+        :title="sunCodeTitle"
+        :visible.sync="sunCode"
+        width="360px"
+      >
         <div class="page-code">
           <img class="page-code-img" :src="appCodeUrl" />
           <div class="page-btns">
             <el-button type="primary" plain @click="handleDownload(sunCodeTitle)">
-              下载码
+              {{ $t('d41d8cd9.99e985') }}
             </el-button>
-            <el-button v-clipboard:copy="curPageUrl" type="primary" plain> 复制链接 </el-button>
+            <el-button v-clipboard:copy="curPageUrl" type="primary" plain>
+              {{ $t('d41d8cd9.879058') }}
+            </el-button>
           </div>
         </div>
 
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="sunCode = false">确 定</el-button>
+          <el-button type="primary" @click="sunCode = false">{{ $t('d41d8cd9.aa7527') }}</el-button>
         </span>
       </el-dialog>
 
-      <el-dialog title="错误信息" :visible.sync="errMessageVis" width="560px">
+      <el-dialog :title="$t('dc9cefd6.4604d5')" :visible.sync="errMessageVis" width="560px">
         <div class="page-code">
           {{ errMessage }}
         </div>
@@ -351,16 +389,20 @@
         "
       >
         <el-table v-loading="skuLoading" border :data="itemSkuList" height="100%">
-          <el-table-column label="规格" prop="item_spec_desc" min-width="120" />
-          <el-table-column label="供应商货号" prop="supplier_goods_bn" min-width="120" />
-          <el-table-column label="sku编码" prop="item_bn" min-width="120" />
-          <el-table-column label="税率编码" prop="tax_rate_code" min-width="120" />
-          <el-table-column label="税率" prop="tax_rate" min-width="120">
+          <el-table-column :label="$t('dc9cefd6.ea887b')" prop="item_spec_desc" min-width="120" />
+          <el-table-column
+            :label="$t('dc9cefd6.88d456')"
+            prop="supplier_goods_bn"
+            min-width="120"
+          />
+          <el-table-column :label="$t('d41d8cd9.0888fc')" prop="item_bn" min-width="120" />
+          <el-table-column :label="$t('dc9cefd6.c927ea')" prop="tax_rate_code" min-width="120" />
+          <el-table-column :label="$t('dc9cefd6.2a79a7')" prop="tax_rate" min-width="120">
             <template slot-scope="scope">
               <span>{{ `${scope.row.tax_rate}%` }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="库存" prop="store" min-width="120" />
+          <el-table-column :label="$t('dc9cefd6.0eac88')" prop="store" min-width="120" />
         </el-table>
       </SpDrawer>
     </SpPage>
@@ -384,21 +426,21 @@ export default {
     const loginType = this.$store.getters.login_type
     let statusOption
     let updateStatusOption = [
-      { title: '全部', value: '' },
-      { title: '前台可销售', value: 'onsale' },
-      { title: '前台不展示', value: 'offline_sale' },
-      { title: '前台仅展示', value: 'only_show' },
-      { title: '不可销售', value: 'instock' }
+      { title: this.$t('dc9cefd6.a8b0c2'), value: '' },
+      { title: this.$t('dc9cefd6.9b7481'), value: 'onsale' },
+      { title: this.$t('dc9cefd6.2c50a0'), value: 'offline_sale' },
+      { title: this.$t('dc9cefd6.acf86b'), value: 'only_show' },
+      { title: this.$t('dc9cefd6.ae83a3'), value: 'instock' }
     ]
     if (loginType == 'distributor') {
       statusOption = [
-        { title: '全部', value: '' },
-        { title: '审核驳回', value: 'rejected' },
-        { title: '等待审核', value: 'processing' },
-        { title: '前台可销售', value: 'onsale' },
-        { title: '前台不展示', value: 'offline_sale' },
-        { title: '前台仅展示', value: 'only_show' },
-        { title: '不可销售', value: 'instock' }
+        { title: this.$t('dc9cefd6.a8b0c2'), value: '' },
+        { title: this.$t('dc9cefd6.a77aa8'), value: 'rejected' },
+        { title: this.$t('dc9cefd6.f6324c'), value: 'processing' },
+        { title: this.$t('dc9cefd6.9b7481'), value: 'onsale' },
+        { title: this.$t('dc9cefd6.2c50a0'), value: 'offline_sale' },
+        { title: this.$t('dc9cefd6.acf86b'), value: 'only_show' },
+        { title: this.$t('dc9cefd6.ae83a3'), value: 'instock' }
       ]
     } else {
       statusOption = updateStatusOption
@@ -495,12 +537,13 @@ export default {
         goods_bn: '',
         operator_name: '',
         cat_id: '',
+        created_time: [],
         main_cat_id: null
       },
       auditStatusMap: {
-        1: '未审核',
-        2: '审核通过',
-        3: '审核不通过'
+        1: this.$t('dc9cefd6.97a81d'),
+        2: this.$t('dc9cefd6.871a30'),
+        3: this.$t('dc9cefd6.abad33')
       },
       start_date: '',
       end_date: '',
@@ -525,10 +568,10 @@ export default {
       batchChangeStateDialog: false,
       batchChangeStateFormList: [
         {
-          label: '商品状态',
+          label: this.$t('dc9cefd6.ce0008'),
           key: 'status',
           type: 'select',
-          message: '不能为空',
+          message: this.$t('dc9cefd6.281bad'),
           options: updateStatusOption
         }
       ],
@@ -546,6 +589,7 @@ export default {
       showMemberPriceDrawer: false,
       showItemStoreDrawer: false,
       specItems: [],
+      specItemsSnapshot: {},
       storeItemsList: [],
       skuLoading: false,
       showItemSkuDrawer: false,
@@ -557,7 +601,7 @@ export default {
       },
       labelFormList: [
         {
-          label: '已选标签',
+          label: this.$t('dc9cefd6.4a0bfa'),
           key: '',
           component: ({ key }, value) => (
             <div>
@@ -576,7 +620,7 @@ export default {
           )
         },
         {
-          label: '所有标签',
+          label: this.$t('dc9cefd6.bbb504'),
           key: '',
           component: ({ key }, value) => (
             <div>
@@ -602,11 +646,11 @@ export default {
       saleCategoryDialog: false,
       saleCategoryForm: {
         item_id: [],
-        category_id: ''
+        category_id: []
       },
       saleCategoryFormList: [
         {
-          label: '销售分类',
+          label: this.$t('dc9cefd6.392d49'),
           key: 'category_id',
           component: ({ key }, value) => (
             <el-cascader
@@ -632,7 +676,7 @@ export default {
       },
       freightTemplateFormList: [
         {
-          label: '运费模板',
+          label: this.$t('dc9cefd6.416fd4'),
           key: 'templates_id',
           component: ({ key }, value) => (
             <el-select v-model={value[key]}>
@@ -650,7 +694,7 @@ export default {
       },
       storeItemFormList: [
         {
-          label: '库存',
+          label: this.$t('dc9cefd6.0eac88'),
           key: 'storeNum',
           component: ({ key }, value) => (
             <el-input-number
@@ -674,7 +718,7 @@ export default {
       return createSetting({
         actions: [
           {
-            name: '编辑',
+            name: this.$t('dc9cefd6.95b351'),
             key: 'edit',
             type: 'button',
             buttonType: 'text',
@@ -699,7 +743,7 @@ export default {
             }
           },
           {
-            name: '查看',
+            name: this.$t('dc9cefd6.607e7a'),
             key: 'edit',
             type: 'button',
             buttonType: 'text',
@@ -718,7 +762,7 @@ export default {
             }
           },
           {
-            name: '重推',
+            name: this.$t('dc9cefd6.6271ca'),
             key: 'repush',
             type: 'button',
             buttonType: 'text',
@@ -727,7 +771,7 @@ export default {
               type: 'link',
               handler: async ([row]) => {
                 await this.$api.goods.medicineItemsSync({ goods_id: row.goods_id })
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('dc9cefd6.33130f'))
                 setTimeout(() => {
                   this.$refs['finder'].refresh(true)
                 }, 200)
@@ -735,7 +779,7 @@ export default {
             }
           },
           {
-            name: '投放',
+            name: this.$t('dc9cefd6.536ff1'),
             key: 'put',
             type: 'button',
             buttonType: 'text',
@@ -747,7 +791,7 @@ export default {
             }
           },
           {
-            name: '添加相似',
+            name: this.$t('dc9cefd6.d30586'),
             key: 'similarity',
             type: 'button',
             buttonType: 'text',
@@ -765,7 +809,7 @@ export default {
             }
           },
           {
-            name: '删除',
+            name: this.$t('dc9cefd6.2f4aad'),
             key: 'delete',
             type: 'button',
             buttonType: 'text',
@@ -779,7 +823,7 @@ export default {
             action: {
               type: 'link',
               handler: async ([row]) => {
-                await this.$confirm('此操作将删除该商品, 是否继续?', '提示')
+                await this.$confirm(this.$t('dc9cefd6.e569b1'), this.$t('dc9cefd6.02d981'))
                 try {
                   await this.$api.goods.deleteItems(row.item_id)
                 } catch (error) {
@@ -789,7 +833,7 @@ export default {
                     return
                   }
                 }
-                this.$message.success('删除商品成功')
+                this.$message.success(this.$t('dc9cefd6.a8504b'))
                 setTimeout(() => {
                   this.$refs['finder'].refresh()
                 }, 200)
@@ -797,7 +841,7 @@ export default {
             }
           },
           {
-            name: '复制商品',
+            name: this.$t('dc9cefd6.8978ed'),
             key: 'copy',
             type: 'button',
             buttonType: 'text',
@@ -832,7 +876,7 @@ export default {
           //   }
           // },
           {
-            name: '设置价格',
+            name: this.$t('dc9cefd6.fb2f7a'),
             key: 'setup_price',
             type: 'button',
             buttonType: 'text',
@@ -845,7 +889,7 @@ export default {
             }
           },
           {
-            name: '标签',
+            name: this.$t('dc9cefd6.14d342'),
             key: 'label',
             type: 'button',
             buttonType: 'text',
@@ -867,7 +911,7 @@ export default {
             }
           },
           {
-            name: '更改库存',
+            name: this.$t('dc9cefd6.9461f8'),
             key: 'change_store',
             type: 'button',
             buttonType: 'text',
@@ -880,7 +924,7 @@ export default {
             }
           },
           {
-            name: '复制链接',
+            name: this.$t('dc9cefd6.879058'),
             key: 'link',
             type: 'button',
             buttonType: 'text',
@@ -888,15 +932,15 @@ export default {
               type: 'link',
               handler: async ([row]) => {
                 this.$copyText(
-                  `${process.env.VUE_APP_H5_HOST}/pages/item/espier-detail?id=${row.item_id}`
+                  `${process.env.VUE_APP_H5_HOST}/subpages/item/espier-detail?id=${row.item_id}`
                 ).then(() => {
-                  this.$message.success('复制成功')
+                  this.$message.success(this.$t('dc9cefd6.20a495'))
                 })
               }
             }
           },
           {
-            name: '下架',
+            name: this.$t('dc9cefd6.d2379a'),
             key: 'offline',
             type: 'button',
             buttonType: 'text',
@@ -913,13 +957,13 @@ export default {
                   status: 'instock',
                   operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
                 })
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('dc9cefd6.33130f'))
                 this.$refs['finder'].refresh()
               }
             }
           },
           {
-            name: '上架',
+            name: this.$t('dc9cefd6.4a5098'),
             key: 'online',
             type: 'button',
             buttonType: 'text',
@@ -936,16 +980,16 @@ export default {
                   status: 'onsale',
                   operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
                 })
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('dc9cefd6.33130f'))
                 this.$refs['finder'].refresh()
               }
             }
           }
         ],
         columns: [
-          { name: '商品ID', key: 'goods_id', width: 80 },
+          { name: this.$t('dc9cefd6.858526'), key: 'goods_id', width: 80 },
           {
-            name: '商品标题',
+            name: this.$t('dc9cefd6.07ec01'),
             key: 'itemName',
             width: 280,
             render: (h, scope) => {
@@ -963,7 +1007,7 @@ export default {
                           this.handleViewSkuInfo(scope.row)
                         }}
                       >
-                        多
+                        {this.$t('d41d8cd9.e8b3c6')}
                         <i
                           class='ecx-icon icon-sousuo'
                           style='font-size: 12px; margin-left: 2px;'
@@ -977,17 +1021,21 @@ export default {
                         type='primary'
                         style='margin-left: 4px; cursor: default;'
                       >
-                        赠
+                        {this.$t('d41d8cd9.a2f0c1')}
                       </el-tag>
                     )}
                   </div>
                   <div style='color: #666;'>
-                    {`SPU编码：${scope.row.goods_bn}`}
-                    <el-tooltip effect='dark' content='复制' placement='top-start'>
+                    {`${this.$t('d41d8cd9.b1f6ae')}${scope.row.goods_bn}`}
+                    <el-tooltip
+                      effect='dark'
+                      content={this.$t('dc9cefd6.79d3ab')}
+                      placement='top-start'
+                    >
                       <i
                         on-click={() => {
                           this.$copyText(scope.row.goods_bn).then(() => {
-                            this.$message.success('复制成功')
+                            this.$message.success(this.$t('dc9cefd6.20a495'))
                           })
                         }}
                         class='el-icon-document-copy'
@@ -1006,14 +1054,14 @@ export default {
           //   render: (h, { row }) => (row.is_prescription == '1' ? '是' : '否')
           // },
           {
-            name: 'sku编码',
+            name: this.$t('d41d8cd9.0888fc'),
             key: 'item_bn',
             width: 160,
             align: 'right',
             headerAlign: 'center'
           },
           {
-            name: '标签',
+            name: this.$t('dc9cefd6.14d342'),
             width: 180,
             visible: !IS_SUPPLIER(),
             key: 'tagList',
@@ -1043,7 +1091,7 @@ export default {
           //   headerAlign: 'center'
           // },
           {
-            name: '库存',
+            name: this.$t('dc9cefd6.0eac88'),
             key: 'store',
             align: 'right',
             headerAlign: 'center'
@@ -1059,7 +1107,7 @@ export default {
           //   headerAlign: 'center'
           // },
           {
-            name: '销售价（¥）',
+            name: this.$t('dc9cefd6.e29575') + '（¥）',
             key: 'price',
             width: 120,
             formatter: (value, row, col) => {
@@ -1069,7 +1117,7 @@ export default {
             headerAlign: 'center'
           },
           {
-            name: '市场价（¥）',
+            name: this.$t('dc9cefd6.818fc4') + '（¥）',
             key: 'market_price',
             width: 120,
             formatter: (value, row, col) => {
@@ -1079,7 +1127,7 @@ export default {
             headerAlign: 'center'
           },
           {
-            name: '成本价（¥）',
+            name: this.$t('dc9cefd6.2e2ce2') + '（¥）',
             key: 'cost_price',
             width: 120,
             formatter: (value, row, col) => {
@@ -1089,7 +1137,7 @@ export default {
             headerAlign: 'center'
           },
           {
-            name: '毛利率（%)',
+            name: this.$t('dc9cefd6.4d02c7'),
             key: 'gross_profit_rate',
             width: 100,
             align: 'right',
@@ -1102,15 +1150,15 @@ export default {
           //   visible: !(this.IS_DISTRIBUTOR() && this.VERSION_PLATFORM())
           // },
           {
-            name: '供应状态',
+            name: this.$t('dc9cefd6.63d68b'),
             key: 'is_market',
             formatter: (value, row, col) => {
-              return value == '1' ? '可售' : '不可售'
+              return value == '1' ? this.$t('dc9cefd6.434e17') : this.$t('dc9cefd6.b37fb8')
             },
             visible: IS_SUPPLIER()
           },
           {
-            name: '商品状态',
+            name: this.$t('dc9cefd6.ce0008'),
             width: 120,
             visible: !IS_SUPPLIER(),
             key: 'approve_status',
@@ -1119,24 +1167,26 @@ export default {
             }
           },
           {
-            name: '审核状态',
+            name: this.$t('dc9cefd6.b6d0e9'),
             key: 'audit_status',
             width: 200,
             visible: !IS_ADMIN(),
             render: (h, scope) => (
               <div>
                 <span>{GOODS_APPLY_STATUS[scope.row.audit_status]}</span>
-                {scope.row.audit_status == 'rejected' &&
-                  this.$store.getters.login_type == 'supplier' && (
-                    <div class='physical-cell-reason'>拒绝原因：{scope.row.audit_reason}</div>
-                  )}
+                {scope.row.audit_status == 'rejected' && IS_SUPPLIER() && (
+                  <div class='physical-cell-reason'>
+                    {this.$t('d41d8cd9.a36d88')}
+                    {scope.row.audit_reason}
+                  </div>
+                )}
               </div>
             )
           },
-          { name: '销售分类', key: 'itemCatName', minWidth: 120 },
-          { name: '起订量', key: 'start_num', minWidth: 120 },
+          { name: this.$t('dc9cefd6.392d49'), key: 'itemCatName', minWidth: 120 },
+          { name: this.$t('dc9cefd6.ed52fd'), key: 'start_num', minWidth: 120 },
           {
-            name: '排序编号',
+            name: this.$t('dc9cefd6.e8373a'),
             key: 'sort',
             width: 120,
             showType: 'editable',
@@ -1154,14 +1204,15 @@ export default {
             }
           },
           {
-            name: '是否处方',
+            name: this.$t('dc9cefd6.73cfdf'),
             key: 'is_prescription',
             width: 150,
-            render: (h, { row }) => (row.is_prescription == '1' ? '是' : '否'),
+            render: (h, { row }) =>
+              row.is_prescription == '1' ? this.$t('dc9cefd6.0a60ac') : this.$t('dc9cefd6.c9744f'),
             visible: this.is_pharma_industry
           },
           {
-            name: '医药错误信息',
+            name: this.$t('d41d8cd9.72ba49'),
             key: 'audit_reason',
             width: 150,
             render: (h, { row }) => (
@@ -1177,7 +1228,7 @@ export default {
             visible: this.is_pharma_industry
           },
           {
-            name: '创建时间',
+            name: this.$t('d41d8cd9.ec05e3'),
             key: 'created',
             width: 160,
             formatter: (value, row, col) => {
@@ -1193,7 +1244,7 @@ export default {
           //   }
           // },
           {
-            name: '更新时间',
+            name: this.$t('d41d8cd9.9b6f13'),
             key: 'updated',
             width: 160,
             formatter: (value, row, col) => {
@@ -1208,23 +1259,23 @@ export default {
       return [
         {
           fieldName: 'keywords',
-          label: '商品标题',
+          label: this.$t('d41d8cd9.9d02ac'),
           component: 'input',
           cellWidth: 1.3,
           componentProps: {
-            placeholder: '商品标题或副标题关键词'
+            placeholder: this.$t('d41d8cd9.7c5e2b')
           }
         },
         // 商品状态（非供应商）
         {
           fieldName: 'approve_status',
-          label: '商品状态',
+          label: this.$t('d41d8cd9.d2a6c3'),
           component: 'select',
           isShow: () => !this.IS_SUPPLIER(),
           cellWidth: 1.3,
           componentProps: {
             clearable: true,
-            placeholder: '请选择',
+            placeholder: this.$t('d41d8cd9.3e1b0a'),
             options: this.statusOption.map((item) => ({
               label: item.title,
               value: item.value
@@ -1234,27 +1285,27 @@ export default {
         // 供应状态（供应商）
         {
           fieldName: 'is_market',
-          label: '供应状态',
+          label: this.$t('d41d8cd9.6e27f4'),
           component: 'select',
           isShow: () => this.IS_SUPPLIER(),
           cellWidth: 1.3,
           componentProps: {
             clearable: true,
-            placeholder: '请选择',
+            placeholder: this.$t('d41d8cd9.3e1b0a'),
             options: [
-              { label: '可售', value: 1 },
-              { label: '不可售', value: 0 }
+              { label: this.$t('d41d8cd9.8c1a2d'), value: 1 },
+              { label: this.$t('d41d8cd9.f4b3e1'), value: 0 }
             ]
           }
         },
         // 管理分类
         {
           fieldName: 'main_cat_id',
-          label: '管理分类',
+          label: this.$t('d41d8cd9.7f29b6'),
           cellWidth: 1.3,
           component: 'cascader',
           componentProps: {
-            placeholder: '请选择',
+            placeholder: this.$t('d41d8cd9.3e1b0a'),
             clearable: true,
             options: this.itemCategoryList,
             props: { value: 'category_id', label: 'category_name', checkStrictly: true }
@@ -1263,7 +1314,7 @@ export default {
         // 销售分类
         {
           fieldName: 'category',
-          label: '销售分类',
+          label: this.$t('d41d8cd9.a52e1c'),
           component: 'cascader',
           cellWidth: 1.3,
           componentProps: {
@@ -1280,11 +1331,11 @@ export default {
         // 运费模板
         {
           fieldName: 'templates_id',
-          label: '运费模板',
+          label: this.$t('d41d8cd9.c9b832'),
           cellWidth: 1.3,
           component: 'select',
           componentProps: {
-            placeholder: '请选择',
+            placeholder: this.$t('d41d8cd9.3e1b0a'),
             clearable: true,
             options: this.templatesList.map((item) => ({
               label: item.name,
@@ -1295,11 +1346,11 @@ export default {
         // 品牌（支持远程搜索）
         {
           fieldName: 'brand_id',
-          label: '品牌',
+          label: this.$t('d41d8cd9.4a8f15'),
           component: 'select',
           cellWidth: 1.3,
           componentProps: {
-            placeholder: '商品/商标关键词',
+            placeholder: this.$t('d41d8cd9.5b6c09'),
             remote: true,
             filterable: true,
             clearable: true,
@@ -1313,31 +1364,31 @@ export default {
         // SKU编码
         {
           fieldName: 'item_bn',
-          label: 'SKU编码',
+          label: this.$t('d41d8cd9.8a2c1f'),
           component: 'input',
           cellWidth: 1.3,
           componentProps: {
-            placeholder: '请输入SKU编码'
+            placeholder: this.$t('d41d8cd9.6e19f2')
           }
         },
         // SPU编码
         {
           fieldName: 'goods_bn',
-          label: 'SPU编码',
+          label: this.$t('d41d8cd9.c3a815'),
           cellWidth: 1.3,
           component: 'input',
           componentProps: {
-            placeholder: '请输入SPU编码'
+            placeholder: this.$t('d41d8cd9.7d3a61')
           }
         },
         // 商品产地
         {
           fieldName: 'regions_id',
-          label: '商品产地',
+          label: this.$t('d41d8cd9.d82b43'),
           component: 'cascader',
           cellWidth: 1.3,
           componentProps: {
-            placeholder: '请选择',
+            placeholder: this.$t('d41d8cd9.3e1b0a'),
             clearable: true,
             options: this.regions
           }
@@ -1345,12 +1396,12 @@ export default {
         // 商品标签（非供应商）
         {
           fieldName: 'tag_id',
-          label: '商品标签',
+          label: this.$t('d41d8cd9.f1a62d'),
           component: 'cascader',
           cellWidth: 1.3,
           isShow: () => !this.IS_SUPPLIER(),
           componentProps: {
-            placeholder: '选择标签',
+            placeholder: this.$t('d41d8cd9.2c9b17'),
             clearable: true,
             options: this.tagList,
             props: { value: 'tag_id', label: 'tag_name' }
@@ -1359,31 +1410,31 @@ export default {
         // 赠品
         {
           fieldName: 'is_gift',
-          label: '赠品',
+          label: this.$t('d41d8cd9.b8a1f9'),
           component: 'select',
           cellWidth: 1.3,
           componentProps: {
             clearable: true,
             options: [
-              { label: '全部', value: '' },
-              { label: '是', value: true },
-              { label: '否', value: false }
+              { label: this.$t('d41d8cd9.a8b0c2'), value: '' },
+              { label: this.$t('d41d8cd9.5c8d21'), value: true },
+              { label: this.$t('d41d8cd9.3f27e8'), value: false }
             ]
           }
         },
         // 处方药（医药行业）
         {
           fieldName: 'is_prescription',
-          label: '处方药',
+          label: this.$t('d41d8cd9.e7f3a5'),
           component: 'select',
           cellWidth: 1.3,
           isShow: () => this.is_pharma_industry,
           componentProps: {
             clearable: true,
             options: [
-              { label: '全部', value: '' },
-              { label: '处方药', value: '1' },
-              { label: '非处方药', value: '0' }
+              { label: this.$t('d41d8cd9.a8b0c2'), value: '' },
+              { label: this.$t('d41d8cd9.e7f3a5'), value: '1' },
+              { label: this.$t('d41d8cd9.c6e8d4'), value: '0' }
             ]
           }
         }
@@ -1393,23 +1444,27 @@ export default {
       let tabList = []
       if (IS_SUPPLIER()) {
         tabList = [
-          { name: '全部商品', value: 'all', activeName: 'first' },
-          { name: '待提交', value: 'submiting', activeName: 'submiting' },
-          { name: '待审核', value: 'processing', activeName: 'processing' },
-          { name: '已通过', value: 'approved', activeName: 'approved' },
-          { name: '已拒绝', value: 'rejected', activeName: 'rejected' },
-          { name: '库存预警商品', value: 'true', activeName: 'second' }
+          { name: this.$t('d41d8cd9.a9c0d1'), value: 'all', activeName: 'first' },
+          { name: this.$t('d41d8cd9.b2e5f7'), value: 'submiting', activeName: 'submiting' },
+          { name: this.$t('d41d8cd9.c3f6a8'), value: 'processing', activeName: 'processing' },
+          { name: this.$t('d41d8cd9.d4a7b9'), value: 'approved', activeName: 'approved' },
+          { name: this.$t('d41d8cd9.e5b8ca'), value: 'rejected', activeName: 'rejected' },
+          { name: this.$t('d41d8cd9.f6c9db'), value: 'true', activeName: 'second' }
         ]
       } else {
         tabList = [
-          { name: '全部商品', value: 'all', activeName: 'first' },
+          { name: this.$t('d41d8cd9.a9c0d1'), value: 'all', activeName: 'first' },
 
-          { name: '库存预警商品', value: 'true', activeName: 'second' }
+          { name: this.$t('d41d8cd9.f6c9db'), value: 'true', activeName: 'second' }
         ]
       }
 
       if (this.is_pharma_industry) {
-        tabList.splice(1, 0, { name: '医药商品', value: 'is_medicine', activeName: 'third' })
+        tabList.splice(1, 0, {
+          name: this.$t('d41d8cd9.a7d0ec'),
+          value: 'is_medicine',
+          activeName: 'third'
+        })
       }
 
       return tabList
@@ -1429,7 +1484,7 @@ export default {
     this.getBaseSetting()
 
     this.$activated = () => {
-      this.$refs['finder'].refresh()
+      this.$refs['finder']?.refresh?.()
     }
   },
   methods: {
@@ -1438,12 +1493,17 @@ export default {
       this.is_pharma_industry = res.medicine_setting?.is_pharma_industry == '1'
     },
     async fetchWechatList() {
-      const { list } = await this.$api.minimanage.gettemplateweapplist()
-      list.forEach((item, i) => {
-        if (item.key_name == 'yykweishop') {
-          this.appID = item.authorizer.authorizer_appid
-        }
-      })
+      try {
+        const data = (await this.$api.minimanage.gettemplateweapplist()) || {}
+        const list = data.list || []
+        list.forEach((item) => {
+          if (item.key_name === 'yykweishop' && item.authorizer) {
+            this.appID = item.authorizer.authorizer_appid
+          }
+        })
+      } catch (_) {
+        // 微信模板接口不可用时跳过，不影响商品列表主流程
+      }
     },
 
     beforeSearch(params) {
@@ -1452,8 +1512,13 @@ export default {
         item_type: 'normal',
         operate_source: IS_SUPPLIER() ? 'supplier' : 'platform',
         ...this.searchParams,
-        item_source: 'platform'
+        item_source: 'platform',
+        created_time_start:
+          this.searchParams.created_time.length > 0 ? this.searchParams.created_time[0] / 1000 : '',
+        created_time_end:
+          this.searchParams.created_time.length > 0 ? this.searchParams.created_time[1] / 1000 : ''
       }
+      delete params.created_time
       if (Array.isArray(params.main_cat_id)) {
         params.main_cat_id = params.main_cat_id.filter(
           (item) => item != null && item != undefined && item != ''
@@ -1491,26 +1556,32 @@ export default {
       this.skuLoading = true
       this.showMemberPriceDrawer = true
       const specItems = []
+      const specItemsSnapshot = {}
       const { list } = await this.$api.goods.getGoodsPrice(item_id)
       list.forEach((item) => {
+        const price = item.price / 100
+        const cost_price = item.cost_price / 100
+        const market_price = item.market_price / 100
         specItems.push({
           item_id: item.item_id,
           item_spec_desc: item.item_spec_desc || item.itemName,
           is_edit: false,
-          price: item.price / 100,
-          cost_price: item.cost_price / 100,
-          market_price: item.market_price / 100,
+          price,
+          cost_price,
+          market_price,
           grade: this.generatePrice(item.memberGrade.grade),
           vipGrade: this.generatePrice(item.memberGrade.vipGrade)
         })
+        specItemsSnapshot[item.item_id] = { price, cost_price, market_price }
       })
       this.grade = this.generatePrice(list[0].memberGrade.grade)
       this.vipGrade = this.generatePrice(list[0].memberGrade.vipGrade)
       this.specItems = specItems
+      this.specItemsSnapshot = specItemsSnapshot
       this.skuLoading = false
     },
     handleShow({ goods_id, itemName }) {
-      const page = 'pages/item/espier-detail'
+      const page = 'subpages/item/espier-detail'
       this.curPageUrl = `${page}?id=${goods_id}`
       let params = {
         wxaAppId: this.appID,
@@ -1520,7 +1591,7 @@ export default {
       getPageCode(params).then((response) => {
         this.appCodeUrl = response.data.data.base64Image
         // this.$message.success('投放成功')
-        this.sunCodeTitle = itemName + '---商品太阳码'
+        this.sunCodeTitle = itemName + this.$t('d41d8cd9.f8b726')
         this.sunCode = true
       })
     },
@@ -1561,18 +1632,14 @@ export default {
         }
       })
     },
-    getRowKey(row) {
-      return row.item_id ?? row.itemId ?? row.goods_id
-    },
     afterSearch(val) {
-      this.warning_store = val?.data?.data?.warning_store
+      this.warning_store = val.data.data.warning_store
     },
     async onSaveMemberPrice() {
       const param = {
         item_id: this.currentId,
         mprice: ''
       }
-      console.log('specItems', this.specItems)
       let skus = {}
       this.specItems.forEach((item) => {
         let grade = {}
@@ -1591,7 +1658,7 @@ export default {
       param.mprice = JSON.stringify(skus)
       this.showMemberPriceDrawer = false
       await this.$api.goods.updateGoodsPrice(param)
-      this.$message.success('更新成功')
+      this.$message.success(this.$t('dc9cefd6.55aa63'))
       this.$refs['finder'].refresh()
     },
     async onSaveItemStore() {
@@ -1600,7 +1667,7 @@ export default {
         operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
       }
       await this.$api.goods.updateItemsStore(params)
-      this.$message.success('修改成功')
+      this.$message.success(this.$t('dc9cefd6.69be67'))
       this.$refs['finder'].refresh()
       this.showItemStoreDrawer = false
     },
@@ -1634,12 +1701,69 @@ export default {
     onSelectionChange(selection) {
       this.selectionItems = selection
     },
-    changeCategory() {
+    getSaleCategoryIdsFromItem(item) {
+      if (Array.isArray(item.item_category) && item.item_category.length) {
+        return item.item_category.map((id) => Number(id))
+      }
+      if (Array.isArray(item.item_category_info) && item.item_category_info.length) {
+        return item.item_category_info.map((category) => Number(category.category_id))
+      }
+      return null
+    },
+    getSaleCategoryPaths(categories, targetIds) {
+      const normalizedTargetIds = targetIds.map((id) => Number(id))
+      const paths = {}
+
+      const findPath = (node, currentPath) => {
+        const categoryId = Number(node.category_id)
+        const newPath = [...currentPath, categoryId]
+        if (normalizedTargetIds.includes(categoryId)) {
+          paths[categoryId] = newPath
+        }
+        if (node.children?.length) {
+          node.children.forEach((child) => findPath(child, newPath))
+        }
+      }
+
+      categories.forEach((root) => findPath(root, []))
+      return normalizedTargetIds.map((id) => paths[id] || []).filter((path) => path.length)
+    },
+    async resolveSelectionSaleCategoryIds() {
+      const categoryIds = new Set()
+      const needFetchItemIds = []
+
+      this.selectionItems.forEach((item) => {
+        const itemCategoryIds = this.getSaleCategoryIdsFromItem(item)
+        if (itemCategoryIds) {
+          itemCategoryIds.forEach((id) => categoryIds.add(id))
+          return
+        }
+        needFetchItemIds.push(item.item_id)
+      })
+
+      if (needFetchItemIds.length) {
+        const details = await Promise.all(
+          needFetchItemIds.map((itemId) =>
+            this.$api.goods.getItemsDetail(itemId, {
+              operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
+            })
+          )
+        )
+        details.forEach((detail) => {
+          ;(detail.item_category || []).forEach((id) => categoryIds.add(Number(id)))
+        })
+      }
+
+      return [...categoryIds]
+    },
+    async changeCategory() {
       if (this.selectionItems.length > 0) {
         this.saleCategoryForm.item_id = this.selectionItems.map((item) => item.item_id)
+        const categoryIds = await this.resolveSelectionSaleCategoryIds()
+        this.saleCategoryForm.category_id = this.getSaleCategoryPaths(this.categoryList, categoryIds)
         this.saleCategoryDialog = true
       } else {
-        this.$message.error('请选择至少一个商品')
+        this.$message.error(this.$t('dc9cefd6.ace302'))
       }
     },
     async onSaleCategorySubmit() {
@@ -1648,7 +1772,7 @@ export default {
         return item[item.length - 1]
       })
       await this.$api.goods.setItemsCategory({ item_id, category_id: _category_id })
-      this.$message.success('操作成功')
+      this.$message.success(this.$t('dc9cefd6.33130f'))
       this.saleCategoryDialog = false
       this.$refs['finder'].refresh()
     },
@@ -1657,7 +1781,7 @@ export default {
         this.freightTemplateForm.item_id = this.selectionItems.map((item) => item.item_id)
         this.freightTemplateDialog = true
       } else {
-        this.$message.error('请选择至少一个商品')
+        this.$message.error(this.$t('dc9cefd6.ace302'))
       }
     },
     handleAuditReason(data) {
@@ -1670,7 +1794,7 @@ export default {
         templates_id,
         item_id
       })
-      this.$message.success('操作成功')
+      this.$message.success(this.$t('dc9cefd6.33130f'))
       this.freightTemplateDialog = false
       this.$refs['finder'].refresh()
     },
@@ -1679,7 +1803,7 @@ export default {
         this.storeItemForm.item_id = this.selectionItems.map((item) => item.item_id)
         this.storeItemDialog = true
       } else {
-        this.$message.error('请选择至少一个商品')
+        this.$message.error(this.$t('dc9cefd6.ace302'))
       }
     },
     batchGifts(status) {
@@ -1689,27 +1813,25 @@ export default {
           this.selectionItems.map((item) => item.item_id)
         )
         this.isGiftsData.status = status
-        saveIsGifts(this.isGiftsData)
-          .then((res) => {
-            if (res.data.data.status == true) {
-              this.$message({
-                type: 'success',
-                message: '操作成功',
-                duration: 2000
-              })
-            } else {
-              this.$message({
-                type: 'error',
-                message: '操作失败',
-                duration: 2000
-              })
-            }
-          })
-          .catch(() => {})
+        saveIsGifts(this.isGiftsData).then((res) => {
+          if (res.data.data.status == true) {
+            this.$message({
+              type: 'success',
+              message: this.$t(status === 'true' ? 'dc9cefd6.e8f9a1' : 'dc9cefd6.f0a2b3'),
+              duration: 2000
+            })
+          } else {
+            this.$message({
+              type: 'error',
+              message: this.$t('d41d8cd9.m7n8o9'),
+              duration: 2000
+            })
+          }
+        })
       } else {
         this.$message({
           type: 'error',
-          message: '请选择至少一个商品!',
+          message: this.$t('dc9cefd6.ace302'),
           duration: 2000
         })
       }
@@ -1719,7 +1841,7 @@ export default {
       if (this.selectionItems.length === 0) {
         this.$message({
           type: 'error',
-          message: '请选择至少一个商品'
+          message: this.$t('d41d8cd9.a7b8c9')
         })
         return false
       }
@@ -1736,7 +1858,7 @@ export default {
         status: this.batchChangeStateForm.status
       })
 
-      this.$message.success('修改成功')
+      this.$message.success(this.$t('dc9cefd6.69be67'))
       this.$refs['finder'].refresh()
       this.batchChangeStateDialog = false
     },
@@ -1751,29 +1873,39 @@ export default {
         items: JSON.stringify(data),
         operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
       })
-      this.$message.success('操作成功')
+      this.$message.success(this.$t('dc9cefd6.33130f'))
       this.storeItemDialog = false
       this.$refs['finder'].refresh()
     },
     async changeHaltTheSales(status) {
       if (this.selectionItems.length > 0) {
-        await this.$confirm(`${status == 'stop' ? '停售' : '开售'}选中商品, 是否继续?`, '提示')
+        await this.$confirm(
+          `${status == 'stop' ? this.$t('d41d8cd9.965407') : this.$t('d41d8cd9.1cc97f')}${this.$t(
+            'd41d8cd9.g8h9i0j1'
+          )}`,
+          this.$t('d41d8cd9.02d981')
+        )
         const params = {
           goods_id: this.selectionItems.map((item) => item.goods_id),
           is_market: status == 'stop' ? '0' : '1',
           operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
         }
         await this.$api.goods.updateGoodsInfo(params)
-        this.$message.success('操作成功')
+        this.$message.success(this.$t('dc9cefd6.33130f'))
         this.$refs['finder'].refresh()
       } else {
-        await this.$confirm(`${status == 'stop' ? '停售' : '开售'}所有商品, 是否继续?`, '提示')
+        await this.$confirm(
+          `${status == 'stop' ? this.$t('d41d8cd9.965407') : this.$t('d41d8cd9.1cc97f')}${this.$t(
+            'd41d8cd9.k2l3m4n5'
+          )}`,
+          this.$t('d41d8cd9.02d981')
+        )
         const params = {
           is_market: status == 'stop' ? '0' : '1',
           operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
         }
         await this.$api.goods.updateGoodsInfo(params)
-        this.$message.success('操作成功')
+        this.$message.success(this.$t('dc9cefd6.33130f'))
         this.$refs['finder'].refresh()
       }
     },
@@ -1781,7 +1913,7 @@ export default {
       if (this.selectionItems.length > 0) {
         this.changePriceDialog = true
       } else {
-        this.$message.error('请选择至少一个商品')
+        this.$message.error(this.$t('dc9cefd6.ace302'))
       }
     },
     async onChangePriceSubmit() {},
@@ -1804,7 +1936,7 @@ export default {
         // })
         this.labelDialog = true
       } else {
-        this.$message.error('请选择至少一个商品')
+        this.$message.error(this.$t('dc9cefd6.ace302'))
       }
     },
     async commissionSubmit() {
@@ -1813,7 +1945,7 @@ export default {
         await this.$api.goods.setCommissionRatio(this.commissionForm)
         this.commissionDialog = false
         this.$refs['finder'].refresh()
-        this.$message.success('操作成功')
+        this.$message.success(this.$t('dc9cefd6.33130f'))
       } catch (e) {
         console.log(e)
       }
@@ -1827,7 +1959,7 @@ export default {
         tag_ids: tagIds
       })
       this.labelDialog = false
-      this.$message.success('操作成功')
+      this.$message.success(this.$t('dc9cefd6.33130f'))
       this.$refs['finder'].refresh()
     },
     // 获取地区列表
@@ -1839,11 +1971,13 @@ export default {
     async syncToShop(isAll) {
       let distributorIds = '_all'
       if (!isAll) {
-        const { data } = await this.$picker.shop()
+        const { data } = await this.$picker.shop({
+          queryParams: { is_valid: 'cloud_all', show_distributor_self: 1 }
+        })
         distributorIds = data.map((item) => item.distributor_id)
       }
       if (this.selectionItems.length == 0) {
-        await this.$confirm('是否将所有商品的都同步至店铺?', '提示')
+        await this.$confirm(this.$t('6f19b2ab.6b3d7e'), this.$t('d41d8cd9.02d981'))
         await this.$api.marketing.saveDistributorItems({
           distributor_ids: distributorIds,
           item_ids: '_all',
@@ -1858,24 +1992,24 @@ export default {
           is_can_sale: false
         })
       }
-      this.$message.success('操作成功')
+      this.$message.success(this.$t('dc9cefd6.33130f'))
     },
     // 批量提交
     async onBatchSubmitItems() {
       if (this.selectionItems.length == 0) {
-        this.$message.error('请选择至少一个商品')
+        this.$message.error(this.$t('dc9cefd6.ace302'))
         return
       }
-      await this.$confirm('确认是否批量提交？', '批量提交', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消'
+      await this.$confirm(this.$t('d41d8cd9.b1a2c3'), this.$t('d41d8cd9.298be1'), {
+        confirmButtonText: this.$t('d41d8cd9.aa7527'),
+        cancelButtonText: this.$t('d41d8cd9.625fb2')
       })
       await this.$api.goods.updateGoodsInfo({
         goods_id: this.selectionItems.map((item) => item.item_id),
         operate_source: IS_SUPPLIER() ? 'supplier' : 'platform',
         audit_status: 'processing'
       })
-      this.$message.success('操作成功')
+      this.$message.success(this.$t('dc9cefd6.33130f'))
       this.$refs['finder'].refresh()
     },
     handleDownload(name) {
@@ -1933,10 +2067,10 @@ export default {
       // this.$store.dispatch('setExportKeyAndTotal', {exportKey, exportTotal:0})
       const { status } = await this.$api.goods.exportItemsData(exportParams)
       if (status) {
-        this.$message.success('已加入执行队列，请在设置-导出列表中下载')
+        this.$message.success(this.$t('dc9cefd6.3e1ddd'))
         this.$export_open(IS_SUPPLIER() ? 'supplier_goods' : 'items')
       } else {
-        this.$message.error('导出失败')
+        this.$message.error(this.$t('dc9cefd6.dd51ab'))
       }
     },
     async exportItemsTagData() {
@@ -1948,10 +2082,10 @@ export default {
       }
       const { status } = await this.$api.goods.exportItemsTagData(exportParams)
       if (status) {
-        this.$message.success('已加入执行队列，请在设置-导出列表中下载')
+        this.$message.success(this.$t('dc9cefd6.3e1ddd'))
         this.$export_open('normal_items_tag')
       } else {
-        this.$message.error('导出失败')
+        this.$message.error(this.$t('dc9cefd6.dd51ab'))
       }
     },
     async exportItemsWxappCode(exportType) {
@@ -1967,26 +2101,31 @@ export default {
         export_type: exportType
       })
       if (status) {
-        this.$message.success('已加入执行队列，请在设置-导出列表中下载')
+        this.$message.success(this.$t('dc9cefd6.3e1ddd'))
         this.$export_open('itemcode')
       } else {
-        this.$message.error('导出失败')
+        this.$message.error(this.$t('dc9cefd6.dd51ab'))
       }
     },
-    async updateGoodsSkuPrice({ item_id, price, cost_price, market_price }, priceType) {
-      const priceMap = {
-        price: price,
-        cost_price: cost_price,
-        market_price: market_price
+    async updateGoodsSkuPrice(row, priceType) {
+      const priceValue = row[priceType]
+      if (priceValue == null || priceValue === '' || Number.isNaN(Number(priceValue))) {
+        return
+      }
+      const original = this.specItemsSnapshot[row.item_id]
+      if (original && Number(original[priceType]) === Number(priceValue)) {
+        return
       }
       await this.$api.goods.updateGoodsInfo({
-        item_id,
-        [priceType]: priceMap[priceType],
+        item_id: row.item_id,
+        [priceType]: priceValue,
         operate_source: IS_SUPPLIER() ? 'supplier' : 'platform'
       })
-      this.$message.success('操作成功')
+      if (this.specItemsSnapshot[row.item_id]) {
+        this.specItemsSnapshot[row.item_id][priceType] = priceValue
+      }
+      this.$message.success(this.$t('dc9cefd6.33130f'))
     },
-
     async setWarningStore() {
       await this.$api.goods.getItemWarningStore({ store: this.warning_store })
       this.$refs['finder'].refresh()
@@ -2022,7 +2161,7 @@ export default {
         page: 1,
         pageSize: 1000
       })
-      this.itemSkuDrawerTitle = `商品【${item.item_name}】`
+      this.itemSkuDrawerTitle = `${this.$t('d41d8cd9.k1l2m3')}${item.item_name}】`
       this.itemSkuList = list || []
       this.showItemSkuDrawer = true
       this.itemSkuList = list
@@ -2038,7 +2177,7 @@ export default {
       if (this.selectionItems.length === 0) {
         this.$message({
           type: 'error',
-          message: '请选择需要同步的商品'
+          message: this.$t('d41d8cd9.n4o5p6')
         })
         return
       }
@@ -2050,12 +2189,12 @@ export default {
         if (res.status == true) {
           this.$message({
             type: 'success',
-            message: '已加入执行队列'
+            message: this.$t('d41d8cd9.q7r8s9')
           })
         } else {
           this.$message({
             type: 'error',
-            message: '执行失败'
+            message: this.$t('d41d8cd9.t0u1v2')
           })
         }
       })
@@ -2069,7 +2208,7 @@ export default {
       if (this.selectionItems.length === 0) {
         this.$message({
           type: 'error',
-          message: '请选择需要同步的商品'
+          message: this.$t('d41d8cd9.n4o5p6')
         })
         return
       }
@@ -2081,12 +2220,12 @@ export default {
         if (res.status == true) {
           this.$message({
             type: 'success',
-            message: '已加入执行队列'
+            message: this.$t('d41d8cd9.q7r8s9')
           })
         } else {
           this.$message({
             type: 'error',
-            message: '执行失败'
+            message: this.$t('d41d8cd9.t0u1v2')
           })
         }
       })
@@ -2115,9 +2254,59 @@ export default {
 .page-code {
   text-align: center;
 }
+/* 设置价格抽屉：列宽与输入框对齐 */
+.member-price-drawer-table {
+  overflow-x: auto;
+
+  ::v-deep {
+    .el-table .cell {
+      padding: 8px;
+      line-height: normal;
+    }
+
+    .el-table td {
+      padding: 10px 0;
+    }
+
+    .member-price-input {
+      width: 100%;
+    }
+
+    .member-price-input.el-input-number.is-controls-right .el-input__inner {
+      padding-left: 8px;
+      padding-right: 42px;
+    }
+  }
+}
 .page-code-img {
   width: 200px;
   height: 200px;
+}
+/* 自营商品列表太阳码弹窗：二维码与按钮居中（与 saleCategory 投放弹层一致） */
+.goods-self-products-sun-code-dialog {
+  .el-dialog__body {
+    padding-top: 16px;
+  }
+  .page-code {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .page-code-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    flex-shrink: 0;
+  }
+  .page-btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    width: 100%;
+  }
 }
 </style>
 <style lang="scss">

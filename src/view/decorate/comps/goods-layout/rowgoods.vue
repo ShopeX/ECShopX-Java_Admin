@@ -22,7 +22,7 @@
         class="header-more"
         :style="{ color: value.moreBtn.color }"
       >
-        查看更多<el-icon class="el-icon-arrow-right" />
+        {{ $t('da219ed3.90ef7c') }}<el-icon class="el-icon-arrow-right" />
       </div>
     </div>
 
@@ -35,10 +35,10 @@
       >
         <!-- 商品图片 -->
         <div class="goods-img-wrapper">
-          <img :src="item.main_img || item.pics?.[0] || ''" class="goods-image" alt="" />
+          <img :src="getItemImg(item)" class="goods-image" alt="" />
           <!-- 已售罄标签 -->
           <div v-if="isSoldOut(item)" class="sold-out-mask">
-            <span class="sold-out-text">已售罄</span>
+            <span class="sold-out-text">{{ $t('da219ed3.b12876') }}</span>
           </div>
         </div>
 
@@ -71,12 +71,15 @@
                 <span class="price-symbol">¥</span>
                 <span class="price-value">{{ formatPrice(item.price) }}</span>
               </div>
-              <div class="original-price" v-if="item.market_price && item.market_price > item.price">
+              <div
+                class="original-price"
+                v-if="item.market_price && item.market_price > item.price"
+              >
                 {{ formatPrice(item.market_price) }}
               </div>
               <div class="discount-tag" v-if="getDiscount(item)">
                 {{ getDiscount(item) }}
-                <span class="discount-tag-text">折</span>
+                <span class="discount-tag-text">{{ $t('da219ed3.96c015') }}</span>
               </div>
             </template>
           </div>
@@ -121,7 +124,7 @@ export default {
     /** 积分商品：纯积分显示「5000积分」，积分+现金显示「5000积分+0.1元」 */
     formatPointPrice(item) {
       const point = item.point != null ? item.point : 0
-      const pointStr = point + '积分'
+      const pointStr = point + this.$t('5c0a1eb5.9f68a8')
       const price = item.price != null && item.price !== '' ? Number(item.price) : 0
       if (!price || price === 0) return pointStr
       return pointStr + '+' + this.formatPrice(price) + '元'

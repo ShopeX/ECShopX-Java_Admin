@@ -69,20 +69,21 @@
       </div>
       <!-- 空状态 -->
       <div v-if="!navItems.length" class="empty-content">
-        <span>暂无内容</span>
+        <span>{{ i18n.t('9a50f76c.4726ff') }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { i18n } from '@/i18n'
 import config from './config'
 import gWgts from '../index'
 import { getOuterStyle } from '../../comps/style-utils'
 
 export default {
   name: 'LocationModule',
-  wgtName: '电梯',
+  wgtName: i18n.t('9a50f76c.61be0b'),
   wgtDesc: '',
   wgtIcon: 'elevator',
   config: config,
@@ -94,6 +95,7 @@ export default {
   },
   data() {
     return {
+      i18n,
       activeIndex: 0,
       showLeftIndicator: false,
       showRightIndicator: true,
@@ -282,6 +284,7 @@ export default {
 <style lang="scss" scoped>
 .wgt-location-module {
   width: 100%;
+  min-height: 100px;
 
   .nav-wrapper {
     position: relative;

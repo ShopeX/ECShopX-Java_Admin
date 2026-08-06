@@ -11,13 +11,22 @@
       'sp-form-plus--search-form': formType === 'searchForm',
       'sp-form-plus--display-form': formType === 'displayForm',
       'sp-form-plus--inline': inline,
-      'sp-form-plus--collapsed': formType === 'searchForm' && !extend
+      'sp-form-plus--collapsed': formType === 'searchForm' && !extend,
+      'sp-form-plus--label-top': formType === 'searchForm' && labelPosition === 'top',
+      'sp-form-plus--actions-bottom': isSearchActionsBottom
     }"
     :model="formData"
     :label-width="labelWidth"
     :label-position="labelPosition"
+    @submit.native.prevent="handleSubmit"
   >
-    <div ref="wrapperRef" :class="{ flex: formType === 'searchForm' }">
+    <div
+      ref="wrapperRef"
+      :class="{
+        flex: formType === 'searchForm' && !isSearchActionsBottom,
+        'sp-form-plus__layout-bottom': isSearchActionsBottom
+      }"
+    >
       <div
         :class="{
           'sp-form-plus__wrapper': formType === 'searchForm',
@@ -58,12 +67,15 @@
         >
           <div class="sp-form-plus__actions-btns">
             <el-button type="primary" :loading="submitLoading" @click="handleSubmit">
-              <span class="ml-1">保存</span>
+              <span class="ml-1">{{ $t('2d9168f2.be5fbb') }}</span>
             </el-button>
           </div>
         </div>
         <div
-          class="sp-form-plus__actions ml-1 mt-1 flex-col items-end !pt-0"
+          :class="[
+            'sp-form-plus__actions flex-col items-end !pt-0',
+            isSearchActionsBottom ? 'mt-3' : 'ml-1 mt-1'
+          ]"
           :style="actionsStyle"
           v-else
         >
@@ -71,21 +83,21 @@
             <el-button type="primary" @click="handleSubmit">
               <div class="flex items-center">
                 <SpIcon name="search" :size="14" />
-                <span class="ml-1">查询</span>
+                <span class="ml-1">{{ $t('2d9168f2.bee912') }}</span>
               </div>
             </el-button>
 
             <el-button @click="handleReset">
               <div class="flex items-center">
                 <SpIcon name="refresh" :size="14" />
-                <span class="ml-1">重置</span>
+                <span class="ml-1">{{ $t('2d9168f2.4b9c32') }}</span>
               </div>
             </el-button>
           </div>
           <!-- 搜索表单的扩展按钮 -->
           <el-button type="text" @click="toggleExtend" v-if="showExtend">
             <div class="flex items-center mt-3">
-              <span>{{ extend ? '收起' : '展开' }}</span>
+              <span>{{ extend ? $t('2d9168f2.def9e9') : $t('2d9168f2.e2edde') }}</span>
             </div>
           </el-button>
         </div>
@@ -145,6 +157,11 @@ export default {
       type: String,
       default: 'horizontal'
     },
+    searchActionsLayout: {
+      type: String,
+      default: '',
+      validator: (value) => ['', 'inline', 'bottom-right'].includes(value)
+    },
     submitLoading: {
       type: Boolean,
       default: false
@@ -169,7 +186,12 @@ export default {
   data() {
     const formData = {}
     this.formItems
-      .filter((item) => item.component !== 'group')
+      .filter((item) => {
+        const isLayoutComponent =
+          typeof item.component === 'string' &&
+          ['group', 'divider'].includes(item.component.toLowerCase())
+        return !isLayoutComponent
+      })
       .forEach((item) => {
         formData[item.fieldName] =
           typeof item.value === 'undefined'
@@ -205,6 +227,14 @@ export default {
     // 检查是否有表单项使用了 formItemClass
     hasFormItemClass() {
       return this.formItems.some((item) => item.formItemClass)
+    },
+    effectiveSearchActionsLayout() {
+      if (this.formType !== 'searchForm') return 'inline'
+      if (this.searchActionsLayout) return this.searchActionsLayout
+      return this.labelPosition === 'top' ? 'bottom-right' : 'inline'
+    },
+    isSearchActionsBottom() {
+      return this.formType === 'searchForm' && this.effectiveSearchActionsLayout === 'bottom-right'
     }
   },
   watch: {
@@ -405,6 +435,60 @@ export default {
     .sp-form-plus__actions-wrapper {
       flex-shrink: 0;
       min-width: fit-content;
+    }
+  }
+
+  &--label-top {
+    ::v-deep .el-form-item__label {
+      float: none;
+      display: block;
+      padding: 0 0 6px;
+      text-align: left;
+      line-height: 20px;
+    }
+
+    ::v-deep .el-form-item__content {
+      margin-left: 0 !important;
+      line-height: normal;
+    }
+  }
+
+  &--actions-bottom {
+    .sp-form-plus__layout-bottom {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .sp-form-plus__wrapper {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px 24px;
+      width: 100%;
+
+      .form-field {
+        width: 100% !important;
+        max-width: none !important;
+        flex: initial !important;
+      }
+    }
+
+    .sp-form-plus__actions-wrapper {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .sp-form-plus__actions {
+      width: 100%;
+      justify-content: flex-end;
+      align-items: flex-end;
+      padding-top: 0;
+      margin-top: 16px !important;
+    }
+
+    .sp-form-plus__actions-btns {
+      display: flex;
+      justify-content: flex-end;
     }
   }
   &__actions {

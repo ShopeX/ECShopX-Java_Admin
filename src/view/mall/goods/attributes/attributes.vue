@@ -13,7 +13,7 @@
       @submit="onSearch"
     />
     <div class="action-container mt-4">
-      <el-button type="primary" @click="handleNew"> 新增规格 </el-button>
+      <el-button type="primary" @click="handleNew"> {{ i18n.t('5db1387d.ac469a') }} </el-button>
     </div>
     <!-- <div class="action-container">
       <el-button
@@ -29,7 +29,7 @@
       border
       :data="list"
       :height="wheight - 170"
-      element-loading-text="数据加载中"
+      :element-loading-text="$t('5db1387d.f09b12')"
       :default-sort="{ prop: 'bind_date', order: 'descending' }"
     >
       <el-table-column type="expand">
@@ -44,19 +44,27 @@
           >
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column :label="i18n.t('5db1387d.2b6bc0')" width="150">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleEdit(scope.row)"> 编辑 </el-button>
-          <el-button type="text" @click="handleDelete(scope)"> 删除 </el-button>
+          <el-button type="text" @click="handleEdit(scope.row)">
+            {{ i18n.t('5db1387d.95b351') }}
+          </el-button>
+          <el-button type="text" @click="handleDelete(scope)">
+            {{ i18n.t('5db1387d.2f4aad') }}
+          </el-button>
         </template>
       </el-table-column>
-      <el-table-column label="类型" width="150">
+      <el-table-column :label="i18n.t('5db1387d.226b09')" width="150">
         <template slot-scope="props">
-          {{ normalizeIsImage(props.row.is_image) ? '图片' : '文字' }}
+          {{
+            normalizeIsImage(props.row.is_image)
+              ? i18n.t('5db1387d.20def7')
+              : i18n.t('5db1387d.ca746b')
+          }}
         </template>
       </el-table-column>
-      <el-table-column prop="attribute_name" label="规格名称" width="200" />
-      <el-table-column prop="attribute_memo" label="规格备注" />
+      <el-table-column prop="attribute_name" :label="i18n.t('5db1387d.023809')" width="200" />
+      <el-table-column prop="attribute_memo" :label="i18n.t('5db1387d.bfe414')" />
     </el-table>
     <div class="mt-4 text-right">
       <el-pagination
@@ -76,10 +84,15 @@
       @chooseImg="pickImg"
       @closeImgDialog="closeImgDialog"
     />
-    <sideBar :visible.sync="show_sideBar" :title="form.attribute_id ? '编辑规格' : '新增规格'">
+    <sideBar
+      :visible.sync="show_sideBar"
+      :title="form.attribute_id ? i18n.t('5db1387d.6dccdf') : i18n.t('5db1387d.ac469a')"
+    >
       <component :is="SpecForm" :value="form" @submit="onFormSubmit" />
       <div slot="footer">
-        <el-button type="primary" @click="handleFormSubmit"> 提交 </el-button>
+        <el-button type="primary" @click="handleFormSubmit">
+          {{ i18n.t('5db1387d.939d53') }}
+        </el-button>
       </div>
     </sideBar>
   </SpPage>
@@ -98,6 +111,7 @@ import { pageMixin } from '@/mixins'
 import sideBar from '@/components/element/sideBar'
 import { useForm } from '@/composables'
 import Vue from 'vue'
+import { i18n } from '@/i18n'
 
 let SpecFormApi = null
 
@@ -114,41 +128,42 @@ export default {
       labelWidth: '80px',
       labelInline: true,
       showDefaultActions: false,
+      i18n: i18n,
       formItems: [
         {
           fieldName: 'attribute_name',
-          label: '规格名称',
+          label: i18n.t('5db1387d.023809'),
           component: 'input',
           value: '',
           componentProps: {
-            placeholder: '请输入规格名称'
+            placeholder: i18n.t('5db1387d.1b54dd')
           },
-          rules: [{ required: true, message: '请输入规格名称', trigger: 'blur' }]
+          rules: [{ required: true, message: i18n.t('5db1387d.1b54dd'), trigger: 'blur' }]
         },
         {
           fieldName: 'attribute_memo',
-          label: '规格备注',
+          label: i18n.t('5db1387d.bfe414'),
           component: 'input',
           value: '',
           componentProps: {
-            placeholder: '请输入规格备注'
+            placeholder: i18n.t('5db1387d.82edac')
           }
         },
         {
           fieldName: 'is_image',
-          label: '规格类型',
+          label: i18n.t('5db1387d.1ca8f1'),
           component: 'radio',
           value: false,
           componentProps: {
             options: [
-              { label: '文字', value: false },
-              { label: '图片', value: true }
+              { label: i18n.t('5db1387d.ca746b'), value: false },
+              { label: i18n.t('5db1387d.20def7'), value: true }
             ]
           }
         },
         {
           fieldName: 'attribute_values',
-          label: '规格值',
+          label: i18n.t('5db1387d.94d502'),
           component: ({ h, value, onInput, formData }) => {
             const isImage = formData.is_image
             const vm = this // 访问组件实例
@@ -173,7 +188,7 @@ export default {
                     <div class='flex-1 mr-2'>
                       <el-input
                         value={item.attribute_value}
-                        placeholder='规格值名称'
+                        placeholder={vm.$t('5db1387d.2690c2')}
                         on-input={(val) => {
                           const newValues = [...value]
                           newValues[index].attribute_value = val
@@ -185,11 +200,15 @@ export default {
                       class='cursor-pointer flex items-center text-gray-500 p-1 rounded'
                       onClick={async () => {
                         try {
-                          await Vue.prototype.$confirm('确认删除当前值？', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                          })
+                          await Vue.prototype.$confirm(
+                            vm.$t('5db1387d.167628'),
+                            vm.$t('5db1387d.02d981'),
+                            {
+                              confirmButtonText: vm.$t('5db1387d.38cf16'),
+                              cancelButtonText: vm.$t('5db1387d.625fb2'),
+                              type: 'warning'
+                            }
+                          )
                           const newValues = [...value]
                           newValues.splice(index, 1)
                           onInput(newValues)
@@ -209,14 +228,17 @@ export default {
                     class='border-dashed'
                     onClick={() => {
                       if (value.length >= 50) {
-                        Vue.prototype.$message({ type: 'warning', message: '最多添加50项' })
+                        Vue.prototype.$message({
+                          type: 'warning',
+                          message: vm.$t('5db1387d.94360c')
+                        })
                         return
                       }
                       const newValues = [...value, { attribute_value: '', image_url: '' }]
                       onInput(newValues)
                     }}
                   >
-                    添加规格值
+                    {vm.$t('5db1387d.cfa46a')}
                   </el-button>
                 </div>
               </div>
@@ -231,6 +253,7 @@ export default {
     SpecFormApi = SpecFormApiInstance
 
     return {
+      i18n,
       SpecForm,
       currentIndex: '',
       form: {
@@ -252,7 +275,8 @@ export default {
       imgIndex: 0,
       brand_name: '',
       total_count: 0,
-      show_sideBar: false
+      show_sideBar: false,
+      editingAttributeId: ''
     }
   },
   mounted() {
@@ -264,11 +288,11 @@ export default {
       return value == true || value == 1 || value == 'true'
     },
     handleDelete(data) {
-      this.$confirm('确认删除该参数？')
+      this.$confirm(this.$t('5db1387d.67d5b6'))
         .then((_) => {
           deleteGoodsAttr(data.row.attribute_id).then((res) => {
             this.list.splice(data.$index, 1)
-            this.$message({ type: 'success', message: '操作成功' })
+            this.$message({ type: 'success', message: this.$t('5db1387d.33130f') })
           })
         })
         .catch((_) => {})
@@ -285,12 +309,15 @@ export default {
             attribute_name: '',
             attribute_memo: '',
             is_image: false,
-            attribute_values: [{ attribute_value: '', image_url: '' }]
+            attribute_values: [{ attribute_value: '', image_url: '' }],
+            attribute_id: '',
+            attribute_type: 'item_spec'
           })
         }
       })
     },
     resetData() {
+      this.editingAttributeId = ''
       this.form = {
         is_image: false,
         attribute_type: 'item_spec',
@@ -301,29 +328,31 @@ export default {
       }
     },
     handleEdit(data) {
+      const isImage = this.normalizeIsImage(data.is_image)
+      let attributeValues = (data.attribute_values && data.attribute_values.list) || []
+      if (attributeValues.length === 0) {
+        attributeValues = [{ attribute_value: '', image_url: '' }]
+      }
+
+      this.editingAttributeId = data.attribute_id
+      this.form = {
+        is_image: isImage,
+        attribute_id: data.attribute_id,
+        attribute_type: data.attribute_type || 'item_spec',
+        attribute_name: data.attribute_name,
+        attribute_memo: data.attribute_memo,
+        attribute_values: attributeValues
+      }
       this.show_sideBar = true
       this.$nextTick(() => {
-        const isImage = this.normalizeIsImage(data.is_image)
-        let attributeValues = (data.attribute_values && data.attribute_values.list) || []
-        // 如果为空，设置默认值
-        if (attributeValues.length === 0) {
-          attributeValues = [{ attribute_value: '', image_url: '' }]
-        }
-
         SpecFormApi.setFieldsValue({
           attribute_name: data.attribute_name,
           attribute_memo: data.attribute_memo,
           is_image: isImage,
-          attribute_values: attributeValues
-        })
-        this.form = {
-          is_image: isImage,
+          attribute_values: attributeValues,
           attribute_id: data.attribute_id,
-          attribute_type: data.attribute_type,
-          attribute_name: data.attribute_name,
-          attribute_memo: data.attribute_memo,
-          attribute_values: attributeValues
-        }
+          attribute_type: data.attribute_type || 'item_spec'
+        })
       })
     },
     async handleFormSubmit() {
@@ -336,24 +365,26 @@ export default {
       }
     },
     onFormSubmit(formData) {
+      const attributeId = this.editingAttributeId || this.form.attribute_id || formData.attribute_id
       const submitData = {
         ...this.form,
-        ...formData
+        ...formData,
+        attribute_id: attributeId,
+        attribute_type: formData.attribute_type || this.form.attribute_type || 'item_spec'
       }
       const params = JSON.parse(JSON.stringify(submitData))
       params.attribute_values = JSON.stringify(params.attribute_values)
-      // 如果没有id，则表示为新增
-      if (!submitData.attribute_id) {
+      if (!attributeId) {
         addGoodsAttr(params).then((res) => {
-          this.$message({ type: 'success', message: '操作成功' })
+          this.$message({ type: 'success', message: this.$t('5db1387d.33130f') })
           this.page.pageIndex = 1
           this.resetData()
           this.show_sideBar = false
           this.fetchList()
         })
       } else {
-        updateGoodsAttr(params.attribute_id, params).then((res) => {
-          this.$message({ type: 'success', message: '操作成功' })
+        updateGoodsAttr(attributeId, params).then((res) => {
+          this.$message({ type: 'success', message: this.$t('5db1387d.33130f') })
           this.show_sideBar = false
           this.fetchList()
         })
@@ -420,12 +451,12 @@ export default {
         if (res.data.data.status == true) {
           this.$message({
             type: 'success',
-            message: '已加入执行队列'
+            message: this.$t('5db1387d.bbdee9')
           })
         } else {
           this.$message({
             type: 'error',
-            message: '同步失败'
+            message: this.$t('5db1387d.d61036')
           })
         }
       })
@@ -438,12 +469,12 @@ export default {
       return [
         {
           fieldName: 'attribute_name',
-          label: '规格名称',
+          label: this.$t('5db1387d.023809'),
           component: 'input',
           cellWidth: 1.3,
           componentProps: {
             clearable: true,
-            placeholder: '请输入规格名称'
+            placeholder: this.$t('5db1387d.1b54dd')
           }
         }
       ]
