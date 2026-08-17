@@ -25,7 +25,6 @@
             <el-button :loading="syncLoading" @click="syncSignature">{{
               $t('523e1e97.23e901')
             }}</el-button>
-            <span class="ml-3 text-xs text-gray-400">{{ $t('523e1e97.c28b23') }}</span>
           </div>
         </template>
       </SpFinder>
