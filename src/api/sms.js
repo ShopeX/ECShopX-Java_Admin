@@ -76,6 +76,14 @@ export function deleteTheSignature(id) {
   })
 }
 
+// 从阿里云同步短信签名（异步入队，立即返回）
+export function syncSmsSignatures() {
+  return fetch({
+    url: '/aliyunsms/sign/sync',
+    method: 'post'
+  })
+}
+
 // 发送短信
 
 // 短信场景列表
