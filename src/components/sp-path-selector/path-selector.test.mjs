@@ -10,7 +10,10 @@ test('web path selector is limited to web-supported link types', () => {
   const config = read('src/components/sp-path-selector/config.js')
   const menuForm = read('src/views/decoration/web-menu/components/MenuItemForm.vue')
 
-  assert.match(config, /web:\s*\['goods',\s*'sale_category',\s*'custom_page'\]/)
+  assert.match(
+    config,
+    /web:\s*\['goods',\s*'sale_category',\s*'category',\s*'custom_page',\s*'regactivity'\]/
+  )
   assert.match(config, /function getPathSelectorTypes\(platform\)/)
   assert.match(menuForm, /<SpPathSelector[\s\S]*value=\{value\}[\s\S]*platform=['"]web['"][\s\S]*on-input=\{onInput\}/)
 })
