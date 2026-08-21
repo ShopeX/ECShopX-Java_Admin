@@ -9,9 +9,13 @@
     <div class="decorate-hd">
       <div class="hd-lf">{{ localTitle }}</div>
       <div class="hd-rg">
-        <el-button v-if="mode == 'page'" plain @click="onExit"> 后退 </el-button>
-        <el-button v-if="mode == 'dialog'" plain @click="onClose"> 关闭 </el-button>
-        <el-button type="primary" @click="onSaveTemplate"> 保存 </el-button>
+        <el-button v-if="mode == 'page'" plain @click="onExit">
+          {{ $t('c3827da6.5094c1') }}
+        </el-button>
+        <el-button v-if="mode == 'dialog'" plain @click="onClose">
+          {{ $t('c3827da6.b15d91') }}
+        </el-button>
+        <el-button type="primary" @click="onSaveTemplate">{{ $t('c3827da6.be5fbb') }}</el-button>
       </div>
     </div>
     <div class="decorate-bd">
@@ -321,14 +325,14 @@ export default {
       this.localScene = scene
 
       const _title = {
-        1001: '商城装修',
-        1002: '商品详情',
-        1003: '店铺装修',
-        1004: '自定义页装修',
-        1010: '自定义页装修',
-        1007: '分类模版装修',
-        1008: '个人中心模版装修',
-        1009: '导购模板装修'
+        1001: this.$t('c3827da6.3d97fc'),
+        1002: this.$t('c3827da6.b4f5db'),
+        1003: this.$t('c3827da6.eab3fc'),
+        1004: this.$t('c3827da6.9d3c40'),
+        1010: this.$t('c3827da6.9d3c40'),
+        1007: this.$t('c3827da6.38e3c7'),
+        1008: this.$t('c3827da6.fbd049'),
+        1009: this.$t('c3827da6.fa06ad')
       }
       this.localTitle = _title[scene]
     } else {
@@ -479,6 +483,11 @@ export default {
       }
       return item
     },
+    resolveCustomPageVersion() {
+      const { version } = this.$route.query || {}
+      return version || 'v1.0.1'
+
+    },
     async getTemplateDetial() {
       const { id } = this.$route.query
       let list = []
@@ -493,7 +502,7 @@ export default {
           const resTemplate = await this.$api.wxa.getParamByTempName({
             template_name: 'yykweishop',
             page_name: `custom_${id}`,
-            version: 'v1.0.1'
+            version: this.resolveCustomPageVersion()
           })
           list = this.normalizeTemplateContentList(resTemplate?.config || resTemplate?.list)
         } else {
@@ -725,7 +734,7 @@ export default {
         await this.$api.wxa.savePageParams({
           template_name: 'yykweishop',
           page_name: `custom_${id}`,
-          version: 'v1.0.1',
+          version: this.resolveCustomPageVersion(),
           config: JSON.stringify(data)
         })
       } else {
