@@ -182,7 +182,7 @@
                 clearable
                 class="!w-[250px]"
                 :placeholder="$t('ab2cdfe4.a5d26b')"
-                :query-params="{ is_valid: 'true', distribution_type: distributionType }"
+                :query-params="{ distribution_type: distributionType }"
                 @change="onShopSelectChange"
               />
               <p class="frm-tips whitespace-nowrap !pb-0">{{ $t('ab2cdfe4.2242ee') }}</p>
