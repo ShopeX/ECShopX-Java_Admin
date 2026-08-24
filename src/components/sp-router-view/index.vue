@@ -52,8 +52,10 @@ export default {
     this.currentRoute = this.$route
   },
   methods: {
-    onActivated() {
-      this.$parent.$activated(this.currentRoute, this.$route)
+    onActivated(resetPage) {
+      if (typeof this.$parent.$activated === 'function') {
+        this.$parent.$activated(this.currentRoute, this.$route, resetPage)
+      }
     }
   }
 }

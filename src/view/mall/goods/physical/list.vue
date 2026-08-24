@@ -1483,8 +1483,9 @@ export default {
     this.checkJstErpBind()
     this.getBaseSetting()
 
-    this.$activated = () => {
-      this.$refs['finder']?.refresh?.()
+    // resetPage=true 回第 1 页（新建）；false/缺省保留当前页（编辑）
+    this.$activated = (_from, _to, resetPage = false) => {
+      this.$refs['finder']?.refresh?.(!!resetPage)
     }
   },
   methods: {
