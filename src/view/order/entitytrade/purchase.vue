@@ -84,6 +84,12 @@
             />
           </el-select>
         </SpFilterFormItem>
+        <SpFilterFormItem prop="purchase_mode" :label="$t('931fca81.bc2ac0')">
+          <el-select v-model="params.purchase_mode" clearable :placeholder="$t('931fca81.708c9d')">
+            <el-option :label="$t('931fca81.e7c090')" value="cash" />
+            <el-option :label="$t('931fca81.5176e6')" value="prepaid_point" />
+          </el-select>
+        </SpFilterFormItem>
       </SpFilterForm>
 
       <div class="action-container">
@@ -214,6 +220,21 @@
           <el-table-column prop="order_status" :label="$t('931fca81.86f6cf')">
             <template slot-scope="scope">
               {{ scope.row.order_status_msg }}
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="purchase_mode_desc" :label="$t('931fca81.bc2ac0')" width="120">
+            <template slot-scope="scope">
+              {{ scope.row.purchase_mode_desc || '—' }}
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('931fca81.5b057b')" min-width="140">
+            <template slot-scope="scope">
+              {{
+                scope.row.enterprise_name ||
+                scope.row.orders_purchase_info?.enterprise_name ||
+                '—'
+              }}
             </template>
           </el-table-column>
 
@@ -396,7 +417,8 @@ export default {
         distributor_id: '', // 店铺
         subDistrict: [],
         act_id: [],
-        enterprise_id: ''
+        enterprise_id: '',
+        purchase_mode: ''
       },
       datapass_block: 1, // 是否为数据脱敏
       subDistrictList: [],

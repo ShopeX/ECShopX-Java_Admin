@@ -222,6 +222,7 @@ export const PAY_TYPE = {
   alipayh5: i18n.t('e3a5dbf4.5a3c52'),
   deposit: i18n.t('e3a5dbf4.89ac23'),
   point: i18n.t('e3a5dbf4.accd19'),
+  prepaid_point: i18n.t('e3a5dbf4.5176e6'),
   pos: i18n.t('e3a5dbf4.330ef6'),
   wxpaypos: i18n.t('e3a5dbf4.777d5d'),
   alipaypos: i18n.t('e3a5dbf4.bd7030'),

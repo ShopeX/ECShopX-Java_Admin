@@ -647,6 +647,17 @@ export default {
         { label: this.$t('3cdfcea1.860510'), field: 'salesman_mobile', is_show: true },
         { label: this.$t('3cdfcea1.75d152'), field: 'employee_name', is_show: true },
         { label: this.$t('3cdfcea1.9030e8'), field: 'enterprise_name', is_show: true },
+        { label: this.$t('931fca81.a5df48'), field: 'purchase_mode_desc', is_show: true },
+        {
+          label: this.$t('931fca81.a7956d'),
+          field: 'employee_purchase_activity_name',
+          is_show: true
+        },
+        {
+          label: this.$t('931fca81.96dfec'),
+          field: 'employee_purchase_activity_id',
+          is_show: true
+        },
         { label: this.$t('3cdfcea1.16f2bc'), field: 'distributor_name', is_show: true }
       ],
       payList: [
@@ -1114,9 +1125,13 @@ export default {
             ? this.formatOrderMoney(orderInfo.total_fee, feeSymbol)
             : this.formatOrderMoney(0, feeSymbol)
         })(),
-        payTypeTxt: tradeInfo.payChannel
-          ? PAY_TYPE[tradeInfo.payChannel]
-          : PAY_TYPE[tradeInfo.payType],
+        payTypeTxt:
+          (tradeInfo.payChannel
+            ? PAY_TYPE[tradeInfo.payChannel]
+            : PAY_TYPE[tradeInfo.payType]) ||
+          orderInfo.purchase_mode_desc ||
+          (orders_purchase_info && orders_purchase_info.purchase_mode_desc) ||
+          '',
         tradeStateTxt: PAY_STATUS[tradeInfo.tradeState],
         timeStart: tradeInfo.timeStart
           ? moment(tradeInfo.timeStart * 1000).format('YYYY-MM-DD HH:mm:ss')
@@ -1140,6 +1155,20 @@ export default {
           : '',
         employee_name: orders_purchase_info ? orders_purchase_info.employee_name : '',
         enterprise_name: orders_purchase_info ? orders_purchase_info.enterprise_name : '',
+        purchase_mode_desc:
+          orderInfo.purchase_mode_desc ||
+          (orders_purchase_info && orders_purchase_info.purchase_mode_desc) ||
+          '',
+        employee_purchase_activity_name:
+          orderInfo.employee_purchase_activity_name ||
+          (orders_purchase_info && orders_purchase_info.employee_purchase_activity_name) ||
+          orderInfo.activity_name ||
+          '',
+        employee_purchase_activity_id:
+          orderInfo.employee_purchase_activity_id ||
+          (orders_purchase_info && orders_purchase_info.employee_purchase_activity_id) ||
+          orderInfo.act_id ||
+          '',
         //处方药
         user_family_name: diagnosis_data.user_family_name,
         user_family_id_card: diagnosis_data.user_family_id_card,

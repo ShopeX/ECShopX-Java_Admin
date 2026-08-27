@@ -296,7 +296,10 @@
 
 <script>
 /**
- * 内购活动口令：is_passphrase_enabled、passphrase_enterprises（JSON，每行含 passphrase_limitfee 分）；
+ * 企业购活动（ECX-9876）：
+ * - 新合约：提交 purchase_mode + enterprise_configs（金额/点数 UI 元，API 分 *100）；不传 employee_limitfee / passphrase_enterprises
+ * - 旧合约（编辑且无 purchase_mode、无 enterprise_configs）：沿用 employee_limitfee + passphrase_enterprises
+ * 口令：is_passphrase_enabled；旧表 passphrase_limitfee；新表 per_capita_limitfee
  * 见 ecshopx-api/docs/employeepurchase-passphrase-frontend.md
  */
 import { isEmpty } from '@/utils'
@@ -351,6 +354,7 @@ export default {
       },
       formBaseList: [],
       activityRule: {
+        purchase_mode: 'cash',
         companyList: [],
         preheatTime: '',
         employee: {
@@ -375,6 +379,8 @@ export default {
         is_passphrase_enabled: false,
         passphraseRows: []
       },
+      /** 新建默认走新合约；编辑旧活动（无 purchase_mode 且无 enterprise_configs）时置 false */
+      isNewContractActivity: true,
 
       /** 活动规则表单项列表，在 created 中赋值避免 render 阶段访问 $i18n */
       activityRuleList: [],
@@ -384,6 +390,9 @@ export default {
       /** 可参与名额 — 批量填充弹层 */
       passphraseBatchQuotaPopoverVisible: false,
       passphraseBatchQuotaDraft: '',
+      /** 人均额度/点数 — 批量填充弹层（新合约） */
+      perCapitaBatchPopoverVisible: false,
+      perCapitaBatchDraft: '',
       passphraseBatchCodePopoverVisible: false,
       /** 随机生成口令 — 接口请求中 */
       passphraseBatchCodeGenerating: false,
@@ -542,7 +551,37 @@ export default {
         { name: t('39e3acc2.e29575'), label: 'sale_price', disabled: true },
         { name: t('39e3acc2.08ee55'), label: 'activity_price' }
       ]
+      /**
+       * ECX-9876 索引（purchase_mode 插入到 0，其后相对旧版全部 +1）：
+       * 0 purchase_mode
+       * 1 is_passphrase_enabled（旧 0）
+       * 2 companyList（旧 1）
+       * 3 企业配置/口令表（旧 2）
+       * 4 preheatTime（旧 3）
+       * 5 employee（旧 4）
+       * 6 relatives（旧 5）
+       * 7 orderMiniAmount（旧 6）
+       * 8 modifyReceiveAddress（旧 7）
+       * 9 group（旧 8）
+       * 10–12 价格展示（旧 9–11）
+       * 13–14 折扣文案（旧 12–13）
+       */
       return [
+        {
+          label: t('39e3acc2.bc2ac0'),
+          key: 'purchase_mode',
+          component: ({ disabled }) => (
+            <el-radio-group
+              v-model={self.activityRule.purchase_mode}
+              disabled={disabled}
+              on-change={self.onPurchaseModeChange}
+            >
+              <el-radio label='cash'>{t('39e3acc2.e7c090')}</el-radio>
+              <el-radio label='prepaid_point'>{t('39e3acc2.ccaab6')}</el-radio>
+            </el-radio-group>
+          ),
+          disabled: false
+        },
         {
           label: t('39e3acc2.e8b1a0'),
           key: 'is_passphrase_enabled',
@@ -589,8 +628,13 @@ export default {
         {
           label: t('39e3acc2.e8b1a4'),
           key: 'passphraseRowsTable',
-          isShow: (item, value) =>
-            !!value.is_passphrase_enabled && (value.companyList || []).length > 0,
+          isShow: (item, value) => {
+            const hasCompanies = (value.companyList || []).length > 0
+            if (self.isNewContractActivity) {
+              return hasCompanies
+            }
+            return !!value.is_passphrase_enabled && hasCompanies
+          },
           component: ({ disabled }) => {
             const ruleLocked = self.isActivityRuleEditLocked
             const quotaOnly = self.isPassphraseQuotaOnlyEditMode
@@ -598,6 +642,264 @@ export default {
             const quotaCellDisabled = quotaOnly ? false : disabled
             const codeCellDisabled = ruleLocked ? true : disabled
             const tableLimitfeeDisabled = ruleLocked ? true : disabled
+            const isPrepaid = self.activityRule.purchase_mode === 'prepaid_point'
+            const perCapitaLabel = isPrepaid
+              ? t('39e3acc2.808ead')
+              : t('39e3acc2.160809')
+            const perCapitaPlaceholder = isPrepaid
+              ? t('39e3acc2.79e734')
+              : t('39e3acc2.ebb73b')
+            const perCapitaSuffix = isPrepaid ? t('39e3acc2.be604f') : t('39e3acc2.c16655')
+            const usePassphrase = !!self.activityRule.is_passphrase_enabled
+
+            // 新合约：企业配置表（始终有人均额度；口令开启时追加名额/口令）
+            if (self.isNewContractActivity) {
+              return (
+                <div class='passphrase-enterprise-block'>
+                  <el-table
+                    class='passphrase-enterprise-table'
+                    data={self.activityRule.passphraseRows}
+                    border
+                    size='small'
+                  >
+                    <el-table-column
+                      label={t('39e3acc2.e8b1a5')}
+                      prop='name'
+                      min-width='180'
+                      show-overflow-tooltip
+                    />
+                    <el-table-column
+                      label={t('39e3acc2.e8b1a6')}
+                      prop='enterprise_sn'
+                      min-width='140'
+                      show-overflow-tooltip
+                    />
+                    <el-table-column
+                      min-width='220'
+                      scopedSlots={{
+                        header: () => (
+                          <span class='passphrase-quota-header'>
+                            <span>{perCapitaLabel}</span>
+                            <el-popover
+                              props={{
+                                value: self.perCapitaBatchPopoverVisible,
+                                placement: 'top',
+                                width: '280',
+                                trigger: 'click'
+                              }}
+                              on={{
+                                input: (v) => {
+                                  self.perCapitaBatchPopoverVisible = v
+                                }
+                              }}
+                            >
+                              <div class='passphrase-batch-fill-popover'>
+                                <div class='passphrase-batch-fill-popover__field'>
+                                  <el-input
+                                    v-model={self.perCapitaBatchDraft}
+                                    size='small'
+                                    placeholder={perCapitaPlaceholder}
+                                    nativeOn={{
+                                      keyup: (e) => {
+                                        if (e.key === 'Enter') {
+                                          self.confirmPerCapitaBatchFill()
+                                        }
+                                      }
+                                    }}
+                                  />
+                                </div>
+                                <div class='passphrase-batch-fill-popover__actions'>
+                                  <el-button
+                                    type='text'
+                                    size='mini'
+                                    on-click={() => {
+                                      self.perCapitaBatchPopoverVisible = false
+                                    }}
+                                  >
+                                    {t('bea3f44a.625fb2')}
+                                  </el-button>
+                                  <el-button
+                                    type='primary'
+                                    size='mini'
+                                    on-click={self.confirmPerCapitaBatchFill}
+                                  >
+                                    {t('39e3acc2.e8b1b1')}
+                                  </el-button>
+                                </div>
+                              </div>
+                              <el-button
+                                slot='reference'
+                                type='text'
+                                class='passphrase-batch-fill-btn'
+                                disabled={batchLocked || disabled}
+                              >
+                                {t('39e3acc2.e8b1ad')}
+                              </el-button>
+                            </el-popover>
+                          </span>
+                        ),
+                        default: (scope) => (
+                          <SpInput
+                            v-model={scope.row.per_capita_limitfee}
+                            width='120px'
+                            disabled={tableLimitfeeDisabled}
+                            placeholder={perCapitaPlaceholder}
+                            suffix={perCapitaSuffix}
+                          />
+                        )
+                      }}
+                    />
+                    {usePassphrase ? (
+                      <el-table-column
+                        min-width='200'
+                        scopedSlots={{
+                          header: () => (
+                            <span class='passphrase-quota-header'>
+                              <span>{t('39e3acc2.e8b1a7')}</span>
+                              <el-popover
+                                props={{
+                                  value: self.passphraseBatchQuotaPopoverVisible,
+                                  placement: 'top',
+                                  width: '280',
+                                  trigger: 'click'
+                                }}
+                                on={{
+                                  input: (v) => {
+                                    self.passphraseBatchQuotaPopoverVisible = v
+                                  }
+                                }}
+                              >
+                                <div class='passphrase-batch-fill-popover'>
+                                  <div class='passphrase-batch-fill-popover__field'>
+                                    <el-input
+                                      v-model={self.passphraseBatchQuotaDraft}
+                                      size='small'
+                                      placeholder={t('39e3acc2.e8b1ae')}
+                                      nativeOn={{
+                                        keyup: (e) => {
+                                          if (e.key === 'Enter') {
+                                            self.confirmPassphraseBatchParticipateQuota()
+                                          }
+                                        }
+                                      }}
+                                    />
+                                  </div>
+                                  <div class='passphrase-batch-fill-popover__actions'>
+                                    <el-button
+                                      type='text'
+                                      size='mini'
+                                      on-click={() => {
+                                        self.passphraseBatchQuotaPopoverVisible = false
+                                      }}
+                                    >
+                                      {t('bea3f44a.625fb2')}
+                                    </el-button>
+                                    <el-button
+                                      type='primary'
+                                      size='mini'
+                                      on-click={self.confirmPassphraseBatchParticipateQuota}
+                                    >
+                                      {t('39e3acc2.e8b1b1')}
+                                    </el-button>
+                                  </div>
+                                </div>
+                                <el-button
+                                  slot='reference'
+                                  type='text'
+                                  class='passphrase-batch-fill-btn'
+                                  disabled={batchLocked || disabled}
+                                >
+                                  {t('39e3acc2.e8b1ad')}
+                                </el-button>
+                              </el-popover>
+                            </span>
+                          ),
+                          default: (scope) => (
+                            <SpInput
+                              v-model={scope.row.participate_quota}
+                              width='120px'
+                              disabled={quotaCellDisabled}
+                              placeholder={t('39e3acc2.ea6c91')}
+                            />
+                          )
+                        }}
+                      />
+                    ) : null}
+                    {usePassphrase ? (
+                      <el-table-column
+                        min-width='200'
+                        scopedSlots={{
+                          header: () => (
+                            <span class='passphrase-quota-header'>
+                              <span>{t('39e3acc2.e8b1a9')}</span>
+                              <el-popover
+                                props={{
+                                  value: self.passphraseBatchCodePopoverVisible,
+                                  placement: 'top',
+                                  width: '300',
+                                  trigger: 'click'
+                                }}
+                                on={{
+                                  input: (v) => {
+                                    self.passphraseBatchCodePopoverVisible = v
+                                  }
+                                }}
+                              >
+                                <div class='passphrase-batch-fill-popover'>
+                                  <p class='passphrase-batch-code-popover__tip'>
+                                    {t('39e3acc2.e8b1b3')}
+                                  </p>
+                                  <div class='passphrase-batch-fill-popover__actions'>
+                                    <el-button
+                                      type='text'
+                                      size='mini'
+                                      disabled={self.passphraseBatchCodeGenerating}
+                                      on-click={() => {
+                                        self.passphraseBatchCodePopoverVisible = false
+                                      }}
+                                    >
+                                      {t('bea3f44a.625fb2')}
+                                    </el-button>
+                                    <el-button
+                                      type='primary'
+                                      size='mini'
+                                      loading={self.passphraseBatchCodeGenerating}
+                                      on-click={self.confirmPassphraseBatchGenerateCodes}
+                                    >
+                                      {t('39e3acc2.e8b1b1')}
+                                    </el-button>
+                                  </div>
+                                </div>
+                                <el-button
+                                  slot='reference'
+                                  type='text'
+                                  class='passphrase-batch-fill-btn'
+                                  disabled={batchLocked || disabled}
+                                  loading={self.passphraseBatchCodeGenerating}
+                                >
+                                  {t('39e3acc2.e8b1b2')}
+                                </el-button>
+                              </el-popover>
+                            </span>
+                          ),
+                          default: (scope) => (
+                            <el-input
+                              v-model={scope.row.passphrase_code}
+                              disabled={codeCellDisabled}
+                              maxlength={64}
+                              placeholder={t('39e3acc2.e8b1b4')}
+                              size='small'
+                            />
+                          )
+                        }}
+                      />
+                    ) : null}
+                  </el-table>
+                </div>
+              )
+            }
+
+            // 旧合约：仅口令开启时展示口令企业表（含 passphrase_limitfee）
             return (
               <div class='passphrase-enterprise-block'>
                 <el-table
@@ -780,6 +1082,45 @@ export default {
           },
           disabled: false,
           validator: (rule, value, callback) => {
+            const rows = self.activityRule.passphraseRows || []
+            if (self.isNewContractActivity) {
+              if (self.activityRule.companyList.length === 0) {
+                callback()
+                return
+              }
+              for (let i = 0; i < rows.length; i++) {
+                const r = rows[i]
+                const pl = r.per_capita_limitfee
+                if (pl === '' || pl === null || pl === undefined) {
+                  callback(new Error(t('39e3acc2.6ccaf0')))
+                  return
+                }
+                const pln = Number(pl)
+                if (!Number.isFinite(pln) || pln <= 0) {
+                  callback(new Error(t('39e3acc2.6ccaf0')))
+                  return
+                }
+                const plFen = Math.round(pln * 100)
+                if (plFen < 1) {
+                  callback(new Error(t('39e3acc2.6ccaf0')))
+                  return
+                }
+                if (self.activityRule.is_passphrase_enabled) {
+                  const pq = Number(r.participate_quota)
+                  if (!r.participate_quota || pq <= 0 || !Number.isFinite(pq)) {
+                    callback(new Error(t('39e3acc2.e8b1ab')))
+                    return
+                  }
+                  if (!r.passphrase_code || !String(r.passphrase_code).trim()) {
+                    callback(new Error(t('39e3acc2.e8b1ab')))
+                    return
+                  }
+                }
+              }
+              callback()
+              return
+            }
+            // 旧合约口令表校验
             if (!self.activityRule.is_passphrase_enabled) {
               callback()
               return
@@ -788,7 +1129,6 @@ export default {
               callback()
               return
             }
-            const rows = self.activityRule.passphraseRows || []
             for (let i = 0; i < rows.length; i++) {
               const r = rows[i]
               const pq = Number(r.participate_quota)
@@ -864,7 +1204,12 @@ export default {
                 <div class='form-item-tip'>{t('39e3acc2.f5552d')}</div>
               </div>
               <transition name='purchase-inline-fade'>
-                <div class='form-item-content' v-show={!self.activityRule.is_passphrase_enabled}>
+                <div
+                  class='form-item-content'
+                  v-show={
+                    !self.isNewContractActivity && !self.activityRule.is_passphrase_enabled
+                  }
+                >
                   <div class='content-item'>
                     <label>{t('39e3acc2.769491')}</label>
                     <SpInput
@@ -889,7 +1234,8 @@ export default {
               callback(new Error(t('39e3acc2.77a141')))
               return
             }
-            if (self.activityRule.is_passphrase_enabled) {
+            // 新合约额度在企业配置表；旧合约口令开启时额度在口令表
+            if (self.isNewContractActivity || self.activityRule.is_passphrase_enabled) {
               callback()
               return
             }
@@ -909,7 +1255,8 @@ export default {
         {
           label: t('39e3acc2.4eca5b'),
           key: 'relatives',
-          isShow: (item, value) => !value.is_passphrase_enabled,
+          isShow: (item, value) =>
+            !value.is_passphrase_enabled && value.purchase_mode !== 'prepaid_point',
           component: ({ disabled: { join, num, datetime, type, shareLimit } }) => (
             <div class='activity-relatives-field'>
               <div class='form-item-content'>
@@ -1109,61 +1456,71 @@ export default {
         pic: res.pic
       }
 
-      // 索引：0 口令开关 1 参与企业 2 口令企业表 3 预热 4 员工 5 亲友 6 起订 7 改地址 8 分组 9–11 价格展示 12–13 折扣文案
+      const hasEnterpriseConfigs =
+        Array.isArray(res.enterprise_configs) && res.enterprise_configs.length > 0
+      this.isNewContractActivity = !!(res.purchase_mode || hasEnterpriseConfigs)
+
+      // 索引：0 购买方式 1 口令开关 2 参与企业 3 企业配置/口令表 4 预热 5 员工 6 亲友 7 起订 8 改地址 9 分组 10–12 价格展示 13–14 折扣文案
       this.activityRuleDisabledOverrides = {}
+      // 编辑态锁定购买方式（创建后不可改）
+      this.$set(this.activityRuleDisabledOverrides, 0, true)
       if (res.status === 'pending' || res.status === 'ongoing') {
         this.formBaseList[0].disabled = true
         this.formBaseList[1].disabled = true
         this.formBaseList[2].disabled = true
-        this.$set(this.activityRuleDisabledOverrides, 0, true)
         this.$set(this.activityRuleDisabledOverrides, 1, true)
-        this.$set(this.activityRuleDisabledOverrides, 3, true)
-        this.$set(this.activityRuleDisabledOverrides, 4, {
+        this.$set(this.activityRuleDisabledOverrides, 2, true)
+        // 新合约：企业额度/口令关键配置创建后锁定
+        if (this.isNewContractActivity) {
+          this.$set(this.activityRuleDisabledOverrides, 3, true)
+        }
+        this.$set(this.activityRuleDisabledOverrides, 4, true)
+        this.$set(this.activityRuleDisabledOverrides, 5, {
           datetime: true,
           quota: true
         })
-        this.$set(this.activityRuleDisabledOverrides, 5, {
+        this.$set(this.activityRuleDisabledOverrides, 6, {
           join: true,
           num: true,
           datetime: true,
           type: true,
           shareLimit: true
         })
-        this.$set(this.activityRuleDisabledOverrides, 6, true)
         this.$set(this.activityRuleDisabledOverrides, 7, true)
-        this.$set(this.activityRuleDisabledOverrides, 9, true)
+        this.$set(this.activityRuleDisabledOverrides, 8, true)
         this.$set(this.activityRuleDisabledOverrides, 10, true)
         this.$set(this.activityRuleDisabledOverrides, 11, true)
         this.$set(this.activityRuleDisabledOverrides, 12, true)
         this.$set(this.activityRuleDisabledOverrides, 13, true)
+        this.$set(this.activityRuleDisabledOverrides, 14, true)
       } else if (res.status == 'cancel' || res.status == 'over') {
         // 已取消、已结束
         this.formBaseList[0].disabled = true
         this.formBaseList[1].disabled = true
         this.formBaseList[2].disabled = true
 
-        this.$set(this.activityRuleDisabledOverrides, 0, true)
         this.$set(this.activityRuleDisabledOverrides, 1, true)
         this.$set(this.activityRuleDisabledOverrides, 2, true)
         this.$set(this.activityRuleDisabledOverrides, 3, true)
-        this.$set(this.activityRuleDisabledOverrides, 4, {
+        this.$set(this.activityRuleDisabledOverrides, 4, true)
+        this.$set(this.activityRuleDisabledOverrides, 5, {
           datetime: true,
           quota: true
         })
-        this.$set(this.activityRuleDisabledOverrides, 5, {
+        this.$set(this.activityRuleDisabledOverrides, 6, {
           join: true,
           num: true,
           datetime: true,
           type: true,
           shareLimit: true
         })
-        this.$set(this.activityRuleDisabledOverrides, 6, true)
         this.$set(this.activityRuleDisabledOverrides, 7, true)
-        this.$set(this.activityRuleDisabledOverrides, 9, true)
+        this.$set(this.activityRuleDisabledOverrides, 8, true)
         this.$set(this.activityRuleDisabledOverrides, 10, true)
         this.$set(this.activityRuleDisabledOverrides, 11, true)
         this.$set(this.activityRuleDisabledOverrides, 12, true)
         this.$set(this.activityRuleDisabledOverrides, 13, true)
+        this.$set(this.activityRuleDisabledOverrides, 14, true)
       }
       this.activityStatus = res.status
 
@@ -1175,31 +1532,61 @@ export default {
 
       const priceData = this.priceShowData(res.price_display_config, 'detail')
 
-      const phraseMap = {}
-      ;(res.passphrase_enterprises || []).forEach((pe) => {
-        const eid = pe.enterprise_id
-        phraseMap[eid] = {
-          participate_quota: pe.participate_quota,
-          passphrase_code: pe.passphrase_code || '',
-          passphrase_limitfee:
-            pe.passphrase_limitfee != null && pe.passphrase_limitfee !== ''
-              ? Number(pe.passphrase_limitfee) / 100
-              : ''
-        }
-      })
-      const passphraseRows = list.map((c) => {
-        const pm = phraseMap[c.id]
-        return {
-          enterprise_id: c.id,
-          name: c.name,
-          enterprise_sn: c.enterprise_sn || '',
-          participate_quota: pm ? pm.participate_quota : '',
-          passphrase_code: pm ? pm.passphrase_code : '',
-          passphrase_limitfee: pm ? pm.passphrase_limitfee : ''
-        }
-      })
+      let passphraseRows = []
+      if (this.isNewContractActivity) {
+        const configMap = {}
+        ;(res.enterprise_configs || []).forEach((ec) => {
+          const eid = ec.enterprise_id
+          configMap[eid] = {
+            per_capita_limitfee:
+              ec.per_capita_limitfee != null && ec.per_capita_limitfee !== ''
+                ? Number(ec.per_capita_limitfee) / 100
+                : '',
+            participate_quota: ec.participate_quota,
+            passphrase_code: ec.passphrase_code || ''
+          }
+        })
+        passphraseRows = list.map((c) => {
+          const cm = configMap[c.id]
+          return {
+            enterprise_id: c.id,
+            name: c.name,
+            enterprise_sn: c.enterprise_sn || '',
+            per_capita_limitfee: cm ? cm.per_capita_limitfee : '',
+            participate_quota: cm ? cm.participate_quota : '',
+            passphrase_code: cm ? cm.passphrase_code : '',
+            passphrase_limitfee: ''
+          }
+        })
+      } else {
+        const phraseMap = {}
+        ;(res.passphrase_enterprises || []).forEach((pe) => {
+          const eid = pe.enterprise_id
+          phraseMap[eid] = {
+            participate_quota: pe.participate_quota,
+            passphrase_code: pe.passphrase_code || '',
+            passphrase_limitfee:
+              pe.passphrase_limitfee != null && pe.passphrase_limitfee !== ''
+                ? Number(pe.passphrase_limitfee) / 100
+                : ''
+          }
+        })
+        passphraseRows = list.map((c) => {
+          const pm = phraseMap[c.id]
+          return {
+            enterprise_id: c.id,
+            name: c.name,
+            enterprise_sn: c.enterprise_sn || '',
+            participate_quota: pm ? pm.participate_quota : '',
+            passphrase_code: pm ? pm.passphrase_code : '',
+            passphrase_limitfee: pm ? pm.passphrase_limitfee : '',
+            per_capita_limitfee: ''
+          }
+        })
+      }
 
       this.activityRule = {
+        purchase_mode: res.purchase_mode || 'cash',
         companyList: list,
         preheatTime: res.display_time * 1000,
         employee: {
@@ -1224,6 +1611,9 @@ export default {
         is_passphrase_enabled:
           res.is_passphrase_enabled === 'true' || res.is_passphrase_enabled === true,
         passphraseRows
+      }
+      if (this.activityRule.purchase_mode === 'prepaid_point') {
+        this.activityRule.relatives.join = false
       }
       this.onRadioChange(res.if_share_limitfee ? '2' : '1')
     },
@@ -1308,18 +1698,23 @@ export default {
       }
       const { data } = await this.$picker.company(params)
       this.activityRule.companyList = data
-      this.syncPassphraseEnterpriseRows()
+      this.syncEnterpriseConfigRows()
     },
     closeCompany(index) {
       this.activityRule.companyList.splice(index, 1)
-      this.syncPassphraseEnterpriseRows()
+      this.syncEnterpriseConfigRows()
+    },
+    onPurchaseModeChange(mode) {
+      if (mode === 'prepaid_point') {
+        this.activityRule.relatives.join = false
+      }
     },
     onPassphraseEnabledChange(enabled) {
       if (enabled) {
-        this.syncPassphraseEnterpriseRows()
+        this.syncEnterpriseConfigRows()
       }
     },
-    syncPassphraseEnterpriseRows() {
+    syncEnterpriseConfigRows() {
       const companies = this.activityRule.companyList || []
       const prev = this.activityRule.passphraseRows || []
       const prevById = {}
@@ -1336,7 +1731,9 @@ export default {
           participate_quota: old ? old.participate_quota : '',
           passphrase_code: old ? old.passphrase_code : '',
           passphrase_limitfee:
-            old && old.passphrase_limitfee !== undefined ? old.passphrase_limitfee : ''
+            old && old.passphrase_limitfee !== undefined ? old.passphrase_limitfee : '',
+          per_capita_limitfee:
+            old && old.per_capita_limitfee !== undefined ? old.per_capita_limitfee : ''
         }
       })
     },
@@ -1353,6 +1750,20 @@ export default {
       })
       this.passphraseBatchQuotaDraft = ''
       this.passphraseBatchQuotaPopoverVisible = false
+    },
+    confirmPerCapitaBatchFill() {
+      const raw = String(this.perCapitaBatchDraft || '').trim()
+      const n = Number(raw)
+      if (!raw || !Number.isFinite(n) || n <= 0) {
+        this.$message.warning(this.$t('39e3acc2.6ccaf0'))
+        return
+      }
+      const rows = this.activityRule.passphraseRows || []
+      rows.forEach((row) => {
+        this.$set(row, 'per_capita_limitfee', n)
+      })
+      this.perCapitaBatchDraft = ''
+      this.perCapitaBatchPopoverVisible = false
     },
     async onGeneratePassphraseCodes() {
       const ids = this.activityRule.companyList.map((c) => c.id)
@@ -1453,6 +1864,7 @@ export default {
         pic
       } = this.formBase
       const {
+        purchase_mode,
         companyList,
         preheatTime,
         employee: { datetime: employeeDateTime, quota },
@@ -1476,7 +1888,7 @@ export default {
       if (ifRelativeJoin && !ifShareLimitfee) {
         relativeLimitfeeFen = Math.round((Number(shareLimit) || 0) * 100)
       }
-      if (usePassphrase) {
+      if (usePassphrase || purchase_mode === 'prepaid_point') {
         ifRelativeJoin = 0
         inviteLimitVal = 0
         ifShareLimitfee = false
@@ -1493,7 +1905,6 @@ export default {
         display_time: preheatMoment.unix(),
         employee_begin_time: employeeBeginUnix,
         employee_end_time: employeeEndUnix,
-        employee_limitfee: employeeLimitfeeFen,
         if_relative_join: ifRelativeJoin,
         invite_limit: inviteLimitVal,
         if_share_limitfee: ifShareLimitfee,
@@ -1505,21 +1916,40 @@ export default {
         discount_description,
         is_passphrase_enabled: usePassphrase ? 1 : 0
       }
-      // 口令企业行结构见 ecshopx-api/docs/employeepurchase-passphrase-frontend.md §2.1（别名 quota/code 后端亦支持，此处用规范字段名）
-      if (usePassphrase) {
-        params.passphrase_enterprises = JSON.stringify(
-          (passphraseRows || []).map((r) => ({
+
+      if (this.isNewContractActivity) {
+        // 新合约：purchase_mode + enterprise_configs；不传 employee_limitfee / passphrase_enterprises
+        params.purchase_mode = purchase_mode
+        params.enterprise_configs = (passphraseRows || []).map((r) => {
+          const row = {
             enterprise_id: Number(r.enterprise_id),
-            participate_quota: Number(r.participate_quota),
-            passphrase_limitfee: Math.max(
-              0,
-              Math.round((Number(r.passphrase_limitfee) || 0) * 100)
-            ),
-            passphrase_code: String(r.passphrase_code || '').trim()
-          }))
-        )
+            per_capita_limitfee: Math.round((Number(r.per_capita_limitfee) || 0) * 100)
+          }
+          if (usePassphrase) {
+            row.participate_quota = Number(r.participate_quota)
+            row.passphrase_code = String(r.passphrase_code || '').trim()
+          }
+          return row
+        })
+      } else {
+        // 旧合约：employee_limitfee + passphrase_enterprises
+        params.employee_limitfee = employeeLimitfeeFen
+        if (usePassphrase) {
+          params.passphrase_enterprises = JSON.stringify(
+            (passphraseRows || []).map((r) => ({
+              enterprise_id: Number(r.enterprise_id),
+              participate_quota: Number(r.participate_quota),
+              passphrase_limitfee: Math.max(
+                0,
+                Math.round((Number(r.passphrase_limitfee) || 0) * 100)
+              ),
+              passphrase_code: String(r.passphrase_code || '').trim()
+            }))
+          )
+        }
       }
-      if (!usePassphrase && ifRelativeJoin === 1) {
+
+      if (!usePassphrase && purchase_mode !== 'prepaid_point' && ifRelativeJoin === 1) {
         if (relativesDateTime[0]) {
           params.relative_begin_time = moment(relativesDateTime[0]).unix()
         }
@@ -1541,12 +1971,13 @@ export default {
       }
     },
     onRadioChange(e) {
-      const prev = this.activityRuleDisabledOverrides[5] || {}
+      // relatives 索引：ECX-9876 后为 6（插入 purchase_mode 后 +1）
+      const prev = this.activityRuleDisabledOverrides[6] || {}
       if (e == '1') {
-        this.$set(this.activityRuleDisabledOverrides, 5, { ...prev, shareLimit: false })
+        this.$set(this.activityRuleDisabledOverrides, 6, { ...prev, shareLimit: false })
       } else {
         this.activityRule.relatives.shareLimit = 0
-        this.$set(this.activityRuleDisabledOverrides, 5, { ...prev, shareLimit: true })
+        this.$set(this.activityRuleDisabledOverrides, 6, { ...prev, shareLimit: true })
       }
     }
   }

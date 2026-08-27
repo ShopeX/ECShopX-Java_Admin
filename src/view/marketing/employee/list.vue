@@ -467,10 +467,23 @@ export default {
             width: 100
           },
           {
+            name: this.$t('bea3f44a.bc2ac0'),
+            key: 'purchase_mode_desc',
+            width: 120
+          },
+          {
+            name: this.$t('bea3f44a.5176e6'),
+            key: 'prepaid_point_desc',
+            width: 120
+          },
+          {
             name: this.$t('bea3f44a.ed13b6'),
             key: 'employee_limitfee',
             width: '120',
-            formatter: (value, row, col) => {
+            formatter: (value, row) => {
+              if (row.employee_quota_desc != null && row.employee_quota_desc !== '') {
+                return row.employee_quota_desc
+              }
               return value > 0 ? value / 100 : 0
             }
           },
