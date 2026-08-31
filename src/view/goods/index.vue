@@ -50,7 +50,7 @@
             (IS_SUPPLIER() || !form.supplier_id) && !routerParams.detail && !routerParams.supplier
           "
           type="primary"
-          :loading="submitLoading"
+          :disabled="submitLoading"
           @click="onFormSubmit('submiting')"
         >
           {{ $t('de022579.be5fbb') }}
@@ -58,7 +58,7 @@
         <el-button
           v-if="IS_SUPPLIER() && !routerParams.detail"
           type="primary"
-          :loading="submitLoading"
+          :disabled="submitLoading"
           @click.native="onFormSubmit('processing')"
         >
           {{ $t('de022579.646db0') }}
@@ -66,7 +66,7 @@
         <el-button
           v-if="IS_ADMIN() && form.audit_status == 'processing'"
           type="primary"
-          :loading="submitLoading"
+          :disabled="submitLoading"
           @click.native="onApplyConfirm"
         >
           {{ $t('de022579.388305') }}
