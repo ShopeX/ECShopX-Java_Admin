@@ -222,7 +222,7 @@
         <el-button type="primary" plain @click="batchChangeStore">
           {{ $t('b7aea01d.836304') }}
         </el-button>
-        <el-dropdown @command="handleExport">
+        <el-dropdown trigger="click" @command="handleExport">
           <el-button type="primary" plain icon="iconfont icon-daorucaozuo-01">
             {{ $t('b7aea01d.55405e') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>

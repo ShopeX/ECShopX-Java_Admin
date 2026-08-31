@@ -25,7 +25,7 @@
           <el-button type="primary" plain @click="batchItemsStatus('instock')">
             {{ $t('c43c7afc.72aa38') }}
           </el-button>
-          <el-dropdown @command="exportItemsWxappCode">
+          <el-dropdown trigger="click" @command="exportItemsWxappCode">
             <el-button type="primary" plain icon="iconfont icon-daorucaozuo-01">
               {{ $t('c43c7afc.55405e') }}<i class="el-icon-arrow-down el-icon--right" />
             </el-button>

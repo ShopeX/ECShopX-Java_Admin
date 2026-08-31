@@ -52,7 +52,7 @@
           {{ $t('d41d8cd9.1cc97f') }}
         </el-button>
         <!-- <el-button type="primary" plain @click="changeGoodsPrice"> 批量改价 </el-button> -->
-        <el-dropdown @command="handleImport">
+        <el-dropdown trigger="click" @command="handleImport">
           <el-button type="primary" icon="iconfont icon-daorucaozuo-01">
             {{ $t('d41d8cd9.8d9a07') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
@@ -68,7 +68,7 @@
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-dropdown @command="handleExport">
+        <el-dropdown trigger="click" @command="handleExport">
           <el-button type="primary">
             {{ $t('d41d8cd9.55405e') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
@@ -94,7 +94,7 @@
         <el-button v-if="isBindWdtErp" size="small" type="primary" @click="uploadWdtErpItems()">
           {{ $t('d41d8cd9.fe2216') }}
         </el-button>
-        <el-dropdown v-if="VERSION_STANDARD() && IS_ADMIN()">
+        <el-dropdown v-if="VERSION_STANDARD() && IS_ADMIN()" trigger="click">
           <el-button type="primary">
             {{ $t('d41d8cd9.5aa3a7') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
