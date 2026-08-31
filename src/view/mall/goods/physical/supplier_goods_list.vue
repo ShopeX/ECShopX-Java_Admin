@@ -218,7 +218,7 @@
         </el-button>
         <!-- <el-button type="primary" plain @click="changeGoodsPrice"> 批量改价 </el-button> -->
 
-        <el-dropdown @command="handleExport">
+        <el-dropdown trigger="click" @command="handleExport">
           <el-button type="primary" plain icon="iconfont icon-daorucaozuo-01">
             {{ $t('d41d8cd9.55405e') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
@@ -239,7 +239,7 @@
           </el-dropdown-menu>
         </el-dropdown>
 
-        <el-dropdown v-if="VERSION_STANDARD() && IS_ADMIN()">
+        <el-dropdown v-if="VERSION_STANDARD() && IS_ADMIN()" trigger="click">
           <el-button type="primary" plain icon="iconfont icon-daorucaozuo-01">
             {{ $t('d41d8cd9.5aa3a7') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>

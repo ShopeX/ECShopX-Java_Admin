@@ -87,7 +87,7 @@
           {{ $t('8312e7f7.fa3aee') }}
         </el-button>
 
-        <el-dropdown @command="handleImport">
+        <el-dropdown trigger="click" @command="handleImport">
           <el-button type="primary" plain icon="iconfont icon-daorucaozuo-01">
             {{ $t('8312e7f7.8d9a07') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
@@ -116,7 +116,7 @@
         <el-button v-if="isBindJstErp" plain type="primary" @click="uploadJstErpItems()">
           {{ $t('8312e7f7.78a38b') }}
         </el-button>
-        <el-dropdown @command="exportItemsData">
+        <el-dropdown trigger="click" @command="exportItemsData">
           <el-button type="primary" plain>
             {{ $t('8312e7f7.55405e') }} <i class="el-icon-arrow-down el-icon--right" />
           </el-button>

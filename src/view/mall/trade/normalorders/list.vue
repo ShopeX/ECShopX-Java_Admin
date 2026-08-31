@@ -18,7 +18,7 @@
       />
 
       <div class="action-container mt-4">
-        <el-dropdown @command="handleExport">
+        <el-dropdown trigger="click" @command="handleExport">
           <el-button type="primary" plain>
             {{ $t('c95ea121.55405e') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
