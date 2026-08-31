@@ -6,11 +6,15 @@
 Node.js (current LTS) and npm are required to run the project. To be sure about the version compatibility you can enable Node's corepack.
 
 ### System Requirements
-Required Node.js Version: 16.16.0. If your current version differs, follow the steps below to switch
+Required Node.js Version: 20.19.0. If your current version differs, follow the steps below to switch
 ```
-nvm install 16.16.0
-nvm use 16.16.0
+nvm install 20.19.0
+nvm use 20.19.0
 ```
+
+Or from the project root: `nvm use` (reads [`.nvmrc`](.nvmrc)).
+
+Docker / CI builds use the Node version in [`Dockerfile`](Dockerfile) (`node-python3:20.19.0-alpine3.20`). If your pipeline pins Node separately, align it with **20.19.0**.
 ### Configure the .env file
 ```shell
 # The system’s default settings do not require any changes.

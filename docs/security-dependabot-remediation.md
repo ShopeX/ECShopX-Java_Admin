@@ -4,7 +4,7 @@
 > 项目：`ecshopx-admin`（`package.json` version 4.8.0）  
 > GitHub 仓库：[ShopeX/ECShopX_admin-frontend](https://github.com/ShopeX/ECShopX_admin-frontend)  
 > 本地扫描：`npm audit --registry=https://registry.npmjs.org`  
-> Node 版本：`16.16.0`（见 `package.json` engines）
+> Node 版本：`20.19.0`（见 `package.json` engines）
 
 > 关联执行方案：**[fix-plan.md](./fix-plan.md)**（按 PR 拆分的可落地修复步骤）  
 > Dependabot Accept 清单：**[dependabot-accept-list.md](./dependabot-accept-list.md)**
