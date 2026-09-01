@@ -371,12 +371,12 @@
   </SpRouterView>
 </template>
 <script>
+import districtOptions from '@/mixins/districtOptions'
 import { mapGetters } from 'vuex'
 import Treeselect from '@riophae/vue-treeselect'
 import SideBar from '@/components/element/sideBar'
 import { getShippingTemplatesList } from '@/api/shipping'
 import { getDefaultCurrency } from '@/api/company'
-import district from '@/common/district.json'
 import {
   getItemsList,
   setItemsTemplate,
@@ -396,6 +396,7 @@ import {
 } from '@/api/pointsmall'
 
 export default {
+  mixins: [districtOptions],
   components: {
     Treeselect,
     SideBar
@@ -416,7 +417,7 @@ export default {
         { value: 'normal', name: this.$t('8312e7f7.0f7a66') },
         { value: 'drug', name: this.$t('8312e7f7.e8b7e1') }
       ],
-      regions: district,
+      regions: [],
       current: '',
       currentId: '',
       currentPrice: '',

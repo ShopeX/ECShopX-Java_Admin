@@ -522,8 +522,10 @@ import { exportItemsData, exportItemsTagData } from '@/api/goods'
 import { IS_ADMIN, IS_SUPPLIER } from '@/utils'
 import { getPageCode } from '@/api/marketing'
 import { GOODS_APPLY_STATUS } from '@/consts'
+import districtOptions from '@/mixins/districtOptions'
 
 export default {
+  mixins: [districtOptions],
   data() {
     const loginType = this.$store.getters.login_type
     let updateStatusOption = [
@@ -1240,7 +1242,6 @@ export default {
   },
   mounted() {
     this.init()
-    this.getAddress()
     this.getShippingTemplatesList()
     this.fetchWechatList()
     this.searchParams.operator_name = this.$route.query.operator_name
@@ -1592,11 +1593,6 @@ export default {
       this.labelDialog = false
       this.$message.success(this.$t('d41d8cd9.33130f'))
       this.$refs['finder'].refresh()
-    },
-    // 获取地区列表
-    async getAddress() {
-      const res = await this.$api.common.getAddress()
-      this.regions = res
     },
     // 同步至店铺
     async syncToShop(isAll) {
