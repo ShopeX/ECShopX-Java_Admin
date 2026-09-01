@@ -626,7 +626,7 @@ export default {
           }
         },
         {
-          label: t('39e3acc2.e8b1a4'),
+          label: '',
           key: 'passphraseRowsTable',
           isShow: (item, value) => {
             const hasCompanies = (value.companyList || []).length > 0
