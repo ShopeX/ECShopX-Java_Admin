@@ -109,7 +109,9 @@ import SpecParams from './components/SpecParams'
 import SkuParams from './components/SkuParams'
 import VideoPicker from '@/components/sp-picker-plus/VideoPicker.vue'
 import sku from '../../store/modules/sku'
+import districtOptions from '@/mixins/districtOptions'
 export default {
+  mixins: [districtOptions],
   async beforeRouteLeave(to, from, next) {
     if (this.$refs['decorateRef']?.dialogVisible) {
       this.$refs['decorateRef'].resetDecorateTheme()
@@ -1264,7 +1266,7 @@ export default {
     },
     // 获取地区列表
     async getAddress() {
-      const res = await this.$api.common.getAddress()
+      const res = await this.loadDistrictOptions()
       this.regionsList = res
       const _all_obj = {
         value: 'all',

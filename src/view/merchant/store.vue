@@ -111,11 +111,12 @@
 import { isObject, isArray, isEmpty, getRegionNameById } from '@/utils'
 import Pages from '@/utils/pages'
 import { loadMap } from '@/utils/load-map'
-import district from '@/common/district.json'
 import DaoDianZiti from './components/DaoDianZiti'
 import RefundGoodsAddress from './components/RefundGoodsAddress'
 import RefundGoodsStore from './components/RefundGoodsStore'
+import districtOptions from '@/mixins/districtOptions'
 export default {
+  mixins: [districtOptions],
   data() {
     let distributionTypeOptions = [
       {
@@ -437,7 +438,7 @@ export default {
           component: ({ key }, value) => {
             return (
               <div class='address-block'>
-                <el-cascader v-model={value['regions_id']} class='regions' options={district} />
+                <el-cascader v-model={value['regions_id']} class='regions' options={this.regions} />
                 <el-input
                   v-model={value['address']}
                   class='address'
@@ -642,7 +643,10 @@ export default {
           label: this.$t('027707af.efdb86'),
           width: 'auto',
           component: ({ key }, value) => (
-            <RefundGoodsAddress v-model={value['offline_aftersales_address']} />
+            <RefundGoodsAddress
+              v-model={value['offline_aftersales_address']}
+              regions={this.regions}
+            />
           )
         },
         {
@@ -708,7 +712,7 @@ export default {
       merchantList: [],
       categoryList: [],
       remoteLoading: false,
-      regions: district,
+      regions: [],
       submitLoading: false,
       searchService: null,
       map: null,
@@ -734,7 +738,9 @@ export default {
     } else {
       this.getDadaInfo()
     }
-    this.getStoreInfo()
+    this.loadDistrictOptions().then(() => {
+      this.getStoreInfo()
+    })
     this.getOrderSetting()
     this.getCategoryList()
   },
@@ -789,7 +795,7 @@ export default {
         this.$message.error(this.$t('027707af.ef5ed8'))
         return
       }
-      const [province, city, country] = getRegionNameById(regions_id, district)
+      const [province, city, country] = getRegionNameById(regions_id, this.regions)
 
       const locationRes = await this.$api.distributor.getAreaByAddress({
         address: `${province}${city}${country}${address}`
@@ -981,13 +987,13 @@ export default {
       const { distributor_id, distributor_type } = this.$route.query
       const { offline_aftersales_address } = this.form
       const { regions_id, startTime, endTime } = offline_aftersales_address
-      const [province, city, area] = getRegionNameById(regions_id, district)
+      const [province, city, area] = getRegionNameById(regions_id, this.regions)
 
       const params = {
         ...this.form,
         is_refund_freight: this.form.is_refund_freight ? 1 : 0,
         distributor_self: this.distributor_self,
-        regions: getRegionNameById(this.form.regions_id, district),
+        regions: getRegionNameById(this.form.regions_id, this.regions),
         hour: `${this.form.startTime}-${this.form.endTime}`,
         offline_aftersales_address: {
           ...offline_aftersales_address,

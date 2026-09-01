@@ -884,11 +884,11 @@
   </SpPage>
 </template>
 <script>
+import districtOptions from '@/mixins/districtOptions'
 import { mapGetters } from 'vuex'
 import Treeselect from '@riophae/vue-treeselect'
 import SideBar from '@/components/element/sideBar'
 import { getDefaultCurrency } from '@/api/company'
-import district from '@/common/district.json'
 import {
   getItemsList,
   setItemsTemplate,
@@ -929,7 +929,7 @@ export default {
     GoodsSelect,
     skuFinder
   },
-  mixins: [mixins],
+  mixins: [mixins, districtOptions],
   provide() {
     return {
       refresh: this.getGoodsList
@@ -964,7 +964,7 @@ export default {
           type: 'profit'
         }
       },
-      regions: district,
+      regions: [],
       current: '',
       currentId: '',
       currentPrice: '',

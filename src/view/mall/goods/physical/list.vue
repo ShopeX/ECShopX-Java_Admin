@@ -417,8 +417,10 @@ import { GOODS_APPLY_STATUS } from '@/consts'
 import { createTbAddForm } from './schema'
 import SpPageUpload from '@/components/sp-page-upload'
 import { createSetting } from '@shopex-ui/finder'
+import districtOptions from '@/mixins/districtOptions'
 
 export default {
+  mixins: [districtOptions],
   components: {
     SpPageUpload
   },
@@ -1475,7 +1477,6 @@ export default {
   },
   mounted() {
     this.init()
-    this.getAddress()
     this.getShippingTemplatesList()
     this.searchParams.operator_name = this.$route.query.operator_name
     this.fetchWechatList()
@@ -1962,11 +1963,6 @@ export default {
       this.labelDialog = false
       this.$message.success(this.$t('dc9cefd6.33130f'))
       this.$refs['finder'].refresh()
-    },
-    // 获取地区列表
-    async getAddress() {
-      const res = await this.$api.common.getAddress()
-      this.regions = res
     },
     // 同步至店铺
     async syncToShop(isAll) {

@@ -269,8 +269,8 @@
   </div>
 </template>
 <script>
+import districtOptions from '@/mixins/districtOptions'
 import { mapGetters } from 'vuex'
-import district from '@/common/district.json'
 import SideBar from '@/components/element/sideBar'
 import {
   getItemsList,
@@ -288,7 +288,7 @@ export default {
   components: {
     SideBar
   },
-  mixins: [pageMixin],
+  mixins: [pageMixin, districtOptions],
   provide() {
     return {
       refresh: this.fetchList
@@ -298,7 +298,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      regions: district,
+      regions: [],
       tabListData: [
         { labelKey: 'c43c7afc.794a4e', name: '' },
         { labelKey: 'c43c7afc.5cb424', name: 'processing' }
