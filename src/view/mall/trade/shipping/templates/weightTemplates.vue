@@ -87,6 +87,9 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getShippingTemplatesList()
+  },
   methods: {
     handleCurrentChange(pageNum) {
       this.params.page = pageNum
