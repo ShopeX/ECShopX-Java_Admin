@@ -334,9 +334,10 @@ export default {
             render: (h, { row }) =>
               h('el-switch', {
                 props: {
+                  // 列名为「状态」：开=启用(disabled=false)，关=禁用(disabled=true)
                   value: row.disabled,
-                  'active-value': true,
-                  'inactive-value': false
+                  'active-value': false,
+                  'inactive-value': true
                 },
                 on: {
                   change: async (e) => {
