@@ -35,14 +35,21 @@ export default {
       if (this.routeViewDepth !== null) {
         return matched.length > this.routeViewDepth + 1
       }
-      // 通过父页面在 matched 中的位置判断，避免 matched.length === 3 在不同路由层级失效
-      const parentIndex = matched.findIndex(
-        (record) => record.instances && record.instances.default === this.$parent
-      )
-      if (parentIndex !== -1) {
-        return matched.length > parentIndex + 1
+      // SpRouterView 常包在 SpPage 等中间层内，需向上找到真正的路由页面实例
+      let parent = this.$parent
+      while (parent) {
+        const parentIndex = matched.findIndex(
+          (record) => record.instances && record.instances.default === parent
+        )
+        if (parentIndex !== -1) {
+          return matched.length > parentIndex + 1
+        }
+        parent = parent.$parent
       }
-      return /\/(editor|detail|info)(?:\/|$)/.test(this.$route.path)
+      // 兜底：常见列表子页 path（含店铺支付配置等）
+      return /\/(editor|detail|info|details|wxpaysetting|alipaysetting|template|storeupload)(?:\/|$)/i.test(
+        this.$route.path
+      )
     },
     routerViewKey() {
       return this.showRouterView ? this.$route.fullPath : 'sp-router-view-list'
@@ -51,23 +58,15 @@ export default {
   created() {
     this.currentRoute = this.$route
   },
-  render(h) {
-    if (this.showRouterView) {
-      return h('router-view')
-    }
-    const nodes = this.$slots.default
-    if (!nodes || !nodes.length) {
-      return h('span', { style: { display: 'none' }, attrs: { 'aria-hidden': 'true' } })
-    }
-    if (nodes.length === 1) {
-      return nodes[0]
-    }
-    return h('div', { style: { display: 'contents' } }, nodes)
-  },
   methods: {
     onActivated(resetPage) {
-      if (typeof this.$parent.$activated === 'function') {
-        this.$parent.$activated(this.currentRoute, this.$route, resetPage)
+      let parent = this.$parent
+      while (parent) {
+        if (typeof parent.$activated === 'function') {
+          parent.$activated(this.currentRoute, this.$route, resetPage)
+          return
+        }
+        parent = parent.$parent
       }
     }
   }
