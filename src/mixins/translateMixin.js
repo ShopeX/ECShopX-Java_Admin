@@ -29,6 +29,11 @@ export default {
         values,
         sourceLang: getCurrentCountryCode()
       }
+      // 云店/Java 暂不支持翻译同步，保存后走「仅保存」：编辑页返回列表，列表内表单留在当前页
+      if (typeof this.VERSION_STANDARD === 'function' && this.VERSION_STANDARD()) {
+        this.onTranslateSaveOnly()
+        return false
+      }
       this.$nextTick(() => {
         if (this.$refs.translatePopup) {
           this.$refs.translatePopup.open()
