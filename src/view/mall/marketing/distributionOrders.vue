@@ -299,7 +299,9 @@ export default {
           componentProps: {
             clearable: true,
             placeholder: this.$t('2345face.249ee7'),
-            options: LOCAL_ORDER_TYPE
+            options: this.isSelfOrderList
+              ? LOCAL_ORDER_TYPE.filter((item) => item.value !== 'employee_purchase')
+              : LOCAL_ORDER_TYPE
           }
         },
         {
@@ -324,7 +326,7 @@ export default {
 
       if (this.isSelfOrderList) {
         // 自营订单：仅线上店铺订单，对齐旧 shopList 筛选
-        _params.order_class_exclude = 'drug,pointsmall'
+        _params.order_class_exclude = 'drug,pointsmall,employee_purchase'
         _params.order_holder = 'self,self_supplier'
         _params.distributor_id = 0
       } else {

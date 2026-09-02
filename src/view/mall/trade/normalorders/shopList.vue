@@ -849,7 +849,7 @@ export default {
       params: {
         page: 1,
         pageSize: 20,
-        order_class_exclude: 'drug,pointsmall',
+        order_class_exclude: 'drug,pointsmall,employee_purchase',
         distributor_id: 0,
         distributorIds: [],
         source_from: '',

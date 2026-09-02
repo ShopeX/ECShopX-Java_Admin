@@ -536,7 +536,7 @@ export default {
         order_id: '',
         original_order_id: '',
         supplier_name: '',
-        order_class_exclude: 'drug,pointsmall,community',
+        order_class_exclude: 'drug,pointsmall,community,employee_purchase',
         salesman_mobile: '',
         receipt_type: '', // 配送类型
         self_delivery_status: '', //配送状态
@@ -571,7 +571,9 @@ export default {
           ? IN_PURCHASE_STATUS
           : ORDER_STATUS,
       openStatus: OPEN_STATUS_ARR,
-      orderType: ORDER_TYPE.filter((item) => item.value !== 'seckill'),
+      orderType: ORDER_TYPE.filter(
+        (item) => item.value !== 'seckill' && item.value !== 'employee_purchase'
+      ),
       invoiceStatus: INVOICE_STATUS,
       invoiceStatusArr: INVOICE_STATUS_ARR,
       orderCategory: this.VERSION_STANDARD()
