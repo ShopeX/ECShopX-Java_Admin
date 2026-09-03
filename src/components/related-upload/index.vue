@@ -17,6 +17,19 @@
     line-height: 1.6;
   }
 }
+.related-upload__fail-cell {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  white-space: nowrap;
+  gap: 6px;
+}
+.related-upload__fail-link {
+  flex-shrink: 0;
+  white-space: nowrap;
+  color: #409eff;
+  cursor: pointer;
+}
 </style>
 
 <template>
@@ -72,17 +85,19 @@
           >
         </template>
       </el-table-column>
-      <el-table-column :label="$t('5f45d286.1012e0')">
+      <el-table-column :label="$t('5f45d286.1012e0')" min-width="140">
         <template slot-scope="scope">
-          <span v-if="scope.row.handle_message"
-            >{{ scope.row.handle_message.errorLine }}{{ $t('d41d8cd9.j5k6l7') }}</span
-          >
-          <a
-            v-if="scope.row.handle_message && scope.row.handle_message.errorLine > 0"
-            type="primary"
-            @click="exportErrorFile(scope.row.id, scope.row.file_type)"
-            >{{ $t('5f45d286.3798d3') }}</a
-          >
+          <div class="related-upload__fail-cell">
+            <span v-if="scope.row.handle_message"
+              >{{ scope.row.handle_message.errorLine }}{{ $t('d41d8cd9.j5k6l7') }}</span
+            >
+            <a
+              v-if="scope.row.handle_message && scope.row.handle_message.errorLine > 0"
+              class="related-upload__fail-link"
+              @click="exportErrorFile(scope.row.id, scope.row.file_type)"
+              >{{ $t('5f45d286.3798d3') }}</a
+            >
+          </div>
         </template>
       </el-table-column>
     </el-table>

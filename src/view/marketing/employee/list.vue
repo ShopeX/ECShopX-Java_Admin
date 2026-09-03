@@ -658,7 +658,11 @@ export default {
       this.statsDialogTotals = null
       try {
         const data = await this.$api.marketing.getActivityEnterpriseBehaviorStats(row.id)
-        const list = (data && data.list) || []
+        const list = ((data && data.list) || []).map((r) => ({
+          ...r,
+          enterprise_name: r.enterprise_name || (r.enterprise && r.enterprise.name) || '',
+          enterprise_sn: r.enterprise_sn || (r.enterprise && r.enterprise.enterprise_sn) || ''
+        }))
         this.statsDialogList = list
         this.statsDialogTotals = list.reduce(
           (acc, r) => ({
