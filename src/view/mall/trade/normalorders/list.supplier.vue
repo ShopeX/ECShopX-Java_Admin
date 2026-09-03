@@ -494,7 +494,7 @@ export default {
         mobile: '',
         receiver_mobile: '',
         order_id: '',
-        order_class_exclude: 'drug,pointsmall,community',
+        order_class_exclude: 'drug,pointsmall,community,employee_purchase',
         salesman_mobile: '',
         receipt_type: '', // 配送类型
         source: '', // 订单来源
@@ -524,7 +524,7 @@ export default {
         : VERSION_IN_PURCHASE()
         ? IN_PURCHASE_STATUS
         : ORDER_STATUS,
-      orderType: ORDER_TYPE,
+      orderType: ORDER_TYPE.filter((item) => item.value !== 'employee_purchase'),
       invoiceStatus: INVOICE_STATUS,
       orderCategory: ORDER_CATEGORY,
       pickerOptions: PICKER_DATE_OPTIONS,
