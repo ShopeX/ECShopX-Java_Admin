@@ -56,15 +56,10 @@ export default {
       ]
     },
     {
+      // 兼容旧菜单：与 /marketing/wheel 共用同一套抽奖列表/编辑
       path: 'interactive/lottery',
       name: '90713176.283be6',
-      component: () => import('@/view/marketing/lottery/list.vue'),
-      children: [
-        {
-          path: 'editor/:id?',
-          component: () => import('@/view/marketing/lottery/editor.vue')
-        }
-      ]
+      redirect: '/marketing/wheel'
     },
     {
       path: 'coupon/couponspackage',

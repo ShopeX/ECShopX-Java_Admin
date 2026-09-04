@@ -22,13 +22,13 @@ export const status_info_map = {
 }
 
 export const defaultItem = {
-  text: '',
-  prize_probability: '',
-  prize_type: '',
-  prize_value: '',
-  stock: '',
-  background: '',
-  img: ''
+  name: '',
+  type: '',
+  value: '',
+  probability: '',
+  dailyStock: '',
+  backgroundColor: '',
+  image: ''
 }
 
 export const prize_types = (t) => ({
@@ -41,7 +41,7 @@ export const prize_types = (t) => ({
 export const defaultGameConfig = {
   gameType: '',
   backgroundImage: 'https://img.yzcdn.cn/vant/cat.jpeg',
-  gameMarginTop: '100px',
+  gameMarginTop: '150px',
   gameConfig: {
     width: '300px',
     height: '300px',

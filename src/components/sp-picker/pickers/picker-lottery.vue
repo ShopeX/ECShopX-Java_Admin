@@ -24,17 +24,14 @@
 </style>
 <template>
   <div class="picker-seckill">
-    <!-- <SpFilterForm :model="formData" size="small" @onSearch="onSearch" @onReset="onSearch">
-      <SpFilterFormItem prop="regionauth_id">
-        <el-input v-model="formData.regionauth_id" placeholder="请选择选择区域" />
-      </SpFilterFormItem>
+    <SpFilterForm :model="formData" size="small" @onSearch="onSearch" @onReset="onSearch">
       <SpFilterFormItem prop="activity_id">
-        <el-input v-model="formData.activity_id" placeholder="请输入活动id" />
+        <el-input v-model="formData.activity_id" placeholder="请输入活动ID" clearable />
       </SpFilterFormItem>
       <SpFilterFormItem prop="activity_name">
-        <el-input v-model="formData.activity_name" placeholder="请输入活动名称" />
+        <el-input v-model="formData.activity_name" placeholder="请输入活动名称" clearable />
       </SpFilterFormItem>
-    </SpFilterForm> -->
+    </SpFilterForm>
     <SpFinder
       ref="finder"
       :other-config="{
@@ -82,7 +79,6 @@ export default {
   data() {
     const { queryParams } = this.value
     const defaultParams = {
-      regionauth_id: '',
       activity_id: '',
       activity_name: ''
     }
@@ -108,12 +104,17 @@ export default {
       })
     },
     beforeSearch(params) {
-      params = {
+      // F-008：不过滤状态，可选未开始/进行中/已结束
+      const next = {
         ...params,
         ...this.formData,
         ...(this.value?.params || {})
       }
-      return params
+      if (!next.activity_id) delete next.activity_id
+      if (!next.activity_name) delete next.activity_name
+      delete next.status
+      delete next.regionauth_id
+      return next
     },
     afterSearch(response) {
       const { list = [] } = response.data.data
@@ -136,11 +137,9 @@ export default {
         // this.updateVal(selection)
       } else {
         const { finderTable } = this.$refs.finder.$refs
-        console.log('finderTable:', finderTable)
         finderTable.clearSelection()
         setTimeout(() => {
           finderTable.$refs.finderTable.setSelection([row])
-          // this.updateVal([row])
         })
       }
     },
