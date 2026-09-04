@@ -93,7 +93,7 @@
       </SpFilterForm>
 
       <div class="action-container">
-        <el-dropdown>
+        <el-dropdown trigger="click">
           <el-button type="primary" plain>
             {{ $t('931fca81.55405e') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
@@ -231,9 +231,7 @@
           <el-table-column :label="$t('931fca81.5b057b')" min-width="140">
             <template slot-scope="scope">
               {{
-                scope.row.enterprise_name ||
-                scope.row.orders_purchase_info?.enterprise_name ||
-                '—'
+                scope.row.enterprise_name || scope.row.orders_purchase_info?.enterprise_name || '—'
               }}
             </template>
           </el-table-column>
