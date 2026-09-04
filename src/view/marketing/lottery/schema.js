@@ -221,9 +221,10 @@ const outputSchema = (vm) => ({
     { name: '获得奖品', key: 'prize_title' },
     {
       name: '奖品类型',
-      key: 'type',
+      key: 'prize_type',
       render(_, { row }) {
-        return <span>{prize_types(t(vm))[row.type] || row.type || '-'}</span>
+        const type = row.prize_type
+        return <span>{prize_types(t(vm))[type] || type || '-'}</span>
       }
     },
     {
