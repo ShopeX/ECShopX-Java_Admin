@@ -170,7 +170,8 @@ export default {
     beforeSearch(params) {
       params = {
         ...params,
-        ...this.formData
+        ...this.formData,
+        disabled: false
       }
       if ('distributor_id' in this.value) {
         params.distributor_id = this.value.distributor_id
@@ -178,8 +179,16 @@ export default {
       return params
     },
     afterSearch(response) {
-      const { list } = response.data.data || { list: [] }
-      this.lastPageList = list || []
+      const payload = response?.data?.data || {}
+      const rawList = payload.list || []
+      const list = rawList.filter((item) => {
+        const d = item?.disabled
+        return !(d === true || d === 1 || d === '1')
+      })
+      if (response?.data?.data) {
+        response.data.data.list = list
+      }
+      this.lastPageList = list
       const idSet = new Set(Object.keys(this.selectedById).map((k) => Number(k)))
       const selectRow = this.lastPageList.filter((item) => idSet.has(Number(item.id)))
       selectRow.forEach((row) => {
@@ -198,6 +207,7 @@ export default {
       setTimeout(() => {
         finderTable.setSelection(selectRow)
       })
+      return response
     },
     onSearch() {
       this.$refs.finder.refresh()
