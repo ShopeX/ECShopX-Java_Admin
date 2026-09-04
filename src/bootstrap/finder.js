@@ -35,14 +35,20 @@ function install(Vue) {
           return params
         },
         afterQuery: (response) => {
-          const { status_code, message } = response.data.data
+          const payload = response?.data?.data
+          // 接口异常 / 非标准结构时仍返回空列表，避免 Finder 整页空白
+          if (!payload || typeof payload !== 'object') {
+            return { list: [], count: 0 }
+          }
+          const { status_code, message } = payload
           if (status_code == 500) {
-            return Vue.prototype.$message.error(message)
-          } else {
-            return {
-              ...response.data.data,
-              count: parseInt(response.data.data.total_count)
-            }
+            Vue.prototype.$message.error(message || '请求失败')
+            return { list: [], count: 0 }
+          }
+          return {
+            ...payload,
+            list: payload.list || [],
+            count: parseInt(payload.total_count || 0, 10)
           }
         }
       },

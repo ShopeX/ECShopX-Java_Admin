@@ -9,15 +9,17 @@ import moment from 'moment'
 
 import { status_map, prize_types } from './constants'
 
+const t = (vm) => (key, ...args) => vm.$t(key, ...args)
+
 export const tableSchema = (vm) =>
   createSetting({
     search: [
-      { name: '', placeholder: vm.$t('dd9b5a55.6c252c'), key: 'activity_id' },
-      { name: '', placeholder: vm.$t('dd9b5a55.7528b3'), key: 'activity_name' }
+      { name: '', placeholder: t(vm)('dd9b5a55.6c252c'), key: 'activity_id' },
+      { name: '', placeholder: t(vm)('dd9b5a55.7528b3'), key: 'activity_name' }
     ],
     actions: [
       {
-        name: vm.$t('dd9b5a55.95b351'),
+        name: t(vm)('dd9b5a55.95b351'),
         key: 'config',
         type: 'button',
         buttonType: 'text',
@@ -34,7 +36,7 @@ export const tableSchema = (vm) =>
         }
       },
       {
-        name: vm.$t('dd9b5a55.ff6c6a'),
+        name: t(vm)('dd9b5a55.ff6c6a'),
         key: 'stop',
         type: 'button',
         buttonType: 'text',
@@ -54,7 +56,7 @@ export const tableSchema = (vm) =>
         }
       },
       {
-        name: vm.$t('dd9b5a55.79d3ab'),
+        name: t(vm)('dd9b5a55.79d3ab'),
         key: 'copy',
         type: 'button',
         buttonType: 'text',
@@ -71,7 +73,7 @@ export const tableSchema = (vm) =>
         }
       },
       {
-        name: vm.$t('dd9b5a55.d7656a'),
+        name: t(vm)('dd9b5a55.d7656a'),
         key: 'statistics',
         type: 'button',
         buttonType: 'text',
@@ -94,29 +96,28 @@ export const tableSchema = (vm) =>
         key: 'id',
         width: '80'
       },
-      { name: vm.$t('dd9b5a55.39834b'), key: 'activity_name', width: '300' },
-      // { name: '活动区域', key: 'regionauth_name', width: '100' },
+      { name: t(vm)('dd9b5a55.39834b'), key: 'activity_name', width: '300' },
       {
-        name: vm.$t('dd9b5a55.9f0391'),
+        name: t(vm)('dd9b5a55.9f0391'),
         key: 'activity_type',
         render(_, { row }) {
-          const t = vm.$t
+          const translate = t(vm)
           return row.activity_type == 'wheel'
-            ? t('dd9b5a55.5fa218')
+            ? translate('dd9b5a55.5fa218')
             : row.activity_type == 'slotMachine'
-            ? t('dd9b5a55.c01fe6')
-            : t('dd9b5a55.64a4df')
+            ? translate('dd9b5a55.c01fe6')
+            : translate('dd9b5a55.64a4df')
         }
       },
       {
-        name: vm.$t('dd9b5a55.3fea7c'),
+        name: t(vm)('dd9b5a55.3fea7c'),
         key: 'status',
         render(_, { row }) {
-          return status_map(vm.$t)[row.status]
+          return status_map(t(vm))[row.status]
         }
       },
       {
-        name: vm.$t('dd9b5a55.c799f5'),
+        name: t(vm)('dd9b5a55.c799f5'),
         key: 'begin_time',
         render(_, { row }) {
           return `${moment(row.begin_time * 1000).format('YYYY-MM-DD HH:mm:ss')} - ${moment(
@@ -125,14 +126,14 @@ export const tableSchema = (vm) =>
         }
       },
       {
-        name: vm.$t('dd9b5a55.eca37c'),
+        name: t(vm)('dd9b5a55.eca37c'),
         key: 'created',
         render(_, { row }) {
           return `${moment(row.created * 1000).format('YYYY-MM-DD HH:mm:ss')}`
         }
       },
       {
-        name: vm.$t('dd9b5a55.a001a2'),
+        name: t(vm)('dd9b5a55.a001a2'),
         key: 'updated',
         render(_, { row }) {
           return `${moment(row.updated * 1000).format('YYYY-MM-DD HH:mm:ss')}`
@@ -205,18 +206,28 @@ export const statisticsFormSchema = (vm) =>
 
 const outputSchema = (vm) => ({
   columns: [
-    { name: 'ID', key: 'user_id', width: '60' },
-    { name: vm.$t('dd9b5a55.6a52ee'), key: 'mobile' },
-    { name: vm.$t('dd9b5a55.d76cc0'), key: 'prize_title' },
+    { name: '用户ID', key: 'user_id', width: '80' },
     {
-      name: vm.$t('dd9b5a55.cb5b93'),
-      key: 'prize_type',
+      name: '会员编码',
+      key: 'member_code',
       render(_, { row }) {
-        return <span>{prize_types(vm.$t)[row.prize_type]}</span>
+        return (
+          <span>
+            {row.user_card_code || row.username || row.member_code || row.mobile || '-'}
+          </span>
+        )
+      }
+    },
+    { name: '获得奖品', key: 'prize_title' },
+    {
+      name: '奖品类型',
+      key: 'type',
+      render(_, { row }) {
+        return <span>{prize_types(t(vm))[row.type] || row.type || '-'}</span>
       }
     },
     {
-      name: vm.$t('dd9b5a55.79b537'),
+      name: '中奖时间',
       key: 'created',
       render(_, { row }) {
         return `${moment(row.created * 1000).format('YYYY-MM-DD HH:mm:ss')}`

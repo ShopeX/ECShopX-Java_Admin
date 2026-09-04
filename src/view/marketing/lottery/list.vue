@@ -4,11 +4,27 @@
 -->
 
 <template>
-  <div class="page-body">
+  <SpPage>
     <SpRouterView>
+      <!-- 操作区放在 SpFinder 外，接口失败时仍可见 -->
+      <div class="action-container mb-3">
+        <el-button type="primary" plain @click="addHandle">
+          {{ $t('f178a6ca.23b46b') }}
+        </el-button>
+      </div>
+
+      <el-tabs v-model="activeName" type="card" class="mb-3" @tab-click="handleClick">
+        <el-tab-pane
+          v-for="item in audit_status"
+          :key="item.value"
+          :label="item.label"
+          :name="item.value"
+        />
+      </el-tabs>
+
       <SpFinder
         ref="finder"
-        url="promotions/getturntableList"
+        url="/promotions/getturntableList"
         fixed-row-action
         row-actions-width="200px"
         :setting="tableSchema"
@@ -18,27 +34,7 @@
         row-actions-fixed-align="right"
         no-selection
         :split-count="4"
-      >
-        <template #tableTop>
-          <!-- 操作按钮 -->
-          <div class="action-container">
-            <div style="height: 20px" />
-            <el-button type="primary" plain @click="addHandle">
-              {{ $t('f178a6ca.23b46b') }}
-            </el-button>
-          </div>
-
-          <!-- 选择tab -->
-          <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-            <el-tab-pane
-              v-for="item in audit_status"
-              :key="item.value"
-              :label="item.label"
-              :name="item.value"
-            />
-          </el-tabs>
-        </template>
-      </SpFinder>
+      />
 
       <SpDialog
         ref="pushLiveCouponDialogRef"
@@ -51,12 +47,13 @@
         :is-show-footer="false"
       />
     </SpRouterView>
-  </div>
+  </SpPage>
 </template>
 
 <script lang="js">
 import { tableSchema, statisticsFormSchema } from './schema'
 import api from '@/api'
+import { getExportListPathWithTab } from '@/utils'
 
 import { audit_status as getAuditStatus, status_info_map } from './constants.js'
 
@@ -67,13 +64,13 @@ export default {
       activeName: 'all',
       lotteryDialogShow: false,
       form: {},
-      dialogData:null,
-      editRow:null
+      dialogData: null,
+      editRow: null
     }
   },
   computed: {
     audit_status() {
-      return getAuditStatus(this.$t)
+      return getAuditStatus((key, ...args) => this.$t(key, ...args))
     },
     tableSchema() {
       return tableSchema(this)
@@ -82,17 +79,17 @@ export default {
       return statisticsFormSchema(this)
     }
   },
-  watch:{
-      '$route'(to,from){
-          this.refresh()
-      }
+  watch: {
+    $route() {
+      this.refresh()
+    }
   },
   mounted() {
     this.getAreas()
   },
   methods: {
     refresh() {
-      this.$refs.finder.refresh(true)
+      this.$refs.finder?.refresh?.(true)
     },
     getAreas() {
       api.regionauth.getRegionauth().then((res) => {
@@ -102,59 +99,69 @@ export default {
         }))
       })
     },
-    // 新增抽奖活动，跳转到抽奖活动编辑页
     addHandle() {
-      this.$router.push('/marketing/wheel/editor')
+      this.$router.push('/marketing/membermarket/wheel/editor')
     },
-    // 编辑抽奖活动，跳转到编辑页并携带活动ID
     editConfigHandle(row) {
-      this.$router.push(`/marketing/wheel/editor/${row.id}`)
+      this.$router.push(`/marketing/membermarket/wheel/editor/${row.id}`)
     },
-    // 终止抽奖活动（接口调用待实现）
     stopHandle(row) {
-      api.marketing.downLuckyDrawById({
-        activity_id: row.id
-      }).then((res) => {
-        this.refresh()
-        this.$message.success(this.$t('f178a6ca.dfb1d0'))
-      }).catch(err => {
-        this.$message.error(this.$t('f178a6ca.5fa802'))
+      this.$confirm('确定终止该活动？终止后用户将无法继续抽奖。', '提示', {
+        type: 'warning'
       })
+        .then(() =>
+          api.marketing.downLuckyDrawById({
+            activity_id: row.id
+          })
+        )
+        .then(() => {
+          this.refresh()
+          this.$message.success(this.$t('f178a6ca.dfb1d0'))
+        })
+        .catch((err) => {
+          if (err === 'cancel' || err === 'close') return
+          const msg = err?.data?.message || err?.message || this.$t('f178a6ca.5fa802')
+          this.$message.error(msg)
+        })
     },
-    // 复制抽奖活动，跳转时通过查询参数携带活动ID
     copyHandle(row) {
-      this.$router.push(`/marketing/wheel/editor?id=${row.id}`)
+      this.$router.push(`/marketing/membermarket/wheel/editor?clone_id=${row.id}`)
     },
-    // 查询接口数据
     async statisticsHandle(row) {
       this.editRow = row
-      api.marketing.getTurntableCountById({
-        activity_id: row.id
-      }).then((res) => {
-        this.dialogData = res
-      })
+      api.marketing
+        .getTurntableCountById({
+          activity_id: row.id
+        })
+        .then((res) => {
+          this.dialogData = res
+        })
       this.lotteryDialogShow = true
     },
     handleClick() {
       this.refresh()
     },
     exportReport() {
-      api.marketing.exportLuckyDrawData({
-        activity_id: this.editRow.id
-      }).then((res) => {
-        console.log(res);
-        this.$router.push({
-          path: '/companydata/report/baseexport?tab=export_luckdraw_log',
+      api.marketing
+        .exportLuckyDrawData({
+          activity_id: this.editRow.id
         })
-      }).catch(err => {
-        this.$message.error(this.$t('f178a6ca.dd51ab'))
-      })
+        .then(() => {
+          // 与全局导出页路由一致：/data/report/export-record（不是 /companydata/...）
+          this.$router.push(getExportListPathWithTab('export_luckdraw_log'))
+        })
+        .catch(() => {
+          this.$message.error(this.$t('f178a6ca.dd51ab'))
+        })
     },
     beforeSearch(params) {
-      const str = this.activeName == 'all' ? '' : status_info_map[this.activeName]
-      params.status = str
+      if (this.activeName === 'all') {
+        delete params.status
+      } else {
+        params.status = status_info_map[this.activeName]
+      }
       return {
-        ...params,
+        ...params
       }
     }
   }

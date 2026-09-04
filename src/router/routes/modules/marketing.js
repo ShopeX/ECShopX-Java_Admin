@@ -560,14 +560,22 @@ const routes = [
       },
       {
         name: 'wheelList',
-        path: 'big-wheel/wheel-list',
+        // 与后台菜单 URL /marketing/membermarket/wheel 对齐
+        path: 'membermarket/wheel',
         meta: {
           aliasName: 'wheel',
           icon: 'pay-circle',
           title: i18n.t('b213c3c4.5fa218'),
-          permissions: ['marketing.wheel']
+          // 菜单树 alias：marketing → membermarket → wheel
+          permissions: ['marketing.membermarket.wheel']
         },
-        component: () => import('@/view/member/promotions/wheel/index')
+        component: () => import('@/view/marketing/lottery/list.vue'),
+        children: [
+          {
+            path: 'editor/:id?',
+            component: () => import('@/view/marketing/lottery/editor.vue')
+          }
+        ]
       }
     ]
   }

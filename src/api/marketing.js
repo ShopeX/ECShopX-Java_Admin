@@ -874,3 +874,12 @@ export function exportLuckyDrawData(params) {
     params
   })
 }
+
+// 复制转盘活动（契约可选；主路径为编辑页草稿复制）
+export function copyTurntable(params) {
+  return fetch({
+    url: '/promotions/turntable/copy',
+    method: 'post',
+    params
+  })
+}
