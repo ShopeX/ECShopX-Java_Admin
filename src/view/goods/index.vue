@@ -1239,7 +1239,7 @@ export default {
         const index = this.formList.findIndex((item) => item.key == 'templatesId')
         this.formList[index].options = list.map((item) => {
           return {
-            value: item.template_id,
+            value: String(item.template_id),
             title: item.name
           }
         })
@@ -1259,7 +1259,7 @@ export default {
       const index = this.formList.findIndex((item) => item.key == 'brandId')
       this.formList[index].options = list.map(({ attribute_id, attribute_name }) => {
         return {
-          value: attribute_id,
+          value: String(attribute_id),
           title: attribute_name
         }
       })

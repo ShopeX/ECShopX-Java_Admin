@@ -145,7 +145,7 @@
                   v-for="item in templatesList"
                   :key="item.template_id"
                   :label="item.name"
-                  :value="item.template_id"
+                  :value="String(item.template_id)"
                 />
               </el-select>
             </el-form-item>
@@ -166,7 +166,7 @@
                   v-for="item in brandList"
                   :key="item.attribute_id"
                   :label="item.attribute_name"
-                  :value="item.attribute_id"
+                  :value="String(item.attribute_id)"
                 />
               </el-select>
             </el-form-item>
@@ -400,7 +400,7 @@ export default {
       this.brandList = resBrandList.data.data.list.map(({ attribute_id, attribute_name }) => {
         return {
           attribute_name: attribute_name,
-          attribute_id: attribute_id
+          attribute_id: String(attribute_id)
         }
       })
     },
