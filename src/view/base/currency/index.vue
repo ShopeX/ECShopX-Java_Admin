@@ -107,35 +107,9 @@ import {
   createCurrencyInfo,
   getCurrencytLists,
   deleteCurrencyInfo,
-  setDefaultCurrency
+  setDefaultCurrency,
+  getCurrencyOptions
 } from '../../../api/company'
-
-const CURRENCY_PRESET_META = {
-  CNY: {
-    titleKey: '7c0967bc.e8a1c0',
-    titleStore: '中国人民币',
-    currency: 'CNY',
-    symbol: '￥'
-  },
-  HKD: {
-    titleKey: '7c0967bc.e8h1k0',
-    titleStore: '香港港币',
-    currency: 'HKD',
-    symbol: 'HK$'
-  },
-  USD: {
-    titleKey: '7c0967bc.e8u1s0',
-    titleStore: '美国美元',
-    currency: 'USD',
-    symbol: '$'
-  },
-  TWD: {
-    titleKey: '7c0967bc.e8t1w0',
-    titleStore: '台湾台币',
-    currency: 'TWD',
-    symbol: 'NT$'
-  }
-}
 
 export default {
   data() {
@@ -157,6 +131,8 @@ export default {
       },
       activeName: 'first',
       currencyList: [],
+      currencyOptions: [],
+      currencyPresetMeta: {},
       detailData: {},
       loading: false,
       total_count: 0,
@@ -174,23 +150,29 @@ export default {
   },
   computed: {
     ...mapGetters(['wheight']),
-    currencyOptions() {
-      return [
-        { value: 'CNY', label: this.$t('7c0967bc.b2e5f0') },
-        { value: 'HKD', label: this.$t('7c0967bc.c4f6a1') },
-        { value: 'USD', label: this.$t('7c0967bc.d5f7b2') },
-        { value: 'TWD', label: this.$t('7c0967bc.e6t8w0') }
-      ]
-    },
     selectedCurrencyTitle() {
-      const meta = CURRENCY_PRESET_META[this.form.selectedCurrency]
-      return meta ? this.$t(meta.titleKey) : ''
+      const meta = this.currencyPresetMeta[this.form.selectedCurrency]
+      return meta ? meta.title : ''
     }
   },
   mounted() {
+    this.loadCurrencyOptions()
     this.getCurrencytListData()
   },
   methods: {
+    loadCurrencyOptions() {
+      getCurrencyOptions().then((response) => {
+        const list = response.data.data.list || []
+        this.currencyOptions = list.map((item) => ({
+          value: item.currency,
+          label: item.label
+        }))
+        this.currencyPresetMeta = list.reduce((acc, item) => {
+          acc[item.currency] = item
+          return acc
+        }, {})
+      })
+    },
     handleCancel() {
       this.dialogVisible = false
       this.form.selectedCurrency = ''
@@ -213,14 +195,14 @@ export default {
       this.form.is_default = false
     },
     getCurrencyTitle(currencyCode, fallbackTitle) {
-      const meta = CURRENCY_PRESET_META[currencyCode]
+      const meta = this.currencyPresetMeta[currencyCode]
       if (meta) {
-        return this.$t(meta.titleKey)
+        return meta.title
       }
       return fallbackTitle
     },
     handleCurrencyChange(value) {
-      const meta = CURRENCY_PRESET_META[value]
+      const meta = this.currencyPresetMeta[value]
       if (!meta) {
         return
       }
@@ -245,10 +227,10 @@ export default {
         return
       }
 
-      const meta = CURRENCY_PRESET_META[this.form.selectedCurrency]
+      const meta = this.currencyPresetMeta[this.form.selectedCurrency]
       const payload = {
         currency: meta.currency,
-        title: meta.titleStore,
+        title: meta.title,
         symbol: meta.symbol,
         rate: 1,
         is_default: this.form.is_default,

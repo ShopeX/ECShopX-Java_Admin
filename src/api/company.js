@@ -196,6 +196,13 @@ export function getDefaultCurrency() {
   })
 }
 
+export function getCurrencyOptions() {
+  return fetch({
+    url: '/currencyOptions',
+    method: 'get'
+  })
+}
+
 export function setCompanySetting(query) {
   return fetch({
     url: '/company/setting',
