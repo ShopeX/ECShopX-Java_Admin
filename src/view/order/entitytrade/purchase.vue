@@ -147,11 +147,11 @@
                   <i class="el-icon-document-copy" @click.stop="copyRowText(scope.row.order_id)" />
                 </el-tooltip>
               </div>
-              <div v-if="scope.row.distributor_id !== '0'" class="order-store">
+              <div v-if="getOrderStoreName(scope.row)" class="order-store">
                 <el-tooltip effect="dark" :content="$t('931fca81.8a0cc2')" placement="top-start">
                   <i class="el-icon-office-building" />
                 </el-tooltip>
-                {{ scope.row?.sale_salesman_distributor_info?.name }}
+                {{ getOrderStoreName(scope.row) }}
               </div>
               <div class="order-time">
                 <el-tooltip effect="dark" :content="$t('931fca81.43c297')" placement="top-start">
@@ -980,6 +980,9 @@ export default {
       const res = await this.$api.subdistrict.getSubDistrictList()
       console.log(`getSubDistrictList:`, res)
       this.subDistrictList = res
+    },
+    getOrderStoreName(row) {
+      return row.distributor_name || row.distributor_info?.name || row.sale_salesman_distributor_info?.name || ''
     },
     getOrderType({ order_class, type }) {
       if (order_class == 'normal') {
