@@ -126,9 +126,12 @@ import { loadMap } from '@/utils/load-map'
 import DaoDianZiti from './components/DaoDianZiti'
 import RefundGoodsAddress from './components/RefundGoodsAddress'
 import RefundGoodsStore from './components/RefundGoodsStore'
+import SpTranslatePopup from '@/components/sp-translate-popup'
 import districtOptions from '@/mixins/districtOptions'
+import translateMixin from '@/mixins/translateMixin'
 export default {
-  mixins: [districtOptions],
+  components: { SpTranslatePopup },
+  mixins: [districtOptions, translateMixin],
   data() {
     let distributionTypeOptions = [
       {
