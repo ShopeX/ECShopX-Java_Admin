@@ -549,12 +549,17 @@ export default {
         },
         {
           label: this.$t('027707af.6a9e57'),
+          type: 'group',
+          tip: this.$t('027707af.408f9b'),
+          isShow: () => this.dadaEnable
+        },
+        {
+          label: this.$t('027707af.6a9e57'),
           key: 'is_dada',
           type: 'switch',
           width: 'auto',
           tip: this.$t('027707af.ed46b7'),
-          disabled: () => !this.dadaEnable,
-          isShow: () => this.distributor_self == 0
+          isShow: () => this.dadaEnable
         },
         {
           label: this.$t('027707af.c3bf69'),
@@ -907,9 +912,7 @@ export default {
           : 1
         this.form = {
           distribution_type: res.distribution_type,
-          distributor_category_id: this.normalizeCategoryId(
-            res.distributor_category_id ?? res.category_id
-          ),
+          distributor_category_id: this.normalizeCategoryId(res.distributor_category_id),
           merchant_id: res.merchant_id,
           shop_code: res.shop_code,
           name: res.name,
@@ -1049,10 +1052,7 @@ export default {
         delete params.salesperson_type
       }
 
-      if (this.distributor_self == 1) {
-        params.is_dada = 0
-        params.is_self_delivery = false
-      } else if (this.form.is_dada) {
+      if (this.form.is_dada) {
         if (this.form.is_self_delivery) {
           params.is_dada = 0
           params.is_self_delivery = true
@@ -1070,11 +1070,6 @@ export default {
           await this.$api.marketing.updateDistributorInfo(distributor_id, params)
           this.submitLoading = false
           this.$message.success(this.$t('027707af.c83614'))
-          this.openTranslate(
-            distributor_id,
-            ['name', 'address', 'introduce'],
-            [this.form.name || '', this.form.address || '', this.form.introduce || '']
-          )
         } else {
           const ids = (this.$refs['daoDianZiti']?.finderData || []).map((item) => item.id)
           await this.$api.marketing.saveDistributorInfo({
