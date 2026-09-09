@@ -2,6 +2,7 @@
   <div class="sp-table">
     <el-table
       ref="table"
+      class="sp-table__table"
       v-loading="loading"
       v-bind="tableAttrs"
       :data="tableData"
@@ -296,6 +297,12 @@ export default {
 <style scoped lang="scss">
 .sp-table {
   ::v-deep {
+    .sp-table__table {
+      border: 1px solid #ebeef5;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
     .el-table__row {
       cursor: pointer;
     }
@@ -315,7 +322,22 @@ export default {
 
 .sp-table__footer {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   margin-top: 16px;
+
+  ::v-deep .el-pagination {
+    display: flex;
+    align-items: center;
+  }
+
+  ::v-deep .el-pagination__total,
+  ::v-deep .el-pagination__sizes,
+  ::v-deep .el-pagination__jump {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    line-height: 28px;
+  }
 }
 </style>
