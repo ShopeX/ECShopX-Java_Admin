@@ -4,10 +4,23 @@
 -->
 <template>
   <SpPage>
-    <SpTabs :tab-list="tabList" v-model="activeTab" @change="handleTabChange" />
+    <SpTabs :tab-list="tabList" :value="activeTab" @change="handleTabChange" />
     <keep-alive>
-      <component :is="activePanel" />
+      <component :is="activePanel" ref="activePanelRef" />
     </keep-alive>
+
+    <SpDialog
+      :visible.sync="unsavedDialogVisible"
+      :title="$t('ecx9887.unsaved.title')"
+      width="420px"
+      :show-close="false"
+    >
+      <p class="text-sm text-gray-600">{{ $t('ecx9887.unsaved.message') }}</p>
+      <template slot="footer">
+        <el-button @click="onContinueEdit">{{ $t('ecx9887.unsaved.continueEdit') }}</el-button>
+        <el-button type="primary" @click="onDiscardChanges">{{ $t('ecx9887.unsaved.discard') }}</el-button>
+      </template>
+    </SpDialog>
   </SpPage>
 </template>
 
@@ -29,7 +42,11 @@ export default {
   },
   data() {
     return {
-      activeTab: TAB_SETTINGS
+      activeTab: TAB_SETTINGS,
+      pendingTab: null,
+      pendingRouteNext: null,
+      unsavedDialogVisible: false,
+      allowLeave: false
     }
   },
   computed: {
@@ -48,11 +65,85 @@ export default {
         return MemberDepositAgreement
       }
       return MemberDepositSettings
+    },
+    guardableTabs() {
+      return [TAB_SETTINGS, TAB_AGREEMENT]
     }
   },
+  mounted() {
+    window.addEventListener('beforeunload', this.onBeforeUnload)
+  },
+  beforeDestroy() {
+    window.removeEventListener('beforeunload', this.onBeforeUnload)
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.allowLeave || !this.activePanelHasUnsaved()) {
+      next()
+      return
+    }
+    this.pendingRouteNext = next
+    this.pendingTab = null
+    this.unsavedDialogVisible = true
+    next(false)
+  },
   methods: {
+    onBeforeUnload(event) {
+      if (this.activePanelHasUnsaved()) {
+        event.preventDefault()
+        event.returnValue = ''
+      }
+    },
+    activePanelHasUnsaved() {
+      if (!this.guardableTabs.includes(this.activeTab)) {
+        return false
+      }
+      const panel = this.$refs.activePanelRef
+      return panel && typeof panel.hasUnsavedChanges === 'function' && panel.hasUnsavedChanges()
+    },
+    revertActivePanel() {
+      const panel = this.$refs.activePanelRef
+      if (panel && typeof panel.revertToSaved === 'function') {
+        panel.revertToSaved()
+      }
+    },
     handleTabChange(name) {
+      if (name === this.activeTab) {
+        return
+      }
+      if (this.guardableTabs.includes(this.activeTab) && this.activePanelHasUnsaved()) {
+        this.pendingTab = name
+        this.pendingRouteNext = null
+        this.unsavedDialogVisible = true
+        return
+      }
+      this.switchToTab(name)
+    },
+    switchToTab(name) {
       this.activeTab = name
+    },
+    onContinueEdit() {
+      this.unsavedDialogVisible = false
+      this.pendingTab = null
+      if (this.pendingRouteNext) {
+        this.pendingRouteNext(false)
+        this.pendingRouteNext = null
+      }
+    },
+    onDiscardChanges() {
+      this.unsavedDialogVisible = false
+      this.revertActivePanel()
+      if (this.pendingTab) {
+        this.switchToTab(this.pendingTab)
+        this.pendingTab = null
+      }
+      if (this.pendingRouteNext) {
+        this.allowLeave = true
+        this.pendingRouteNext()
+        this.pendingRouteNext = null
+        this.$nextTick(() => {
+          this.allowLeave = false
+        })
+      }
     }
   }
 }
