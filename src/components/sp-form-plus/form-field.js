@@ -56,6 +56,10 @@ export default {
       type: Boolean,
       default: false
     },
+    singleLine: {
+      type: Boolean,
+      default: false
+    },
     rules: {
       type: Array,
       default: () => []
@@ -91,6 +95,10 @@ export default {
         'select',
         'switch'
       ].includes(this.component.toLowerCase())
+    },
+    shouldUseSingleLineLayout() {
+      const enabled = this.singleLine || this.formType === 'searchForm'
+      return enabled && this.isSingleLineComponent()
     },
     handleInput(val) {
       this.modelValue = val
@@ -430,7 +438,7 @@ export default {
       class: [
         'form-field',
         this.formItemClass,
-        { 'form-field--single-line': this.isSingleLineComponent() }
+        { 'form-field--single-line': this.shouldUseSingleLineLayout() }
       ],
       attrs: {
         'data-cell-width': this.cellWidth

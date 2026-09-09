@@ -51,6 +51,7 @@
           :is-show="item.isShow"
           :label="item.label ? item.label + (colon ? ':' : '') : ''"
           :label-inline="labelInline"
+          :single-line="singleLine"
           :rules="item.rules"
           :hide-field-required-mark="hideFieldRequiredMark"
           :size="formType === 'searchForm' ? 'small' : ''"
@@ -169,6 +170,10 @@ export default {
     showDefaultActions: {
       type: Boolean,
       default: true
+    },
+    singleLine: {
+      type: Boolean,
+      default: false
     },
     value: {
       type: Object,
