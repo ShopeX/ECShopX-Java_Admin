@@ -749,20 +749,19 @@ export default {
     } else {
       this.getDadaInfo()
     }
-    this.loadDistrictOptions().then(() => {
-      this.getStoreInfo()
+    this.loadDistrictOptions().then(async () => {
+      await this.getCategoryList()
+      await this.getStoreInfo()
     })
     this.getOrderSetting()
-    this.getCategoryList()
   },
   mounted() {},
   methods: {
     normalizeCategoryId(value) {
-      if (value === '' || value == null) {
+      if (value === '' || value == null || value === 0 || value === '0') {
         return ''
       }
-      const num = Number(value)
-      return Number.isNaN(num) ? value : num
+      return String(value)
     },
     async getOrderSetting() {
       const res = await this.$api.trade.getOrderSetting()
@@ -912,7 +911,9 @@ export default {
           : 1
         this.form = {
           distribution_type: res.distribution_type,
-          distributor_category_id: this.normalizeCategoryId(res.distributor_category_id),
+          distributor_category_id: this.normalizeCategoryId(
+            res.distributor_category_id ?? res.category_id
+          ),
           merchant_id: res.merchant_id,
           shop_code: res.shop_code,
           name: res.name,
@@ -1025,6 +1026,8 @@ export default {
       }
       if (!params.distributor_category_id) {
         delete params.distributor_category_id
+      } else {
+        params.distributor_category_id = Number(params.distributor_category_id)
       }
       if (this.distributor_self == 1) {
         params.is_valid = 'true'
