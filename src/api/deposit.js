@@ -88,3 +88,19 @@ export function rechargeDeposit(params) {
     params
   })
 }
+
+/** ECX-10126：储值设置（开关 + 面额统一保存） */
+export function getDepositSettings() {
+  return fetch({
+    url: '/deposit/settings',
+    method: 'get'
+  })
+}
+
+export function saveDepositSettings(body) {
+  return fetch({
+    url: '/deposit/settings',
+    method: 'put',
+    params: body
+  })
+}
