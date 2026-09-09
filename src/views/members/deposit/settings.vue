@@ -3,70 +3,81 @@
   See LICENSE file for license details.
 -->
 <template>
-  <div v-loading="pageLoading" class="px-6 py-4">
-    <div class="mb-6 flex flex-wrap items-center gap-4">
-      <div class="flex items-center gap-3">
-        <span class="text-sm font-medium text-gray-900">{{ $t('ecx9887.settings.enableLabel') }}</span>
+  <div v-loading="pageLoading" class="ecx9887-deposit__section">
+    <div class="ecx9887-deposit__section-head">
+      <div>
+        <h1>{{ $t('ecx9887.settings.sectionTitle') }}</h1>
+        <p>{{ $t('ecx9887.settings.sectionDesc') }}</p>
+      </div>
+      <div class="ecx9887-deposit__switch-box">
         <el-switch
           :value="draft.enabled"
           :disabled="switchLoading || pageLoading"
-          active-color="var(--color-primary, #722ed1)"
-          inactive-color="#d1d5db"
+          active-color="#8d4df4"
+          inactive-color="#dfe1e8"
           @change="onToggleEnabled"
         />
-        <span class="text-sm text-gray-600">{{ enabledStatusText }}</span>
+        <strong>{{ $t('ecx9887.settings.enableStrong') }}</strong>
+        <span class="ecx9887-deposit__switch-state">{{ enabledStatusText }}</span>
       </div>
-      <span v-if="isDirty" class="text-sm text-amber-600">{{ $t('ecx9887.settings.unsaved') }}</span>
     </div>
 
-    <p v-if="!draft.enabled" class="mb-4 text-sm text-amber-600">
-      {{ $t('ecx9887.settings.closeTip') }}
-    </p>
+    <div class="ecx9887-deposit__toolbar">
+      <span class="ecx9887-deposit__hint">{{ $t('ecx9887.settings.toolbarHint') }}</span>
+    </div>
 
-    <div class="mb-3 flex items-center justify-between">
-      <span class="text-sm font-medium text-gray-900">{{ $t('ecx9887.settings.amountSection') }}</span>
-      <el-button
-        type="primary"
-        size="small"
+    <div class="ecx9887-deposit__denom-list-head">
+      <h2>{{ $t('ecx9887.settings.denomRulesTitle') }}</h2>
+      <button
+        type="button"
+        class="ecx9887-deposit__btn is-primary"
         :disabled="formDisabled || saving"
         @click="addRow"
       >
-        {{ $t('ecx9887.settings.addRow') }}
-      </el-button>
+        {{ $t('ecx9887.settings.addRowBtn') }}
+      </button>
     </div>
 
-    <div
-      v-if="!draft.denominations.length"
-      class="rounded border border-dashed border-gray-200 px-4 py-10 text-center text-sm text-gray-400"
-    >
-      {{ $t('ecx9887.settings.emptyHint') }}
-    </div>
+    <div class="ecx9887-deposit__denom-table">
+      <div v-if="draft.denominations.length" class="ecx9887-deposit__denom-head">
+        <div>{{ $t('ecx9887.settings.amountRequired') }}</div>
+        <div>{{ $t('ecx9887.settings.benefitType') }}</div>
+        <div>{{ $t('ecx9887.settings.benefitAmount') }}</div>
+        <div>{{ $t('ecx9887.settings.actionCol') }}</div>
+      </div>
 
-    <div v-else class="overflow-hidden rounded border border-gray-200 bg-white">
+      <div
+        v-if="!draft.denominations.length"
+        class="ecx9887-deposit__empty"
+      >
+        <strong>{{ $t('ecx9887.settings.emptyTitle') }}</strong>
+        <span>{{ $t('ecx9887.settings.emptyHint') }}</span>
+      </div>
+
       <div
         v-for="(row, index) in draft.denominations"
         :key="row._key"
-        class="flex flex-wrap items-start gap-4 border-b border-gray-100 px-4 py-4 last:border-b-0"
+        class="ecx9887-deposit__denom-row"
+        :class="{ 'is-disabled': formDisabled }"
       >
-        <div class="min-w-[140px] flex-1">
-          <div class="mb-1 text-xs text-gray-500">{{ $t('ecx9887.settings.amount') }}</div>
+        <div class="ecx9887-deposit__cell">
+          <label>{{ $t('ecx9887.settings.amount') }}</label>
           <el-input
             v-model="row.amount_yuan"
             :disabled="formDisabled"
-            size="small"
+            :placeholder="$t('ecx9887.settings.amountPh')"
             @input="clearRowError(row, 'amount_yuan')"
           />
-          <p v-if="row.errors.amount_yuan" class="mt-1 text-xs text-red-500">
+          <span v-if="row.errors.amount_yuan" class="ecx9887-deposit__error">
             {{ row.errors.amount_yuan }}
-          </p>
+          </span>
         </div>
 
-        <div class="min-w-[120px] flex-1">
-          <div class="mb-1 text-xs text-gray-500">{{ $t('ecx9887.settings.benefitType') }}</div>
+        <div class="ecx9887-deposit__cell">
+          <label>{{ $t('ecx9887.settings.benefitType') }}</label>
           <el-select
             v-model="row.benefit_type"
             :disabled="formDisabled"
-            size="small"
             class="w-full"
             @change="onBenefitTypeChange(row)"
           >
@@ -76,42 +87,44 @@
           </el-select>
         </div>
 
-        <div class="min-w-[120px] flex-1">
-          <div class="mb-1 text-xs text-gray-500">{{ $t('ecx9887.settings.benefitAmount') }}</div>
+        <div class="ecx9887-deposit__cell">
+          <label>{{ $t('ecx9887.settings.benefitAmount') }}</label>
           <el-input
             v-if="row.benefit_type !== 'none'"
             v-model="row.benefit_amount"
             :disabled="formDisabled"
-            size="small"
+            :placeholder="$t('ecx9887.settings.benefitAmountPh')"
             @input="clearRowError(row, 'benefit_amount')"
           />
-          <div v-else class="h-8" />
-          <p v-if="row.errors.benefit_amount" class="mt-1 text-xs text-red-500">
+          <div v-else style="height: 38px" />
+          <span v-if="row.errors.benefit_amount" class="ecx9887-deposit__error">
             {{ row.errors.benefit_amount }}
-          </p>
+          </span>
         </div>
 
-        <div class="flex shrink-0 items-end pb-1">
-          <el-button
-            type="text"
+        <div>
+          <button
+            type="button"
+            class="ecx9887-deposit__row-action"
             :disabled="formDisabled"
             @click="removeRow(index)"
           >
             {{ $t('ecx9887.settings.delete') }}
-          </el-button>
+          </button>
         </div>
       </div>
     </div>
 
-    <div class="mt-6 flex justify-center border-t border-gray-100 pt-4">
-      <el-button
-        type="primary"
-        :loading="saving"
+    <div class="ecx9887-deposit__save-bar">
+      <span v-if="isDirty" class="ecx9887-deposit__dirty">{{ $t('ecx9887.settings.unsaved') }}</span>
+      <button
+        type="button"
+        class="ecx9887-deposit__btn is-primary"
         :disabled="!canUnifiedSave"
         @click="onUnifiedSave"
       >
-        {{ $t('ecx9887.settings.unifiedSave') }}
-      </el-button>
+        {{ saving ? '...' : $t('ecx9887.settings.unifiedSave') }}
+      </button>
     </div>
   </div>
 </template>
@@ -366,11 +379,9 @@ export default {
         this.saving = false
       }
     },
-    /** 供父级未保存保护（ECX-10136）读取 */
     hasUnsavedChanges() {
       return this.isDirty
     },
-    /** 放弃草稿，恢复最近一次已保存内容 */
     revertToSaved() {
       this.draft = JSON.parse(JSON.stringify(this.saved))
     }

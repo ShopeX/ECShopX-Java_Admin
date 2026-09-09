@@ -4,23 +4,39 @@
 -->
 <template>
   <SpPage>
-    <SpTabs :tab-list="tabList" :value="activeTab" @change="handleTabChange" />
-    <keep-alive>
-      <component :is="activePanel" ref="activePanelRef" />
-    </keep-alive>
+    <div class="ecx9887-deposit">
+      <div class="ecx9887-deposit__page">
+        <div class="ecx9887-deposit__tabs" role="tablist">
+          <button
+            v-for="tab in tabList"
+            :key="tab.name"
+            type="button"
+            role="tab"
+            class="ecx9887-deposit__tab"
+            :class="{ 'is-active': activeTab === tab.name }"
+            @click="handleTabChange(tab.name)"
+          >
+            {{ tab.label }}
+          </button>
+        </div>
+        <keep-alive>
+          <component :is="activePanel" ref="activePanelRef" />
+        </keep-alive>
+      </div>
 
-    <SpDialog
-      :visible.sync="unsavedDialogVisible"
-      :title="$t('ecx9887.unsaved.title')"
-      width="420px"
-      :show-close="false"
-    >
-      <p class="text-sm text-gray-600">{{ $t('ecx9887.unsaved.message') }}</p>
-      <template slot="footer">
-        <el-button @click="onContinueEdit">{{ $t('ecx9887.unsaved.continueEdit') }}</el-button>
-        <el-button type="primary" @click="onDiscardChanges">{{ $t('ecx9887.unsaved.discard') }}</el-button>
-      </template>
-    </SpDialog>
+      <SpDialog
+        :visible.sync="unsavedDialogVisible"
+        :title="$t('ecx9887.unsaved.title')"
+        width="420px"
+        :show-close="false"
+      >
+        <p class="ecx9887-deposit__hint">{{ $t('ecx9887.unsaved.message') }}</p>
+        <template slot="footer">
+          <el-button @click="onContinueEdit">{{ $t('ecx9887.unsaved.continueEdit') }}</el-button>
+          <el-button type="primary" @click="onDiscardChanges">{{ $t('ecx9887.unsaved.discard') }}</el-button>
+        </template>
+      </SpDialog>
+    </div>
   </SpPage>
 </template>
 
@@ -148,3 +164,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import './deposit-prototype.scss';
+</style>

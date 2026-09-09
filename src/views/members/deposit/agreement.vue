@@ -3,29 +3,39 @@
   See LICENSE file for license details.
 -->
 <template>
-  <div v-loading="pageLoading" class="px-6 py-4">
-    <div v-if="isDirty" class="mb-4 text-sm text-amber-600">
-      {{ $t('ecx9887.agreement.unsaved') }}
+  <div v-loading="pageLoading" class="ecx9887-deposit__section">
+    <div class="ecx9887-deposit__section-head">
+      <div>
+        <h1>{{ $t('ecx9887.agreement.sectionTitle') }}</h1>
+        <p>{{ $t('ecx9887.agreement.sectionDesc') }}</p>
+      </div>
     </div>
 
-    <div class="mb-8">
-      <h3 class="mb-3 text-sm font-medium text-gray-900">
-        {{ $t('ecx9887.agreement.protocolTitle') }}
-      </h3>
-      <SpRichText v-model="draft.protocol_content" :disabled="saving" />
+    <div class="ecx9887-deposit__agreement-grid">
+      <article class="ecx9887-deposit__editor-card">
+        <div class="ecx9887-deposit__editor-title">{{ $t('ecx9887.agreement.protocolTitle') }}</div>
+        <div class="ecx9887-deposit__editor-body">
+          <SpRichText v-model="draft.protocol_content" :disabled="saving" />
+        </div>
+      </article>
+      <article class="ecx9887-deposit__editor-card">
+        <div class="ecx9887-deposit__editor-title">{{ $t('ecx9887.agreement.descriptionTitle') }}</div>
+        <div class="ecx9887-deposit__editor-body">
+          <SpRichText v-model="draft.description_content" :disabled="saving" />
+        </div>
+      </article>
     </div>
 
-    <div class="mb-8">
-      <h3 class="mb-3 text-sm font-medium text-gray-900">
-        {{ $t('ecx9887.agreement.descriptionTitle') }}
-      </h3>
-      <SpRichText v-model="draft.description_content" :disabled="saving" />
-    </div>
-
-    <div class="flex justify-center border-t border-gray-100 pt-4">
-      <el-button type="primary" :loading="saving" @click="onUnifiedSave">
-        {{ $t('ecx9887.agreement.unifiedSave') }}
-      </el-button>
+    <div class="ecx9887-deposit__save-bar">
+      <span v-if="isDirty" class="ecx9887-deposit__dirty">{{ $t('ecx9887.agreement.unsaved') }}</span>
+      <button
+        type="button"
+        class="ecx9887-deposit__btn is-primary"
+        :disabled="saving || pageLoading"
+        @click="onUnifiedSave"
+      >
+        {{ saving ? '...' : $t('ecx9887.agreement.unifiedSave') }}
+      </button>
     </div>
   </div>
 </template>
