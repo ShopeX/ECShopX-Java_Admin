@@ -24,18 +24,20 @@
         </keep-alive>
       </div>
 
-      <SpDialog
-        :visible.sync="unsavedDialogVisible"
+      <el-dialog
         :title="$t('ecx9887.unsaved.title')"
+        :visible.sync="unsavedDialogVisible"
         width="420px"
         :show-close="false"
+        :close-on-click-modal="false"
+        append-to-body
       >
         <p class="ecx9887-deposit__hint">{{ $t('ecx9887.unsaved.message') }}</p>
-        <template slot="footer">
+        <span slot="footer" class="dialog-footer">
           <el-button @click="onContinueEdit">{{ $t('ecx9887.unsaved.continueEdit') }}</el-button>
           <el-button type="primary" @click="onDiscardChanges">{{ $t('ecx9887.unsaved.discard') }}</el-button>
-        </template>
-      </SpDialog>
+        </span>
+      </el-dialog>
     </div>
   </SpPage>
 </template>
