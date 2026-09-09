@@ -79,6 +79,19 @@ export default {
     }
   },
   methods: {
+    isSingleLineComponent() {
+      if (!isString(this.component)) return false
+      return [
+        'cascader',
+        'checkbox',
+        'datepicker',
+        'datetimepicker',
+        'input',
+        'radio',
+        'select',
+        'switch'
+      ].includes(this.component.toLowerCase())
+    },
     handleInput(val) {
       this.modelValue = val
       this.$emit('input', val)
@@ -252,7 +265,7 @@ export default {
             size={this.size || 'small'}
             type='date'
             value={this.modelValue}
-            prefix-icon=""
+            prefix-icon=''
             {...props}
             on-input={this.handleInput}
           />
@@ -279,7 +292,7 @@ export default {
                 text: this.$t(s.text)
               }))
             }}
-            prefix-icon=""
+            prefix-icon=''
             onInput={this.handleInput}
           />
         </div>
@@ -414,7 +427,11 @@ export default {
 
     // 渲染表单项
     const divProps = {
-      class: ['form-field', this.formItemClass],
+      class: [
+        'form-field',
+        this.formItemClass,
+        { 'form-field--single-line': this.isSingleLineComponent() }
+      ],
       attrs: {
         'data-cell-width': this.cellWidth
       }

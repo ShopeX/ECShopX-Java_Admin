@@ -70,5 +70,22 @@
     .el-cascader {
       width: 100%;
     }
+
+    &--single-line {
+      .el-form-item {
+        display: flex;
+        align-items: center;
+
+        &__label {
+          flex-shrink: 0;
+        }
+
+        &__content {
+          flex: 1;
+          min-width: 0;
+          margin-left: 0 !important;
+        }
+      }
+    }
   }
 }

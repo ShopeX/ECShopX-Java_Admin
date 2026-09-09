@@ -272,7 +272,7 @@ const routes = [
           title: i18n.t('b213c3c4.5a6889'),
           permissions: ['marketing.membermarket.recommendlike']
         },
-        component: () => import('@/view/member/promotions/recommendlike')
+        component: () => import('@/views/products/recommend-rules/index.vue')
       },
       {
         name: `memberMarketingPointupvaluation`,

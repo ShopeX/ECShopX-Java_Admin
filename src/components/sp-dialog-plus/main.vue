@@ -116,6 +116,12 @@ export default {
   },
 
   watch: {
+    value: {
+      deep: true,
+      handler(value) {
+        this.title = value?.title || ''
+      }
+    },
     isShow: {
       immediate: true,
       handler(val) {

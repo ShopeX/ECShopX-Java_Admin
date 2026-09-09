@@ -8,6 +8,10 @@ import router from '@/router'
 import store from '@/store'
 import App from '@/App.vue'
 import ElementUI from 'element-ui'
+import elementZhCN from 'element-ui/lib/locale/lang/zh-CN'
+import elementZhTW from 'element-ui/lib/locale/lang/zh-TW'
+import elementEn from 'element-ui/lib/locale/lang/en'
+import elementAr from 'element-ui/lib/locale/lang/ar'
 import VueClipboard from 'vue-clipboard2'
 import VueVideoPlayer from 'vue-video-player'
 
@@ -20,12 +24,21 @@ import { install as Component } from './component'
 import { i18n } from '@/i18n'
 import { installLucideGlobal } from '@/components/sp-icon/lucide-registry'
 
+const elementLocales = {
+  'zh-CN': elementZhCN,
+  'zh-TW': elementZhTW,
+  en: elementEn,
+  ar: elementAr
+}
+
 async function bootstrap() {
   Vue.use(API)
 
   installLucideGlobal(Vue)
 
-  Vue.use(ElementUI)
+  Vue.use(ElementUI, {
+    locale: elementLocales[i18n.locale] || elementZhCN
+  })
 
   Vue.use(Filter)
 
