@@ -104,3 +104,19 @@ export function saveDepositSettings(body) {
     params: body
   })
 }
+
+/** ECX-10134：充值协议 + 会员储值说明 */
+export function getDepositAgreement() {
+  return fetch({
+    url: '/deposit/agreement',
+    method: 'get'
+  })
+}
+
+export function saveDepositAgreement(body) {
+  return fetch({
+    url: '/deposit/agreement',
+    method: 'put',
+    params: body
+  })
+}
