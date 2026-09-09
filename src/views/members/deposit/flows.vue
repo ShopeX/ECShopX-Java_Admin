@@ -408,13 +408,16 @@ export default {
       this.persistSort()
       this.fetchList()
     },
+    unwrapApiData(res) {
+      return res?.data?.data != null ? res.data.data : res?.data ?? res ?? {}
+    },
     async fetchList() {
       this.loading = true
       this.loadError = false
       try {
         const params = this.buildQueryParams()
         const res = await getDepositFlowList(this.flowType, params)
-        const data = (res && res.data) || {}
+        const data = this.unwrapApiData(res)
         const rows = (data.list || []).map((row) => ({
           ...row,
           member_display: this.formatMemberDisplay(row)
@@ -440,7 +443,7 @@ export default {
         delete summaryParams.page
         delete summaryParams.pageSize
         const res = await getDepositRechargeSummary(summaryParams)
-        const data = (res && res.data) || {}
+        const data = this.unwrapApiData(res)
         this.summary = {
           direct_total_yuan: data.direct_total_yuan || '0.00',
           gift_total_yuan: data.gift_total_yuan || '0.00'
@@ -457,7 +460,7 @@ export default {
         delete params.page
         delete params.pageSize
         const res = await exportDepositFlows(this.flowType, params)
-        const data = (res && res.data) || {}
+        const data = this.unwrapApiData(res)
         if (data.url) {
           window.open(data.url, '_blank')
           this.$message.success(this.$t('ecx9887.flows.exportSuccess', { count: this.totalCount }))
