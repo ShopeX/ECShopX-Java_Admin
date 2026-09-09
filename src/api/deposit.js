@@ -120,3 +120,28 @@ export function saveDepositAgreement(body) {
     params: body
   })
 }
+
+/** ECX-10132：储值流水 */
+export function getDepositFlowList(type, query) {
+  return fetch({
+    url: '/deposit/flows/' + type,
+    method: 'get',
+    params: query
+  })
+}
+
+export function getDepositRechargeSummary(query) {
+  return fetch({
+    url: '/deposit/flows/recharge/summary',
+    method: 'get',
+    params: query
+  })
+}
+
+export function exportDepositFlows(type, query) {
+  return fetch({
+    url: '/deposit/flows/' + type + '/export',
+    method: 'get',
+    params: query
+  })
+}
