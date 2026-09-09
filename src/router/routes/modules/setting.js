@@ -121,6 +121,21 @@ const routes = [
         component: () => import('@/views/settings/systemConfig/publicsetting')
       },
       {
+        name: `systemConfigLanguageSetting`,
+        path: 'system-config/language-setting',
+        meta: {
+          aliasName: 'languagesetting',
+          icon: 'icon-products',
+          title: '语言设置',
+          // 不新增权限模型：有独立权限或通用设置权限均可进入
+          permissions: [
+            'setting.systemsetting.languagesetting',
+            'setting.systemsetting.publicsetting'
+          ]
+        },
+        component: () => import('@/views/settings/systemConfig/languageSetting.vue')
+      },
+      {
         name: `systemConfigMailService`,
         path: 'system-config/mail-service',
         meta: {

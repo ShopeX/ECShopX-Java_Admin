@@ -23,17 +23,37 @@
 </template>
 
 <script>
-import i18n from '@/i18n'
+import i18n, { getStoredLang } from '@/i18n'
 import { getBasePath } from '@/utils'
+import { getLanguageSetting } from '@/api/language'
+import {
+  createDefaultAdminLanguageSetting,
+  getEnabledStoreLangs,
+  mapApiCodeToStoreLang,
+  normalizeAdminLanguageSetting,
+  readLanguageSettingCache,
+  writeLanguageSettingCache
+} from '@/utils/languageSetting'
+
+const USER_PREFERRED_KEY = 'admin_lang_user_preferred'
+
+function buildLanguageList(enabledStoreLangs) {
+  const all = Object.keys(i18n).map((key) => ({
+    label: i18n[key],
+    value: key
+  }))
+  if (!enabledStoreLangs || enabledStoreLangs.length === 0) {
+    return all.filter((item) => item.value === 'zhcn')
+  }
+  return all.filter((item) => enabledStoreLangs.includes(item.value))
+}
+
 export default {
   name: 'SpLanguage',
   data() {
-    const languageList = Object.keys(i18n).map((key) => ({
-      label: i18n[key],
-      value: key
-    }))
     return {
-      languageList
+      languageList: buildLanguageList(['zhcn']),
+      siteDefaultStoreLang: 'zhcn'
     }
   },
   computed: {
@@ -41,12 +61,67 @@ export default {
       return this.$store.state.system.lang
     }
   },
+  created() {
+    this.loadSiteLanguageSetting()
+    this.$root.$on('site-language-setting-updated', this.loadSiteLanguageSetting)
+  },
+  beforeDestroy() {
+    this.$root.$off('site-language-setting-updated', this.loadSiteLanguageSetting)
+  },
   methods: {
+    applySetting(normalized) {
+      const enabled = getEnabledStoreLangs(normalized)
+      this.siteDefaultStoreLang = mapApiCodeToStoreLang(normalized.defaultLanguage) || 'zhcn'
+      this.languageList = buildLanguageList(enabled)
+      this.ensureCurrentLangValid(enabled)
+    },
+    ensureCurrentLangValid(enabledStoreLangs) {
+      const current = getStoredLang()
+      if (enabledStoreLangs.includes(current)) return
+
+      // 当前语言已关闭：清偏好并回落站点默认
+      try {
+        window.localStorage.removeItem(USER_PREFERRED_KEY)
+      } catch (e) {
+        // ignore
+      }
+      const next = enabledStoreLangs.includes(this.siteDefaultStoreLang)
+        ? this.siteDefaultStoreLang
+        : enabledStoreLangs[0] || 'zhcn'
+      if (next && next !== current) {
+        window.localStorage.setItem('lang', next)
+        this.$store.commit('system/updateLang', { lang: next })
+        window.location.reload()
+      }
+    },
+    loadSiteLanguageSetting() {
+      const cached = readLanguageSettingCache()
+      if (cached) {
+        this.applySetting(cached)
+      }
+      getLanguageSetting()
+        .then((res) => {
+          const inner = res?.data?.data != null ? res.data.data : res?.data ?? res
+          const normalized = normalizeAdminLanguageSetting(inner)
+          writeLanguageSettingCache(normalized)
+          this.applySetting(normalized)
+        })
+        .catch(() => {
+          if (!cached) {
+            this.applySetting(createDefaultAdminLanguageSetting())
+          }
+        })
+    },
     async handleCommand(command) {
+      if (!this.languageList.some((item) => item.value === command)) return
       const basePath = getBasePath()
       window.localStorage.setItem('lang', command)
+      try {
+        window.localStorage.setItem(USER_PREFERRED_KEY, '1')
+      } catch (e) {
+        // ignore
+      }
       await this.$store.commit('system/updateLang', { lang: command })
-      console.log('command', this.$route.path)
       if (this.$route.path != (basePath ? `/${basePath}/login` : '/login')) {
         await this.$store.dispatch('user/fetchAccessMenus')
         await this.$store.dispatch('user/fetchAccountInfo')
