@@ -150,9 +150,9 @@ export default {
     },
     async saveRule(payload, done, fail) {
       try {
-        if (this.formMode === 'edit')
-          await this.$api.recommendRules.updateRecommendRule(this.activeRule.id, payload)
-        else await this.$api.recommendRules.createRecommendRule(payload)
+        const params = { id: this.activeRule.id, ...payload }
+        if (this.formMode === 'edit') await this.$api.recommendRules.updateRecommendRule(params)
+        else await this.$api.recommendRules.createRecommendRule(params)
         this.$message.success(this.$t('recommendRules.saved'))
         done()
         this.$refs.rulesTable.refresh()

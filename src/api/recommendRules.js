@@ -45,12 +45,11 @@ export function getRecommendRuleDetail(id, params) {
   })
 }
 
-export function updateRecommendRule(id, params) {
+export function updateRecommendRule(params) {
   return fetch({
-    url: `${rulesUrl}/${id}`,
+    url: rulesUrl,
     method: 'put',
     params: {
-      id,
       ...params
     }
   })
