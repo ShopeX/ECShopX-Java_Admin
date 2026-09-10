@@ -80,11 +80,9 @@ export const formList = (vm) =>
                 style={{ width: '120px', marginLeft: '20px' }}
                 onBlur={(val) => {
                   const _val = val.target.value
-                  let _num = 0
-                  if (_val === '' || _val == null) {
-                    _num = 0
-                  } else if (Number(_val) < 0) {
-                    _num = 0
+                  let _num = 1
+                  if (_val === '' || _val == null || Number(_val) < 1) {
+                    _num = 1
                   } else {
                     _num = Number(_val)
                   }
@@ -94,6 +92,9 @@ export const formList = (vm) =>
                   }
                 }}
               />
+              <span class='form-item-tip' style={{ marginLeft: '12px' }}>
+                {vm.$t('de51ee4c.cf5fe4')}
+              </span>
             </div>
           )
         }
@@ -113,7 +114,7 @@ export const formList = (vm) =>
                 style={{ width: '120px' }}
                 type='number'
                 disabled={vm.formReadonly}
-                placeholder='0 表示不限'
+                placeholder={vm.$t('de51ee4c.57e514')}
                 onBlur={(val) => {
                   const _val = val.target.value
                   let _num = 0
@@ -133,34 +134,51 @@ export const formList = (vm) =>
                   }
                 }}
               />
-              <div style={{ marginTop: '20px' }}>
-                {vm.$t('de51ee4c.f4df51')} &nbsp;
-                <el-input
-                  v-model={vm.form['limit_day']}
-                  style={{ width: '120px' }}
-                  type='number'
-                  disabled={vm.formReadonly}
-                  placeholder='0 表示不限'
-                  onBlur={(val) => {
-                    const _val = val.target.value
-                    let _num = 0
-                    if (_val === '' || _val == null || Number(_val) < 0) {
-                      _num = 0
-                    } else {
-                      _num = Number(_val)
-                    }
-                    const limitTotal = Number(vm.form['limit_total']) || 0
-                    if (limitTotal > 0 && _num > limitTotal) {
-                      _num = limitTotal
-                    }
-                    vm.form = {
-                      ...vm.form,
-                      limit_day: _num
-                    }
-                  }}
-                />
-                &nbsp; {vm.$t('de51ee4c.7229ec')}
-              </div>
+              <span class='form-item-tip' style={{ marginLeft: '12px' }}>
+                {vm.$t('de51ee4c.57e514')}
+              </span>
+            </div>
+          )
+        }
+      },
+      {
+        label: vm.$t('de51ee4c.38e137'),
+        key: 'limit_day',
+        type: 'input',
+        placeholder: vm.$t('de51ee4c.57e514'),
+        defaultValue: 0,
+        required: false,
+        component() {
+          return (
+            <div>
+              <el-input
+                v-model={vm.form['limit_day']}
+                style={{ width: '120px' }}
+                type='number'
+                disabled={vm.formReadonly}
+                placeholder={vm.$t('de51ee4c.57e514')}
+                onBlur={(val) => {
+                  const _val = val.target.value
+                  let _num = 0
+                  if (_val === '' || _val == null || Number(_val) < 0) {
+                    _num = 0
+                  } else {
+                    _num = Number(_val)
+                  }
+                  const limitTotal = Number(vm.form['limit_total']) || 0
+                  if (limitTotal > 0 && _num > limitTotal) {
+                    _num = limitTotal
+                  }
+                  vm.form = {
+                    ...vm.form,
+                    limit_day: _num
+                  }
+                }}
+              />
+              <span style={{ marginLeft: '8px' }}>{vm.$t('de51ee4c.7229ec')}</span>
+              <span class='form-item-tip' style={{ marginLeft: '12px' }}>
+                {vm.$t('de51ee4c.57e514')}
+              </span>
             </div>
           )
         }
@@ -407,7 +425,8 @@ export const innerSchema = (vm) =>
           handler: ([row]) => {
             vm.deleteHandle(row)
           }
-        }
+        },
+        visible: (row) => row?.type !== 'thanks'
       }
     ],
     columns: [
@@ -416,12 +435,14 @@ export const innerSchema = (vm) =>
         key: 'name',
         width: '240px',
         render(_, { row, $index }) {
+          const isThanks = row['type'] === 'thanks'
           return (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <el-input
                 value={row['name']}
                 style={{ width: '220px' }}
                 maxLength={5}
+                disabled={isThanks}
                 on-input={(val) => vm.handleInput(val, row, $index, 'name')}
                 show-word-limit
                 placeholder={vm.$t('de51ee4c.f91e51')}
@@ -459,14 +480,22 @@ export const innerSchema = (vm) =>
         name: vm.$t('de51ee4c.b47382'),
         key: 'type',
         width: '300px',
+        // Finder 默认 show-overflow-tooltip=true；奖品列含「选择」操作时，
+        // Windows 中文字体更宽易触发溢出气泡（箭头指向上方），误当成引导提示。
+        'show-overflow-tooltip': false,
         render(_, { row, $index }) {
+          const isThanks = row['type'] === 'thanks'
           return (
             <div style={{ display: 'flex', alignItems: 'center' }} key={row['type']}>
               <el-select
                 value={row['type']}
                 placeholder={vm.$t('de51ee4c.708c9d')}
                 style={{ width: '100px' }}
-                on-change={(val) => vm.handleInput(val, row, $index, 'type')}
+                disabled={isThanks}
+                on-change={(val) => {
+                  if (isThanks) return
+                  vm.handleInput(val, row, $index, 'type')
+                }}
               >
                 {vm?.options?.map((item) => {
                   return (
@@ -478,7 +507,7 @@ export const innerSchema = (vm) =>
                 <div style={{ paddingLeft: '10px' }}>
                   {row['value']?.title}
                   <span
-                    style={{ color: '#ff0000', marginLeft: '4px' }}
+                    class='lottery-prize-select-btn'
                     onClick={() => vm.onCouponSubmit(row, $index, 'value')}
                   >
                     {vm.$t('de51ee4c.153fa6')}
@@ -489,7 +518,7 @@ export const innerSchema = (vm) =>
                 <div style={{ paddingLeft: '10px' }}>
                   {row['value']?.title}
                   <span
-                    style={{ color: '#ff0000', marginLeft: '4px' }}
+                    class='lottery-prize-select-btn'
                     onClick={() => vm.onCouponPackSubmit(row, $index, 'value')}
                   >
                     {vm.$t('de51ee4c.153fa6')}

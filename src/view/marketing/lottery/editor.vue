@@ -112,7 +112,7 @@ export default {
       form: {
         ...generatorParams(formList(this)),
         cost_type: '2',
-        cost_value: 0,
+        cost_value: 1,
         limit_total: 0,
         limit_day: 0,
         quantity: '',
@@ -215,7 +215,9 @@ export default {
             ],
         limit_total: res.limit_total ?? 0,
         limit_day: res.limit_day ?? 0,
-        cost_value: res.cost_value ?? 0,
+        cost_value: asClone
+          ? Math.max(Number(res.cost_value) || 1, 1)
+          : (res.cost_value ?? 0),
         cost_type: '2',
         intro: res.intro || '',
         activity_type: res.activity_type || 'wheel',
@@ -289,8 +291,8 @@ export default {
         return Promise.reject(new Error('每日限额不可大于总限额'))
       }
       const cost = Number(this.form.cost_value)
-      if (Number.isNaN(cost) || cost < 0) {
-        return Promise.reject(new Error('抽奖消耗须为大于等于 0 的数值'))
+      if (Number.isNaN(cost) || cost < 1) {
+        return Promise.reject(new Error(this.$t('d8d84692.a9b89a')))
       }
       if (!this.form.intro || !String(this.form.intro).replace(/<[^>]+>/g, '').trim()) {
         return Promise.reject(new Error('请填写活动说明'))
@@ -437,6 +439,10 @@ export default {
         ...this.form,
         prize_data: this.form.prize_data.map((el, i) => {
           if (i == index) {
+            // 谢谢参与：名称与类型固定不可改
+            if (el.type === 'thanks' && (key === 'type' || key === 'name')) {
+              return el
+            }
             if (key === 'type') {
               return { ...el, type: val, value: '', dailyStock: '' }
             }
@@ -488,6 +494,10 @@ export default {
       }
     },
     deleteHandle(row) {
+      if (row?.type === 'thanks') {
+        this.$message.warning(this.$t('d8d84692.799cea'))
+        return
+      }
       this.form = {
         ...this.form,
         prize_data: this.form.prize_data
@@ -613,5 +623,14 @@ export default {
 
 .prize_data >>> .imgWrap .image-item {
   height: 50px !important;
+}
+</style>
+
+<style>
+/* schema JSX 不带 scoped 属性 */
+.lottery-prize-select-btn {
+  margin-left: 4px;
+  color: var(--primary);
+  cursor: pointer;
 }
 </style>
