@@ -434,6 +434,7 @@ export const innerSchema = (vm) =>
         name: vm.$t('de51ee4c.a927ed'),
         key: 'name',
         width: '240px',
+        'show-overflow-tooltip': false,
         render(_, { row, $index }) {
           const isThanks = row['type'] === 'thanks'
           return (
@@ -455,6 +456,7 @@ export const innerSchema = (vm) =>
         name: vm.$t('de51ee4c.df4f60'),
         key: 'probability',
         width: '190px',
+        'show-overflow-tooltip': false,
         render(_, { row, $index }) {
           return (
             <div>
@@ -480,8 +482,7 @@ export const innerSchema = (vm) =>
         name: vm.$t('de51ee4c.b47382'),
         key: 'type',
         width: '300px',
-        // Finder 默认 show-overflow-tooltip=true；奖品列含「选择」操作时，
-        // Windows 中文字体更宽易触发溢出气泡（箭头指向上方），误当成引导提示。
+        // Finder 默认 show-overflow-tooltip=true；奖品表含操作控件时易误触发溢出气泡。
         'show-overflow-tooltip': false,
         render(_, { row, $index }) {
           const isThanks = row['type'] === 'thanks'
@@ -540,6 +541,7 @@ export const innerSchema = (vm) =>
         name: vm.$t('de51ee4c.924543'),
         key: 'dailyStock',
         width: '160px',
+        'show-overflow-tooltip': false,
         render(_, { row, $index }) {
           if (row['type'] == 'coupon' || row['type'] == 'coupons') {
             return (
@@ -570,6 +572,7 @@ export const innerSchema = (vm) =>
         name: vm.$t('de51ee4c.bcc437'),
         key: 'backgroundColor',
         width: '80px',
+        'show-overflow-tooltip': false,
         render(_, { row, $index }) {
           return (
             <div>
@@ -585,6 +588,7 @@ export const innerSchema = (vm) =>
         name: vm.$t('de51ee4c.5bef5b'),
         key: 'image',
         width: '80px',
+        'show-overflow-tooltip': false,
         render(_, { row, $index }) {
           return (
             <div class='imgWrap'>
