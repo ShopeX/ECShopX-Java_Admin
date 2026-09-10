@@ -256,7 +256,7 @@ export default {
       }
     },
     cancel() {
-      this.$router.push('/marketing/membermarket/wheel')
+      this.$router.push('/marketing/interactive/lottery')
     },
     onGroupFormSubmit() {
       if (this.formReadonly) return
@@ -413,7 +413,7 @@ export default {
         const res = await api.marketing.editTurntableConfig(params)
         if (res?.result) {
           this.$message.success('保存成功')
-          this.$router.push('/marketing/membermarket/wheel')
+          this.$router.push('/marketing/interactive/lottery')
           return
         }
         this.$message.error('保存失败')

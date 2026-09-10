@@ -559,15 +559,25 @@ const routes = [
         ]
       },
       {
-        name: 'wheelList',
-        // 与后台菜单 URL /marketing/membermarket/wheel 对齐
+        // 兼容旧菜单 URL /marketing/membermarket/wheel
         path: 'membermarket/wheel',
+        redirect: '/marketing/interactive/lottery'
+      },
+      {
+        // 兼容旧菜单 URL /marketing/wheel
+        path: 'wheel',
+        redirect: '/marketing/interactive/lottery'
+      },
+      {
+        name: 'lotteryList',
+        // 与后台菜单 URL /marketing/interactive/lottery 对齐
+        // 菜单树：营销(marketing) → 互动营销(interactive) → 抽奖(lottery)
+        path: 'interactive/lottery',
         meta: {
-          aliasName: 'wheel',
+          aliasName: 'lottery',
           icon: 'pay-circle',
           title: i18n.t('b213c3c4.5fa218'),
-          // 菜单树 alias：marketing → membermarket → wheel
-          permissions: ['marketing.membermarket.wheel']
+          permissions: ['marketing.interactive.lottery']
         },
         component: () => import('@/view/marketing/lottery/list.vue'),
         children: [

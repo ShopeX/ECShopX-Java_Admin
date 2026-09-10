@@ -55,12 +55,7 @@ export default {
         }
       ]
     },
-    {
-      // 兼容旧菜单：与 /marketing/wheel 共用同一套抽奖列表/编辑
-      path: 'interactive/lottery',
-      name: '90713176.283be6',
-      redirect: '/marketing/wheel'
-    },
+    // interactive/lottery 正式路由已迁至 routes/modules/marketing.js
     {
       path: 'coupon/couponspackage',
       name: '90713176.e12325',
@@ -242,13 +237,7 @@ export default {
     {
       path: 'wheel',
       name: '90713176.d58dfa',
-      component: () => import('@/view/marketing/lottery/list.vue'),
-      children: [
-        {
-          path: 'editor/:id?',
-          component: () => import('@/view/marketing/lottery/editor.vue')
-        }
-      ]
+      redirect: '/marketing/interactive/lottery'
     },
 
     {

@@ -100,10 +100,10 @@ export default {
       })
     },
     addHandle() {
-      this.$router.push('/marketing/membermarket/wheel/editor')
+      this.$router.push('/marketing/interactive/lottery/editor')
     },
     editConfigHandle(row) {
-      this.$router.push(`/marketing/membermarket/wheel/editor/${row.id}`)
+      this.$router.push(`/marketing/interactive/lottery/editor/${row.id}`)
     },
     stopHandle(row) {
       this.$confirm('确定终止该活动？终止后用户将无法继续抽奖。', '提示', {
@@ -125,7 +125,7 @@ export default {
         })
     },
     copyHandle(row) {
-      this.$router.push(`/marketing/membermarket/wheel/editor?clone_id=${row.id}`)
+      this.$router.push(`/marketing/interactive/lottery/editor?clone_id=${row.id}`)
     },
     async statisticsHandle(row) {
       this.editRow = row
