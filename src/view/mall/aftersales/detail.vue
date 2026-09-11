@@ -964,7 +964,7 @@ export default {
       aftersales_address_id: '',
       aftersales_contact: '',
       aftersales_mobile: '',
-      is_default: 0,
+      is_default: 2,
       aftersales_address: '',
       aftersales_select: null,
       regionList: [],
@@ -1312,7 +1312,7 @@ export default {
       })
     },
     onAddAddress() {
-      this.is_default = 0
+      this.is_default = 2
       this.dialogVisible = true
     }
   }
