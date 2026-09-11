@@ -817,8 +817,8 @@
         </el-form-item>
         <el-form-item :label="$t('e67351f7.d1c357')">
           <el-select v-model="is_default" :placeholder="$t('e67351f7.708c9d')">
-            <el-option :label="$t('e67351f7.0a60ac')" value="1" />
-            <el-option :label="$t('e67351f7.c9744f')" value="2" />
+            <el-option :label="$t('e67351f7.0a60ac')" :value="1" />
+            <el-option :label="$t('e67351f7.c9744f')" :value="2" />
           </el-select>
         </el-form-item>
       </el-form>
@@ -964,7 +964,7 @@ export default {
       aftersales_address_id: '',
       aftersales_contact: '',
       aftersales_mobile: '',
-      is_default: 2,
+      is_default: 0,
       aftersales_address: '',
       aftersales_select: null,
       regionList: [],
@@ -1312,6 +1312,7 @@ export default {
       })
     },
     onAddAddress() {
+      this.is_default = 0
       this.dialogVisible = true
     }
   }
