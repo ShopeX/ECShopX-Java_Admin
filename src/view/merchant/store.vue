@@ -1070,9 +1070,14 @@ export default {
           await this.$api.marketing.updateDistributorInfo(distributor_id, params)
           this.submitLoading = false
           this.$message.success(this.$t('027707af.c83614'))
+          this.openTranslate(
+            distributor_id,
+            ['name', 'address', 'introduce'],
+            [this.form.name || '', this.form.address || '', this.form.introduce || '']
+          )
         } else {
           const ids = (this.$refs['daoDianZiti']?.finderData || []).map((item) => item.id)
-          await this.$api.marketing.saveDistributorInfo({
+          const res = await this.$api.marketing.saveDistributorInfo({
             ...params,
             pickup_location: ids
           })
