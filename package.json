@@ -113,7 +113,7 @@
     "webpack-bundle-analyzer": "^4.4.0"
   },
   "engines": {
-    "node": "16.16.0"
+    "node": "20.19.0"
   },
   "browserslist": [
     "> 1%",

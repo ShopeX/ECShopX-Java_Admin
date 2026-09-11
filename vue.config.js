@@ -4,7 +4,6 @@ const WebpackAliyunOss = require('webpack-aliyun-oss')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
 const bodyParser = require('body-parser')
 
 const SRC_PATH = path.resolve(__dirname, 'src')
