@@ -554,7 +554,7 @@ export default {
           label: this.$t('027707af.6a9e57'),
           type: 'group',
           tip: this.$t('027707af.408f9b'),
-          isShow: () => this.dadaEnable
+          isShow: () => this.distributor_self == 0
         },
         {
           label: this.$t('027707af.6a9e57'),
@@ -562,7 +562,8 @@ export default {
           type: 'switch',
           width: 'auto',
           tip: this.$t('027707af.ed46b7'),
-          isShow: () => this.dadaEnable
+          disabled: () => !this.dadaEnable,
+          isShow: () => this.distributor_self == 0
         },
         {
           label: this.$t('027707af.c3bf69'),
@@ -1055,7 +1056,10 @@ export default {
         delete params.salesperson_type
       }
 
-      if (this.form.is_dada) {
+      if (this.distributor_self == 1) {
+        params.is_dada = 0
+        params.is_self_delivery = false
+      } else if (this.form.is_dada) {
         if (this.form.is_self_delivery) {
           params.is_dada = 0
           params.is_self_delivery = true
