@@ -23311,6 +23311,7 @@
     "mainItemsRequired": "請輸入主商品 ID",
     "recommendItemsRequired": "請輸入推薦商品 ID",
     "excludeConflict": "排除衝突的主商品",
+    "excludeConflictConfirm": "部分主商品已被其他規則占用，是否自動排除衝突商品後繼續保存？",
     "searchPlaceholder": "請輸入規則名稱",
     "search": "搜尋",
     "id": "ID",

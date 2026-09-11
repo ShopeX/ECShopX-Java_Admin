@@ -15,7 +15,7 @@
       ref="table"
       url="/goods/items"
       class="sp-goods-picker__table bg-white"
-      row-key="item_id"
+      :row-key="idKey"
       max-height="420"
       :columns="columns"
       :hooks="{ beforeSearch, afterSearch }"
@@ -42,23 +42,6 @@ import SpFormPlus from '@/components/sp-form-plus'
 import SpTable from '@/components/sp-table'
 import { getCurrentCountryCode } from '@/i18n'
 
-function normalizeProduct(row = {}) {
-  return {
-    item_id: row.item_id,
-    item_name: row.item_name,
-    pics: row.pics,
-    price: row.price
-  }
-}
-
-function createSelectedMap(rows = []) {
-  return rows.reduce((map, item) => {
-    const product = normalizeProduct(item)
-    if (product.item_id) map[product.item_id] = product
-    return map
-  }, {})
-}
-
 export default {
   name: 'GoodsPicker',
   components: {
@@ -73,6 +56,10 @@ export default {
     initialSelected: {
       type: [Object, Array],
       default: null
+    },
+    idKey: {
+      type: String,
+      default: 'item_id'
     }
   },
   data() {
@@ -87,10 +74,7 @@ export default {
         !this.multiple && this.initialSelected && !Array.isArray(this.initialSelected)
           ? { ...this.initialSelected }
           : null,
-      selectedMap:
-        this.multiple && Array.isArray(this.initialSelected)
-          ? createSelectedMap(this.initialSelected)
-          : {},
+      selectedMap: {},
       currentPageRows: [],
       brandList: [],
       categoryList: []
@@ -110,7 +94,7 @@ export default {
           this.syncMultipleSelection(rows)
           return
         }
-        this.selectedRow = rows?.[0] ? normalizeProduct(rows[0]) : null
+        this.selectedRow = rows?.[0] ? this.normalizeProduct(rows[0]) : null
       }
     },
     selectedRows() {
@@ -207,11 +191,42 @@ export default {
       ]
     }
   },
+  created() {
+    if (this.multiple && Array.isArray(this.initialSelected)) {
+      this.selectedMap = this.createSelectedMap(this.initialSelected)
+    }
+  },
   mounted() {
     this.fetchBrands()
     this.fetchCategories()
   },
   methods: {
+    getRowId(row = {}) {
+      if (this.idKey === 'goods_id') {
+        return row.goods_id ?? row.goodsId
+      }
+      return row.item_id ?? row.itemId
+    },
+    normalizeProduct(row = {}) {
+      const id = this.getRowId(row)
+      const base = {
+        item_name: row.item_name || row.itemName,
+        pics: row.pics,
+        price: row.price
+      }
+      if (this.idKey === 'goods_id') {
+        return { ...base, goods_id: id, goodsId: id }
+      }
+      return { ...base, item_id: id, itemId: id }
+    },
+    createSelectedMap(rows = []) {
+      return rows.reduce((map, item) => {
+        const product = this.normalizeProduct(item)
+        const id = this.getRowId(product)
+        if (id) map[id] = product
+        return map
+      }, {})
+    },
     beforeSearch(params) {
       const category = this.searchParams.category
       return {
@@ -243,13 +258,17 @@ export default {
     },
     syncMultipleSelection(rows = []) {
       if (!this.multiple) return
-      const nextPageSelectedIds = new Set((rows || []).map((row) => row.item_id).filter(Boolean))
+      const nextPageSelectedIds = new Set(
+        (rows || []).map((row) => this.getRowId(row)).filter(Boolean)
+      )
       ;(this.currentPageRows || []).forEach((row) => {
-        if (!row?.item_id) return
-        if (!nextPageSelectedIds.has(row.item_id)) this.$delete(this.selectedMap, row.item_id)
+        const id = this.getRowId(row)
+        if (!id) return
+        if (!nextPageSelectedIds.has(id)) this.$delete(this.selectedMap, id)
       })
       ;(rows || []).forEach((row) => {
-        if (row?.item_id) this.$set(this.selectedMap, row.item_id, normalizeProduct(row))
+        const id = this.getRowId(row)
+        if (id) this.$set(this.selectedMap, id, this.normalizeProduct(row))
       })
     },
     clearSelectedRows() {

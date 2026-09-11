@@ -23346,6 +23346,7 @@
     "mainItemsRequired": "请输入主商品 ID",
     "recommendItemsRequired": "请输入推荐商品 ID",
     "excludeConflict": "排除冲突的主商品",
+    "excludeConflictConfirm": "部分主商品已被其他规则占用，是否自动排除冲突商品后继续保存？",
     "searchPlaceholder": "请输入规则名称",
     "search": "搜索",
     "id": "ID",

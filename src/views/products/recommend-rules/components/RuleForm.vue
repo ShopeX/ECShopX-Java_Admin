@@ -29,7 +29,10 @@ import { GoodsPicker } from '@/components/sp-picker-plus'
 import SelectedGoods from './SelectedGoods'
 
 function normalizeItem(item) {
-  if (typeof item !== 'object') return { itemId: item, itemName: String(item) }
+  if (typeof item !== 'object') {
+    const goodsId = Number(item)
+    return { goodsId, itemId: goodsId, itemName: String(item) }
+  }
   let pics = item.pics
   if (typeof pics === 'string') {
     try {
@@ -39,12 +42,31 @@ function normalizeItem(item) {
     }
   }
   if (!Array.isArray(pics)) pics = []
+  const goodsId = Number(item.goodsId || item.goods_id)
   return {
     ...item,
-    itemId: item.itemId || item.item_id || item.id,
-    itemName: item.itemName || item.item_name || item.name || String(item.itemId || item.id),
-    image: item.image || item.pic || pics[0]
+    goodsId,
+    itemId: goodsId,
+    itemName:
+      item.itemName ||
+      item.item_name ||
+      item.name ||
+      String(Number.isFinite(goodsId) ? goodsId : ''),
+    image: item.image || item.pic || item.image_url || pics[0]
   }
+}
+
+function toPickerInitialSelected(items = []) {
+  return items
+    .map((item) => ({
+      ...item,
+      goods_id: item.goodsId || item.goods_id
+    }))
+    .filter((item) => item.goods_id)
+}
+
+function getSubmitGoodsId(item) {
+  return Number(item.goodsId || item.goods_id)
 }
 
 const ProductRelationField = {
@@ -63,7 +85,7 @@ const ProductRelationField = {
     remove(key, id) {
       this.update(
         key,
-        this.data[key].filter((item) => item.itemId !== id)
+        this.data[key].filter((item) => item.goodsId !== id)
       )
     },
     async pick(key) {
@@ -73,7 +95,11 @@ const ProductRelationField = {
           key === 'main_items'
             ? this.$t('recommendRules.selectMainGoods')
             : this.$t('recommendRules.selectRecommendGoods'),
-        props: { multiple: true, initialSelected: this.data[key] }
+        props: {
+          multiple: true,
+          idKey: 'goods_id',
+          initialSelected: toPickerInitialSelected(this.data[key])
+        }
       })
       if (result) this.update(key, result.map(normalizeItem))
     }
@@ -163,15 +189,24 @@ export default {
   methods: {
     reset() {
       const rule = this.rule || {}
-      const originalMain = (rule.main_items || rule.mainItems || rule.main_item_ids || []).map(
-        normalizeItem
+      const originalMain = (
+        rule.main_items ||
+        rule.mainItems ||
+        rule.main_goods_ids ||
+        rule.main_item_ids ||
+        []
       )
+        .map(normalizeItem)
+        .filter((item) => item.goodsId)
       const recommend = (
         rule.recommend_items ||
         rule.recommendItems ||
+        rule.recommend_goods_ids ||
         rule.recommend_item_ids ||
         []
-      ).map(normalizeItem)
+      )
+        .map(normalizeItem)
+        .filter((item) => item.goodsId)
       this.form = {
         rule_name:
           this.mode === 'copy'
@@ -213,13 +248,15 @@ export default {
         return
       }
       {
-        const mainIds = this.relation.main_items.map((item) => item.itemId)
-        const recommendIds = this.relation.recommend_items.map((item) => item.itemId)
+        const mainIds = this.relation.main_items.map(getSubmitGoodsId).filter(Boolean)
+        const recommendIds = this.relation.recommend_items.map(getSubmitGoodsId).filter(Boolean)
         if (!mainIds.length || !recommendIds.length) {
           this.errorMessage = this.$t('recommendRules.itemsRequired')
           return done()
         }
-        if (mainIds.some((id) => recommendIds.includes(id))) {
+        const mainGoodsIds = this.relation.main_items.map((item) => item.goodsId)
+        const recommendGoodsIds = this.relation.recommend_items.map((item) => item.goodsId)
+        if (mainGoodsIds.some((id) => recommendGoodsIds.includes(id))) {
           this.errorMessage = this.$t('recommendRules.itemsDuplicate')
           return done()
         }

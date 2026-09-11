@@ -148,15 +148,39 @@ export default {
       }
       this.formVisible = true
     },
-    async saveRule(payload, done, fail) {
+    async saveRule(payload, done, fail, options = {}) {
       try {
-        const params = { id: this.activeRule.id, ...payload }
-        if (this.formMode === 'edit') await this.$api.recommendRules.updateRecommendRule(params)
-        else await this.$api.recommendRules.createRecommendRule(params)
+        if (this.formMode === 'edit') {
+          await this.$api.recommendRules.updateRecommendRule({
+            id: this.activeRule.id,
+            ...payload,
+            ...options
+          })
+        } else {
+          await this.$api.recommendRules.createRecommendRule({ ...payload, ...options })
+        }
         this.$message.success(this.$t('recommendRules.saved'))
         done()
         this.$refs.rulesTable.refresh()
       } catch (error) {
+        const statusCode = error?.status_code || error?.data?.status_code
+        if (statusCode === 409 && !options.exclude_conflict_main_items) {
+          try {
+            await this.$confirm(
+              error?.msg || this.$t('recommendRules.excludeConflictConfirm'),
+              this.$t('recommendRules.discardTitle'),
+              {
+                type: 'warning',
+                cancelButtonText: this.$t('recommendRules.cancel'),
+                confirmButtonText: this.$t('recommendRules.confirm')
+              }
+            )
+            return this.saveRule(payload, done, fail, { exclude_conflict_main_items: true })
+          } catch (confirmError) {
+            if (fail) fail(error)
+            return
+          }
+        }
         this.$message.error(error?.msg || this.$t('recommendRules.saveRuleFailed'))
         if (fail) fail(error)
       }

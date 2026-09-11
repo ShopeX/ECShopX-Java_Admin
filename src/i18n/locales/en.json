@@ -23314,6 +23314,7 @@
     "mainItemsRequired": "Main item IDs are required",
     "recommendItemsRequired": "Recommended item IDs are required",
     "excludeConflict": "Exclude conflicting main items",
+    "excludeConflictConfirm": "Some main products are already used by other rules. Exclude conflicts and save?",
     "searchPlaceholder": "Enter rule name",
     "search": "Search",
     "id": "ID",
