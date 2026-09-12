@@ -1028,7 +1028,7 @@ export default {
           this.aftersales_contact = data.aftersales_address.aftersales_contact
           this.aftersales_mobile = data.aftersales_address.aftersales_mobile
           this.aftersales_address_id = data.aftersales_address.aftersales_address_id
-          this.is_default = data.aftersales_address.is_default
+          this.is_default = this.normalizeIsDefault(data.aftersales_address.is_default)
         }
         if (data.sendback_data.length == 0) {
           this.aftersalesInfo.sendback_data = null
@@ -1067,7 +1067,7 @@ export default {
             this.aftersales_contact = data.aftersales_address.aftersales_contact
             this.aftersales_mobile = data.aftersales_address.aftersales_mobile
             this.aftersales_address_id = data.aftersales_address.aftersales_address_id
-            this.is_default = data.aftersales_address.is_default
+            this.is_default = this.normalizeIsDefault(data.aftersales_address.is_default)
           }
           if (data.sendback_data.length == 0) {
             this.aftersalesInfo.sendback_data = null
@@ -1243,7 +1243,7 @@ export default {
         this.aftersales_contact = fd.contact
         this.aftersales_mobile = fd.mobile
         this.aftersales_address = fd.province + fd.city + fd.area + fd.address
-        this.is_default = fd.is_default
+        this.is_default = this.normalizeIsDefault(fd.is_default)
       }
       this.relShop.relShopVisible = false
     },
@@ -1301,7 +1301,7 @@ export default {
           this.aftersales_contact = fd.contact
           this.aftersales_mobile = fd.mobile
           this.aftersales_address = fd.province + fd.city + fd.area + fd.address
-          this.is_default = fd.is_default
+          this.is_default = this.normalizeIsDefault(fd.is_default)
         } else {
           this.$message({
             message: this.$t('e67351f7.6452a0'),
@@ -1314,6 +1314,9 @@ export default {
     onAddAddress() {
       this.is_default = 2
       this.dialogVisible = true
+    },
+    normalizeIsDefault(val) {
+      return val == 1 ? 1 : 2
     }
   }
 }
