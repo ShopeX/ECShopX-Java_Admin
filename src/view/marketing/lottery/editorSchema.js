@@ -197,16 +197,6 @@ export const formList = (vm) =>
         defaultValue: ''
       },
       {
-        label: vm.$t('de51ee4c.9f0391'),
-        defaultValue: 'wheel',
-        required: true,
-        key: 'activity_type',
-        component(_) {
-          // 本期仅大转盘；老虎机 / 九宫格暂不开放
-          return <span>{vm.$t('dd9b5a55.5fa218')}</span>
-        }
-      },
-      {
         label: vm.$t('de51ee4c.51c33b'),
         key: 'prize_data',
         defaultValue: [],
@@ -218,9 +208,10 @@ export const formList = (vm) =>
               data={vm.form['prize_data']}
               no-selection
               setting={innerSchema(vm)}
-              row-actions-width='50px'
+              row-actions-width='80px'
               show-pager={false}
               class='prize_data'
+              style={{ width: '100%' }}
             >
               <div slot='tableTop'>
                 <el-button plain disabled={vm.formReadonly} onClick={() => vm.addHandle()}>
@@ -247,7 +238,7 @@ export const formList = (vm) =>
         }
       },
       {
-        label: '抽奖区顶部高度',
+        label: vm.$t('de51ee4c.7705a2'),
         key: 'gameMarginTop',
         required: true,
         defaultValue: 150,
@@ -273,15 +264,16 @@ export const formList = (vm) =>
         label: vm.$t('de51ee4c.1dff74'),
         key: 'back',
         defaultValue: '',
-        component({ key }, value) {
+        component() {
           return (
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '20px' }}>
+            <div class='lottery-bg-row'>
+              <div class='lottery-bg-row__labels'>
                 <span>{vm.$t('de51ee4c.2f97db')}</span>
                 <span>{vm.$t('de51ee4c.543aa6')}</span>
                 <span
-                  style={{ marginLeft: '40px' }}
+                  class='lottery-bg-row__reset'
                   onClick={() => {
+                    if (vm.formReadonly) return
                     vm.form = {
                       ...vm.form,
                       background: '',
@@ -292,22 +284,18 @@ export const formList = (vm) =>
                   {vm.$t('de51ee4c.7468f3')}
                 </span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '20px' }}>
-                <div>
-                  <el-color-picker
-                    value={vm.form['backgroundColor']}
-                    onChange={(val) => {
-                      console.log('🚀 ~ onChange ~ val:', val)
-                      vm.form = {
-                        ...vm.form,
-                        backgroundColor: val
-                      }
-                    }}
-                  />
-                </div>
-                <div>
-                  <SpImagePicker v-model={vm.form['background']} />
-                </div>
+              <div class='lottery-bg-row__controls'>
+                <el-color-picker
+                  value={vm.form['backgroundColor']}
+                  disabled={vm.formReadonly}
+                  onChange={(val) => {
+                    vm.form = {
+                      ...vm.form,
+                      backgroundColor: val
+                    }
+                  }}
+                />
+                <SpImagePicker v-model={vm.form['background']} />
               </div>
             </div>
           )
@@ -317,16 +305,22 @@ export const formList = (vm) =>
         label: vm.$t('de51ee4c.ffa588'),
         key: 'hotArea',
         defaultValue: null,
-        component({ key }, value) {
+        component() {
           return (
-            <div class='inputWrap'>
-              <div>{vm['hasSetHotArea'] ? vm.$t('de51ee4c.44e607') : vm.$t('de51ee4c.fe2d26')}</div>
-              <div style={{ display: 'flex', fontSize: '14px' }}>
-                <div onClick={() => (vm.hotAreasDialogShow = true)}>
-                  {vm.$t('de51ee4c.e366cc')}&nbsp;
-                </div>
-                <div
+            <div class='lottery-style-row'>
+              <div>{vm.hasSetHotArea ? vm.$t('de51ee4c.44e607') : vm.$t('de51ee4c.fe2d26')}</div>
+              <div class='lottery-style-row__actions'>
+                <span
                   onClick={() => {
+                    if (vm.formReadonly) return
+                    vm.hotAreasDialogShow = true
+                  }}
+                >
+                  {vm.$t('de51ee4c.e366cc')}
+                </span>
+                <span
+                  onClick={() => {
+                    if (vm.formReadonly) return
                     vm.hotArea = {
                       backImg: '',
                       padding: 20,
@@ -337,51 +331,66 @@ export const formList = (vm) =>
                   }}
                 >
                   {vm.$t('de51ee4c.7468f3')}
-                </div>
+                </span>
               </div>
             </div>
           )
         }
       },
-      // {
-      //   label: '抽奖规则按钮',
-      //   key: 'ruleBtnStyle',
-      //   defaultValue: '',
-      //   component({ key }, value) {
-      //     return (
-      //       <div class='inputWrap'>
-      //         <div>{vm['ruleFormConfig']?.img ? '已设置' : '未设置'}</div>
-      //         <div style={{ display: 'flex', fontSize: '14px' }}>
-      //           <div onClick={() => (vm.ruleDialogShow = true)}>设置&nbsp;</div>
-      //           <div
-      //             onClick={() => {
-      //               vm.ruleForm = {
-      //                 rule: ['#000000', '#000000'],
-      //                 img: ''
-      //               }
-      //             }}
-      //           >
-      //             恢复默认
-      //           </div>
-      //         </div>
-      //       </div>
-      //     )
-      //   }
-      // },
+      {
+        label: vm.$t('d8d84692.f4f9e5'),
+        key: 'ruleBtnStyle',
+        defaultValue: '',
+        component() {
+          return (
+            <div class='lottery-style-row'>
+              <div>{vm.hasSetRule ? vm.$t('de51ee4c.44e607') : vm.$t('de51ee4c.fe2d26')}</div>
+              <div class='lottery-style-row__actions'>
+                <span
+                  onClick={() => {
+                    if (vm.formReadonly) return
+                    vm.ruleDialogShow = true
+                  }}
+                >
+                  {vm.$t('de51ee4c.e366cc')}
+                </span>
+                <span
+                  onClick={() => {
+                    if (vm.formReadonly) return
+                    vm.ruleForm = {
+                      rule: ['#000000', '#000000'],
+                      img: ''
+                    }
+                    vm.hasSetRule = false
+                  }}
+                >
+                  {vm.$t('de51ee4c.7468f3')}
+                </span>
+              </div>
+            </div>
+          )
+        }
+      },
       {
         label: vm.$t('de51ee4c.e3f125'),
         key: 'recordBtnStyle',
         defaultValue: '',
-        component({ key }, value) {
+        component() {
           return (
-            <div class='inputWrap'>
-              <div>{vm['hasSetRecord'] ? vm.$t('de51ee4c.44e607') : vm.$t('de51ee4c.fe2d26')}</div>
-              <div style={{ display: 'flex' }}>
-                <div onClick={() => (vm.recordDialogShow = true)}>
-                  {vm.$t('de51ee4c.e366cc')}&nbsp;
-                </div>
-                <div
+            <div class='lottery-style-row'>
+              <div>{vm.hasSetRecord ? vm.$t('de51ee4c.44e607') : vm.$t('de51ee4c.fe2d26')}</div>
+              <div class='lottery-style-row__actions'>
+                <span
                   onClick={() => {
+                    if (vm.formReadonly) return
+                    vm.recordDialogShow = true
+                  }}
+                >
+                  {vm.$t('de51ee4c.e366cc')}
+                </span>
+                <span
+                  onClick={() => {
+                    if (vm.formReadonly) return
                     vm.recordForm = {
                       rule: ['#ffffff', '#000000'],
                       img: ''
@@ -390,24 +399,12 @@ export const formList = (vm) =>
                   }}
                 >
                   {vm.$t('de51ee4c.7468f3')}
-                </div>
+                </span>
               </div>
             </div>
           )
         }
       }
-      // {
-      //   label: '',
-      //   key: 'lotteryMonitor',
-      //   defaultValue: '',
-      //   component(_) {
-      //     return (
-      //       <div class='lottery-editor-content'>
-      //         <LuckyWheel ref='luckyWheelRef' config={vm.lotteryConfig} />
-      //       </div>
-      //     )
-      //   }
-      // }
     ],
     vm
   )
@@ -433,7 +430,7 @@ export const innerSchema = (vm) =>
       {
         name: vm.$t('de51ee4c.a927ed'),
         key: 'name',
-        width: '240px',
+        minWidth: '140px',
         'show-overflow-tooltip': false,
         render(_, { row, $index }) {
           const isThanks = row['type'] === 'thanks'
@@ -441,7 +438,7 @@ export const innerSchema = (vm) =>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <el-input
                 value={row['name']}
-                style={{ width: '220px' }}
+                style={{ width: '100%', maxWidth: '220px' }}
                 maxLength={5}
                 disabled={isThanks}
                 on-input={(val) => vm.handleInput(val, row, $index, 'name')}
@@ -455,7 +452,7 @@ export const innerSchema = (vm) =>
       {
         name: vm.$t('de51ee4c.df4f60'),
         key: 'probability',
-        width: '190px',
+        minWidth: '110px',
         'show-overflow-tooltip': false,
         render(_, { row, $index }) {
           return (
@@ -481,7 +478,7 @@ export const innerSchema = (vm) =>
       {
         name: vm.$t('de51ee4c.b47382'),
         key: 'type',
-        width: '300px',
+        minWidth: '220px',
         // Finder 默认 show-overflow-tooltip=true；奖品表含操作控件时易误触发溢出气泡。
         'show-overflow-tooltip': false,
         render(_, { row, $index }) {
@@ -540,7 +537,7 @@ export const innerSchema = (vm) =>
       {
         name: vm.$t('de51ee4c.924543'),
         key: 'dailyStock',
-        width: '160px',
+        minWidth: '120px',
         'show-overflow-tooltip': false,
         render(_, { row, $index }) {
           if (row['type'] == 'coupon' || row['type'] == 'coupons') {
@@ -571,7 +568,8 @@ export const innerSchema = (vm) =>
       {
         name: vm.$t('de51ee4c.bcc437'),
         key: 'backgroundColor',
-        width: '80px',
+        minWidth: '80px',
+        width: '90px',
         'show-overflow-tooltip': false,
         render(_, { row, $index }) {
           return (
@@ -587,7 +585,8 @@ export const innerSchema = (vm) =>
       {
         name: vm.$t('de51ee4c.5bef5b'),
         key: 'image',
-        width: '80px',
+        minWidth: '80px',
+        width: '90px',
         'show-overflow-tooltip': false,
         render(_, { row, $index }) {
           return (
@@ -738,7 +737,7 @@ export const recordFormSchema = (vm) =>
       {
         label: vm.$t('de51ee4c.47cf22'),
         key: 'img',
-        required: true,
+        required: false,
         defaultValue: '',
         component(_) {
           return (
