@@ -187,8 +187,9 @@ export default {
       const style = {
         backgroundColor: (this.config && this.config.backgroundColor) || '#f5f5f5',
         backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover'
+        backgroundPosition: 'center top',
+        backgroundSize: 'cover',
+        backgroundAttachment: 'local'
       }
       if (bg) style.backgroundImage = 'url(' + bg + ')'
       return style
@@ -270,6 +271,10 @@ export default {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  /* 背景图铺满整个预览页，不随内部滚动裁切到内容区 */
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
 }
 
 .sp-game-preview__scroll {
@@ -280,6 +285,7 @@ export default {
   /* 给底部固定按钮留空，避免内容被挡住 */
   padding-bottom: 56px;
   box-sizing: border-box;
+  background: transparent;
 }
 
 .sp-game-preview__body {
@@ -410,7 +416,7 @@ export default {
   line-height: 1.2;
 }
 
-/* 手机框底部固定双按钮 */
+/* 手机框底部固定双按钮：透明底，不遮挡整页背景图 */
 .sp-game-preview__footer {
   position: absolute;
   left: 0;
@@ -424,7 +430,7 @@ export default {
   gap: 12px;
   padding: 12px 16px 16px;
   box-sizing: border-box;
-  background: linear-gradient(180deg, rgba(245, 245, 245, 0) 0%, rgba(245, 245, 245, 0.92) 40%, rgba(245, 245, 245, 1) 100%);
+  background: transparent;
   pointer-events: none;
 }
 

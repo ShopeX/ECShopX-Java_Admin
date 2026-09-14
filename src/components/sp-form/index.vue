@@ -473,9 +473,12 @@ export default {
       >
         {formList.map((item, index) => {
           if (item.type == 'group') {
+            // 函数 label 内 JSX 依赖 this.$createElement，需绑定到 SpForm 实例
+            const groupLabel =
+              typeof item.label === 'function' ? item.label.call(this, item, value) : item.label
             const groupNode = (
               <div class='sp-form-group' v-show={this.getItemShow(item)}>
-                {item.label}
+                {groupLabel}
               </div>
             )
             return this.itemTransition ? (

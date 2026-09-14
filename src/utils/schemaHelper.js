@@ -16,11 +16,15 @@ export function generatorParams(options, data) {
   return _params
 }
 
-// 绑定表单schema的this指向
+// 绑定表单schema的this指向（供 JSX 内 this.$createElement 使用）
 export function bindThisForFormSchema(formSchema, target) {
+  if (!target) return formSchema
   formSchema?.forEach((item) => {
     if (item?.component && typeof item.component === 'function') {
       item.component = item.component.bind(target)
+    }
+    if (item?.label && typeof item.label === 'function') {
+      item.label = item.label.bind(target)
     }
     if (item?.validator && typeof item.validator === 'function') {
       item.validator = item.validator.bind(target)
