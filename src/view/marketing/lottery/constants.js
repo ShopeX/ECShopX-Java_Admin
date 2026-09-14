@@ -79,7 +79,7 @@ export const defaultGameConfig = {
       fontColor: '#666666',
       fontWeight: 'bold',
       lineHeight: '24px',
-      background: '#ffffff',
+      background: '',
       shadow: '0 0 10px rgba(0,0,0,0.1)',
       fontStyle: 'normal'
     }

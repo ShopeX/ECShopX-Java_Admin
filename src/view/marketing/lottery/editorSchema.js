@@ -193,8 +193,23 @@ export const formList = (vm) =>
       },
       {
         type: 'group',
-        label: vm.$t('de51ee4c.51c33b'),
-        defaultValue: ''
+        // 用函数延迟创建 VNode，避免 data() 里 generatorParams(formList(this)) 时过早调用 h()
+        label() {
+          return (
+            <div class='lottery-config-group'>
+              <span>{vm.$t('de51ee4c.51c33b')}</span>
+              {vm.previewExpanded ? (
+                <el-button type='text' onClick={() => (vm.previewExpanded = false)}>
+                  {vm.$t('7b53c26a.def9e9')}
+                </el-button>
+              ) : (
+                <el-button type='primary' size='small' onClick={() => (vm.previewExpanded = true)}>
+                  {vm.$t('d8d84692.e69751')}
+                </el-button>
+              )}
+            </div>
+          )
+        }
       },
       {
         label: vm.$t('de51ee4c.51c33b'),
@@ -324,7 +339,6 @@ export const formList = (vm) =>
                     vm.hotArea = {
                       backImg: '',
                       padding: 20,
-                      background: '#ffffff',
                       img: ''
                     }
                     vm.hasSetHotArea = false
@@ -635,19 +649,6 @@ export const lotteryAreaSchema = (vm) =>
         }
       },
       {
-        label: vm.$t('de51ee4c.3cccd8'),
-        key: 'background',
-        required: true,
-        defaultValue: '#ffffff',
-        component(_) {
-          return (
-            <div>
-              <el-color-picker v-model={vm.hotArea['background']} />
-            </div>
-          )
-        }
-      },
-      {
         label: vm.$t('de51ee4c.da61d6'),
         key: 'img',
         required: true,
@@ -699,7 +700,7 @@ export const ruleFormSchema = (vm) =>
       {
         label: vm.$t('de51ee4c.47cf22'),
         key: 'img',
-        required: true,
+        required: false,
         defaultValue: '',
         component(_) {
           return (

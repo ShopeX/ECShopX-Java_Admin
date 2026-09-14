@@ -27,15 +27,6 @@
           <LuckyWheel :config="lotteryPreviewConfig" />
         </div>
       </div>
-      <div v-else class="lottery-editor-preview-toggle-wrap">
-        <el-button
-          class="lottery-editor-preview-toggle"
-          type="primary"
-          @click="previewExpanded = true"
-        >
-          {{ $t('d8d84692.e69751') }}
-        </el-button>
-      </div>
     </div>
     <div class="lottery-editor-footer">
       <el-button @click="cancel">{{ $t('bea3f44a.625fb2') }}</el-button>
@@ -278,14 +269,10 @@ export default {
       const gameConfig = tpl.gameConfig || {}
       const blocks = gameConfig.blocks || []
       const buttons = gameConfig.buttons || []
-      // 奖项默认底色优先读 defaultStyle.background（正确落点），兼容旧数据 buttons[0].background
-      const prizeDefaultBg =
-        gameConfig.defaultStyle?.background || buttons[0]?.background || '#ffffff'
       this.hotArea = blocks[0]?.imgs?.[0]?.src
         ? {
             backImg: blocks[0].imgs[0].src,
             padding: blocks[0].padding ?? 20,
-            background: prizeDefaultBg,
             img: buttons[0]?.imgs?.[0]?.src || ''
           }
         : { ...generatorParams(lotteryAreaSchema(this)), padding: 20 }
@@ -386,9 +373,9 @@ export default {
       }
       return Promise.resolve()
     },
-    /** 奖项扇区底色：单项有值优先，否则用抽奖区域「奖项默认底色」 */
+    /** 奖项扇区底色：仅使用奖项自身 backgroundColor */
     resolvePrizeBackgroundColor(el = {}) {
-      return el.backgroundColor || this.hotArea?.background || ''
+      return el.backgroundColor || ''
     },
     buildPrizePayload() {
       return (this.form.prize_data || [])
@@ -444,10 +431,9 @@ export default {
             ...defaultGameConfig.gameConfig,
             // 与 prize_data 同源契约字段，供装修/C 端样式回显
             prizes,
-            // 奖项默认底色：写入 defaultStyle，供未单独设色的扇区兜底
             defaultStyle: {
               ...(defaultGameConfig.gameConfig.defaultStyle || {}),
-              background: this.hotArea?.background || '#ffffff'
+              background: ''
             },
             // lucky-canvas imgs 默认宽高为 0/原图像素，需 100% 才能铺满父级（与预览一致）
             blocks: this?.hotArea?.backImg
@@ -465,7 +451,7 @@ export default {
                   }
                 ]
               : [],
-            // 中心按钮：有图用图；无图时底色与指针样式独立，不再把「奖项默认底色」误当按钮色
+            // 中心按钮：有图用图；无图时使用独立按钮底色
             buttons: this.hotArea?.img
               ? [
                   {
@@ -738,17 +724,11 @@ export default {
   flex-direction: column;
 }
 
-/* 收起时固定在抽奖配置最右侧顶部，不占中间竖条 */
-.lottery-editor-preview-toggle-wrap {
-  flex: 0 0 auto;
-  position: sticky;
-  top: 16px;
-  align-self: flex-start;
-  z-index: 20;
-}
-
-.lottery-editor-preview-toggle {
-  white-space: nowrap;
+.lottery-editor-phone >>> .sp-game-preview {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
 }
 
 .lottery-editor-footer {
@@ -832,6 +812,19 @@ export default {
 .prize_data .el-table {
   padding-right: 12px;
   width: 100% !important;
+}
+
+/* 「抽奖配置」分组标题行：左侧标题，右侧预览按钮 */
+.lottery-config-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.lottery-config-group .el-button {
+  font-weight: 400;
 }
 
 .prize_data .el-table__body-wrapper,
