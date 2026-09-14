@@ -23389,5 +23389,7 @@
   "de51ee4c.32789d": "Component Style",
   "de51ee4c.cf5fe4": "Must be greater than 0",
   "d8d84692.a9b89a": "Draw cost must be greater than 0",
-  "d8d84692.799cea": "\"Thanks for participating\" cannot be deleted"
+  "d8d84692.799cea": "\"Thanks for participating\" cannot be deleted",
+  "d8d84692.e69751": "Lucky Wheel Preview",
+  "d8d84692.7a55ed": "Please check the configuration. Required fields cannot be empty"
 }

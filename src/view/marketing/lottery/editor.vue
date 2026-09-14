@@ -4,15 +4,39 @@
 -->
 
 <template>
-  <div class="lottery-editor">
-    <SpForm
-      ref="formBase"
-      v-model="form"
-      class="lottery-editor-form"
-      show-message
-      :submit="false"
-      :form-list="formList"
-    />
+  <div class="lottery-editor" :class="{ 'is-preview-open': previewExpanded }">
+    <div class="lottery-editor-body">
+      <div class="lottery-editor-main">
+        <SpForm
+          ref="formBase"
+          v-model="form"
+          class="lottery-editor-form"
+          :show-message="false"
+          :submit="false"
+          :form-list="formList"
+        />
+      </div>
+      <div v-if="previewExpanded" class="lottery-editor-preview">
+        <div class="lottery-editor-preview__toolbar">
+          <span class="lottery-editor-preview__title">{{ $t('a066f499.645dbc') }}</span>
+          <el-button type="text" @click="previewExpanded = false">
+            {{ $t('7b53c26a.def9e9') }}
+          </el-button>
+        </div>
+        <div class="lottery-editor-phone">
+          <LuckyWheel :config="lotteryPreviewConfig" />
+        </div>
+      </div>
+      <div v-else class="lottery-editor-preview-toggle-wrap">
+        <el-button
+          class="lottery-editor-preview-toggle"
+          type="primary"
+          @click="previewExpanded = true"
+        >
+          {{ $t('d8d84692.e69751') }}
+        </el-button>
+      </div>
+    </div>
     <div class="lottery-editor-footer">
       <el-button @click="cancel">{{ $t('bea3f44a.625fb2') }}</el-button>
       <el-button v-if="!formReadonly" type="primary" @click="onGroupFormSubmit">
@@ -59,6 +83,7 @@ import { formList, lotteryAreaSchema, ruleFormSchema, recordFormSchema } from '.
 import { generatorParams } from '@/utils/schemaHelper.js'
 import moment from 'moment'
 import api from '@/api'
+import LuckyWheel from '@/components/LuckyWheel/index.vue'
 
 import { defaultItem, defaultGameConfig } from './constants'
 
@@ -107,6 +132,9 @@ const createDefaultPrizes = () => [
 ]
 
 export default {
+  components: {
+    LuckyWheel
+  },
   data() {
     return {
       form: {
@@ -133,10 +161,12 @@ export default {
       recordDialogShow: false,
       recordForm: generatorParams(recordFormSchema(this)),
       hasSetHotArea: false,
-      ruleFormConfig: null,
-      hasSetRecord: null,
+      hasSetRule: false,
+      hasSetRecord: false,
       formReadonly: false,
-      loadingDetail: false
+      loadingDetail: false,
+      // 默认收起预览，保证奖项表完整展示
+      previewExpanded: false
     }
   },
   computed: {
@@ -165,6 +195,19 @@ export default {
     },
     recordFormList() {
       return recordFormSchema(this)
+    },
+    lotteryPreviewConfig() {
+      return {
+        prizeData: this.form.prize_data || [],
+        background: this.form.background,
+        backgroundColor: this.form.backgroundColor,
+        gameMarginTop: this.form.gameMarginTop,
+        hotArea: this.hotArea,
+        ruleBtnStyle: this.ruleForm,
+        recordBtnStyle: this.recordForm,
+        intro: this.form.intro,
+        costValue: this.form.cost_value
+      }
     }
   },
   mounted() {
@@ -235,21 +278,30 @@ export default {
       const gameConfig = tpl.gameConfig || {}
       const blocks = gameConfig.blocks || []
       const buttons = gameConfig.buttons || []
+      // 奖项默认底色优先读 defaultStyle.background（正确落点），兼容旧数据 buttons[0].background
+      const prizeDefaultBg =
+        gameConfig.defaultStyle?.background || buttons[0]?.background || '#ffffff'
       this.hotArea = blocks[0]?.imgs?.[0]?.src
         ? {
             backImg: blocks[0].imgs[0].src,
             padding: blocks[0].padding ?? 20,
-            background: buttons[0]?.background || '#ffffff',
+            background: prizeDefaultBg,
             img: buttons[0]?.imgs?.[0]?.src || ''
           }
         : { ...generatorParams(lotteryAreaSchema(this)), padding: 20 }
       this.hasSetHotArea = !!blocks[0]?.imgs?.[0]?.src
 
+      const ruleFormConfig = gameConfig.ruleFormConfig
+      this.ruleForm = ruleFormConfig
+        ? ruleFormConfig
+        : generatorParams(ruleFormSchema(this))
+      this.hasSetRule = !!ruleFormConfig
+
       const recordFormConfig = gameConfig.recordFormConfig
-      this.recordForm = recordFormConfig?.img
+      this.recordForm = recordFormConfig
         ? recordFormConfig
         : generatorParams(recordFormSchema(this))
-      this.hasSetRecord = !!recordFormConfig?.img
+      this.hasSetRecord = !!recordFormConfig
 
       // 已结束：编辑态只读（终止后 end_time<=now）
       if (!asClone && res.end_time && res.end_time * 1000 <= Date.now()) {
@@ -267,7 +319,12 @@ export default {
         .then(() => this.validateBusiness())
         .then(() => this.submitAfter())
         .catch((er) => {
-          if (er?.message) this.$message.error(er.message)
+          // SpForm 校验失败返回 errField 对象（无 message）；业务校验返回 Error
+          if (er?.message) {
+            this.$message.error(er.message)
+            return
+          }
+          this.$message.error(this.$t('d8d84692.7a55ed'))
         })
     },
     validateBusiness() {
@@ -329,6 +386,10 @@ export default {
       }
       return Promise.resolve()
     },
+    /** 奖项扇区底色：单项有值优先，否则用抽奖区域「奖项默认底色」 */
+    resolvePrizeBackgroundColor(el = {}) {
+      return el.backgroundColor || this.hotArea?.background || ''
+    },
     buildPrizePayload() {
       return (this.form.prize_data || [])
         .filter((el) => el.name?.trim() && el.type)
@@ -339,13 +400,16 @@ export default {
           } else if (el.type === 'coupons') {
             value = el.value?.package_id ?? el.value
           }
+          const backgroundColor = this.resolvePrizeBackgroundColor(el)
           const item = {
             sort: index,
             name: el.name,
             type: el.type,
             value: value ?? '',
             probability: Number(el.probability) || 0,
-            backgroundColor: el.backgroundColor || '',
+            backgroundColor,
+            // 兼容只读 background 的 C 端映射
+            background: backgroundColor,
             image: el.image || ''
           }
           if (el.prize_id) item.prize_id = el.prize_id
@@ -380,26 +444,55 @@ export default {
             ...defaultGameConfig.gameConfig,
             // 与 prize_data 同源契约字段，供装修/C 端样式回显
             prizes,
+            // 奖项默认底色：写入 defaultStyle，供未单独设色的扇区兜底
+            defaultStyle: {
+              ...(defaultGameConfig.gameConfig.defaultStyle || {}),
+              background: this.hotArea?.background || '#ffffff'
+            },
+            // lucky-canvas imgs 默认宽高为 0/原图像素，需 100% 才能铺满父级（与预览一致）
             blocks: this?.hotArea?.backImg
               ? [
                   {
-                    padding: this.hotArea.padding ?? 20,
-                    imgs: [{ src: this.hotArea.backImg }]
+                    padding: `${String(this.hotArea.padding ?? 20).replace(/px$/i, '') || 20}px`,
+                    imgs: [
+                      {
+                        src: this.hotArea.backImg,
+                        top: '0px',
+                        width: '100%',
+                        height: '100%'
+                      }
+                    ]
                   }
                 ]
               : [],
-            buttons:
-              this.hotArea?.img || this.hotArea?.background
-                ? [
-                    {
-                      background: this.hotArea?.background,
-                      imgs: this.hotArea?.img ? [{ src: this.hotArea.img }] : [],
-                      radius: '35%',
-                      pointer: true,
-                      fonts: [{ text: '开始', top: '-10px' }]
-                    }
-                  ]
-                : [],
+            // 中心按钮：有图用图；无图时底色与指针样式独立，不再把「奖项默认底色」误当按钮色
+            buttons: this.hotArea?.img
+              ? [
+                  {
+                    background: '#e54d42',
+                    imgs: [
+                      {
+                        src: this.hotArea.img,
+                        top: '-50%',
+                        width: '100%',
+                        height: '100%'
+                      }
+                    ],
+                    radius: '35%',
+                    pointer: true,
+                    fonts: []
+                  }
+                ]
+              : [
+                  {
+                    background: '#e54d42',
+                    imgs: [],
+                    radius: '35%',
+                    pointer: true,
+                    fonts: [{ text: '开始', top: '-10px' }]
+                  }
+                ],
+            ruleFormConfig: this.ruleForm,
             recordFormConfig: this.recordForm
           }
         })
@@ -516,7 +609,7 @@ export default {
       this.hotAreasDialogShow = false
     },
     onRuleFormSubmit() {
-      this.ruleFormConfig = this.ruleForm
+      this.hasSetRule = true
       this.ruleDialogShow = false
     },
     onRecordFormSubmit() {
@@ -586,43 +679,99 @@ export default {
   position: relative;
 }
 
+.lottery-editor-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  position: relative;
+}
+
+.lottery-editor-main {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  overflow: visible;
+}
+
+.lottery-editor.is-preview-open .lottery-editor-main {
+  max-width: calc(100% - 406px);
+}
+
+.lottery-editor-preview {
+  flex: 0 0 390px;
+  position: sticky;
+  top: 16px;
+  align-self: flex-start;
+  /* 高于 vue-html5-editor 默认 z-index:1000，避免滑到活动说明时被工具栏盖住 */
+  z-index: 1100;
+  background: #f5f7fa;
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.06);
+}
+
+.lottery-editor-preview__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 0 4px;
+}
+
+.lottery-editor-preview__title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #303133;
+}
+
+.lottery-editor-phone {
+  width: 375px;
+  height: 720px;
+  border: 1px solid #dcdfe6;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #f5f5f5;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 收起时固定在抽奖配置最右侧顶部，不占中间竖条 */
+.lottery-editor-preview-toggle-wrap {
+  flex: 0 0 auto;
+  position: sticky;
+  top: 16px;
+  align-self: flex-start;
+  z-index: 20;
+}
+
+.lottery-editor-preview-toggle {
+  white-space: nowrap;
+}
+
 .lottery-editor-footer {
   display: flex;
   justify-content: center;
-}
-
-.lottery-editor-content {
-  position: relative;
-  bottom: 260px;
-  left: 730px;
-  height: 740px;
-  width: 350px;
-  border: 1px solid #ccc;
-  display: flex;
-  justify-content: center;
-}
-
-.inputWrap {
-  width: 200px;
-  border-radius: 8px;
-  border: 1px solid;
-  height: 40px;
-  position: relative;
-  padding: 0 10px;
-  display: flex;
-  justify-content: space-between;
+  margin-top: 24px;
 }
 
 .imgWrap {
-  height: 50px;
+  height: 40px;
 }
 
 .prize_data {
-  width: max-content;
+  width: 100%;
+  max-width: 100%;
+}
+
+.prize_data >>> .el-table {
+  width: 100% !important;
 }
 
 .prize_data >>> .imgWrap .image-item {
-  height: 50px !important;
+  height: 40px !important;
 }
 </style>
 
@@ -632,5 +781,65 @@ export default {
   margin-left: 4px;
   color: var(--primary);
   cursor: pointer;
+}
+
+.lottery-style-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 280px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #dcdfe6;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.lottery-style-row__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.lottery-style-row__actions > span:hover {
+  opacity: 0.85;
+}
+
+.lottery-bg-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lottery-bg-row__labels,
+.lottery-bg-row__controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.lottery-bg-row__reset {
+  margin-left: 20px;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+/* Finder 操作列右侧留白；表格跟父级同宽，不出现横向滚动 */
+.prize_data .el-table {
+  padding-right: 12px;
+  width: 100% !important;
+}
+
+.prize_data .el-table__body-wrapper,
+.prize_data .el-table__header-wrapper {
+  overflow-x: hidden !important;
+}
+
+.prize_data .el-table__fixed-right {
+  right: 8px !important;
 }
 </style>
