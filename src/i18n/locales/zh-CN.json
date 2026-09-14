@@ -23364,6 +23364,7 @@
     "deleteTitle": "删除确认",
     "deleteFailed": "删除失败",
     "displaySettings": "推荐展示设置",
+    "displaySettingsHint": "商品显示数量上限50个",
     "saveSettings": "保存设置",
     "displayLimit": "展示数量",
     "sorting": "排序方式",

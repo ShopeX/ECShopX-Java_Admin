@@ -23329,6 +23329,7 @@
     "deleteTitle": "刪除確認",
     "deleteFailed": "刪除失敗",
     "displaySettings": "推薦展示設定",
+    "displaySettingsHint": "商品顯示數量上限50個",
     "saveSettings": "儲存設定",
     "displayLimit": "展示數量",
     "sorting": "排序方式",

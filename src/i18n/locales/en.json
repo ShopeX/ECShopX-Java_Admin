@@ -23332,6 +23332,7 @@
     "deleteTitle": "Delete confirmation",
     "deleteFailed": "Failed to delete",
     "displaySettings": "Display settings",
+    "displaySettingsHint": "Maximum 50 products displayed",
     "saveSettings": "Save settings",
     "displayLimit": "Display limit",
     "sorting": "Sorting",

@@ -1,7 +1,12 @@
 <template>
   <section class="display-settings">
     <div class="settings-header">
-      <span class="font-medium">{{ $t('recommendRules.displaySettings') }}</span>
+      <div class="flex items-center gap-2">
+        <span class="font-medium">{{ $t('recommendRules.displaySettings') }}</span>
+        <span class="text-sm font-normal text-[#909399]">{{
+          $t('recommendRules.displaySettingsHint')
+        }}</span>
+      </div>
       <el-button type="primary" size="small" :loading="saving" @click="save">
         {{ $t('recommendRules.saveSettings') }}
       </el-button>
