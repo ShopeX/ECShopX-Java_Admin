@@ -3,133 +3,67 @@
   See LICENSE file for license details.
 -->
 <template>
-  <div v-loading="pageLoading" class="ecx9887-deposit__section">
-    <div class="ecx9887-deposit__section-head">
-      <div>
-        <h1>{{ $t('ecx9887.settings.sectionTitle') }}</h1>
-        <p>{{ $t('ecx9887.settings.sectionDesc') }}</p>
-      </div>
-      <div class="ecx9887-deposit__switch-box">
+  <div
+    v-loading="pageLoading"
+    class="flex flex-col gap-5 bg-white border border-[#e5e7eb] rounded-lg p-8 max-md:p-5 max-md:px-4"
+  >
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2 whitespace-nowrap shrink-0">
+        <strong class="text-[13px] font-medium text-[#1f2937]">{{ $t('ecx9887.settings.enableStrong') }}</strong>
         <el-switch
           :value="draft.enabled"
           :disabled="switchLoading || pageLoading"
-          active-color="#8d4df4"
-          inactive-color="#dfe1e8"
           @change="onToggleEnabled"
         />
-        <strong>{{ $t('ecx9887.settings.enableStrong') }}</strong>
-        <span class="ecx9887-deposit__switch-state">{{ enabledStatusText }}</span>
+        <span class="text-[#9ca3af] text-[13px]">{{ enabledStatusText }}</span>
       </div>
     </div>
 
-    <div class="ecx9887-deposit__toolbar">
-      <span class="ecx9887-deposit__hint">{{ $t('ecx9887.settings.toolbarHint') }}</span>
+    <div class="h-px bg-[#e5e7eb]" />
+
+    <div class="bg-[#f9fafb] border border-[#e5e7eb] rounded p-3">
+      <span class="text-[#6b7280] text-[13px] leading-normal">{{ $t('ecx9887.settings.toolbarHint') }}</span>
     </div>
 
-    <div class="ecx9887-deposit__denom-list-head">
-      <h2>{{ $t('ecx9887.settings.denomRulesTitle') }}</h2>
-      <button
-        type="button"
-        class="ecx9887-deposit__btn is-primary"
+    <div class="flex items-center justify-between gap-3">
+      <h2 class="m-0 text-[15px] font-normal text-[#1f2937]">{{ $t('ecx9887.settings.denomRulesTitle') }}</h2>
+      <el-button
+        type="primary"
+        plain
+        size="small"
         :disabled="formDisabled || saving"
         @click="addRow"
       >
         {{ $t('ecx9887.settings.addRowBtn') }}
-      </button>
+      </el-button>
     </div>
 
-    <div class="ecx9887-deposit__denom-table">
-      <div v-if="draft.denominations.length" class="ecx9887-deposit__denom-head">
-        <div>{{ $t('ecx9887.settings.amountRequired') }}</div>
-        <div>{{ $t('ecx9887.settings.benefitType') }}</div>
-        <div>{{ $t('ecx9887.settings.benefitAmount') }}</div>
-        <div>{{ $t('ecx9887.settings.actionCol') }}</div>
-      </div>
+    <SpTable
+      class="[&_.el-table__row]:cursor-default"
+      :data="draft.denominations"
+      :columns="denomColumns"
+      row-key="_key"
+      :show-pager="false"
+      :row-class-name="denomRowClassName"
+    />
 
-      <div
-        v-if="!draft.denominations.length"
-        class="ecx9887-deposit__empty"
-      >
-        <strong>{{ $t('ecx9887.settings.emptyTitle') }}</strong>
-        <span>{{ $t('ecx9887.settings.emptyHint') }}</span>
-      </div>
-
-      <div
-        v-for="(row, index) in draft.denominations"
-        :key="row._key"
-        class="ecx9887-deposit__denom-row"
-        :class="{ 'is-disabled': formDisabled }"
-      >
-        <div class="ecx9887-deposit__cell">
-          <label>{{ $t('ecx9887.settings.amount') }}</label>
-          <el-input
-            v-model="row.amount_yuan"
-            :disabled="formDisabled"
-            :placeholder="$t('ecx9887.settings.amountPh')"
-            @input="clearRowError(row, 'amount_yuan')"
-          />
-          <span v-if="row.errors.amount_yuan" class="ecx9887-deposit__error">
-            {{ row.errors.amount_yuan }}
-          </span>
-        </div>
-
-        <div class="ecx9887-deposit__cell">
-          <label>{{ $t('ecx9887.settings.benefitType') }}</label>
-          <el-select
-            v-model="row.benefit_type"
-            :disabled="formDisabled"
-            class="w-full"
-            @change="onBenefitTypeChange(row)"
-          >
-            <el-option :label="$t('ecx9887.settings.benefitNone')" value="none" />
-            <el-option :label="$t('ecx9887.settings.benefitMoney')" value="money" />
-            <el-option :label="$t('ecx9887.settings.benefitPoint')" value="point" />
-          </el-select>
-        </div>
-
-        <div class="ecx9887-deposit__cell">
-          <label>{{ $t('ecx9887.settings.benefitAmount') }}</label>
-          <el-input
-            v-if="row.benefit_type !== 'none'"
-            v-model="row.benefit_amount"
-            :disabled="formDisabled"
-            :placeholder="$t('ecx9887.settings.benefitAmountPh')"
-            @input="clearRowError(row, 'benefit_amount')"
-          />
-          <div v-else style="height: 38px" />
-          <span v-if="row.errors.benefit_amount" class="ecx9887-deposit__error">
-            {{ row.errors.benefit_amount }}
-          </span>
-        </div>
-
-        <div>
-          <button
-            type="button"
-            class="ecx9887-deposit__row-action"
-            :disabled="formDisabled"
-            @click="removeRow(index)"
-          >
-            {{ $t('ecx9887.settings.delete') }}
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="ecx9887-deposit__save-bar">
-      <span v-if="isDirty" class="ecx9887-deposit__dirty">{{ $t('ecx9887.settings.unsaved') }}</span>
-      <button
-        type="button"
-        class="ecx9887-deposit__btn is-primary"
+    <div class="flex items-center gap-3 justify-end pt-4 max-md:flex-wrap">
+      <span v-if="isDirty" class="mr-auto text-[#f56c6c] text-[13px] max-md:w-full max-md:mr-0">{{ $t('ecx9887.settings.unsaved') }}</span>
+      <el-button
+        type="primary"
+        size="small"
+        :loading="saving"
         :disabled="!canUnifiedSave"
         @click="onUnifiedSave"
       >
-        {{ saving ? '...' : $t('ecx9887.settings.unifiedSave') }}
-      </button>
+        {{ $t('ecx9887.settings.unifiedSave') }}
+      </el-button>
     </div>
   </div>
 </template>
 
 <script>
+import SpTable from '@/components/sp-table'
 import { getDepositSettings, saveDepositSettings } from '@/api/deposit'
 
 let rowKeySeed = 1
@@ -193,6 +127,9 @@ function parseBenefitAmount(text) {
 
 export default {
   name: 'MemberDepositSettings',
+  components: {
+    SpTable
+  },
   data() {
     return {
       pageLoading: false,
@@ -222,6 +159,132 @@ export default {
     },
     canUnifiedSave() {
       return this.draft.enabled && this.isDirty && !this.saving && !this.pageLoading
+    },
+    denomColumns() {
+      const vm = this
+      return [
+        {
+          prop: 'amount_yuan',
+          label: this.$t('ecx9887.settings.amountRequired'),
+          minWidth: 300,
+          render: {
+            functional: true,
+            render(h, { props: { row } }) {
+              return h('div', { class: 'w-full max-w-[120px] max-md:max-w-none' }, [
+                h('el-input', {
+                  props: {
+                    value: row.amount_yuan,
+                    disabled: vm.formDisabled,
+                    placeholder: vm.$t('ecx9887.settings.amountPh')
+                  },
+                  on: {
+                    input(val) {
+                      row.amount_yuan = val
+                      vm.clearRowError(row, 'amount_yuan')
+                    }
+                  }
+                }),
+                row.errors.amount_yuan
+                  ? h('span', { class: 'block mt-1 text-[#f56c6c] text-xs' }, row.errors.amount_yuan)
+                  : null
+              ])
+            }
+          }
+        },
+        {
+          prop: 'benefit_type',
+          label: this.$t('ecx9887.settings.benefitType'),
+          minWidth: 300,
+          render: {
+            functional: true,
+            render(h, { props: { row } }) {
+              return h('div', { class: 'w-full' }, [
+                h(
+                  'el-select',
+                  {
+                    props: {
+                      value: row.benefit_type,
+                      disabled: vm.formDisabled
+                    },
+                    class: 'w-full',
+                    on: {
+                      change(val) {
+                        row.benefit_type = val
+                        vm.onBenefitTypeChange(row)
+                      }
+                    }
+                  },
+                  [
+                    h('el-option', {
+                      props: { label: vm.$t('ecx9887.settings.benefitNone'), value: 'none' }
+                    }),
+                    h('el-option', {
+                      props: { label: vm.$t('ecx9887.settings.benefitMoney'), value: 'money' }
+                    }),
+                    h('el-option', {
+                      props: { label: vm.$t('ecx9887.settings.benefitPoint'), value: 'point' }
+                    })
+                  ]
+                )
+              ])
+            }
+          }
+        },
+        {
+          prop: 'benefit_amount',
+          label: this.$t('ecx9887.settings.benefitAmount'),
+          minWidth: 300,
+          render: {
+            functional: true,
+            render(h, { props: { row } }) {
+              return h('div', { class: 'w-full' }, [
+                row.benefit_type !== 'none'
+                  ? h('el-input', {
+                      props: {
+                        value: row.benefit_amount,
+                        disabled: vm.formDisabled,
+                        placeholder: vm.$t('ecx9887.settings.benefitAmountPh')
+                      },
+                      on: {
+                        input(val) {
+                          row.benefit_amount = val
+                          vm.clearRowError(row, 'benefit_amount')
+                        }
+                      }
+                    })
+                  : h('div', { style: { height: '32px' } }),
+                row.errors.benefit_amount
+                  ? h('span', { class: 'block mt-1 text-[#f56c6c] text-xs' }, row.errors.benefit_amount)
+                  : null
+              ])
+            }
+          }
+        },
+        {
+          prop: 'action',
+          label: this.$t('ecx9887.settings.actionCol'),
+          width: 100,
+          render: {
+            functional: true,
+            render(h, { props: { index } }) {
+              return h(
+                'el-link',
+                {
+                  props: {
+                    type: 'danger',
+                    underline: false,
+                    disabled: vm.formDisabled
+                  },
+                  on: {
+                    click: () => vm.removeRow(index)
+                  }
+                },
+                vm.$t('ecx9887.settings.delete')
+              )
+            }
+          }
+        }
+      ]
     }
   },
   mounted() {
@@ -293,6 +356,9 @@ export default {
       } finally {
         this.switchLoading = false
       }
+    },
+    denomRowClassName() {
+      return this.formDisabled ? 'opacity-60' : ''
     },
     addRow() {
       this.draft.denominations.push(emptyRow())
