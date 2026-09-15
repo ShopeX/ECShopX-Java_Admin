@@ -150,6 +150,7 @@ export default {
             defaultBg ||
             FALLBACK_COLORS[index % FALLBACK_COLORS.length],
           labelStyle: {
+            // 0deg 为 12 点方向，与 conic-gradient(from 0deg) 对齐，文字落在扇区中线
             transform: 'rotate(' + mid + 'deg) translateY(-78px)'
           }
         }
@@ -163,7 +164,8 @@ export default {
         const end = (step * (index + 1)).toFixed(2)
         return seg.color + ' ' + start + 'deg ' + end + 'deg'
       })
-      return 'conic-gradient(from -90deg, ' + stops.join(', ') + ')'
+      // from 0deg = 12 点钟，与奖项 rotate(mid) 一致；from -90deg 会让文字偏到扇区交界
+      return 'conic-gradient(from 0deg, ' + stops.join(', ') + ')'
     },
     hotArea() {
       return (this.config && this.config.hotArea) || {}
