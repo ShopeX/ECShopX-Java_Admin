@@ -298,16 +298,6 @@ const routes = [
           permissions: ['member.memberlmana.member-tag']
         },
         component: () => import('@/view/mall/goods/physical/normalGoodsTagUpload')
-      },
-      {
-        name: 'deposit',
-        path: 'deposit',
-        meta: {
-          aliasName: 'deposit',
-          title: '会员储值',
-          permissions: ['member.deposit']
-        },
-        component: () => import('@/views/members/deposit/index')
       }
       // {
       //   name: 'modification',
