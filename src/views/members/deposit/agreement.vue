@@ -3,39 +3,40 @@
   See LICENSE file for license details.
 -->
 <template>
-  <div v-loading="pageLoading" class="ecx9887-deposit__section">
-    <div class="ecx9887-deposit__section-head">
-      <div>
-        <h1>{{ $t('ecx9887.agreement.sectionTitle') }}</h1>
-        <p>{{ $t('ecx9887.agreement.sectionDesc') }}</p>
-      </div>
-    </div>
-
-    <div class="ecx9887-deposit__agreement-grid">
-      <article class="ecx9887-deposit__editor-card">
-        <div class="ecx9887-deposit__editor-title">{{ $t('ecx9887.agreement.protocolTitle') }}</div>
-        <div class="ecx9887-deposit__editor-body">
+  <div
+    v-loading="pageLoading"
+    class="flex flex-col gap-5 bg-white border border-[#e5e7eb] rounded-lg p-8 max-md:p-5 max-md:px-4"
+  >
+    <div class="grid grid-cols-2 gap-[18px] max-md:grid-cols-1">
+      <article class="border border-[#e5e7eb] rounded overflow-hidden">
+        <div class="py-3.5 px-4 bg-[#f9fafb] border-b border-[#e5e7eb] font-medium text-sm text-[#1f2937]">
+          {{ $t('ecx9887.agreement.protocolTitle') }}
+        </div>
+        <div class="p-0 min-h-[230px] [&_.sp-rich-text]:!border-0 [&_.tox-tinymce]:!border-0">
           <SpRichText v-model="draft.protocol_content" :disabled="saving" />
         </div>
       </article>
-      <article class="ecx9887-deposit__editor-card">
-        <div class="ecx9887-deposit__editor-title">{{ $t('ecx9887.agreement.descriptionTitle') }}</div>
-        <div class="ecx9887-deposit__editor-body">
+      <article class="border border-[#e5e7eb] rounded overflow-hidden">
+        <div class="py-3.5 px-4 bg-[#f9fafb] border-b border-[#e5e7eb] font-medium text-sm text-[#1f2937]">
+          {{ $t('ecx9887.agreement.descriptionTitle') }}
+        </div>
+        <div class="p-0 min-h-[230px] [&_.sp-rich-text]:!border-0 [&_.tox-tinymce]:!border-0">
           <SpRichText v-model="draft.description_content" :disabled="saving" />
         </div>
       </article>
     </div>
 
-    <div class="ecx9887-deposit__save-bar">
-      <span v-if="isDirty" class="ecx9887-deposit__dirty">{{ $t('ecx9887.agreement.unsaved') }}</span>
-      <button
-        type="button"
-        class="ecx9887-deposit__btn is-primary"
-        :disabled="saving || pageLoading"
+    <div class="flex items-center gap-3 justify-end pt-4 max-md:flex-wrap">
+      <span v-if="isDirty" class="mr-auto text-[#f56c6c] text-[13px] max-md:w-full max-md:mr-0">{{ $t('ecx9887.agreement.unsaved') }}</span>
+      <el-button
+        type="primary"
+        size="small"
+        :loading="saving"
+        :disabled="pageLoading"
         @click="onUnifiedSave"
       >
-        {{ saving ? '...' : $t('ecx9887.agreement.unifiedSave') }}
-      </button>
+        {{ $t('ecx9887.agreement.unifiedSave') }}
+      </el-button>
     </div>
   </div>
 </template>

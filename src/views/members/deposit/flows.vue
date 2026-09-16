@@ -3,31 +3,28 @@
   See LICENSE file for license details.
 -->
 <template>
-  <div v-loading="loading" class="ecx9887-deposit__section">
-    <div class="ecx9887-deposit__section-head">
-      <div>
-        <h1>{{ $t('ecx9887.flows.sectionTitle') }}</h1>
-        <p>{{ $t('ecx9887.flows.sectionDesc') }}</p>
-      </div>
+  <div class="flex flex-col gap-5 bg-white border border-[#e5e7eb] rounded-lg p-8 max-md:p-5 max-md:px-4">
+    <div class="flex gap-2 border-b border-[#e5e7eb] -mb-1 overflow-x-auto max-md:overflow-x-auto" role="tablist">
+      <button
+        v-for="tab in innerTabList"
+        :key="tab.name"
+        type="button"
+        role="tab"
+        class="border-0 bg-transparent text-[#303133] py-[9px] px-5 first:pl-0 pb-[11px] font-medium text-sm leading-[22px] cursor-pointer border-b-2 -mb-px transition-colors max-md:whitespace-nowrap"
+        :class="
+          flowType === tab.name
+            ? 'text-[var(--primary)] border-b-[var(--primary)]'
+            : 'border-b-transparent'
+        "
+        @click="onFlowTypeChange(tab.name)"
+      >
+        {{ tab.label }}
+      </button>
     </div>
 
-    <div
-      v-if="flowType === 'recharge' && summaryLoaded"
-      class="ecx9887-deposit__flow-overview"
-    >
-      <div class="ecx9887-deposit__flow-overview-card">
-        <span>{{ $t('ecx9887.flows.directTotalLabel') }}</span>
-        <strong>{{ summary.direct_total_yuan }}{{ $t('ecx9887.flows.yuanUnit') }}</strong>
-      </div>
-      <div class="ecx9887-deposit__flow-overview-card">
-        <span>{{ $t('ecx9887.flows.giftTotalLabel') }}</span>
-        <strong>{{ summary.gift_total_yuan }}{{ $t('ecx9887.flows.yuanUnit') }}</strong>
-      </div>
-    </div>
-
-    <div class="ecx9887-deposit__flow-toolbar" :class="flowToolbarClass">
-      <div class="ecx9887-deposit__flow-filter-field">
-        <label for="flow-start">{{ $t('ecx9887.flows.startTime') }}</label>
+    <div class="grid gap-3 items-end max-md:grid-cols-1" :class="flowToolbarClass">
+      <div class="flex flex-col gap-1.5 min-w-0">
+        <label for="flow-start" class="text-[#6b7280] text-xs leading-tight">{{ $t('ecx9887.flows.startTime') }}</label>
         <el-date-picker
           id="flow-start"
           v-model="filters.start_time"
@@ -37,8 +34,8 @@
           style="width: 100%"
         />
       </div>
-      <div class="ecx9887-deposit__flow-filter-field">
-        <label for="flow-end">{{ $t('ecx9887.flows.endTime') }}</label>
+      <div class="flex flex-col gap-1.5 min-w-0">
+        <label for="flow-end" class="text-[#6b7280] text-xs leading-tight">{{ $t('ecx9887.flows.endTime') }}</label>
         <el-date-picker
           id="flow-end"
           v-model="filters.end_time"
@@ -48,8 +45,8 @@
           style="width: 100%"
         />
       </div>
-      <div class="ecx9887-deposit__flow-filter-field">
-        <label for="flow-member">{{ memberFilterLabel }}</label>
+      <div class="flex flex-col gap-1.5 min-w-0">
+        <label for="flow-member" class="text-[#6b7280] text-xs leading-tight">{{ memberFilterLabel }}</label>
         <el-input
           id="flow-member"
           v-model="filters.member_keyword"
@@ -57,8 +54,8 @@
           clearable
         />
       </div>
-      <div v-if="flowType === 'consume'" class="ecx9887-deposit__flow-filter-field">
-        <label for="flow-order">{{ $t('ecx9887.flows.orderId') }}</label>
+      <div v-if="flowType === 'consume'" class="flex flex-col gap-1.5 min-w-0">
+        <label for="flow-order" class="text-[#6b7280] text-xs leading-tight">{{ $t('ecx9887.flows.orderId') }}</label>
         <el-input
           id="flow-order"
           v-model="filters.order_id"
@@ -66,117 +63,76 @@
           clearable
         />
       </div>
-      <div v-if="flowType === 'recharge'" class="ecx9887-deposit__flow-filter-field">
-        <label for="flow-store">{{ $t('ecx9887.flows.shopLabel') }}</label>
-        <button
+      <div v-if="flowType === 'recharge'" class="flex flex-col gap-1.5 min-w-0">
+        <label for="flow-store" class="text-[#6b7280] text-xs leading-tight">{{ $t('ecx9887.flows.shopLabel') }}</label>
+        <el-input
           id="flow-store"
-          type="button"
-          class="ecx9887-deposit__flow-store-filter"
-          @click="openStorePicker"
-        >
-          {{ storePickerLabel }}
-        </button>
+          readonly
+          :value="storePickerDisplay"
+          :placeholder="$t('ecx9887.flows.storePickerBtn')"
+          clearable
+          class="cursor-pointer"
+          @click.native="openStorePicker"
+          @clear="clearStoreSelection"
+        />
       </div>
-      <div class="ecx9887-deposit__flow-actions">
-        <button
-          type="button"
-          class="ecx9887-deposit__btn ecx9887-deposit__flow-action"
-          @click="onSearch"
-        >
+      <div class="flex items-end gap-2 max-md:grid max-md:grid-cols-2 max-md:w-full">
+        <el-button type="primary" size="small" @click="onSearch">
           {{ $t('ecx9887.flows.search') }}
-        </button>
-        <button
-          type="button"
-          class="ecx9887-deposit__btn ecx9887-deposit__flow-action"
-          :disabled="exporting"
-          @click="onExport"
-        >
+        </el-button>
+        <el-button type="primary" plain size="small" :loading="exporting" @click="onExport">
           {{ $t('ecx9887.flows.export') }}
-        </button>
+        </el-button>
       </div>
     </div>
 
-    <div class="ecx9887-deposit__flow-types" role="tablist">
-      <button
-        v-for="tab in innerTabList"
-        :key="tab.name"
-        type="button"
-        role="tab"
-        class="ecx9887-deposit__flow-type"
-        :class="{ 'is-active': flowType === tab.name }"
-        @click="onFlowTypeChange(tab.name)"
-      >
-        {{ tab.label }}
-      </button>
-    </div>
-
-    <div class="ecx9887-deposit__flow-table">
-      <el-table v-if="list.length" :data="list" @sort-change="onSortChange">
-        <el-table-column
-          v-for="col in tableColumns"
-          :key="col.prop"
-          :prop="col.prop"
-          :label="col.label"
-          :min-width="col.minWidth || 120"
-          :sortable="col.sortable ? 'custom' : false"
-        >
-          <template slot-scope="scope">
-            <span
-              v-if="col.prop === 'flow_id' || col.prop === 'order_id'"
-              class="ecx9887-deposit__flow-id"
-            >
-              {{ displayCell(scope.row, col.prop) }}
-            </span>
-            <span v-else-if="col.prop === 'recharge_method'">
-              {{ rechargeMethodLabel(scope.row.recharge_method) }}
-            </span>
-            <span v-else>{{ displayCell(scope.row, col.prop) }}</span>
-          </template>
-        </el-table-column>
-      </el-table>
-
-      <div v-if="!loading && !list.length" class="ecx9887-deposit__empty">
-        <strong>{{ loadError ? $t('ecx9887.flows.loadFail') : $t('ecx9887.flows.emptyTitle') }}</strong>
-        <span v-if="!loadError">{{ $t('ecx9887.flows.emptyHint') }}</span>
+    <div
+      v-if="flowType === 'recharge' && summaryLoaded"
+      class="grid grid-cols-[repeat(2,minmax(180px,240px))] gap-3 -mt-2 max-md:grid-cols-1"
+    >
+      <div class="border border-[#e5e7eb] rounded p-3.5 px-4 bg-[#f9fafb]">
+        <span class="block text-[#6b7280] text-xs">{{ $t('ecx9887.flows.directTotalLabel') }}</span>
+        <strong class="block mt-1.5 text-[#1f2937] text-xl font-bold">{{ summary.direct_total_yuan }}{{ $t('ecx9887.flows.yuanUnit') }}</strong>
+      </div>
+      <div class="border border-[#e5e7eb] rounded p-3.5 px-4 bg-[#f9fafb]">
+        <span class="block text-[#6b7280] text-xs">{{ $t('ecx9887.flows.giftTotalLabel') }}</span>
+        <strong class="block mt-1.5 text-[#1f2937] text-xl font-bold">{{ summary.gift_total_yuan }}{{ $t('ecx9887.flows.yuanUnit') }}</strong>
       </div>
     </div>
 
-    <div v-if="totalCount > 0" class="ecx9887-deposit__flow-pagination">
-      <span>{{ $t('ecx9887.flows.totalSummary', { count: totalCount }) }}</span>
-      <el-pagination
-        v-if="totalCount > pageSize"
-        layout="prev, pager, next"
-        :current-page.sync="page"
-        :page-size="pageSize"
-        :total="totalCount"
-        small
-        @current-change="fetchList"
-      />
-    </div>
+    <SpTable
+      :key="flowType"
+      ref="flowTable"
+      class="[&_.el-table__row]:cursor-default"
+      :url="flowListUrl"
+      :params="flowTableParams"
+      :hooks="flowTableHooks"
+      :columns="tableColumns"
+      :row-key="flowRowKey"
+      :page-size="20"
+      :page-sizes="[20, 50, 100]"
+      @sort-change="onSortChange"
+    />
   </div>
 </template>
 
 <script>
-import {
-  exportDepositFlows,
-  getDepositFlowList,
-  getDepositRechargeSummary
-} from '@/api/deposit'
+import SpTable from '@/components/sp-table'
+import { exportDepositFlows, getDepositRechargeSummary } from '@/api/deposit'
 
 const SORT_STORAGE_PREFIX = 'ecx9887_flow_sort_'
 
 export default {
   name: 'MemberDepositFlows',
+  components: {
+    SpTable
+  },
   data() {
     return {
       flowType: 'recharge',
-      loading: false,
       exporting: false,
-      loadError: false,
-      list: [],
       totalCount: 0,
-      page: 1,
-      pageSize: 20,
+      lastSearchParams: {},
       summary: { direct_total_yuan: '0.00', gift_total_yuan: '0.00' },
       summaryLoaded: false,
       selectedShopIds: [],
@@ -204,58 +160,124 @@ export default {
     },
     flowToolbarClass() {
       if (this.flowType === 'recharge') {
-        return 'is-recharge'
+        return 'grid-cols-[180px_180px_minmax(220px,300px)_minmax(160px,220px)_auto]'
       }
       if (this.flowType === 'consume') {
-        return 'is-consume'
+        return 'grid-cols-[180px_180px_minmax(220px,300px)_minmax(160px,220px)_auto]'
       }
-      return 'is-refund'
+      return 'grid-cols-[180px_180px_minmax(220px,300px)_auto]'
     },
-    storePickerLabel() {
+    storePickerDisplay() {
       if (this.storePickerLabelText) {
         return this.storePickerLabelText
       }
       if (this.selectedShopIds.length) {
         return this.$t('ecx9887.flows.storeSelected', { count: this.selectedShopIds.length })
       }
-      return this.$t('ecx9887.flows.storePickerBtn')
+      return ''
+    },
+    flowListUrl() {
+      return `/deposit/flows/${this.flowType}`
+    },
+    flowTableParams() {
+      const params = {}
+      if (this.filters.start_time) {
+        params.start_time = this.filters.start_time
+      }
+      if (this.filters.end_time) {
+        params.end_time = this.filters.end_time
+      }
+      if (this.filters.member_keyword) {
+        params.member_keyword = this.filters.member_keyword.trim()
+      }
+      if (this.flowType === 'consume' && this.filters.order_id) {
+        params.order_id = this.filters.order_id.trim()
+      }
+      if (this.flowType === 'recharge' && this.selectedShopIds.length) {
+        params.shop_ids = this.selectedShopIds.join(',')
+      }
+      if (this.sortField) {
+        params.sort_field = this.sortField
+        params.sort_order = this.sortOrder || 'desc'
+      }
+      return params
+    },
+    flowTableHooks() {
+      const vm = this
+      return {
+        beforeSearch(params) {
+          vm.lastSearchParams = { ...params }
+          return params
+        },
+        afterSearch(response) {
+          const data = vm.unwrapApiData(response)
+          vm.totalCount = Number(data.total_count || 0)
+          const list = (data.list || []).map((row) => ({
+            ...row,
+            member_display: vm.formatMemberDisplay(row)
+          }))
+          if (response?.data?.data != null) {
+            response.data.data.list = list
+            response.data.data.total_count = vm.totalCount
+          } else if (response?.data) {
+            response.data.list = list
+            response.data.total_count = vm.totalCount
+          }
+          if (vm.flowType === 'recharge') {
+            vm.fetchSummaryFromLastParams()
+          } else {
+            vm.summaryLoaded = false
+          }
+          return response
+        }
+      }
     },
     tableColumns() {
+      const vm = this
+      const amountFormatter = (_value, row) =>
+        row.amount_yuan != null ? `${row.amount_yuan}${vm.$t('ecx9887.flows.yuanUnit')}` : ''
       if (this.flowType === 'recharge') {
         return [
           { prop: 'flow_id', label: this.$t('ecx9887.flows.colRechargeFlowId'), minWidth: 170 },
-          { prop: 'recharge_method', label: this.$t('ecx9887.flows.colRechargeMethod'), minWidth: 100 },
+          {
+            prop: 'recharge_method',
+            label: this.$t('ecx9887.flows.colRechargeMethod'),
+            minWidth: 100,
+            formatter: (_value, row) => vm.rechargeMethodLabel(row.recharge_method)
+          },
           { prop: 'member_display', label: this.$t('ecx9887.flows.colRechargeMember'), minWidth: 180 },
           {
             prop: 'amount_yuan',
             label: this.$t('ecx9887.flows.colRechargeAmount'),
             minWidth: 110,
-            sortable: true
+            sortable: 'custom',
+            formatter: amountFormatter
           },
           { prop: 'shop_name', label: this.$t('ecx9887.flows.colShopName'), minWidth: 140 },
           {
             prop: 'recharged_at',
             label: this.$t('ecx9887.flows.colRechargeTime'),
             minWidth: 160,
-            sortable: true
+            sortable: 'custom'
           }
         ]
       }
       if (this.flowType === 'consume') {
         return [
-          { prop: 'order_id', label: this.$t('ecx9887.flows.colOrderId'), minWidth: 140, sortable: true },
+          { prop: 'order_id', label: this.$t('ecx9887.flows.colOrderId'), minWidth: 140, sortable: 'custom' },
           { prop: 'member_display', label: this.$t('ecx9887.flows.colConsumeMember'), minWidth: 180 },
           {
             prop: 'amount_yuan',
             label: this.$t('ecx9887.flows.colConsumeAmount'),
             minWidth: 110,
-            sortable: true
+            sortable: 'custom',
+            formatter: amountFormatter
           },
           {
             prop: 'consumed_at',
             label: this.$t('ecx9887.flows.colConsumeTime'),
             minWidth: 160,
-            sortable: true
+            sortable: 'custom'
           }
         ]
       }
@@ -266,20 +288,20 @@ export default {
           prop: 'amount_yuan',
           label: this.$t('ecx9887.flows.colRefundAmount'),
           minWidth: 110,
-          sortable: true
+          sortable: 'custom',
+          formatter: amountFormatter
         },
         {
           prop: 'refunded_at',
           label: this.$t('ecx9887.flows.colRefundTime'),
           minWidth: 160,
-          sortable: true
+          sortable: 'custom'
         }
       ]
     }
   },
   mounted() {
     this.restoreSort()
-    this.fetchList()
   },
   methods: {
     formatMemberDisplay(row) {
@@ -290,14 +312,8 @@ export default {
       }
       return no || mobile || ''
     },
-    displayCell(row, prop) {
-      if (prop === 'member_display') {
-        return this.formatMemberDisplay(row)
-      }
-      if (prop === 'amount_yuan' && row.amount_yuan != null) {
-        return `${row.amount_yuan}${this.$t('ecx9887.flows.yuanUnit')}`
-      }
-      return row[prop] != null ? row[prop] : ''
+    flowRowKey(row) {
+      return row.flow_id || row.order_id || row.id
     },
     rechargeMethodLabel(method) {
       if (method === 'gift') {
@@ -327,41 +343,16 @@ export default {
         JSON.stringify({ sort_field: this.sortField, sort_order: this.sortOrder })
       )
     },
-    buildQueryParams() {
-      const params = {
-        page: this.page,
-        pageSize: this.pageSize
-      }
-      if (this.filters.start_time) {
-        params.start_time = this.filters.start_time
-      }
-      if (this.filters.end_time) {
-        params.end_time = this.filters.end_time
-      }
-      if (this.filters.member_keyword) {
-        params.member_keyword = this.filters.member_keyword.trim()
-      }
-      if (this.flowType === 'consume' && this.filters.order_id) {
-        params.order_id = this.filters.order_id.trim()
-      }
-      if (this.flowType === 'recharge' && this.selectedShopIds.length) {
-        params.shop_ids = this.selectedShopIds.join(',')
-      }
-      if (this.sortField) {
-        params.sort_field = this.sortField
-        params.sort_order = this.sortOrder || 'desc'
-      }
-      return params
-    },
     onFlowTypeChange(name) {
       if (name === this.flowType) {
         return
       }
       this.flowType = name
-      this.page = 1
-      this.loadError = false
       this.restoreSort()
-      this.fetchList()
+    },
+    clearStoreSelection() {
+      this.selectedShopIds = []
+      this.storePickerLabelText = ''
     },
     async openStorePicker() {
       if (!this.$picker || !this.$picker.shop) {
@@ -386,8 +377,7 @@ export default {
       }
     },
     onSearch() {
-      this.page = 1
-      this.fetchList()
+      this.$refs.flowTable?.refresh(true)
     },
     onSortChange({ prop, order }) {
       const fieldMap = {
@@ -406,42 +396,18 @@ export default {
         this.sortOrder = order === 'ascending' ? 'asc' : 'desc'
       }
       this.persistSort()
-      this.fetchList()
+      this.$refs.flowTable?.refresh(true)
     },
     unwrapApiData(res) {
       return res?.data?.data != null ? res.data.data : res?.data ?? res ?? {}
     },
-    async fetchList() {
-      this.loading = true
-      this.loadError = false
+    async fetchSummaryFromLastParams() {
       try {
-        const params = this.buildQueryParams()
-        const res = await getDepositFlowList(this.flowType, params)
-        const data = this.unwrapApiData(res)
-        const rows = (data.list || []).map((row) => ({
-          ...row,
-          member_display: this.formatMemberDisplay(row)
-        }))
-        this.list = rows
-        this.totalCount = Number(data.total_count || 0)
-        if (this.flowType === 'recharge') {
-          await this.fetchSummary(params)
-        } else {
-          this.summaryLoaded = false
-        }
-      } catch (e) {
-        this.loadError = true
-        this.list = []
-        this.totalCount = 0
-      } finally {
-        this.loading = false
-      }
-    },
-    async fetchSummary(params) {
-      try {
-        const summaryParams = { ...params }
+        const summaryParams = { ...this.lastSearchParams }
         delete summaryParams.page
+        delete summaryParams.pageNum
         delete summaryParams.pageSize
+        delete summaryParams.page_size
         const res = await getDepositRechargeSummary(summaryParams)
         const data = this.unwrapApiData(res)
         this.summary = {
@@ -456,9 +422,7 @@ export default {
     async onExport() {
       this.exporting = true
       try {
-        const params = this.buildQueryParams()
-        delete params.page
-        delete params.pageSize
+        const params = { ...this.flowTableParams }
         const res = await exportDepositFlows(this.flowType, params)
         const data = this.unwrapApiData(res)
         if (data.url) {
