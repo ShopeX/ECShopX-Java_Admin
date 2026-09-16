@@ -30,7 +30,9 @@ export function getCurrentCountryCode() {
     zhcn: 'zh-CN',
     en: 'en-CN',
     zhtw: 'zh-TW',
-    ar: 'ar-SA'
+    ar: 'ar-SA',
+    ja: 'ja-JP',
+    ru: 'ru-RU'
   }
   return langMap[lang] || DEFAULT_COUNTRY_CODE
 }

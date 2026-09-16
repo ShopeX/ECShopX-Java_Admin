@@ -12,6 +12,8 @@ import elementZhCN from 'element-ui/lib/locale/lang/zh-CN'
 import elementZhTW from 'element-ui/lib/locale/lang/zh-TW'
 import elementEn from 'element-ui/lib/locale/lang/en'
 import elementAr from 'element-ui/lib/locale/lang/ar'
+import elementJa from 'element-ui/lib/locale/lang/ja'
+import elementRu from 'element-ui/lib/locale/lang/ru-RU'
 import VueClipboard from 'vue-clipboard2'
 import VueVideoPlayer from 'vue-video-player'
 
@@ -28,7 +30,9 @@ const elementLocales = {
   'zh-CN': elementZhCN,
   'zh-TW': elementZhTW,
   en: elementEn,
-  ar: elementAr
+  ar: elementAr,
+  ja: elementJa,
+  ru: elementRu
 }
 
 async function bootstrap() {

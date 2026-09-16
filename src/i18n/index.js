@@ -15,6 +15,8 @@ import zhCN from './locales/zh-CN.json'
 import zhTW from './locales/zh-TW.json'
 import en from './locales/en.json'
 import ar from './locales/ar.json'
+import ja from './locales/ja.json'
+import ru from './locales/ru.json'
 
 Vue.use(VueI18n)
 
@@ -60,6 +62,22 @@ const LANGUAGES = {
     countryCode: 'ar-SA',
     dir: 'rtl',
     messages: ar
+  },
+  ja: {
+    locale: 'ja',
+    label: '日本語',
+    htmlLang: 'ja-JP',
+    countryCode: 'ja-JP',
+    dir: 'ltr',
+    messages: ja
+  },
+  ru: {
+    locale: 'ru',
+    label: 'Русский',
+    htmlLang: 'ru-RU',
+    countryCode: 'ru-RU',
+    dir: 'ltr',
+    messages: ru
   }
 }
 

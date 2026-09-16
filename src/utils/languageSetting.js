@@ -2,12 +2,12 @@
  * Copyright © ShopeX （http://www.shopex.cn）. All rights reserved.
  * See LICENSE file for license details.
  *
- * 站点语言配置：API LanguageCode ↔ admin store lang（zhcn/en/ar/zhtw）
+ * 站点语言配置：API LanguageCode ↔ admin store lang（zhcn/en/ar/zhtw/ja/ru）
  */
 import { LANGUAGES } from '@/i18n'
 
-/** 固定四种语言（与 Apifox LanguageCode 一致，顺序固定） */
-export const FIXED_LANGUAGE_CODES = ['zh-CN', 'en-CN', 'ar-SA', 'zh-TW']
+/** 固定六种语言（与 Apifox LanguageCode 一致，顺序固定） */
+export const FIXED_LANGUAGE_CODES = ['zh-CN', 'en-CN', 'ar-SA', 'zh-TW', 'ja-JP', 'ru-RU']
 
 const API_TO_STORE = {
   'zh-CN': 'zhcn',
@@ -22,21 +22,31 @@ const API_TO_STORE = {
   en: 'en',
   'ar-SA': 'ar',
   'ar-sa': 'ar',
-  ar: 'ar'
+  ar: 'ar',
+  'ja-JP': 'ja',
+  'ja-jp': 'ja',
+  ja: 'ja',
+  'ru-RU': 'ru',
+  'ru-ru': 'ru',
+  ru: 'ru'
 }
 
 const STORE_TO_API = {
   zhcn: 'zh-CN',
   zhtw: 'zh-TW',
   en: 'en-CN',
-  ar: 'ar-SA'
+  ar: 'ar-SA',
+  ja: 'ja-JP',
+  ru: 'ru-RU'
 }
 
 const DISPLAY_FALLBACK = {
   'zh-CN': '中文',
   'en-CN': 'English',
   'ar-SA': 'العربية',
-  'zh-TW': '中文繁体'
+  'zh-TW': '中文繁体',
+  'ja-JP': '日本語',
+  'ru-RU': 'Русский'
 }
 
 export function mapApiCodeToStoreLang(code) {
@@ -62,7 +72,7 @@ export function pickLanguagePayload(raw) {
 }
 
 /**
- * 归一化管理端配置（始终补齐四种语言）
+ * 归一化管理端配置（始终补齐六种语言）
  */
 export function normalizeAdminLanguageSetting(raw) {
   const payload = pickLanguagePayload(raw)

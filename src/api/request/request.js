@@ -57,7 +57,9 @@ class RequestClient {
         zhcn: 'zh-CN',
         en: 'en-CN',
         zhtw: 'zh-TW',
-        ar: 'ar-SA'
+        ar: 'ar-SA',
+        ja: 'ja-JP',
+        ru: 'ru-RU'
       }
       if (lang && !skipCountryCode) {
         const countryCode = langMap[lang]

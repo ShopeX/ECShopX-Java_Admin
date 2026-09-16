@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import i18n, { getStoredLang } from '@/i18n'
+import { LANGUAGES, getStoredLang } from '@/i18n'
 import { getBasePath } from '@/utils'
 import { getLanguageSetting } from '@/api/language'
 import {
@@ -37,22 +37,19 @@ import {
 
 const USER_PREFERRED_KEY = 'admin_lang_user_preferred'
 
-function buildLanguageList(enabledStoreLangs) {
-  const all = Object.keys(i18n).map((key) => ({
-    label: i18n[key],
+/** 管理端语言入口：展示全部已接入语言包，便于运营切换后台界面语言 */
+function buildLanguageList() {
+  return Object.entries(LANGUAGES).map(([key, cfg]) => ({
+    label: cfg.label,
     value: key
   }))
-  if (!enabledStoreLangs || enabledStoreLangs.length === 0) {
-    return all.filter((item) => item.value === 'zhcn')
-  }
-  return all.filter((item) => enabledStoreLangs.includes(item.value))
 }
 
 export default {
   name: 'SpLanguage',
   data() {
     return {
-      languageList: buildLanguageList(['zhcn']),
+      languageList: buildLanguageList(),
       siteDefaultStoreLang: 'zhcn'
     }
   },
@@ -72,23 +69,25 @@ export default {
     applySetting(normalized) {
       const enabled = getEnabledStoreLangs(normalized)
       this.siteDefaultStoreLang = mapApiCodeToStoreLang(normalized.defaultLanguage) || 'zhcn'
-      this.languageList = buildLanguageList(enabled)
+      this.languageList = buildLanguageList()
       this.ensureCurrentLangValid(enabled)
     },
     ensureCurrentLangValid(enabledStoreLangs) {
       const current = getStoredLang()
-      if (enabledStoreLangs.includes(current)) return
+      // 管理端已接入的语言包均可使用，不因站点未启用而强制回落
+      if (LANGUAGES[current]) return
 
-      // 当前语言已关闭：清偏好并回落站点默认
+      // 非法 lang 值：清偏好并回落站点默认或简体中文
       try {
         window.localStorage.removeItem(USER_PREFERRED_KEY)
       } catch (e) {
         // ignore
       }
-      const next = enabledStoreLangs.includes(this.siteDefaultStoreLang)
-        ? this.siteDefaultStoreLang
-        : enabledStoreLangs[0] || 'zhcn'
-      if (next && next !== current) {
+      const next =
+        (enabledStoreLangs.includes(this.siteDefaultStoreLang) && this.siteDefaultStoreLang) ||
+        enabledStoreLangs[0] ||
+        'zhcn'
+      if (next !== current) {
         window.localStorage.setItem('lang', next)
         this.$store.commit('system/updateLang', { lang: next })
         window.location.reload()

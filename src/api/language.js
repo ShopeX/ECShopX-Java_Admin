@@ -7,7 +7,7 @@
  */
 import { fetch } from './request'
 
-/** 读取语言配置（配置页，固定返回四种语言） */
+/** 读取语言配置（配置页，固定返回六种语言） */
 export function getLanguageSetting(query) {
   return fetch({
     url: '/setting/language',

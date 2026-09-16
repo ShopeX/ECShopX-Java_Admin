@@ -3,6 +3,8 @@ import { normalizeDecorationPageType, resolveDecorationPreviewPath } from './pag
 const ADMIN_TO_WEB_LOCALE_PREFIX = {
   en: '/en',
   ar: '/ar',
+  ja: '/ja',
+  ru: '/ru',
   zhcn: '',
   zhtw: 'zh-TW',
 }
