@@ -183,7 +183,8 @@ export default {
       const { list, total_count } = await this.$api.coupons_package.couponList({
         ...this.query,
         ...this.paging,
-        is_guide: 0
+        is_guide: 0,
+        end_date: 1
       })
       this.loading = false
 
