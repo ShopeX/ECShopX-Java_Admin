@@ -137,6 +137,17 @@ export const formList = (vm) =>
               <span class='form-item-tip' style={{ marginLeft: '12px' }}>
                 {vm.$t('de51ee4c.57e514')}
               </span>
+              <el-popover placement='top-start' width='320' trigger='click'>
+                <div class='space-y-1 text-xs leading-5 text-[#303133]'>
+                  <p class='m-0'>{vm.$t('de51ee4c.52aa42')}</p>
+                  <p class='m-0'>{vm.$t('de51ee4c.1e7903')}</p>
+                  <p class='m-0'>{vm.$t('de51ee4c.23d69a')}</p>
+                </div>
+                <i
+                  slot='reference'
+                  class='el-icon-warning-outline ml-2 cursor-pointer text-[#909399]'
+                />
+              </el-popover>
             </div>
           )
         }
