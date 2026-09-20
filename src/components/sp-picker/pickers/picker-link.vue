@@ -73,6 +73,7 @@ const BASE_LINK_PAGES = [
   { id: 'recharge', titleKey: '223cc8af.1200d5' },
   { id: 'purchase', titleKey: '223cc8af.d0465c' },
   { id: 'pointShop', titleKey: '223cc8af.a13364' },
+  { id: 'memberSign', titleKey: '223cc8af.8e34d0' },
   { id: 'registActivity', titleKey: '223cc8af.7fb92b' },
   { id: 'group', titleKey: '223cc8af.75a1d2' },
   { id: 'coupon_list', titleKey: '223cc8af.2f3635' },
