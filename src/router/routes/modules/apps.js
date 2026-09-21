@@ -240,7 +240,17 @@ const routes = [
           title: i18n.t('9d1e03c7.f3b728'),
           permissions: ['applications.pos.pos_accounts']
         },
-        component: () => import('@/views/apps/pos-accounts/index.vue')
+        component: () => import('@/views/apps/pos-accounts/index.vue'),
+        children: [
+          {
+            path: 'import',
+            component: () => import('@/views/apps/pos-accounts/import.vue'),
+            meta: {
+              title: i18n.t('9d1e03c7.1bfbbc'),
+              hidden: true
+            }
+          }
+        ]
       },
       {
         name: 'guideAssistantWeChatSettings',

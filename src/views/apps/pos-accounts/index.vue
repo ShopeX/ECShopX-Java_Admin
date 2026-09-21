@@ -4,7 +4,8 @@
 -->
 
 <template>
-  <SpPage bg-color="#f5f7fa">
+  <SpRouterView>
+    <SpPage bg-color="#f5f7fa">
     <div class="flex items-start justify-between mb-6">
       <div>
         <h2 class="m-0 text-[20px] leading-[26px] font-medium text-[#303133]">
@@ -182,8 +183,8 @@
       :submit="submitResetPassword"
       @success="onResetPasswordSuccess"
     />
-    <ImportAccountDialog :visible.sync="importVisible" @success="fetchList" />
-  </SpPage>
+    </SpPage>
+  </SpRouterView>
 </template>
 
 <script>
@@ -192,7 +193,6 @@ import AccountFormDialog from './components/AccountFormDialog.vue'
 import PasswordResultDialog from './components/PasswordResultDialog.vue'
 import ActionFormDialog from './components/ActionFormDialog.vue'
 import ConfirmActionDialog from './components/ConfirmActionDialog.vue'
-import ImportAccountDialog from './components/ImportAccountDialog.vue'
 
 export default {
   name: 'PosAccounts',
@@ -201,8 +201,7 @@ export default {
     AccountFormDialog,
     PasswordResultDialog,
     ActionFormDialog,
-    ConfirmActionDialog,
-    ImportAccountDialog
+    ConfirmActionDialog
   },
   data() {
     return {
@@ -231,7 +230,6 @@ export default {
       shopVisible: false,
       resignVisible: false,
       resetVisible: false,
-      importVisible: false,
       roleForm: {
         role: ''
       },
@@ -551,7 +549,8 @@ export default {
       }
     },
     openImport() {
-      this.importVisible = true
+      const { href } = this.$router.resolve({ path: `${this.$route.path}/import` })
+      window.open(href, '_blank', 'noopener,noreferrer')
     },
     async onExport() {
       this.exporting = true
