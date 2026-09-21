@@ -182,6 +182,7 @@
       :submit="submitResetPassword"
       @success="onResetPasswordSuccess"
     />
+    <ImportAccountDialog :visible.sync="importVisible" @success="fetchList" />
   </SpPage>
 </template>
 
@@ -191,6 +192,7 @@ import AccountFormDialog from './components/AccountFormDialog.vue'
 import PasswordResultDialog from './components/PasswordResultDialog.vue'
 import ActionFormDialog from './components/ActionFormDialog.vue'
 import ConfirmActionDialog from './components/ConfirmActionDialog.vue'
+import ImportAccountDialog from './components/ImportAccountDialog.vue'
 
 export default {
   name: 'PosAccounts',
@@ -199,7 +201,8 @@ export default {
     AccountFormDialog,
     PasswordResultDialog,
     ActionFormDialog,
-    ConfirmActionDialog
+    ConfirmActionDialog,
+    ImportAccountDialog
   },
   data() {
     return {
@@ -228,6 +231,7 @@ export default {
       shopVisible: false,
       resignVisible: false,
       resetVisible: false,
+      importVisible: false,
       roleForm: {
         role: ''
       },
@@ -546,7 +550,9 @@ export default {
         this.batching = false
       }
     },
-    openImport() {},
+    openImport() {
+      this.importVisible = true
+    },
     async onExport() {
       this.exporting = true
       try {

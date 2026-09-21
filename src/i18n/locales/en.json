@@ -23404,5 +23404,19 @@
   "61a62e50.3398b2": "Confirm Reset",
   "55294008.769d88": "Done",
   "55294008.b0f57f": "Regenerate Initial Password",
-  "cb7af8ae.7e356a": "POS Account Export"
+  "cb7af8ae.7e356a": "POS Account Export",
+  "9a81c391.1bfbbc": "Import Accounts",
+  "9a81c391.b87a05": "Download the template first, fill in the account information, then upload. Up to 500 records per import.",
+  "9a81c391.2e505d": "Download Import Template",
+  "9a81c391.b87e7e": "Click to select or drag a file here",
+  "9a81c391.7db055": "Supports .xlsx, .xls, .csv. File size up to 5MB.",
+  "9a81c391.a1d7ca": "Required fields: employee no., password, role, store",
+  "9a81c391.625fb2": "Cancel",
+  "9a81c391.7d2ff4": "Start Import",
+  "9a81c391.d86eef": "Please select a file to import",
+  "9a81c391.62f46d": "Only xlsx, xls and csv files are supported",
+  "9a81c391.a4f067": "File size cannot exceed 5MB",
+  "9a81c391.7bbfaa": "Uploaded successfully. Waiting for processing",
+  "9a81c391.3e7635": "Failed to download template",
+  "9a81c391.c35996": "POS Account Import Template"
 }
