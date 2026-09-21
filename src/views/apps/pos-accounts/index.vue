@@ -85,46 +85,18 @@
           </el-button>
         </div>
       </div>
-      <div class="mb-4 flex flex-wrap items-center gap-2">
-        <el-input
-          v-model="filters.keyword"
-          size="small"
-          clearable
-          class="!w-[220px]"
-          :placeholder="$t('03d9e6f1.2fdcb5')"
-          @keyup.enter.native="onSearch"
-        />
-        <el-select
-          v-model="filters.role"
-          size="small"
-          clearable
-          class="!w-[140px]"
-          :placeholder="$t('03d9e6f1.5bcc10')"
-        >
-          <el-option
-            v-for="item in roleOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-        <SpSelectShop
-          ref="filterShop"
-          v-model="filters.distributor_id"
-          size="small"
-          clearable
-          class="!w-[140px]"
-          :placeholder="$t('03d9e6f1.a48948')"
-        />
-        <el-button type="primary" size="small" @click="onSearch">
-          {{ $t('03d9e6f1.bee912') }}
-        </el-button>
-        <el-button size="small" class="!ml-0" @click="onReset">
-          {{ $t('03d9e6f1.4b9c32') }}
-        </el-button>
-      </div>
+      <SpFormPlus
+        ref="searchForm"
+        v-model="filters"
+        form-type="searchForm"
+        label-width="auto"
+        class="mb-4"
+        :form-items="searchFormItems"
+        @submit="onSearch"
+        @reset="onReset"
+      />
 
-      <el-tabs v-model="filters.status" @tab-click="onTabClick">
+      <el-tabs v-model="statusTab" @tab-click="onTabClick">
         <el-tab-pane :label="$t('03d9e6f1.443483')" name="all" />
         <el-tab-pane :label="$t('03d9e6f1.7854b5')" name="enabled" />
         <el-tab-pane :label="$t('03d9e6f1.710ad0')" name="disabled" />
@@ -156,12 +128,58 @@
       :allow-regenerate="passwordAllowRegenerate"
       @regenerate="onRegeneratePassword"
     />
-    <ChangeRoleDialog :visible.sync="roleVisible" :account="actionAccount" @success="fetchList" />
-    <TransferShopDialog :visible.sync="shopVisible" :account="actionAccount" @success="fetchList" />
-    <ResignDialog :visible.sync="resignVisible" :account="actionAccount" @success="fetchList" />
-    <ResetPasswordDialog
+    <ActionFormDialog
+      :visible.sync="roleVisible"
+      :account="actionAccount"
+      :form="roleForm"
+      :form-items="roleFormItems"
+      :title="$t('3063bd8d.a05d82')"
+      :confirm-text="$t('3063bd8d.88a076')"
+      :cancel-text="$t('03d9e6f1.625fb2')"
+      :success-message="$t('3063bd8d.33130f')"
+      :submit="submitChangeRole"
+      @success="onActionSuccess"
+    />
+    <ActionFormDialog
+      :visible.sync="shopVisible"
+      :account="actionAccount"
+      :form="shopForm"
+      :form-items="shopFormItems"
+      :title="$t('44927948.468c76')"
+      :confirm-text="$t('44927948.669108')"
+      :cancel-text="$t('03d9e6f1.625fb2')"
+      :success-message="$t('44927948.33130f')"
+      :shop-prefix="$t('44927948.3d490b')"
+      width="568px"
+      :submit="submitTransferShop"
+      @success="onActionSuccess"
+      @opened="echoShopSelect"
+      @closed="resetShopSelect"
+    />
+    <ConfirmActionDialog
+      :visible.sync="resignVisible"
+      :account="actionAccount"
+      :title="$t('d8334f70.e06b58')"
+      :warning="$t('d8334f70.16a45b')"
+      warning-first
+      :message="$t('d8334f70.d47d48')"
+      :confirm-text="$t('d8334f70.bb9efd')"
+      :cancel-text="$t('03d9e6f1.625fb2')"
+      :success-message="$t('d8334f70.33130f')"
+      width="571px"
+      :submit="submitResign"
+      @success="onActionSuccess"
+    />
+    <ConfirmActionDialog
       :visible.sync="resetVisible"
       :account="actionAccount"
+      :title="$t('61a62e50.0719aa')"
+      :warning="$t('61a62e50.d03487')"
+      :message="$t('61a62e50.35f35f')"
+      :confirm-text="$t('61a62e50.3398b2')"
+      :cancel-text="$t('03d9e6f1.625fb2')"
+      width="600px"
+      :submit="submitResetPassword"
       @success="onResetPasswordSuccess"
     />
   </SpPage>
@@ -171,10 +189,8 @@
 import SpTable from '@/components/sp-table'
 import AccountFormDialog from './components/AccountFormDialog.vue'
 import PasswordResultDialog from './components/PasswordResultDialog.vue'
-import ChangeRoleDialog from './components/ChangeRoleDialog.vue'
-import TransferShopDialog from './components/TransferShopDialog.vue'
-import ResignDialog from './components/ResignDialog.vue'
-import ResetPasswordDialog from './components/ResetPasswordDialog.vue'
+import ActionFormDialog from './components/ActionFormDialog.vue'
+import ConfirmActionDialog from './components/ConfirmActionDialog.vue'
 
 export default {
   name: 'PosAccounts',
@@ -182,10 +198,8 @@ export default {
     SpTable,
     AccountFormDialog,
     PasswordResultDialog,
-    ChangeRoleDialog,
-    TransferShopDialog,
-    ResignDialog,
-    ResetPasswordDialog
+    ActionFormDialog,
+    ConfirmActionDialog
   },
   data() {
     return {
@@ -198,9 +212,9 @@ export default {
       filters: {
         keyword: '',
         role: '',
-        distributor_id: '',
-        status: 'all'
+        distributor_id: ''
       },
+      statusTab: 'all',
       formVisible: false,
       activeAccount: null,
       passwordVisible: false,
@@ -213,7 +227,15 @@ export default {
       roleVisible: false,
       shopVisible: false,
       resignVisible: false,
-      resetVisible: false
+      resetVisible: false,
+      roleForm: {
+        role: ''
+      },
+      shopForm: {
+        distributor_id: ''
+      },
+      shopSelect: null,
+      filterShopSelect: null
     }
   },
   computed: {
@@ -227,12 +249,99 @@ export default {
         { value: 'clerk', label: this.$t('03d9e6f1.bd2bfc') }
       ]
     },
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'keyword',
+          label: '',
+          cellWidth: 1.2,
+          component: 'input',
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('03d9e6f1.2fdcb5')
+          }
+        },
+        {
+          fieldName: 'role',
+          label: this.$t('03d9e6f1.464f3d'),
+          component: 'select',
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('03d9e6f1.5bcc10'),
+            options: this.roleOptions
+          }
+        },
+        {
+          fieldName: 'distributor_id',
+          label: this.$t('03d9e6f1.a7da92'),
+          component: ({ h, value, onInput }) =>
+            h('SpSelectShop', {
+              props: {
+                value,
+                size: 'small',
+                clearable: true,
+                placeholder: this.$t('03d9e6f1.a48948')
+              },
+              on: {
+                input: onInput
+              },
+              hook: {
+                insert: (vnode) => {
+                  this.filterShopSelect = vnode.componentInstance
+                }
+              }
+            })
+        }
+      ]
+    },
+    roleFormItems() {
+      return [
+        {
+          fieldName: 'role',
+          label: this.$t('3063bd8d.4e400f'),
+          component: 'select',
+          componentProps: {
+            size: 'small',
+            placeholder: this.$t('3063bd8d.aabcdc'),
+            options: this.roleOptions
+          },
+          rules: [{ required: true, message: this.$t('3063bd8d.aabcdc'), trigger: 'change' }]
+        }
+      ]
+    },
+    shopFormItems() {
+      return [
+        {
+          fieldName: 'distributor_id',
+          label: this.$t('44927948.b03599'),
+          tip: this.$t('44927948.b042b3'),
+          component: ({ h, value, onInput }) =>
+            h('SpSelectShop', {
+              props: {
+                value,
+                size: 'small',
+                clearable: true,
+                placeholder: this.$t('44927948.ca95a5')
+              },
+              on: {
+                input: onInput
+              },
+              hook: {
+                insert: (vnode) => {
+                  this.shopSelect = vnode.componentInstance
+                }
+              }
+            }),
+          rules: [{ required: true, message: this.$t('44927948.ca95a5'), trigger: 'change' }]
+        }
+      ]
+    },
     tableParams() {
       const params = {}
       if (this.filters.keyword) params.keyword = this.filters.keyword
       if (this.filters.role) params.role = this.filters.role
       if (this.filters.distributor_id) params.distributor_id = this.filters.distributor_id
-      if (this.filters.status && this.filters.status !== 'all') params.status = this.filters.status
+      if (this.statusTab && this.statusTab !== 'all') params.status = this.statusTab
       return params
     },
     tableHooks() {
@@ -375,15 +484,7 @@ export default {
       this.$nextTick(() => this.onSearch())
     },
     onReset() {
-      this.filters = {
-        keyword: '',
-        role: '',
-        distributor_id: '',
-        status: this.filters.status
-      }
-      if (this.$refs.filterShop) {
-        this.$refs.filterShop.selectValue = ''
-      }
+      if (this.filterShopSelect) this.filterShopSelect.selectValue = ''
       this.onSearch()
     },
     clearSelection() {
@@ -490,11 +591,44 @@ export default {
     },
     openChangeRole(row) {
       this.actionAccount = { ...row }
+      this.roleForm.role = row.role || ''
       this.roleVisible = true
     },
     openTransferShop(row) {
       this.actionAccount = { ...row }
+      this.shopForm.distributor_id = row.distributor_id || ''
       this.shopVisible = true
+    },
+    echoShopSelect() {
+      if (this.shopSelect) {
+        this.shopSelect.selectValue = this.actionAccount.shop_name || ''
+      }
+    },
+    resetShopSelect() {
+      this.shopForm.distributor_id = ''
+      if (this.shopSelect) this.shopSelect.selectValue = ''
+    },
+    onActionSuccess() {
+      this.fetchList()
+    },
+    submitChangeRole(account, form) {
+      return this.$api.posAccounts.updatePosAccountRole(account.id, form.role)
+    },
+    submitTransferShop(account, form) {
+      return this.$api.posAccounts.transferPosAccountShop(account.id, form.distributor_id)
+    },
+    submitResign(account) {
+      return this.$api.posAccounts.updatePosAccountStatus(account.id, 'resign')
+    },
+    async submitResetPassword(account) {
+      const data = await this.$api.posAccounts.resetPosAccountPassword(account.id)
+      return {
+        id: account.id,
+        name: account.name || '',
+        employee_no: account.employee_no || '',
+        shop_name: account.shop_name || '',
+        password: (data && data.password) || ''
+      }
     },
     openResign(row) {
       this.actionAccount = { ...row }

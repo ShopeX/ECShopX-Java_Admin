@@ -11,80 +11,22 @@
     :close-on-click-modal="false"
     @closed="resetForm"
   >
-    <div
+    <EmployeeInfoCard
       v-if="isEdit"
-      class="flex items-center px-4 py-3.5 mb-4 rounded bg-[#f5f7fa] text-sm"
-    >
-      <span class="font-medium text-[#303133]">{{ form.name }}</span>
-      <span class="ml-2 text-[#606266]">
-        {{ form.employee_no }} · {{ $t('add1a8cb.3d490b') }}{{ form.shop_name }}
-      </span>
-    </div>
+      :account="form"
+      :shop-prefix="$t('add1a8cb.3d490b')"
+      class="mb-4"
+    />
 
-    <el-form
+    <SpFormPlus
       ref="form"
-      :model="form"
-      :rules="rules"
+      v-model="form"
+      form-type="normalForm"
       label-width="120px"
       class="pr-5"
-      @submit.native.prevent
-    >
-      <el-form-item :label="$t('add1a8cb.60d045')" prop="name">
-        <el-input v-model="form.name" maxlength="30" :placeholder="$t('add1a8cb.8093e3')" />
-      </el-form-item>
-
-      <el-form-item v-if="!isEdit" :label="$t('add1a8cb.5ff5ab')" prop="employee_no">
-        <el-input
-          v-model="form.employee_no"
-          maxlength="30"
-          :placeholder="$t('add1a8cb.9bd2a4')"
-        />
-      </el-form-item>
-
-      <el-form-item :label="$t('add1a8cb.8098e2')" prop="mobile">
-        <el-input v-model="form.mobile" maxlength="11" :placeholder="$t('add1a8cb.6e4f4b')" />
-        <p class="text-xs text-[#909399] leading-[18px]">{{ $t('add1a8cb.d4300c') }}</p>
-      </el-form-item>
-
-      <el-form-item :label="$t('add1a8cb.3bc5e6')" prop="email">
-        <el-input v-model="form.email" :placeholder="$t('add1a8cb.dbf6d0')" />
-        <p class="text-xs text-[#909399] leading-[18px]">{{ $t('add1a8cb.d4300c') }}</p>
-      </el-form-item>
-
-      <el-form-item v-if="!isEdit" :label="$t('add1a8cb.a81052')">
-        <el-input disabled :value="$t('add1a8cb.2626bd')" />
-      </el-form-item>
-
-      <el-form-item :label="$t('add1a8cb.464f3d')" prop="role">
-        <el-select v-model="form.role" class="w-full" :placeholder="$t('add1a8cb.aabcdc')">
-          <el-option
-            v-for="item in roleOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
-
-      <el-form-item :label="$t('add1a8cb.a7da92')" prop="distributor_id">
-        <SpSelectShop
-          ref="shopSelect"
-          v-model="form.distributor_id"
-          clearable
-          class="w-full"
-          :placeholder="$t('add1a8cb.ca95a5')"
-        />
-      </el-form-item>
-
-      <el-form-item :label="$t('add1a8cb.3fea7c')" prop="status">
-        <el-switch
-          v-model="form.status"
-          active-value="enabled"
-          inactive-value="disabled"
-          :disabled="form.status === 'resigned'"
-        />
-      </el-form-item>
-    </el-form>
+      :form-items="formItems"
+      :show-default-actions="false"
+    />
 
     <div slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible = false">{{ $t('add1a8cb.625fb2') }}</el-button>
@@ -97,6 +39,7 @@
 
 <script>
 import { isMobile, validEmail } from '@/utils/validate'
+import EmployeeInfoCard from './EmployeeInfoCard.vue'
 
 const emptyForm = () => ({
   id: '',
@@ -113,6 +56,7 @@ const emptyForm = () => ({
 
 export default {
   name: 'AccountFormDialog',
+  components: { EmployeeInfoCard },
   props: {
     visible: {
       type: Boolean,
@@ -124,45 +68,10 @@ export default {
     }
   },
   data() {
-    const validateEmployeeNo = (rule, value, callback) => {
-      if (!value || !String(value).trim()) {
-        callback(new Error(this.$t('add1a8cb.f02d1d')))
-        return
-      }
-      callback()
-    }
-    const validateMobile = (rule, value, callback) => {
-      if (!value) {
-        callback()
-        return
-      }
-      if (!isMobile(value)) {
-        callback(new Error(this.$t('add1a8cb.a32ab5')))
-        return
-      }
-      callback()
-    }
-    const validateEmail = (rule, value, callback) => {
-      if (!value) {
-        callback()
-        return
-      }
-      if (!validEmail(value)) {
-        callback(new Error(this.$t('add1a8cb.97e3ac')))
-        return
-      }
-      callback()
-    }
     return {
       submitting: false,
-      form: emptyForm(),
-      rules: {
-        employee_no: [{ required: true, validator: validateEmployeeNo, trigger: 'blur' }],
-        mobile: [{ validator: validateMobile, trigger: 'blur' }],
-        email: [{ validator: validateEmail, trigger: 'blur' }],
-        role: [{ required: true, message: this.$t('add1a8cb.aabcdc'), trigger: 'change' }],
-        distributor_id: [{ required: true, message: this.$t('add1a8cb.ca95a5'), trigger: 'change' }]
-      }
+      shopSelect: null,
+      form: emptyForm()
     }
   },
   computed: {
@@ -183,6 +92,105 @@ export default {
         { value: 'supervisor', label: this.$t('add1a8cb.637872') },
         { value: 'clerk', label: this.$t('add1a8cb.bd2bfc') }
       ]
+    },
+    formItems() {
+      return [
+        {
+          fieldName: 'name',
+          label: this.$t('add1a8cb.60d045'),
+          component: 'input',
+          componentProps: {
+            maxlength: 30,
+            placeholder: this.$t('add1a8cb.8093e3')
+          }
+        },
+        {
+          fieldName: 'employee_no',
+          label: this.$t('add1a8cb.5ff5ab'),
+          isShow: () => !this.isEdit,
+          component: 'input',
+          componentProps: {
+            maxlength: 30,
+            placeholder: this.$t('add1a8cb.9bd2a4')
+          },
+          rules: [{ required: true, validator: this.validateEmployeeNo, trigger: 'blur' }]
+        },
+        {
+          fieldName: 'mobile',
+          label: this.$t('add1a8cb.8098e2'),
+          component: 'input',
+          componentProps: {
+            maxlength: 11,
+            placeholder: this.$t('add1a8cb.6e4f4b')
+          },
+          tip: this.$t('add1a8cb.d4300c'),
+          rules: [{ validator: this.validateMobile, trigger: 'blur' }]
+        },
+        {
+          fieldName: 'email',
+          label: this.$t('add1a8cb.3bc5e6'),
+          component: 'input',
+          componentProps: {
+            placeholder: this.$t('add1a8cb.dbf6d0')
+          },
+          tip: this.$t('add1a8cb.d4300c'),
+          rules: [{ validator: this.validateEmail, trigger: 'blur' }]
+        },
+        {
+          fieldName: 'password_hint',
+          label: this.$t('add1a8cb.a81052'),
+          isShow: () => !this.isEdit,
+          component: ({ h }) =>
+            h('el-input', {
+              props: {
+                value: this.$t('add1a8cb.2626bd'),
+                disabled: true
+              }
+            })
+        },
+        {
+          fieldName: 'role',
+          label: this.$t('add1a8cb.464f3d'),
+          component: 'select',
+          componentProps: {
+            placeholder: this.$t('add1a8cb.aabcdc'),
+            options: this.roleOptions
+          },
+          rules: [{ required: true, message: this.$t('add1a8cb.aabcdc'), trigger: 'change' }]
+        },
+        {
+          fieldName: 'distributor_id',
+          label: this.$t('add1a8cb.a7da92'),
+          component: ({ h, value, onInput }) =>
+            h('SpSelectShop', {
+              props: {
+                value,
+                clearable: true,
+                placeholder: this.$t('add1a8cb.ca95a5')
+              },
+              on: {
+                input: onInput
+              },
+              hook: {
+                insert: (vnode) => {
+                  this.shopSelect = vnode.componentInstance
+                  this.syncShopSelect()
+                }
+              }
+            }),
+          rules: [{ required: true, message: this.$t('add1a8cb.ca95a5'), trigger: 'change' }]
+        },
+        {
+          fieldName: 'status',
+          label: this.$t('add1a8cb.3fea7c'),
+          component: 'switch',
+          componentProps: {
+            activeValue: 'enabled',
+            inactiveValue: 'disabled',
+            disabled: (formData) => formData.status === 'resigned'
+          }
+        }
+      ]
     }
   },
   watch: {
@@ -193,6 +201,39 @@ export default {
     }
   },
   methods: {
+    validateEmployeeNo(rule, value, callback) {
+      if (!value || !String(value).trim()) {
+        callback(new Error(this.$t('add1a8cb.f02d1d')))
+        return
+      }
+      callback()
+    },
+    validateMobile(rule, value, callback) {
+      if (!value) {
+        callback()
+        return
+      }
+      if (!isMobile(value)) {
+        callback(new Error(this.$t('add1a8cb.a32ab5')))
+        return
+      }
+      callback()
+    },
+    validateEmail(rule, value, callback) {
+      if (!value) {
+        callback()
+        return
+      }
+      if (!validEmail(value)) {
+        callback(new Error(this.$t('add1a8cb.97e3ac')))
+        return
+      }
+      callback()
+    },
+    syncShopSelect() {
+      if (!this.shopSelect) return
+      this.shopSelect.selectValue = this.isEdit ? this.form.shop_name || '' : ''
+    },
     fillForm() {
       if (this.isEdit) {
         const row = this.account
@@ -205,7 +246,12 @@ export default {
           role: row.role || '',
           distributor_id: row.distributor_id || '',
           shop_name: row.shop_name || '',
-          status: row.status === 'disabled' ? 'disabled' : row.status === 'resigned' ? 'resigned' : 'enabled',
+          status:
+            row.status === 'disabled'
+              ? 'disabled'
+              : row.status === 'resigned'
+              ? 'resigned'
+              : 'enabled',
           updated: row.updated
         }
       } else {
@@ -213,10 +259,7 @@ export default {
       }
       this.$nextTick(() => {
         this.$refs.form && this.$refs.form.clearValidate()
-        const shopSelect = this.$refs.shopSelect
-        if (shopSelect) {
-          shopSelect.selectValue = this.isEdit ? this.form.shop_name : ''
-        }
+        this.syncShopSelect()
       })
     },
     requestErrorMessage(error) {
@@ -231,8 +274,11 @@ export default {
       )
     },
     async onSubmit() {
-      const valid = await this.$refs.form.validate().catch(() => false)
-      if (!valid) return
+      try {
+        await this.$refs.form.validate()
+      } catch (error) {
+        return
+      }
       this.submitting = true
       try {
         if (this.isEdit) {
@@ -286,9 +332,7 @@ export default {
       this.form = emptyForm()
       this.$nextTick(() => {
         this.$refs.form && this.$refs.form.clearValidate()
-        if (this.$refs.shopSelect) {
-          this.$refs.shopSelect.selectValue = ''
-        }
+        if (this.shopSelect) this.shopSelect.selectValue = ''
       })
     }
   }

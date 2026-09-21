@@ -12,10 +12,7 @@
     append-to-body
     @closed="onClosed"
   >
-    <div class="flex items-center px-4 py-3.5 mb-4 rounded bg-[#f5f7fa] text-sm">
-      <span class="font-medium text-[#303133]">{{ account.name }}</span>
-      <span class="ml-2 text-[#606266]">{{ account.employee_no }} · {{ account.shop_name }}</span>
-    </div>
+    <EmployeeInfoCard :account="account" class="mb-4" />
     <div class="flex items-start">
       <div class="w-[120px] h-8 leading-8 text-right text-[#606266] pr-3">
         {{ $t('55294008.763ffe') }}
@@ -38,8 +35,11 @@
 </template>
 
 <script>
+import EmployeeInfoCard from './EmployeeInfoCard.vue'
+
 export default {
   name: 'PasswordResultDialog',
+  components: { EmployeeInfoCard },
   props: {
     visible: {
       type: Boolean,
