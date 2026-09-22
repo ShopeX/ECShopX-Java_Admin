@@ -149,7 +149,7 @@
         <PromotionMemberTags
           :member-tag-mode.sync="memberTagMode"
           :member-tags.sync="memberTags"
-          :disabled="form.status == 'waiting' ? false : true"
+          :disabled="!hasSaveButton"
         />
       </el-form-item>
       <el-form-item :label="$t('118844d3.b90304')">

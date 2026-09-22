@@ -71,7 +71,7 @@
         <PromotionMemberTags
           :member-tag-mode.sync="memberTagMode"
           :member-tags.sync="memberTags"
-          :disabled="!!form.seckill_id && form.status && form.status !== 'waiting'"
+          :disabled="form.status === 'it_has_ended'"
         />
       </el-form-item>
       <el-form-item
