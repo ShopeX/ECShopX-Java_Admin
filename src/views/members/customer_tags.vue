@@ -68,7 +68,7 @@ export default {
       form: {
         group_id: '',
         group_name: '',
-        tags: [{ tag_name: '', tag_color: '', font_color: '' }]
+        tags: [{ tag_name: '' }]
       },
       isEdit: false,
       addGroupVisible: false,
@@ -141,8 +141,7 @@ export default {
             render: (h, { row }) => {
               return h(CompTagList, {
                 props: {
-                  'is-add': true,
-                  'list': row.tags || []
+                  list: row.tags || []
                 },
                 on: {
                   'add-tag': (value) => vm.handleAddTags(row, value)
@@ -248,7 +247,7 @@ export default {
       this.form = {
         group_id: '',
         group_name: '',
-        tags: [{ tag_name: '', tag_color: '', font_color: '' }]
+        tags: [{ tag_name: '' }]
       }
       this.addGroupVisible = true
     },
@@ -307,9 +306,7 @@ export default {
       try {
         const params = {
           group_id: row.group_id,
-          tag_name: value,
-          tag_color: '',
-          font_color: ''
+          tag_name: value
         }
         await this.$api.member.saveTag(params)
         this.$message({

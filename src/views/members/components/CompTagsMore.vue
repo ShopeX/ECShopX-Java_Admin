@@ -25,11 +25,8 @@
           </div>
           <CompTagList
             :list="getFormattedTags(category)"
-            :tags-id="category.group_id"
             :selection-babel="true"
             :readonly="IS_DISTRIBUTOR()"
-            tag-size="small"
-            :no-background="true"
             @add-tag="(val) => handleAddTags(category, val)"
             @tag-select="(tag, index) => handleTagSelect(category, tag, index)"
           />
@@ -185,7 +182,7 @@ export default {
       this.addTagForm = {
         group_id: '',
         group_name: '',
-        tags: [{ tag_name: '', tag_color: '', font_color: '' }]
+        tags: [{ tag_name: '' }]
       }
       this.addTagDialogVisible = true
     },
@@ -214,9 +211,7 @@ export default {
           allSelectedTags.push({
             group_id: groupId,
             tag_id: tag.tag_id,
-            tag_name: tag.tag_name,
-            tag_color: tag.tag_color,
-            font_color: tag.font_color
+            tag_name: tag.tag_name
           })
         })
       })
@@ -227,9 +222,7 @@ export default {
       try {
         const params = {
           group_id: row.group_id,
-          tag_name: value,
-          tag_color: '#ff1939',
-          font_color: '#ffffff'
+          tag_name: value
         }
         await this.$api.member.saveTag(params)
         await this.loadTagCategories()

@@ -11,11 +11,8 @@
         </div>
         <CompTagList
           :list="getFormattedTags(category)"
-          :tags-id="category.group_id"
           :selection-babel="true"
           :readonly="false"
-          tag-size="small"
-          :no-background="true"
           @add-tag="(val) => handleAddTags(category, val)"
           @tag-select="(tag, index) => handleTagSelect(category, tag, index)"
         />
@@ -129,9 +126,7 @@ export default {
       try {
         await this.$api.member.saveTag({
           group_id: category.group_id,
-          tag_name: value,
-          tag_color: '#ff1939',
-          font_color: '#ffffff'
+          tag_name: value
         })
         await this.loadTagCategories()
         this.$message.success(i18n.t('394573fc.78ec37'))
@@ -150,9 +145,7 @@ export default {
         list.push({
           group_id: groupId,
           tag_id: tag.tag_id,
-          tag_name: tag.tag_name,
-          tag_color: tag.tag_color,
-          font_color: tag.font_color
+          tag_name: tag.tag_name
         })
       } else if (!tag.selected && idx > -1) {
         list.splice(idx, 1)

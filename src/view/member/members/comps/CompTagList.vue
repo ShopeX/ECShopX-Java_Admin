@@ -3,36 +3,39 @@
   See LICENSE file for license details.
 -->
 <template>
-  <div class="flex items-center flex-wrap leading-[22px]">
-    <div v-if="!readonly" class="mr-2.5 mb-2.5">
-      <el-input
-        v-if="showInput"
-        v-model="value"
-        :placeholder="$t('a2bf2d04.a11cc7')"
-        size="mini"
-        maxlength="10"
-        show-word-limit
-        @change="changeInput"
-      />
-      <el-button v-else size="mini" type="info" plain @click="addLabel">
+  <div class="flex flex-wrap items-center gap-2">
+    <template v-if="!readonly">
+      <div v-if="showInput" class="w-[140px]">
+        <el-input
+          v-model="value"
+          :placeholder="$t('a2bf2d04.a11cc7')"
+          size="small"
+          maxlength="10"
+          show-word-limit
+          @change="changeInput"
+        />
+      </div>
+      <el-tag
+        v-else
+        :size="tagSize"
+        type="info"
+        effect="plain"
+        class="cursor-pointer"
+        @click="addLabel"
+      >
         {{ $t('a2bf2d04.ed7823') }}
-      </el-button>
-    </div>
-    <div
+      </el-tag>
+    </template>
+    <el-tag
       v-for="(item, index) in list"
-      :key="index"
-      class="mr-2.5 mb-2.5 cursor-pointer select-none"
+      :key="item.tag_id || index"
+      :effect="item.selected ? 'light' : 'plain'"
+      :size="tagSize"
+      class="cursor-pointer select-none"
       @click="selectLabel(item, index)"
     >
-      <el-tag
-        :effect="item.selected ? 'light' : 'plain'"
-        :size="tagSize"
-        :color="noBackground ? '' : item.tag_color"
-        :style="{ color: noBackground ? '' : item.font_color }"
-      >
-        {{ item.tag_name }}
-      </el-tag>
-    </div>
+      {{ item.tag_name }}
+    </el-tag>
   </div>
 </template>
 
@@ -54,10 +57,6 @@ export default {
     tagSize: {
       type: String,
       default: 'medium'
-    },
-    noBackground: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
@@ -82,7 +81,6 @@ export default {
           selected: !item.selected
         }
         this.$set(this.list, index, newItem)
-        // 触发选择事件
         this.$emit('tag-select', newItem, index)
       }
     }
