@@ -67,6 +67,13 @@
           <el-input v-model="form.description" type="textarea" :rows="2" placeholder="" />
         </el-col>
       </el-form-item>
+      <el-form-item :label="$t('26b7f367.db64f9')">
+        <PromotionMemberTags
+          :member-tag-mode.sync="memberTagMode"
+          :member-tags.sync="memberTags"
+          :disabled="!!form.seckill_id && form.status && form.status !== 'waiting'"
+        />
+      </el-form-item>
       <el-form-item
         :label="$t('0ab3280d.079bfa')"
         prop="limit_total_money"
@@ -326,6 +333,7 @@ import imgPicker from '@/components/imageselect'
 import imgBox from '@/components/element/imgBox'
 import SpTranslatePopup from '@/components/sp-translate-popup'
 import translateMixin from '@/mixins/translateMixin'
+import PromotionMemberTags from '@/components/function/promotionMemberTags'
 import store from '@/store'
 import { getItemsList, getCategory, getTagList, getGoodsAttr } from '@/api/goods'
 import { handleUploadFile, exportUploadTemplate } from '../../../../api/common'
@@ -339,7 +347,8 @@ export default {
     imgPicker,
     imgBox,
     Treeselect,
-    SpTranslatePopup
+    SpTranslatePopup,
+    PromotionMemberTags
   },
   data() {
     return {
@@ -352,6 +361,8 @@ export default {
       goods: [],
       relItems: [],
       addedItems: [],
+      memberTagMode: 'include',
+      memberTags: [],
       communityParams: {
         page: 1,
         pageSize: 10,
@@ -450,6 +461,20 @@ export default {
     this.getBrandList('', true)
   },
   methods: {
+    normalizeMemberTags(response = {}) {
+      const list = response.member_tags || response.member_tag_list || []
+      if (Array.isArray(list) && list.length > 0) {
+        return list.map((tag) => ({
+          tag_id: tag.tag_id,
+          tag_name: tag.tag_name,
+          group_id: tag.group_id
+        }))
+      }
+      return (response.member_tag_ids || []).map((id) => ({
+        tag_id: id,
+        tag_name: String(id)
+      }))
+    },
     closeStoreDialogAction() {
       this.storeVisible = false
     },
@@ -534,6 +559,8 @@ export default {
       }
       let params = JSON.stringify(this.form)
       params = JSON.parse(params)
+      params.member_tag_mode = this.memberTagMode || 'include'
+      params.member_tag_ids = (this.memberTags || []).map((t) => t.tag_id)
       params.items = JSON.stringify(params.items)
       params.item_category = JSON.stringify(params.item_category)
       if (this.form.seckill_id) {
@@ -622,6 +649,8 @@ export default {
           this.relStores = response.distributor_info
         }
         Object.assign(this.form, data)
+        this.memberTagMode = response.member_tag_mode || 'include'
+        this.memberTags = this.normalizeMemberTags(response)
         response.items.forEach((item) => {
           item.itemId = item.item_id
         })
