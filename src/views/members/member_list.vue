@@ -663,11 +663,13 @@
         @confirm="handleTagConfirm"
       />
 
-      <!-- 人群达标标签选择弹框 -->
+      <!-- 人群达标标签选择弹框（含系统标签，仅选择） -->
       <CompTagsMore
         :title="$t('ff557c54.fb7b49')"
         :visible.sync="showCrowdTagDialog"
         :selected-tags="selectedCrowdTags"
+        :with-system="true"
+        :select-only="true"
         @confirm="handleCrowdTagConfirm"
       />
     </SpRouterView>

@@ -26,7 +26,7 @@ export default {
     {
       path: 'Managetag',
       name: '268794ad.3cc026',
-      component: () => import('@/view/member/members/tags')
+      component: () => import('@/views/members/customer_tags')
     },
     {
       path: 'purchase/employee',

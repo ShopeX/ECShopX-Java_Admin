@@ -61,7 +61,7 @@ const routes = [
           title: i18n.t('d251b20e.3cc026'),
           permissions: ['member.memberlmana.Managetag']
         },
-        component: () => import('@/view/member/members/tags')
+        component: () => import('@/views/members/customer_tags')
       },
       {
         name: 'memberLevel',

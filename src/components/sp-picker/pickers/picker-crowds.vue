@@ -1,6 +1,6 @@
 <template>
   <div class="picker-crowds">
-    <div class="max-h-[500px] overflow-y-auto pr-2.5 pl-2.5">
+    <div class="max-h-[500px] overflow-y-auto pr-4 pl-4 pt-3">
       <div
         v-for="category in tagCategories"
         :key="category.group_id"
@@ -13,7 +13,7 @@
           :list="getFormattedTags(category)"
           :selection-babel="true"
           :readonly="false"
-          @add-tag="(val) => handleAddTags(category, val)"
+          :select-only="true"
           @tag-select="(tag, index) => handleTagSelect(category, tag, index)"
         />
       </div>
@@ -38,7 +38,7 @@ export default {
     CompTagList
   },
   config: {
-    title: ''
+    title: '394573fc.d2a769'
   },
   props: ['value'],
   computed: {
@@ -47,25 +47,16 @@ export default {
     },
     loadingText() {
       return i18n.t('394573fc.26b5bd')
-    },
-    crowdsSetting() {
-      return {
-        columns: [
-          { name: 'ID', key: 'tag_id', width: 80 },
-          { name: i18n.t('394573fc.341fe8'), key: 'tag_name' }
-        ]
-      }
     }
   },
   data() {
     return {
       tagCategories: [],
-      selectedTagMap: {}, // { group_id: [tag1, tag2, ...] }
+      selectedTagMap: {},
       loading: false
     }
   },
   created() {
-    this.$options.config.title = i18n.t('394573fc.d2a769')
     this.initSelectedFromValue()
   },
   mounted() {
@@ -91,7 +82,8 @@ export default {
         const { list = [] } = await this.$api.member.getTagGroupList({
           page: 1,
           page_size: 100,
-          country_code: 'zh-CN'
+          country_code: 'zh-CN',
+          with_system: 1
         })
         this.tagCategories = list
       } catch (error) {
@@ -121,20 +113,7 @@ export default {
         }
       })
     },
-    /** 与 CompTagsMore 一致：点击「+ 添加」输入标签名后，调用 saveTag 创建新标签并刷新列表 */
-    async handleAddTags(category, value) {
-      try {
-        await this.$api.member.saveTag({
-          group_id: category.group_id,
-          tag_name: value
-        })
-        await this.loadTagCategories()
-        this.$message.success(i18n.t('394573fc.78ec37'))
-      } catch (error) {
-        console.error(error)
-      }
-    },
-    handleTagSelect(category, tag, index) {
+    handleTagSelect(category, tag) {
       const groupId = category.group_id
       if (!this.selectedTagMap[groupId]) {
         this.$set(this.selectedTagMap, groupId, [])
