@@ -19,7 +19,7 @@
     >
       <template slot="tableTop" v-if="!dmcrmIsOpen && !shuyunOpenPlatformEnabled">
         <div class="action-container">
-          <el-button @click="updatePoint">{{ $t('39c803f6.5546a2') }}</el-button>
+          <el-button type="primary" plain @click="updatePoint">{{ $t('39c803f6.5546a2') }}</el-button>
         </div>
       </template>
     </SpFinder>
