@@ -173,137 +173,135 @@
       <el-dialog width="45%" :visible.sync="imgVisible" append-to-body>
         <img width="100%" :src="Dialogpic" />
       </el-dialog>
-      <div class="section-white">
-        <div class="section-header with-border">
-          <h3>{{ $t('7de71dd3.2233e4') }}</h3>
+      <div class="overflow-hidden rounded-md border border-[#ebeef5]">
+        <div class="bg-[#f5f7fa] px-5 py-2.5 text-sm font-medium text-[#303133]">
+          {{ $t('7de71dd3.2233e4') }}
         </div>
-        <div class="section-body">
-          <el-row>
-            <el-table :data="details.itemInfo" style="width: 100%">
-              <el-table-column class="goods-img" prop="pic" :label="$t('7de71dd3.9b94b1')">
-                <template slot-scope="scope">
-                  <img :src="scope.row.pics[0]" :alt="scope.row.item_name" width="100" />
-                </template>
-              </el-table-column>
-              <el-table-column prop="item_name" :label="$t('7de71dd3.1fd1d5')" width="180" />
-              <el-table-column :label="$t('7de71dd3.b5972b')">
-                <template slot-scope="scope">
-                  <span>￥{{ scope.row.total_fee / 100 }}</span>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-row>
-        </div>
-        <div class="section-header with-border">
-          <h3>{{ $t('7de71dd3.9c20b6') }}</h3>
-        </div>
-        <div class="section-body">
-          <el-row>
-            <el-col :span="4" class="col-3 content-right"> {{ $t('7de71dd3.d06931') }} </el-col>
-            <el-col :span="20">
-              <el-rate v-model="details.rateInfo.star" disabled />
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="4" class="col-3 content-right"> {{ $t('7de71dd3.2d0f2f') }} </el-col>
-            <el-col :span="20">
-              {{ details.rateInfo.content }}
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="4" class="col-3 content-right"> {{ $t('7de71dd3.c6321f') }} </el-col>
-            <el-col v-if="details.rateInfo.rate_pic" :span="20">
+        <el-table :data="details.itemInfo" style="width: 100%">
+          <el-table-column :label="$t('7de71dd3.9b94b1')" width="120">
+            <template slot-scope="scope">
               <img
-                v-for="pic in details.rateInfo.rate_pic"
+                v-if="itemCover(scope.row)"
+                :src="itemCover(scope.row)"
+                :alt="scope.row.item_name"
+                class="h-[72px] w-[72px] rounded object-cover"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column prop="item_name" :label="$t('7de71dd3.1fd1d5')" min-width="180" />
+          <el-table-column :label="$t('7de71dd3.b5972b')" width="140">
+            <template slot-scope="scope">
+              <span>￥{{ scope.row.total_fee / 100 }}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <div class="border-t border-[#ebeef5] bg-[#f5f7fa] px-5 py-2.5 text-sm font-medium text-[#303133]">
+          {{ $t('7de71dd3.9c20b6') }}
+        </div>
+        <div
+          class="grid grid-cols-[6.5rem_minmax(0,1fr)] items-center gap-x-4 gap-y-3 px-5 py-4 text-sm"
+        >
+          <div class="text-right leading-6 text-[#909399]">{{ $t('7de71dd3.d06931') }}</div>
+          <div class="leading-6">
+            <el-rate v-model="details.rateInfo.star" disabled />
+          </div>
+          <div class="self-start pt-0.5 text-right leading-6 text-[#909399]">
+            {{ $t('7de71dd3.2d0f2f') }}
+          </div>
+          <div class="leading-6 text-[#303133]">{{ details.rateInfo.content }}</div>
+          <template v-if="ratePics.length">
+            <div class="self-start pt-1 text-right leading-6 text-[#909399]">
+              {{ $t('7de71dd3.c6321f') }}
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <img
+                v-for="(pic, index) in ratePics"
+                :key="index"
                 :src="pic"
-                width="100px"
+                class="h-[72px] w-[72px] cursor-pointer rounded object-cover"
                 @click="showImg(pic)"
               />
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="4" class="col-3 content-right"> {{ $t('7de71dd3.24bc89') }} </el-col>
-            <el-col :span="20">
-              <router-link
-                target="_blank"
-                :to="{
-                  path: matchInternalRoute('member_detail'),
-                  query: { user_id: details.rateInfo.user_id }
-                }"
-              >
-                {{ details.rateInfo.username }}
-              </router-link>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="4" class="col-3 content-right"> {{ $t('7de71dd3.4738bc') }} </el-col>
-            <el-col :span="20">
-              {{ details.rateInfo.created | datetime('YYYY-MM-DD HH:mm:ss') }}
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="4" class="col-3 content-right"> {{ $t('7de71dd3.c3fd30') }} </el-col>
-            <el-col :span="20">
-              <el-tag v-if="details.rateInfo.is_reply" type="success" size="mini">
-                {{ $t('7de71dd3.4bea88') }}
-              </el-tag>
-              <el-tag v-else type="danger" size="mini"> {{ $t('7de71dd3.6231a2') }} </el-tag>
-            </el-col>
-          </el-row>
+            </div>
+          </template>
+          <div class="text-right leading-6 text-[#909399]">{{ $t('7de71dd3.24bc89') }}</div>
+          <div class="leading-6">
+            <router-link
+              target="_blank"
+              class="text-[#409eff]"
+              :to="{
+                path: matchInternalRoute('member_detail'),
+                query: { user_id: details.rateInfo.user_id }
+              }"
+            >
+              {{ details.rateInfo.username }}
+            </router-link>
+          </div>
+          <div class="text-right leading-6 text-[#909399]">{{ $t('7de71dd3.4738bc') }}</div>
+          <div class="leading-6 text-[#303133]">
+            {{ details.rateInfo.created | datetime('YYYY-MM-DD HH:mm:ss') }}
+          </div>
+          <div class="text-right leading-6 text-[#909399]">{{ $t('7de71dd3.c3fd30') }}</div>
+          <div class="leading-6">
+            <el-tag v-if="details.rateInfo.is_reply" type="success" size="mini">
+              {{ $t('7de71dd3.4bea88') }}
+            </el-tag>
+            <el-tag v-else type="danger" size="mini">{{ $t('7de71dd3.6231a2') }}</el-tag>
+          </div>
         </div>
-        <div class="section-header with-border">
-          <h3>{{ $t('7de71dd3.e60ff5') }}</h3>
-        </div>
-        <div v-if="details.replyInfo" class="section-body">
-          <el-row>
-            <el-col :span="4" class="col-3 content-right"> {{ $t('7de71dd3.c2747a') }} </el-col>
-            <el-col :span="20">
-              <el-tag type="success">
-                {{ details.replyInfo.content }}
-              </el-tag>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="4" class="col-3 content-right"> {{ $t('7de71dd3.fcf518') }} </el-col>
-            <el-col :span="20">
-              {{ details.replyInfo.operator_name }}
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="4" class="col-3 content-right"> {{ $t('7de71dd3.afdc52') }} </el-col>
-            <el-col :span="20">
+
+        <template v-if="details.replyInfo">
+          <div
+            class="border-t border-[#ebeef5] bg-[#f5f7fa] px-5 py-2.5 text-sm font-medium text-[#303133]"
+          >
+            {{ $t('7de71dd3.e60ff5') }}
+          </div>
+          <div
+            class="grid grid-cols-[6.5rem_minmax(0,1fr)] items-center gap-x-4 gap-y-3 px-5 py-4 text-sm"
+          >
+            <div class="self-start pt-0.5 text-right leading-6 text-[#909399]">
+              {{ $t('7de71dd3.c2747a') }}
+            </div>
+            <div class="leading-6">
+              <el-tag type="success">{{ details.replyInfo.content }}</el-tag>
+            </div>
+            <div class="text-right leading-6 text-[#909399]">{{ $t('7de71dd3.fcf518') }}</div>
+            <div class="leading-6 text-[#303133]">{{ details.replyInfo.operator_name }}</div>
+            <div class="text-right leading-6 text-[#909399]">{{ $t('7de71dd3.afdc52') }}</div>
+            <div class="leading-6 text-[#303133]">
               {{ details.replyInfo.created | datetime('YYYY-MM-DD HH:mm:ss') }}
-            </el-col>
-          </el-row>
-        </div>
-        <div class="section-header with-border">
-          <h3>{{ $t('7de71dd3.561c22') }}</h3>
-        </div>
-        <div class="section-body">
-          <el-row>
-            <el-table :data="details.userReply" style="width: 100%">
-              <el-table-column prop="username" :label="$t('7de71dd3.84fed1')" width="120">
-                <template slot-scope="scope">
-                  <router-link
-                    target="_blank"
-                    :to="{
-                      path: matchInternalRoute('member_detail'),
-                      query: { user_id: scope.row.user_id }
-                    }"
-                  >
-                    {{ scope.row.username }}
-                  </router-link>
-                </template>
-              </el-table-column>
-              <el-table-column prop="content" :label="$t('7de71dd3.034484')" />
-              <el-table-column prop="created" :label="$t('7de71dd3.a666ad')" width="160">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.created | datetime('YYYY-MM-DD HH:mm:ss') }}</span>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-row>
-        </div>
+            </div>
+          </div>
+        </template>
+
+        <template v-if="userReplyList.length">
+          <div
+            class="border-t border-[#ebeef5] bg-[#f5f7fa] px-5 py-2.5 text-sm font-medium text-[#303133]"
+          >
+            {{ $t('7de71dd3.561c22') }}
+          </div>
+          <el-table :data="userReplyList" style="width: 100%">
+            <el-table-column prop="username" :label="$t('7de71dd3.84fed1')" width="120">
+              <template slot-scope="scope">
+                <router-link
+                  target="_blank"
+                  :to="{
+                    path: matchInternalRoute('member_detail'),
+                    query: { user_id: scope.row.user_id }
+                  }"
+                >
+                  {{ scope.row.username }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column prop="content" :label="$t('7de71dd3.034484')" />
+            <el-table-column prop="created" :label="$t('7de71dd3.a666ad')" width="160">
+              <template slot-scope="scope">
+                <span>{{ scope.row.created | datetime('YYYY-MM-DD HH:mm:ss') }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </template>
       </div>
     </el-dialog>
   </SpPage>
@@ -354,7 +352,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['wheight'])
+    ...mapGetters(['wheight']),
+    ratePics() {
+      const info = this.details.rateInfo || {}
+      return this.parsePics(info.pics || info.rate_pic)
+    },
+    userReplyList() {
+      return Array.isArray(this.details.userReply) ? this.details.userReply : []
+    }
   },
   mounted() {
     this.fetchList()
@@ -405,6 +410,25 @@ export default {
           }
         })
       })
+    },
+    parsePics(pics) {
+      if (Array.isArray(pics)) return pics.filter(Boolean)
+      if (typeof pics !== 'string') return []
+      const value = pics.trim()
+      if (!value) return []
+      if (value.startsWith('[')) {
+        try {
+          const parsed = JSON.parse(value)
+          return Array.isArray(parsed) ? parsed.filter(Boolean) : []
+        } catch (e) {
+          return []
+        }
+      }
+      return [value]
+    },
+    itemCover(row) {
+      const pics = this.parsePics(row && row.pics)
+      return pics[0] || ''
     },
     showImg(pic) {
       this.imgVisible = true
