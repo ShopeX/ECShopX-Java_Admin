@@ -25,7 +25,7 @@
     <div>
       <div class="mb-2 text-sm font-medium text-[#212121]">签到规则说明</div>
       <div class="min-h-[180px] rounded">
-        <SpRichText v-model="ruleHtml" :disabled="saving" />
+        <SpRichText v-model="rule_desc" :disabled="saving" />
       </div>
     </div>
     <div class="flex justify-center pt-2">
@@ -76,6 +76,12 @@ function normalizePoints(payload) {
   return base
 }
 
+function normalizeRuleDesc(payload) {
+  if (!payload || typeof payload !== 'object') return ''
+  const val = payload.rule_desc
+  return val != null ? String(val) : ''
+}
+
 export default {
   name: 'DailyPointsPanel',
   data() {
@@ -85,7 +91,7 @@ export default {
       loaded: false,
       loadError: false,
       points: emptyPoints(),
-      ruleHtml: ''
+      rule_desc: ''
     }
   },
   computed: {
@@ -100,11 +106,14 @@ export default {
     this.loadDailyPoints()
   },
   methods: {
-    applyPoints(payload) {
+    applyDailyPoints(payload) {
       this.points = normalizePoints(payload)
+      this.rule_desc = normalizeRuleDesc(payload)
     },
     buildSavePayload() {
-      const payload = {}
+      const payload = {
+        rule_desc: this.rule_desc || ''
+      }
       WEEK_KEYS.forEach((key) => {
         const val = this.points[key]
         payload[key] = val != null && Number.isFinite(Number(val))
@@ -118,7 +127,7 @@ export default {
       this.loadError = false
       try {
         const res = await getDailyPoints()
-        this.applyPoints(unwrap(res))
+        this.applyDailyPoints(unwrap(res))
         this.loaded = true
         this.loadError = false
       } catch (e) {
@@ -133,7 +142,7 @@ export default {
       this.saving = true
       try {
         const res = await saveDailyPoints(this.buildSavePayload())
-        this.applyPoints(unwrap(res))
+        this.applyDailyPoints(unwrap(res))
         this.$message.success('保存成功')
       } catch (e) {
         this.$message.error(apiErrorMessage(e, '保存失败'))
