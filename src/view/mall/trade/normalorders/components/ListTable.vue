@@ -428,6 +428,7 @@ export default {
         { name: this.$t('37f26730.a8b0c2'), value: 'all' },
         { name: this.$t('37f26730.9246fe'), value: 'notpay' },
         { name: this.$t('37f26730.d8476e'), value: 'notship' },
+        { name: this.$t('37f26730.5296ac'), value: 'payed_partial' },
         { name: this.$t('37f26730.4933ca'), value: 'shipping' },
         { name: this.$t('37f26730.6b715b'), value: 'cancelapply' },
         { name: this.$t('37f26730.25d532'), value: 'ziti' },
