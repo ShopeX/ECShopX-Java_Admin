@@ -144,6 +144,9 @@
 
         <div class="action-container">
           <el-button type="primary" plain @click="Examine"> {{ $t('d41d8cd9.298be1') }} </el-button>
+          <el-button type="primary" plain :loading="syncToPoolLoading" @click="syncToPool">
+            {{ $t('58789194.d351c3') }}
+          </el-button>
         </div>
 
         <el-tabs v-model="activeName" type="card" @tab-click="handleTabClick">
@@ -379,7 +382,7 @@
 import moment from 'moment'
 import { IS_SUPPLIER } from '@/utils'
 import { GOODS_APPLY_STATUS } from '@/consts'
-import { batchReviewItems } from '@/api/goods'
+import { batchReviewItems, batchSyncToPool } from '@/api/goods'
 import districtOptions from '@/mixins/districtOptions'
 
 export default {
@@ -485,6 +488,7 @@ export default {
       addCategorydialogVisible: false,
       dialogVisibleExamine: false,
       examineLoading: false,
+      syncToPoolLoading: false,
       form: {},
       isGiftsData: {},
       exportData: {},
@@ -697,7 +701,7 @@ export default {
             width: 120
           },
           {
-            name: this.$t('d41d8cd9.f5g6h7'),
+            name: this.$t('d41d8cd9.858526'),
             key: 'main_item_id',
             align: 'right',
             headerAlign: 'center',
@@ -1138,6 +1142,37 @@ export default {
         .finally(() => {
           this.examineLoading = false
         })
+    },
+    // 同步到商品池
+    async syncToPool() {
+      if (this.selectionItems.length === 0) {
+        this.$message.error(this.$t('58789194.ace302'))
+        return
+      }
+      const notApproved = this.selectionItems.filter((item) => item.audit_status !== 'approved')
+      if (notApproved.length > 0) {
+        this.$message.error(this.$t('58789194.9b0c0c'))
+        return
+      }
+      try {
+        await this.$confirm(this.$t('58789194.873b42'), this.$t('58789194.02d981'), {
+          confirmButtonText: this.$t('58789194.38cf16'),
+          cancelButtonText: this.$t('58789194.625fb2'),
+          type: 'warning'
+        })
+      } catch (e) {
+        return
+      }
+      this.syncToPoolLoading = true
+      try {
+        await batchSyncToPool({
+          item_ids: this.selectionItems.map((item) => item.item_id).join(',')
+        })
+        this.$message.success(this.$t('58789194.52b85c'))
+        this.$refs['finder'].refresh()
+      } finally {
+        this.syncToPoolLoading = false
+      }
     },
     async onChangePriceSubmit() {},
     changeGoodsLabel() {
