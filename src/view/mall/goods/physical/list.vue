@@ -1514,7 +1514,7 @@ export default {
         item_type: 'normal',
         operate_source: IS_SUPPLIER() ? 'supplier' : 'platform',
         ...this.searchParams,
-        item_source: 'platform',
+        item_source: IS_ADMIN() ? 'platform' : '',
         created_time_start:
           this.searchParams.created_time.length > 0 ? this.searchParams.created_time[0] / 1000 : '',
         created_time_end:
@@ -2054,7 +2054,7 @@ export default {
     async exportItemsData() {
       const exportParams = {
         ...this.searchParams,
-        item_source: 'platform'
+        item_source: IS_ADMIN() ? 'platform' : '',
       }
       if (this.selectionItems.length > 0) {
         exportParams['item_id'] = this.selectionItems.map((item) => item.item_id)

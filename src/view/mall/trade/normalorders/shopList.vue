@@ -108,6 +108,7 @@
       <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
         <el-tab-pane :label="$t('8906cb64.a8b0c2')" name="all" />
         <el-tab-pane :label="$t('8906cb64.d8476e')" name="notship" />
+        <el-tab-pane :label="$t('8906cb64.5296ac')" name="payed_partial" />
         <el-tab-pane :label="$t('8906cb64.6b715b')" name="cancelapply" />
         <el-tab-pane :label="$t('8906cb64.4933ca')" name="shipping" />
         <el-tab-pane :label="$t('8906cb64.25d532')" name="ziti" />
