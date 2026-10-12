@@ -5,7 +5,7 @@
 
 <template>
   <SpRouterView class="order-manage-router">
-    <SpPage class="order-manage-page" :no-sticky="true">
+    <SpPage class="order-manage-page">
       <SpFormPlus
         ref="searchForm"
         :value="params"
@@ -2135,30 +2135,11 @@ export default {
   }
 }
 </script>
-<style lang="scss" scope>
-.order-manage-router {
-  height: 100%;
-
-  ::v-deep .sp-router-view__list {
-    height: 100%;
-  }
-}
-
+<style lang="scss" scoped>
 .order-manage-page {
-  height: 100%;
-  min-height: 0 !important;
-
-  ::v-deep .sp-page__content {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-  }
-
   ::v-deep .sp-page__footer {
-    flex-shrink: 0;
-    position: static !important;
     border-top: 1px solid #ebeef5;
-    background: #fff;
+    background: #fff !important;
     z-index: 10;
   }
 
@@ -2186,34 +2167,36 @@ export default {
   }
 }
 
+// Figma 11:4812 订单状态筛选
 .order-manage-tabs {
   ::v-deep .el-tabs__header {
-    margin-bottom: 0;
     border: none;
   }
 
   ::v-deep .el-tabs__nav {
+    height: 36px;
+    padding: 4px;
+    background: #f0f1f4 !important;
     border: none !important;
+    border-radius: 2px !important;
+    box-sizing: border-box;
   }
 
   ::v-deep .el-tabs__item {
-    height: 36px;
+    height: 28px;
     line-height: 28px;
+    padding: 0 20px !important;
+    margin: 0 !important;
     font-size: 13px;
+    font-weight: 400;
     color: #606266;
-    background: #f0f1f4;
-    border: 1px solid #e4e7ed !important;
-    border-left: none !important;
-    margin-left: 0 !important;
-
-    &:first-child {
-      border-left: 1px solid #e4e7ed !important;
-    }
+    background: transparent;
+    border: none !important;
 
     &.is-active {
-      color: var(--themeColor);
+      color: var(--primary);
       background: #fff;
-      border-bottom-color: #fff !important;
+      border-radius: 2px;
     }
   }
 
@@ -2268,9 +2251,14 @@ export default {
       border-radius: 4px;
       font-weight: 400;
       font-size: 13px;
-      background-color: #fff !important;
       border: 1px solid #dcdfe6;
       color: #606266;
+    }
+
+    .btn-prev,
+    .btn-next,
+    .el-pager li:not(.active) {
+      background-color: #fff !important;
     }
 
     .btn-prev,
@@ -2284,20 +2272,20 @@ export default {
       }
 
       &:not(:disabled):hover {
-        color: var(--themeColor);
-        border-color: var(--themeColor);
+        color: var(--primary);
+        border-color: var(--primary);
       }
     }
 
     .el-pager li {
       &:hover {
-        color: var(--themeColor);
-        border-color: var(--themeColor);
+        color: var(--primary);
+        border-color: var(--primary);
       }
 
       &.active {
-        background-color: var(--themeColor) !important;
-        border-color: var(--themeColor);
+        background-color: var(--primary) !important;
+        border-color: var(--primary) !important;
         color: #fff !important;
       }
     }

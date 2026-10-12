@@ -385,7 +385,7 @@ $order-grid-cols: minmax(395px, 1fr) 107px 254px 110px 119px max-content;
   grid-template-columns: subgrid;
   grid-template-rows: auto auto;
   border: 1px solid #ebeef5;
-  margin-bottom: 17px;
+  margin-bottom: 10px;
   background: #fff;
   overflow: hidden;
 }
