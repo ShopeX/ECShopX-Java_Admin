@@ -9,6 +9,7 @@
       <div class="order-list-table__head">
         <div class="col col--goods order-list-table__head-goods">
           <el-checkbox
+            v-if="showSelection"
             :value="isAllSelected"
             :indeterminate="isIndeterminate"
             class="order-card__check"
@@ -28,20 +29,15 @@
         <el-empty :description="$t('abb938aa.21efd8')" />
       </div>
 
-      <div
-        v-for="row in list"
-        :key="row.order_id"
-        class="order-card"
-      >
+      <div v-for="row in list" :key="row.order_id" class="order-card">
         <div class="order-card__meta-left">
           <el-checkbox
+            v-if="showSelection"
             :value="isSelected(row)"
             class="order-card__check"
             @change="(val) => onToggle(row, val)"
           />
-          <span class="order-card__id">
-            {{ $t('b64cb62b.a1e65c') }}{{ row.order_id }}
-          </span>
+          <span class="order-card__id"> {{ $t('b64cb62b.a1e65c') }}{{ row.order_id }} </span>
           <a
             v-clipboard:copy="row.order_id"
             v-clipboard:success="onCopySuccess"
@@ -57,8 +53,7 @@
           </span>
           <span class="order-card__sep">|</span>
           <span class="order-card__time">
-            {{ $t('b64cb62b.15f438')
-            }}{{ row.create_time | datetime('YYYY-MM-DD HH:mm:ss') }}
+            {{ $t('b64cb62b.15f438') }}{{ row.create_time | datetime('YYYY-MM-DD HH:mm:ss') }}
           </span>
           <span class="order-card__sep">|</span>
           <span class="order-card__type">{{ getOrderHolderLabel(row) }}</span>
@@ -66,9 +61,9 @@
         <div class="order-card__meta-right">
           <router-link
             class="order-card__chip"
-            :to="`${detailBase}/detail?orderId=${row.order_id}&resource=${$route.path}`"
+            :to="`${detailBase}/detail?orderId=${row.order_id}&resource=${resolvedDetailResource}`"
           >
-            {{ $t('b64cb62b.5b48db') }}
+            {{ $t(detailLabel) }}
           </router-link>
           <a
             v-if="hasAction(row, 'remark')"
@@ -79,45 +74,53 @@
             {{ $t('c95ea121.2432b5') }}
           </a>
           <router-link
+            v-if="showProcess"
             class="order-card__chip"
             :to="`${detailBase}/process?orderId=${row.order_id}&resource=${$route.path}`"
           >
-            {{ $t('c95ea121.456d29') }}
+            {{ $t(processLabel) }}
           </router-link>
         </div>
 
         <div class="col col--goods">
           <div
-            v-for="(item, idx) in row.items || []"
+            v-for="(item, idx) in getItems(row)"
             :key="`${row.order_id}-${idx}`"
             class="goods-row"
           >
             <div class="goods-row__pic-wrap">
-              <el-image class="goods-row__pic" :src="item.pic" fit="cover" />
-              <span
-                v-if="isItemShipped(item)"
-                class="goods-row__shipped"
-              >{{ $t('e3a5dbf4.355409') }}</span>
+              <el-image class="goods-row__pic" :src="item.pic || item.item_pic" fit="cover" />
+              <span v-if="isItemShipped(item)" class="goods-row__shipped">{{
+                $t('e3a5dbf4.355409')
+              }}</span>
             </div>
             <div class="goods-row__info">
-              <div class="goods-row__name" :title="item.item_name">{{ item.item_name }}</div>
-              <div v-if="item.item_spec_desc" class="goods-row__spec">
-                {{ item.item_spec_desc }}
+              <div class="goods-row__name" :title="item.item_name">
+                {{ item.item_name || item.name }}
+              </div>
+              <div v-if="item.item_spec_desc || item.spec_desc" class="goods-row__spec">
+                {{ item.item_spec_desc || item.spec_desc }}
               </div>
             </div>
             <div class="goods-row__price">
               <div class="goods-row__fee">
-                ￥{{ formatFee(item.price != null ? item.price : item.total_fee / (item.num || 1)) }}
+                {{
+                  getItemPriceText
+                    ? getItemPriceText(item)
+                    : `￥${formatFee(item.price != null ? item.price : item.total_fee / (item.num || 1))}`
+                }}
               </div>
               <div class="goods-row__num">{{ item.num }}{{ $t('b64cb62b.f7edf5') }}</div>
             </div>
           </div>
-          <div v-if="!(row.items && row.items.length)" class="goods-row goods-row--empty">-</div>
+          <div v-if="!getItems(row).length" class="goods-row goods-row--empty">-</div>
         </div>
 
         <div class="col col--amount">
           <div class="amount-cell">
-            <div class="amount-main">{{ formatFee(row.total_fee) }}</div>
+            <div class="amount-main">
+            {{ getAmountText ? getAmountText(row) : formatFee(getTotalFee(row)) }}
+          </div>
             <div v-if="getPayType(row)" class="amount-pay">{{ getPayType(row) }}</div>
           </div>
         </div>
@@ -132,9 +135,7 @@
               <span class="buyer-label">{{ $t('b64cb62b.5721ab') }}</span>
               <span class="buyer-receiver__value">
                 {{ row.receiver_name || '-' }}
-                <template v-if="row.receiver_mobile"
-                  >　{{ row.receiver_mobile }}</template
-                >
+                <template v-if="row.receiver_mobile">　{{ row.receiver_mobile }}</template>
               </span>
             </div>
           </div>
@@ -172,7 +173,13 @@
 import { PAY_TYPE } from '@/consts'
 
 const HEADER_ACTION_KEYS = ['remark']
-const PRIMARY_ACTION_KEYS = ['deliverGoods', 'writeOff', 'takeOrder', 'updatedelivery', 'confirmpackag']
+const PRIMARY_ACTION_KEYS = [
+  'deliverGoods',
+  'writeOff',
+  'takeOrder',
+  'updatedelivery',
+  'confirmpackag'
+]
 // 发货、自提核销固定靠前
 const FRONT_ACTION_KEYS = ['deliverGoods', 'writeOff']
 
@@ -197,20 +204,51 @@ export default {
     },
     getOrderCategoryName: {
       type: Function,
-      required: true
+      default: () => () => ''
+    },
+    showSelection: {
+      type: Boolean,
+      default: true
+    },
+    showProcess: {
+      type: Boolean,
+      default: true
+    },
+    detailLabel: {
+      type: String,
+      default: 'b64cb62b.5b48db'
+    },
+    processLabel: {
+      type: String,
+      default: 'c95ea121.456d29'
+    },
+    detailResource: {
+      type: String,
+      default: ''
+    },
+    // 自定义金额展示（如积分订单：积分 + 现金），不传时按 ￥xx.xx 展示
+    getAmountText: {
+      type: Function,
+      default: null
+    },
+    // 自定义商品行价格展示，不传时按 ￥xx.xx 展示
+    getItemPriceText: {
+      type: Function,
+      default: null
     }
   },
   computed: {
     detailBase() {
       return this.$route.path
     },
+    resolvedDetailResource() {
+      return this.detailResource || this.$route.path
+    },
     selectedIds() {
       return new Set((this.selected || []).map((item) => item.order_id))
     },
     isAllSelected() {
-      return (
-        this.list.length > 0 && this.list.every((row) => this.selectedIds.has(row.order_id))
-      )
+      return this.list.length > 0 && this.list.every((row) => this.selectedIds.has(row.order_id))
     },
     isIndeterminate() {
       if (!this.list.length || this.isAllSelected) return false
@@ -222,9 +260,31 @@ export default {
       const n = Number(fee || 0) / 100
       return n.toFixed(2)
     },
+    getTotalFee(row) {
+      return row.total_fee != null ? row.total_fee : row.item_fee
+    },
     getPayType(row) {
       const key = row.pay_channel || row.pay_type
       return (key && PAY_TYPE[key]) || ''
+    },
+    getItems(row) {
+      if (row.items && row.items.length) return row.items
+      if (row.orderInfo?.items && row.orderInfo.items.length) return row.orderInfo.items
+      if (row.item_name) {
+        return [
+          {
+            item_name: row.item_name,
+            item_spec_desc: row.item_spec_desc,
+            item_pic: row.item_pic || row.pic,
+            price: row.item_fee,
+            num: row.num || 1,
+            item_point: row.item_point,
+            item_fee: row.item_fee,
+            fee_symbol: row.fee_symbol
+          }
+        ]
+      }
+      return []
     },
     getDeliveryLabel(row) {
       return this.getDistributionType(row) || '-'
@@ -236,10 +296,15 @@ export default {
       if (row.order_holder === 'supplier') {
         return this.$t('b64cb62b.185202')
       }
-      return this.getOrderCategoryName(row.order_holder) || this.$t('b64cb62b.aae16d')
+      const category = this.getOrderCategoryName(row.order_holder)
+      return category || this.$t('b64cb62b.aae16d')
     },
     isItemShipped(item) {
-      return item.delivery_status === 'DONE' || item.delivery_status === 'PARTAIL' || item.ship_status === 1
+      return (
+        item.delivery_status === 'DONE' ||
+        item.delivery_status === 'PARTAIL' ||
+        item.ship_status === 1
+      )
     },
     hasAction(row, key) {
       return (row.actionBtns || []).some((btn) => btn.key === key)
@@ -256,10 +321,7 @@ export default {
       return PRIMARY_ACTION_KEYS.includes(key)
     },
     actionLabel(btn) {
-      if (btn.key === 'writeOff') {
-        return this.$t('b64cb62b.ae62ca')
-      }
-      return this.$t(btn.name)
+      return this.$te(btn.name) ? this.$t(btn.name) : btn.name
     },
     isSelected(row) {
       return this.selectedIds.has(row.order_id)
@@ -276,6 +338,7 @@ export default {
       this.$emit('selection-change', next)
     },
     onToggleAll(checked) {
+      if (!this.showSelection) return
       this.$emit('selection-change', checked ? [...this.list] : [])
     },
     onCopySuccess() {
