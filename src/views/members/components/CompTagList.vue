@@ -7,12 +7,14 @@
     <div v-if="!readonly && !selectOnly" class="mr-2.5 mb-2.5">
       <el-input
         v-if="showInput"
+        ref="addTagInput"
         v-model="value"
         :placeholder="$t('93ba5178.a11cc7')"
         size="mini"
         maxlength="10"
         show-word-limit
         @change="changeInput"
+        @keyup.enter.native="changeInput(value)"
       />
       <el-button v-else size="mini" type="info" plain @click="addLabel">
         {{ $t('93ba5178.ed7823') }}
@@ -25,7 +27,8 @@
       @click="selectLabel(item, index)"
     >
       <el-tag
-        :effect="item.selected ? 'light' : 'plain'"
+        :effect="item.selected ? 'dark' : 'plain'"
+        :type="noBackground && item.selected ? 'primary' : undefined"
         :size="tagSize"
         :color="noBackground ? '' : item.tag_color"
         :style="{ color: noBackground ? '' : item.font_color }"
@@ -75,8 +78,13 @@ export default {
     addLabel() {
       this.value = ''
       this.showInput = true
+      this.$nextTick(() => {
+        const input = this.$refs.addTagInput
+        if (input && typeof input.focus === 'function') input.focus()
+      })
     },
     async changeInput(value) {
+      if (!this.showInput) return
       this.showInput = false
       this.$emit('add-tag', value)
     },

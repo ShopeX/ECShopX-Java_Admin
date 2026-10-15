@@ -586,6 +586,27 @@ const routes = [
             component: () => import('@/view/marketing/lottery/editor.vue')
           }
         ]
+      },
+      {
+        name: 'memberTaskList',
+        path: 'interactive/member-tasks',
+        meta: {
+          aliasName: 'membertasks',
+          icon: 'pay-circle',
+          title: i18n.t('b213c3c4.18b194'),
+          permissions: ['marketing.interactive.membertasks']
+        },
+        component: () => import('@/view/marketing/member-task/list.vue'),
+        children: [
+          {
+            path: 'editor/:id?',
+            component: () => import('@/view/marketing/member-task/editor.vue')
+          },
+          {
+            path: 'stats/:id',
+            component: () => import('@/view/marketing/member-task/stats.vue')
+          }
+        ]
       }
     ]
   }
