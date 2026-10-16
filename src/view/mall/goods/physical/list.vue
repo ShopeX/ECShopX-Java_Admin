@@ -371,12 +371,6 @@
         </span>
       </el-dialog>
 
-      <el-dialog :title="$t('dc9cefd6.4604d5')" :visible.sync="errMessageVis" width="560px">
-        <div class="page-code">
-          {{ errMessage }}
-        </div>
-      </el-dialog>
-
       <!-- 查看多规格信息 -->
       <SpDrawer
         v-model="showItemSkuDrawer"
@@ -524,13 +518,11 @@ export default {
         category: 0,
         item_category: 0,
         is_warning: false,
-        is_medicine: '',
         audit_status: '',
         delivery_data_type: '',
         tag_id: '',
         tax_rate_code: '',
         is_gift: undefined,
-        is_prescription: '',
         type: 0,
         barcode: '',
         distributor_id: 0,
@@ -554,8 +546,6 @@ export default {
       isGiftsData: {},
       exportData: {},
       exportTagData: {},
-      errMessage: '',
-      errMessageVis: false,
       tagList: [],
       grade: [],
       vipGrade: [],
@@ -580,7 +570,6 @@ export default {
       batchChangeStateForm: {
         status: ''
       },
-      is_pharma_industry: false,
       isBindWdtErp: false,
       isBindJstErp: false,
       categoryList: [],
@@ -760,23 +749,6 @@ export default {
                     detail: true
                   }
                 })
-              }
-            }
-          },
-          {
-            name: this.$t('dc9cefd6.6271ca'),
-            key: 'repush',
-            type: 'button',
-            buttonType: 'text',
-            visible: (row) => row.medicine_data?.audit_status == 3,
-            action: {
-              type: 'link',
-              handler: async ([row]) => {
-                await this.$api.goods.medicineItemsSync({ goods_id: row.goods_id })
-                this.$message.success(this.$t('dc9cefd6.33130f'))
-                setTimeout(() => {
-                  this.$refs['finder'].refresh(true)
-                }, 200)
               }
             }
           },
@@ -1049,12 +1021,6 @@ export default {
               )
             }
           },
-          // {
-          //   name: '是否处方',
-          //   key: 'item_bn',
-          //   width: 150,
-          //   render: (h, { row }) => (row.is_prescription == '1' ? '是' : '否')
-          // },
           {
             name: this.$t('d41d8cd9.0888fc'),
             key: 'item_bn',
@@ -1204,30 +1170,6 @@ export default {
                 this.$refs['finder'].refresh()
               }
             }
-          },
-          {
-            name: this.$t('dc9cefd6.73cfdf'),
-            key: 'is_prescription',
-            width: 150,
-            render: (h, { row }) =>
-              row.is_prescription == '1' ? this.$t('dc9cefd6.0a60ac') : this.$t('dc9cefd6.c9744f'),
-            visible: this.is_pharma_industry
-          },
-          {
-            name: this.$t('d41d8cd9.72ba49'),
-            key: 'audit_reason',
-            width: 150,
-            render: (h, { row }) => (
-              <div>
-                {row.medicine_data?.audit_reason && row.medicine_data?.audit_status == 3 && (
-                  <div onClick={() => this.handleErrDetail(row.medicine_data)}>
-                    {this.handleAuditReason(row.medicine_data)}
-                    <i class='el-icon-info'></i>
-                  </div>
-                )}
-              </div>
-            ),
-            visible: this.is_pharma_industry
           },
           {
             name: this.$t('d41d8cd9.ec05e3'),
@@ -1423,22 +1365,6 @@ export default {
               { label: this.$t('d41d8cd9.3f27e8'), value: false }
             ]
           }
-        },
-        // 处方药（医药行业）
-        {
-          fieldName: 'is_prescription',
-          label: this.$t('d41d8cd9.e7f3a5'),
-          component: 'select',
-          cellWidth: 1.3,
-          isShow: () => this.is_pharma_industry,
-          componentProps: {
-            clearable: true,
-            options: [
-              { label: this.$t('d41d8cd9.a8b0c2'), value: '' },
-              { label: this.$t('d41d8cd9.e7f3a5'), value: '1' },
-              { label: this.$t('d41d8cd9.c6e8d4'), value: '0' }
-            ]
-          }
         }
       ]
     },
@@ -1461,14 +1387,6 @@ export default {
         ]
       }
 
-      if (this.is_pharma_industry) {
-        tabList.splice(1, 0, {
-          name: this.$t('d41d8cd9.a7d0ec'),
-          value: 'is_medicine',
-          activeName: 'third'
-        })
-      }
-
       return tabList
     },
     tbAddFormList() {
@@ -1482,7 +1400,6 @@ export default {
     this.fetchWechatList()
     this.checkWdtErpBind()
     this.checkJstErpBind()
-    this.getBaseSetting()
 
     // resetPage=true 回第 1 页（新建）；false/缺省保留当前页（编辑）
     this.$activated = (_from, _to, resetPage = false) => {
@@ -1490,10 +1407,6 @@ export default {
     }
   },
   methods: {
-    async getBaseSetting() {
-      const res = await this.$api.company.getGlobalSetting()
-      this.is_pharma_industry = res.medicine_setting?.is_pharma_industry == '1'
-    },
     async fetchWechatList() {
       try {
         const data = (await this.$api.minimanage.gettemplateweapplist()) || {}
@@ -1597,11 +1510,6 @@ export default {
         this.sunCode = true
       })
     },
-    handleErrDetail(val) {
-      if (!val || !val.audit_reason) return
-      this.errMessage = val.audit_reason
-      this.errMessageVis = true
-    },
     async getSkuStoreByGoods(item_id) {
       this.skuLoading = true
       const { list } = await this.$api.goods.getItemsList({
@@ -1683,13 +1591,6 @@ export default {
       } else {
         this.searchParams.is_warning = false
         this.searchParams.audit_status = this.activeName
-      }
-
-      if (this.activeName == 'third') {
-        this.searchParams.is_medicine = 1
-        this.searchParams.audit_status = ''
-      } else {
-        this.searchParams.is_medicine = ''
       }
 
       //淘宝商品
@@ -1785,10 +1686,6 @@ export default {
       } else {
         this.$message.error(this.$t('dc9cefd6.ace302'))
       }
-    },
-    handleAuditReason(data) {
-      const { audit_reason = '' } = data || {}
-      return audit_reason.length > 8 ? audit_reason.slice(0, 8) + '...' : audit_reason
     },
     async onFreightTemplateSubmit() {
       const { item_id, templates_id } = this.freightTemplateForm

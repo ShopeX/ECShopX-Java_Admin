@@ -4,58 +4,19 @@
 -->
 
 <template>
-  <SpPage>
-    <div class="">
+  <SpPage class="order-list-page">
+    <SpRouterView>
       <div v-if="$route.path.indexOf('detail') === -1">
-        <el-row class="filter-header" :gutter="20">
-          <!-- <shop-select v-if="$store.getters.login_type != 'distributor'" distributors  @update="storeSearch"></shop-select> -->
-          <el-date-picker
-            v-model="create_time"
-            type="daterange"
-            :start-placeholder="$t('829ad9f2.b44c0f')"
-            range-separator="-"
-            :end-placeholder="$t('829ad9f2.1d468b')"
-            value-format="yyyy/MM/dd"
-            :placeholder="$t('829ad9f2.4b8cb9')"
-            @change="dateChange"
-          />
-          <!-- <el-select v-model="order_class" @change="TypeHandle" placeholder="请选择订单类型">
-            <el-option
-              v-for="(item, index) in order_class_array"
-              :key="index"
-              :label="item.name"
-              :value="item.value">
-            </el-option>
-          </el-select> -->
-          <!-- <el-autocomplete
-            class="inline-input"
-            v-model="source_name"
-            :fetch-suggestions="querySearch"
-            placeholder="请输入来源"
-            @select="sourceSearch">
-          </el-autocomplete> -->
-          <!-- <el-input class="input-m" placeholder="导购员手机号" v-model="salesman_mobile">
-            <el-button slot="append" icon="el-icon-search" @click="numberSearch"></el-button>
-          </el-input> -->
-          <el-col :span="8">
-            <el-input v-model="identifier" class="input-m" :placeholder="$t('829ad9f2.f4b2e7')">
-              <el-button slot="append" icon="el-icon-search" @click="numberSearch" />
-            </el-input>
-          </el-col>
-          <el-select
-            v-model="invoice_status"
-            :placeholder="$t('829ad9f2.2af9f7')"
-            @change="invoiceStatusChange"
-            clearable
-          >
-            <el-option
-              v-for="item in open_status_arr"
-              :key="item.value"
-              :label="$t(item.i18nKey)"
-              :value="item.value"
-            />
-          </el-select>
-        </el-row>
+        <SpFormPlus
+          ref="searchForm"
+          :value="searchForm"
+          form-type="searchForm"
+          :inline="true"
+          :form-items="searchFormItems"
+          @input="onSearchFormInput"
+          @submit="onSearch"
+          @reset="onSearch"
+        />
         <el-row>
           <el-col>
             <el-button-group>
@@ -100,7 +61,24 @@
           <el-tab-pane :label="$t('829ad9f2.fad522')" name="finish" />
           <!-- <el-tab-pane label="已完成未开票" name="done_noinvoice"></el-tab-pane>
           <el-tab-pane label="已完成已开票" name="done_invoice"></el-tab-pane> -->
-          <el-table v-loading="loading" :data="list" :element-loading-text="$t('829ad9f2.f09b12')">
+          <OrderListTable
+            :list="list"
+            :loading="loading"
+            :show-selection="false"
+            :show-process="false"
+            detail-label="829ad9f2.f26225"
+            :get-distribution-type="getDistributionType"
+            :get-order-category-name="getPointOrderCategoryName"
+            :get-amount-text="getPointAmountText"
+            :get-item-price-text="getPointItemPriceText"
+            @action="handleListAction"
+          />
+          <el-table
+            v-if="false"
+            v-loading="loading"
+            :data="list"
+            :element-loading-text="$t('829ad9f2.f09b12')"
+          >
             <el-table-column width="280" prop="order_id" :label="$t('829ad9f2.a6d10d')">
               <template slot-scope="scope">
                 <div class="order-num">
@@ -349,18 +327,6 @@
               </template>
             </el-table-column>
           </el-table>
-          <div class="mt-4 text-right">
-            <el-pagination
-              background
-              layout="total, sizes, prev, pager, next"
-              :current-page.sync="params.page"
-              :page-sizes="[10, 20, 50]"
-              :total="total_count"
-              :page-size="params.pageSize"
-              @current-change="handleCurrentChange"
-              @size-change="handleSizeChange"
-            />
-          </div>
         </el-tabs>
 
         <!-- 发货-开始 -->
@@ -781,8 +747,22 @@
           </div>
         </el-dialog>
       </div>
-      <router-view />
-    </div>
+    </SpRouterView>
+
+    <template #page-footer>
+      <div class="order-list-page-footer">
+        <el-pagination
+          background
+          layout="total, sizes, prev, pager, next, jumper"
+          :current-page.sync="params.page"
+          :page-sizes="[10, 20, 50]"
+          :total="total_count"
+          :page-size="params.pageSize"
+          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
+        />
+      </div>
+    </template>
   </SpPage>
 </template>
 <script>
@@ -809,10 +789,13 @@ import { getSourcesList } from '@/api/datacube'
 import { handleUploadFile } from '@/api/common'
 import shopSelect from '@/components/shopSelect'
 import store from '@/store'
+import OrderListTable from '@/view/mall/trade/normalorders/components/OrderListTable'
+import { DISTRIBUTION_TYPE } from '@/consts'
 
 export default {
   components: {
-    shopSelect
+    shopSelect,
+    OrderListTable
   },
   data() {
     return {
@@ -821,7 +804,11 @@ export default {
       IsBind: false,
       activeName: 'all',
       loading: false,
-      create_time: '',
+      searchForm: {
+        identifier: '',
+        invoice_status: '',
+        create_time: []
+      },
       params: {
         page: 1,
         pageSize: 20,
@@ -846,16 +833,10 @@ export default {
       open_status_map,
       open_status_arr,
       order_status: '',
-      time_start_begin: '',
-      time_start_end: '',
-      salesman_mobile: '',
       total_count: 0,
       order_type: 'normal',
       list: [],
-      identifier: '',
       source_list: [],
-      source_name: '',
-      source_id: '',
       order_class: 'pointsmall',
       cancel_order: '',
       deliveryVisible: false,
@@ -907,12 +888,47 @@ export default {
       deliveryVisibleNew: false,
       datapass_block: 1,
       exportTab: '',
-      jstErpSetting: {},
-      invoice_status: ''
+      jstErpSetting: {}
     }
   },
   computed: {
-    ...mapGetters(['wheight'])
+    ...mapGetters(['wheight']),
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'identifier',
+          label: this.$t('829ad9f2.f4b2e7'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('829ad9f2.f4b2e7')
+          }
+        },
+        {
+          fieldName: 'invoice_status',
+          label: this.$t('829ad9f2.2af9f7'),
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('c95ea121.708c9d'),
+            options: this.open_status_arr.map((item) => ({
+              label: this.$t(item.i18nKey),
+              value: item.value
+            }))
+          }
+        },
+        {
+          fieldName: 'create_time',
+          label: this.$t('c95ea121.43c297'),
+          component: 'datetimepicker',
+          cellWidth: 2,
+          componentProps: {
+            type: 'datetimerange'
+          }
+        }
+      ]
+    }
   },
   mounted() {
     if (store.getters.login_type === 'distributor') {
@@ -967,25 +983,10 @@ export default {
       this.getParams()
       this.getOrders(this.params)
     },
-    numberSearch(e) {
-      this.params.page = 1
-      this.getParams()
-      this.getOrders(this.params)
+    onSearchFormInput(val) {
+      Object.assign(this.searchForm, val)
     },
-    invoiceStatusChange(val) {
-      this.params.invoice_status = val
-      this.params.page = 1
-      this.getParams()
-      this.getOrders(this.params)
-    },
-    dateChange(val) {
-      if (val && val.length > 0) {
-        this.time_start_begin = this.dateStrToTimeStamp(val[0] + ' 00:00:00')
-        this.time_start_end = this.dateStrToTimeStamp(val[1] + ' 23:59:59')
-      } else {
-        this.time_start_begin = ''
-        this.time_start_end = ''
-      }
+    onSearch() {
       this.params.page = 1
       this.getParams()
       this.getOrders(this.params)
@@ -1010,30 +1011,114 @@ export default {
       this.getOrders(this.params)
     },
     getParams() {
-      this.params.time_start_begin = this.time_start_begin
-      this.params.time_start_end = this.time_start_end
+      const { identifier, invoice_status, create_time } = this.searchForm
+      if (Array.isArray(create_time) && create_time.length >= 2) {
+        this.params.time_start_begin = this.dateStrToTimeStamp(create_time[0])
+        this.params.time_start_end = this.dateStrToTimeStamp(create_time[1])
+      } else {
+        this.params.time_start_begin = ''
+        this.params.time_start_end = ''
+      }
+      this.params.invoice_status = invoice_status
       this.params.order_type = this.order_type
       this.params.order_class = this.order_class
-      this.params.salesman_mobile = this.salesman_mobile
-      if (this.identifier.length == 11) {
-        this.params.mobile = this.identifier
+      if (identifier.length == 11) {
+        this.params.mobile = identifier
         this.params.order_id = ''
       } else {
         this.params.mobile = ''
-        this.params.order_id = this.identifier
+        this.params.order_id = identifier
       }
     },
-    dateStrToTimeStamp(str) {
-      return Date.parse(new Date(str)) / 1000
+    dateStrToTimeStamp(date) {
+      const d = new Date(date)
+      if (Object.prototype.toString.call(d) !== '[object Date]' || isNaN(d.getTime())) {
+        return date
+      }
+      return d.getTime() / 1000
     },
     getOrders(filter) {
       this.loading = true
       getOrderList(filter).then((response) => {
-        this.list = response.data.data.list
+        this.list = response.data.data.list.map((row) => ({
+          ...row,
+          actionBtns: this.getPointActionBtns(row)
+        }))
         this.total_count = Number(response.data.data.pager.count)
         this.datapass_block = response.data.data.datapass_block
         this.loading = false
       })
+    },
+    getDistributionType({ receipt_type }) {
+      return DISTRIBUTION_TYPE.find((item) => item.value == receipt_type)?.title || ''
+    },
+    getPointOrderCategoryName() {
+      return this.$t('829ad9f2.6530f7')
+    },
+    // 积分订单金额：积分（+ 现金）
+    getPointAmountText(row) {
+      const point = `${row.item_point || 0}${this.$t('829ad9f2.9f68a8')}`
+      if (row.item_fee > 0) {
+        return `${point} + ${row.fee_symbol || '￥'}${(Number(row.item_fee) / 100).toFixed(2)}`
+      }
+      return point
+    },
+    // 积分订单商品行价格：积分（+ 现金）
+    getPointItemPriceText(item) {
+      const point = `${item.item_point || 0}${this.$t('829ad9f2.9f68a8')}`
+      const fee = item.item_fee != null ? item.item_fee : item.price
+      if (fee > 0) {
+        return `${point} + ${item.fee_symbol || '￥'}${(Number(fee) / 100).toFixed(2)}`
+      }
+      return point
+    },
+    getPointActionBtns(row) {
+      const actions = []
+      if (
+        (this.VERSION_STANDARD() || this.is_distributor || row.distributor_id == 0) &&
+        row.cancel_status == 'NO_APPLY_CANCEL' &&
+        (row.order_status == 'NOTPAY' || row.order_status == 'PAYED')
+      ) {
+        actions.push({ name: '829ad9f2.b21b5e', key: 'cancel' })
+      }
+      if (
+        (this.VERSION_STANDARD() || this.is_distributor || row.distributor_id == 0) &&
+        row.order_status == 'PAYED' &&
+        row.receipt_type == 'ziti' &&
+        row.ziti_status == 'PENDING'
+      ) {
+        actions.push({ name: '829ad9f2.e7d31e', key: 'writeOff' })
+      }
+      if (
+        !this.IsBind &&
+        (this.VERSION_STANDARD() || this.is_distributor || row.distributor_id == 0)
+      ) {
+        if (
+          row.receipt_type == 'logistics' &&
+          row.order_status == 'PAYED' &&
+          row.delivery_status != 'DONE' &&
+          !this.jstErpSetting?.is_open
+        ) {
+          actions.push({ name: '829ad9f2.045315', key: 'delivery' })
+        }
+        if (row.cancel_status == 'WAIT_PROCESS' && row.order_status == 'PAYED') {
+          actions.push({ name: '829ad9f2.44c198', key: 'refund' })
+        }
+      }
+      if (row.is_invoiced == '1' && row.invoice) {
+        actions.push({ name: '829ad9f2.963609', key: 'invoice' })
+      }
+      return actions
+    },
+    handleListAction(row, action) {
+      const handlers = {
+        cancel: () => this.cancelOrderAction(row.order_id),
+        writeOff: () => this.writeoffOrderAction(row.order_id),
+        delivery: () => this.deliveryAction(row),
+        refund: () => this.confirmCancelOrderAction(row.order_id),
+        invoice: () => this.IsInvoiced(row, 0)
+      }
+      handlers[action.key]?.()
     },
     getStatus() {
       isBind().then((response) => {
@@ -1372,6 +1457,27 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep .sp-page__footer {
+  border-top: 1px solid #ebeef5;
+  background: #fff !important;
+  z-index: 10;
+}
+
+::v-deep .sp-page__footer .footer-content {
+  padding: 12px 0 !important;
+  background: #fff !important;
+}
+
+.order-list-page-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 16px;
+  background: #fff;
+}
+</style>
 <style lang="scss">
 .el-row {
   margin-bottom: 20px;

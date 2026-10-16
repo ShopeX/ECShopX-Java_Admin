@@ -4,8 +4,8 @@
 -->
 
 <template>
-  <SpRouterView>
-    <SpPage>
+  <SpRouterView class="order-manage-router">
+    <SpPage class="order-manage-page">
       <SpFormPlus
         ref="searchForm"
         :value="params"
@@ -17,9 +17,9 @@
         @reset="onSearch"
       />
 
-      <div class="action-container mt-4">
+      <div class="order-manage-actions mt-4">
         <el-dropdown trigger="click" @command="handleExport">
-          <el-button type="primary" plain>
+          <el-button type="primary" plain class="order-manage-actions__btn">
             {{ $t('c95ea121.55405e') }}<i class="el-icon-arrow-down el-icon--right" />
           </el-button>
           <el-dropdown-menu slot="dropdown">
@@ -45,7 +45,9 @@
             :auto-upload="false"
             :show-file-list="false"
           >
-            <el-button type="primary" plain>{{ $t('c95ea121.425991') }}</el-button>
+            <el-button type="primary" plain class="order-manage-actions__btn">
+              {{ $t('c95ea121.425991') }}
+            </el-button>
           </el-upload>
         </el-tooltip>
         <el-upload
@@ -55,326 +57,43 @@
           :auto-upload="false"
           :show-file-list="false"
         >
-          <el-button type="primary" plain>{{ $t('c95ea121.321129') }}</el-button>
+          <el-button type="primary" plain class="order-manage-actions__btn">
+            {{ $t('c95ea121.321129') }}
+          </el-button>
         </el-upload>
-        <!-- v-if="IS_DISTRIBUTOR() || IS_MERCHANT()" -->
-        <el-button type="primary" plain @click="assignPersonnel(true)">
+        <el-button type="primary" plain class="order-manage-actions__btn" @click="assignPersonnel(true)">
           {{ $t('c95ea121.531827') }}
         </el-button>
-        <!-- <el-upload
-        action=""
-        class="btn-upload"
-        :on-change="uploadHandlePatchCancel"
-        :auto-upload="false"
-        :show-file-list="false"
-      > -->
-        <!-- v-if="IS_DISTRIBUTOR || IS_ADMIN()" -->
-        <el-button type="primary" plain @click="assignPersonnel(false)">
+        <el-button type="primary" plain class="order-manage-actions__btn" @click="assignPersonnel(false)">
           {{ $t('c95ea121.204fe4') }}
         </el-button>
-        <!-- </el-upload> -->
       </div>
 
-      <el-tabs v-model="params.order_status" type="card" @tab-click="onSearch">
+      <el-tabs
+        v-model="params.order_status"
+        class="order-manage-tabs"
+        type="card"
+        @tab-click="onSearch"
+      >
         <el-tab-pane
           v-for="item in orderStatus"
           :key="item.value"
           :label="$t(item.title)"
           :name="item.value"
         />
-        <el-table
-          v-loading="loading"
-          border
-          :data="tableList"
+        <OrderListTable
+          :list="tableList"
+          :loading="loading"
+          :selected="selectList"
+          :get-distribution-type="getDistributionType"
+          :get-order-category-name="getOrderCategoryName"
           @selection-change="handleSelectionChange"
-        >
-          <el-table-column width="180" prop="order_id" :label="$t('c95ea121.1e8dc2')">
-            <template slot-scope="scope">
-              <div class="order-num">
-                {{ scope.row.order_id }}
-                <el-tooltip effect="dark" :content="$t('c95ea121.79d3ab')" placement="top-start">
-                  <i
-                    v-clipboard:copy="scope.row.order_id"
-                    v-clipboard:success="onCopySuccess"
-                    class="el-icon-document-copy"
-                  />
-                </el-tooltip>
-              </div>
-              <div class="order-store">
-                <el-tooltip effect="dark" :content="$t('c95ea121.53cc55')" placement="top-start">
-                  <i class="el-icon-office-building" />
-                </el-tooltip>
-                {{ scope.row.distributor_name }}
-              </div>
-              <div class="order-time">
-                <el-tooltip effect="dark" :content="$t('c95ea121.2240cc')" placement="top-start">
-                  <i class="el-icon-time" />
-                </el-tooltip>
-                {{ scope.row.create_time | datetime('YYYY-MM-DD HH:mm:ss') }}
-              </div>
-            </template>
-          </el-table-column>
-          <!--        <el-table-column prop="original_order_id" width="160" label="原单号" align="right" header-align="center">-->
-          <!--          <template slot-scope="scope">-->
-          <!--            {{ scope.row.original_order_id ? scope.row.original_order_id : scope.row.order_id }}-->
-          <!--          </template>-->
-          <!--        </el-table-column>-->
-          <!--        <el-table-column width="160" label="所属供应商">-->
-          <!--          <template slot-scope="scope">-->
-          <!--            {{ scope.row.supplier_info.username }}-->
-          <!--          </template>-->
-          <!--        </el-table-column>-->
-          <el-table-column
-            width="120"
-            :label="$t('c95ea121.350fd3')"
-            header-align="center"
-            prop="order_holder"
-          >
-            <template slot-scope="scope">
-              {{
-                getOrderCategoryName(scope.row.order_holder)
-                  ? $t(getOrderCategoryName(scope.row.order_holder))
-                  : ''
-              }}
-            </template>
-          </el-table-column>
-          <!-- <el-table-column width="160" label="订单总金额（¥）" align="right" header-align="center">
-            <template slot-scope="scope">
-              {{ (scope.row.total_fee / 100 + scope.row.freight_fee / 100).toFixed(2) }}
-            </template>
-          </el-table-column> -->
-          <el-table-column
-            prop="total_fee"
-            width="120"
-            :label="$t('c95ea121.fddcee')"
-            align="right"
-            header-align="center"
-          >
-            <template slot-scope="scope">
-              {{ scope.row.fee_symbol || '¥' }}{{ (scope.row.total_fee / 100).toFixed(2) }}
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="point_fee"
-            width="120"
-            :label="$t('c95ea121.d443a9')"
-            align="right"
-            header-align="center"
-          >
-            <template slot-scope="scope">
-              {{ scope.row.fee_symbol || '¥' }}{{ (scope.row.point_fee / 100).toFixed(2) }}
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="cost_fee"
-            width="120"
-            :label="$t('c95ea121.17b4aa')"
-            align="right"
-            header-align="center"
-          >
-            <template slot-scope="scope">
-              {{ scope.row.fee_symbol || '¥' }}{{ (scope.row.cost_fee / 100).toFixed(2) }}
-            </template>
-          </el-table-column>
-          <el-table-column
-            width="100"
-            :label="$t('c95ea121.4dd437')"
-            align="right"
-            header-align="center"
-          >
-            <template slot-scope="scope">
-              {{ scope.row.fee_symbol || '¥'
-              }}{{
-                (scope.row.freight_fee / 100 + scope.row.freight_point_fee / 100).toFixed(2)
-              }}
-            </template>
-          </el-table-column>
+          @action="handleAction"
+        />
+      </el-tabs>
 
-          <!-- <el-table-column prop="mobile" label="业务员">
-            <template slot-scope="scope">
-              <div class="order-num">
-                {{ scope.row.salesman_mobile }}
-                <el-tooltip
-                  v-if="datapass_block == 0"
-                  effect="dark"
-                  :content="$t('c95ea121.79d3ab')"
-                  placement="top-start"
-                >
-                  <i
-                    v-clipboard:copy="scope.row.salesman_mobile"
-                    v-clipboard:success="onCopySuccess"
-                    class="el-icon-document-copy"
-                  />
-                </el-tooltip>
-              </div>
-              <div class="order-num">
-                {{ scope.row.salesman_name }}
-                <el-tooltip
-                  v-if="datapass_block == 0"
-                  effect="dark"
-                  :content="$t('c95ea121.79d3ab')"
-                  placement="top-start"
-                >
-                  <i
-                    v-clipboard:copy="scope.row.salesman_name"
-                    v-clipboard:success="onCopySuccess"
-                    class="el-icon-document-copy"
-                  />
-                </el-tooltip>
-              </div>
-            </template>
-          </el-table-column> -->
-          <el-table-column prop="invoice_status" :label="$t('c95ea121.a03d7f')">
-            <template slot-scope="scope">
-              {{ openStatus?.find((item) => item.value === scope.row.invoice_status)?.title }}
-            </template>
-          </el-table-column>
-          <el-table-column prop="mobile" :label="$t('c95ea121.a32da1')" width="140">
-            <template slot-scope="scope">
-              <template v-if="!scope.row.user_delete && login_type !== 'merchant'">
-                <router-link
-                  v-if="login_type != 'distributor' && login_type != 'supplier'"
-                  target="_blank"
-                  :to="{
-                    path: `${
-                      login_type != 'distributor'
-                        ? '/member/member/memberlist/detail'
-                        : '/shopadmin/member/member/detail'
-                    }`,
-                    query: { user_id: scope.row.user_id }
-                  }"
-                >
-                  {{ scope.row.mobile }}
-                </router-link>
-                <span v-else>
-                  {{ scope.row.mobile }}
-                </span>
-                <el-tooltip
-                  v-if="datapass_block == 0"
-                  effect="dark"
-                  :content="$t('c95ea121.79d3ab')"
-                  placement="top-start"
-                >
-                  <i
-                    v-clipboard:copy="scope.row.mobile"
-                    v-clipboard:success="onCopySuccess"
-                    class="el-icon-document-copy"
-                  />
-                </el-tooltip>
-              </template>
-              <template v-else slot-scope="scope">
-                <span>{{ scope.row.mobile }}</span>
-                <el-tooltip
-                  v-if="datapass_block == 0"
-                  effect="dark"
-                  :content="$t('c95ea121.79d3ab')"
-                  placement="top-start"
-                >
-                  <i
-                    v-clipboard:copy="scope.row.mobile"
-                    v-clipboard:success="onCopySuccess"
-                    class="el-icon-document-copy"
-                  />
-                </el-tooltip>
-              </template>
-            </template>
-          </el-table-column>
-          <el-table-column prop="distributor_name" :label="$t('c95ea121.53cc55')" />
-          <el-table-column
-            prop="work_userid"
-            :label="$t('c95ea121.c60b43')"
-            v-if="VERSION_STANDARD()"
-          >
-            <template slot-scope="scope">
-              {{ scope.row.salesman_info?.work_userid }}
-            </template>
-          </el-table-column>
-          <!-- <el-table-column prop="supplier_name" v-if="VERSION_STANDARD() || IS_ADMIN()" label="来源供应商" >
-      </el-table-column> -->
-          <!-- <el-table-column prop="receiver_name" label="收货人" /> -->
-          <template v-if="login_type != 'merchant'">
-            <el-table-column v-if="!isMicorMall" :label="$t('c95ea121.5cd56b')">
-              <template slot-scope="scope">
-                {{ getOrderType(scope.row) }}
-              </template>
-            </el-table-column>
-          </template>
-          <el-table-column prop="order_status" :label="$t('c95ea121.86f6cf')">
-            <template slot-scope="scope">
-              {{ scope.row.order_status_msg }}
-            </template>
-          </el-table-column>
-          <!-- <el-table-column prop="salespersonname " label="业务员"></el-table-column> -->
-          <el-table-column :label="$t('c95ea121.edfe4c')">
-            <template slot-scope="scope">
-              {{ getDistributionType(scope.row) }}
-            </template>
-          </el-table-column>
-
-          <el-table-column :label="$t('c95ea121.553e84')">
-            <template slot-scope="scope">
-              {{ getDistributionStatus(scope.row) }}
-            </template>
-          </el-table-column>
-
-          <el-table-column :label="$t('c95ea121.b7765e')">
-            <template slot-scope="scope">
-              {{ scope.row.self_delivery_operator_name }}
-            </template>
-          </el-table-column>
-
-          <el-table-column :label="$t('c95ea121.1138a9')">
-            <template slot-scope="scope">
-              {{
-                scope.row.self_delivery_operator_name &&
-                scope.row.self_delivery_fee / 100 + $t('c95ea121.c16655')
-              }}
-            </template>
-          </el-table-column>
-
-          <el-table-column :label="$t('c95ea121.f3fa72')" width="140">
-            <template slot-scope="scope">
-              {{ scope.row.self_delivery_operator_mobile }}
-            </template>
-          </el-table-column>
-          <el-table-column type="selection" width="55" fixed="left" />
-          <!-- <el-table-column prop="source_name" label="来源"></el-table-column> -->
-          <el-table-column :label="$t('c95ea121.2b6bc0')" fixed="left">
-            <template slot-scope="scope">
-              <el-button type="text" style="margin-right: 8px">
-                <router-link
-                  :to="`${$route.path}/detail?orderId=${scope.row.order_id}&resource=${$route.path}`"
-                >
-                  {{ $t('c95ea121.f26225') }}
-                </router-link>
-              </el-button>
-              <el-popover placement="right" trigger="hover">
-                <div class="operating-icons">
-                  <el-button type="text">
-                    <router-link
-                      :to="`${$route.path}/process?orderId=${scope.row.order_id}&resource=${$route.path}`"
-                    >
-                      {{ $t('c95ea121.456d29') }}
-                    </router-link>
-                  </el-button>
-                  <template v-for="(btn, index) in scope.row.actionBtns">
-                    <el-button
-                      :key="`btn-item__${index}`"
-                      type="text"
-                      @click="handleAction(scope.row, btn)"
-                    >
-                      {{ $t(btn.name) }}
-                    </el-button>
-                  </template>
-                </div>
-                <el-button slot="reference" type="text">
-                  {{ $t('c95ea121.0ec9ea') }}<i class="el-icon-d-arrow-right" />
-                </el-button>
-              </el-popover>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div class="content-padded content-center">
+      <template #page-footer>
+        <div class="order-manage-pagination">
           <el-pagination
             background
             layout="total, sizes, prev, pager, next, jumper"
@@ -386,7 +105,7 @@
             @size-change="onSizeChange"
           />
         </div>
-      </el-tabs>
+      </template>
 
       <!-- 备注 -->
       <SpDialog
@@ -499,6 +218,7 @@ import {
 import { exportInvoice, orderExport } from '@/api/trade'
 import CompTableView from './components/comp-tableview'
 import CompReceiveInfo from './components/comp-receiveInfo'
+import OrderListTable from './components/OrderListTable'
 import moment from 'moment'
 import {
   DISTRIBUTION_TYPE,
@@ -521,7 +241,7 @@ import {
 import { IS_MERCHANT, IS_SUPPLIER } from '../../../../utils'
 
 export default {
-  // components: { CompTableView },
+  components: { OrderListTable },
   mixins: [mixin, pageMixin],
   data() {
     return {
@@ -1614,6 +1334,7 @@ export default {
 
       const { list, pager, datapass_block } = await this.$api.trade.getOrderList(params)
 
+      this.selectList = []
       this.tableList = list.map((item) => {
         const actionBtns = []
         const {
@@ -2414,7 +2135,176 @@ export default {
   }
 }
 </script>
-<style lang="scss" scope>
+<style lang="scss" scoped>
+.order-manage-page {
+  ::v-deep .sp-page__footer {
+    border-top: 1px solid #ebeef5;
+    background: #fff !important;
+    z-index: 10;
+  }
+
+  ::v-deep .sp-page__footer .footer-content {
+    padding: 12px 0 !important;
+    background: #fff !important;
+  }
+}
+
+.order-manage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  .btn-upload {
+    display: inline-flex;
+  }
+
+  &__btn {
+    border-radius: 6px;
+    height: 32px;
+    padding: 5px 10px;
+  }
+}
+
+// Figma 11:4812 订单状态筛选
+.order-manage-tabs {
+  ::v-deep .el-tabs__header {
+    border: none;
+  }
+
+  ::v-deep .el-tabs__nav {
+    height: 36px;
+    padding: 4px;
+    background: #f0f1f4 !important;
+    border: none !important;
+    border-radius: 2px !important;
+    box-sizing: border-box;
+  }
+
+  ::v-deep .el-tabs__item {
+    height: 28px;
+    line-height: 28px;
+    padding: 0 20px !important;
+    margin: 0 !important;
+    font-size: 13px;
+    font-weight: 400;
+    color: #606266;
+    background: transparent;
+    border: none !important;
+
+    &.is-active {
+      color: var(--primary);
+      background: #fff;
+      border-radius: 2px;
+    }
+  }
+
+  ::v-deep .el-tabs__content {
+    padding-top: 0;
+  }
+}
+
+.order-manage-pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 16px;
+  background: #fff;
+
+  ::v-deep .el-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0;
+    font-weight: 400;
+
+    .el-pagination__total {
+      margin-right: 12px;
+      color: #909399;
+      font-size: 13px;
+    }
+
+    .el-pagination__sizes {
+      margin-right: 12px;
+
+      .el-input {
+        margin: 0;
+
+        .el-input__inner {
+          height: 28px;
+          line-height: 28px;
+          border-radius: 4px;
+          font-size: 13px;
+        }
+      }
+    }
+
+    .btn-prev,
+    .btn-next,
+    .el-pager li {
+      min-width: 28px;
+      height: 28px;
+      line-height: 28px;
+      margin: 0 4px;
+      border-radius: 4px;
+      font-weight: 400;
+      font-size: 13px;
+      border: 1px solid #dcdfe6;
+      color: #606266;
+    }
+
+    .btn-prev,
+    .btn-next,
+    .el-pager li:not(.active) {
+      background-color: #fff !important;
+    }
+
+    .btn-prev,
+    .btn-next {
+      padding: 0;
+
+      &:disabled {
+        background-color: #f5f7fa !important;
+        border-color: #e4e7ed;
+        color: #c0c4cc;
+      }
+
+      &:not(:disabled):hover {
+        color: var(--primary);
+        border-color: var(--primary);
+      }
+    }
+
+    .el-pager li {
+      &:hover {
+        color: var(--primary);
+        border-color: var(--primary);
+      }
+
+      &.active {
+        background-color: var(--primary) !important;
+        border-color: var(--primary) !important;
+        color: #fff !important;
+      }
+    }
+
+    .el-pagination__jump {
+      margin-left: 12px;
+      color: #909399;
+      font-size: 13px;
+
+      .el-input__inner {
+        height: 28px;
+        line-height: 28px;
+        border-radius: 4px;
+        font-size: 13px;
+      }
+    }
+  }
+}
+
 .dialog-changeprice,
 .dialog-cancelorder,
 .dialog-salesafter {

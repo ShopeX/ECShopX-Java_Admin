@@ -24,7 +24,7 @@
       <slot />
     </div>
     <div class="sp-page__footer">
-      <div class="footer-content py-4">
+      <div class="footer-content" :class="{ 'py-4': isSticky }">
         <slot name="page-footer" />
       </div>
     </div>
@@ -53,9 +53,6 @@ export default {
       isSticky: true
     }
   },
-  created() {
-    this.isSticky = !this.noSticky
-  },
   computed: {
     hasHeader() {
       return !!this.title || this.$scopedSlots['page-header']
@@ -64,7 +61,9 @@ export default {
       return this.$scopedSlots['page-footer']
     }
   },
-  created() {},
+  created() {
+    this.isSticky = !this.noSticky
+  },
   mounted() {
     !this.noSticky && this.initStickyHeader()
   },
