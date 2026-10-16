@@ -185,7 +185,7 @@ export default {
           formatter: (_value, row) => formatTaskTime(row)
         },
         {
-          key: 'reward_summary',
+          key: 'rewards',
           label: vm.$t('4ad97968.897b3c'),
           minWidth: 140,
           formatter: (_value, row) => formatReward(row)

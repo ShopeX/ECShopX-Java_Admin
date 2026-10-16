@@ -11,7 +11,7 @@
 
     <el-alert
       v-if="readonly"
-      class="mb-4"
+      class="!mb-6"
       type="info"
       :closable="false"
       show-icon

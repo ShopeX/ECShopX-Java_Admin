@@ -208,6 +208,19 @@ export function formatTypeLabel(row) {
   return row.type_label || row.type_detail || '-'
 }
 
+function formatRewardItem(item) {
+  if (!item || typeof item !== 'object') return ''
+  if (item.kind === 'points') {
+    if (item.points == null || item.points === '') return ''
+    return `${item.points}${i18n.t('f54153aa.9f68a8')}`
+  }
+  if (item.kind === 'coupon') return item.title || ''
+  return ''
+}
+
 export function formatReward(row) {
+  const rewards = Array.isArray(row.rewards) ? row.rewards : []
+  const text = rewards.map(formatRewardItem).filter(Boolean).join('、')
+  if (text) return text
   return row.reward_summary || '-'
 }
