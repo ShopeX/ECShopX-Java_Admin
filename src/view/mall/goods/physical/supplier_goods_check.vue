@@ -144,7 +144,13 @@
 
         <div class="action-container">
           <el-button type="primary" plain @click="Examine"> {{ $t('d41d8cd9.298be1') }} </el-button>
-          <el-button type="primary" plain :loading="syncToPoolLoading" @click="syncToPool">
+          <el-button
+            v-if="!VERSION_B2C()"
+            type="primary"
+            plain
+            :loading="syncToPoolLoading"
+            @click="syncToPool"
+          >
             {{ $t('58789194.d351c3') }}
           </el-button>
         </div>
