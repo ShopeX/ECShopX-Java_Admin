@@ -89,7 +89,15 @@
           :label="item.title"
           :name="item.value"
         />
-        <el-table v-loading="loading" border :data="tableList">
+        <OrderListTable
+          :list="tableList"
+          :loading="loading"
+          :show-selection="false"
+          :get-distribution-type="getDistributionType"
+          :get-order-category-name="getOrderCategoryName"
+          @action="handleAction"
+        />
+        <el-table v-if="false" v-loading="loading" border :data="tableList">
           <el-table-column width="180" prop="order_id" :label="$t('60de5de3.1e8dc2')">
             <template slot-scope="scope">
               <div class="order-num">
@@ -228,18 +236,6 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="mt-4 text-right">
-          <el-pagination
-            background
-            layout="total, sizes, prev, pager, next, jumper"
-            :current-page.sync="page.pageIndex"
-            :page-sizes="[10, 20, 50]"
-            :total="page.total"
-            :page-size="page.pageSize"
-            @current-change="onCurrentChange"
-            @size-change="onSizeChange"
-          />
-        </div>
       </el-tabs>
 
       <!-- 备注 -->
@@ -295,6 +291,21 @@
         @onSubmit="refundSubmit"
       />
     </SpRouterView>
+
+    <template #page-footer>
+      <div class="order-list-page-footer">
+        <el-pagination
+          background
+          layout="total, sizes, prev, pager, next, jumper"
+          :current-page.sync="page.pageIndex"
+          :page-sizes="[10, 20, 50]"
+          :total="page.total"
+          :page-size="page.pageSize"
+          @current-change="onCurrentChange"
+          @size-change="onSizeChange"
+        />
+      </div>
+    </template>
   </SpPage>
 </template>
 <script>
@@ -313,6 +324,7 @@ import {
 import { exportInvoice, orderExport } from '@/api/trade'
 import CompTableView from '../trade/normalorders/components/comp-tableview'
 import CompReceiveInfo from '../trade/normalorders/components/comp-receiveInfo'
+import OrderListTable from '../trade/normalorders/components/OrderListTable'
 import moment from 'moment'
 import {
   DISTRIBUTION_TYPE,
@@ -329,7 +341,7 @@ import {
 } from '@/consts'
 
 export default {
-  // components: { CompTableView },
+  components: { OrderListTable },
   mixins: [mixin, pageMixin],
   data() {
     return {
@@ -867,6 +879,9 @@ export default {
         return fd.title
       }
     },
+    getOrderCategoryName(order_holder) {
+      return order_holder == 'supplier' ? this.$t('60de5de3.185202') : ''
+    },
     getDistributionType({ receipt_type }) {
       const fd = DISTRIBUTION_TYPE.find((item) => item.value == receipt_type)
       if (fd) {
@@ -1327,6 +1342,26 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+::v-deep .sp-page__footer {
+  border-top: 1px solid #ebeef5;
+  background: #fff !important;
+  z-index: 10;
+}
+
+::v-deep .sp-page__footer .footer-content {
+  padding: 12px 0 !important;
+  background: #fff !important;
+}
+
+.order-list-page-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 16px;
+  background: #fff;
+}
+</style>
 <style lang="scss" scope>
 .sp-filter-form {
   margin-bottom: 16px;

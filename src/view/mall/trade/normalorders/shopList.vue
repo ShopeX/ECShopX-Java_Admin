@@ -4,223 +4,238 @@
 -->
 
 <template>
-  <div class="">
-    <div v-if="$route.path.indexOf('detail') === -1">
-      <el-row class="filter-header" :gutter="20">
-        <el-col>
-          <el-date-picker
-            v-model="create_time"
-            type="daterange"
-            :start-placeholder="$t('8906cb64.b44c0f')"
-            :range-separator="$t('8906cb64.981cbe')"
-            :end-placeholder="$t('8906cb64.1d468b')"
-            value-format="yyyy/MM/dd"
-            :placeholder="$t('8906cb64.4b8cb9')"
-            @change="dateChange"
-          />
-          <el-select
-            v-model="order_class"
-            :placeholder="$t('8906cb64.249ee7')"
-            @change="TypeHandle"
-          >
-            <el-option
-              v-for="(item, index) in order_class_array"
-              :key="index"
-              :label="item.name"
-              :value="item.value"
+  <SpPage class="order-list-page">
+    <SpRouterView>
+      <div v-if="$route.path.indexOf('detail') === -1">
+        <el-row class="filter-header" :gutter="20">
+          <el-col>
+            <el-date-picker
+              v-model="create_time"
+              type="daterange"
+              :start-placeholder="$t('8906cb64.b44c0f')"
+              :range-separator="$t('8906cb64.981cbe')"
+              :end-placeholder="$t('8906cb64.1d468b')"
+              value-format="yyyy/MM/dd"
+              :placeholder="$t('8906cb64.4b8cb9')"
+              @change="dateChange"
             />
-          </el-select>
-          <el-select
-            v-model="order_holder"
-            clearable
-            :placeholder="$t('8906cb64.edc8a9')"
-            @change="TypeHandle"
-          >
-            <el-option
-              v-for="item in orderCategory"
-              :key="item.value"
-              size="mini"
-              :label="$t(item.title)"
-              :value="item.value"
-            />
-          </el-select>
-          <!-- <el-input v-model="supplier_name" clearable placeholder="来源供应商" >
+            <el-select
+              v-model="order_class"
+              :placeholder="$t('8906cb64.249ee7')"
+              @change="TypeHandle"
+            >
+              <el-option
+                v-for="(item, index) in order_class_array"
+                :key="index"
+                :label="item.name"
+                :value="item.value"
+              />
+            </el-select>
+            <el-select
+              v-model="order_holder"
+              clearable
+              :placeholder="$t('8906cb64.edc8a9')"
+              @change="TypeHandle"
+            >
+              <el-option
+                v-for="item in orderCategory"
+                :key="item.value"
+                size="mini"
+                :label="$t(item.title)"
+                :value="item.value"
+              />
+            </el-select>
+            <!-- <el-input v-model="supplier_name" clearable placeholder="来源供应商" >
           <el-button slot="append" icon="el-icon-search" @click="numberSearch" />
         </el-input> -->
-          <el-autocomplete
-            v-model="source_name"
-            class="inline-input"
-            :fetch-suggestions="querySearch"
-            :placeholder="$t('8906cb64.4b525f')"
-            @select="sourceSearch"
-          />
-          <el-input v-model="salesman_mobile" class="input-m" :placeholder="$t('8906cb64.f1ba67')">
-            <el-button slot="append" icon="el-icon-search" @click="numberSearch" />
-          </el-input>
-          <el-input v-model="identifier" class="input-m" :placeholder="$t('8906cb64.f4b2e7')">
-            <el-button slot="append" icon="el-icon-search" @click="numberSearch" />
-          </el-input>
-          <el-select
-            v-model="source_from"
-            :placeholder="$t('8906cb64.f46a3f')"
-            clearable
-            @change="TypeHandle"
-          >
-            <el-option
-              v-for="(item, index) in sourceFromList"
-              :key="index"
-              :label="item.name"
-              :value="item.value"
+            <el-autocomplete
+              v-model="source_name"
+              class="inline-input"
+              :fetch-suggestions="querySearch"
+              :placeholder="$t('8906cb64.4b525f')"
+              @select="sourceSearch"
             />
-          </el-select>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col>
-          <el-button-group>
-            <el-button type="primary" @click="exportData('normal_master_order')">
-              {{ $t('8906cb64.538414') }}
-            </el-button>
-            <el-button type="primary" @click="exportData('normal_order')">
-              {{ $t('8906cb64.82b914') }}
-            </el-button>
-          </el-button-group>
-          <el-popover
-            placement="top-start"
-            width="200"
-            trigger="hover"
-            :content="$t('3fb52f77.676480')"
-          >
-            <i slot="reference" class="el-icon-question" />
-          </el-popover>
-        </el-col>
-      </el-row>
-      <el-dialog
-        :title="$t('8906cb64.2cf869')"
-        :visible.sync="downloadView"
-        :close-on-click-modal="false"
-      >
-        <template v-if="downloadUrl">
-          <a :href="downloadUrl" download>{{ downloadName }}</a>
-        </template>
-      </el-dialog>
-
-      <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
-        <el-tab-pane :label="$t('8906cb64.a8b0c2')" name="all" />
-        <el-tab-pane :label="$t('8906cb64.d8476e')" name="notship" />
-        <el-tab-pane :label="$t('8906cb64.5296ac')" name="payed_partial" />
-        <el-tab-pane :label="$t('8906cb64.6b715b')" name="cancelapply" />
-        <el-tab-pane :label="$t('8906cb64.4933ca')" name="shipping" />
-        <el-tab-pane :label="$t('8906cb64.25d532')" name="ziti" />
-        <el-tab-pane :label="$t('8906cb64.608afd')" name="notpay" />
-        <el-tab-pane :label="$t('8906cb64.3e6db1')" name="cancel" />
-        <el-tab-pane :label="$t('8906cb64.fad522')" name="done" />
-        <el-table
-          v-loading="loading"
-          :data="list"
-          style="width: 100%"
-          :height="wheight - 190"
-          :element-loading-text="$t('8906cb64.f09b12')"
+            <el-input
+              v-model="salesman_mobile"
+              class="input-m"
+              :placeholder="$t('8906cb64.f1ba67')"
+            >
+              <el-button slot="append" icon="el-icon-search" @click="numberSearch" />
+            </el-input>
+            <el-input v-model="identifier" class="input-m" :placeholder="$t('8906cb64.f4b2e7')">
+              <el-button slot="append" icon="el-icon-search" @click="numberSearch" />
+            </el-input>
+            <el-select
+              v-model="source_from"
+              :placeholder="$t('8906cb64.f46a3f')"
+              clearable
+              @change="TypeHandle"
+            >
+              <el-option
+                v-for="(item, index) in sourceFromList"
+                :key="index"
+                :label="item.name"
+                :value="item.value"
+              />
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col>
+            <el-button-group>
+              <el-button type="primary" @click="exportData('normal_master_order')">
+                {{ $t('8906cb64.538414') }}
+              </el-button>
+              <el-button type="primary" @click="exportData('normal_order')">
+                {{ $t('8906cb64.82b914') }}
+              </el-button>
+            </el-button-group>
+            <el-popover
+              placement="top-start"
+              width="200"
+              trigger="hover"
+              :content="$t('3fb52f77.676480')"
+            >
+              <i slot="reference" class="el-icon-question" />
+            </el-popover>
+          </el-col>
+        </el-row>
+        <el-dialog
+          :title="$t('8906cb64.2cf869')"
+          :visible.sync="downloadView"
+          :close-on-click-modal="false"
         >
-          <el-table-column :label="$t('8906cb64.2b6bc0')" fixed="left">
-            <template slot-scope="scope">
-              <router-link
-                :to="{
-                  path: matchRoutePath('detail'),
-                  query: { orderId: scope.row.order_id, resource: $route.path }
-                }"
-                style="margin-right: 5px"
-              >
-                {{ $t('8906cb64.f26225') }}
-              </router-link>
-              <el-button
-                v-if="
-                  scope.row.cancel_status == 'NO_APPLY_CANCEL' &&
-                  (scope.row.order_status == 'NOTPAY' || scope.row.order_status == 'PAYED')
-                "
-                type="text"
-                style="margin-right: 5px"
-                @click="cancelOrderAction(scope.row.order_id)"
-              >
-                {{ $t('8906cb64.b21b5e') }}
-              </el-button>
-              <el-button
-                v-if="
-                  scope.row.receipt_type == 'logistics' &&
-                  scope.row.order_status == 'PAYED' &&
-                  scope.row.delivery_status != 'DONE'
-                "
-                type="text"
-                style="margin-right: 5px"
-                @click="deliveryAction(scope.row)"
-              >
-                {{ $t('8906cb64.045315') }}
-              </el-button>
-              <el-button
-                v-if="
-                  scope.row.receipt_type == 'ziti' &&
-                  scope.row.ziti_status == 'PENDING' &&
-                  scope.row.order_status == 'PAYED'
-                "
-                type="text"
-                style="margin-right: 5px"
-                @click="writeoffOrderAction(scope.row.order_id)"
-              >
-                {{ $t('8906cb64.e7d31e') }}
-              </el-button>
-              <el-button
-                v-if="
-                  scope.row.cancel_status == 'WAIT_PROCESS' && scope.row.order_status == 'PAYED'
-                "
-                type="text"
-                style="margin-right: 5px"
-                @click="confirmCancelOrderAction(scope.row.order_id)"
-              >
-                {{ $t('8906cb64.44c198') }}
-              </el-button>
-              <el-button type="text" @click="clickShowRemark(scope.row, 'normalList2')">
-                {{ $t('8906cb64.2432b5') }}
-              </el-button>
-            </template>
-          </el-table-column>
-          <el-table-column prop="order_id" width="150" :label="$t('8906cb64.1e8dc2')" fixed />
-          <el-table-column prop="create_time" width="160" :label="$t('8906cb64.eca37c')">
-            <template slot-scope="scope">
-              <span>{{ scope.row.create_time | datetime('YYYY-MM-DD HH:mm:ss') }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column width="70" :label="$t('8906cb64.9a935b')">
-            <template slot-scope="scope">
-              {{ scope.row.fee_symbol }}{{ scope.row.freight_fee / 100 }}
-            </template>
-          </el-table-column>
-          <!--
+          <template v-if="downloadUrl">
+            <a :href="downloadUrl" download>{{ downloadName }}</a>
+          </template>
+        </el-dialog>
+
+        <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+          <el-tab-pane :label="$t('8906cb64.a8b0c2')" name="all" />
+          <el-tab-pane :label="$t('8906cb64.d8476e')" name="notship" />
+          <el-tab-pane :label="$t('8906cb64.5296ac')" name="payed_partial" />
+          <el-tab-pane :label="$t('8906cb64.6b715b')" name="cancelapply" />
+          <el-tab-pane :label="$t('8906cb64.4933ca')" name="shipping" />
+          <el-tab-pane :label="$t('8906cb64.25d532')" name="ziti" />
+          <el-tab-pane :label="$t('8906cb64.608afd')" name="notpay" />
+          <el-tab-pane :label="$t('8906cb64.3e6db1')" name="cancel" />
+          <el-tab-pane :label="$t('8906cb64.fad522')" name="done" />
+          <OrderListTable
+            :list="list"
+            :loading="loading"
+            :show-selection="false"
+            detail-label="8906cb64.f26225"
+            :get-distribution-type="getDistributionType"
+            :get-order-category-name="getOrderCategoryName"
+            @action="handleListAction"
+          />
+          <el-table
+            v-if="false"
+            v-loading="loading"
+            :data="list"
+            style="width: 100%"
+            :height="wheight - 190"
+            :element-loading-text="$t('8906cb64.f09b12')"
+          >
+            <el-table-column :label="$t('8906cb64.2b6bc0')" fixed="left">
+              <template slot-scope="scope">
+                <router-link
+                  :to="{
+                    path: matchRoutePath('detail'),
+                    query: { orderId: scope.row.order_id, resource: $route.path }
+                  }"
+                  style="margin-right: 5px"
+                >
+                  {{ $t('8906cb64.f26225') }}
+                </router-link>
+                <el-button
+                  v-if="
+                    scope.row.cancel_status == 'NO_APPLY_CANCEL' &&
+                    (scope.row.order_status == 'NOTPAY' || scope.row.order_status == 'PAYED')
+                  "
+                  type="text"
+                  style="margin-right: 5px"
+                  @click="cancelOrderAction(scope.row.order_id)"
+                >
+                  {{ $t('8906cb64.b21b5e') }}
+                </el-button>
+                <el-button
+                  v-if="
+                    scope.row.receipt_type == 'logistics' &&
+                    scope.row.order_status == 'PAYED' &&
+                    scope.row.delivery_status != 'DONE'
+                  "
+                  type="text"
+                  style="margin-right: 5px"
+                  @click="deliveryAction(scope.row)"
+                >
+                  {{ $t('8906cb64.045315') }}
+                </el-button>
+                <el-button
+                  v-if="
+                    scope.row.receipt_type == 'ziti' &&
+                    scope.row.ziti_status == 'PENDING' &&
+                    scope.row.order_status == 'PAYED'
+                  "
+                  type="text"
+                  style="margin-right: 5px"
+                  @click="writeoffOrderAction(scope.row.order_id)"
+                >
+                  {{ $t('8906cb64.e7d31e') }}
+                </el-button>
+                <el-button
+                  v-if="
+                    scope.row.cancel_status == 'WAIT_PROCESS' && scope.row.order_status == 'PAYED'
+                  "
+                  type="text"
+                  style="margin-right: 5px"
+                  @click="confirmCancelOrderAction(scope.row.order_id)"
+                >
+                  {{ $t('8906cb64.44c198') }}
+                </el-button>
+                <el-button type="text" @click="clickShowRemark(scope.row, 'normalList2')">
+                  {{ $t('8906cb64.2432b5') }}
+                </el-button>
+              </template>
+            </el-table-column>
+            <el-table-column prop="order_id" width="150" :label="$t('8906cb64.1e8dc2')" fixed />
+            <el-table-column prop="create_time" width="160" :label="$t('8906cb64.eca37c')">
+              <template slot-scope="scope">
+                <span>{{ scope.row.create_time | datetime('YYYY-MM-DD HH:mm:ss') }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column width="70" :label="$t('8906cb64.9a935b')">
+              <template slot-scope="scope">
+                {{ scope.row.fee_symbol }}{{ scope.row.freight_fee / 100 }}
+              </template>
+            </el-table-column>
+            <!--
           <el-table-column width="70" label="商品金额">
             <template slot-scope="scope">
               {{scope.row.fee_symbol}}{{scope.row.item_fee / 100}}
             </template>
           </el-table-column>
           -->
-          <el-table-column prop="total_fee" width="70" :label="$t('8906cb64.4cf24a')">
-            <template slot-scope="scope">
-              {{ scope.row.fee_symbol }}{{ scope.row.total_fee / 100 }}
-            </template>
-          </el-table-column>
-          <el-table-column prop="point_fee" width="120" :label="$t('8906cb64.d443a9')">
-            <template slot-scope="scope">
-              {{ scope.row.point_fee / 100 }}
-            </template>
-          </el-table-column>
-          <el-table-column prop="mobile" width="110" :label="$t('8906cb64.8098e2')" />
-          <el-table-column width="90" :label="$t('8906cb64.5cd56b')">
-            <template slot-scope="scope">
-              <span v-if="scope.row.order_class == 'normal'">{{ $t('8906cb64.e7978e') }}</span>
-              <span v-if="scope.row.order_class == 'groups'">{{ $t('8906cb64.9b251e') }}</span>
-              <span v-if="scope.row.order_class == 'seckill'">{{ $t('8906cb64.ee8bc9') }}</span>
-              <span v-if="scope.row.order_class == 'community'">{{ $t('8906cb64.1ad244') }}</span>
-            </template>
-          </el-table-column>
-          <!--
+            <el-table-column prop="total_fee" width="70" :label="$t('8906cb64.4cf24a')">
+              <template slot-scope="scope">
+                {{ scope.row.fee_symbol }}{{ scope.row.total_fee / 100 }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="point_fee" width="120" :label="$t('8906cb64.d443a9')">
+              <template slot-scope="scope">
+                {{ scope.row.point_fee / 100 }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="mobile" width="110" :label="$t('8906cb64.8098e2')" />
+            <el-table-column width="90" :label="$t('8906cb64.5cd56b')">
+              <template slot-scope="scope">
+                <span v-if="scope.row.order_class == 'normal'">{{ $t('8906cb64.e7978e') }}</span>
+                <span v-if="scope.row.order_class == 'groups'">{{ $t('8906cb64.9b251e') }}</span>
+                <span v-if="scope.row.order_class == 'seckill'">{{ $t('8906cb64.ee8bc9') }}</span>
+                <span v-if="scope.row.order_class == 'community'">{{ $t('8906cb64.1ad244') }}</span>
+              </template>
+            </el-table-column>
+            <!--
           <el-table-column prop="is_distribution" label="是否分销">
             <template slot-scope="scope">
               <span v-if="scope.row.is_distribution == 1"> 是 </span>
@@ -228,193 +243,300 @@
             </template>
           </el-table-column>
           -->
-          <el-table-column prop="order_status" :label="$t('8906cb64.86f6cf')">
-            <template slot-scope="scope">
-              <el-tag v-if="scope.row.order_status == 'PAYED'" type="success" size="mini">
-                {{ $t('8906cb64.8d02a5') }}
-              </el-tag>
-              <el-tag v-else-if="scope.row.order_status == 'NOTPAY'" size="mini">
-                {{ $t('8906cb64.608afd') }}
-              </el-tag>
-              <el-tag v-else-if="scope.row.order_status_des == 'CANCEL'" type="danger" size="mini">
-                {{ $t('8906cb64.2111cc') }}
-              </el-tag>
-              <el-tag v-else-if="scope.row.order_status_des == 'CLOSED'" type="info" size="mini">
-                {{ scope.row.order_status_msg }}
-              </el-tag>
-              <el-tag
-                v-else-if="scope.row.order_status == 'WAIT_BUYER_CONFIRM'"
-                type="danger"
-                size="mini"
-              >
-                {{ $t('8906cb64.4933ca') }}
-              </el-tag>
-              <el-tag
-                v-else-if="scope.row.order_status == 'REFUND_SUCCESS'"
-                type="warning"
-                size="mini"
-              >
-                {{ $t('8906cb64.e85018') }}
-              </el-tag>
-              <el-tag
-                v-else-if="scope.row.order_status == 'WAIT_GROUPS_SUCCESS'"
-                type="warning"
-                size="mini"
-              >
-                {{ $t('8906cb64.425a40') }}
-              </el-tag>
-              <el-tag v-else-if="scope.row.order_status == 'DONE'" type="success" size="mini">
-                {{ $t('8906cb64.fad522') }}
-              </el-tag>
-              <template
-                v-if="
-                  scope.row.order_status != 'CANCEL' &&
-                  scope.row.order_status != 'REFUND_SUCCESS' &&
-                  scope.row.order_status != 'WAIT_GROUPS_SUCCESS'
-                "
-              >
-                <!-- 发货状态 -->
-                <el-tag v-if="scope.row.cancel_status == 'WAIT_PROCESS'" type="warning" size="mini">
-                  {{ $t('8906cb64.57a640') }}
+            <el-table-column prop="order_status" :label="$t('8906cb64.86f6cf')">
+              <template slot-scope="scope">
+                <el-tag v-if="scope.row.order_status == 'PAYED'" type="success" size="mini">
+                  {{ $t('8906cb64.8d02a5') }}
+                </el-tag>
+                <el-tag v-else-if="scope.row.order_status == 'NOTPAY'" size="mini">
+                  {{ $t('8906cb64.608afd') }}
                 </el-tag>
                 <el-tag
-                  v-else-if="scope.row.delivery_status == 'PARTAIL'"
+                  v-else-if="scope.row.order_status_des == 'CANCEL'"
                   type="danger"
                   size="mini"
                 >
-                  {{ $t('8906cb64.5296ac') }}
+                  {{ $t('8906cb64.2111cc') }}
                 </el-tag>
-                <el-tag v-else-if="scope.row.ziti_status == 'PENDING'" type="danger" size="mini">
-                  {{ $t('8906cb64.25d532') }}
+                <el-tag v-else-if="scope.row.order_status_des == 'CLOSED'" type="info" size="mini">
+                  {{ scope.row.order_status_msg }}
                 </el-tag>
-                <el-tag v-else-if="scope.row.delivery_status == 'PENDING'" size="mini">
-                  {{ $t('8906cb64.d8476e') }}
+                <el-tag
+                  v-else-if="scope.row.order_status == 'WAIT_BUYER_CONFIRM'"
+                  type="danger"
+                  size="mini"
+                >
+                  {{ $t('8906cb64.4933ca') }}
                 </el-tag>
+                <el-tag
+                  v-else-if="scope.row.order_status == 'REFUND_SUCCESS'"
+                  type="warning"
+                  size="mini"
+                >
+                  {{ $t('8906cb64.e85018') }}
+                </el-tag>
+                <el-tag
+                  v-else-if="scope.row.order_status == 'WAIT_GROUPS_SUCCESS'"
+                  type="warning"
+                  size="mini"
+                >
+                  {{ $t('8906cb64.425a40') }}
+                </el-tag>
+                <el-tag v-else-if="scope.row.order_status == 'DONE'" type="success" size="mini">
+                  {{ $t('8906cb64.fad522') }}
+                </el-tag>
+                <template
+                  v-if="
+                    scope.row.order_status != 'CANCEL' &&
+                    scope.row.order_status != 'REFUND_SUCCESS' &&
+                    scope.row.order_status != 'WAIT_GROUPS_SUCCESS'
+                  "
+                >
+                  <!-- 发货状态 -->
+                  <el-tag
+                    v-if="scope.row.cancel_status == 'WAIT_PROCESS'"
+                    type="warning"
+                    size="mini"
+                  >
+                    {{ $t('8906cb64.57a640') }}
+                  </el-tag>
+                  <el-tag
+                    v-else-if="scope.row.delivery_status == 'PARTAIL'"
+                    type="danger"
+                    size="mini"
+                  >
+                    {{ $t('8906cb64.5296ac') }}
+                  </el-tag>
+                  <el-tag v-else-if="scope.row.ziti_status == 'PENDING'" type="danger" size="mini">
+                    {{ $t('8906cb64.25d532') }}
+                  </el-tag>
+                  <el-tag v-else-if="scope.row.delivery_status == 'PENDING'" size="mini">
+                    {{ $t('8906cb64.d8476e') }}
+                  </el-tag>
+                </template>
               </template>
-            </template>
-          </el-table-column>
-          <el-table-column prop="source_name" :label="$t('8906cb64.f4fcb6')" />
-          <el-table-column prop="supplier_name" :label="$t('8906cb64.55c61d')" />
+            </el-table-column>
+            <el-table-column prop="source_name" :label="$t('8906cb64.f4fcb6')" />
+            <el-table-column prop="supplier_name" :label="$t('8906cb64.55c61d')" />
 
-          <el-table-column :label="$t('8906cb64.350fd3')">
-            <template slot-scope="scope">
-              {{
-                getOrderCategoryName(scope.row.order_holder)
-                  ? $t(getOrderCategoryName(scope.row.order_holder))
-                  : ''
-              }}
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('8906cb64.edfe4c')">
-            <template slot-scope="scope">
-              {{ getDistributionType(scope.row) }}
-            </template>
-          </el-table-column>
+            <el-table-column :label="$t('8906cb64.350fd3')">
+              <template slot-scope="scope">
+                {{
+                  getOrderCategoryName(scope.row.order_holder)
+                    ? $t(getOrderCategoryName(scope.row.order_holder))
+                    : ''
+                }}
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('8906cb64.edfe4c')">
+              <template slot-scope="scope">
+                {{ getDistributionType(scope.row) }}
+              </template>
+            </el-table-column>
 
-          <el-table-column :label="$t('8906cb64.553e84')">
-            <template slot-scope="scope">
-              {{ getDistributionStatus(scope.row) }}
-            </template>
-          </el-table-column>
+            <el-table-column :label="$t('8906cb64.553e84')">
+              <template slot-scope="scope">
+                {{ getDistributionStatus(scope.row) }}
+              </template>
+            </el-table-column>
 
-          <el-table-column :label="$t('8906cb64.b7765e')">
-            <template slot-scope="scope">
-              {{ scope.row.username }}
-            </template>
-          </el-table-column>
+            <el-table-column :label="$t('8906cb64.b7765e')">
+              <template slot-scope="scope">
+                {{ scope.row.username }}
+              </template>
+            </el-table-column>
 
-          <el-table-column :label="$t('8906cb64.1138a9')">
-            <template slot-scope="scope">
-              {{ scope.row.payment_fee }}
-            </template>
-          </el-table-column>
+            <el-table-column :label="$t('8906cb64.1138a9')">
+              <template slot-scope="scope">
+                {{ scope.row.payment_fee }}
+              </template>
+            </el-table-column>
 
-          <el-table-column :label="$t('8906cb64.f3fa72')">
-            <template slot-scope="scope">
-              {{ scope.row.mobile }}
-            </template>
-          </el-table-column>
-        </el-table>
-        <div class="mt-4 text-right">
-          <el-pagination
-            background
-            layout="total, sizes, prev, pager, next"
-            :current-page.sync="params.page"
-            :page-sizes="[10, 20, 50]"
-            :total="total_count"
-            :page-size="params.pageSize"
-            @current-change="handleCurrentChange"
-            @size-change="handleSizeChange"
-          />
-        </div>
-      </el-tabs>
+            <el-table-column :label="$t('8906cb64.f3fa72')">
+              <template slot-scope="scope">
+                {{ scope.row.mobile }}
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tabs>
 
-      <!-- 发货-开始 -->
-      <el-dialog
-        :title="deliveryTitle"
-        :visible.sync="deliveryVisible"
-        :before-close="handleCancel"
-        width="57%"
-      >
-        <template>
-          <el-form
-            ref="deliveryForm"
-            :model="deliveryForm"
-            class="demo-ruleForm"
-            label-width="100px"
-          >
-            <el-form-item :label="$t('8906cb64.1e8dc2')">
-              <el-col :span="20">
-                {{ deliveryData.orderInfo.order_id }}
-              </el-col>
-            </el-form-item>
-            <el-form-item :label="$t('8906cb64.b01994')">
-              <el-radio-group v-model="deliveryForm.delivery_type" :disabled="IsDisabled">
-                <el-radio label="batch">{{ $t('8906cb64.afb426') }}</el-radio>
-                <el-radio label="sep">{{ $t('8906cb64.95d243') }}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item :label="$t('8906cb64.b433e6')">
-              <el-col :span="30">
-                <el-table :data="deliveryData.orderInfo.items" style="width: 100%">
+        <!-- 发货-开始 -->
+        <el-dialog
+          :title="deliveryTitle"
+          :visible.sync="deliveryVisible"
+          :before-close="handleCancel"
+          width="57%"
+        >
+          <template>
+            <el-form
+              ref="deliveryForm"
+              :model="deliveryForm"
+              class="demo-ruleForm"
+              label-width="100px"
+            >
+              <el-form-item :label="$t('8906cb64.1e8dc2')">
+                <el-col :span="20">
+                  {{ deliveryData.orderInfo.order_id }}
+                </el-col>
+              </el-form-item>
+              <el-form-item :label="$t('8906cb64.b01994')">
+                <el-radio-group v-model="deliveryForm.delivery_type" :disabled="IsDisabled">
+                  <el-radio label="batch">{{ $t('8906cb64.afb426') }}</el-radio>
+                  <el-radio label="sep">{{ $t('8906cb64.95d243') }}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item :label="$t('8906cb64.b433e6')">
+                <el-col :span="30">
+                  <el-table :data="deliveryData.orderInfo.items" style="width: 100%">
+                    <el-table-column prop="item_name" :label="$t('8906cb64.de5472')" width="180" />
+                    <el-table-column prop="num" :label="$t('8906cb64.0bf60b')" width="180" />
+                    <el-table-column :label="$t('8906cb64.232ca6')">
+                      <template slot-scope="scope">
+                        <span>{{ scope.row.fee_symbol }}{{ scope.row.total_fee / 100 }}</span>
+                      </template>
+                    </el-table-column>
+                    <template v-if="deliveryForm.delivery_type == 'sep'">
+                      <el-table-column :label="$t('8906cb64.f3af96')" width="200">
+                        <template slot-scope="scope">
+                          <el-select
+                            v-model="scope.row.delivery_corp"
+                            filterable
+                            :placeholder="$t('8906cb64.32e586')"
+                          >
+                            <el-option
+                              v-for="item in dlycorps"
+                              :key="item.value"
+                              :label="item.name"
+                              :value="item.value"
+                            />
+                          </el-select>
+                        </template>
+                      </el-table-column>
+                      <el-table-column :label="$t('8906cb64.0bb075')" width="200">
+                        <template slot-scope="scope">
+                          <el-input
+                            v-model="scope.row.delivery_code"
+                            :maxlength="20"
+                            :placeholder="$t('8906cb64.0e9f1e')"
+                          />
+                        </template>
+                      </el-table-column>
+                    </template>
+                  </el-table>
+                </el-col>
+              </el-form-item>
+              <template v-if="deliveryForm.delivery_type == 'batch'">
+                <el-form-item :label="$t('8906cb64.f3af96')">
+                  <el-col>
+                    <el-select
+                      v-model="deliveryForm.delivery_corp"
+                      filterable
+                      :placeholder="$t('8906cb64.32e586')"
+                    >
+                      <el-option
+                        v-for="item in dlycorps"
+                        :key="item.value"
+                        :label="item.name"
+                        :value="item.value"
+                      />
+                    </el-select>
+                  </el-col>
+                </el-form-item>
+                <el-form-item :label="$t('8906cb64.0bb075')">
+                  <el-col :span="14">
+                    <el-input
+                      v-model="deliveryForm.delivery_code"
+                      :maxlength="20"
+                      :placeholder="$t('8906cb64.0e9f1e')"
+                    />
+                  </el-col>
+                </el-form-item>
+              </template>
+            </el-form>
+          </template>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click.native="handleCancel">{{ $t('8906cb64.625fb2') }}</el-button>
+            <el-button type="primary" @click="submitDeliveryAction">
+              {{ $t('8906cb64.38cf16') }}
+            </el-button>
+          </div>
+        </el-dialog>
+        <el-dialog
+          :title="deliveryTitle"
+          :visible.sync="deliveryVisibleNew"
+          :before-close="handleCancel"
+          width="65%"
+        >
+          <template>
+            <el-form
+              ref="deliveryForm"
+              :model="deliveryForm"
+              class="demo-ruleForm"
+              label-width="100px"
+            >
+              <el-form-item :label="$t('8906cb64.1e8dc2')">
+                <el-col :span="20">
+                  {{ deliveryData.orderInfo.order_id }}
+                </el-col>
+              </el-form-item>
+              <el-form-item :label="$t('8906cb64.b01994')">
+                <el-radio-group v-model="deliveryForm.delivery_type" :disabled="IsDisabled">
+                  <el-radio label="batch">{{ $t('8906cb64.afb426') }}</el-radio>
+                  <el-radio v-if="deliveryForm.delivery_type != 'merchant'" label="sep">
+                    {{ $t('8906cb64.95d243') }}
+                  </el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item :label="$t('8906cb64.b433e6')">
+                <el-table :data="deliveryData.orderInfo.items">
                   <el-table-column prop="item_name" :label="$t('8906cb64.de5472')" width="180" />
-                  <el-table-column prop="num" :label="$t('8906cb64.0bf60b')" width="180" />
-                  <el-table-column :label="$t('8906cb64.232ca6')">
+                  <el-table-column :label="$t('8906cb64.2af133')" width="120">
+                    <template slot-scope="scope">
+                      <span>{{ goodCategoryMap[scope.row.item_holder] }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="supplier_name"
+                    :label="$t('8906cb64.55c61d')"
+                    width="130"
+                  />
+                  <el-table-column prop="num" :label="$t('8906cb64.0bf60b')" width="100" />
+                  <el-table-column
+                    prop="delivery_item_num"
+                    :label="$t('8906cb64.745165')"
+                    width="100"
+                  />
+                  <el-table-column :label="$t('8906cb64.6943ad')" width="130">
                     <template slot-scope="scope">
                       <span>{{ scope.row.fee_symbol }}{{ scope.row.total_fee / 100 }}</span>
                     </template>
                   </el-table-column>
+                  <el-table-column :label="$t('8906cb64.cc1e68')" width="130">
+                    <template slot-scope="scope">
+                      <span>{{ scope.row.fee_symbol }}{{ scope.row.cost_price / 100 }}</span>
+                    </template>
+                  </el-table-column>
                   <template v-if="deliveryForm.delivery_type == 'sep'">
-                    <el-table-column :label="$t('8906cb64.f3af96')" width="200">
+                    <el-table-column :label="$t('8906cb64.4f5a46')" width="200" fixed="left">
                       <template slot-scope="scope">
-                        <el-select
-                          v-model="scope.row.delivery_corp"
-                          filterable
-                          :placeholder="$t('8906cb64.32e586')"
-                        >
-                          <el-option
-                            v-for="item in dlycorps"
-                            :key="item.value"
-                            :label="item.name"
-                            :value="item.value"
-                          />
-                        </el-select>
-                      </template>
-                    </el-table-column>
-                    <el-table-column :label="$t('8906cb64.0bb075')" width="200">
-                      <template slot-scope="scope">
-                        <el-input
-                          v-model="scope.row.delivery_code"
-                          :maxlength="20"
-                          :placeholder="$t('8906cb64.0e9f1e')"
+                        <el-input-number
+                          v-if="scope.row.num - scope.row.delivery_item_num != 0"
+                          v-model="scope.row.delivery_num"
+                          :placeholder="$t('8906cb64.4f5a46')"
+                          controls-position="right"
+                          :min="0"
+                          :max="scope.row.num - scope.row.delivery_item_num"
+                          :disabled="!IS_SUPPLIER() && scope.row.supplier_id > 0"
                         />
+                        <span v-if="scope.row.num - scope.row.delivery_item_num == 0">{{
+                          $t('8906cb64.82446c')
+                        }}</span>
                       </template>
                     </el-table-column>
                   </template>
                 </el-table>
-              </el-col>
-            </el-form-item>
-            <template v-if="deliveryForm.delivery_type == 'batch'">
+              </el-form-item>
+
               <el-form-item :label="$t('8906cb64.f3af96')">
                 <el-col>
                   <el-select
@@ -431,6 +553,55 @@
                   </el-select>
                 </el-col>
               </el-form-item>
+              <template v-if="deliveryForm.delivery_type == 'merchant'">
+                <el-form-item :label="$t('8906cb64.8ba3bf')" width="200">
+                  <template slot-scope="scope">
+                    <el-input
+                      v-model="scope.row.delivery_code"
+                      :maxlength="20"
+                      :placeholder="$t('8906cb64.e78bbb')"
+                    />
+                  </template>
+                </el-form-item>
+                <el-form-item :label="$t('8906cb64.b7765e')" width="200">
+                  <el-select
+                    v-model="deliveryForm.delivery_ersonnel"
+                    clearable
+                    :placeholder="$t('8906cb64.708c9d')"
+                  >
+                    <el-option
+                      v-for="item in deliveryPersonnel"
+                      :key="item.value"
+                      size="mini"
+                      :label="item.title"
+                      :value="item.value"
+                    />
+                  </el-select>
+                </el-form-item>
+                <el-form-item :label="$t('8906cb64.553e84')" width="200">
+                  <el-select
+                    v-model="deliveryForm.self_delivery_status"
+                    clearable
+                    :placeholder="$t('8906cb64.708c9d')"
+                  >
+                    <el-option
+                      v-for="item in DISTRIBUTION_STATUS"
+                      :key="item.value"
+                      size="mini"
+                      :label="$t(item.title)"
+                      :value="item.value"
+                    />
+                  </el-select>
+                </el-form-item>
+                <el-form-item :label="$t('8906cb64.6bfb9b')">
+                  <template>
+                    <div class="img-container">
+                      <SpImagePicker :src="deliveryForm.delivery_pics" :width="48" :height="48" />
+                    </div>
+                  </template>
+                </el-form-item>
+              </template>
+
               <el-form-item :label="$t('8906cb64.0bb075')">
                 <el-col :span="14">
                   <el-input
@@ -440,372 +611,242 @@
                   />
                 </el-col>
               </el-form-item>
-            </template>
-          </el-form>
-        </template>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click.native="handleCancel">{{ $t('8906cb64.625fb2') }}</el-button>
-          <el-button type="primary" @click="submitDeliveryAction">
-            {{ $t('8906cb64.38cf16') }}
-          </el-button>
-        </div>
-      </el-dialog>
-      <el-dialog
-        :title="deliveryTitle"
-        :visible.sync="deliveryVisibleNew"
-        :before-close="handleCancel"
-        width="65%"
-      >
-        <template>
-          <el-form
-            ref="deliveryForm"
-            :model="deliveryForm"
-            class="demo-ruleForm"
-            label-width="100px"
-          >
-            <el-form-item :label="$t('8906cb64.1e8dc2')">
-              <el-col :span="20">
-                {{ deliveryData.orderInfo.order_id }}
+            </el-form>
+          </template>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click.native="handleCancel">{{ $t('8906cb64.625fb2') }}</el-button>
+            <el-button type="primary" @click="submitDeliveryAction">
+              {{ $t('8906cb64.38cf16') }}
+            </el-button>
+          </div>
+        </el-dialog>
+        <el-dialog
+          :title="$t('8906cb64.763eea')"
+          :visible.sync="cancelVisible"
+          :before-close="handleCancelOrderCancel"
+          width="57%"
+        >
+          <template>
+            <el-row :gutter="100">
+              <el-col :span="24">
+                <span class="grid-content"
+                  >{{ $t('8906cb64.070dce') }}{{ cancelData.order_id }}</span
+                >
               </el-col>
-            </el-form-item>
-            <el-form-item :label="$t('8906cb64.b01994')">
-              <el-radio-group v-model="deliveryForm.delivery_type" :disabled="IsDisabled">
-                <el-radio label="batch">{{ $t('8906cb64.afb426') }}</el-radio>
-                <el-radio v-if="deliveryForm.delivery_type != 'merchant'" label="sep">
-                  {{ $t('8906cb64.95d243') }}
-                </el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item :label="$t('8906cb64.b433e6')">
-              <el-table :data="deliveryData.orderInfo.items">
-                <el-table-column prop="item_name" :label="$t('8906cb64.de5472')" width="180" />
-                <el-table-column :label="$t('8906cb64.2af133')" width="120">
-                  <template slot-scope="scope">
-                    <span>{{ goodCategoryMap[scope.row.item_holder] }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column prop="supplier_name" :label="$t('8906cb64.55c61d')" width="130" />
-                <el-table-column prop="num" :label="$t('8906cb64.0bf60b')" width="100" />
-                <el-table-column
-                  prop="delivery_item_num"
-                  :label="$t('8906cb64.745165')"
-                  width="100"
-                />
-                <el-table-column :label="$t('8906cb64.6943ad')" width="130">
-                  <template slot-scope="scope">
-                    <span>{{ scope.row.fee_symbol }}{{ scope.row.total_fee / 100 }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column :label="$t('8906cb64.cc1e68')" width="130">
-                  <template slot-scope="scope">
-                    <span>{{ scope.row.fee_symbol }}{{ scope.row.cost_price / 100 }}</span>
-                  </template>
-                </el-table-column>
-                <template v-if="deliveryForm.delivery_type == 'sep'">
-                  <el-table-column :label="$t('8906cb64.4f5a46')" width="200" fixed="left">
-                    <template slot-scope="scope">
-                      <el-input-number
-                        v-if="scope.row.num - scope.row.delivery_item_num != 0"
-                        v-model="scope.row.delivery_num"
-                        :placeholder="$t('8906cb64.4f5a46')"
-                        controls-position="right"
-                        :min="0"
-                        :max="scope.row.num - scope.row.delivery_item_num"
-                        :disabled="!IS_SUPPLIER() && scope.row.supplier_id > 0"
-                      />
-                      <span v-if="scope.row.num - scope.row.delivery_item_num == 0">{{
-                        $t('8906cb64.82446c')
-                      }}</span>
+              <el-col :span="24">
+                <span v-if="cancelData.cancel_from == 'buyer'">{{ $t('8906cb64.497ac9') }}</span>
+                <span v-else>{{ $t('8906cb64.f01ac7') }}</span>
+              </el-col>
+              <el-col :span="24">
+                <span
+                  >{{ $t('8906cb64.796c1b')
+                  }}{{ cancelData.create_time | datetime('YYYY-MM-DD HH:mm:ss') }}</span
+                >
+              </el-col>
+              <el-col :span="24">
+                <span>{{ $t('8906cb64.a2f94f') }}</span>
+                <span v-if="cancelData.refund_status == 'READY'">{{ $t('8906cb64.5cb424') }}</span>
+                <span v-if="cancelData.refund_status == 'AUDIT_SUCCESS'">{{
+                  $t('8906cb64.202a8b')
+                }}</span>
+                <span v-if="cancelData.refund_status == 'SUCCESS'">{{
+                  $t('8906cb64.d58cbd')
+                }}</span>
+                <span v-if="cancelData.refund_status == 'SHOP_CHECK_FAILS'">{{
+                  $t('8906cb64.0e14e3')
+                }}</span>
+                <span v-if="cancelData.refund_status == 'CANCEL'">{{ $t('8906cb64.0a7dff') }}</span>
+                <span v-if="cancelData.refund_status == 'PROCESSING'">{{
+                  $t('8906cb64.cd3291')
+                }}</span>
+                <span v-if="cancelData.refund_status == 'FAILS'">{{ $t('8906cb64.7c2544') }}</span>
+              </el-col>
+              <el-col :span="24">
+                <span>{{ $t('8906cb64.7f1328') }}</span>
+                <span v-if="cancelData.progress == '0'">{{ $t('8906cb64.047109') }}</span>
+                <span v-if="cancelData.progress == '1'">{{ $t('8906cb64.2111cc') }}</span>
+                <span v-if="cancelData.progress == '2'">{{ $t('8906cb64.07e608') }}</span>
+                <span v-if="cancelData.progress == '3'">{{ $t('8906cb64.fad522') }}</span>
+                <span v-if="cancelData.progress == '4'">{{ $t('8906cb64.dbf36d') }}</span>
+              </el-col>
+              <el-col :span="24">
+                <span
+                  >{{ $t('8906cb64.b772c7') }}{{ cancelData.fee_symbol
+                  }}{{ cancelData.total_fee / 100 }}</span
+                >
+              </el-col>
+              <el-col :span="24">
+                <span v-if="cancelData.pay_type == 'wxpay'">{{ $t('8906cb64.f5041a') }}</span>
+              </el-col>
+              <el-col :span="24">
+                <span>{{ $t('8906cb64.27910a') }}{{ cancelData.cancel_reason }}</span>
+              </el-col>
+            </el-row>
+            <el-divider />
+            <el-form ref="cancelForm" :model="cancelForm" class="" label-width="100px">
+              <el-form-item :label="$t('8906cb64.de455e')">
+                <el-row>
+                  <el-col :span="20">
+                    <template>
+                      <el-radio v-model="cancelForm.check_cancel" label="0">
+                        {{ $t('8906cb64.1bf19c') }}
+                      </el-radio>
+                      <el-radio v-model="cancelForm.check_cancel" label="1">
+                        {{ $t('8906cb64.e61f2c') }}
+                      </el-radio>
                     </template>
-                  </el-table-column>
-                </template>
-              </el-table>
-            </el-form-item>
-
-            <el-form-item :label="$t('8906cb64.f3af96')">
-              <el-col>
-                <el-select
-                  v-model="deliveryForm.delivery_corp"
-                  filterable
-                  :placeholder="$t('8906cb64.32e586')"
-                >
-                  <el-option
-                    v-for="item in dlycorps"
-                    :key="item.value"
-                    :label="item.name"
-                    :value="item.value"
-                  />
-                </el-select>
-              </el-col>
-            </el-form-item>
-            <template v-if="deliveryForm.delivery_type == 'merchant'">
-              <el-form-item :label="$t('8906cb64.8ba3bf')" width="200">
-                <template slot-scope="scope">
-                  <el-input
-                    v-model="scope.row.delivery_code"
-                    :maxlength="20"
-                    :placeholder="$t('8906cb64.e78bbb')"
-                  />
-                </template>
+                  </el-col>
+                </el-row>
               </el-form-item>
-              <el-form-item :label="$t('8906cb64.b7765e')" width="200">
-                <el-select
-                  v-model="deliveryForm.delivery_ersonnel"
-                  clearable
-                  :placeholder="$t('8906cb64.708c9d')"
-                >
-                  <el-option
-                    v-for="item in deliveryPersonnel"
-                    :key="item.value"
-                    size="mini"
-                    :label="item.title"
-                    :value="item.value"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item :label="$t('8906cb64.553e84')" width="200">
-                <el-select
-                  v-model="deliveryForm.self_delivery_status"
-                  clearable
-                  :placeholder="$t('8906cb64.708c9d')"
-                >
-                  <el-option
-                    v-for="item in DISTRIBUTION_STATUS"
-                    :key="item.value"
-                    size="mini"
-                    :label="$t(item.title)"
-                    :value="item.value"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item :label="$t('8906cb64.6bfb9b')">
-                <template>
-                  <div class="img-container">
-                    <SpImagePicker :src="deliveryForm.delivery_pics" :width="48" :height="48" />
-                  </div>
-                </template>
-              </el-form-item>
-            </template>
-
-            <el-form-item :label="$t('8906cb64.0bb075')">
-              <el-col :span="14">
-                <el-input
-                  v-model="deliveryForm.delivery_code"
-                  :maxlength="20"
-                  :placeholder="$t('8906cb64.0e9f1e')"
-                />
-              </el-col>
-            </el-form-item>
-          </el-form>
-        </template>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click.native="handleCancel">{{ $t('8906cb64.625fb2') }}</el-button>
-          <el-button type="primary" @click="submitDeliveryAction">
-            {{ $t('8906cb64.38cf16') }}
-          </el-button>
-        </div>
-      </el-dialog>
-      <el-dialog
-        :title="$t('8906cb64.763eea')"
-        :visible.sync="cancelVisible"
-        :before-close="handleCancelOrderCancel"
-        width="57%"
-      >
-        <template>
-          <el-row :gutter="100">
-            <el-col :span="24">
-              <span class="grid-content">{{ $t('8906cb64.070dce') }}{{ cancelData.order_id }}</span>
-            </el-col>
-            <el-col :span="24">
-              <span v-if="cancelData.cancel_from == 'buyer'">{{ $t('8906cb64.497ac9') }}</span>
-              <span v-else>{{ $t('8906cb64.f01ac7') }}</span>
-            </el-col>
-            <el-col :span="24">
-              <span
-                >{{ $t('8906cb64.796c1b')
-                }}{{ cancelData.create_time | datetime('YYYY-MM-DD HH:mm:ss') }}</span
-              >
-            </el-col>
-            <el-col :span="24">
-              <span>{{ $t('8906cb64.a2f94f') }}</span>
-              <span v-if="cancelData.refund_status == 'READY'">{{ $t('8906cb64.5cb424') }}</span>
-              <span v-if="cancelData.refund_status == 'AUDIT_SUCCESS'">{{
-                $t('8906cb64.202a8b')
-              }}</span>
-              <span v-if="cancelData.refund_status == 'SUCCESS'">{{ $t('8906cb64.d58cbd') }}</span>
-              <span v-if="cancelData.refund_status == 'SHOP_CHECK_FAILS'">{{
-                $t('8906cb64.0e14e3')
-              }}</span>
-              <span v-if="cancelData.refund_status == 'CANCEL'">{{ $t('8906cb64.0a7dff') }}</span>
-              <span v-if="cancelData.refund_status == 'PROCESSING'">{{
-                $t('8906cb64.cd3291')
-              }}</span>
-              <span v-if="cancelData.refund_status == 'FAILS'">{{ $t('8906cb64.7c2544') }}</span>
-            </el-col>
-            <el-col :span="24">
-              <span>{{ $t('8906cb64.7f1328') }}</span>
-              <span v-if="cancelData.progress == '0'">{{ $t('8906cb64.047109') }}</span>
-              <span v-if="cancelData.progress == '1'">{{ $t('8906cb64.2111cc') }}</span>
-              <span v-if="cancelData.progress == '2'">{{ $t('8906cb64.07e608') }}</span>
-              <span v-if="cancelData.progress == '3'">{{ $t('8906cb64.fad522') }}</span>
-              <span v-if="cancelData.progress == '4'">{{ $t('8906cb64.dbf36d') }}</span>
-            </el-col>
-            <el-col :span="24">
-              <span
-                >{{ $t('8906cb64.b772c7') }}{{ cancelData.fee_symbol
-                }}{{ cancelData.total_fee / 100 }}</span
-              >
-            </el-col>
-            <el-col :span="24">
-              <span v-if="cancelData.pay_type == 'wxpay'">{{ $t('8906cb64.f5041a') }}</span>
-            </el-col>
-            <el-col :span="24">
-              <span>{{ $t('8906cb64.27910a') }}{{ cancelData.cancel_reason }}</span>
-            </el-col>
-          </el-row>
-          <el-divider />
-          <el-form ref="cancelForm" :model="cancelForm" class="" label-width="100px">
-            <el-form-item :label="$t('8906cb64.de455e')">
-              <el-row>
-                <el-col :span="20">
-                  <template>
-                    <el-radio v-model="cancelForm.check_cancel" label="0">
-                      {{ $t('8906cb64.1bf19c') }}
-                    </el-radio>
-                    <el-radio v-model="cancelForm.check_cancel" label="1">
-                      {{ $t('8906cb64.e61f2c') }}
-                    </el-radio>
-                  </template>
-                </el-col>
-              </el-row>
-            </el-form-item>
-            <el-form-item v-if="cancelForm.check_cancel == '0'" :label="$t('8906cb64.de77c5')">
-              <el-row>
-                <el-col :span="24">
-                  <el-input
-                    v-model="cancelForm.shop_reject_reason"
-                    type="textarea"
-                    :rows="3"
-                    :placeholder="$t('8906cb64.fc955a')"
-                  />
-                </el-col>
-              </el-row>
-            </el-form-item>
-          </el-form>
-        </template>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click.native="handleCancelOrderCancel">{{ $t('8906cb64.625fb2') }}</el-button>
-          <el-button type="primary" @click="submitCancelConfirmAction">
-            {{ $t('8906cb64.38cf16') }}
-          </el-button>
-        </div>
-      </el-dialog>
-      <el-dialog
-        :title="$t('8906cb64.b21b5e')"
-        :visible.sync="cancelOrderVisible"
-        :before-close="handleCancelOrder"
-        width="57%"
-      >
-        <template>
-          <el-form ref="cancelForm" :model="cancelOrderForm" class="" label-width="100px">
-            <el-form-item :label="$t('8906cb64.070dce')">
-              <el-col :span="20">
-                {{ cancelOrderData.orderInfo.order_id }}
-              </el-col>
-            </el-form-item>
-            <el-form-item :label="$t('8906cb64.27910a')">
-              <el-row>
-                <el-col :span="20">
-                  <template>
-                    <el-select
-                      v-model="cancel_order"
-                      filterable
-                      :placeholder="$t('8906cb64.bc4a11')"
-                      @change="cancelReasonSelect"
-                    >
-                      <el-option
-                        v-for="item in order_cancel_reason"
-                        :key="item.value"
-                        :label="item.name"
-                        :value="item.value"
-                      />
-                    </el-select>
+              <el-form-item v-if="cancelForm.check_cancel == '0'" :label="$t('8906cb64.de77c5')">
+                <el-row>
+                  <el-col :span="24">
                     <el-input
-                      v-show="cancelOrderInput"
-                      v-model="cancelOrderForm.other_reason"
+                      v-model="cancelForm.shop_reject_reason"
                       type="textarea"
                       :rows="3"
-                      resize="none"
-                      style="width: 200px; margin-top: 10px"
-                      :placeholder="$t('8906cb64.c6af7d')"
+                      :placeholder="$t('8906cb64.fc955a')"
                     />
-                  </template>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </el-form>
+          </template>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click.native="handleCancelOrderCancel">{{
+              $t('8906cb64.625fb2')
+            }}</el-button>
+            <el-button type="primary" @click="submitCancelConfirmAction">
+              {{ $t('8906cb64.38cf16') }}
+            </el-button>
+          </div>
+        </el-dialog>
+        <el-dialog
+          :title="$t('8906cb64.b21b5e')"
+          :visible.sync="cancelOrderVisible"
+          :before-close="handleCancelOrder"
+          width="57%"
+        >
+          <template>
+            <el-form ref="cancelForm" :model="cancelOrderForm" class="" label-width="100px">
+              <el-form-item :label="$t('8906cb64.070dce')">
+                <el-col :span="20">
+                  {{ cancelOrderData.orderInfo.order_id }}
                 </el-col>
-              </el-row>
-            </el-form-item>
-          </el-form>
-        </template>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click.native="handleCancelOrder">{{ $t('8906cb64.625fb2') }}</el-button>
-          <el-button type="primary" @click="submitCancelOrderConfirmAction">
-            {{ $t('8906cb64.38cf16') }}
-          </el-button>
-        </div>
-      </el-dialog>
+              </el-form-item>
+              <el-form-item :label="$t('8906cb64.27910a')">
+                <el-row>
+                  <el-col :span="20">
+                    <template>
+                      <el-select
+                        v-model="cancel_order"
+                        filterable
+                        :placeholder="$t('8906cb64.bc4a11')"
+                        @change="cancelReasonSelect"
+                      >
+                        <el-option
+                          v-for="item in order_cancel_reason"
+                          :key="item.value"
+                          :label="item.name"
+                          :value="item.value"
+                        />
+                      </el-select>
+                      <el-input
+                        v-show="cancelOrderInput"
+                        v-model="cancelOrderForm.other_reason"
+                        type="textarea"
+                        :rows="3"
+                        resize="none"
+                        style="width: 200px; margin-top: 10px"
+                        :placeholder="$t('8906cb64.c6af7d')"
+                      />
+                    </template>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </el-form>
+          </template>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click.native="handleCancelOrder">{{ $t('8906cb64.625fb2') }}</el-button>
+            <el-button type="primary" @click="submitCancelOrderConfirmAction">
+              {{ $t('8906cb64.38cf16') }}
+            </el-button>
+          </div>
+        </el-dialog>
 
-      <el-dialog
-        :title="$t('8906cb64.bdc4b9')"
-        :visible.sync="writeoffOrderVisible"
-        :before-close="handleWriteoffOrder"
-        width="57%"
-      >
-        <template>
-          <el-form ref="cancelForm" :model="writeoffOrderForm" class="" label-width="100px">
-            <el-form-item :label="$t('8906cb64.070dce')">
-              <el-col :span="20">
-                {{ writeoffOrderData.order_id }}
-              </el-col>
-            </el-form-item>
-            <el-form-item :label="$t('8906cb64.2083dd')">
-              <el-col v-for="item in writeoffOrderData.items" :key="item.item_id">
-                {{ item.item_name }} {{ item.item_spec_desc }} × {{ item.num }}
-              </el-col>
-            </el-form-item>
-            <el-form-item v-if="writeoffOrderData.pickupcode_status" :label="$t('8906cb64.a5a7dd')">
-              <el-input
-                v-model="writeoffOrderForm.pickupcode"
-                :maxlength="6"
-                type="text"
-                :placeholder="$t('8906cb64.bb28da')"
-                style="width: 180px"
-              />
-            </el-form-item>
-          </el-form>
-        </template>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click.native="handleWriteoffOrder">{{ $t('8906cb64.625fb2') }}</el-button>
-          <el-button type="primary" @click="submitWriteoffOrderConfirmAction">
-            {{ $t('8906cb64.38cf16') }}
-          </el-button>
-        </div>
-      </el-dialog>
-      <el-dialog
-        :title="$t('8906cb64.ae62ca')"
-        :visible.sync="writeoffOrderSuccVisible"
-        :before-close="handleWriteoffOrderSucc"
-        width="57%"
-      >
-        <template>
-          <span>{{ writeoffOrderSucc.msg }}</span>
-        </template>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click.native="handleWriteoffOrderSucc">{{ $t('8906cb64.ce2695') }}</el-button>
-        </div>
-      </el-dialog>
-      <RemarkModal ref="modalRef" @onDone="handleRemarksDone" />
-    </div>
-    <router-view />
-  </div>
+        <el-dialog
+          :title="$t('8906cb64.bdc4b9')"
+          :visible.sync="writeoffOrderVisible"
+          :before-close="handleWriteoffOrder"
+          width="57%"
+        >
+          <template>
+            <el-form ref="cancelForm" :model="writeoffOrderForm" class="" label-width="100px">
+              <el-form-item :label="$t('8906cb64.070dce')">
+                <el-col :span="20">
+                  {{ writeoffOrderData.order_id }}
+                </el-col>
+              </el-form-item>
+              <el-form-item :label="$t('8906cb64.2083dd')">
+                <el-col v-for="item in writeoffOrderData.items" :key="item.item_id">
+                  {{ item.item_name }} {{ item.item_spec_desc }} × {{ item.num }}
+                </el-col>
+              </el-form-item>
+              <el-form-item
+                v-if="writeoffOrderData.pickupcode_status"
+                :label="$t('8906cb64.a5a7dd')"
+              >
+                <el-input
+                  v-model="writeoffOrderForm.pickupcode"
+                  :maxlength="6"
+                  type="text"
+                  :placeholder="$t('8906cb64.bb28da')"
+                  style="width: 180px"
+                />
+              </el-form-item>
+            </el-form>
+          </template>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click.native="handleWriteoffOrder">{{ $t('8906cb64.625fb2') }}</el-button>
+            <el-button type="primary" @click="submitWriteoffOrderConfirmAction">
+              {{ $t('8906cb64.38cf16') }}
+            </el-button>
+          </div>
+        </el-dialog>
+        <el-dialog
+          :title="$t('8906cb64.ae62ca')"
+          :visible.sync="writeoffOrderSuccVisible"
+          :before-close="handleWriteoffOrderSucc"
+          width="57%"
+        >
+          <template>
+            <span>{{ writeoffOrderSucc.msg }}</span>
+          </template>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click.native="handleWriteoffOrderSucc">{{
+              $t('8906cb64.ce2695')
+            }}</el-button>
+          </div>
+        </el-dialog>
+        <RemarkModal ref="modalRef" @onDone="handleRemarksDone" />
+      </div>
+    </SpRouterView>
+
+    <template #page-footer>
+      <div class="order-list-page-footer">
+        <el-pagination
+          background
+          layout="total, sizes, prev, pager, next, jumper"
+          :current-page.sync="params.page"
+          :page-sizes="[10, 20, 50]"
+          :total="total_count"
+          :page-size="params.pageSize"
+          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
+        />
+      </div>
+    </template>
+  </SpPage>
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -826,6 +867,7 @@ import { getSourcesList } from '../../../../api/datacube'
 import { getSourceFromNameByValue } from '@/utils'
 import shopSelect from '@/components/shopSelect'
 import RemarkModal from '@/components/remarkModal'
+import OrderListTable from './components/OrderListTable'
 import remarkMixin from '@/mixins/remarkMixin'
 import {
   DISTRIBUTION_TYPE,
@@ -838,7 +880,8 @@ import { IS_ADMIN, IS_SUPPLIER } from '../../../../utils'
 export default {
   components: {
     shopSelect,
-    RemarkModal
+    RemarkModal,
+    OrderListTable
   },
   mixins: [remarkMixin],
   data() {
@@ -1079,10 +1122,51 @@ export default {
     getOrders(filter) {
       this.loading = true
       getOrderList(filter).then((response) => {
-        this.list = response.data.data.list
+        this.list = response.data.data.list.map((row) => ({
+          ...row,
+          actionBtns: this.getListActions(row)
+        }))
         this.total_count = Number(response.data.data.pager.count)
         this.loading = false
       })
+    },
+    getListActions(row) {
+      const actions = []
+      if (
+        row.cancel_status == 'NO_APPLY_CANCEL' &&
+        (row.order_status == 'NOTPAY' || row.order_status == 'PAYED')
+      ) {
+        actions.push({ name: '8906cb64.b21b5e', key: 'cancel' })
+      }
+      if (
+        row.receipt_type == 'logistics' &&
+        row.order_status == 'PAYED' &&
+        row.delivery_status != 'DONE'
+      ) {
+        actions.push({ name: '8906cb64.045315', key: 'delivery' })
+      }
+      if (
+        row.receipt_type == 'ziti' &&
+        row.ziti_status == 'PENDING' &&
+        row.order_status == 'PAYED'
+      ) {
+        actions.push({ name: '8906cb64.e7d31e', key: 'writeOff' })
+      }
+      if (row.cancel_status == 'WAIT_PROCESS' && row.order_status == 'PAYED') {
+        actions.push({ name: '8906cb64.44c198', key: 'refund' })
+      }
+      actions.push({ name: '8906cb64.2432b5', key: 'remark' })
+      return actions
+    },
+    handleListAction(row, action) {
+      const handlers = {
+        cancel: () => this.cancelOrderAction(row.order_id),
+        delivery: () => this.deliveryAction(row),
+        writeOff: () => this.writeoffOrderAction(row.order_id),
+        refund: () => this.confirmCancelOrderAction(row.order_id),
+        remark: () => this.clickShowRemark(row, 'normalList2')
+      }
+      handlers[action.key]?.()
     },
     getAllSourcesList() {
       let params = { page: 1, pageSize: 1000 }
@@ -1109,7 +1193,8 @@ export default {
       }
     },
     getOrderCategoryName(order_holder) {
-      return this.orderCategory.find((item) => item.value == order_holder)?.title ?? ''
+      const title = this.orderCategory.find((item) => item.value == order_holder)?.title ?? ''
+      return title ? this.$t(title) : ''
     },
     deliveryAction(data) {
       // 编辑物料弹框
@@ -1358,6 +1443,26 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+::v-deep .sp-page__footer {
+  border-top: 1px solid #ebeef5;
+  background: #fff !important;
+  z-index: 10;
+}
+
+::v-deep .sp-page__footer .footer-content {
+  padding: 12px 0 !important;
+  background: #fff !important;
+}
+
+.order-list-page-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 16px;
+  background: #fff;
+}
+</style>
 <style lang="scss">
 .el-row {
   margin-bottom: 20px;
