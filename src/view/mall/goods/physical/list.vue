@@ -1272,6 +1272,40 @@ export default {
             }
           }
         },
+        // SKU编码
+        {
+          fieldName: 'item_bn',
+          label: this.$t('d41d8cd9.8a2c1f'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.6e19f2')
+          }
+        },
+        // SPU编码
+        {
+          fieldName: 'goods_bn',
+          label: this.$t('d41d8cd9.c3a815'),
+          cellWidth: 1.3,
+          component: 'input',
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.7d3a61')
+          }
+        },
+        // 商品标签（非供应商）
+        {
+          fieldName: 'tag_id',
+          label: this.$t('d41d8cd9.f1a62d'),
+          component: 'cascader',
+          cellWidth: 1.3,
+          isShow: () => !this.IS_SUPPLIER(),
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.2c9b17'),
+            clearable: true,
+            options: this.tagList,
+            props: { value: 'tag_id', label: 'tag_name' }
+          }
+        },
         // 运费模板
         {
           fieldName: 'templates_id',
@@ -1305,52 +1339,6 @@ export default {
             }))
           }
         },
-        // SKU编码
-        {
-          fieldName: 'item_bn',
-          label: this.$t('d41d8cd9.8a2c1f'),
-          component: 'input',
-          cellWidth: 1.3,
-          componentProps: {
-            placeholder: this.$t('d41d8cd9.6e19f2')
-          }
-        },
-        // SPU编码
-        {
-          fieldName: 'goods_bn',
-          label: this.$t('d41d8cd9.c3a815'),
-          cellWidth: 1.3,
-          component: 'input',
-          componentProps: {
-            placeholder: this.$t('d41d8cd9.7d3a61')
-          }
-        },
-        // 商品产地
-        {
-          fieldName: 'regions_id',
-          label: this.$t('d41d8cd9.d82b43'),
-          component: 'cascader',
-          cellWidth: 1.3,
-          componentProps: {
-            placeholder: this.$t('d41d8cd9.3e1b0a'),
-            clearable: true,
-            options: this.regions
-          }
-        },
-        // 商品标签（非供应商）
-        {
-          fieldName: 'tag_id',
-          label: this.$t('d41d8cd9.f1a62d'),
-          component: 'cascader',
-          cellWidth: 1.3,
-          isShow: () => !this.IS_SUPPLIER(),
-          componentProps: {
-            placeholder: this.$t('d41d8cd9.2c9b17'),
-            clearable: true,
-            options: this.tagList,
-            props: { value: 'tag_id', label: 'tag_name' }
-          }
-        },
         // 赠品
         {
           fieldName: 'is_gift',
@@ -1364,6 +1352,18 @@ export default {
               { label: this.$t('d41d8cd9.5c8d21'), value: true },
               { label: this.$t('d41d8cd9.3f27e8'), value: false }
             ]
+          }
+        },
+        // 商品产地
+        {
+          fieldName: 'regions_id',
+          label: this.$t('d41d8cd9.d82b43'),
+          component: 'cascader',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.3e1b0a'),
+            clearable: true,
+            options: this.regions
           }
         }
       ]
