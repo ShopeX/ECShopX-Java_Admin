@@ -71,8 +71,7 @@ export default {
       const getCardValidate = this.getCardValidate
       return {
         search: [
-          { key: 'title', name: '', placeholder: t('f6fbe152.fbaebb') },
-          { key: 'card_id', name: '', placeholder: t('f6fbe152.c1cad9') }
+          { key: 'title', name: '', placeholder: t('f6fbe152.fbaebb') }
         ],
         columns: [
           { name: t('f6fbe152.c1cad9'), key: 'card_id' },
