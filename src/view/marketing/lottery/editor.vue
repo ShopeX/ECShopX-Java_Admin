@@ -272,7 +272,9 @@ export default {
       this.hotArea = blocks[0]?.imgs?.[0]?.src
         ? {
             backImg: blocks[0].imgs[0].src,
-            padding: blocks[0].padding ?? 20,
+            // 配置里存的是 "20px"，number 输入框需纯数字才能回显
+            padding:
+              parseInt(String(blocks[0].padding ?? 20).replace(/px$/i, ''), 10) || 20,
             img: buttons[0]?.imgs?.[0]?.src || ''
           }
         : { ...generatorParams(lotteryAreaSchema(this)), padding: 20 }
