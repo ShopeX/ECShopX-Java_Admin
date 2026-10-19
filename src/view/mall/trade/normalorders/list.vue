@@ -133,7 +133,8 @@
       <SpDialog
         ref="deliverGoodsDialogRef"
         v-model="deliverGoodsDialog"
-        width="1000px"
+        class="dialog-delivery"
+        width="1200px"
         :confirm-status="confirmStatus"
         :title="`${$t('c95ea121.045315')}【${$t('c95ea121.4c117f')}:${deliverGoodsForm.order_id}】`"
         :form="deliverGoodsForm"
@@ -2305,6 +2306,7 @@ export default {
   }
 }
 
+.dialog-delivery,
 .dialog-changeprice,
 .dialog-cancelorder,
 .dialog-salesafter {

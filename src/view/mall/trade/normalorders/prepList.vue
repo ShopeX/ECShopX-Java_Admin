@@ -607,7 +607,8 @@
     <SpDialog
       ref="deliverGoodsDialogRef"
       v-model="deliverGoodsDialog"
-      width="1000px"
+      class="dialog-delivery"
+      width="1200px"
       :confirm-status="confirmStatus"
       :title="$t('6648bb92.ff1901', { orderId: deliverGoodsForm.order_id })"
       :form="deliverGoodsForm"
@@ -2313,6 +2314,7 @@ export default {
   margin-bottom: 16px;
 }
 
+.dialog-delivery,
 .dialog-changeprice,
 .dialog-cancelorder,
 .dialog-salesafter {
