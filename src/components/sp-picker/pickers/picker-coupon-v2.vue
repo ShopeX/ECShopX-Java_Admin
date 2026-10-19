@@ -101,6 +101,17 @@ export default {
                 return getCardValidate(begin_time, end_time)
               }
             }
+          },
+          {
+            // 可领取库存（接口 quantity/get_num 实时返回，列表刷新即更新）
+            name: t('f6fbe152.0eac88'),
+            key: 'quantity',
+            width: '100px',
+            formatter: (value, { quantity, get_num }) => {
+              const total = Number(quantity) || 0
+              const got = Number(get_num) || 0
+              return total > got ? total - got : 0
+            }
           }
         ]
       }
