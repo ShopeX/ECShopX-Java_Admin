@@ -5,11 +5,9 @@
 
 <style lang="scss">
 .picker-coupon {
-  .sp-filter-form {
-    margin-bottom: 0;
-    .filter-form__bd {
-      margin-left: 16px;
-    }
+  // 无 label 时筛选项贴边，补左侧间距
+  .sp-finder-search-fields {
+    padding-left: 16px;
   }
   .filter-tools {
     display: flex;
