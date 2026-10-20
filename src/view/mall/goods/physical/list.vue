@@ -967,8 +967,16 @@ export default {
             key: 'itemName',
             width: 320,
             render: (h, scope) => {
+              let pics = scope.row.pics
+              if (typeof pics === 'string' && pics.trim()) {
+                try {
+                  pics = JSON.parse(pics)
+                } catch (e) {
+                  pics = []
+                }
+              }
               const pic =
-                (Array.isArray(scope.row.pics) && scope.row.pics[0]) ||
+                (Array.isArray(pics) && pics[0]) ||
                 scope.row.pic ||
                 scope.row.image_url ||
                 ''
@@ -1035,13 +1043,6 @@ export default {
                 </div>
               )
             }
-          },
-          {
-            name: this.$t('d41d8cd9.0888fc'),
-            key: 'item_bn',
-            width: 160,
-            align: 'right',
-            headerAlign: 'center'
           },
           {
             name: this.$t('dc9cefd6.14d342'),
