@@ -145,7 +145,7 @@
         <div class="action-container">
           <el-button type="primary" plain @click="Examine"> {{ $t('d41d8cd9.298be1') }} </el-button>
           <el-button
-            v-if="!VERSION_B2C()"
+            v-if="showSyncToStorePool"
             type="primary"
             plain
             :loading="syncToPoolLoading"
@@ -393,6 +393,12 @@ import districtOptions from '@/mixins/districtOptions'
 
 export default {
   mixins: [districtOptions],
+  computed: {
+    // 仅 B2B2C（standard / platform）展示；与部署包无关，依赖登录 token 的 menu_type
+    showSyncToStorePool() {
+      return this.VERSION_STANDARD() || this.VERSION_PLATFORM()
+    }
+  },
   data() {
     const loginType = this.$store.getters.login_type
     let statusOption
