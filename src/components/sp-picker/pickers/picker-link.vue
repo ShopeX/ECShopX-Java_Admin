@@ -132,6 +132,12 @@ export default {
         ])
       }
 
+      // PC 装修「页面」tab：仅 platform 业态可配置商家入驻
+      if (this.value?.platform === 'web') {
+        if (!this.VERSION_PLATFORM()) return []
+        return mapPageTitles(this, [{ id: 'tenants', titleKey: '223cc8af.1107a8' }])
+      }
+
       const items = [...BASE_LINK_PAGES]
       if (!this.VERSION_PLATFORM() && !this.VERSION_B2C()) {
         items.push(
