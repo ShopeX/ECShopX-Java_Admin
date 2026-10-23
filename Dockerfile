@@ -1,4 +1,4 @@
-FROM reg.ishopex.cn/base-images/node-python3:20.19.0-alpine3.20 AS builder
+FROM reg.ishopex.cn/base-images/node-python3:22.23.4-alpine3.20 AS builder
 
 ARG CMD
 ARG VUE_APP_IS_SAAS=false
@@ -43,9 +43,11 @@ ENV VUE_APP_H5_HOST ${VUE_APP_H5_HOST}
 ENV VUE_APP_DEFAULT_LANG ${VUE_APP_DEFAULT_LANG}
 ENV VUE_APP_WEBSITE ${VUE_APP_WEBSITE}
 
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+
 WORKDIR /app
-COPY package*.json ./
-RUN npm config set registry https://registry.npmmirror.com && npm config set @shopex:registry http://registry.npm.ishopex.cn && npm config set python /usr/bin/python && npm ci
+COPY package.json pnpm-lock.yaml .npmrc ./
+RUN corepack enable && corepack prepare pnpm@10.13.0 --activate && pnpm install --frozen-lockfile
 
 COPY . .
 # COPY .env ./

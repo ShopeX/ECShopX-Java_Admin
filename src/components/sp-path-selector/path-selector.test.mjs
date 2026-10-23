@@ -12,9 +12,11 @@ test('web path selector is limited to web-supported link types', () => {
 
   assert.match(
     config,
-    /web:\s*\['goods',\s*'sale_category',\s*'category',\s*'custom_page',\s*'regactivity'\]/
+    /web:\s*\['goods',\s*'sale_category',\s*'category',\s*'custom_page',\s*'regactivity',\s*'link'\]/
   )
   assert.match(config, /function getPathSelectorTypes\(platform\)/)
+  assert.match(config, /VERSION_PLATFORM\(\)/)
+  assert.match(config, /platform === 'web' && !VERSION_PLATFORM\(\)/)
   assert.match(menuForm, /<SpPathSelector[\s\S]*value=\{value\}[\s\S]*platform=['"]web['"][\s\S]*on-input=\{onInput\}/)
 })
 

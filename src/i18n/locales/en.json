@@ -8066,9 +8066,9 @@
   "58789194.ace302": "Please select at least one product",
   "58789194.33130f": "Operation successful",
   "58789194.3b1083": "Saved successfully",
-  "58789194.d351c3": "Sync to product pool",
-  "58789194.9b0c0c": "Only approved products can be synced to the product pool",
-  "58789194.873b42": "Confirm syncing the selected products to the product pool?",
+  "58789194.d351c3": "Sync to store product pool",
+  "58789194.9b0c0c": "Only approved products can be synced to the store product pool",
+  "58789194.873b42": "Confirm syncing the selected products to the store product pool?",
   "58789194.02d981": "Prompt",
   "58789194.38cf16": "Sure",
   "58789194.625fb2": "Cancel",
@@ -17679,7 +17679,7 @@
   "de022579.24b9c6": "Please select sales category",
   "de022579.5352d4": "Product images",
   "de022579.4d1ed9": "Please upload product images",
-  "de022579.fd4ce6": "1. Up to 9 images, bmp/png/jpeg/jpg/gif, max 2M (recommended 500×500px)<br />2. Album share mini-program code",
+  "de022579.fd4ce6": "1. Up to 9 images, bmp/png/jpeg/jpg/gif, max 2M (recommended 500×500px)<br />2. Whether Moments album share generates a mini-program code<br />3. Do not include spaces or symbols in the image file name",
   "de022579.face4f": "Product video",
   "de022579.8686bb": "Product params",
   "de022579.5fceb3": "Product spec",
@@ -23317,5 +23317,8 @@
   "b64cb62b.5721ab": "Receiver:",
   "b64cb62b.a5a484": "Data is masked. No permission to view.",
   "b64cb62b.8e819c": "View sensitive info",
-  "b64cb62b.a6ab69": "Hide sensitive info"
+  "b64cb62b.a6ab69": "Hide sensitive info",
+  "cc5110aa.f411d0": "Description",
+  "cc5110aa.73f586": "Consistent with the mini program entity",
+  "f6fbe152.0eac88": "Stock"
 }

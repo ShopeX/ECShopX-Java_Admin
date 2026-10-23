@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:8898032415b70dcdbf4f58e02f394c31a210db5984dc25df4f7b919c410be053",
+  "claims": [
+    {
+      "id": "claim_43140c89f7844369ae3172737313d8e5",
+      "statement": "The canonical Admin lottery route is `/marketing/interactive/lottery`, with an optional `editor/:id?` child, and both `/marketing/wheel` and `/marketing/membermarket/wheel` redirect to the canonical route.",
+      "evidence": [
+        {
+          "resource": "repo://src/router/routes/modules/marketing.js#L561-L588",
+          "version": "repo-lines-v1:sha256:b67e1f9efd4cd0888bf7148d1fef68947b39df09b6894f4987b60a9f8ff5ee82:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5NWI4YzViZjg2Mzc0MzY3MWRlZjNmNjMwZWIyMzJkNTlhN2E2MzRhMDcwZmM0MzZlZWMzN2E4Njc0ZTZjMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhYWU4YTBjYTc2Zjk4ZjdiN2RjNzk4NDk1MWQ2M2U1N2RiM2M2NDU1NzljYTUxYmFkNmE1MzlkNjE0ZWRiYmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA1OWY5MDQ5YjkwYzdhYTkzNzQzOWQ3ZmQ1OTU1MDMwNTlkODAyZTBlZjNjYTY5NWI4YTUxYjNhZDYzZTExZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJmMDcyMTYxMzBjNDQ3ODAzYTI2MmFiYWYwMmYzNDRiZjkxYmNjZTYyZjRhYTY0OTE3MTMyNDY5ZmQyYmI4ODMifQ"
+        },
+        {
+          "resource": "repo://src/router/src/route-marketing.js#L56-L60",
+          "version": "repo-lines-v1:sha256:257cc85a70091f48930068910fa3986b127a2f2166e01893d6f183d29193cfed:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjQyMjM5YjFiZDgyYjg1ZWQ1MGMxOGFiZTZiOGU5OTc4NzU1ZGFjNmZkODA0MDkyNGM4YTg4MGM1MmYwNjVkMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTg1ZGMzMTdhMWZmZGUxZmY3OWMyZjk5MDlhNGUzMGE2NmIyZGU2ZWQ4OWM0MmNhZWE2MmFjMGM3Y2ZhOGI3MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjk5YzdmYTgwZDgwOWU4NjVkYTc4ZDE2MmJhZWJkMDg1MDM1NTFiYmNiOTYxM2JhNzJkZDFlNzA0MGZhNDc3YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmQ3MGQ5MTk0NTIxMTczZTcyMTc5ZjFjMDM5ZDRlZGE2YWE5ZGE3OTcyMDFlMmFjMzkwNjYzMGIzZmFhNTFhOCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_acbdd28c9da54d6aabe40bd97b746d76",
+      "statement": "The lottery list loads `/promotions/getturntableList`, searches by `activity_id` and `activity_name`, omits `status` for the `all` tab, and sends exact `notstart`, `online`, or `expire` values for the other tabs.",
+      "evidence": [
+        {
+          "resource": "repo://src/view/marketing/lottery/constants.js#L5-L21",
+          "version": "repo-lines-v1:sha256:64b33ad878723508f374872f9dcb05cb90ae73f2053c0c404e452367cd8cde7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyZmE4OTlhZTA4OGQ5NWZhMTQyNzU2ODFkZTA4ODEzYTUwNzYxNzI2NjU2MDgzYWQ4NDI1ODA1OTg3NTJmM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyNzEyN2VjNGRjMmI5NDI4NjA5YTIwMWIyN2M5MzMxZDQzYmJiYTlkNzRhNzFiMGE5NGNlNTdiYWEzYzA4MDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViM2RmOWFmZjVhZWE1MjBhYmQyZmRmNTI5YzkxZWExNDJkZWVhYWRjM2NhYWJmMmVkMjdkZGYxZGZlYWZhMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBmZmQ5ZWMxNjM2MGIzODgzMWVkOWI2ZTZkODAxMmY1OTFkYWI4ZDk2Y2YyYmM0NGE0Mzg2ZDQ0ZGE1NDJmNzUifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/list.vue#L157-L166",
+          "version": "repo-lines-v1:sha256:38fc9abbc42818e02d5dec1520e9aeec91c55ab2c02c2711390fd8fab8423c72:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhMTVlZGQ5ZjNkYTM3ZmVlNWIyODQ3NzE2YzY2ZDczMWRhMWIyOTAyYzc2ZGQ4NGZhOTkzMzBjODU1M2RhMzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwOGU2YWNkNzlhODVjZjc5MDE4YTUwM2JlMDY5NGMxZWQxODlkZmIyODA5ZmE1ODZkNjRhNGFhYWU2NzVmOTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwMzhlZTJlMTQ3YWI0ZjgyZjgyMTBmZGJhZTMxNjIzY2Q4MGI2NmEwN2E3ZjFmZTMyODZkNjliZjA3OGQ4MDcifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/list.vue#L25-L37",
+          "version": "repo-lines-v1:sha256:b16c6ff0ae37d0b879adbe5c4b82a3562073e992c1fc7734e57cd694b315f626:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhMjMwNjc5ZTcwNWQxMmUyNzMyODg0NDcxOWZkNWU1ZTkzYjljNTE2MWUwMWRjMGQ4ZmYxNTQzNDVlY2M2ZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiMTA2M2M0ZGVhNjhhMzgxNjYxMTBiYWQyZDMzOGI0ZDcyZTAyZDM3YmUwODE1YTc4NDUxZTk5MzMyZDZkZmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU5YzMwYWQ5MmQ5N2MxMzk5OWI1MWZlZmMyYjdjYmI2MWE1ZTVlYTBlYjYzYjU2YmJiNDhjNjAxY2I2ZWJlZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlNmYyMzQxYzY2NmQ2NWJhZmE0NmFmY2EyNDUwN2E3NzFlOTEzM2Y0YzE0ZDE2NDI0OTNmOTgzNGQ4YTg0NDQifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/schema.js#L14-L19",
+          "version": "repo-lines-v1:sha256:74dae93e9c7664e5fc2870fa1acd9c1e7c3d153d9be78597bea600eddeae900a:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjQxZTVhZWMzMzRjNTI3M2JkMDQ1ODg4OGQxY2M3YjJlZGNlOWE1ZTUwMTgyNzA5MzRiNjAyMzYxNDA5NzdhMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzYzZDUzNWNlMzgwNjNkNmI0YzUxZDhjMzg2YTdmOWIzZTU4MGExNGExMGMwN2IxOThkZmFmMTljOTNhM2JmZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDA2OGZhNGE0MzVlODZhMGFlYWUxOGMzODU4NWYwNjUxNmZmYzJlNjBlMTdmMGQ3ZDhhZWFhN2Q1YTQ3MTEzOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjE2YjM1NTY1NmVhYzRlOTAzMzg2M2I0MWFmMzNmNzg0ZTc5NWMxMzM5ZWEzOTgwYjIzY2U0N2YwOTI0ODhhMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_33b521bf17f444cab287a7a52bbeeb2c",
+      "statement": "Lottery list row actions edit by activity ID, stop only online rows after confirmation, clone through the editor query `clone_id`, and open statistics; action handlers are leading-edge debounced for two seconds.",
+      "evidence": [
+        {
+          "resource": "repo://src/view/marketing/lottery/list.vue#L102-L155",
+          "version": "repo-lines-v1:sha256:ef0ab437bb5bcf3c549e2b366ff3b89fae29b6104d941e42f34957c66e4ef9e2:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkYjNmZTFiMmFmNTk4ZjY0NjBhYzhmMzJmYWQyZWU4ODk4MmFhZjQ1OTZmMWU3YjA2Zjk5NmUzOWNjZjBkMTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5YjE5ODJlOGRkNzQ4MTE4MTQ2YjM5YTJkMDA2MmY0MDgxZTM0Nzc5Yjg2NzVjMjM0YzRmYjEyNGRjMzkzOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMwMmNkMjk4YTRjNTAzNzdiOWY1Yjc2MDQxNTdlNTI5NGY5YjZkNmMxYTAwZTY0YzNiZDMzOWJlZDY5NTBlNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI0MmU0N2JiZWNhZGI3OTc3OGY1ZTBjNzljNWUyZTM2ZWIwZjU2YmE5Y2IxOGQ2Y2ZjYmY1M2QxODg0NDg4OTgifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/schema.js#L20-L91",
+          "version": "repo-lines-v1:sha256:f8aed6a50724061975431a3e10d99e5bbaaa6d0b2747545507ca9ce0cb093341:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjNjExYmI2N2E4NjYwOTA0ZjAxZDBiODFmODNmYmQwMjdjMDNlMGM0NjMxYmIyNWI2MjkyZWM2YWY5N2Y3MGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhODk0YjU4MzM1MmZmYmMyMDM3M2YzYjA5OGY5OTA2ODY1OWRlYzM0N2Y0Nzg2MWYzZDUwMjdmZjY5ZTNmMmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyNGUzNWM4YWZkMjBhYTBiYjAxNTM0MTZiOWUyOTdiNWIyNzljODI5ZjVjMzc1MDYyYTMyY2QzZGM0NmQ0NzcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4be95250e7514b8da222260a0b4552e9",
+      "statement": "Stopping an online activity calls `GET /promotions/down_lucky_draw/byid` with `activity_id`, refreshes the Finder after success, ignores confirmation cancellation, and surfaces backend or generic errors.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/marketing.js#L860-L867",
+          "version": "repo-lines-v1:sha256:bc76e7a6dd0a5d16b9687fa253c01e190816cb4f6d3482bce2bf14e39acb5631:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDFiNzY0NTk1Yzc0ZDYxNTE5YTBmNzk5ZmIxY2EzNTA3M2Q4ODIwNTYwOWExYzYxZjk5YTRmZjQ1ODg3ZTE3NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGNmOTVmMmEyZmY0NTQ0MmUxMzVkMDRmNjZmYjI1NGJhNzAxMGVlMzJiZThiM2FjYTAwMjczZTE3N2QwOWYyMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDljNGFmODFiZDAzODRlNTQ3YjE3YmU0NTQxYmRlZDI5OTBkZWJmOGM5NDFlMjY5OTMzOTJlZWU4ZTQxNGEwMyJ9"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/list.vue#L108-L125",
+          "version": "repo-lines-v1:sha256:c231778847e641ae263945525483e9143d6d166e4e5fd9bd57370ec7441a5fd1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ZGNiNjcyYTk0ZGMyOGJjYjM2ZmQ3OTU1ODAyYjFlMzQwNjU2NzNjMzZkYjNlZmViZjgwMzhlYzY0YTFkM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5YjE5ODJlOGRkNzQ4MTE4MTQ2YjM5YTJkMDA2MmY0MDgxZTM0Nzc5Yjg2NzVjMjM0YzRmYjEyNGRjMzkzOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzMDlkZGEzZjdhNTE0ZWNmNDhlN2FiZDE2NDE4ZWU2Zjk2NTllOGVhZDk5OWU5MWJlNmFjZTg4OWViYjUyMDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJlNjc4MWYwNDI4ZWQ0ZGIzYWIxYTBmZDFlMDFjYWY0YjIwZWYwZGM5NDVkNDk0MGRlNzgzY2VkNTIxOWM2ZTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dc9b9cd4cd0f40a69f6642940fafe7e6",
+      "statement": "Edit and clone load detail through `GET /promotions/getturntable`; normal edits preserve identity and `config_version`, while clone mode appends ` 副本`, clears identity/version and the date range, and saves through the normal configuration endpoint.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/marketing.js#L824-L840",
+          "version": "repo-lines-v1:sha256:3cbdf6dab22ef2aa69579e481b425ea70ee5839f16c8dbad62834d2b4dd44e08:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1ZmM3NzllNWI3ZGFhMWI2ZGQ0ZGY4YmNiYzliYWVkYzg5Y2MzNDhiOGY0NmMzYTU4MWFjZGNmODU0NWM3NmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3YzM0ZDFhODMyZjE0M2I2ZGQ1ODRiMmE2Mjk5ZjVlMmY5MzAxNzgxNmE3Njg1OWI1NjZhNDc5OGFkYWI1NTkifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L204-L263",
+          "version": "repo-lines-v1:sha256:ed1813620d17cc3589109daeabdcd32f8d017977c84aeee116bb164817f02cfc:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjYzlhZGVlOWJjNmQ1YWQ0YmFlOTU5NDUzZjlhMjExOGJmN2YyNGQxMjBiY2ZlZGE0YTVkYWU1MWMzZjRlMmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlmZTkzMGEyMjliOWM0Mzk3ZWI2YjRmOTMyOGE4YTNkMjE0ZTRhNGY3M2ZhZDZmNDcwYjdjNjc4YzU4ZTQzMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwMWVkYTE1MDg1Yzc2Mjc4MWM1YTA3ZmYwYTVmOWFkYjU4ZTk4ZDQ0NWVhZTQ2ZjE3NjlhY2YwZjkzNzYzZmEifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L265-L267",
+          "version": "repo-lines-v1:sha256:2ad6f792c2dc4da0f00e48c4082a3f7be79225810c5b1a68a7669e0165426ca8:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWM5NjZmY2Y2M2Y1ZDFiZWQ3OWZmOTE1ODdhYmQ0YzEwNzcxMWZhZmYyYzk0NjQzYTgzYWZlOTZhMTA4MTRjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWI2MmY2MGQ4NTkwYTU3OWNmNDZmOGQ2NzM3OGM0YzU3MmI5NjJjZWNjZGI5MGM3YTVmN2I0MmI5NjA3ODJhNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2Q2NGQ5ODZmY2U1YWJkODk3MzUzMmYzZGNkNjBmOTZmYjZiNzMyNzIyZjg4NTNhODIwNjc2NTRiZGY4NWE5ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjJjNDVhZmM5OGYzZGYyYzcxNmRjZDFkY2JiNTgyOGY1ZjcwNDgwYjA4ZTEyZDMyMGI1M2Q5MDY2ZjhmZTY4NyJ9"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L489-L500",
+          "version": "repo-lines-v1:sha256:bd1f13d83cd8eb803d3d372d63aa0a6ac64eaef62457c3507e970f3c8744e76b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYWE1NTBhOTBjMjE2YmYxZjMwYmI3NjJlMDI4Yzk3ZDY2NzljNzFmM2VmZTQ3ODE3OTM2YjU5ZDY5MGNiMWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0MjQ1ODBiZWNjYTRhODVmOTk0N2Y2OWYyNzQ4NGE0MmFjNTVmMGFhOTBlMTkzM2IxMDQ0N2MxYzNiZGNiMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhY2U2M2JjMTA0Y2E1YzI5MmNiZGQ3OTc3YjliNDk4ZWM5YmU3NmUxY2Q5MjdiZjIzNDE0MGM2ODc5YjA0MjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjYWNmYTQ4YmIzZmM0NDM3NjNiYTYzNGY2NzQ1M2UxZGRhNzQwYjk2YTE4NzEwOTQ4ZWEzNTcyOTliMmRlY2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d88d9f139ff4a868849b5f6e3996929",
+      "statement": "Lottery updates use optimistic concurrency through `config_version`; `LUCKY_DRAW_CONFIG_VERSION_CONFLICT` reloads detail, while `LUCKY_DRAW_ENDED` and elapsed end times make the editor read-only.",
+      "evidence": [
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L214-L229",
+          "version": "repo-lines-v1:sha256:aacd9fcb018a809080ae6d02c7c0fbf0ec1904eb90814e1757687a4d31c16648:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1MWVlYmFiMGRlMTk0ODQ5MGM2YTJiODg1MmRjZDcwY2Q3NDBjZTAyZTY1YjA3NzRkMmEwMDNjMjhkYmM4MzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmYjZkYjgyOGUzYTUxMTk5ZmYwM2Y4NTZiNzI0YWFjNDRjYWQzYzJiMWFjMjRhMmNkMTY3NDU4MzZkOWZkMmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlYzc2YTlmYTMwMTViMjRlM2QxNmUwNzNhYTM5MTI2ZTM1ODRmOWM2ODZiMjQzMWExZmI1YjBiNjM2ZjFlNDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0OTczNzIxZDUyN2QyYjQ0YTE0OTM5ZDNiNGRmYTI2YTBmNzQ2ZDhjMWVlY2YxMmU4NDhjMTY5Y2RiNDNkZjAifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L295-L299",
+          "version": "repo-lines-v1:sha256:32132f707026144e31f80fabfef7641bc749312354520ca2c35ef5c76140664e:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGFkNTQ5ZTU2MjBiOTc1NzIzNTc0YjM1MGYyOTJhNjE3YjFlNTk1YjQ3ODQzZjgzYzNlYjg2NDNkZTRlMGI5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWI2MmY2MGQ4NTkwYTU3OWNmNDZmOGQ2NzM3OGM0YzU3MmI5NjJjZWNjZGI5MGM3YTVmN2I0MmI5NjA3ODJhNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTdjMGE3Y2ZlMzdiMjU3N2UwNDgwZjhmN2EzOWE2OTllZmUzNDAyOGQ0ZGI1ZDkxM2NjYjI3YmM0ZDlhYzMzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODYzMTAwOWFmZTFmZTA3NzcxNzkyYjc5MWNlNzY3ODg1NjdjMDZkNjQ1NjA3NDJiMGU4MjNlYjc1ZjU2ZDZkMCJ9"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L489-L515",
+          "version": "repo-lines-v1:sha256:dfe29620d3cfee6edd8816441c2f8aa91f3ccb9e6ce046f81eeb8c06f680d420:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYWE1NTBhOTBjMjE2YmYxZjMwYmI3NjJlMDI4Yzk3ZDY2NzljNzFmM2VmZTQ3ODE3OTM2YjU5ZDY5MGNiMWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMTBlOTExZjkzMGJmMjQ1MjcxMjQ4NjM1ZDVhMmFiYThmMDI0NmViZmRkZGFlNTBjYzEzMWE3MTlhMGYwYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhY2U2M2JjMTA0Y2E1YzI5MmNiZGQ3OTc3YjliNDk4ZWM5YmU3NmUxY2Q5MjdiZjIzNDE0MGM2ODc5YjA0MjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5YjdkNjU0YjE3M2UyNGY1OGQzOWIzMTgxNzFhZDQ2ZTY2MDMzOTQwYTdlNTY1MDM2NmVmNmVhMzAyMjQ0NTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_64c39b5f5fc7407c8b69953eb0d0b369",
+      "statement": "Before saving, the editor requires a future end time after the begin time, non-empty rich-text intro, cost at least 1, probability sum in `(0,100]`, at least one thanks prize, prize names of at most five characters, and valid coupon stock; limits normalize to zero and daily limits cannot exceed a positive total limit.",
+      "evidence": [
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L319-L376",
+          "version": "repo-lines-v1:sha256:775ee24ef525ce044629c044d7e101f6daf4edb724ee9c82bbbce3151ffbf39f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFjOGZhYmQxODg0YTczYWMxZGEwZDk1NmI5YmMxMzJiZTg2ZjYzMzQxMDMxNDFlOGQwNmFhNWFmNWM1ZTI3NWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5MGY4ZDkxOGFlOTFkNTljMzZmNTU3MzRmNzQ5OTgyYmNkMGEzNzYzNmYzZGZiOTBiNTFmODQzNDA1NjhiMmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2ZmNkNjMxMGIzNDlmZThhODcwZTI2MjY0ZTUxNDNiMzExMzAwZjgzOGFiZjA0YWI4ZjE0NjdmY2ZmMGJiODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmMTA3YmEyYWM3NmJlMmMyNzY2YjMwZDczZDE3YmU3MWIxZWNkODM0MGQ4OTY3ODYyMzAwOGI1MGQ5YTFlNGMifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editorSchema.js#L118-L135",
+          "version": "repo-lines-v1:sha256:e6ae0a1871a2ff9073c77574c2d0be11cfd6ef65a8b35f38418b83934bcae685:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwZGYwMzM0ZTM0YjBmMTA5M2RlN2JiNzRmOTliYTIzZTEyNjQyN2U5MTRmYWFlMTMyMTA0MzhkNTc1MGNkMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzZGQ4NDcyMzBlZGQ5NTNhNGIwZmY0MGVhN2U4ODNiNTU0NDZhOTk0ZmU3YTY2ZWE5ZGUxZGNkNzAzOTc3ZjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczYmNiZDE0YmE3ZTZhOGJhZWQ3M2MyOTE1ZmFmMmFmNmU4MGU2ZmU4NDFhYWRhMDkxZjZiNWQwY2Q0YmE5ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQyYTBjNWFhNThhODM5N2NiN2U4MGFjZGYxYWY5MGJkNjY3MmE0MWJjMDk3MjhhMmU3NmZmZmU3YzlmNTVjNmYifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editorSchema.js#L169-L185",
+          "version": "repo-lines-v1:sha256:740748cb58aac0710e13bf9ea672da6b8e2a2a85df29aa942224ca0b5fcfb0fe:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwZGYwMzM0ZTM0YjBmMTA5M2RlN2JiNzRmOTliYTIzZTEyNjQyN2U5MTRmYWFlMTMyMTA0MzhkNTc1MGNkMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzZGQ4NDcyMzBlZGQ5NTNhNGIwZmY0MGVhN2U4ODNiNTU0NDZhOTk0ZmU3YTY2ZWE5ZGUxZGNkNzAzOTc3ZjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczYmNiZDE0YmE3ZTZhOGJhZWQ3M2MyOTE1ZmFmMmFmNmU4MGU2ZmU4NDFhYWRhMDkxZjZiNWQwY2Q0YmE5ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFhMjJlY2UyODRhNTBkN2VjYmI5YmJkY2ViY2Y0YzAyZjdmNmVmZTFjYTcxMDg2NGQyNWY1NmIxYmM0MjY0OTgifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editorSchema.js#L260-L272",
+          "version": "repo-lines-v1:sha256:36102fa5b6e56cbb3515b7fd8d8de992d11ec562a9bbe9524e2f1e58d979eae4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5YmJkYWM4NjEwZTAyZDkzNjYwY2FjNTJiMzBmM2Q1NjIxYWU5NDZhMGU5MDYzMzExMTc4OGM2NzYyNTgzODUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2YjA0NDkxNDY5NzIyZTgzNjNhOTRlNDA0NDUzOGUwMTNhMmEyMTdlMzZiMWU1NjhiYTYwYWNiN2I0YzhmMmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkYzY4ZDlkZDhlN2ZkYjg3MmI3ZjA2ZDBjOGRiNzEyMGRmZGNmZTQ3YzVlYTdmNWVhYWIyMTUzYzcyNjdlNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNGFlYTQzMzEyYjYzMTJmNzdmZTQ1ZTEyOWU3ZDYzZGMwYjFjNDIyMjFkYTZkZmFjNDQ0MzJjZjY0NjlmZWQifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editorSchema.js#L81-L93",
+          "version": "repo-lines-v1:sha256:b5c971897476189c297adc90dcb43090b4c70c1de26cddaabeefca631caf67c9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwZGYwMzM0ZTM0YjBmMTA5M2RlN2JiNzRmOTliYTIzZTEyNjQyN2U5MTRmYWFlMTMyMTA0MzhkNTc1MGNkMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzZGQ4NDcyMzBlZGQ5NTNhNGIwZmY0MGVhN2U4ODNiNTU0NDZhOTk0ZmU3YTY2ZWE5ZGUxZGNkNzAzOTc3ZjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQxYzg4ZmQ3NWZmMTI5Y2NjZmVjZDAyMzlhOWUwMGU4MTVmYTJiNDU0NzQxODk1YThmNmFmMzIzZjY5MmU5NWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxNWM1ZWZhOTU0NjQwMmI2YzU3MTVmNTc2MTEwM2VkMTE4NzkzZmU0NzQ1ODNlMmJiZGE2ZmIyZDkzMDAzZDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_81ce53b5d57847b784c946c4fb8d29eb",
+      "statement": "The editor supports thanks, points, coupon, and coupon-pack prize types; thanks prizes cannot be renamed, retagged, or deleted, and the editor caps the prize list at eight rows.",
+      "evidence": [
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L167-L176",
+          "version": "repo-lines-v1:sha256:2427573167d4dd9e4cb5a37ab272ca7dbfd7ffc9899d70479df05f2c22d48bbb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwMDI1YTUzYzA3YmMzOTI0NGU5YTYzMjAxZDQ1OTQ2MDRiZDM5ZDgzZmE1MmQ3NDZiNzA2N2FjZWQ3ZDEwMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0MjIzOWIxYmQ4MmI4NWVkNTBjMThhYmU2YjhlOTk3ODc1NWRhYzZmZDgwNDA5MjRjOGE4ODBjNTJmMDY1ZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY4MzY4MjhjODUyYjExNTAwNzAzMTI2M2RmYTNkMjQ5NjA0NmNjYmRkNTlhZjYzNjM4MGEzNTY3ZjMyODI3NjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI2NDlmYjU3ODRiYThlOWIzMTAzYWVjOWM5NjNmYTE5YzdiN2I0OTAyN2NhZWZmODI1NjE2Mjg1Y2MxZTE1NzEifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L518-L534",
+          "version": "repo-lines-v1:sha256:b9d8e48c19a125c675e3c4ad86375df1a9fe2bfae7e2639568e608b89cdb4bb4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3MWRkZDBmZWZlMDc1YmQ3YTQ3OTBiNjliNDgzMDcwMzU3MjUwNTgzZDU5YTM5ZGQwNDQ0YzVkMDNjNzk1ODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYwYTFhNDFlOTUzYjVkMjQ3MGFjM2I0N2FlOWNjZThkMzc1NTIxMWU1M2IxM2Q3ODE2ZmQ3ZWUzZTBjMDA1ODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQwNzg0YzBjMmQ3MzIzYmE1OGY4ZTE3ZDNmN2NmMDNhNDliMWJkOGUyNGRlOGFlNDY2YmY4NTM0Y2I0MDE3YTkifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L564-L590",
+          "version": "repo-lines-v1:sha256:cc0e4e860260f59144e6da079bafd79ea19e0fe54a556b39feb6b94b2de7ff0a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkYjNmZTFiMmFmNTk4ZjY0NjBhYzhmMzJmYWQyZWU4ODk4MmFhZjQ1OTZmMWU3YjA2Zjk5NmUzOWNjZjBkMTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg0NmVkNmFjZjVmNjkxZGFlZGJmMTc2ZDMyZTAyZjhiNTIyNjgxZmYxN2M5ZDY3MDk4MzY1YTMxNzUyNmY1NjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3Y2JjZjg1NjllNDI4N2M1OTRjNTM1ODBiYjE2ZmUxZmIxMDA1MjQ2MjBmZjQ0MzFiMDk1MjBjMTg2ZWQzNWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f7fb176f4e9c49d29a6e4fbceaa96951",
+      "statement": "The save request is `POST /promotions/turntableconfig` and serializes normalized prize data and wheel template configuration; updates additionally send `id` and `config_version`, while `activity_type` is fixed to `wheel` and `area_id` is not part of the active form or payload.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/marketing.js#L833-L840",
+          "version": "repo-lines-v1:sha256:6b0f31c9c423472dcf489293b22e265476d9c1c76b4399b5b7bedc844acf2126:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjQwNDk0NTIyOWJjODgzY2I4OTc0MDlhODI2MTAxYTI5MzViM2UyNGY1NDE5YTJjNmRhYTdhODMxZjdlYjVmNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGNmOTVmMmEyZmY0NTQ0MmUxMzVkMDRmNjZmYjI1NGJhNzAxMGVlMzJiZThiM2FjYTAwMjczZTE3N2QwOWYyMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzdjMzRkMWE4MzJmMTQzYjZkZDU4NGIyYTYyOTlmNWUyZjkzMDE3ODE2YTc2ODU5YjU2NmE0Nzk4YWRhYjU1OSJ9"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L382-L410",
+          "version": "repo-lines-v1:sha256:2f42e5f1b42b4a72f5f32e9deecce4735a961f42cc60fe0174cecc4906bd4f1f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1NjdlZmFkZTg2MGRiNGYyN2Y4YTA5NzQzYThhZWE1NDhhMjM0MTA2NGM3NGU2MmVhMzQ5MTI1MWQyNzM4ODAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5YjE5ODJlOGRkNzQ4MTE4MTQ2YjM5YTJkMDA2MmY0MDgxZTM0Nzc5Yjg2NzVjMjM0YzRmYjEyNGRjMzkzOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU5ZTNhMDhlODM1NTJkZGRjMzE3MjIwMzIyYjFjY2YwZDRjMWFjOGQyNDBlNjljNDViZTcyZjgyZWYxODViMmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxMmM0MzBmYTQzM2RmNjQ3Y2IxNTZlOTVhYmQ2MWQ5OWMyMDUxNjFlNTJlNmIzMWEwMjU2MDcyMjEzYzFhZjUifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L412-L493",
+          "version": "repo-lines-v1:sha256:e76e75e946554c56fc57f1434fdeca8a12ad0b18101759da3fc3a45a70e97095:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0MjVhNzQ5NTFlZDRjN2VhM2M2MmNmODUyNTdkNGJjOTAzZGJiY2U3N2FjMDg1YzE2OGMyZDY0YzhkN2UwNmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNzQxMzY3MDc3ODY1Y2ZiZmE3NjFiNWIyMTFhNmExNzUzYzhiNDUwMTBmYTljOTlmZmI1MGRmZmY2ZWI4YzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNTY0MTg2YzM5NTA0NDYwY2UyY2IzOTU3M2I0NWE5MDZkMTE0NzRmYWQ3NWU1YTUxMmRiMTYyYjkzMzQ4ZWMifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editorSchema.js#L15-L23",
+          "version": "repo-lines-v1:sha256:2ccf5c18ecc7cd20d5957f72ab085fc64d8cf538a3c85b585e7c32cc80a1c0bf:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTA1ZTk0ZjJjYjZiM2ZjZmVjYjgyN2YzODJhMjcxM2ViNDE3NDUzOTA0OWRlZTVjNDQ3M2U1ZGUyZTBjMTllNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTU4MjM2MjAxNjEyNzRlOTQ4YzhmYjE1YjZhNmFlYjlmODQwMmQwN2E4MGIwOGEwNTRkMzI3M2E0MTBhODVhNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzYzNDA3MTk3ZTRiYzA3NTBjOTAwZTI0NGFhNWM1OTA3ZmMxODI1NGJiODdlYmYzOTJmOTA3NGI3NWUwODYyYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDY3NzFhN2RiOGFlMDQ0YjcyZmVkYmY1Y2QyZmUyNDg0MzRjY2MwM2ZmMWZhYWI0MzQzOTliYWM5MWY2NzEzMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_272ada2b00834c7292bdb7d2fd5e761b",
+      "statement": "The current lottery editor clamps and validates `cost_value` to a minimum of 1.",
+      "evidence": [
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L339-L342",
+          "version": "repo-lines-v1:sha256:1505ff09c5594adeb3e60275700b170ea7edaeefbadc189a6b908d8369901fa2:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjM2MjQ5NzQxMjhjY2FjODI2YWFkZGY1MGE1MDA4ODM4ZGIwYjgwNzBlODc4MjQ4YWMyM2RiYWNjMzNiYzhiZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWI2MmY2MGQ4NTkwYTU3OWNmNDZmOGQ2NzM3OGM0YzU3MmI5NjJjZWNjZGI5MGM3YTVmN2I0MmI5NjA3ODJhNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzcyZTQ5MjZjMGNhNDQ5NDFlYjEyN2IwYjFhN2UxNzc5MDdlYjY0NWQ0NTA3OWQyNjFkMTJlOTcxOTRkNzdhMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTNiNDRjZjEyY2MwMDYwZmM1N2UzYmU4YzFmMmFmZTgyOWMzNmNmNGY4OTNhZWQ3MWExYWNmNDFjNmQ3ZGRjNyJ9"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editorSchema.js#L81-L93",
+          "version": "repo-lines-v1:sha256:b5c971897476189c297adc90dcb43090b4c70c1de26cddaabeefca631caf67c9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwZGYwMzM0ZTM0YjBmMTA5M2RlN2JiNzRmOTliYTIzZTEyNjQyN2U5MTRmYWFlMTMyMTA0MzhkNTc1MGNkMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzZGQ4NDcyMzBlZGQ5NTNhNGIwZmY0MGVhN2U4ODNiNTU0NDZhOTk0ZmU3YTY2ZWE5ZGUxZGNkNzAzOTc3ZjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQxYzg4ZmQ3NWZmMTI5Y2NjZmVjZDAyMzlhOWUwMGU4MTVmYTJiNDU0NzQxODk1YThmNmFmMzIzZjY5MmU5NWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxNWM1ZWZhOTU0NjQwMmI2YzU3MTVmNTc2MTEwM2VkMTE4NzkzZmU0NzQ1ODNlMmJiZGE2ZmIyZDkzMDAzZDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_07c55e9c5d8946b180e9c24a528fc7af",
+      "statement": "Statistics request summary counts with `/promotions/getturntable_count/byid`, load logs from the direct Finder URL `/promotions/getturntable_log/byid`, map `pageSize` to `page_size`, and export through `/promotions/down_lucky_draw/export` before routing to the `export_luckdraw_log` tab.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/marketing.js#L842-L875",
+          "version": "repo-lines-v1:sha256:7ce9a884c87cbd2764abb9ea364e8f3a8dab084f8c876d2398a258bd1f6c0c4b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0OGQxYWFlMWVhMzBiMzNhNjRkNjllNDlkYmUxYWVhNTFjZmJkNDNjMjVkYWVjODkzZjYxNzA3YmFjNDM5YTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYzMWEwOTUyMWQ5MmQwZWZiZDA4OTYzOTRiYzdlMGI0MzQ3ZTQ5YmM0MWEwOTY1YWYxMWVhZmE1NDI1NDE5NzkifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/list.vue#L130-L155",
+          "version": "repo-lines-v1:sha256:66c02afff85b6f99b59f4e5edf189d211fe70fb75924dcd32dbeca8db9a756f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmNjQ2Mjc1YjJkODVkNTIxOGNjYjI2MWI5YjM4MThlMTVlZmVkZGQ2OTY2OWJjZGJhYWFkNTgzYzkzZWJmMDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5YjE5ODJlOGRkNzQ4MTE4MTQ2YjM5YTJkMDA2MmY0MDgxZTM0Nzc5Yjg2NzVjMjM0YzRmYjEyNGRjMzkzOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0ODU5M2RhYzg0YmVmMzkwOThkNDY2YmM1MWMyMjJhOTNlOTJmYTYzMGMxOGNmN2FjYTUyZmU0OGY0YTJiMzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI0MmU0N2JiZWNhZGI3OTc3OGY1ZTBjNzljNWUyZTM2ZWIwZjU2YmE5Y2IxOGQ2Y2ZjYmY1M2QxODg0NDg4OTgifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/schema.js#L154-L199",
+          "version": "repo-lines-v1:sha256:a1f5cf59a6c1a53d1f68b8f4b5ff03bb035e1a1a554a796f4999e570d6ac7c3a:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0NmE5MzcwNmQwYjMzMzJjMTQ2NWJkM2M1OTQ2ZTkyMmQ1YjE2MzZjMGZkNzQ3ZWI1MzdiMzIyN2VkOTEzMGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmMWMzZTIzZGYwNjAyYjhhMDhhZWZmMTRhYmU5OGNkYjc1Mzc1ZDRmZmI0NjAyYjViZGUwNzNiNTAxZTJjMWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5NjE3ZGYxZjE5M2YxNGZmNjdjZjE2YWE0NWM2NGU2OWJiYjVhZTkzODc4NDRmNDY1YjJhOWM3ZjdhNjAwNTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhMjI5MDM3NmJjYTAxYjA3ZGI0ZGMxOTIyYTdiZTU5ZTFlMDA3YTRjNWE0MjdmM2VhNWRmODRiYTQxOWNkYmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e9298e473518495f9bb510b7e918186f",
+      "statement": "The statistics log displays user ID, member code, prize title, prize type, and creation time; member code falls back through `user_card_code`, `username`, `member_code`, `mobile`, and `-`.",
+      "evidence": [
+        {
+          "resource": "repo://src/view/marketing/lottery/schema.js#L207-L237",
+          "version": "repo-lines-v1:sha256:9ae89c0796b5c27ec01707dc6d54acc86d0a80f4534e0f1f5c4a9c9e372b47f3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzMDkyNzZlMTMzYTJlNzA1YTE2MmUwMDFkZGIxMjRjYWZjYzA2YjgxZDkwMDc3ZTZhYzM4NjlhYzYwOWRiYjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwNjQ4Zjc3ZmQ1YTljNjNiM2NkZDBhZjQ5ZGFhMTI5OTIyMGI3NTQxZTg4Y2ExN2VmZTFhNmExMTRiOWZmMmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0MGE3NDUxOWIwMjUxZTAxODU3MGU0NjEwZjc2ZDBiNmUzNjlmODhiZjM0YjFhYzU2NDk2NGZmM2E2MjMyMDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0487b01640974639aa21ce55b38442a6",
+      "statement": "The decoration lottery picker deliberately removes both `status` and `regionauth_id` from search parameters, so activities of every lifecycle status, including ended activities, remain selectable; it restores selected IDs from current results and updates the picker value on selection changes.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/sp-picker/pickers/picker-lottery.vue#L106-L148",
+          "version": "repo-lines-v1:sha256:1b1d1091283112629a7e6e3329d2fbcd8a5f2727fb3b72677dab736126423b0a:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhMTVlZGQ5ZjNkYTM3ZmVlNWIyODQ3NzE2YzY2ZDczMWRhMWIyOTAyYzc2ZGQ4NGZhOTkzMzBjODU1M2RhMzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMwMmNkMjk4YTRjNTAzNzdiOWY1Yjc2MDQxNTdlNTI5NGY5YjZkNmMxYTAwZTY0YzNiZDMzOWJlZDY5NTBlNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwMzhlZTJlMTQ3YWI0ZjgyZjgyMTBmZGJhZTMxNjIzY2Q4MGI2NmEwN2E3ZjFmZTMyODZkNjliZjA3OGQ4MDcifQ"
+        },
+        {
+          "resource": "repo://src/components/sp-picker/pickers/picker-lottery.vue#L35-L50",
+          "version": "repo-lines-v1:sha256:d5de0421aeff1e71e312bb658b82f0ce012d9f12f0b29a5bbbb10040d64a2f29:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwMzE0MDhiZmM0NWViN2ZhMzQ3NWIwYTljMTEwYzQyYjA2OTlmNjMwNTY5MWRkYzNiOThjZjcyYmU1ZDYyZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3YWQ2YTdiYWFkYjcwODAzNDU3NGVlMDQwY2I4ZjA1ZTc5OTVjZTUwNDk0ZTIyZjUyMDZlOWEwYTE2N2ZiZGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkODkzOGY5YzEzN2JlOWJmNjMyN2MzZDg2NDUzNjkwM2JjNzAwNWNmYTk3ZDNiOGY4MGRlNTcxMGNlZGZiZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxYjkzZWJkNGEyODg4ZWYyZjQwZDljNjMwNmRiYTk0MzM4ZjM4MmMzMDdjOTk5MjY0YjdhMjk3ODhjZTc1NGIifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-10-23T02:32:18.329Z"
+  }
+}

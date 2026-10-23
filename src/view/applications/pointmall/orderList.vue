@@ -270,7 +270,8 @@
                   v-if="
                     (VERSION_STANDARD() || is_distributor || scope.row.distributor_id == 0) &&
                     scope.row.cancel_status == 'NO_APPLY_CANCEL' &&
-                    (scope.row.order_status == 'NOTPAY' || scope.row.order_status == 'PAYED')
+                    (scope.row.order_status == 'NOTPAY' || scope.row.order_status == 'PAYED') &&
+                    scope.row.delivery_status != 'PARTAIL'
                   "
                   type="text"
                   @click="cancelOrderAction(scope.row.order_id)"
@@ -1077,7 +1078,8 @@ export default {
       if (
         (this.VERSION_STANDARD() || this.is_distributor || row.distributor_id == 0) &&
         row.cancel_status == 'NO_APPLY_CANCEL' &&
-        (row.order_status == 'NOTPAY' || row.order_status == 'PAYED')
+        (row.order_status == 'NOTPAY' || row.order_status == 'PAYED') &&
+        row.delivery_status != 'PARTAIL' // 部分发货不可整单取消
       ) {
         actions.push({ name: '829ad9f2.b21b5e', key: 'cancel' })
       }

@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:3b7e8122ae5c1d696af617a1b2121513eb4db3b7d8ac05de6fc3ceaeabe3924f",
+  "claims": [
+    {
+      "id": "claim_a629fd38860a474ca4a1b1b4f52a4840",
+      "statement": "Application startup imports global i18n and styles, loads the theme update, dynamically imports bootstrap, installs the API and other Vue plugins, and mounts App.vue with the singleton router, store, and i18n instances.",
+      "evidence": [
+        {
+          "resource": "repo://src/bootstrap/index.js#L135-L144",
+          "version": "repo-lines-v1:sha256:a8ffce79f4e46e98b02d90d710c108b00a8d3dff969d5166e5ddfef62cb2b2c1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlZDE3N2E0NDZjN2VjYzI5ODA4OGI0NTRhOWIyYzQ4MzdiM2JmNjQ3YjA1ZGMwM2E2OWY4NzUxYzJhMTI5NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViM2M0NWIyZTVhOTVmMTNiY2U4NzI5NDY4ZDAxZDM0OTZkMmRmOTQxNWU4NDFiODJhOWVmOTI1NWI0YzAzYjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljNzlmNjZkZTFhMGY2NmIwZWU2MzVhNDc5OTI2MTJhMzZkMjA2YWEyMzcxODY0M2E4ZTFjMDQxYzM5YTNkZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE1OTRiMTVlMzIyZDZlN2I4ZDNiOTM4OTExNTM3N2IxMDlhZWNiZDlmNjAzMzdmZDZkYmY3NGMzNGEzZDMzNzMifQ"
+        },
+        {
+          "resource": "repo://src/bootstrap/index.js#L20-L27",
+          "version": "repo-lines-v1:sha256:3ebc650d8177ebe67f02c9cba7b32509438ce7d215bfcae5291cff2d3041bb1a:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWE2N2Q2YTk0N2M4NGY3ZTcyM2MxYWFhMjZlY2Y4YjQ1OWJmZjg1MDU0YWU2NmM5NjlmMWM3YjgwOTJhOGRkOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDM2YmE3Y2Q0YmY1MTEyYTNlNTVhM2UzMmRjN2IxNTdjYzM2NGY0NDA2N2I4MWUzMjg5ZDcyYTMyNmZjNDY4MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmVlZDZiYzkxNzU4ZTcwNDZkZjEwNDMxN2Y4NGFmNDZlZGUyODg3YTI4NjY4ZmJhNDhlN2M1ZDY1NTE4MGNlMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODJiYTJjZmE0OThlOGNlZWVhOTk1ZDU0Nzc3MDZhNTA3NTRhZTEyMGY2MmMyOWE0NDFlODg0ZjQ4MDc2NDczNCJ9"
+        },
+        {
+          "resource": "repo://src/bootstrap/index.js#L38-L59",
+          "version": "repo-lines-v1:sha256:9754c0cb2ef77335a4c47d64dddf35a2750d4e8742df336e2bcf06e98461f2e3:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlNzk4ZjI2M2ViZWYxYmU3YzBhOTRmZTQ3NTBhNTVhOTZmM2JiNjRmNjRlOTZjMjM2NTMxNjNhYTdiZDcyNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYWM5YWY0ZWY3NDYwOTQ5MzFkMDdmOGI3ZjdiODMzM2E2MTZlNWIyNTEyYTZhMjdhNWM5Njc2NjMwMDkwMDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmOTExMjllY2ZlNDg0NDM3NmIwNWI4MWY3NGVjMGI4YjY5NGY4ZGY1NmQ2NmFiNzAxMDZjY2JmMDI2N2JhMDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4NWFkNDI5Yzg1NjkxNjIxMzg4MjA0NmI4M2EwZDYxOWMyYzMyNWJlY2Y4MDk0ZWM3MTBjZjU1YjE1YWM5ZmQifQ"
+        },
+        {
+          "resource": "repo://src/main.js#L5-L21",
+          "version": "repo-lines-v1:sha256:fab8248c0fc1dc7d6791cccccc914d78a8df2dee21882c8bc8e7ab9654e0fbcf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1YzA0OGJjNjQxNmUyYTc2MWY4ZTRjNjUwYTcxNmE4MjVhMTFlYmMzZjNlMDIzNDJlN2FlZmYxZjMzZTg0YmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyOGZiNTNmODJmY2VhYjJiYjIwYTY3NmY4MDIyMWU0Nzg2YTdmMGI3MDZmYTBkMTQ4OTYzNzU2MWIwY2Q0YmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViM2RmOWFmZjVhZWE1MjBhYmQyZmRmNTI5YzkxZWExNDJkZWVhYWRjM2NhYWJmMmVkMjdkZGYxZGZlYWZhMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f7cf35b460a840e0a0f72569253bd3ae",
+      "statement": "Bootstrap applies RTL-specific Element UI form-label handling through document observers when the document is Arabic or otherwise right-to-left.",
+      "evidence": [
+        {
+          "resource": "repo://src/bootstrap/index.js#L61-L133",
+          "version": "repo-lines-v1:sha256:a291f9804b5a9e294f4732bd4f71620e6a3595240830c3246245936ce42127ea:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2NWVjMzBlNzgwZGM2NDg1N2MwY2YzNmRjYjlhMDA0ODZkNDZmNjM1NjM1YjMwY2IzYTZmYjJlNTBkMDExODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2ZmY5MGQzOTQ2NTYxZTI2ZGIwNWE3ZDc2Y2ViMTExMTA4ZTdjODllZTI0NjMxNTllYzY3Y2NlNWVkN2E1OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzZjY3ODUyZGJhMWVlNTEzZDE2Njc4OTVlMTcxMWNlY2Q0MTNiYTJhNTYyYjM3YWY2MTdkN2M1YjdiMDdhYzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9ebf761f59b343a48af4d0d6a3de0667",
+      "statement": "Runtime route selection is independent of build-time product selection: route modules are selected from the URL namespace for shopadmin, supplier, or merchant, while other URLs use root modules; the build configuration separately chooses BBC or B2C newpc assets from PLATFORM.",
+      "evidence": [
+        {
+          "resource": "repo://src/router/routes/index.js#L32-L40",
+          "version": "repo-lines-v1:sha256:3a212f587c3143541eefb90b880a998db49bffb67e309b8d688b89e7a861c8d4:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzQ2YzAxMGQxOWM5MGYxZTJjNTM0MmMyYmU5YTVmODA1N2RiMTRhMWVjYTk3NmRjOTYzZTgxMzA4YTdmNzJiMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODE3MzAzYTdmZTdjYzg0ZmYyYmYzNzQ2ODQyMDA4YTVjODNhZWQ4MzhkNTg0MjhiODhlZmM3MDJmODJkNDRiOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDk3YThhYWVkY2QyYmM3NjViODM3MTdjMWJmODQ4NTYxMGU1ZWY0OTJiNzYzMzMxNzgzZGM5ZGUwYTYzMjEzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzY5MmI0MGVmMDdhMTM3OWZmYmQ3NzE2OGIwNzI4MDczMWI0MDU0Y2UyZTllMmU0OGJjMDI4NWE3ZmUzZTQ2ZiJ9"
+        },
+        {
+          "resource": "repo://src/router/routes/index.js#L7-L18",
+          "version": "repo-lines-v1:sha256:e1ac5c1c378ee65e04058f9799d1e59151e8a9d1012b05f9dc433f6b5ef36de0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFhMzcwMDBmOTA3ZDIwZDhmMzk5Mjg1Nzc2NjE4NzJiZTEyNDA0ODVkNmNmZTlmNzNkYzA1N2EyODFmYjRjNTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlMjUzMDkwOTc1NWI2MDMyYzljNDY5OTAyNzZjZDA0OWUzN2JmNDU0ZTIxMzY1Yjg4MDJkYjljYTk1OWJlNjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU2MWRiNmQ1MjIxMjFjNDAwZjViMmE1Yzc2OWZjMDBjYjIyNmZiZGRjNjU2N2QxNzE1YWZkYzBmMTMyNTc4NzkifQ"
+        },
+        {
+          "resource": "repo://vue.config.js#L24-L35",
+          "version": "repo-lines-v1:sha256:56335a81fd90d09dee10102702c2c8a126ccdf5eccf2931f3def73e1e4538396:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyOTU4OGJlZmZhM2RmY2EyNjE5YTZiNDNiM2JjMzc3MjQxNDY1MWNiODZiOTkzNzJhZDg3ZmQ5NGYyYWI4MGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZiYjFiN2FiYTljOTNjMTZhNTI3YTcyOWFmMzZmMzdjMjc3YTk2Yzg5ZjBiZWMzMzgxZWQ3YTg1ZGViNzQ4ZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2ODY5YjUxMTE5Mzk2ZTk4ZjQ0OWJjYmJmZDQyYWY2YzIxZTlkNWI5YTljODhiNTlhMjk1MTMwMGE0Mzk0ZDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f26df29723fd4eb5bbd18556bbfb1f9b",
+      "statement": "The router uses HTML5 history mode and takes its public base from VUE_APP_PUBLIC_PATH.",
+      "evidence": [
+        {
+          "resource": "repo://src/router/index.js#L10-L16",
+          "version": "repo-lines-v1:sha256:4ce8b2bc118438165dbc4cf64c8a212355587c2c74eb48eeee0dbceadf2c439b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTcwNzMxOTU5ZjY3MjRhZTVkZDhiMjE1ZTYwODEyZDA0Mzk0NjI0OGQxZjc4NWU5YmMyNjI1MDBlNTQ2YjEyNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBiNDQwNzZlZGJkN2MzOWQwYjFkM2U4YzFiOTA4OGU0YjQzYTIwMjY1ZTNkMGNhYTk1ZmVkMGUzZjgzMjNjOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmZmNmYyNjliMjBjODQ2OWQwODJlOThjNzIxZjU3Y2NhOTdhMmY1YTk5ODc4ZGY3ZjJmMDAwYWFjZjM1N2E1OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2Y3NjhiYTcxN2YwZjM2MDI4MWYzNTRiNDZlNDE4ZjBiNjBkZGVkNWRkNTgzNjQ4MDBkZTRmMDQxOWQwZGUxMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3297f4f8025842c4bd20f1c7bb973112",
+      "statement": "The login flow stores the token, login type, and version mode, fetches permission menus and account information, and then reloads to the application path so guarded navigation can initialize the authenticated route table.",
+      "evidence": [
+        {
+          "resource": "repo://src/store/modules/user.js#L167-L176",
+          "version": "repo-lines-v1:sha256:087ead0ac3a2cc6568af19eadd3628b2210a9d6f0da8f09677c661c08252b125:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlZmIzMDc5ZTQzYzE1NGRjYzM3MGQwYmYyZjI2ZTk5ZTRhZTZkZjA4Mjg4NjU5YmI5MzNkODFjMjlhYTA5YzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZiODlhZDA5ZDQwYzNkZTQwMWY3Yjg3ZGNmNjk0ODQ3Njc0OWE5MmMzYjIxNmRhMDA2OTQwMDJmZWNmNGEwZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhYjZlMDQ0MzU2ZWI2ZDhlNjVhMjc1NDA4ZGQxOGIxNWU3ZWZjNjMyMjc5ZTNiNDk5OGM4M2IzOGY0NzNkNDAifQ"
+        },
+        {
+          "resource": "repo://src/views/core/authentication/login.vue#L112-L142",
+          "version": "repo-lines-v1:sha256:91499a38ea8654edab1af4e83625cf746f999ff55d06a7a6af19fd5c05e33bbd:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiY2UxYjRkMWYwMTljMDE2ZGQwODlhMTc5YWUzNDIzYjI1MTE0N2Y1YjkyMjA5OTc4YjUwMTQxYzY1NmFiZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyOTFkMWNlMzczMjA2Y2E1YmMzNzM5NWQwMTQ0ZjMwMzRjYTExYzc0ZDQwYzQ1ODkzMjYxN2EwNjQ0NDFkMTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhlNzNkYTkxMTE2NmExODFhZjg4NDc0NjRjZTFjMzIyMTQ5NDljMzQ5OTgwZjkzZWQ5ZTM0YmZmNjA5YmUxOWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjExMzQzMmY4MmU4ZGQ1MmQ5YzZkZjU5NDZmNjdkOWM3Y2EwZGVhMGE4Y2ZlZGIzMGJlMzM4MDUzZjRkNTJiNmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f9bd60137df64f1ea753b69caa017b0a",
+      "statement": "The access guard sends unauthenticated users to root or portal-specific login routes, permits login and license routes, generates dynamic routes once from persisted user accessMenus, and redirects inaccessible targets or bare portal roots to the first route matching a stored permission.",
+      "evidence": [
+        {
+          "resource": "repo://src/router/access.js#L86-L117",
+          "version": "repo-lines-v1:sha256:087abe2ee2c1254f8d902d35f8f02113bf370b6def4ac19b89e51eabf3597798:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3ZDFiZWRjODczN2I1MmUxNjA4MzAwNDBlZDRiOTJkNGRjNjdmMjllOGFiNGQyZjc1YjczN2U0OTU0ZDc1ZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJkMjNlNTkyZTQ5MzAzNWExOWZmMzExZWMxZWNlMjgzN2FmYjhlM2NhOGE3OTJiZmMyY2UxNzg0M2M3ODg5NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU4MjgyMjJhMzEyOGE2MjZlMWI0YmU1OTE2YmQ2ZjA3OGUzOTY5ODlhYTMzZWU3MzU4YWIzMTBmYWM0NmVhMGMifQ"
+        },
+        {
+          "resource": "repo://src/router/guard.js#L36-L63",
+          "version": "repo-lines-v1:sha256:95498bcba2ceb5de297718a86b68a924be7a42cf63031f59d044d813f0ed36d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NGZjNDUwMDU2NGM2MTkyOWExODE5OWI1Y2M4YjQ0M2U4N2FiMDZjZDQ1YTk1NzYyYzcyYzg4MTY2MTg5ZmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmZDE3NDA5ZmIzOTYxM2E3OWU1ODYyZjA0NTI2NjY1MTkwNzEzNzVmMWUzNGU0NWQ2MWM0ODBhNDY5NzExYjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAyZDRkNzQ2Y2VlMTQzMTM0MWFhYjI0ZDk4ODQxMDg0YjI2ZTQzMTFkZGRlNzQyY2M2NjEzYTIyMzRjMjRlMTYifQ"
+        },
+        {
+          "resource": "repo://src/router/guard.js#L86-L135",
+          "version": "repo-lines-v1:sha256:300eb0a69d64aee8fdd293e5c66f73be03e4d5ea19f8b0e6b63b7ee7bd2a05ac:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiYjViZDlhODI5NjY3YWMwNzExY2UxOTJkMjlkYzdhMTAxZDYzNzQ3YTczNzFjY2E3NTY2OGU0MDFjNWZhMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkNzNlYjI1NDA3ZjI2MzExYWU1YTg1YjhmOWQyNDIyZTA0NTZlZTliNDhjOTBlNTBlY2MyMGE3NzM1NDIwYmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkOTdmZmEwN2I3MDkxYzkxODdkZWI0MTAyY2JhMmNkOTIzZWI1MGI2ODA0OTQ3NzExN2Q5NzFjOGJjYTE5ZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_13653447021643e4b10dab3450fe017b",
+      "statement": "Permission route generation derives leaf alias_name values from the user menu tree, stores the resulting permission strings in the transient access module, filters route metadata permissions, injects matching routes into Vue Router, and adds a portal-prefixed fallback route.",
+      "evidence": [
+        {
+          "resource": "repo://src/router/access.js#L17-L45",
+          "version": "repo-lines-v1:sha256:c38b697c7cd22edbfabeb8e590b54719b4c36517f17eba763aeec59962ed2fa1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlMDMyYmI1ODNmMjNiMGI5YWNhYjQyYzI5NGJjYzNjZjhhNGU2NmNjYTZiNjhlZDAyMWNjNGQwZDA5Y2FiOGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3ZGJmYjRmNTJlMjVhMjQxYWFlNzc1MTQzNGVlNmM1ZTcxZmY4OTAwZTBhY2IyZWRmODlmMjZkNTcyZjY2ZjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk5ZjM3ZDQzNDlmNWFlMjNkMmM5ZGJmN2VhZmUxYmIzNDc1MTMxNjcyMzA5NzgyMGE0OWI2ZDFmMDhmZTlkMGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJmYmViMDg4ZDdjN2QxMmQ0M2Q5MmFiNzk5OTEyYzI0ODBjZjg1ODgzMTJhMzU5NmNhNTQ0MTk1MjA4OWI0NmEifQ"
+        },
+        {
+          "resource": "repo://src/router/access.js#L48-L84",
+          "version": "repo-lines-v1:sha256:07285e7e08a0b2f08134a7eaa8d6bf0902b498323fe006772c74cf306016e24b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmNDIxZjVjMWQ3N2ZjZWU4Y2UzYzIwZjM2MWZjZmZhNmUzNTY2OWQzYWYxNDMxYTE1MDVlNGJhODgxNTMzZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhN2QwZDdiZDk3MTVlOWI3MzA1NTQ1Yzg3MDBmNjVjNzgzYWJjMTllYWM5OWNhYzQwYWViM2UwMzA3ZmI3YWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwNzdkMTBhMGQwZDQ1NmQ3NTVkZTFkMmNhYzBlYzI0OTc4MWYyYWExZTdjZThkODk2ZmViNTVlZWY4OTFlYzcifQ"
+        },
+        {
+          "resource": "repo://src/router/access.js#L86-L110",
+          "version": "repo-lines-v1:sha256:93fef8236db30f06dce9cfc0bb10191312b6d75ca85bc9c4d2034524bfab7657:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3ZDFiZWRjODczN2I1MmUxNjA4MzAwNDBlZDRiOTJkNGRjNjdmMjllOGFiNGQyZjc1YjczN2U0OTU0ZDc1ZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZWFhNmZlNGUyOTBkMWVkZjNjZmQ1MmEyYTYzOTA2YWUwMTQxOTNkOGNmMTdjZWE5YTJkMTAzNzc2MWIzZmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJkMjNlNTkyZTQ5MzAzNWExOWZmMzExZWMxZWNlMjgzN2FmYjhlM2NhOGE3OTJiZmMyY2UxNzg0M2M3ODg5NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVjZGJkMWFhODBhMzBiYmM4OWRiMzI4Mzg1NDcyN2YxZTQzZGU0ZmE1Mzk2ZDBiZmY3Njg3NzM3MTFjNWY1ZTgifQ"
+        },
+        {
+          "resource": "repo://src/store/modules/access.js#L5-L18",
+          "version": "repo-lines-v1:sha256:a76647ad0d38b239dec957879114f3da9d365da590a591a68f8cbaa16e5413d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxMzY2MjllNDk3ODlkODhiNTI5NWVkYWJhMzgxOTJhNjBhYzI5MmRmMGE3ZmM4ZjZhZTA1NzkxMzJmN2QwYjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViM2RmOWFmZjVhZWE1MjBhYmQyZmRmNTI5YzkxZWExNDJkZWVhYWRjM2NhYWJmMmVkMjdkZGYxZGZlYWZhMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_07d2aa2cae1f49c587df0c62a55a918e",
+      "statement": "Vuex persistence uses local storage key __presist and persists only the user and system modules; access-check state and derived permissions are not persisted and are regenerated in memory.",
+      "evidence": [
+        {
+          "resource": "repo://src/store/index.js#L18-L37",
+          "version": "repo-lines-v1:sha256:f544f677818fd3af7e2c848acf7a04de0b4cfc82a16a4d4c08a8f1e5d2dc808c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyZjc4ODNlODFiZTljNWJiNjhjZTdlYjVjN2I4ZDE2NDI0Njc3MDZhZTVmM2JmNmFjZjhjN2Y4ZjM2MmUzNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1NzNiNjVkODkxOTg4NDI3NTk0MzZkMjkyNjVlMDZkMmI1MWNkMWZiNWM3NmRiZTI5ZmY2YTFlNGQyNWE5NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlNjljNjYwNmQ4Y2ViYTZiNjIzYjM4MjczNTYzOWU4NWNjOWNlZmE0ZDQwODRkY2MxMmFjMGRkOTU0M2QzOWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhMjE3OTI2MTAyNTkzZjNlZGJlZWUyMDBkNzUxZDA1ZGE0ZjBlODg3OGFiZTMwZjAyY2FlOTE3MjFhOWZmNjYifQ"
+        },
+        {
+          "resource": "repo://src/store/modules/access.js#L5-L18",
+          "version": "repo-lines-v1:sha256:a76647ad0d38b239dec957879114f3da9d365da590a591a68f8cbaa16e5413d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxMzY2MjllNDk3ODlkODhiNTI5NWVkYWJhMzgxOTJhNjBhYzI5MmRmMGE3ZmM4ZjZhZTA1NzkxMzJmN2QwYjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViM2RmOWFmZjVhZWE1MjBhYmQyZmRmNTI5YzkxZWExNDJkZWVhYWRjM2NhYWJmMmVkMjdkZGYxZGZlYWZhMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_411ab36db0cd4fe5a516a2a6e2cd3efd",
+      "statement": "The basic layout derives navigation menus from user.accessMenus, so the backend menu tree and route permission metadata jointly control both navigation visibility and route access.",
+      "evidence": [
+        {
+          "resource": "repo://src/layout/basic/layout.vue#L80-L103",
+          "version": "repo-lines-v1:sha256:8e4b4bfa07a1c0cd154476734d3176869d2ad66dfe7391dcabd5369a0f96458f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1MDNhOTQwNWJjOTRkMDNlOTkyMjFmNzVkNzA3MGY4MmJiYjFkMzA1YThlOTkwYTI2MTg2ZTI3NGJmY2Q5NWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVmZjg3OGIyY2MyM2Y3N2MxYWUxNDU5MDdiYjcxNzY5ZGE4NGUyZDE4NjFhZTUwNzFiOWY5YjQxM2YzYTBjMGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVkNWFkNjVjYWNlMzljZDk2ZTVjNWI4MTU2MjgyMDBjNzZjNzdiZjU5ZmJhYTc3N2VlMGY5ZWJkMDdlOGNkMzIifQ"
+        },
+        {
+          "resource": "repo://src/router/access.js#L86-L105",
+          "version": "repo-lines-v1:sha256:9420b90502f6188cb1d9a4f9a5666f31c7b1de9874ad227ff661eb3a87f0dcae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3ZDFiZWRjODczN2I1MmUxNjA4MzAwNDBlZDRiOTJkNGRjNjdmMjllOGFiNGQyZjc1YjczN2U0OTU0ZDc1ZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJkMjNlNTkyZTQ5MzAzNWExOWZmMzExZWMxZWNlMjgzN2FmYjhlM2NhOGE3OTJiZmMyY2UxNzg0M2M3ODg5NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkYjJiZWU5NWNjOGY4YzgwM2VhNjY3NzAyN2UzNmQzMmI5ZDY4MjhmODVhMWVjYjc4MWVjNWVkOWI2NDJlM2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c9da7ae98ce14854ad9afb5fe0219eab",
+      "statement": "The active API plugin installs generated domain methods as Vue.prototype.$api and the direct active request helper as Vue.prototype.$http; generated API methods unwrap the nested response data before returning to callers.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/index.js#L5-L32",
+          "version": "repo-lines-v1:sha256:2af6fab7d9d93f40ecc6e3dd7fc922c342823ee07de9561d0611f670f9be403e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxMDAzYmRkNjUyNmFiNTgwOWMxYjY3ZTA0MmE3YWU3YzYxMzM4MjBmZmI2ZDljMTUwMzk0YzZlYTEwNGMzZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzNTJlMWEwN2E0N2U1MjRlYTRlMWFkODlkZDUzZDdjOGJmMmMxZDVkZmRiYjg2MmJiOTkzMzViOWI3MWFkNTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViM2RmOWFmZjVhZWE1MjBhYmQyZmRmNTI5YzkxZWExNDJkZWVhYWRjM2NhYWJmMmVkMjdkZGYxZGZlYWZhMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiN2YzZGE1YzA2NmY5MWI4YTk0YTBlNzU4ODY1NjRkZTE2ZjQ3OWMxOWNhMzNjOTI5NWI1ODljOGE0NzQyZjkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_261573b018774e93a5d201bb83c75302",
+      "statement": "The active src/api/request client uses VUE_APP_BASE_API, JSON defaults, a 30-second timeout, bearer authorization from Vuex, Accept-Language from the i18n country code, GET query normalization, upload/FormData conversion, optional form-urlencoded serialization, and automatic country_code injection unless skipped.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/request/index.js#L248-L256",
+          "version": "repo-lines-v1:sha256:4ac774aa1ed86ccbae65015f77540b41dd348cc04d5fb6f08110e987a1153a14:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTU0YmIzMzE1YjU5NDJlNjBhYTM0YzIwMmZhY2NhZWNkYmQxMWZkNmQ1MTA4MDQwN2QwZTUwNjFkY2Y2MzgwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWM0NGRlOTBmYjgyNWM5ZDE0ZjNiZjE3MGY0MjJjMTc2MDI1ODA0ZDNjMWExNjZmNjc1YmNlNTQ4OWNmNTZhMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmUzOWI3ZDY4ZWNkYTc5NmZlOWIyYzRmMjZlYjFhMTViYzE5MmEyOGMxYTRlNDI2NTI3MjVkYWFkMWQ1YmJlYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGFmZjk5Y2FhNzU4MzlmMDIxNWJjNmU5MTIwNWFlZDZmM2RlOWQ2ZmU4OWEyYzdkMzBiN2M5ZGIxZWQ5ZDhmYiJ9"
+        },
+        {
+          "resource": "repo://src/api/request/index.js#L55-L105",
+          "version": "repo-lines-v1:sha256:99179b3c6464c0b58cd29895e68e942b948d6adf50173efe81aa4a4e80432889:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4MjRhNzQwNzM0NjY3M2I4OGNmOTBhZGEwNzZkMzFkNzRkNjM2ZTZjYjdjNzk0OGVlNDg0OTU1NzRlMjU4MTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmNDBkZmM1YWI3NGEwNjFkNWE4OWU0OWMwOWQ2NzkzMzRmZmRkMzYwNjBjNjhlYmFjYmIwOTY2NmZlMjQyYTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUxOWIwOTQ0NzU1MmEyZjkyOWYzY2IwOWY5NjgwMDFlODA5ODhkYjUxMGI5NmExYzBjYzA5NmM5NTRiMzU4YzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIifQ"
+        },
+        {
+          "resource": "repo://src/api/request/request.js#L10-L31",
+          "version": "repo-lines-v1:sha256:c9867b297855ecbe9eab118460972c6b6c3a58a136b25f626785b85b6c069035:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwMTY2ZjI0NzJmNWM1NmNiMjVmNjgzOTczN2VkNWQ5OGZjZWRiMDI4MmQzOGI4NzIwMGVmMmZiZjVjYWFjM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1ZTNiZWY2NWE1ZDQ5NWUwYTEyMWYxNDk3NDEyOWQ5ZDI3YjIyOGZkZTlkMWY1Y2JiN2QyZDhjZDc0YjdkYTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4NDQyNjM2N2I2OTc4ZTVhNTI2ODc0OTAwZGQ4YzY3ZWJlY2RlNjU3NjE5OWNkOGQ5MWE5MTNmNDk0OGNjMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA3NjhiZDRhNDE0Nzg1YzVkMzY2ZTVmMWEzNTAwMTRmMWUwMGYzNzJjNzM2MjJhMTVkMDkwMzlhMzY2MDFhYTcifQ"
+        },
+        {
+          "resource": "repo://src/api/request/request.js#L50-L84",
+          "version": "repo-lines-v1:sha256:95777171046d6847b94935588db58ece72de0a67d1bc168b904b6439228ca8cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyNzljZjQ5MTRmNTUyMWE2YzhhNjVmNDUyNGQ3MzAzYjc1MTVmOTFkMjkxYTk1NGVmOWM4NjRkZDNiZjgyZDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkNTU0NTkwNjZlYzk0MTcxYTFjMzQxNjJhNDMzNzM4NTQ3MGY5MTBiNTg4NTMxMzRhODJlMzFhODgyZTE3ZjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bb4836bf430e46d2a564e82402d5bccd",
+      "statement": "The active request client treats HTTP 401 as session expiration: it clears user and system state and redirects to the current portal's login path after a warning and delay; automatic token refresh is commented out rather than active.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/request/index.js#L145-L197",
+          "version": "repo-lines-v1:sha256:9dd5f55322e4942ebcc2549571503b7018e4d2cc007ec537656e913f51c0c3ba:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1Mzk0YTY1ZWNhMDlmMTFhZjRlN2I3NDczMmZhMWE4ZTQ2ZDhlN2YzOTM5NmEzMzAyMWJjMjhiODFmNTJlMDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjYmI3YWYwMzJiMGMwYjBiZGM4NmM2ZGNkOTEyOGJlZGUzNTgwNTVhZDlmZjIwMWZhMjEwZjNlMjUwMjA5OWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1OWIzOTNlMmEyZGU1ZTFjMGQ1N2JiZTJiMWQ2Nzk3MGI3MTI4NGZmMGMyZDZhYWVkYmY3MzM5YmY2YjU1MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0NDUwMGU2ZDRhZDUyYmIyZWRlNmNmODQ4ZmEwMjY1ZTMyNGY2N2RiMGRjNWMyNjg0NmE5NDc4ZTkyZjYzOWYifQ"
+        },
+        {
+          "resource": "repo://src/api/request/index.js#L200-L230",
+          "version": "repo-lines-v1:sha256:615f24d33ef1687ad73da85de40a4162ed9636fec30110e468db3241ce3b86e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlZWVjYjJjM2Y4MGI4Zjc0NDU0YzkxNjNmNzEwYjg3ZDJkMzI1YzcxN2RhMzk4M2M1MDYyYzBkODdmNDMyODkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3YjI3NzBhODhiZWE2MzUxOTk2YWQ0YTc4MGYyMDkwOGI0MDEwNDVmYmQ0M2FjN2IzYzk1NmU4NGExNzE1YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1OWIzOTNlMmEyZGU1ZTFjMGQ1N2JiZTJiMWQ2Nzk3MGI3MTI4NGZmMGMyZDZhYWVkYmY3MzM5YmY2YjU1MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgxZDM0N2VlODM2YTZhNWRhMDAzYWUwMjAyMTA2YmFjNTI4ZDE2NjJiY2U0ODMxNDBlNjdhMmQ3MWExZDRhMGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_374a110d5e0c43b9b68f2c74bd1638b5",
+      "statement": "src/api/req.js is a separate legacy or alternate Axios wrapper with different timeout, response unwrapping, error-toast, and login redirect behavior, so it is not interchangeable with the active src/api/request client.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/index.js#L5-L8",
+          "version": "repo-lines-v1:sha256:d29d915642028dff980e10fccacd7c970d6eb98360c4aa678fd58a0cf878ea15:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEwMDNiZGQ2NTI2YWI1ODA5YzFiNjdlMDQyYTdhZTdjNjEzMzgyMGZmYjZkOWMxNTAzOTRjNmVhMTA0YzNmMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWIzZGY5YWZmNWFlYTUyMGFiZDJmZGY1MjljOTFlYTE0MmRlZWFhZGMzY2FhYmYyZWQyN2RkZjFkZmVhZmExYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDJjYjg4ZTVhMGRlZDU0MjFmMjNlNDFhMThkOTg2MzIzZTQ0MDk4Y2VlYjU3MDMzMDRhZDliMTAwZGZiMWY0OCJ9"
+        },
+        {
+          "resource": "repo://src/api/req.js#L34-L56",
+          "version": "repo-lines-v1:sha256:8601f69c0a9fa20e948fdfdabaa5f51da114410f3d4f8c2fd1bbd9d40dae6b2d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0Y2E3NzcyNTEwYjI4YmY1NGJlMGY5ODMxZTRlMTViZmM3MmVhYTBlOWI1NjM0Njk0YjJhYWI5OThhMWEzZGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiM2Q4NjM3OGQxNzA2M2FkOGM0MTJkZTQxNDBjZWY0ZmU5NzUzOGM4NGEyMWQyODk4YzYxOTVkZTNlNTY4OGMifQ"
+        },
+        {
+          "resource": "repo://src/api/req.js#L58-L129",
+          "version": "repo-lines-v1:sha256:3508e995e790d95ce3f2f9c722d30cd3bdaceb5e813723446bc61563dda04892:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhYzg2M2VjYjIwZWIyNGIwNTVlNTkxNDc4YmI5ODQ2ZTk2ZmY1MGI0MTlkOTBiNDVjMjU1Y2MxYmYwZDBlNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjMTYwOTNlZmViMTA0MzIzY2NkY2U2MTgyOTk2YTQ1OTI2NGM0Y2JjNTRlMmYzZWUyOWQ2ZTg2NjJmNjNkOTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI1NmM2Y2Y2MmE2MzA4OTU3M2EzYzk0YjI1NjkxNjljMjY0N2M3ZTIwMzVkM2Q2ZTdmNWVjMWUzYjJiMTg5MWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_51cb572147fa482ca10bbfcf0cdc7aa0",
+      "statement": "The i18n configuration restores a stored language, updates Vue I18n and document lang/dir values, and exposes country codes used by the active request client; English and Arabic demonstrate that HTML language and backend country code are separate values.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/request/index.js#L60-L68",
+          "version": "repo-lines-v1:sha256:508262a80f239dc34dd8d91ffb5e5c57e1e21d2e449417b1fe78eb2f3c4d4805:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmI3Yjg2ZGRhYzA3MDY4YjRiODkyNzdkMGFmNDM0MzVkYzEzYTliYmU3NDJkOGNkZWVjOTIxZTU5NmY0YjgyNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzRhNTNhMDZkNmU4NzEwNzBkN2FlN2UyZDUwYjI1MTMxMGUxMjMzYTA5N2Q0NzUyMGY3ZjQzYThiYTU5YWE2MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWVmZmYwM2I2NTIzYTI4MjVkNjhjOWVjMmYzN2FmNjQzYWUzZTUzZjkwOTAyNTk2ZDE2YTE4MjUxMzU1NTkyMiJ9"
+        },
+        {
+          "resource": "repo://src/i18n/index.js#L123-L143",
+          "version": "repo-lines-v1:sha256:e7b74acc5bd0be8958d597eb90b794d75797b0dbff24805fa19098dc7f088b08:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNmMzdiNTc5NjFiYzQzOTcyMTEyNWZmODMzOGVkZWRjYzI4OTYzMGRjOGYzYTk5YzZkMWMzMTBhYmY0YTZiNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFkNzk4MzczM2RmMjFlZTBmODZiYzY3MWQ0MWM5OWExODk3MzJhMDQ1ZGI3NGFmNzc4YTQ1MWZlM2M1OGNmZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxM2MxMDcwMTU4Y2E2NDRmYTYzMjY3NWM1NmJjZTg3NGY4NTczODYyNzU3NTc1NTk5NDg4ODQ4YTEyNzk4YTcifQ"
+        },
+        {
+          "resource": "repo://src/i18n/index.js#L33-L81",
+          "version": "repo-lines-v1:sha256:a90501c19a686151aca340ec524005f4b047a0796849b3dc02875ab9d5280e81:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyNzYzOTNmYTEzOGQ3Y2I2OTU5ZWU5YTRhMzUzZDYxZjkxNTE1MjZhMzFmZDg0NTJiOWZhNGEwMTFiZDU1YTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjY2QzNWVjMTMyZjQ2ZWRiMzNiZDA1MDQxNTdjMDk5N2VhMTQwMjcyNzhmZTNmNWY1NjIxNmRiNmMyMWViZmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU2OWZkYzE5ZWM4MWE4NTMxMzQxYTZiMDg0MGE5ZTdhMjJlZDY0ODBhM2EyMmRjZjRhZTU0MTU3ZDMwMjhiNDgifQ"
+        },
+        {
+          "resource": "repo://src/i18n/index.js#L86-L121",
+          "version": "repo-lines-v1:sha256:9e59538649f578ef18ca7da5d79c16596c33e14a3a21538ba567dcbc4b9e34f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0ZDYwNzczMWVkODZjNDM4NjhiMTRlNTNkZWYzZWFhNjQ2ZTUzZWYwNGE0NzE2NDY0NGNmMTliNjQ0ODY2OGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxOTI1MWNjZmNjNThjODQxMTgwZTEyOWE0MmVjNWNiZGRmZTc1M2U4OGUwZGU4YjkyZmEwNzcxOTVlZjg0YzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0NmUzMjFiMWZmMjM3YmZhZDhmMmI0MTA3ZmJhYWYyNzQzOGNlOTdmNTdhOWFlZmJiYmIxOTEyYWZlMzU2MjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNhY2EwNWMyZWFkZTQ3ZGI2OGNjNGZkODNjYWE4M2JhNTI0M2JmNTZhOTljN2NjOTBiZWU2NDU4N2VmZDE4NzMifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-10-23T02:32:18.329Z"
+  }
+}

@@ -1,12 +1,13 @@
 <template>
-  <div class="sp-web-custom-page-picker bg-card text-foreground">
+  <div class="sp-web-custom-page-picker bg-card text-foreground px-3">
     <SpFormPlus
       ref="searchForm"
       v-model="searchParams"
       class="sp-web-custom-page-picker__search -mt-[12px] !bg-white !px-0"
       :form-items="searchFormItems"
       form-type="searchForm"
-      label-position="top"
+      search-actions-layout="inline"
+      label-width="80px"
       @submit="onSearch"
       @reset="onReset"
     />
@@ -129,9 +130,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.sp-web-custom-page-picker ::v-deep {
-  .sp-web-custom-page-picker__search.sp-form-plus--actions-bottom .sp-form-plus__wrapper {
-    grid-template-columns: repeat(4, minmax(180px, 1fr));
+.sp-web-custom-page-picker__search ::v-deep {
+  .sp-form-plus__wrapper .form-field {
+    width: 280px;
+    max-width: 100%;
   }
 }
 </style>

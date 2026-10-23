@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:e9839098566304d2239153ae9e84594123c3abb72c46e41d8c437112c5e480c5",
+  "claims": [
+    {
+      "id": "claim_60fe4ed1e0b34f8daff273cddc7df800",
+      "statement": "The Vue Admin entrypoint imports global i18n and styles, loads the bootstrap asynchronously, applies theme setup, and bootstrap mounts the Vue application with router, store, and i18n after installing the API and shared plugin/component layer.",
+      "evidence": [
+        {
+          "resource": "repo://src/bootstrap/index.js#L135-L144",
+          "version": "repo-lines-v1:sha256:a8ffce79f4e46e98b02d90d710c108b00a8d3dff969d5166e5ddfef62cb2b2c1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlZDE3N2E0NDZjN2VjYzI5ODA4OGI0NTRhOWIyYzQ4MzdiM2JmNjQ3YjA1ZGMwM2E2OWY4NzUxYzJhMTI5NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViM2M0NWIyZTVhOTVmMTNiY2U4NzI5NDY4ZDAxZDM0OTZkMmRmOTQxNWU4NDFiODJhOWVmOTI1NWI0YzAzYjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljNzlmNjZkZTFhMGY2NmIwZWU2MzVhNDc5OTI2MTJhMzZkMjA2YWEyMzcxODY0M2E4ZTFjMDQxYzM5YTNkZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE1OTRiMTVlMzIyZDZlN2I4ZDNiOTM4OTExNTM3N2IxMDlhZWNiZDlmNjAzMzdmZDZkYmY3NGMzNGEzZDMzNzMifQ"
+        },
+        {
+          "resource": "repo://src/bootstrap/index.js#L20-L59",
+          "version": "repo-lines-v1:sha256:66a18e96985357f7d7d5cd19edc3ca1bd21de201e50ccac1e01fd1eac6268cca:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNjdkNmE5NDdjODRmN2U3MjNjMWFhYTI2ZWNmOGI0NTliZmY4NTA1NGFlNjZjOTY5ZjFjN2I4MDkyYThkZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYWM5YWY0ZWY3NDYwOTQ5MzFkMDdmOGI3ZjdiODMzM2E2MTZlNWIyNTEyYTZhMjdhNWM5Njc2NjMwMDkwMDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZlZWQ2YmM5MTc1OGU3MDQ2ZGYxMDQzMTdmODRhZjQ2ZWRlMjg4N2EyODY2OGZiYTQ4ZTdjNWQ2NTUxODBjZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4NWFkNDI5Yzg1NjkxNjIxMzg4MjA0NmI4M2EwZDYxOWMyYzMyNWJlY2Y4MDk0ZWM3MTBjZjU1YjE1YWM5ZmQifQ"
+        },
+        {
+          "resource": "repo://src/main.js#L5-L22",
+          "version": "repo-lines-v1:sha256:3b67582b012444f30fa9147caa71a8afa64bf732e3c8aeb42f19bc0c094d5531:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1YzA0OGJjNjQxNmUyYTc2MWY4ZTRjNjUwYTcxNmE4MjVhMTFlYmMzZjNlMDIzNDJlN2FlZmYxZjMzZTg0YmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViM2RmOWFmZjVhZWE1MjBhYmQyZmRmNTI5YzkxZWExNDJkZWVhYWRjM2NhYWJmMmVkMjdkZGYxZGZlYWZhMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1cf8d400f8884d588651a6cd87ffc15a",
+      "statement": "The router uses history mode with VUE_APP_PUBLIC_PATH as its base, while the access guard requires authentication for protected pages, checks portal context, generates permission-filtered routes, and redirects inaccessible destinations to the first permitted route.",
+      "evidence": [
+        {
+          "resource": "repo://src/router/guard.js#L36-L69",
+          "version": "repo-lines-v1:sha256:6581ae6799f76395182ab7f86db7710312e761cc7fbfc3caeda8a23a1dde59ff:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NGZjNDUwMDU2NGM2MTkyOWExODE5OWI1Y2M4YjQ0M2U4N2FiMDZjZDQ1YTk1NzYyYzcyYzg4MTY2MTg5ZmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZiNmZlYmFmZDYwNzVhNjM3YzdiZDM1Mjg1NmY0OTkzMmVmNTlhOTlhMDU2NTU2ZWQwYjZiMGY4OGE0YTY3YTkifQ"
+        },
+        {
+          "resource": "repo://src/router/guard.js#L86-L135",
+          "version": "repo-lines-v1:sha256:300eb0a69d64aee8fdd293e5c66f73be03e4d5ea19f8b0e6b63b7ee7bd2a05ac:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiYjViZDlhODI5NjY3YWMwNzExY2UxOTJkMjlkYzdhMTAxZDYzNzQ3YTczNzFjY2E3NTY2OGU0MDFjNWZhMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkNzNlYjI1NDA3ZjI2MzExYWU1YTg1YjhmOWQyNDIyZTA0NTZlZTliNDhjOTBlNTBlY2MyMGE3NzM1NDIwYmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkOTdmZmEwN2I3MDkxYzkxODdkZWI0MTAyY2JhMmNkOTIzZWI1MGI2ODA0OTQ3NzExN2Q5NzFjOGJjYTE5ZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMifQ"
+        },
+        {
+          "resource": "repo://src/router/index.js#L5-L20",
+          "version": "repo-lines-v1:sha256:2c65e57b684d229248f8b1be87ccfad1eabefd76ccbd766c2910b7f96e7657d0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxOGNiODhiNmE5NmVjYmQ1Y2JlMzlmOTQyNmUyNGNhYTYzNjgzMzM2ZDBiOWEzMDZmZWFkN2IzMGZkY2VkYjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkYThkODNkM2QyZDAyN2FkN2NmODM2NWFmNDBkMmZhOTg2NWZlYWMyN2Y1ODM2YTUxYjQzOGE4NmQ2MzE1ODQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViM2RmOWFmZjVhZWE1MjBhYmQyZmRmNTI5YzkxZWExNDJkZWVhYWRjM2NhYWJmMmVkMjdkZGYxZGZlYWZhMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliMjE2YjBmNTAwNzJkZDczYmQwYzIwMWZlMzk1NzhiMmRhNDhiYzc5M2U0MTgyY2UzNjI0MmViMGVkZTFhMmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d1f71b52c4a14d51a8b7d95a113915f8",
+      "statement": "The canonical Admin lottery route is /marketing/interactive/lottery with permission marketing.interactive.lottery and an optional editor/:id? child route; /marketing/wheel and /marketing/membermarket/wheel redirect to that canonical route for compatibility.",
+      "evidence": [
+        {
+          "resource": "repo://src/router/routes/modules/marketing.js#L561-L588",
+          "version": "repo-lines-v1:sha256:b67e1f9efd4cd0888bf7148d1fef68947b39df09b6894f4987b60a9f8ff5ee82:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5NWI4YzViZjg2Mzc0MzY3MWRlZjNmNjMwZWIyMzJkNTlhN2E2MzRhMDcwZmM0MzZlZWMzN2E4Njc0ZTZjMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhYWU4YTBjYTc2Zjk4ZjdiN2RjNzk4NDk1MWQ2M2U1N2RiM2M2NDU1NzljYTUxYmFkNmE1MzlkNjE0ZWRiYmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA1OWY5MDQ5YjkwYzdhYTkzNzQzOWQ3ZmQ1OTU1MDMwNTlkODAyZTBlZjNjYTY5NWI4YTUxYjNhZDYzZTExZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJmMDcyMTYxMzBjNDQ3ODAzYTI2MmFiYWYwMmYzNDRiZjkxYmNjZTYyZjRhYTY0OTE3MTMyNDY5ZmQyYmI4ODMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e68043affb354bcbbf94c45d2ebbcb6f",
+      "statement": "The lottery list uses /promotions/getturntableList and maps the active audit tab to a status filter, while its Admin actions route to the editor, terminate through downLuckyDrawById, clone through clone_id, retrieve statistics through getTurntableCountById, and export through exportLuckyDrawData.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/marketing.js#L851-L876",
+          "version": "repo-lines-v1:sha256:71cecd178219eaf520b431e508c75149470247f734f045533af30baf5091fb40:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1Y2UzZGE0MjY4OGYxMDcwZjE0ZDBlMmE3ZmY5ZDIwZjg0ODM5NDRkNmNlODNiODBiZDMzMWIyOTJkYzA5MTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJiMmEwMDM1OTQ1Y2MxZjMyOTYxMzQ1NGJmOWFlNGMzNjEzY2U5NzdhMGRhODYwOGFmY2ZjYzhiNWRmMTRhZjgifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/list.vue#L102-L166",
+          "version": "repo-lines-v1:sha256:e0ffc1fa1ac2ed649e0926d836a8164126cf581433d1020ced87cc178dc9d1c3:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkYjNmZTFiMmFmNTk4ZjY0NjBhYzhmMzJmYWQyZWU4ODk4MmFhZjQ1OTZmMWU3YjA2Zjk5NmUzOWNjZjBkMTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMwMmNkMjk4YTRjNTAzNzdiOWY1Yjc2MDQxNTdlNTI5NGY5YjZkNmMxYTAwZTY0YzNiZDMzOWJlZDY5NTBlNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwMzhlZTJlMTQ3YWI0ZjgyZjgyMTBmZGJhZTMxNjIzY2Q4MGI2NmEwN2E3ZjFmZTMyODZkNjliZjA3OGQ4MDcifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/list.vue#L16-L37",
+          "version": "repo-lines-v1:sha256:03b610821b3b894057ce5ad57b7c728e005667bc72f0cd0fe28aae14236ca1ad:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0YmQ0Y2NmODQ5ODc3ZTdlZWY0NjZjMDEwZDVjZWNjNWY2ZmIzMmVlNTA4ZTAxMmY5OWIzNjRlYzhiNjQ0ODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiMTA2M2M0ZGVhNjhhMzgxNjYxMTBiYWQyZDMzOGI0ZDcyZTAyZDM3YmUwODE1YTc4NDUxZTk5MzMyZDZkZmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyZDljODRmNDA3OGI1NDlkNWEyODRhZDBjOTI0MzYyNzAzY2M4ZTc3N2Q2YmIzODk3YTVhNzQ4YjhjMTUzNWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlNmYyMzQxYzY2NmQ2NWJhZmE0NmFmY2EyNDUwN2E3NzFlOTEzM2Y0YzE0ZDE2NDI0OTNmOTgzNGQ4YTg0NDQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4f16e99b0a074fd29238d962182fbafe",
+      "statement": "The lottery editor loads an existing or cloned activity, normalizes prize data, enforces time, limit, cost, description, prize, probability, and stock validation, serializes prize_data and activity_template_config, and saves through editTurntableConfig; edit mode carries config_version, ended activities become read-only, and a config-version conflict reloads the detail.",
+      "evidence": [
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L204-L231",
+          "version": "repo-lines-v1:sha256:d88bb2f8c5be1d20c633221ae8800588833ae76e7cadbea8e1b9863069102c2e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjYzlhZGVlOWJjNmQ1YWQ0YmFlOTU5NDUzZjlhMjExOGJmN2YyNGQxMjBiY2ZlZGE0YTVkYWU1MWMzZjRlMmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5YjE5ODJlOGRkNzQ4MTE4MTQ2YjM5YTJkMDA2MmY0MDgxZTM0Nzc5Yjg2NzVjMjM0YzRmYjEyNGRjMzkzOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlmZTkzMGEyMjliOWM0Mzk3ZWI2YjRmOTMyOGE4YTNkMjE0ZTRhNGY3M2ZhZDZmNDcwYjdjNjc4YzU4ZTQzMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI2ZDdiNTg4YjhmNDcyYjBiNTc4MTRkMzViNDVlYzBlYzA1MjkwNWIxN2Y5ODAxOGI3MGYxMDJjMTA1YWYyOTEifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L233-L300",
+          "version": "repo-lines-v1:sha256:48d3c367d36ad54ff48fe8694d159e6aa5931ac71327cc44aad6e875bd86a2bf:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhN2ZjZTJmMTY5ZTY1YTYxMWQ4ZjEyYWYxZjdiZmU2ZjgwNWE2YWZkZWQ1M2ZiZmRjNmZkNTE4YmIxNzQ4MTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0OTczNzIxZDUyN2QyYjQ0YTE0OTM5ZDNiNGRmYTI2YTBmNzQ2ZDhjMWVlY2YxMmU4NDhjMTY5Y2RiNDNkZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjczOWI3ZjhhMzExZDBlMThjYTZiYjA4M2MyMjE4ZmJjOWQzZWFhYmFiNDY2MzM0Njg4OTFlOTJlZjA1OTg3YWEifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L304-L376",
+          "version": "repo-lines-v1:sha256:8eab1fa102d09599b6d11d1a9b69de3a3e97a3bb7d8584a307dfcc57a54c1cff:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5YTUxNWJhZDFjN2E2OTA4ZjU3NjZkZTgxOTQ0ZTNmOWNlNjE1OWNmNTdkMDVjYTM0YjcxZDZiODhjNmQyMTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5MGY4ZDkxOGFlOTFkNTljMzZmNTU3MzRmNzQ5OTgyYmNkMGEzNzYzNmYzZGZiOTBiNTFmODQzNDA1NjhiMmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczOWI3ZjhhMzExZDBlMThjYTZiYjA4M2MyMjE4ZmJjOWQzZWFhYmFiNDY2MzM0Njg4OTFlOTJlZjA1OTg3YWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmMTA3YmEyYWM3NmJlMmMyNzY2YjMwZDczZDE3YmU3MWIxZWNkODM0MGQ4OTY3ODYyMzAwOGI1MGQ5YTFlNGMifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L412-L516",
+          "version": "repo-lines-v1:sha256:b43f23b025e4f73dcb6eb92afea103e7dd348966da79ba986322186f50e29496:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIyNDI1YTc0OTUxZWQ0YzdlYTNjNjJjZjg1MjU3ZDRiYzkwM2RiYmNlNzdhYzA4NWMxNjhjMmQ2NGM4ZDdlMDZkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI5YjYyZjYwZDg1OTBhNTc5Y2Y0NmY4ZDY3Mzc4YzRjNTcyYjk2MmNlY2NkYjkwYzdhNWY3YjQyYjk2MDc4MmE0IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkMTc0MTM2NzA3Nzg2NWNmYmZhNzYxYjViMjExYTZhMTc1M2M4YjQ1MDEwZmE5Yzk5ZmZiNTBkZmZmNmViOGMxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJhOTRiNGY4NGQ0MDJhNDZmOTM5ZWEwZmY5ZDM0NTQ0MDk5YzBjN2FiM2E2Y2VjNmIzNzA0YWU0MTBlZDYzMTQyIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_2f796f1f5caa4cd2a69f0436a13e8dfc",
+      "statement": "The API installer discovers JavaScript API modules and wraps their functions so feature callers receive res.data.data; lottery marketing wrappers define the detail, save, log, count, termination, export, and direct copy endpoint boundaries.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/index.js#L5-L33",
+          "version": "repo-lines-v1:sha256:9fe921e104d9e8bd1ae885ce292fe16b3382a6bc3f905fcf5659ddf9e9f89a42:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxMDAzYmRkNjUyNmFiNTgwOWMxYjY3ZTA0MmE3YWU3YzYxMzM4MjBmZmI2ZDljMTUwMzk0YzZlYTEwNGMzZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlN2Q3YzMzZTcwOTc4NWE5NjA5YzkwMDgzMjc1ZWI3NDQ0NjZlNWExZDVkZjI3MjQ5ZWUxYTcwMDM4MTY5NDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViM2RmOWFmZjVhZWE1MjBhYmQyZmRmNTI5YzkxZWExNDJkZWVhYWRjM2NhYWJmMmVkMjdkZGYxZGZlYWZhMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzNGU4Mjc1YWRlZTI4ZWIxNjNkY2ZiYjdhOTMwYzdhZDQzY2FlNTQyZDY3MzBjMGMxOGE5ZWZiOWRjNjMwMDUifQ"
+        },
+        {
+          "resource": "repo://src/api/marketing.js#L824-L885",
+          "version": "repo-lines-v1:sha256:a72ce3d1331dd0ba065fd7dfc745b2c58be5435ca2dc4412c3c309bf4630bac5:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1ZmM3NzllNWI3ZGFhMWI2ZGQ0ZGY4YmNiYzliYWVkYzg5Y2MzNDhiOGY0NmMzYTU4MWFjZGNmODU0NWM3NmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a326d9f7479a40ffb9b7a5bfb336fafe",
+      "statement": "The lottery decoration picker extends the shared picker, queries /promotions/getturntableList, filters by activity ID and name, removes status and regionauth_id from requests, restores selected rows after search, and emits selection through the base picker value contract.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/sp-picker/pickers/picker-lottery.vue#L106-L149",
+          "version": "repo-lines-v1:sha256:004e5ea1813426e0b80496a711277007917707b624e1869b6dc0d85b9b118548:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhMTVlZGQ5ZjNkYTM3ZmVlNWIyODQ3NzE2YzY2ZDczMWRhMWIyOTAyYzc2ZGQ4NGZhOTkzMzBjODU1M2RhMzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMwMmNkMjk4YTRjNTAzNzdiOWY1Yjc2MDQxNTdlNTI5NGY5YjZkNmMxYTAwZTY0YzNiZDMzOWJlZDY5NTBlNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmMDFiZjY1M2I2M2Y2Nzg5Mzc2NDYyMTg1Y2Q3OTliM2ZlY2JhNzVlNWVkNjNmYzg1ZTk5ZWMzOTFhNjVmOWYifQ"
+        },
+        {
+          "resource": "repo://src/components/sp-picker/pickers/picker-lottery.vue#L25-L50",
+          "version": "repo-lines-v1:sha256:d7e120f85063a8164d82cce9ba96741545fc01557179dc671577401c0090dc32:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxMTRhMDdiNmQwNWQ3NmFiZmEwM2VkZTE5MjZjMWUyZTc0NzI3MzEyNzlkODU4OGU4YzYzYzU2ODliNTAwNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3YWQ2YTdiYWFkYjcwODAzNDU3NGVlMDQwY2I4ZjA1ZTc5OTVjZTUwNDk0ZTIyZjUyMDZlOWEwYTE2N2ZiZGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyNmNlYTg2MWQwNDdiMzYyNDgxMTgxMjM1MTQxNTcxMjM5ODM0NGI3YTkxZmFmZDc5ZjBjYWY0ZDgwOTk0N2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxYjkzZWJkNGEyODg4ZWYyZjQwZDljNjMwNmRiYTk0MzM4ZjM4MmMzMDdjOTk5MjY0YjdhMjk3ODhjZTc1NGIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bdf085d0b8c54793879c6c52b096f3b8",
+      "statement": "The repository declares Node 22.23.4 and pnpm 10.13.0, provides B2C and B2B2C development/build scripts, and documents that VUE_APP_* configuration such as VUE_APP_BASE_API is baked into the bundle and requires rebuilding after changes.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L5-L22",
+          "version": "repo-lines-v1:sha256:a21c6d96e33b1b9f1f81c956f0385358525acfa5a78b2995ab5fd60ce4503c1a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxNDY2ZDE4MTQzOGVlYTY5YjQ4OWNkNmY0OGIwY2M0OTRkNjE1ZTkxOWYwZDlkZWVhNGIwZTU4OGZmZDYxYjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMjFjODAwOTc5MGJmNzczMjY4ZGQ4MWMyNjMwOTA1YThiMzA1Y2MwOWM2MzdmNmQxNzI3NzU2NDM5MWY5MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ1NDMzMGFkZjM5OTU1ZGYwOGFiZThiZTljN2VhZWRiYTI4ZGE0ODlhZGFlODQ5M2NlYzJiMzQ5NGFlOGE2NTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkZDIzNjY5YWIwZGRmMWIxN2Y5NjM5ZTY1YTU4ODhlNmViZjBiYjA3OWY2M2Y3MDEzNmNjMThjZTEzYzE2MTEifQ"
+        },
+        {
+          "resource": "repo://README.md#L57-L74",
+          "version": "repo-lines-v1:sha256:deb3d4829925c0bc1bd060cdef4ad0ea729383b57cd72fecf26f67e10dac61db:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1MGU4ZDQyOGZkODY2MjM4NmNhYjlmOWY5MWM3MTNkMzZmMzhiMjIxMjkyMDU0Nzc3MmU3MGEzNDc0YjIzODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQxZWRjM2Q1ODRkOGJiMzNkZmJkMjFiYWE1MWYzZTcwN2Q2ZDMxNmNmM2VhNWVmNmE2NTFhZDcyODg3OTlmMjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkMDVkYjRjZTQ5YmFjOWZkNzIwZDM5ODdjODc0YWIxNTU2NjA5MmMyMTQ2YTRiZDU0MTM2ZWRhODkwZmJiYTYifQ"
+        },
+        {
+          "resource": "repo://README.md#L83-L99",
+          "version": "repo-lines-v1:sha256:ae97349af35c148226e187e229a8cc0a851a54a20e436acb30021336f655756c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyZjRhM2VlNDA4OTdjMTNjNGQ5ODUzYjExNTU3MDkzYWUxN2JmNjBjODIzMzNlODNiNmJiZTM0OTNlOWUwOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJkM2EzODU5ZWZiNTQ3MTljNmY4MjUyMGVhMjhjZTlmOTQ5ZTgwNTU1YzdjNmIyODg1OWY2MTRjNzRiM2QwYjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkYmE0NTcwNTcwZDY1NWRiNDkzNmMxN2NmYzYwNTdlZGJmYmQ5MjMyZGYwMDIwN2ZjMzVlYTY3ZjFkZWEzOWQifQ"
+        },
+        {
+          "resource": "repo://package.json#L116-L119",
+          "version": "repo-lines-v1:sha256:6b8aad3d54c3cd64fdf1fc8c9ed714cfa0f03a5bc2096a792897aaf5ed67cbc9:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWY2MDE1NTQxMjJlZmU4NTVkNTZlMTBjYzliYWYyMDMxY2EzZjRhYjExY2RiYTIyZjFlYmM1ZDM5YTc1NTgyNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWQ0MTM2YTgwYmQ0MmE4YjdjYmI5ZTU3NGMzNDk5OWMxMzhlOTkxMjJjNzc1NTYxZjM5MDhiNjAwZTIyOGNmZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDU3NDQzZDAwNGIxYjI1MWZmOTM3NWJhY2RiYzhjMzJhMjA1YjJhZjBiN2FlNzJjNzFhMTM3ZjZjMjk4ZTgzNSJ9"
+        },
+        {
+          "resource": "repo://package.json#L7-L25",
+          "version": "repo-lines-v1:sha256:8d8448e8e48214f0d82decfe33e5deaf6ce77687a4bfbc18ab0124da5ef48bcb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyZjZkODM2MmJmNWVmMDBjZThjOTAyNTdjMDU3ZDJhOGJlYjc1MTU1NDU2ZWJkMWUxNzY1ZTdhNWQ0MjExYjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0ODVhNDQxMjJiZTJjZGRiYTBmYjc4MDhlYmUwNWJmNzAyMzJlZTZkNDU0M2VmNzM2YTI3MjVlNDgwYTk2NTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE2MGJlYTQ2ZGZiNzJlZGYxYzRmMjFhZTQwZTVmMzcxMzg3YjhkOGQ4ZWJmNDUzNTczMGU0OTAzZDdjMzAxYTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRmNTlmMjhiYzcwZDk0ODk0NGNkMTJiYzM0YTIzMjczYTNiM2I1ZTFhMmNhNTdhYjlhMmJlYjUwMWE3M2RmMWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cc698bc473994e8c82c46a6c36ce9a43",
+      "statement": "The repository provides a decoration contract check script invoked by pnpm run lint:decoration-contract, and no focused test or spec files matching the repository-wide *.test.* or *.spec.* patterns were present during this update.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L24-L25",
+          "version": "repo-lines-v1:sha256:69330c80dc2bbdb62cf2f70824c846eb90235a71f48de697391c15ded88cc7f4:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTVkM2Q2YTMxN2RiNGRlMDJhMTZmNzQxMDZlNDhjMWJjNDNkMmNiNzZlODQ3ZjkxODUyNmZjYmE4YzFhZDVkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzQ4NWE0NDEyMmJlMmNkZGJhMGZiNzgwOGViZTA1YmY3MDIzMmVlNmQ0NTQzZWY3MzZhMjcyNWU0ODBhOTY1MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWUzYjBkMjkzMDM4ZDcyNzM3ZDkzNTY3NzUzMDMzZGM1MTQ0NTJmYzYyNzA0OGUzYWUwZDFjZTRkM2M3M2M3ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGY1OWYyOGJjNzBkOTQ4OTQ0Y2QxMmJjMzRhMjMyNzNhM2IzYjVlMWEyY2E1N2FiOWEyYmViNTAxYTczZGYxYSJ9"
+        },
+        {
+          "resource": "repo://scripts/check-decoration-contract.mjs#L1-L24",
+          "version": "repo-lines-v1:sha256:7caa6b4ae9e5a2f8b67d0aa46721aad5eee2b48a722249f075fb1671d99c043c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiYmU2YWFhZjIxN2ZmMmIwNmViMjdjMTkwYjY5NzQ2ZTY5M2U1ZjhkNTVmODY1MzA4NTUxOTUyMzg2ZTEwNWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMzAwZjJjNzA5NjU4MjlkMTkwYTE3MGVlNmRiYmYzYTJhMmE2NGE5ZWNjYzk0ZTg4OWZiNzY2Y2MzNmUyMzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwNWZkZmZjNGFmNGJmY2Q4MTY5NmQwMjM5NjFmYjM1NDAwZjhhNTBlNmRlZTcxNzZiZTkwMTZjZGI5M2RkY2MifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-10-23T02:32:18.329Z"
+  }
+}

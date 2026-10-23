@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "pages": {
+    "/openwiki/api/lottery-wheel-contract.md": {
+      "gitHead": "4fa0efc505e78ad84af7b422a6c8a6f8d7c9cfa7",
+      "sourceFingerprint": "sha256:10cb7d2f44054d31912c96c02e95e9ddf9f50bfc791cd9f7d45e271f940f92d7",
+      "pageVersion": "sha256:9bfed36e790cb4e9f52c5a36aeaed289f9d649b507a82427d524a6c3405e2416",
+      "completedBy": "openwiki/0.5.1",
+      "completedRunId": "5ad47bf5-0783-40f9-86e7-a041bd8f5654"
+    },
+    "/openwiki/architecture/overview.md": {
+      "gitHead": "4fa0efc505e78ad84af7b422a6c8a6f8d7c9cfa7",
+      "sourceFingerprint": "sha256:10cb7d2f44054d31912c96c02e95e9ddf9f50bfc791cd9f7d45e271f940f92d7",
+      "pageVersion": "sha256:8ee54c5035a301beb007684fe3b1fb1c3ad4a9ef2bfdbbd5483564baeff4859f",
+      "completedBy": "openwiki/0.5.1",
+      "completedRunId": "5ad47bf5-0783-40f9-86e7-a041bd8f5654"
+    },
+    "/openwiki/marketing/lottery/code-map.md": {
+      "gitHead": "4fa0efc505e78ad84af7b422a6c8a6f8d7c9cfa7",
+      "sourceFingerprint": "sha256:10cb7d2f44054d31912c96c02e95e9ddf9f50bfc791cd9f7d45e271f940f92d7",
+      "pageVersion": "sha256:9545bad805b133981387e1dedda4bddaca25b19d5abffdd763fae0d259e24252",
+      "completedBy": "openwiki/0.5.1",
+      "completedRunId": "5ad47bf5-0783-40f9-86e7-a041bd8f5654"
+    },
+    "/openwiki/marketing/lottery/requirements.md": {
+      "gitHead": "4fa0efc505e78ad84af7b422a6c8a6f8d7c9cfa7",
+      "sourceFingerprint": "sha256:10cb7d2f44054d31912c96c02e95e9ddf9f50bfc791cd9f7d45e271f940f92d7",
+      "pageVersion": "sha256:c89cbb7628ec056d419d733ea927f23d1e76bc59a7de470c65afe288370924a3",
+      "completedBy": "openwiki/0.5.1",
+      "completedRunId": "5ad47bf5-0783-40f9-86e7-a041bd8f5654"
+    },
+    "/openwiki/operations/build-and-delivery.md": {
+      "gitHead": "4fa0efc505e78ad84af7b422a6c8a6f8d7c9cfa7",
+      "sourceFingerprint": "sha256:10cb7d2f44054d31912c96c02e95e9ddf9f50bfc791cd9f7d45e271f940f92d7",
+      "pageVersion": "sha256:1459c43ad70a77731f01bf1ec408a03eaa27e5d745a3bd225c261d852cb94071",
+      "completedBy": "openwiki/0.5.1",
+      "completedRunId": "5ad47bf5-0783-40f9-86e7-a041bd8f5654"
+    },
+    "/openwiki/operations/integrations-and-quality.md": {
+      "gitHead": "4fa0efc505e78ad84af7b422a6c8a6f8d7c9cfa7",
+      "sourceFingerprint": "sha256:10cb7d2f44054d31912c96c02e95e9ddf9f50bfc791cd9f7d45e271f940f92d7",
+      "pageVersion": "sha256:e37976c4e18eceb948f1fb1466ff6b5655688fd7141c37ead1598affc07793b5",
+      "completedBy": "openwiki/0.5.1",
+      "completedRunId": "5ad47bf5-0783-40f9-86e7-a041bd8f5654"
+    },
+    "/openwiki/quickstart.md": {
+      "pageVersion": "sha256:4bf36f7b87abca91791432e9024f4a9015d89685e7ea5755f3812edf88c3f97b",
+      "completedBy": "openwiki/0.5.1",
+      "completedRunId": "5ad47bf5-0783-40f9-86e7-a041bd8f5654",
+      "gitHead": "4fa0efc505e78ad84af7b422a6c8a6f8d7c9cfa7",
+      "sourceFingerprint": "sha256:10cb7d2f44054d31912c96c02e95e9ddf9f50bfc791cd9f7d45e271f940f92d7"
+    },
+    "/openwiki/source-map.md": {
+      "gitHead": "4fa0efc505e78ad84af7b422a6c8a6f8d7c9cfa7",
+      "sourceFingerprint": "sha256:10cb7d2f44054d31912c96c02e95e9ddf9f50bfc791cd9f7d45e271f940f92d7",
+      "pageVersion": "sha256:de4824bd471d1738858dc209cd79c5655c5513e9be93bb3d894e4d1b8acaa128",
+      "completedBy": "openwiki/0.5.1",
+      "completedRunId": "5ad47bf5-0783-40f9-86e7-a041bd8f5654"
+    },
+    "/openwiki/workflows/change-guide.md": {
+      "gitHead": "4fa0efc505e78ad84af7b422a6c8a6f8d7c9cfa7",
+      "sourceFingerprint": "sha256:10cb7d2f44054d31912c96c02e95e9ddf9f50bfc791cd9f7d45e271f940f92d7",
+      "pageVersion": "sha256:f8edf13431ac934adf1a01ddbfe863bb413e6cf702705f12583be6d979368a81",
+      "completedBy": "openwiki/0.5.1",
+      "completedRunId": "5ad47bf5-0783-40f9-86e7-a041bd8f5654"
+    },
+    "/openwiki/workflows/commerce-admin.md": {
+      "gitHead": "4fa0efc505e78ad84af7b422a6c8a6f8d7c9cfa7",
+      "sourceFingerprint": "sha256:10cb7d2f44054d31912c96c02e95e9ddf9f50bfc791cd9f7d45e271f940f92d7",
+      "pageVersion": "sha256:4bb0d8aead9d0123796af2713ac6f7c6144f0bfd7dabeb18f86403491587435f",
+      "completedBy": "openwiki/0.5.1",
+      "completedRunId": "5ad47bf5-0783-40f9-86e7-a041bd8f5654"
+    },
+    "/openwiki/workflows/lottery-wheel-admin.md": {
+      "gitHead": "4fa0efc505e78ad84af7b422a6c8a6f8d7c9cfa7",
+      "sourceFingerprint": "sha256:10cb7d2f44054d31912c96c02e95e9ddf9f50bfc791cd9f7d45e271f940f92d7",
+      "pageVersion": "sha256:c235188854ef3b92a0dce24096fcf15cd0682866bf33841a0b36de22c93da127",
+      "completedBy": "openwiki/0.5.1",
+      "completedRunId": "5ad47bf5-0783-40f9-86e7-a041bd8f5654"
+    }
+  }
+}

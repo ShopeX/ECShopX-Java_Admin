@@ -20,10 +20,8 @@ release.*
 .npm-cache/_update-notifier-last-checked
 AGENTS.md
 openspec/
-openwiki/
 dist/
 .cursor/commit-summary/
-.codegraph/
 .cursor/skills/
 CLAUDE.md
 .github

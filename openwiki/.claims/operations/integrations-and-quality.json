@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:cf32445e02f24cfe27a3e1e3f653ce696001b0f11dd0c6d217e56b6384058296",
+  "claims": [
+    {
+      "id": "claim_03aba2fdd92943ae82c8a462716629cc",
+      "statement": "The shared request boundary adds a bearer Authorization header when a store token exists, derives Accept-Language from the persisted application locale, normalizes GET data into non-empty query parameters, converts marked uploads to FormData, serializes object bodies declared as application/x-www-form-urlencoded, and centralizes response/error handling for domain API modules.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/request/index.js#L109-L142",
+          "version": "repo-lines-v1:sha256:930a1a6c730d1013018ad44b8fc6a9fa46f71ed58dc055ba877fb45d0f2438f7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMzM2Zjc3ZTMwN2JmMGIzYjIyYjMwNjRkMGI4YWNmNTVlYzgwZjY0MDU1NzM5OTRmYzVmMjQ0NjJhZTFiNzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjYmI3YWYwMzJiMGMwYjBiZGM4NmM2ZGNkOTEyOGJlZGUzNTgwNTVhZDlmZjIwMWZhMjEwZjNlMjUwMjA5OWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVjYzNhNzFhOWE0MmVlOTAzYWEzYzJhYWZlZmUzODQxYmE0NDE1M2UxMjNhNzNkNTdjZDdhODA1N2FhNGQyYTAifQ"
+        },
+        {
+          "resource": "repo://src/api/request/index.js#L231-L259",
+          "version": "repo-lines-v1:sha256:9bb54723bc5039b6a7d9e5d1ed73c8eea162afcd9ba27c318b9a83eb5853189d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhYzExMjYxMTA1M2FiNTcyNzQwZDA5Yzc5ODAxNzQzMDc3MTUzODdkMTI0YTQ2Mzk2MjFhODllMTM4ODdmNTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4ZThiMmNjZDcyYTkzZGU3YzdlOTQzZTc5YzI0ZDJlMDY5MTEzYzQ1OTQzZTEzMDc3NGI4M2IzZmY5MmI5NDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjOGUwMTZhNTYwNDE2MzQyY2Y0MGUzMTI4ZjI3NGJmMWVhN2RhZTBjYTJiOWNkYWMzMDcyMGVhZWFkY2I4ZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/api/request/index.js#L55-L105",
+          "version": "repo-lines-v1:sha256:99179b3c6464c0b58cd29895e68e942b948d6adf50173efe81aa4a4e80432889:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4MjRhNzQwNzM0NjY3M2I4OGNmOTBhZGEwNzZkMzFkNzRkNjM2ZTZjYjdjNzk0OGVlNDg0OTU1NzRlMjU4MTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmNDBkZmM1YWI3NGEwNjFkNWE4OWU0OWMwOWQ2NzkzMzRmZmRkMzYwNjBjNjhlYmFjYmIwOTY2NmZlMjQyYTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUxOWIwOTQ0NzU1MmEyZjkyOWYzY2IwOWY5NjgwMDFlODA5ODhkYjUxMGI5NmExYzBjYzA5NmM5NTRiMzU4YzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3001a791aad24d3e814dc4c0d2f0c266",
+      "statement": "The locale registry separates HTML language/direction from the backend country code: English uses htmlLang en with countryCode en-CN, Arabic uses ar-SA with RTL direction, and getCurrentCountryCode reads the stored language configuration used by requests.",
+      "evidence": [
+        {
+          "resource": "repo://src/i18n/index.js#L113-L141",
+          "version": "repo-lines-v1:sha256:e623121ce6c3be06ebd3bd47a18f1c04bd94d783ff0eb29390fb4ddfe9076b5b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxNTQ5YTZjZjMwY2RmYmM4MWM0ZmJmMDJhNDg4N2Y1NjQ2YmYwN2U4MzJlMGQ0M2MxMmVlN2UzMmEwZGFlNGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5NDQ0MDdjM2ZlMGVhZmY5MWI0Y2RlMDk4OGUxYzNhYmY1NjkxY2E2YmI1NWYxNzNkOWY5ZTgzMDlhNGYwYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMxMjI4Yjg5ZWFmYTFkNmFmOGIzMGU2MGE4YzYwMjRkYzEwZjdmMDY5ZmVlZTJhODc4YmMyZDRiMjQ3MzQwZjYifQ"
+        },
+        {
+          "resource": "repo://src/i18n/index.js#L33-L82",
+          "version": "repo-lines-v1:sha256:72c868d56a33a07fad81690a089863e64b50f62d247048d47addc27100eb4e67:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyNzYzOTNmYTEzOGQ3Y2I2OTU5ZWU5YTRhMzUzZDYxZjkxNTE1MjZhMzFmZDg0NTJiOWZhNGEwMTFiZDU1YTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjY2QzNWVjMTMyZjQ2ZWRiMzNiZDA1MDQxNTdjMDk5N2VhMTQwMjcyNzhmZTNmNWY1NjIxNmRiNmMyMWViZmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0NmUzMjFiMWZmMjM3YmZhZDhmMmI0MTA3ZmJhYWYyNzQzOGNlOTdmNTdhOWFlZmJiYmIxOTEyYWZlMzU2MjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bcb915eb433a4d699a80ca167873b39b",
+      "statement": "A 401 response does not automatically refresh and retry the request: the active response handler clears user and system session state and schedules a route-aware login redirect for shopadmin, supplier, and merchant portals, while the refresh-token queue is commented out.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/request/index.js#L145-L197",
+          "version": "repo-lines-v1:sha256:9dd5f55322e4942ebcc2549571503b7018e4d2cc007ec537656e913f51c0c3ba:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1Mzk0YTY1ZWNhMDlmMTFhZjRlN2I3NDczMmZhMWE4ZTQ2ZDhlN2YzOTM5NmEzMzAyMWJjMjhiODFmNTJlMDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjYmI3YWYwMzJiMGMwYjBiZGM4NmM2ZGNkOTEyOGJlZGUzNTgwNTVhZDlmZjIwMWZhMjEwZjNlMjUwMjA5OWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1OWIzOTNlMmEyZGU1ZTFjMGQ1N2JiZTJiMWQ2Nzk3MGI3MTI4NGZmMGMyZDZhYWVkYmY3MzM5YmY2YjU1MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU0NDUwMGU2ZDRhZDUyYmIyZWRlNmNmODQ4ZmEwMjY1ZTMyNGY2N2RiMGRjNWMyNjg0NmE5NDc4ZTkyZjYzOWYifQ"
+        },
+        {
+          "resource": "repo://src/api/request/index.js#L200-L230",
+          "version": "repo-lines-v1:sha256:615f24d33ef1687ad73da85de40a4162ed9636fec30110e468db3241ce3b86e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlZWVjYjJjM2Y4MGI4Zjc0NDU0YzkxNjNmNzEwYjg3ZDJkMzI1YzcxN2RhMzk4M2M1MDYyYzBkODdmNDMyODkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3YjI3NzBhODhiZWE2MzUxOTk2YWQ0YTc4MGYyMDkwOGI0MDEwNDVmYmQ0M2FjN2IzYzk1NmU4NGExNzE1YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1OWIzOTNlMmEyZGU1ZTFjMGQ1N2JiZTJiMWQ2Nzk3MGI3MTI4NGZmMGMyZDZhYWVkYmY3MzM5YmY2YjU1MTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgxZDM0N2VlODM2YTZhNWRhMDAzYWUwMjAyMTA2YmFjNTI4ZDE2NjJiY2U0ODMxNDBlNjdhMmQ3MWExZDRhMGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b725ab9f1e7344d9b844cf9ecb3afe23",
+      "statement": "The lottery editor resolves coupon prizes through the couponV2 picker with single selection, active-status filtering, and store_self false, then stores normalized card_id, title, quantity, and prize_detail data in the selected prize row; coupon-package prizes use the couponPackage picker and normalize package_id, title, quantity, and prize_detail.",
+      "evidence": [
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L607-L660",
+          "version": "repo-lines-v1:sha256:bafd4ebe107e912a142ca09aea527c0fb0cbf1c6492305c74fd30d4a4a331b35:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMzYwNmY5MWE0MGNkYzg0ZWViZGIzNzg2MmU3Nzg0NmIwMzFmOTYzNDEyNzFiNzRiZWYwNmU1MDE3ZDRjYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzODlkYWEzMDFkMTMwNzg2MjcyMjRkZDNlMWZhNzViNDJiMjE1NzI2OWUyNGFiYjhhMmI2ZjM1NjcyZDc4YjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwMzhlZTJlMTQ3YWI0ZjgyZjgyMTBmZGJhZTMxNjIzY2Q4MGI2NmEwN2E3ZjFmZTMyODZkNjliZjA3OGQ4MDcifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editorSchema.js#L537-L558",
+          "version": "repo-lines-v1:sha256:f3bcc4e23400ccc08100948001905ac8c6572aa1d695b6535620ed2a0d157d38:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMmE0OTI1ODA3MzliNDVlYzhkNmRlMjJhZGM0M2M4MGM3ZTdmZDJjODE3MDNjZDU3YTc5OWZkYTMxMGE2ZGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ODFlNGYzNjBiYWVhZjY5YTUwNmIxZDIxODlkMzIwODYxNGIxYjM1NmM2N2Y0NDk4NGM4NTdiNDY4NGU5ZmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAyYjIzMjQzOGI5YTY0ZGQwNGE0ZjA3NDkzMzRkZTAzNTM5ODM3YWZmNTM2ZTQ3YWUyNGY3ZDZlMDBhZWFiODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzMTQ4ZjQ3MjIwNGEwZTgxYmZhMTQxNWJlNThlM2QzOGViMDU0NjgxZGM2ZGJjY2MxYTE3YzhmODhiMWU2MTQifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editorSchema.js#L576-L590",
+          "version": "repo-lines-v1:sha256:ec10de8e5502f8b9d915a44253e46acf2174ba3756e035ed480b045aeb5bf8e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiNjVkYmNjMzkwMTQ3NjU3NGU2NDk1NWJmNjJmY2Y3MWViYzc0OWVmMzY1NGMyYzdhY2U1YjZkMDdlODMxYjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3NTc4OWY3YjM2OTEzOTU5ZTIzZmEyYmE5NzU1MThkNGJkMDQ0M2E4ZTNlZDQ4MGE2ZmMyMGM4Yzc0Nzk1Y2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3Nzk4MTgzNDE3NjNmMjQ0ZTZmNmY3MWY1ZWQzNTEwNDI4NjgwNThjYWJlN2E3M2YxMWU1MjlkZjNjMDY0ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM5NGYzNTVmNjNkNTEyNTgxZGM2Mzc5NzE2OWRiN2MzMjJiZmYyNDNhNDA5MGVkNmFiYzExYmZmZWVmNmIxNTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_42f68a7915d64aee943bd9c57b520909",
+      "statement": "The picker integration exposes coupon, couponPackage, and lottery modal methods through Vue's $picker plugin, and the lottery path selector maps selected activity records by id and activity_name.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/sp-path-selector/PickerDialog.vue#L110-L118",
+          "version": "repo-lines-v1:sha256:3dff37a1168b194b62e5e1b2b3945c7e7d38e7b6fd1912fadb75cdace6f64a15:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTBhMjI1MjcxZDMyMWI2MjFkMDY4MGY3NzExZjYwZWRiNTMxZWEwMDQ3NWFkZmM5ZDdiZTEzMDhjMzMyMGVlYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2RiZjYxNzgwODAyZjk4NTFkY2RiOWE0MDczZWM0ZmU5NDczNWM0ZWQ5YTM5YmQzZjFjY2IwMGNmY2M5Yzc1NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWQzYjcxNmFjNzczNzAxNDUzNWVjNzE3MmJkM2U5MzMzMGJmNzUyZjFiZmJlYTQ2MDU3Nzc5NGJlMWI0Y2I2ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjA2M2M0ZDFhZjhjZDg5YmIwYmRkNzY1N2ZmY2JmNjgwNmE2MTBkNzlkNmM4ZDRjMzA3YzI0MWRmMzkwMDUyMiJ9"
+        },
+        {
+          "resource": "repo://src/components/sp-path-selector/PickerDialog.vue#L170-L182",
+          "version": "repo-lines-v1:sha256:e74b37d6646b75bb7ad8257c864f9e4006d0478add334a89cb80ecc10b90ec07:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMWJhOWRlMmFjYWRlNzk2MzI4NzRjYjAzNGMzYWE3OWVhOGU3Yjc0NzNjMDc5ZWNlNWZiZmVmMTMwMzdlOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjZGJlYzBiMDFiMWJhOTg2MzhkNTE2ZmI3YTk5Mjg1YWJmMTQxNTIxNjVjZGI3YTg5YTU0MzAyMDFhNTBlNDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlmZTkzMGEyMjliOWM0Mzk3ZWI2YjRmOTMyOGE4YTNkMjE0ZTRhNGY3M2ZhZDZmNDcwYjdjNjc4YzU4ZTQzMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM2OTNiZTUwZTkwZjEzZWQ2NGY4ZDA5MDc3NWQ1NWNlNzhiZDI1NDA2M2Y3MTQwYmMwMzcwZjRjNDMyZDEwNWEifQ"
+        },
+        {
+          "resource": "repo://src/components/sp-picker/plugin.js#L36-L76",
+          "version": "repo-lines-v1:sha256:f07173774afcaed9afcbb158457ec2c90390fe2cb4c29b265e6b1165f1b8bd6f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjOTgyNGI3OThmZDgyYjJiZGY2ZTEwMTU2NTAzOGNjMzZhNmI1NjdiN2I2OGI5ZWNmNDY1Y2FmMjY3MGUxZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhMGE0NjNkNTU2YzM3NjA4YzRhYTVjODkzZDJlYWNkNGIwNDY2MWFhM2E3NTE1ODkzYzI4ZjZjOTY5N2EyM2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBlOTBiY2E1NDgzNWM5NTE0NGU5NTNmNzlkYjZiZWJhYTI4MGIxZGY2MmNlZWM0ZmY4YzkyNzk2OWNhZGU1NzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1ZGU5OTE4MWVmYjBkODU3ZmU3NWU0OWM0Y2FhN2Q0YjliYTRhZDQxZjg3ZDA2ZTZhOGRjZTQ2YTliMmY0OTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f84fa0acd18b441bb6bc400cd47b110b",
+      "statement": "The lottery activity picker queries /promotions/getturntableList with optional activity_id and activity_name filters, does not filter by status, and restores selected rows by activity id; the coupon and coupon-package pickers query /discountcard/list and /voucher/package/list respectively.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/sp-picker/pickers/picker-coupon.vue#L41-L65",
+          "version": "repo-lines-v1:sha256:00454d974bd0a0e44317658af54a6352437c58b4c3491417323ad2a388a1bc65:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxMTRhMDdiNmQwNWQ3NmFiZmEwM2VkZTE5MjZjMWUyZTc0NzI3MzEyNzlkODU4OGU4YzYzYzU2ODliNTAwNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3YWQ2YTdiYWFkYjcwODAzNDU3NGVlMDQwY2I4ZjA1ZTc5OTVjZTUwNDk0ZTIyZjUyMDZlOWEwYTE2N2ZiZGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyNmNlYTg2MWQwNDdiMzYyNDgxMTgxMjM1MTQxNTcxMjM5ODM0NGI3YTkxZmFmZDc5ZjBjYWY0ZDgwOTk0N2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxYjkzZWJkNGEyODg4ZWYyZjQwZDljNjMwNmRiYTk0MzM4ZjM4MmMzMDdjOTk5MjY0YjdhMjk3ODhjZTc1NGIifQ"
+        },
+        {
+          "resource": "repo://src/components/sp-picker/pickers/picker-couponPackage.vue#L34-L66",
+          "version": "repo-lines-v1:sha256:ffaae0812379441d5708cae283965d820f8c873ac8e60ed49b42d4c2dbded60d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxMTRhMDdiNmQwNWQ3NmFiZmEwM2VkZTE5MjZjMWUyZTc0NzI3MzEyNzlkODU4OGU4YzYzYzU2ODliNTAwNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3YWQ2YTdiYWFkYjcwODAzNDU3NGVlMDQwY2I4ZjA1ZTc5OTVjZTUwNDk0ZTIyZjUyMDZlOWEwYTE2N2ZiZGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyNmNlYTg2MWQwNDdiMzYyNDgxMTgxMjM1MTQxNTcxMjM5ODM0NGI3YTkxZmFmZDc5ZjBjYWY0ZDgwOTk0N2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxYjkzZWJkNGEyODg4ZWYyZjQwZDljNjMwNmRiYTk0MzM4ZjM4MmMzMDdjOTk5MjY0YjdhMjk3ODhjZTc1NGIifQ"
+        },
+        {
+          "resource": "repo://src/components/sp-picker/pickers/picker-lottery.vue#L106-L130",
+          "version": "repo-lines-v1:sha256:57dd7bb0410d0b73e8e8c67febf843706db663e669ad35222570862954ce1f38:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhMTVlZGQ5ZjNkYTM3ZmVlNWIyODQ3NzE2YzY2ZDczMWRhMWIyOTAyYzc2ZGQ4NGZhOTkzMzBjODU1M2RhMzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MzU1MmFiNTcxNDk0YjM5OWIxODE5OTYyMmRiZTNiMzgyNmViNjFmY2QxZjc0Y2ZiMTJhYmNmODhlNGY3MjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMwMmNkMjk4YTRjNTAzNzdiOWY1Yjc2MDQxNTdlNTI5NGY5YjZkNmMxYTAwZTY0YzNiZDMzOWJlZDY5NTBlNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ1YWUxZmZlZmNmNzFiOTQxMTQ1NGJiOTk3ODliZDhmODM1NmUwZGVhZjBiMTAyYjE0M2UyMDVkYjZjMTE1ZGMifQ"
+        },
+        {
+          "resource": "repo://src/components/sp-picker/pickers/picker-lottery.vue#L25-L50",
+          "version": "repo-lines-v1:sha256:d7e120f85063a8164d82cce9ba96741545fc01557179dc671577401c0090dc32:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxMTRhMDdiNmQwNWQ3NmFiZmEwM2VkZTE5MjZjMWUyZTc0NzI3MzEyNzlkODU4OGU4YzYzYzU2ODliNTAwNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3YWQ2YTdiYWFkYjcwODAzNDU3NGVlMDQwY2I4ZjA1ZTc5OTVjZTUwNDk0ZTIyZjUyMDZlOWEwYTE2N2ZiZGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyNmNlYTg2MWQwNDdiMzYyNDgxMTgxMjM1MTQxNTcxMjM5ODM0NGI3YTkxZmFmZDc5ZjBjYWY0ZDgwOTk0N2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxYjkzZWJkNGEyODg4ZWYyZjQwZDljNjMwNmRiYTk0MzM4ZjM4MmMzMDdjOTk5MjY0YjdhMjk3ODhjZTc1NGIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b227df8dab524f158bf9bafba74bfc6a",
+      "statement": "The promotions API module exposes separate activity list and lifecycle endpoints for listing, validating, invalidating, creating, and giving promotions under /promotions/activity/lists, /promotions/activity/validNum, /promotions/activity/invalid, /promotions/activity/create, and /promotions/activity/give.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/promotions.js#L137-L190",
+          "version": "repo-lines-v1:sha256:91f60b0e4bb422b4711808e20b61bef19279e881da39767e9944138788536b65:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4OGZkMDE1M2M3ZDcyYWQ3NTI1OTU0N2ZiZDIxZWMwN2U4Mjc3Y2FjODkxOTI1N2U5ZWU2MThkNDQ5MDgzYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4MzBhOGRiMGM1MDE4YTM2MjgwZDNlODg4MDNhZDQ3MzkwOWFmZjc3OTg3ZDFjNTRiNzA4Y2Q5MmMyMGY1NTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c4440eca7e214ea9a8a6c95a6f795e99",
+      "statement": "The repository provides formatting/lint scripts, decoration contract and template i18n payload assertions, and B2C/BBC build scripts, but package.json has no general test script or standard unit/E2E test-runner dependency.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L66-L114",
+          "version": "repo-lines-v1:sha256:c622467dbc98b8cf4820cb3b2731ee8f03d117fa80c30d9d0c9f3efa565dc46d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkYzRkZTdlZDM1YTIzMzY0NTM5ODY0ZGFkYjkzOGI4NzIzMzM3OTE3OWQ2MjkyYjlmZjVmNjE5YTZjMTMxNjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzMzE4MGIzYzFmYTE0YTEzNjI2ZjI4N2ZkODcwNDg1YTU3NjhlNmRlNmQwZTYxNGNiNzQ3YTQ5NTU0YjYxYzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY0Yjc2NDVmYzBmOWY4ZjExMDdmZDQ4MmUwNDJhOWEzYmY5ZDg0NzMxYjkyNGY5Nzk2NTA4M2FhY2ZjYjQ0NmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEwZDg1ZGJlZGRhNzBjZDJiMTY0MTAzZTFiYjFhNmNkNTJjYzhmZjIyM2RiZjlhODEyNWI4NTZlMmE2MDhlNWMifQ"
+        },
+        {
+          "resource": "repo://package.json#L9-L25",
+          "version": "repo-lines-v1:sha256:e766a05df3d17f17271b5bca7b186b5400629985e232db0dd9f379b7ca1e2f97:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ODMzZDU5NDljMDNhNDBjYTk1MjQ5MTYxMGE2NjU5NjQ0YjNhYTQ2NjM2MmY3OTkwMjBkYmYxOTgxNTQ3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0ODVhNDQxMjJiZTJjZGRiYTBmYjc4MDhlYmUwNWJmNzAyMzJlZTZkNDU0M2VmNzM2YTI3MjVlNDgwYTk2NTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyNTVkOGU0NTYyZjkzYjY0YjZjODhiMzY4ZWQyMTY0M2EyNjA4OTNjMjM3NjIyMDNlZmE5ZTA0OGYyMTBiYjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRmNTlmMjhiYzcwZDk0ODk0NGNkMTJiYzM0YTIzMjczYTNiM2I1ZTFhMmNhNTdhYjlhMmJlYjUwMWE3M2RmMWEifQ"
+        },
+        {
+          "resource": "repo://scripts/check-decoration-contract.mjs#L26-L118",
+          "version": "repo-lines-v1:sha256:f7f400f44352080dad631040dcf1ef9268050ff27749e2fd03a1dc8919a5e8a0:eyJzZWxlY3RlZExpbmVDb3VudCI6OTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4ZTVhYmMwNmIzMzFkZDA4YjhhMmYyYmMwMTRmMWU1ZGJmZWZiYzljZjNjN2VkOTgzNGZiZGVlYmYxOWMyMmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NzQ1Y2YyYzQ3NGRiMTkwNjBkMDZiNTRiZWM1YWJlYjNjOTkzMjUwMTdiNjRiM2JhZjAwMjQwMjNmOWQ2OWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3OWNhNDFmOThkMzIxYTY2MjBjNjFjNTMxNzUzYWQxYjg0NDUzMTIwMmUzNDRkOWZkNGEzZDQxNThjOTNmNTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/check-template-i18n-save-payload.mjs#L136-L272",
+          "version": "repo-lines-v1:sha256:36889f775331cd7f47f18bd66470077aab1edd86581071abd036003f3b7eb5a5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJhNmZiMDhmZGExYWNiOTU3YjYxMTZiZDM3ODExYTFmZTQxYTAxNjExYzA2MzFlZGJmNzg2ZDY4ODlhMjdhNTVjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4ZjI3MjY2MzhiNWVhMDFiMjZkMDQzZGM2YWU3ZjE3ZjkzZGFiMWNiMThmNDRhNGJjNjY4N2ZmMGNhNWE3MTNkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwYjhlYmI3NjdiZjMyZjhiM2MzZWNiY2I3OTk3ODM1YzQwMzRiZjMzOTlkMDg0OGFhMzc3MWUxN2JmYmEwMDhhIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_3ffc21cb9d4d40f3b8aa7c78338561f4",
+      "statement": "The pre-commit hook runs lint-staged and the commit-msg hook runs commitlint; lint-staged applies ESLint plus Prettier to JavaScript/JSX and Prettier to Vue, MJS, and SCSS, while commitlint requires the repository's TBID-prefixed conventional commit format.",
+      "evidence": [
+        {
+          "resource": "repo://.husky/commit-msg#L1-L4",
+          "version": "repo-lines-v1:sha256:bbc08cdae3a2ca839ba63aebfae512171ca68fe502264d8380b269eab8279bf7:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTgwNzZkM2QyOGQyMWUwMjAxMmIyMGVhZjdkYmY3NTQwOWE2Mjc3MTM0NDM5MDI1ZjI4MmUzNjhlMzMwNWFiZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmE3OTNjMjdlNGRkMGM0NTg0MWJiMjkwZmI4NzcxZWY5MjYxMWVlYmZkN2I4ZmRlMmYxNTM5NGIyYmFhN2RlZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://.husky/pre-commit#L1-L4",
+          "version": "repo-lines-v1:sha256:2723321a34fb96760b2fa3101140fafa1d9ee0c2982297ef094bbf1df6305a39:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTgwNzZkM2QyOGQyMWUwMjAxMmIyMGVhZjdkYmY3NTQwOWE2Mjc3MTM0NDM5MDI1ZjI4MmUzNjhlMzMwNWFiZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmZlNzE3Mzg0NTQ2ODFlMzk1NjY0YjkzNzE4NjZmNmEwZjRjMmQzMWFmYzI4ZGY1Yjk3MDhkZGY4ZDdiZTI2YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://commitlint.config.js#L3-L50",
+          "version": "repo-lines-v1:sha256:9f87d758b6d5a807358917131623f5fb4715a0196b261db412161a7a88a6c4f6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1MWNjNjFiNGU5ZmE3NTJjNzUzOTFkOTY5NmRhZTY4MzViYWEzZDU3ZjE3M2VjNjJhY2Q0MWYwYjAyMGFmZGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxN2RjMjllYjY1ODU1ZjNiMGM1OWIyNGNhMWRiMGJkMDJkYTRhOWRjN2FiYTBjM2VlMTVmNmE3NWU0MDBhN2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        },
+        {
+          "resource": "repo://package.json#L131-L138",
+          "version": "repo-lines-v1:sha256:4adaef165e90103952e41b93e4bbca030a4bd33b780af88381f3dd03473f3f30:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDdhZGRlYTcxNmZkYzQwNGZmN2FiZTJjMTdlMDJiODZiZGVkODgyNWE4Zjc2MWJiZWQxOWZkYTFkOTRlOGYwZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWRkMjQ0NTgyYjZmYjAzZDIzYjg0MTVhYmVjZDM0NmIwYzlmNDY2YjZmNzUyYjA2ODE4OWNlN2U5YTJkYzM1MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzhhNTQwOTRiYmFiODNjOGYyNjYyZjA4NjQ2ODM5NDAxMjUwNjNhZGUwMDgyYTBkNGIyOWNmNDZjZWI4ZTBjNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2EyNjIzZmU2YTdhYTU5MDY3ODM3OTg2MGRjMWIyMTNlYTdlOTBlYWE3NDIzZGM4MTgxMjYwNWQxZWI3ZDcwMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_80b25630316745d08986c2cca714850a",
+      "statement": "The OpenWiki GitHub Actions workflow runs on manual dispatch and daily at 08:00 UTC, installs OpenWiki under Node 22, runs openwiki code --update --print, and opens or updates an openwiki/update pull request; it is documentation automation rather than the product build/test pipeline.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L12-L28",
+          "version": "repo-lines-v1:sha256:cc2e6cba36155fcad34b946157cecf0e6d55a1b534a520e3353907b827fc0f12:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5ZDgwMTU0ZWQ0MmZjNWM3NzliMTMzMTU3OGI1OGI4OWM4MDFlYWNlNzRmMjRjZDQ4ZWI0YTIzNTc5NDBhOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0MWM2MGQ4MzU5N2M3NmNjYTY5NmFhYzc0ZGZiN2FjNWRjMzM2MmZlNjUxZjhjYWI1YTMwNDk5NjMwMTdkNDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE2ZjdkMzdmYjI5NzM5OWZlYTJhNWNlZjFjYzQwMjhjODk5NzlhOTA1MGE5Mjg1NmYwZDk2ZTFjMThiYTE5YTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhmMmIxZjEwN2VhNDE1ZjE4MDZkYTUxNTU0N2YxYzllZWJiY2EwMzlkNjJlODQ3M2ExMjVkZDc3ZDZmOGM4NzcifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L3-L6",
+          "version": "repo-lines-v1:sha256:ae3cfd11fbd2aec9ba8022f9055a23900230776141f0fd80f6908edd097fed23:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTk2ZGM0ODE0OWY1YTgzZDFlZDZkYmIzOWJiYzdlMmI5MDJhYTNkMzRkNmJkNWFlNGIyOTFiNjhkZjBjYTc5YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTNhZWQ1MDJhNWFkZWU3YmIwY2FkZDQ2Y2Q3NDYzYjUzMjBjNmNjZWU0NDgwZDY2ODU0ODg0MzEwNjM3NjExOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzViMWYyNGU2MTgwNWVlMWE5YmM3ODA0N2UxZTRiM2Q4NjE1N2Q2ZTM3ZDhhYzBiY2JlYmQ1ZTY1ZTVlZjFhYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzk0NjJkNWYyYzIwN2U2YjRmODI4NDNkOTE1NGZmMGJiYWQwMzQzOTI0YjJjM2M0YmFiZDk5Yjg3Y2NkNGI4MiJ9"
+        },
+        {
+          "resource": "repo://.github/workflows/openwiki-update.yml#L37-L51",
+          "version": "repo-lines-v1:sha256:2507faafa9faf9e43981bd485c049cc5f2131c782c9588d50641b6b05c8b5686:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxY2ZmNGFkMzNiYTkxYjE0OGUxYjFiODI5MGI4ZmZmMjdiMjAzZmFiZmVlNTg3MDI4MmRlMzY3MzgzYjFiZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0Nzc5NmQzMTczMmZiY2U4OTk4YTJmN2U3YjFiYjk3NTVjMjNlNTg1MDMyMGI5MDkzN2Q4MmMzZmQwZTYyYTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxOTEzNzMyNTgyYzNlNjAzNTkwNzg2Yzg2ODM2OTUxZmYzNWU5YjJkMGY4ZDMxMDY3ZDRmNGM4NzQzZGIyYWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2f5d417993b04a359cac2971cc0d501f",
+      "statement": "The decoration contract command runs the schema assertion and then exports the decoration schema, while the focused template i18n payload assertion checks decoration DSL normalization, default/current-locale persistence, header/footer payloads, and request country-code handling including skipCountryCode.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L24-L25",
+          "version": "repo-lines-v1:sha256:69330c80dc2bbdb62cf2f70824c846eb90235a71f48de697391c15ded88cc7f4:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTVkM2Q2YTMxN2RiNGRlMDJhMTZmNzQxMDZlNDhjMWJjNDNkMmNiNzZlODQ3ZjkxODUyNmZjYmE4YzFhZDVkZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzQ4NWE0NDEyMmJlMmNkZGJhMGZiNzgwOGViZTA1YmY3MDIzMmVlNmQ0NTQzZWY3MzZhMjcyNWU0ODBhOTY1MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWUzYjBkMjkzMDM4ZDcyNzM3ZDkzNTY3NzUzMDMzZGM1MTQ0NTJmYzYyNzA0OGUzYWUwZDFjZTRkM2M3M2M3ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGY1OWYyOGJjNzBkOTQ4OTQ0Y2QxMmJjMzRhMjMyNzNhM2IzYjVlMWEyY2E1N2FiOWEyYmViNTAxYTczZGYxYSJ9"
+        },
+        {
+          "resource": "repo://scripts/check-decoration-contract.mjs#L103-L118",
+          "version": "repo-lines-v1:sha256:9fa5869a91fa0f8f75de837c8ff9516f591090fff9f72ec8b88527b6e13d9188:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0ZmFmNmNlN2NhZDkzOWQ4YWJiODM3YmRmYmI0YmRlYzIwZWRiMzI1Yzg5NTdhZDIxMjMwMzE5ZDc0MmI5MjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NzQ1Y2YyYzQ3NGRiMTkwNjBkMDZiNTRiZWM1YWJlYjNjOTkzMjUwMTdiNjRiM2JhZjAwMjQwMjNmOWQ2OWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/check-template-i18n-save-payload.mjs#L187-L270",
+          "version": "repo-lines-v1:sha256:71dae412568cc5fe4add645e33697083ff66288bf92977037966726f0929773b:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxMDU1ODRkMDk0NWUyMDk3ZmU5NjY2ZDU0MDQ4ODk5MzgzYWFiODQ2M2QwYjViNTVjMjBmZDgzYzY3ZjQ3MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViZDAwNWY1NDkxZjkzZGIzN2UyOTk0NDQ2ZjMwMWQ1ZTgwM2Y5YzUzMzE3MmZjZWVlMjU2MGE4NGNjNjZkNmEifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-10-23T02:32:18.329Z"
+  }
+}

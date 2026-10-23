@@ -90,8 +90,8 @@
           >
             <div class="goods-row__pic-wrap">
               <el-image class="goods-row__pic" :src="item.pic || item.item_pic" fit="cover" />
-              <span v-if="isItemShipped(item)" class="goods-row__shipped">{{
-                $t('e3a5dbf4.355409')
+              <span v-if="getItemShipLabel(item)" class="goods-row__shipped">{{
+                getItemShipLabel(item)
               }}</span>
             </div>
             <div class="goods-row__info">
@@ -299,12 +299,14 @@ export default {
       const category = this.getOrderCategoryName(row.order_holder)
       return category || this.$t('b64cb62b.aae16d')
     },
-    isItemShipped(item) {
-      return (
-        item.delivery_status === 'DONE' ||
-        item.delivery_status === 'PARTAIL' ||
-        item.ship_status === 1
-      )
+    getItemShipLabel(item) {
+      if (item.delivery_status === 'PENDING' && item.delivery_item_num > 0 && item.delivery_item_num < item.num) { // 现在子订单没有部分发货的状态 只能通过delivery_item_num判断
+        return this.$t('e3a5dbf4.5296ac')
+      }
+      if (item.delivery_status === 'DONE' || item.ship_status === 1) {
+        return this.$t('e3a5dbf4.355409')
+      }
+      return ''
     },
     hasAction(row, key) {
       return (row.actionBtns || []).some((btn) => btn.key === key)

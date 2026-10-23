@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b14572a2e90cc5373a58df9873e100b5adbe02b1ea64718d7937f85275eee737",
+  "claims": [
+    {
+      "id": "claim_f1d5b543d1af410dbff383da81c891ab",
+      "statement": "The repository's current runtime and package-manager contract is Node 22.23.4 with pnpm 10.13.0: the version is declared by .nvmrc and package.json, while the main Docker builder uses node-python3:22.23.4-alpine3.20 and activates pnpm 10.13.0.",
+      "evidence": [
+        {
+          "resource": "repo://.nvmrc#L1-L1",
+          "version": "repo-lines-v1:sha256:0c4bf84f9bedd485b2c4eac05f59e35addc86ce7dbf0d90435528e04384c6314:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGM0YmY4NGY5YmVkZDQ4NWIyYzRlYWMwNWY1OWUzNWFkZGM4NmNlN2RiZjBkOTA0MzU1MjhlMDQzODRjNjMxNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGM0YmY4NGY5YmVkZDQ4NWIyYzRlYWMwNWY1OWUzNWFkZGM4NmNlN2RiZjBkOTA0MzU1MjhlMDQzODRjNjMxNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://Dockerfile#L1-L1",
+          "version": "repo-lines-v1:sha256:cce5b137284d8c7983271b24d0f629271f12f42a26770c81c6fe64e62aaa0198:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2NlNWIxMzcyODRkOGM3OTgzMjcxYjI0ZDBmNjI5MjcxZjEyZjQyYTI2NzcwYzgxYzZmZTY0ZTYyYWFhMDE5OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2NlNWIxMzcyODRkOGM3OTgzMjcxYjI0ZDBmNjI5MjcxZjEyZjQyYTI2NzcwYzgxYzZmZTY0ZTYyYWFhMDE5OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMThmNmY2NmU5OGUxNTdmODZhNGQ2NjJlM2JmODMyODIxZDg2MWEyNjQ4NzM3MWMwOTZkYTMwOTVjNzc5OTg0ZiJ9"
+        },
+        {
+          "resource": "repo://Dockerfile#L48-L50",
+          "version": "repo-lines-v1:sha256:bd91bd9743b222a266294c10fc3f527182957cb17de0f122f9677f46994236b5:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTE0NTgxMTAxZjcwOGQ4M2VjMDUxNDU1N2JkNzc2NDU2ZWE2ZjUzNzRkYTA0OTUzOGZiNDcyMTQ4YjQ3NzZjMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDNmNGI2YTNlYjNkYjA4NzcxMmZiZDUxYjMzMDYyZWZmMzA4YWUwZjA5MzkxNTUzM2Q4MjczNWQ3MzYxZTM2ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzc0ZGQ1N2I0MzA5YzE5NWMwMzk5YjIzNzUwYjE3NWIzNzlmYjNiMzU2ZTgzM2E0MDkwZjYzYmZiZWJiYzI3YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTZlYWI1MDZjOGM4OGEzYTg2NGZiODEyOTRjNWRlYWMzZmE0NWY1ZTY3ODY4YzYyMzA2N2MxMzdlNzM1YTVjNyJ9"
+        },
+        {
+          "resource": "repo://README.md#L8-L22",
+          "version": "repo-lines-v1:sha256:298e9b3bab000a6d1d3ef9e1850a61774ab9d297a725894150f6597aab1e30df:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiMTI5NDU4OTU3OTIyZjIwYWYwYzhiMTVjYTljZjg0YTQ2MDhjMDVjNzk2ODBkMzkxNDIwZGMxYTdjNmEwMTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMjFjODAwOTc5MGJmNzczMjY4ZGQ4MWMyNjMwOTA1YThiMzA1Y2MwOWM2MzdmNmQxNzI3NzU2NDM5MWY5MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyNzk0YzRkODI0MjFiMWEyNWY2ZGQ0NmVkMzM4NTUwZTEwNDZlNWNmOTY5MTYyZTZjMTMzMmM3YzcxNmE1OWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkZDIzNjY5YWIwZGRmMWIxN2Y5NjM5ZTY1YTU4ODhlNmViZjBiYjA3OWY2M2Y3MDEzNmNjMThjZTEzYzE2MTEifQ"
+        },
+        {
+          "resource": "repo://package.json#L116-L119",
+          "version": "repo-lines-v1:sha256:6b8aad3d54c3cd64fdf1fc8c9ed714cfa0f03a5bc2096a792897aaf5ed67cbc9:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWY2MDE1NTQxMjJlZmU4NTVkNTZlMTBjYzliYWYyMDMxY2EzZjRhYjExY2RiYTIyZjFlYmM1ZDM5YTc1NTgyNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWQ0MTM2YTgwYmQ0MmE4YjdjYmI5ZTU3NGMzNDk5OWMxMzhlOTkxMjJjNzc1NTYxZjM5MDhiNjAwZTIyOGNmZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDU3NDQzZDAwNGIxYjI1MWZmOTM3NWJhY2RiYzhjMzJhMjA1YjJhZjBiN2FlNzJjNzFhMTM3ZjZjMjk4ZTgzNSJ9"
+        },
+        {
+          "resource": "repo://package.json#L7-L8",
+          "version": "repo-lines-v1:sha256:968757b033e5ae2155b40b8e1ab8999e3d3525de8b6431d659872387b9ac8e50:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTJmNmQ4MzYyYmY1ZWYwMGNlOGM5MDI1N2MwNTdkMmE4YmViNzUxNTU0NTZlYmQxZTE3NjVlN2E1ZDQyMTFiMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDBkZDFlNzgyZTViOWFkYzkyNTMyYTg1ZGU4YzVjMjNiZjk0MmRlNjRlYWI3NWNiODdhOWQwZDk2ODhiNWFjZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTYwYmVhNDZkZmI3MmVkZjFjNGYyMWFlNDBlNWYzNzEzODdiOGQ4ZDhlYmY0NTM1NzMwZTQ5MDNkN2MzMDFhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmI0MjA1NGE1MDgwZTMyM2UyYmQ0OWE5M2NiMDRhZWFkYWE4YWI1Mzg1N2IyNmQ5OTRkYTZjMWUyMzg0NGFmYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_94177a2d91ae4709b36a332f8b214233",
+      "statement": "The frontend has two supported platform variants: the package scripts set PLATFORM to b2c or bbc for development and production, vue.config.js injects that as VUE_APP_PLATFORM, and src/config/index.js selects the corresponding b2c or bbc product configuration.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L9-L13",
+          "version": "repo-lines-v1:sha256:125164ae03a2fdac2e62cd95cb9e5b9dd667d175415721823b3ffc4bb258ee00:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ4MzNkNTk0OWMwM2E0MGNhOTUyNDkxNjEwYTY2NTk2NDRiM2FhNDY2MzYyZjc5OTAyMGRiZjE5ODE1NDdkYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2RmMThjZGZhNDI0YzAzYTVjYjc5NzJkYTRiYjA1NjY5MjQyN2E3MzRiMjFmZTJlZDJhZGNjZWI3NzFkZWNjNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjI1NWQ4ZTQ1NjJmOTNiNjRiNmM4OGIzNjhlZDIxNjQzYTI2MDg5M2MyMzc2MjIwM2VmYTllMDQ4ZjIxMGJiOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGY5NDZiMTVkY2JlYTQ0MmIyYTBmNjhhYjAxZWYxOTRmZjlhZmQ1ZjU4YjQzZTZiNjFmMGM4NDYxM2Y5MThjZiJ9"
+        },
+        {
+          "resource": "repo://src/config/index.js#L5-L16",
+          "version": "repo-lines-v1:sha256:8230867e87a134936c4c5b9fc553c3e0d91c170daf40ac74d5844898e625b41a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NjNkYmM2YjVjNTRmOTVkYjU3ZWNmZGNkYTUzM2NjM2MwYmE2ZmE1OTFmOGE0NTUwMTliN2NmYjY5YjBmMmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViM2RmOWFmZjVhZWE1MjBhYmQyZmRmNTI5YzkxZWExNDJkZWVhYWRjM2NhYWJmMmVkMjdkZGYxZGZlYWZhMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwMDI4MTQ4ZDUyYzM4NTgxNzRhMjliNDMzYzg0MWQwOWEyYzE2MmZiZjcxOTdmNzc1MTgwZjI0OTQ1NDE0YzcifQ"
+        },
+        {
+          "resource": "repo://src/config/products/b2c.js#L5-L13",
+          "version": "repo-lines-v1:sha256:6a44b8aa2423b60eef3b768c492af6bde3d46f4989f86725b96b0f7f8da9328f:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzMyN2I2YzI2Y2NhMjgwNGIyNjZhNzdhMmE0ZjExNTU1MGQ5M2I2ZTJjMjcyMjgyYmIwYmNmNjQ5ZDVjYzMwMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzFiMTljZjVjNTE1MTRiNjgzY2JhMGY0M2ZkNjUzM2Q0ZTk4ZGE1MTRmN2MxZGMzZjJhZTZiODQ0YTQ4MGU1ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWIzZGY5YWZmNWFlYTUyMGFiZDJmZGY1MjljOTFlYTE0MmRlZWFhZGMzY2FhYmYyZWQyN2RkZjFkZmVhZmExYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWZmZmI4MjBlNmU2NjNkZmU1ZWU4ODdlYzQxZTIyZjg3ODBmYTdkNDQyMDZjNWE4ZDE2NGU3NjZmYjVhZTlmOCJ9"
+        },
+        {
+          "resource": "repo://src/config/products/bbc.js#L5-L13",
+          "version": "repo-lines-v1:sha256:fa856c12f40cab0a3e1ab0ff3fae02a906aca477e6e36ba10f8d4c18c330c696:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzMyN2I2YzI2Y2NhMjgwNGIyNjZhNzdhMmE0ZjExNTU1MGQ5M2I2ZTJjMjcyMjgyYmIwYmNmNjQ5ZDVjYzMwMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWZiM2IxODJlY2E4ZTQxMDU0MTdkYjA3NTA1OTk5YjExZTdjZDBiNGY2M2MwMTFmYzAwYjBhOTY4ODM4MTUzNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWIzZGY5YWZmNWFlYTUyMGFiZDJmZGY1MjljOTFlYTE0MmRlZWFhZGMzY2FhYmYyZWQyN2RkZjFkZmVhZmExYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWZmZmI4MjBlNmU2NjNkZmU1ZWU4ODdlYzQxZTIyZjg3ODBmYTdkNDQyMDZjNWE4ZDE2NGU3NjZmYjVhZTlmOCJ9"
+        },
+        {
+          "resource": "repo://vue.config.js#L235-L241",
+          "version": "repo-lines-v1:sha256:f3a4dd3da4383b46779ab8c36043a5f41fc104d40a776e865915a9c8c75e8251:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFlNDZhYjdmNmQ2OGMzYmU4OWMwY2QwZTBlN2Y4MDIxMzlkMzYwMzAzMDMyOTkwNjA0MjJhNTcyNTcxZWY2YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTNiMjVkMWI2MTgyOGI0ZDYwOGIzMjkxN2IyOWE4YjhkZGU4ZWU0MDJmZDY4MjQzZWMzOGY0NzRhOWVlODMwOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjcwMDVlYWUwMjMzYWY4ZWI3MDJlMmMyMjM3Y2UzYWU1NGI1NDdmZDEyZmYwZGNhZTE2MzRjMDQ1YzlmNGNmNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzBmZDFlMWZiZWZmMjkzYjg0N2RkMDhiZGRmMDQ1OWY4YzIwNTZkNTg5NGVkMjVmYTU4N2IxM2QxNTkyZDA1NCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_238743b6875443f28806d73c5cf3c7c9",
+      "statement": "VUE_APP_* configuration is build-time configuration embedded by Vue CLI; changing API, public-path, microfrontend, language, integration, or feature values requires rebuilding the static bundle, and the build configuration logs names and values for variables containing VUE_APP.",
+      "evidence": [
+        {
+          "resource": "repo://Dockerfile#L3-L44",
+          "version": "repo-lines-v1:sha256:99ca548baa9ee09e97859e7d5f05fffd5a184937dd0ec90758c60a53f0b5eaab:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxZDJhOThiMGZmOTY5N2E2MjlmODFlYzVjZDBmNWZjZWU3ZmQzM2QwYjZkMThlNzA3MDY2ZjUzZWM5NTEwNGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0MjA4OTQzNDkwMzg3MTMzNmZiNTQ3YTlhZjEyMjFmYWZlNjQzOTY3MzM5YTZmNThjMTgzMTRjNDA3MTcwZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNjNjBiYWNjNjU5Zjc1Njg1MDdiYWYwMjdlZWNmZWUyZjkxMWIzYjUyNGY2NjdjZTVmYjQzN2E2NmM2ZjAwNGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc3NGRkNTdiNDMwOWMxOTVjMDM5OWIyMzc1MGIxNzViMzc5ZmIzYjM1NmU4MzNhNDA5MGY2M2JmYmViYmMyN2MifQ"
+        },
+        {
+          "resource": "repo://README.md#L57-L74",
+          "version": "repo-lines-v1:sha256:deb3d4829925c0bc1bd060cdef4ad0ea729383b57cd72fecf26f67e10dac61db:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1MGU4ZDQyOGZkODY2MjM4NmNhYjlmOWY5MWM3MTNkMzZmMzhiMjIxMjkyMDU0Nzc3MmU3MGEzNDc0YjIzODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQxZWRjM2Q1ODRkOGJiMzNkZmJkMjFiYWE1MWYzZTcwN2Q2ZDMxNmNmM2VhNWVmNmE2NTFhZDcyODg3OTlmMjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkMDVkYjRjZTQ5YmFjOWZkNzIwZDM5ODdjODc0YWIxNTU2NjA5MmMyMTQ2YTRiZDU0MTM2ZWRhODkwZmJiYTYifQ"
+        },
+        {
+          "resource": "repo://src/api/request/index.js#L55-L58",
+          "version": "repo-lines-v1:sha256:146bd4ecc5487d72c1f795e4429419da8c4c4d2ece25d148a5cb6f977590fa78:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzgyNGE3NDA3MzQ2NjczYjg4Y2Y5MGFkYTA3NmQzMWQ3NGQ2MzZlNmNiN2M3OTQ4ZWU0ODQ5NTU3NGUyNTgxNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTE5YjA5NDQ3NTUyYTJmOTI5ZjNjYjA5Zjk2ODAwMWU4MDk4OGRiNTEwYjk2YTFjMGNjMDk2Yzk1NGIzNThjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzc0OTM4MWY0ODQ5YzkwNTZhNWYzMGI2Y2RmYzYwYmEzNzhkODZiZDYxMGM0ODI5YzA3MTVjMmQ1MGM0ZTNhYSJ9"
+        },
+        {
+          "resource": "repo://src/router/index.js#L10-L16",
+          "version": "repo-lines-v1:sha256:4ce8b2bc118438165dbc4cf64c8a212355587c2c74eb48eeee0dbceadf2c439b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTcwNzMxOTU5ZjY3MjRhZTVkZDhiMjE1ZTYwODEyZDA0Mzk0NjI0OGQxZjc4NWU5YmMyNjI1MDBlNTQ2YjEyNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBiNDQwNzZlZGJkN2MzOWQwYjFkM2U4YzFiOTA4OGU0YjQzYTIwMjY1ZTNkMGNhYTk1ZmVkMGUzZjgzMjNjOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmZmNmYyNjliMjBjODQ2OWQwODJlOThjNzIxZjU3Y2NhOTdhMmY1YTk5ODc4ZGY3ZjJmMDAwYWFjZjM1N2E1OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2Y3NjhiYTcxN2YwZjM2MDI4MWYzNTRiNDZlNDE4ZjBiNjBkZGVkNWRkNTgzNjQ4MDBkZTRmMDQxOWQwZGUxMSJ9"
+        },
+        {
+          "resource": "repo://vue.config.js#L14-L22",
+          "version": "repo-lines-v1:sha256:dbd1fbd4aba518ed8ed8b9a205e8f2e680f6ad0048bdbc90fabee878c6d9e247:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmExZTRiMDc2OGM3MGMxZmEwYjgzNjlhMjkyZGZmYmUxNjlmZWJkZmNiZjJiMjRjMmJkNGViYTRkYTU1ZTE3MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWJmYTFmZWYzZDUwYzM1MDUyNGYwYWI4MTJhNmEwNDBkNGI4ZjM2OTdmNDM4MWM1Mzg2ZDk2ZGI4YTAyNGNhYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTNkZWVmZmQ4N2JmYzZiNzUxOGJiYmJjZjgzODNmYTlhNjQ5MmJmNmFiNDY4ZmQ5OGU1MTBmNDBkZTYxNjlhYiJ9"
+        },
+        {
+          "resource": "repo://vue.config.js#L38-L43",
+          "version": "repo-lines-v1:sha256:00e149c594d2aa3c9554d4a5638629744471b2fcec14fdd6ba1b502c4182caba:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzhlNjFmZGYyMDI4YTM5NDEwZjA1MWY5N2JlMGRiNTgwYzNlZmJhYmY1YTdmMjdiNzZkNDg3ZTVkMDk5ZmIzMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDc2ZmRlYTdjN2U1ODUwM2NhNzk2MzQ2ZDk4OTJlNmUwODI2OWViMzkyOTM0ZWVkMWRkODkzMGE4MzE5MTlmZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmI1ODBlOTY0ZjgzYTQ3M2Y0M2Q0NDM4NDYyOTQ5ZDY4YjU2MDBmZGE3ODdmMTYzNzQ1ZDAwZGU4OWNiZjM2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmFiMDZmODY1MzM5ZTNiY2NkNjhjYWIwNjI2MTJhNGRiYmIzZjk2MGE3NmRiY2I5OTM4MzZmNDgyM2RiZGYxNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4ee6ad8139214fa6b78a1aaa07c09fc6",
+      "statement": "The frontend request client uses VUE_APP_BASE_API as its base URL, with request utilities falling back to '/', so an empty or missing API base sends requests to the frontend origin unless the deployment supplies same-origin proxying.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L57-L63",
+          "version": "repo-lines-v1:sha256:dddf433203282f5476b95a38ce27e95279a311b72208afa931ce93471dac1d52:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTUwZThkNDI4ZmQ4NjYyMzg2Y2FiOWY5ZjkxYzcxM2QzNmYzOGIyMjEyOTIwNTQ3NzcyZTcwYTM0NzRiMjM4OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTUyZTljMTg3MDc5YzI0MzQwNzRjZjliZThhYjFiZjJhNzExZTg5MDFlYWZkY2M3YTYwZTU4NzU3ZmQ1MjlhZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDFlZGMzZDU4NGQ4YmIzM2RmYmQyMWJhYTUxZjNlNzA3ZDZkMzE2Y2YzZWE1ZWY2YTY1MWFkNzI4ODc5OWYyOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTc3MWQ5N2ZkMjE3ZTkyOTQwMzRhZjZkMzk5MjNkYjY1MjhhYmM0NmE0MzZjNzMzOTA5YWYxNTUwZmQ0MjkzNCJ9"
+        },
+        {
+          "resource": "repo://src/api/req.js#L57-L64",
+          "version": "repo-lines-v1:sha256:b2607e64aa5d9a51334d6a969b8e7ba6e25b476b323f28d712c229734f8939a1:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjk4Yzg0ZGI2MDJlZDk0NjRkOTc2N2Q3MjJhMmZmNTIxZWZkZjA5YjQ4Y2I4NGI4MGJiY2IwZTI2YzJmMzUzNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDY3MTA3NDFkOTE4ZDhhNDllYzkyYjZjNGI3YzcyYjAxOWY4ZjFjMWMxNWMyMWQ0MzViZjFjZmM5MDM1N2ExOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODZlODk1ODYwNzY1MGVhNGNlNDE2ZjBjNTVlMmIwZWFhYTgwMjM0MWEwM2IwYjA2MzNhMGM5MmIzNzk3OWZjNiJ9"
+        },
+        {
+          "resource": "repo://src/api/request/index.js#L55-L58",
+          "version": "repo-lines-v1:sha256:146bd4ecc5487d72c1f795e4429419da8c4c4d2ece25d148a5cb6f977590fa78:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzgyNGE3NDA3MzQ2NjczYjg4Y2Y5MGFkYTA3NmQzMWQ3NGQ2MzZlNmNiN2M3OTQ4ZWU0ODQ5NTU3NGUyNTgxNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTE5YjA5NDQ3NTUyYTJmOTI5ZjNjYjA5Zjk2ODAwMWU4MDk4OGRiNTEwYjk2YTFjMGNjMDk2Yzk1NGIzNThjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzc0OTM4MWY0ODQ5YzkwNTZhNWYzMGI2Y2RmYzYwYmEzNzhkODZiZDYxMGM0ODI5YzA3MTVjMmQ1MGM0ZTNhYSJ9"
+        },
+        {
+          "resource": "repo://src/utils/fetch.js#L70-L77",
+          "version": "repo-lines-v1:sha256:08398b45b5ac7460066bbae7156836a55635eb85ec780f849df594de85336be8:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDg4MTQzNTRjOWExODZlODM5MThlNjQ0NWNiODVkMzU4MjFiN2U0ZWYzNDE1OThiN2Y3MGEzZDFhZjE1YjFjZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzkxODAzZDIyMzdjODg1YjJjZjYzMzIxYWNiZGMxY2MwMTc5MjRmMGEwZDY0MDUxODBhMDEyZTE0MGUwODhjMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2Y1N2I3ZmVhYmY1YTI0ZWZiNWM1ZmVkMWQxMjcwMTAxYmFjZDJjZTQ4M2EwNWM0OTU5OTE1MmE1YmE1NjQ5MyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5bce723e6be84837b5e63a00d94d3894",
+      "statement": "Production Vue CLI builds disable source maps, extract and minify CSS and JavaScript, remove console/debugger calls, split major dependency and style groups, and emit retained gzip copies for qualifying JavaScript, CSS, HTML, and SVG assets.",
+      "evidence": [
+        {
+          "resource": "repo://vue.config.js#L244-L265",
+          "version": "repo-lines-v1:sha256:78a124507ce57a30385a5d81ad41ccf651d1c08f5ead25da801201687ec6ee46:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiMDk1ZjY0MzJkMmEwMDQ1NjI4ODkwNDIyMjA0MjBhNzY0OTkzMjg5ODRkMzZiM2FlOTE4ZjJiNDNiNTk5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2YjA0NDkxNDY5NzIyZTgzNjNhOTRlNDA0NDUzOGUwMTNhMmEyMTdlMzZiMWU1NjhiYTYwYWNiN2I0YzhmMmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJlNWY5NDc0ZTM3NGMzOTNmOGM2MjUwOGM3OWZlMjg5NzlmY2FiZmJjYmQ4OWMzZWRiNGZhZjVkNzkwYjIyNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE0MGNhYmNjOWFhZTg3YzIzZTIyYWQzNWQxZDNmYTllMjY1NWExY2ZjNjkwMDM5ZWRiYWYyYzcwZmY2NDg4NDQifQ"
+        },
+        {
+          "resource": "repo://vue.config.js#L38-L43",
+          "version": "repo-lines-v1:sha256:00e149c594d2aa3c9554d4a5638629744471b2fcec14fdd6ba1b502c4182caba:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzhlNjFmZGYyMDI4YTM5NDEwZjA1MWY5N2JlMGRiNTgwYzNlZmJhYmY1YTdmMjdiNzZkNDg3ZTVkMDk5ZmIzMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDc2ZmRlYTdjN2U1ODUwM2NhNzk2MzQ2ZDk4OTJlNmUwODI2OWViMzkyOTM0ZWVkMWRkODkzMGE4MzE5MTlmZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmI1ODBlOTY0ZjgzYTQ3M2Y0M2Q0NDM4NDYyOTQ5ZDY4YjU2MDBmZGE3ODdmMTYzNzQ1ZDAwZGU4OWNiZjM2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmFiMDZmODY1MzM5ZTNiY2NkNjhjYWIwNjI2MTJhNGRiYmIzZjk2MGE3NmRiY2I5OTM4MzZmNDgyM2RiZGYxNiJ9"
+        },
+        {
+          "resource": "repo://vue.config.js#L80-L153",
+          "version": "repo-lines-v1:sha256:ca2bfbdcc08e53db5d51a95a0eb072a8fd849600b33fa8cf38daa5fd8691b3b7:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiMDk1ZjY0MzJkMmEwMDQ1NjI4ODkwNDIyMjA0MjBhNzY0OTkzMjg5ODRkMzZiM2FlOTE4ZjJiNDNiNTk5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2YjA0NDkxNDY5NzIyZTgzNjNhOTRlNDA0NDUzOGUwMTNhMmEyMTdlMzZiMWU1NjhiYTYwYWNiN2I0YzhmMmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA0YjlhMGIxNmI5OTEwYmFhNWQwYTRkY2FmZjhhNjBjNDI5NjMzYmYyYWUzY2JhY2M4MjAyOTA3NTgwZDEwY2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1MDJlMjE1Zjg4YzU4MDhiOWYxNTg3ZGYxZmY5NGI5YjMyYWI1MGIyMDA1NTZlN2M4NDFkMGMzYzAxNzE1Y2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e3353d7eb63544f89dfb89be7b2b4b5c",
+      "statement": "When VUE_APP_OSS_CDN is exactly 'true', the build adds an Aliyun OSS plugin that uploads dist assets while excluding HTML and ICO files, targets /ecshopx-admin, and does not delete remote files.",
+      "evidence": [
+        {
+          "resource": "repo://vue.config.js#L160-L178",
+          "version": "repo-lines-v1:sha256:7e64489650a425ade3ea0f80d8d14ccde974cf66c0a94ea87b7caca53e3d019f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmZTY3NWVkZjVjYmEzMjc1MGJhYjQxMTJlZjkwMjE0MTMwNTVmYzA5NDc3NDg0NzhjOTExMzhlYjFiNDc1NTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0NmRjZjRkYjcwMzdjNDQ0NGNlOWRmNzY2MTlmOGU2MWM5MTg1ODE4NjZkNDY2MDJhZjVjMjhhZTNmZTdkM2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4NGY0YWY2MmNjOGY5MTE1ZDhjN2VmYjFjNDVhMjUyODQ4YzA2YzU2ZTIyMjQ2NjZiMWFlYmI5NjdmZDI2MjgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a185ec0507e04d51bf9fe15bf675221b",
+      "statement": "The main Dockerfile performs a multi-stage build with a pnpm frozen-lockfile install and a caller-supplied ARG CMD, then copies the generated /app/dist into an OpenResty 1.19 image that exposes port 80.",
+      "evidence": [
+        {
+          "resource": "repo://Dockerfile#L1-L1",
+          "version": "repo-lines-v1:sha256:cce5b137284d8c7983271b24d0f629271f12f42a26770c81c6fe64e62aaa0198:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2NlNWIxMzcyODRkOGM3OTgzMjcxYjI0ZDBmNjI5MjcxZjEyZjQyYTI2NzcwYzgxYzZmZTY0ZTYyYWFhMDE5OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2NlNWIxMzcyODRkOGM3OTgzMjcxYjI0ZDBmNjI5MjcxZjEyZjQyYTI2NzcwYzgxYzZmZTY0ZTYyYWFhMDE5OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMThmNmY2NmU5OGUxNTdmODZhNGQ2NjJlM2JmODMyODIxZDg2MWEyNjQ4NzM3MWMwOTZkYTMwOTVjNzc5OTg0ZiJ9"
+        },
+        {
+          "resource": "repo://Dockerfile#L3-L3",
+          "version": "repo-lines-v1:sha256:01d2a98b0ff9697a629f81ec5cd0f5fcee7fd33d0b6d18e707066f53ec95104e:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFkMmE5OGIwZmY5Njk3YTYyOWY4MWVjNWNkMGY1ZmNlZTdmZDMzZDBiNmQxOGU3MDcwNjZmNTNlYzk1MTA0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFkMmE5OGIwZmY5Njk3YTYyOWY4MWVjNWNkMGY1ZmNlZTdmZDMzZDBiNmQxOGU3MDcwNjZmNTNlYzk1MTA0ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2M2MGJhY2M2NTlmNzU2ODUwN2JhZjAyN2VlY2ZlZTJmOTExYjNiNTI0ZjY2N2NlNWZiNDM3YTY2YzZmMDA0ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODcyY2U0MTNjYjBmNDYyZDNjZWJiODA4MGZiZmFiMTM4Y2UyN2M0YmE2ZWRiOTAwZjMyODQwYTg2ZTk0ODYzMSJ9"
+        },
+        {
+          "resource": "repo://Dockerfile#L48-L62",
+          "version": "repo-lines-v1:sha256:a5d65a92ec128b071aa4d7880c1c77615775ecdcfdc89686d297b1630d389166:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxNDU4MTEwMWY3MDhkODNlYzA1MTQ1NTdiZDc3NjQ1NmVhNmY1Mzc0ZGEwNDk1MzhmYjQ3MjE0OGI0Nzc2YzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwM2MxMzVlOWZjZDBhZTg4OWVmYjYzYjdlNmM4OGE2N2IwMDUzN2I4YThkNWU1ZjZkZTEzNDVmNmZiMDkyZDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3NGRkNTdiNDMwOWMxOTVjMDM5OWIyMzc1MGIxNzViMzc5ZmIzYjM1NmU4MzNhNDA5MGY2M2JmYmViYmMyN2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlYjVmZTY0NDQ0NjUzOWEzNjg4ZTdmNTNhM2E1ODkzODlkZTI5NWNiMTBjZThiN2I0NDdjNTQxYTFkM2JkNTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_67bd904b33f34ea985ad50d3690a4158",
+      "statement": "Dockerfile-Atlas is a packaging-only path for an existing dist: it uses OpenResty 1.19, explicitly installs docker/nginx-default.conf as the default virtual-host configuration, copies dist into /app, and exposes port 80.",
+      "evidence": [
+        {
+          "resource": "repo://Dockerfile-Atlas#L1-L5",
+          "version": "repo-lines-v1:sha256:19d408c79e9d2ce0fa6b397dc2894b457f046072a5962dfe5b4bb6d75c2a30e8:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmIyZGM3YWZiNzk0YjU1NTIwODIwZWJmZjZhMTZmYjBiMjNlNjVkY2MzYTZiMDk2MGNmYTYzYzg0YTlhNmMwNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTAzYzEzNWU5ZmNkMGFlODg5ZWZiNjNiN2U2Yzg4YTY3YjAwNTM3YjhhOGQ1ZTVmNmRlMTM0NWY2ZmIwOTJkOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d924ca49da2141c8ace72370e63055d8",
+      "statement": "The tracked Nginx configuration serves /app and implements SPA deep-link fallback with try_files to /index.html, adds nosniff and XSS headers, applies image and JavaScript/CSS caching, and denies selected sensitive file and repository/configuration paths.",
+      "evidence": [
+        {
+          "resource": "repo://docker/nginx-default.conf#L1-L33",
+          "version": "repo-lines-v1:sha256:8bf8de8dc1108ebbf4b4daef31faf74392e7e651185338ea2f26fb12bce6ae6b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiYmRjZDBlNTU2ZTE1NGRmMTIxY2ZlYjBmMWVlMmNkOTQyMWU3ZDM2OGJjYjJiYWZjMGUwZDFiYzEwYTcwYjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8a7fa7eb10194517b940eebb8006bd69",
+      "statement": "The production newpc copy helper chooses newpc_b2c or newpc_bbc and targets dist/newpc, but its CopyWebpackPlugin registration is commented out, so builds must be inspected rather than assumed to contain those platform-specific microfrontend files.",
+      "evidence": [
+        {
+          "resource": "repo://vue.config.js#L156-L158",
+          "version": "repo-lines-v1:sha256:b3203f2ba986ba21aabfe13c673d4d71d7523b37e4f444b1edfd4e9b1649a1a5:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjZhNmVlMWY1NTEwMTFkMjQ1MDIzMTQ2YjM3YzkxZWU1ODc1MTM1N2MyYTMwN2E1Y2UxNjJjZWUyNGQ2ZWM2MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDEzNDFkMGM1ODgyZTkxYTY2YzYwY2I4NjAyMGIyNDdmMGFmYzMzNmNkZjc2YzBhZTE4YmNkMjBhYzhmZTFkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2VkNjY1MzRlYzU0OGIzNDE3YzkyYTc5YzU3YWMxZDAwOGFjNmUwZTE1YWUzZjI0ZTEyNGQxN2JkNGM1ZTlhNiJ9"
+        },
+        {
+          "resource": "repo://vue.config.js#L24-L35",
+          "version": "repo-lines-v1:sha256:56335a81fd90d09dee10102702c2c8a126ccdf5eccf2931f3def73e1e4538396:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyOTU4OGJlZmZhM2RmY2EyNjE5YTZiNDNiM2JjMzc3MjQxNDY1MWNiODZiOTkzNzJhZDg3ZmQ5NGYyYWI4MGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZiYjFiN2FiYTljOTNjMTZhNTI3YTcyOWFmMzZmMzdjMjc3YTk2Yzg5ZjBiZWMzMzgxZWQ3YTg1ZGViNzQ4ZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2ODY5YjUxMTE5Mzk2ZTk4ZjQ0OWJjYmJmZDQyYWY2YzIxZTlkNWI5YTljODhiNTlhMjk1MTMwMGE0Mzk0ZDMifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-10-23T02:32:18.329Z"
+  }
+}

@@ -4,6 +4,7 @@
   "description": "ecshopx admin",
   "author": "shopex",
   "private": true,
+  "packageManager": "pnpm@10.13.0",
   "repository": "https://github.com/shopeX-2002/ECShopX_AdminFrontend.git",
   "scripts": {
     "build:bbc": "PLATFORM=bbc vue-cli-service build",
@@ -21,7 +22,7 @@
     "husky": "npx husky install",
     "husky:add": "npx husky add .husky/pre-commit 'npx --no-install lint-staged' & npx husky add .husky/commit-msg 'npx --no-install commitlint --edit \"$1\"'",
     "export:decoration-schema": "node scripts/export-decoration-schema.mjs ../ecshopx-web/app/decoration-engine/schema/decoration-schema.json",
-    "lint:decoration-contract": "node scripts/check-decoration-contract.mjs && npm run export:decoration-schema"
+    "lint:decoration-contract": "node scripts/check-decoration-contract.mjs && pnpm run export:decoration-schema"
   },
   "dependencies": {
     "@antv/g2plot": "^2.4.35",
@@ -113,7 +114,8 @@
     "webpack-bundle-analyzer": "^4.4.0"
   },
   "engines": {
-    "node": "20.19.0"
+    "node": "22.23.4",
+    "pnpm": "^10.13.0"
   },
   "browserslist": [
     "> 1%",
@@ -135,14 +137,16 @@
       "prettier --write"
     ]
   },
-  "overrides": {
-    "resource": "0.8.1",
-    "xmlhttprequest": "1.8.0",
-    "jugglingdb-nano": "0.0.1",
-    "global": "2.0.1",
-    "fast-xml-parser": "^5.3.4",
-    "follow-redirects": "^1.15.9",
-    "lodash": "^4.17.23",
-    "semver": "^7.7.2"
+  "pnpm": {
+    "overrides": {
+      "resource": "0.8.1",
+      "xmlhttprequest": "1.8.0",
+      "jugglingdb-nano": "0.0.1",
+      "global": "2.0.1",
+      "fast-xml-parser": "^5.3.4",
+      "follow-redirects": "^1.15.9",
+      "lodash": "^4.17.23",
+      "semver": "^7.7.2"
+    }
   }
 }
