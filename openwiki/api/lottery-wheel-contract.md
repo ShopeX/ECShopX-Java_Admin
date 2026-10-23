@@ -1,262 +1,185 @@
-# 大转盘抽奖 — 前后端接口契约
-
-> 主任务：ECX-9883｜切片：INT-01（ECX-9971）  
-> SSOT：`docs/prd/抽奖开发逻辑整理.md`（冲突以 PRD 为准）  
-> 本仓实现：BE-01～05；本文冻结联调 path / 字段 / 错误码  
-> 状态：**可给 ADM/H5 联调**；本仓 BE-01～05 已落地（未默认 push）；冲突以 PRD 为准
-
-通用约定：
-
-- 包装：`ApiResult`；HTTP 协议成功与业务态分离  
-- 鉴权：`company_id` / `user_id` **仅**来自 Operator JWT / H5 claims，禁止信任客户端伪造  
-- 时间：Unix 秒；业务日切时区 `Asia/Shanghai`（可配置）  
-- 字段命名：管理端以 **snake_case** 为主（现网）；用户端抽奖结果以 camelCase 示例为准（与 PRD §6.5 一致），实现时与前端一次冻结
-
+---
+type: API contract
+title: Lottery Wheel Admin and API Contract
+description: Repository-backed INT-01 reference for the lottery wheel Admin endpoints, payload mapping, lifecycle, reporting, and transport semantics. It also marks the boundary between Admin configuration and user-facing lottery consumption without documenting client implementation.
+tags: [lottery, api, admin, contract, reporting]
+verified:
+  - by: openwiki/0.5.1
+    at: 2026-10-23T02:32:18.329Z
+sources:
+  - id: openwiki-source-33cc7560e46e9fe8ff0799a5
+    resource: repo://src/api/marketing.js
+  - id: openwiki-source-10dff083a0ea5571de4cd829
+    resource: repo://src/api/promotions.js
+  - id: openwiki-source-fa36778a3966f2951adbc77a
+    resource: repo://src/api/request/index.js
+  - id: openwiki-source-d8bce5a0e8597805563b4ea5
+    resource: repo://src/api/request/request.js
+  - id: openwiki-source-d47e1e5943e84bfe4001e18f
+    resource: repo://src/components/sp-picker/pickers/picker-lottery.vue
+  - id: openwiki-source-e3b5d3bf9cda685c8b90693f
+    resource: repo://src/view/marketing/lottery/constants.js
+  - id: openwiki-source-17cb4342852ea73d14f709d2
+    resource: repo://src/view/marketing/lottery/editor.vue
+  - id: openwiki-source-c5d72c29b63a4c6d4bf0240c
+    resource: repo://src/view/marketing/lottery/editorSchema.js
+  - id: openwiki-source-68c08a678b3cde2046d4fefb
+    resource: repo://src/view/marketing/lottery/list.vue
+  - id: openwiki-source-a166809e944106bd69a1d3d6
+    resource: repo://src/view/marketing/lottery/schema.js
+generated: { by: "openwiki/0.5.1", at: "2026-10-23T02:32:18.329Z" }
 ---
 
-## 1. 管理端（AdminAuth）
+# Lottery Wheel Admin and API Contract
 
-Base：`/api/v1/promotions`
+> **Authority:** INT-01 is the Admin integration authority. The repository requirements page uses the GitLab PRD only for business-rule conflicts explicitly recorded there; HTTP paths and error codes remain governed by INT-01.
+>
+> **Scope:** This page documents the Admin contract implemented by the current Vue application. The Admin manages activity configuration, lifecycle controls, activity selection, and reports. User-facing Vshop/H5 behavior is outside this page; the only relevant boundary is that those clients consume the published activity rather than use the Admin configuration/reporting endpoints.
 
-### 1.1 保存活动 `POST /turntableconfig`
+## Contract boundary and transport
 
-| | |
-| --- | --- |
-| 鉴权 | AdminAuth / Operator JWT → `company_id` |
-| 创建 | body **无** `id`（或 `id=0`） |
-| 更新 | body 有正整数 `id`；**必须**带读到的 `config_version` |
-| 固定 | `activity_type=wheel`；消耗落库 `cost_type=2`（积分）；不读写业务语义上的 `area_id`/`cost_type` 入参 |
+The lottery Admin uses the domain module assembled as `api.marketing`. Its named wrappers are in `src/api/marketing.js`; the list and log grids also use Finder URLs directly. All requests go through `src/api/request/index.js` and the `RequestClient` in `src/api/request/request.js`.
 
-**Request（关键字段）**
+The deployed API host is `VUE_APP_BASE_API`. Endpoint paths below are the repository paths after that base URL. The shared client provides a 30-second timeout, JSON defaults, bearer authorization when a token exists, and an `Accept-Language` header. It adds the locale-derived `country_code` unless a request opts out. For GET requests, the request interceptor merges `data` into query parameters, removes empty-string values, and removes the request body.
 
-| 字段 | 类型 | 必填 | 说明 |
+```mermaid
+sequenceDiagram
+    participant Admin as Admin page
+    participant Finder as Finder grid
+    participant Api as api.marketing
+    participant Client as shared request client
+    participant Backend as promotions API
+    Admin->>Finder: load list or log URL
+    Admin->>Api: call named wrapper
+    Finder->>Client: GET direct Finder path
+    Api->>Client: GET or POST wrapper path
+    Client->>Backend: send auth locale and country_code
+    Backend-->>Client: response or error envelope
+    Client-->>Finder: response data
+    Client-->>Api: response data
+```
+
+This diagram shows the two repository entrypoints converging on the shared transport.
+
+The response interceptor treats an HTTP 2xx or 3xx response without `status_code` as a successful protocol response. Other responses are rejected. HTTP 401 clears the user/system session and redirects to the matching portal login; other failures may show the backend `data.error` or `data.message` unless the request sets `showError: false`. `src/api/index.js` then unwraps successful responses for Vue callers by returning `response.data.data`.
+
+## Admin endpoint matrix
+
+The following paths and methods are verified against the current wrappers and callers. `Direct Finder` means the component passes the URL to `SpFinder`; it is not a named function in `src/api/marketing.js`.
+
+| Capability | Method | Repository path | Entry point | Request mapping |
+| --- | --- | --- | --- | --- |
+| Activity list | GET | `/promotions/getturntableList` | Direct Finder in `list.vue` and `picker-lottery.vue` | `activity_id`, `activity_name`, optional `status`, plus Finder paging |
+| Activity detail | GET | `/promotions/getturntable` | `marketing.getTurntableDetail` | `{ id }` |
+| Save configuration | POST | `/promotions/turntableconfig` | `marketing.editTurntableConfig` | JSON-stringified `prize_data` and `activity_template_config`; update also sends `id` and `config_version` |
+| Log list | GET | `/promotions/getturntable_log/byid` | Direct Finder in `schema.js` | `activity_id`; `pageSize` is copied to backend field `page_size` by the Finder hook |
+| Summary counts | GET | `/promotions/getturntable_count/byid` | `marketing.getTurntableCountById` | `{ activity_id }` |
+| End activity | GET | `/promotions/down_lucky_draw/byid` | `marketing.downLuckyDrawById` | `{ activity_id }` |
+| Export report | GET | `/promotions/down_lucky_draw/export` | `marketing.exportLuckyDrawData` | `{ activity_id }`; success redirects to the export-record page |
+| Optional server-side copy | POST | `/promotions/turntable/copy` | `marketing.copyTurntable` | Wrapper exists, but the Admin primary copy flow is draft cloning in the editor, not this call |
+
+The older `src/api/promotions.js` also contains `getSurntableconfig` and `setSurntableconfig` for GET/POST `/promotions/turntableconfig`. The current lottery Admin page uses the `marketing.js` wrappers and direct Finder URLs described above; do not infer a separate endpoint from the older function names.
+
+## Configuration request
+
+### Create and update
+
+The editor builds the save payload in `editor.vue` and calls `marketing.editTurntableConfig`:
+
+| Field | Create | Update | Mapping and invariant |
 | --- | --- | --- | --- |
-| `id` | long | 更新必填 | 创建省略 |
-| `config_version` | long | 更新必填 | 乐观锁；与详情/配置读值一致 |
-| `begin_time` | long | 是 | 创建后不可改（更新强制沿用库内） |
-| `end_time` | long | 是 | **必须** `> now`（普通保存；与手动结束分岔） |
-| `cost_value` | long | 是 | `> 0`，每次消耗积分 |
-| `limit_total` | long | 是 | `≥0`；`0`=不限 |
-| `limit_day` | long | 是 | `≥0`；`0`=不限；当 `limit_total>0` 时不得大于总次数 |
-| `activity_name` | string | 建议 | 活动名 |
-| `intro` | string | 否 | 说明 |
-| `activity_template_config` | object/string | 否 | 页面/转盘样式 JSON |
-| `prize_data` | array | 是 | 见 §3 |
+| `id` | omitted | included | Route `:id` identifies an edit; clone mode removes it before save |
+| `config_version` | omitted | included | Read from detail and sent for optimistic concurrency |
+| `activity_name` | sent | sent | Admin display name |
+| `intro` | required by editor | required by editor | Rich-text description; blank/HTML-only content is rejected client-side |
+| `activity_type` | fixed | fixed | Always `wheel` |
+| `cost_value` | numeric | locked in the editor | Serialized as a number and validated as at least 1 by the current editor |
+| `limit_total` | number, default `0` | number | Empty/negative input normalizes to `0`; `0` means no total limit in the Admin UI |
+| `limit_day` | number, default `0` | number | Empty/negative input normalizes to `0`; cannot exceed a positive total limit |
+| `begin_time`, `end_time` | Unix seconds | Unix seconds | Built from the date range; update keeps the existing begin time and edits only the end time |
+| `prize_data` | required | required | `JSON.stringify(buildPrizePayload())`; see the prize contract below |
+| `activity_template_config` | sent | sent | `JSON.stringify(...)` containing wheel visual configuration and the prize copy used for rendering |
 
-**Response `data`**
+`cost_type` is displayed as a disabled value of `2` (points) but is not included in `submitAfter()`; the save payload fixes `activity_type` to `wheel` and does not send `area_id`. The requirements brief records the same Admin boundary and explicitly excludes `area_id`.
 
-```json
-{ "result": true, "id": 100, "config_version": 1 }
+The editor validates `end_time > begin_time` and `end_time > now`, requires at least one `thanks` prize, requires the probability sum to be greater than zero and no more than 100, limits names to five characters, and rejects negative coupon/coupon-pack daily stock. It also caps coupon daily stock to the selected item’s available quantity when that quantity is present. These are UI validations; backend validation remains the final contract authority.
+
+### Detail and edit lifecycle
+
+`getTurntableDetail({ id })` supplies the editor with the existing activity. The editor restores `begin_time`/`end_time` as a date range, `config_version`, limits, description, prize rows, and the nested template configuration. Coupon values are normalized from `prize_detail.card_id`; coupon-pack values use `prize_detail.package_id`. A normal edit preserves the existing `prize_id` values. A clone loads the same detail with `clone_id`, appends ` 副本` to the name, clears the activity id and version, clears the date range for a new selection, and saves through the normal POST endpoint.
+
+On a save response with `result`, the page returns to the lottery list. `LUCKY_DRAW_CONFIG_VERSION_CONFLICT` causes an error message and a detail reload; `LUCKY_DRAW_ENDED` switches the form to read-only. A detail whose `end_time` has passed is also made read-only in the editor. The source does not define a lottery-specific automated test suite, so these concurrency and terminal-state paths require focused manual API/UI verification.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Draft
+    Draft --> Active: save create
+    Active --> Active: save update with current config_version
+    Active --> Ended: end request or end_time passes
+    Active --> Draft: clone_id opens draft copy
+    Draft --> Active: save cloned configuration
+    Active --> Conflict: stale config_version
+    Conflict --> Active: reload detail
+    Ended --> ReadOnly
+    ReadOnly --> [*]
 ```
 
-更新成功时 `config_version` 为自增后的新版本。
+This lifecycle reflects the editor’s create, update, draft-clone, optimistic-lock, and ended/read-only behavior.
 
-**主要错误**
+## Prize data contract
 
-| 场景 | code / 语义 |
+The editor sends each prize as an object in the `prize_data` JSON array. The current field names are:
+
+| Field | Meaning |
 | --- | --- |
-| 版本冲突 | `LUCKY_DRAW_CONFIG_VERSION_CONFLICT` |
-| 已结束不可编辑 | `LUCKY_DRAW_ENDED` / 文案「活动已结束，不可编辑」 |
-| `end_time <= now` | 结束时间必须大于当前时间 |
-| 奖项/次数校验失败 | 400 + 中文明细（见 §3） |
+| `prize_id` | Preserved on an edit when present; omitted for a new row so the service can assign it |
+| `sort` | Current row order, generated from the editor array index |
+| `name` | Display name, maximum five characters in the editor |
+| `type` | One of `thanks`, `points`, `coupon`, `coupons` |
+| `value` | Points input for `points`; selected card id for `coupon`; selected package id for `coupons`; empty for `thanks` |
+| `probability` | Integer percentage-like value constrained by the editor to 0 through 100; aggregate must be in `(0, 100]` |
+| `dailyStock` | Sent for `coupon` and `coupons`, normalized to a number; `0` is the UI value for no daily stock |
+| `backgroundColor` | Prize-sector color |
+| `background` | Compatibility rendering field populated with the same color |
+| `image` | Prize-sector image URL, or empty string |
 
-### 1.2 读配置 `GET /turntableconfig?id=`
+At least one `thanks` row is required and cannot be deleted or renamed in the editor. The editor allows at most eight rows. The save payload does not perform legacy-key dual writes; it uses the current prize keys and serializes the complete array.
 
-- 须 `company_id` 校验  
-- 无数据时现网兼容：`data` 可为 `[]`  
-- 响应含 `config_version`；**不含** `area_id` / `cost_type`
+`activity_template_config` carries presentation state in addition to the canonical prize array: background image/color, `gameMarginTop` (default `150px`), wheel blocks, center button configuration, and rule/record button configuration. The editor copies the same normalized prize objects into `gameConfig.prizes` so the detail view and preview can restore the visual configuration.
 
-### 1.3 活动详情 `GET /getturntable?id=`
+## List, status, and reporting semantics
 
-- 须 `company_id` 校验  
-- 含 `config_version`；奖项可带 `prize_detail`（券/券包展开）
+The Admin list uses `/promotions/getturntableList` directly. Its search fields are `activity_id` and `activity_name`. The `all` tab removes `status`; the other tabs send one of the exact values `notstart`, `online`, or `expire`. The UI displays the corresponding status labels and exposes the stop action only for `online` rows.
 
-### 1.4 列表 `GET /getturntableList`
+The activity picker used by decoration also calls the same direct list URL, searches by ID/name, and explicitly removes `status`, so it can select activities regardless of lifecycle status. This is an Admin integration boundary: it makes a configured activity selectable by another Admin workflow and does not describe the user-facing lottery client.
 
-Query：`page`、`pageSize`、`activity_id`、`activity_name`、`status`
+The list actions are:
 
-| `status` | 含义（与时间窗一致） |
-| --- | --- |
-| `notstart` | `begin_time > now` |
-| `online` | `begin_time <= now < end_time` |
-| `expire` | `end_time <= now` |
+- **Edit:** route to the activity editor with the row id.
+- **Stop:** confirm, call `GET /promotions/down_lucky_draw/byid` with `activity_id`, then refresh the Finder.
+- **Copy:** route to the editor with `?clone_id=<id>`; it is a draft copy saved through the normal configuration endpoint.
+- **Statistics:** call the count wrapper with `activity_id`, then open the log dialog.
 
-列表行字段含：`id`、`company_id`、时间、`cost_value`、`activity_*`、`prize_data`、`intro`、`config_version`、`limit_*`、计算字段 `status`；**不含** `area_id` / `cost_type`。
+The statistics dialog uses the direct log URL with `activity_id`. Its visible columns are user ID, member code, prize title, prize type, and creation time. Member code display falls back in this order: `user_card_code`, `username`, `member_code`, `mobile`, then `-`. The summary response supplies the values shown above the log table, and export calls the named export wrapper before routing to `export_luckdraw_log` in the export-record area.
 
-### 1.5 手动结束 `GET /down_lucky_draw/byid?activity_id=`
+## Failure and verification expectations
 
-| | |
-| --- | --- |
-| 语义 | `end_time = now`；**不**递增 `config_version` |
-| 允许 | **仅进行中**（`begin <= now < end`） |
-| 拒绝 | 已结束 → 不可再次结束；未开始 → 仅进行中可结束 |
+The current Admin explicitly handles these named business failures:
 
-成功：`{ "status": true }`
+- `LUCKY_DRAW_CONFIG_VERSION_CONFLICT`: the saved version is stale; reload detail and retry.
+- `LUCKY_DRAW_ENDED`: the activity is terminal/read-only; stop editing and show the ended message.
+- Any other rejected request: display the backend message when available, otherwise the generic operation failure.
 
-### 1.6 复制 `POST /turntable/copy`
+HTTP 401 is a transport/authentication failure handled centrally by the shared client, not a lottery business status. Network errors and timeouts are also handled centrally. The repository has no lottery-specific test files or declared general test runner; verification should therefore cover the list filters, detail round trip, create/update payload serialization, stale-version response, ended activity, draft clone, stop action, log pagination mapping, statistics, export redirect, and selection of ended activities in the picker. Use the repository’s targeted checks and lint/build controls for broader regressions as described in `openwiki/operations/integrations-and-quality.md`.
 
-Body：`activity_id`（或 `id`）
+## Source anchors
 
-- 只复制配置；**全部** `prize_id` 重生  
-- 不复制抽奖历史  
-- `config_version = 1`；名称追加 ` 副本`  
-- Response：`{ "result": true, "id": <newId>, "config_version": 1 }`
-
-### 1.7 统计 / 记录 / 导出（现网 path）
-
-| 能力 | Method | Path |
-| --- | --- | --- |
-| 统计 | GET | `/getturntable_count/byid?activity_id=` |
-| 记录列表 | GET | `/getturntable_log/byid` |
-| 导出 | GET | `/down_lucky_draw/export` |
-
-统计口径（PRD §8）：
-
-- 抽奖次数 = `status IN (SUCCESS, GRANT_FAILED)`  
-- 中奖次数 = `SUCCESS AND prize_type <> 'thanks'`  
-- 中奖人数 = 上述 `COUNT(DISTINCT user_id)`
-
----
-
-## 2. 用户端（FrontAuth）
-
-Base：`/api/v1/h5app/wxapp`
-
-### 2.1 活动数据 `GET /promotion/getLuckyDrawData?id=`
-
-现网；登录用户可附带 `user_info`（积分等）。公开配置规则见 §4。
-
-### 2.2 用户抽奖记录 `GET /promotion/getLuckyDrawLog?id=`
-
-现网。
-
-### 2.3 抽奖（参与）`POST /promotion/turntable`（冻结；BE-03/04）
-
-| | |
-| --- | --- |
-| 鉴权 | FrontAuth；`user_id`/`company_id` 来自 H5 claims |
-| Body | `{ "activity_id": 100, "requestId": "01J..." }` |
-| 兼容 | 旧 GET 可短期保留；**新客户端必须 POST** |
-
-**Response（HTTP 200 = 协议成功）**
-
-成功：
-
-```json
-{
-  "activityId": 100,
-  "recordId": 10001,
-  "requestId": "01J...",
-  "status": "SUCCESS",
-  "prizeId": "xxx",
-  "sectorIndex": 2,
-  "prizeType": "coupon",
-  "prizeTitle": "满100减20",
-  "costPoints": 10,
-  "remainPoints": 90,
-  "isWin": true
-}
-```
-
-处理中（**禁止**用 HTTP 4xx/5xx 表达 PROCESSING）：
-
-```json
-{
-  "activityId": 100,
-  "recordId": 10001,
-  "requestId": "01J...",
-  "status": "PROCESSING"
-}
-```
-
-同 `requestId` 重放：返回已有记录同构结果，**不**当失败。
-
-### 2.4 抽奖结果查询 `GET /promotion/turntable/result`（新增；BE-03）
-
-Query：`requestId` 或 `recordId`（至少其一）；返回体与 §2.3 同构。
-
----
-
-## 3. `prize_data[]` Schema（保存契约）
-
-| 字段 | 必填 | 说明 |
-| --- | --- | --- |
-| `prize_id` | 是（服务端保证） | 新建生成；编辑按序保留；删除永不复用；复制全重生 |
-| `sort` | 是 | 扇区/概率累计顺序 |
-| `name` | 是 | ≤5 字 |
-| `type` | 是 | `thanks` / `points` / `coupon` / `coupons` |
-| `value` | 视类型 | points>0；coupon/coupons 非空 |
-| `probability` | 是 | 0～100；总和 ≤100；不足 100 的差额进排序最前 `thanks` |
-| `dailyStock` | coupon/coupons 必填 | ≥0；**0=今日不可中** |
-| `backgroundColor` / `image` | 否 | 扇区样式 |
-
-兼容：无。管理端提交/回显仅使用上表字段，不做旧键双写。
-
-硬约束：至少 1 个 `thanks`。
-
----
-
-## 4. 公开配置脱敏（C 端）
-
-可返回：状态、时间、消耗、剩余次数（限额 0 → 表达为不限）、奖项展示（name / image / color / `prizeId` / 扇区顺序）、样式。
-
-**不得返回**：概率、日库存、券总库存等。
-
-未登录可看配置；抽奖须登录。
-
----
-
-## 5. 错误码（冻结）
-
-| code | 场景 |
-| --- | --- |
-| `LUCKY_DRAW_ACTIVITY_NOT_FOUND` | 活动不存在或非本公司 |
-| `LUCKY_DRAW_NOT_STARTED` | 未开始 |
-| `LUCKY_DRAW_ENDED` | 已结束（含结束后只读） |
-| `LUCKY_DRAW_TOTAL_LIMIT` | 总次数达上限 |
-| `LUCKY_DRAW_DAILY_LIMIT` | 每日次数达上限 |
-| `LUCKY_DRAW_POINT_NOT_ENOUGH` | 积分不足 |
-| `LUCKY_DRAW_REQUEST_ID_INVALID` | requestId 缺失/非法 |
-| `LUCKY_DRAW_GRANT_FAILED` | 发奖失败（用户提示；勿伪装 thanks） |
-| `LUCKY_DRAW_COST_FAILED` | 扣费失败 |
-| `LUCKY_DRAW_CONFIG_VERSION_CONFLICT` | 配置乐观锁冲突 |
-
-`GRANT_FAILED`：提示发奖处理中/失败可重试，**不要**伪装谢谢参与。
-
----
-
-## 6. 联调核对清单（INT-01）
-
-按顺序：
-
-1. 后台创建/编辑（含 `config_version`）→ 列表状态 → 详情回填  
-2. 复制 → 新 id、新 `prize_id`、无历史  
-3. 手动结束 → 只读；不可再结束  
-4. C 端活动数据：扇区顺序、图片、颜色、`prizeId`、剩余次数、时区日切  
-5. 抽奖 POST：无奖 / 券 / 券包 / 积分；`PROCESSING` 轮询 result  
-6. 记录 / 统计 / 导出；模板挂载选活动（他仓）
-
-Mock 场景至少覆盖：thanks、coupon、coupons、points。
-
----
-
-## 7. 实现进度（本仓）
-
-| 能力 | 状态 |
-| --- | --- |
-| 表结构 / Schema（BE-01） | 已提交 `ECX-9957` |
-| 管理端保存/结束/复制/列表脱敏（BE-02） | 已提交 `ECX-9956` |
-| 用户端抽奖 POST + result（BE-03） | 已提交 `ECX-9958` |
-| 规则/库存/幂等/PROCESSING 主路径（BE-04） | 已提交 `ECX-9959` |
-| 补偿恢复与观测收口（BE-05） | 已提交 `ECX-9960` |
-
-已知余量（不影响前端按本文开发）：`GRANTING` 在发奖结果可查能力完备前，补偿保持 PROCESSING、不盲建发奖单；监控告警可随联调再补。
-
----
-
-## 8. 修订记录
-
-| 日期 | 说明 |
-| --- | --- |
-| 2026-09-02 | INT-01 初稿：对齐 PRD §6.5/§6.6 与 BE-02 落地行为 |
-| 2026-09-02 | 标记可联调；同步 BE-03～05 已提交；补 GRANTING 余量说明 |
+- `src/api/marketing.js`: named Admin wrappers and exact methods/paths.
+- `src/api/promotions.js`: older turntable GET/POST wrappers; retained as a compatibility reference, not the current lottery page entrypoint.
+- `src/api/request/index.js` and `src/api/request/request.js`: auth, locale, GET parameter, response, timeout, and 401 behavior.
+- `src/view/marketing/lottery/list.vue`: list URL, actions, status query mapping, stop/statistics/export callers.
+- `src/view/marketing/lottery/schema.js`: table columns, direct log URL, pagination field mapping, and summary display.
+- `src/view/marketing/lottery/editor.vue`: detail loading, validation, payload serialization, clone/update behavior, and handled error codes.
+- `src/view/marketing/lottery/editorSchema.js` and `src/view/marketing/lottery/constants.js`: form fields, prize types, defaults, and status values.
+- `src/components/sp-picker/pickers/picker-lottery.vue`: Admin decoration picker boundary and unfiltered activity selection.
+- `openwiki/marketing/lottery/requirements.md`: INT-01/PRD conflict policy and Admin scope.
