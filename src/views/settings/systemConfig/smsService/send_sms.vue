@@ -108,10 +108,7 @@ import Pages from '@/utils/pages'
 import {
   offDisablingSms,
   onDisablingSms,
-  deletedDisablingSms,
-  getSmsSignatureList,
-  getSmsTemplateList,
-  addSceneItem
+  deletedDisablingSms
 } from '@/api/sms'
 
 export default {
@@ -138,6 +135,7 @@ export default {
       SmsSignatureList: [], //短信签名
       SmsTemplateList: [], //短信模板
       activeScene_name: '',
+      activeSceneId: '',
       templateList: []
     }
   },
@@ -245,31 +243,46 @@ export default {
   methods: {
     async getScenarioList() {
       this.loading = true
-      let params = {
-        pageSize: 100,
-        page: 1
+      try {
+        const params = {
+          pageSize: 100,
+          page: 1
+        }
+        if (this.query.scene_name) {
+          params.scene_name = this.query.scene_name
+        }
+        const { list } = await this.$api.sms.getScenarioList(params)
+        this.smsScenarioList = list || []
+      } finally {
+        this.loading = false
       }
-      if (this.query.scene_name) {
-        params['scene_name'] = this.query.scene_name
-      }
-      const { list } = await this.$api.sms.getScenarioList(this.query)
-      this.loading = false
-      this.smsScenarioList = list
     },
     // 添加短信
     async fnAddSms(id, scene_name) {
       this.visible = true
       this.activeScene_name = scene_name
-      // 获取选项
-      this.form.scene_id = id
+      this.activeSceneId = id
+      // 获取选项；scene_id 单独保存，避免 SpFormPlus v-model 覆盖丢失
+      this.form = {
+        scene_id: id,
+        sign_id: '',
+        template_id: ''
+      }
+      // 按当前场景重新加载可选模板
+      this.SmsTemplateList = []
+      this.pagesSmsTemplateQuery = new Pages({
+        pageSize: 10,
+        fetch: this.getSMSTemplateList
+      }).nextPage()
     },
     async getSMSTemplateList({ page, pageSize }) {
+      const sceneId = this.activeSceneId || this.form.scene_id
       const { list, total_count } = await this.$api.sms.getSmsTemplateList({
-        params: { status: '1', scene_id: this.form.scene_id, scene_id_assigned: '1' },
+        params: { status: '1', scene_id: sceneId, scene_id_assigned: '1' },
         page,
         pageSize
       })
-      this.pagesSmsSignatureQuery.setTotal(total_count)
+      this.pagesSmsTemplateQuery.setTotal(total_count)
       this.SmsTemplateList = this.SmsTemplateList.concat(list)
     },
     async getSMSSignatureList({ page, pageSize }) {
@@ -283,18 +296,28 @@ export default {
     },
     async fnPass() {
       try {
-        await this.$refs.form.validate()
-        await addSceneItem(this.form)
+        const formData = await this.$refs.form.validate()
+        await this.$api.sms.addSceneItem({
+          ...formData,
+          scene_id: this.activeSceneId || this.form.scene_id
+        })
         this.$message.success(this.$t('e00a2569.3fdaea'))
-        this.activeScene_name = ''
         this.handleClose()
-        this.getScenarioList()
+        // 保存成功后重新拉取场景列表，展示最新关联结果
+        await this.getScenarioList()
       } catch (error) {
-        // 验证失败，不处理
+        // 验证失败或接口失败，不处理
       }
     },
     handleClose() {
       this.visible = false
+      this.activeScene_name = ''
+      this.activeSceneId = ''
+      this.form = {
+        scene_id: '',
+        sign_id: '',
+        template_id: ''
+      }
       if (this.$refs.form) {
         this.$refs.form.resetFields()
       }
