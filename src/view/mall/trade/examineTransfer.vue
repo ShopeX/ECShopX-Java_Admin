@@ -461,6 +461,7 @@ export default {
           key: 'check_status',
           type: 'radio',
           required: true,
+          disabled: () => this.isLook, // 已审核详情置灰
           options: [
             { label: '1', name: this.$t('77050e4f.871a30') },
             { label: '2', name: this.$t('77050e4f.146bb2') }
@@ -472,6 +473,7 @@ export default {
           type: 'textarea',
           maxlength: 500,
           required: false,
+          disabled: () => this.isLook, // 已审核详情置灰
           message: this.$t('77050e4f.91ef19')
         }
       ]
