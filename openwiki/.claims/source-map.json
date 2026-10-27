@@ -216,7 +216,7 @@
     },
     {
       "id": "claim_b2e984a5d3b0484bad5c35b1b9ab6952",
-      "statement": "Build and delivery ownership is split across package scripts, vue.config.js, and Dockerfile: package scripts select bbc or b2c through PLATFORM, vue.config.js maps that platform into VUE_APP_PLATFORM and owns public path, aliases, asset/build optimization, and optional OSS upload, while Dockerfile performs a locked pnpm build and serves dist from OpenResty.",
+      "statement": "Build and delivery ownership is split across package scripts, vue.config.js, and Dockerfile: package scripts select bbc or b2c through PLATFORM, vue.config.js maps that platform into VUE_APP_PLATFORM and owns public path, aliases, asset/build optimization, and optional OSS upload, while Dockerfile performs a locked npm build and serves dist from OpenResty.",
       "evidence": [
         {
           "resource": "repo://Dockerfile#L48-L62",

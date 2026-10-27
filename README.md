@@ -3,7 +3,7 @@
 ### <p align="center">Admin Frontend</p>
 
 # Getting started
-Node.js (current LTS) and pnpm are required to run the project. Enable Node's corepack so the declared pnpm version is used.
+Node.js (current LTS) and npm are required to run the project.
 
 ### System Requirements
 Required Node.js Version: 22.23.4. If your current version differs, follow the steps below to switch
@@ -12,14 +12,9 @@ nvm install 22.23.4
 nvm use 22.23.4
 ```
 
-Or from the project root: `nvm use` (reads [`.nvmrc`](.nvmrc)). Then enable Corepack and install with the lockfile:
+Or from the project root: `nvm use` (reads [`.nvmrc`](.nvmrc)).
 
-```
-corepack enable
-pnpm install --frozen-lockfile
-```
-
-Docker / CI builds use Node `22.23.4` and pnpm `10.13.0` ([`Dockerfile`](Dockerfile), `node-python3:22.23.4-alpine3.20`).
+Docker / CI builds use Node `22.23.4` ([`Dockerfile`](Dockerfile), `node-python3:22.23.4-alpine3.20`).
 
 ### Configure the .env file
 ```shell
@@ -69,33 +64,32 @@ VUE_APP_BASE_API=https://your-domain.com/api
 VUE_APP_BASE_API=http://1.2.3.4:8005/api
 
 # Rebuild after changing the value
-pnpm run build:b2c   # B2C
-pnpm run build:bbc   # B2B2C
+npm run build:b2c   # B2C
+npm run build:bbc   # B2B2C
 ```
 
 ### Installation
 ```
 cd ECShopX_admin-frontend
-corepack enable
-pnpm install --frozen-lockfile
+npm i
 ```
 
 ### Run project
 ```shell
 # B2C Business Model
-pnpm run dev:b2c
+npm run dev:b2c
   
 # B2B2C Business Model
-pnpm run dev:bbc
+npm run dev:bbc
 ```
 
 ### Build packages
 ```shell
 # B2C Business Model
-pnpm run build:b2c
+npm run build:b2c
   
 # B2B2C Business Model
-pnpm run build:bbc
+npm run build:bbc
 ```
 
 ## License

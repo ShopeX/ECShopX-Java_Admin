@@ -118,7 +118,7 @@
     },
     {
       "id": "claim_bdf085d0b8c54793879c6c52b096f3b8",
-      "statement": "The repository declares Node 22.23.4 and pnpm 10.13.0, provides B2C and B2B2C development/build scripts, and documents that VUE_APP_* configuration such as VUE_APP_BASE_API is baked into the bundle and requires rebuilding after changes.",
+      "statement": "The repository declares Node 22.23.4 and npm, provides B2C and B2B2C development/build scripts, and documents that VUE_APP_* configuration such as VUE_APP_BASE_API is baked into the bundle and requires rebuilding after changes.",
       "evidence": [
         {
           "resource": "repo://README.md#L5-L22",
@@ -144,7 +144,7 @@
     },
     {
       "id": "claim_cc698bc473994e8c82c46a6c36ce9a43",
-      "statement": "The repository provides a decoration contract check script invoked by pnpm run lint:decoration-contract, and no focused test or spec files matching the repository-wide *.test.* or *.spec.* patterns were present during this update.",
+      "statement": "The repository provides a decoration contract check script invoked by npm run lint:decoration-contract, and no focused test or spec files matching the repository-wide *.test.* or *.spec.* patterns were present during this update.",
       "evidence": [
         {
           "resource": "repo://package.json#L24-L25",

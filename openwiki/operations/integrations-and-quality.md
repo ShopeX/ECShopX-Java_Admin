@@ -101,12 +101,12 @@ For a lottery change, manually verify the complete path: open the permissioned l
 
 ## Available quality controls
 
-- `pnpm run lint` runs `prettier-eslint --write --list-different` for JavaScript and Vue files under `src/`; `pnpm run eslint` runs ESLint with `--fix` for JS/JSX; and `pnpm run prettier` writes Prettier output. These commands mutate files, so inspect the diff afterward.
+- `npm run lint` runs `prettier-eslint --write --list-different` for JavaScript and Vue files under `src/`; `npm run eslint` runs ESLint with `--fix` for JS/JSX; and `npm run prettier` writes Prettier output. These commands mutate files, so inspect the diff afterward.
 - `.husky/pre-commit` runs `lint-staged`. JavaScript/JSX files receive ESLint auto-fix and Prettier; Vue, MJS, and SCSS files receive Prettier according to the `lint-staged` manifest in `package.json`.
-- `.husky/commit-msg` runs Commitlint. `commitlint.config.js` requires a `[TBID:<alphanumeric>-<number>]` prefix, a lower-case approved conventional type, and a non-empty subject. `pnpm run commit` starts the configured Commitizen flow.
-- `pnpm run lint:decoration-contract` runs the decoration schema contract assertion and then exports the decoration schema to the sibling web decoration-engine location. `pnpm run export:decoration-schema` performs only the export step; verify the target workspace exists before relying on it.
+- `.husky/commit-msg` runs Commitlint. `commitlint.config.js` requires a `[TBID:<alphanumeric>-<number>]` prefix, a lower-case approved conventional type, and a non-empty subject. `npm run commit` starts the configured Commitizen flow.
+- `npm run lint:decoration-contract` runs the decoration schema contract assertion and then exports the decoration schema to the sibling web decoration-engine location. `npm run export:decoration-schema` performs only the export step; verify the target workspace exists before relying on it.
 - `node scripts/check-template-i18n-save-payload.mjs` is a focused Node assertion for decoration DSL row normalization, default/current-locale saves, header/footer persistence, and request payload handling including `skipCountryCode`. Run it when decoration persistence or locale request behavior changes.
-- `pnpm run build:b2c` and `pnpm run build:bbc` are the integrated compile checks. Select the affected platform and then verify its deployed SPA fallback, configured API login, and at least one protected route.
+- `npm run build:b2c` and `npm run build:bbc` are the integrated compile checks. Select the affected platform and then verify its deployed SPA fallback, configured API login, and at least one protected route.
 
 `package.json` declares no general `test`, unit-test, or E2E script and no standard unit/E2E test-runner dependency. The two Node scripts are targeted assertions, not broad application coverage. Linting, schema checks, and builds therefore complement focused manual workflow checks rather than replacing them.
 
@@ -123,4 +123,4 @@ For a lottery change, manually verify the complete path: open the permissioned l
 | Decoration or localized persistence | Run `node scripts/check-template-i18n-save-payload.mjs`; save and reload in the default and current locale; check English `en-CN`, Arabic RTL, and localized content behavior. |
 | Upload or provider integration | Exercise the actual provider-facing UI; inspect multipart/form-urlencoded request content; verify success, provider failure, user-facing error, and non-secret configuration availability. |
 | Routes, login, or permissions | Run the affected B2C/BBC build; test the target portal, a mismatched-role redirect, a permission-restricted route, and 401 logout/login routing. |
-| Decoration schema or component contract | Run `pnpm run lint:decoration-contract`; review generated schema changes and exercise the affected component in the decoration editor. |
+| Decoration schema or component contract | Run `npm run lint:decoration-contract`; review generated schema changes and exercise the affected component in the decoration editor. |

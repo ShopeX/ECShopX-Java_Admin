@@ -103,22 +103,22 @@ This sequence summarizes the Admin lifecycle and the shared list boundary used b
 
 `src/api/index.js` discovers API modules and wraps each function so callers receive `res.data.data`; feature code therefore calls `api.marketing.*`. The lottery wrappers currently cover detail, save, log, count, termination, export, and an optional direct copy endpoint. Verify endpoint methods and response/error semantics against [Lottery Wheel Admin and API Contract](api/lottery-wheel-contract.md) before changing them.
 
-`picker-lottery.vue` extends the shared picker and queries `/promotions/getturntableList`. It filters by activity ID/name, deliberately removes `status` and `regionauth_id`, restores selected rows after search, and emits selection through the base picker value contract. This is the Admin decoration integration boundary; do not document or implement the Vshop consumer page here. The repository's decoration schema contract can be checked with `pnpm run lint:decoration-contract`.
+`picker-lottery.vue` extends the shared picker and queries `/promotions/getturntableList`. It filters by activity ID/name, deliberately removes `status` and `regionauth_id`, restores selected rows after search, and emits selection through the base picker value contract. This is the Admin decoration integration boundary; do not document or implement the Vshop consumer page here. The repository's decoration schema contract can be checked with `npm run lint:decoration-contract`.
 
 ## Build and verification quick reference
 
-Use Node `22.23.4`, Corepack, and the declared `pnpm@10.13.0`; install with `pnpm install --frozen-lockfile`. Development and build targets are:
+Use Node `22.23.4` and npm; install with `npm ci`. Development and build targets are:
 
 ```shell
-pnpm run dev:b2c
-pnpm run dev:bbc
-pnpm run build:b2c
-pnpm run build:bbc
+npm run dev:b2c
+npm run dev:bbc
+npm run build:b2c
+npm run build:bbc
 ```
 
 `VUE_APP_*` values are build-time inputs. In particular, `VUE_APP_BASE_API` must point to the backend for deployed login/API traffic, and changing it requires a rebuild. Do not put credentials, JWTs, or secret environment values in this wiki.
 
-There are no repository files matching the focused `*.test.*` or `*.spec.*` patterns at the time of this update. For a lottery change, use focused source review plus the applicable build and lint checks, then run `pnpm run lint:decoration-contract` when decoration schema or picker integration is affected. Treat unsupported contract, backend, deployment, and test claims as pending verification and use the linked domain pages for the detailed evidence map.
+There are no repository files matching the focused `*.test.*` or `*.spec.*` patterns at the time of this update. For a lottery change, use focused source review plus the applicable build and lint checks, then run `npm run lint:decoration-contract` when decoration schema or picker integration is affected. Treat unsupported contract, backend, deployment, and test claims as pending verification and use the linked domain pages for the detailed evidence map.
 
 ## Related domains
 

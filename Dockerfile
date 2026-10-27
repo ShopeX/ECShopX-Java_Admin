@@ -43,11 +43,9 @@ ENV VUE_APP_H5_HOST ${VUE_APP_H5_HOST}
 ENV VUE_APP_DEFAULT_LANG ${VUE_APP_DEFAULT_LANG}
 ENV VUE_APP_WEBSITE ${VUE_APP_WEBSITE}
 
-ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
-
 WORKDIR /app
-COPY package.json pnpm-lock.yaml .npmrc ./
-RUN corepack enable && corepack prepare pnpm@10.13.0 --activate && pnpm install --frozen-lockfile
+COPY package*.json ./
+RUN npm config set registry https://registry.npmmirror.com && npm config set @shopex:registry http://registry.npm.ishopex.cn && npm config set python /usr/bin/python && npm ci
 
 COPY . .
 # COPY .env ./

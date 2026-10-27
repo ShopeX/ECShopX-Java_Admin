@@ -1,7 +1,7 @@
 ---
 type: Operations Runbook
 title: Build, Configuration, and Delivery
-description: Configure, build, package, and serve the ECShopX Admin B2C and BBC frontend artifacts. Covers the Node and pnpm contract, build-time environment injection, Vue CLI output, Docker/OpenResty delivery, SPA fallback, and deployment checks without exposing secrets.
+description: Configure, build, package, and serve the ECShopX Admin B2C and BBC frontend artifacts. Covers the Node and npm contract, build-time environment injection, Vue CLI output, Docker/OpenResty delivery, SPA fallback, and deployment checks without exposing secrets.
 resource: /vue.config.js
 tags: [operations, build, docker, deployment]
 verified:
@@ -45,21 +45,20 @@ This runbook describes how the [runtime architecture](../architecture/overview.m
 
 ## Runtime contract and commands
 
-The current repository requires Node **22.23.4** and pnpm **10.13.0**. `.nvmrc`, the `package.json` engines and package manager fields, the README, and the Docker builder image agree on these versions. Enable Corepack so local installs use the declared pnpm version, then install from the lockfile:
+The current repository requires Node **22.23.4** and npm. `.nvmrc`, the `package.json` engines field, the README, and the Docker builder image agree on this Node version. Install from the lockfile:
 
 ```sh
 nvm use
-corepack enable
-pnpm install --frozen-lockfile
+npm ci
 ```
 
 The two supported platform variants are selected by the scripts in `package.json`:
 
 ```sh
-pnpm run dev:b2c
-pnpm run dev:bbc
-pnpm run build:b2c
-pnpm run build:bbc
+npm run dev:b2c
+npm run dev:bbc
+npm run build:b2c
+npm run build:bbc
 ```
 
 Each command sets `PLATFORM` to `b2c` or `bbc` before invoking Vue CLI. `vue.config.js` exposes that value to application code as `VUE_APP_PLATFORM`; `src/config/index.js` then selects the matching `src/config/products/b2c.js` or `src/config/products/bbc.js` configuration. `vue.config.js` also defines a copy routine that would select `newpc_b2c` or `newpc_bbc` and target `dist/newpc`, but the production `CopyWebpackPlugin` registration is currently commented out. Verify the resulting artifact and enable or restore that registration deliberately if the platform-specific microfrontend files are required.
@@ -102,7 +101,7 @@ When `VUE_APP_OSS_CDN=true`, `vue.config.js` uploads `dist` assets except HTML a
 
 ## Docker and OpenResty packaging
 
-The main `Dockerfile` is a multi-stage build. Its builder uses `node-python3:22.23.4-alpine3.20`, enables Corepack, activates pnpm `10.13.0`, installs with `pnpm install --frozen-lockfile`, copies the source, and executes the command supplied through `ARG CMD` (for example, a platform build command). The final `openresty:1.19` image copies `/app/dist` into `/app` and exposes port `80`.
+The main `Dockerfile` is a multi-stage build. Its builder uses `node-python3:22.23.4-alpine3.20`, installs with `npm ci`, copies the source, and executes the command supplied through `ARG CMD` (for example, a platform build command). The final `openresty:1.19` image copies `/app/dist` into `/app` and exposes port `80`.
 
 `Dockerfile-Atlas` is the alternate packaging path for an already-built `dist`: it uses the same OpenResty `1.19` base, copies `docker/nginx-default.conf` to the virtual-host configuration location, copies the tracked `dist` contents into `/app`, and exposes port `80`. This path does not run the frontend build.
 
@@ -111,7 +110,7 @@ The tracked Nginx configuration serves `/app`, sets `index.html` as the index, a
 ## Delivery checks
 
 1. Select exactly one platform and inspect the resulting artifact; because the `newpc` copy plugin is currently disabled, do not assume `dist/newpc` contains the matching `newpc_b2c` or `newpc_bbc` source.
-2. Use Node `22.23.4`, pnpm `10.13.0`, and a frozen lockfile install in local, CI, and container builds.
+2. Use Node `22.23.4` and `npm ci` in local, CI, and container builds.
 3. Provide non-secret build configuration through the trusted environment, especially `VUE_APP_BASE_API`, `VUE_APP_PUBLIC_PATH`, and `VUE_APP_QIANKUN_ENTRY`; do not put credentials in tracked files or image history.
 4. Rebuild after every `VUE_APP_*` change and inspect the generated public paths and API base behavior.
 5. Serve the artifact over the intended URL prefix, test login against the configured backend, and request a direct deep link to confirm SPA fallback.

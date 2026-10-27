@@ -143,7 +143,7 @@ When adding a translation key, update the locale files consistently and use the 
 
 - `package.json` defines `dev:bbc`, `dev:b2c`, `build:bbc`, and `build:b2c`; these set `PLATFORM`, which is also exposed as `VUE_APP_PLATFORM` by `vue.config.js`.
 - `vue.config.js` owns the `@`/asset aliases, public path, Sass globals, development filesystem cache, production minification and split chunks, asset handling, and optional Aliyun OSS upload. The `PLATFORM` value selects the copied `newpc_bbc` or `newpc_b2c` microfrontend asset set when that copy configuration is enabled.
-- `Dockerfile` installs the locked pnpm toolchain in a builder stage, runs the supplied build command, and copies `dist` into an OpenResty runtime image on port 80. Runtime deployment details belong in [build and delivery](operations/build-and-delivery.md).
+- `Dockerfile` installs dependencies with npm in a builder stage, runs the supplied build command, and copies `dist` into an OpenResty runtime image on port 80. Runtime deployment details belong in [build and delivery](operations/build-and-delivery.md).
 
 Configuration may reference environment variables such as `VUE_APP_BASE_API`, `VUE_APP_PUBLIC_PATH`, `VUE_APP_QIANKUN_ENTRY`, and locale/platform settings. Treat access keys and other secret values as deployment inputs; this map records configuration ownership without reproducing them.
 
