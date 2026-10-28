@@ -156,7 +156,12 @@
 
           <div class="py-1.5 px-4 border-t border-[#e4e7ed] flex items-center bg-white">
             <span class="pr-2">{{ $t('b0eef2c3.5df9fd', [estimateCount]) }}</span>
-            <el-button type="primary" size="small" :disabled="!isEditMode" @click="onSearchChange">
+            <el-button
+              v-if="!isEditMode"
+              type="primary"
+              size="small"
+              @click="onSearchChange"
+            >
               {{ $t('b0eef2c3.bee912') }}
             </el-button>
           </div>
@@ -400,9 +405,9 @@ export default {
     },
     async onSearchChange() {
       const condition = this.buildConditionsData()
+      console.log('condition', condition)
       if (!condition || condition.length === 0)
         return this.$message.error(this.$t('b0eef2c3.294301'))
-      console.log('condition', condition)
       const { matched_count } = await this.$api.member.getSegmentRulePreview({
         condition: condition
       })
@@ -581,7 +586,13 @@ export default {
 
         // 解析条件数据
         if (detail.condition) {
-          this.fillConditionData(detail.condition)
+          const condition =
+            typeof detail.condition === 'string'
+              ? JSON.parse(detail.condition)
+              : detail.condition
+          this.fillConditionData(condition)
+          await this.$nextTick()
+          await this.onSearchChange()
         }
       } catch (error) {
         console.error('加载详情失败:', error)
