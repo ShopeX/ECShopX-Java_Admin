@@ -85,7 +85,7 @@
       v-model="form"
       v-loading="loading"
       show-message
-      label-width="100px"
+      label-width="120px"
       :form-list="formList"
       :submit="false"
     />
@@ -108,6 +108,7 @@ import GoodsParams from './components/GoodsParams'
 import SpecParams from './components/SpecParams'
 import SkuParams from './components/SkuParams'
 import VideoPicker from '@/components/sp-picker-plus/VideoPicker.vue'
+import PdfMaterialsUpload from './components/PdfMaterialsUpload.vue'
 import sku from '../../store/modules/sku'
 import districtOptions from '@/mixins/districtOptions'
 export default {
@@ -168,6 +169,7 @@ export default {
         pics: [],
         picsQrcode: [],
         videos: '',
+        other_product_materials: [],
         paramsData: [],
         isSpecs: false, // 单规格
         isShowSpecimg: false, // 商品详情页规格选择器显示规格图片
@@ -639,6 +641,20 @@ export default {
           )
         },
         {
+          label: this.$t('de022579.3aa1fb'),
+          key: 'other_product_materials',
+          component: ({ key }, value) => (
+            <PdfMaterialsUpload
+              value={value[key]}
+              disabled={disabled}
+              max={5}
+              on-input={(list) => {
+                this.$set(value, key, list)
+              }}
+            />
+          )
+        },
+        {
           label: this.$t('de022579.8686bb'),
           disabled,
           type: 'group',
@@ -1100,6 +1116,7 @@ export default {
         tdk_content,
         intro,
         videos,
+        other_product_materials,
         item_params_list,
         item_params,
         aftersales_end_date,
@@ -1158,6 +1175,9 @@ export default {
       this.form.isGift = is_gift
       this.form.taxRate = tax_rate
       this.form.videos = videos || ''
+      this.form.other_product_materials = Array.isArray(other_product_materials)
+        ? other_product_materials.filter((item) => item && item.url)
+        : []
       this.form.isShowSpecimg = is_show_specimg
       this.form.is_market = is_market
       this.form.aftersales_end_date = aftersales_end_date
@@ -1483,6 +1503,7 @@ export default {
         pics,
         picsQrcode,
         videos,
+        other_product_materials,
         isSpecs,
         is_market,
         title,
@@ -1555,6 +1576,14 @@ export default {
         pics,
         pics_create_qrcode: _picsQrcode,
         videos: videos,
+        other_product_materials: (other_product_materials || [])
+          .filter((item) => item && item.url)
+          .map(({ name, url, size }) => {
+            const material = { url }
+            if (name) material.name = name
+            if (size !== undefined && size !== null && size !== '') material.size = size
+            return material
+          }),
         nospec: String(!isSpecs),
         is_show_specimg: isShowSpecimg,
         audit_reason: this.applyForm.audit_reason,
