@@ -302,9 +302,9 @@ export default {
           scene_id: this.activeSceneId || this.form.scene_id
         })
         this.$message.success(this.$t('e00a2569.3fdaea'))
-        this.handleClose()
-        // 保存成功后重新拉取场景列表，展示最新关联结果
+        // 先刷新列表，再关弹窗；避免关闭流程异常导致列表不更新
         await this.getScenarioList()
+        this.handleClose()
       } catch (error) {
         // 验证失败或接口失败，不处理
       }
@@ -318,8 +318,9 @@ export default {
         sign_id: '',
         template_id: ''
       }
-      if (this.$refs.form) {
-        this.$refs.form.resetFields()
+      // SpFormPlus 未暴露 resetFields，误调会抛错并中断后续刷新
+      if (this.$refs.form && typeof this.$refs.form.clearValidate === 'function') {
+        this.$refs.form.clearValidate()
       }
     },
     // 停用/启用/删除
