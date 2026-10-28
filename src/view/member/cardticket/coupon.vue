@@ -103,6 +103,7 @@
                 <!-- <a v-if="!scope.row.ifpass" href="#" @click="sendoutShowAction(scope.row.card_id, scope.$index)">投放</a> -->
               </template>
             </el-table-column>
+            <el-table-column prop="card_id" :label="$t('9cc0c982.2f254b')" width="100" />
             <!-- <el-table-column type="selection" width="55"></el-table-column> -->
             <el-table-column
               prop="card_type"
