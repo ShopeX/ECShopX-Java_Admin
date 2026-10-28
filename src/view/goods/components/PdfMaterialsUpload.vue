@@ -29,7 +29,7 @@
       <li v-for="(item, index) in materials" :key="item.url + '-' + index" class="pdf-materials-item">
         <i class="el-icon-document" />
         <a class="pdf-materials-name" href="javascript:;" @click="handlePreview(item)">
-          {{ item.name || getFileNameFromUrl(item.url) || `file-${index + 1}.pdf` }}
+          {{ displayName(item, index) }}
         </a>
         <i
           v-if="!disabled"
@@ -71,6 +71,9 @@ export default {
     }
   },
   methods: {
+    displayName(item, index) {
+      return item.name || this.getFileNameFromUrl(item.url) || `file-${index + 1}.pdf`
+    },
     getFileNameFromUrl(url) {
       if (!url) return ''
       try {
@@ -99,7 +102,7 @@ export default {
     async handleUpload({ file, onSuccess, onError }) {
       this.uploading = true
       try {
-        const upload = new UploadUtil('file')
+        const upload = new UploadUtil('image')
         const res = await upload.uploadImg(file, file.name)
         const url = (res && (res.url || res.key)) || ''
         if (!url) {
@@ -189,6 +192,7 @@ export default {
 
 .pdf-materials-remove {
   display: none;
+  flex-shrink: 0;
   margin-left: 8px;
   color: #909399;
   cursor: pointer;
