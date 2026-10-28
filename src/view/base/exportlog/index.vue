@@ -210,12 +210,12 @@ export default {
           otherTabs.push({ label: this.$t('cb7af8ae.c7af0d'), name: 'supplier_order' })
         }
         groups.push(
-          { name: 'member', label: '会员与企业内购', tabs: memberTabs },
-          { name: 'order', label: '订单售后', tabs: orderTabs },
-          { name: 'goods', label: '商品导出', tabs: goodsTabs },
-          { name: 'finance', label: '财务导出', tabs: financeTabs },
-          { name: 'marketing', label: '营销导出', tabs: marketingTabs },
-          { name: 'other', label: '其他', tabs: otherTabs }
+          { name: 'member', label: this.$t('cb7af8ae.c01f3d'), tabs: memberTabs },
+          { name: 'order', label: this.$t('cb7af8ae.4e2a16'), tabs: orderTabs },
+          { name: 'goods', label: this.$t('cb7af8ae.f83133'), tabs: goodsTabs },
+          { name: 'finance', label: this.$t('cb7af8ae.17c0dd'), tabs: financeTabs },
+          { name: 'marketing', label: this.$t('cb7af8ae.022f8f'), tabs: marketingTabs },
+          { name: 'other', label: this.$t('cb7af8ae.0d98c7'), tabs: otherTabs }
         )
       }
       return groups
