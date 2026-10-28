@@ -5,9 +5,9 @@
 <template>
   <div v-loading="loading" class="flex flex-col gap-4 bg-white border border-[#e6e6e6] rounded-lg p-5 h-full">
     <div class="flex items-center justify-between gap-3 flex-wrap">
-      <h3 class="m-0 text-base font-medium text-[#212121]">累计签到活动</h3>
+      <h3 class="m-0 text-base font-medium text-[#212121]">{{ $t('9f3ca0ff.6f84dd') }}</h3>
       <el-button type="primary" size="small" @click="onCreate">
-        添加累计签到活动
+        {{ $t('9f3ca0ff.b2861e') }}
       </el-button>
     </div>
 
@@ -15,12 +15,12 @@
       <el-input
         v-model="filters.name"
         class="w-[220px] max-w-full"
-        placeholder="活动名称"
+        :placeholder="$t('9f3ca0ff.39834b')"
         clearable
         @keyup.enter.native="onSearch"
       />
-      <el-button type="primary" size="small" @click="onSearch">查询</el-button>
-      <el-button size="small" @click="onReset">重置</el-button>
+      <el-button type="primary" size="small" @click="onSearch">{{ $t('9f3ca0ff.bee912') }}</el-button>
+      <el-button size="small" @click="onReset">{{ $t('9f3ca0ff.4b9c32') }}</el-button>
     </div>
 
     <SpTable
@@ -83,12 +83,12 @@ export default {
         },
         {
           prop: 'name',
-          label: '活动名称',
+          label: vm.$t('9f3ca0ff.39834b'),
           minWidth: 160
         },
         {
           prop: 'time',
-          label: '活动时间',
+          label: vm.$t('9f3ca0ff.c799f5'),
           minWidth: 220,
           render: {
             functional: true,
@@ -102,7 +102,7 @@ export default {
         },
         {
           prop: 'display_status',
-          label: '状态',
+          label: vm.$t('9f3ca0ff.3fea7c'),
           minWidth: 100,
           render: {
             functional: true,
@@ -126,7 +126,7 @@ export default {
         },
         {
           prop: 'actions',
-          label: '操作',
+          label: vm.$t('9f3ca0ff.2b6bc0'),
           minWidth: 160,
           render: {
             functional: true,
@@ -156,7 +156,7 @@ export default {
                 click: () => this.onEdit(row)
               }
             },
-            '编辑'
+            this.$t('9f3ca0ff.95b351')
           )
         )
       }
@@ -170,7 +170,7 @@ export default {
               click: () => this.onCopy(row)
             }
           },
-          '复制'
+          this.$t('9f3ca0ff.79d3ab')
         )
       )
 
@@ -184,7 +184,7 @@ export default {
                 click: () => this.onStop(row)
               }
             },
-            '中止'
+            this.$t('9f3ca0ff.c6ae34')
           )
         )
       }
@@ -244,10 +244,10 @@ export default {
       this.$refs.activityDialog.openCopy(row.id)
     },
     onStop(row) {
-      this.$confirm('确定中止该累计签到活动吗？', '提示', { type: 'warning' })
+      this.$confirm(this.$t('9f3ca0ff.21df58'), this.$t('9f3ca0ff.02d981'), { type: 'warning' })
         .then(() => stopActivity(row.id))
         .then(() => {
-          this.$message.success('已中止')
+          this.$message.success(this.$t('9f3ca0ff.c909aa'))
           this.loadList()
         })
         .catch(() => {})
