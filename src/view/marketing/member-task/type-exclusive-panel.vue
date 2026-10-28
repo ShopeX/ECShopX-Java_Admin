@@ -89,11 +89,9 @@
           <span>{{ $t('67a8e492.13d0bf') }}</span>
         </div>
         <div :class="controlClass">
-          <el-input
+          <MemberTaskPathField
             :value="form.jump_page"
-            clearable
             :disabled="disabled"
-            placeholder="/pages/xxx"
             @input="(v) => setField('jump_page', v)"
           />
         </div>
@@ -173,11 +171,9 @@
             <span>{{ $t('67a8e492.f35af8') }}</span>
           </div>
           <div :class="controlClass">
-            <el-input
+            <MemberTaskPathField
               :value="form.share_jump_page"
-              clearable
               :disabled="disabled"
-              placeholder="/pages/xxx"
               @input="(v) => setField('share_jump_page', v)"
             />
           </div>
@@ -191,11 +187,9 @@
             <span>{{ $t('67a8e492.3324c9') }}</span>
           </div>
           <div :class="controlClass">
-            <el-input
+            <MemberTaskPathField
               :value="form.browse_page"
-              clearable
               :disabled="disabled"
-              placeholder="/pages/xxx"
               @input="(v) => setField('browse_page', v)"
             />
           </div>
@@ -261,6 +255,7 @@
 <script>
 import PickerListField from './picker-list-field.vue'
 import PickerSingleField from './picker-single-field.vue'
+import MemberTaskPathField from './path-field.vue'
 
 // 与 Figma _form_label 一致：左对齐（勿 justify-end，短标签会整体右偏显「没对齐」）
 // 132px：容纳「设置任务跳转页面」+ 必填星号占位
@@ -270,7 +265,7 @@ const CONTROL_CLASS = 'min-w-0 flex-1'
 
 export default {
   name: 'TypeExclusivePanel',
-  components: { PickerListField, PickerSingleField },
+  components: { PickerListField, PickerSingleField, MemberTaskPathField },
   props: {
     form: {
       type: Object,
