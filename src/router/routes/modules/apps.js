@@ -463,12 +463,12 @@ const routes = [
       },
       {
         name: 'digiosPsiConfig',
-        path: 'pos/digios-psi-config',
+        path: 'digios-psi-config',
         meta: {
           aliasName: 'digios-psi-config',
           title: i18n.t('f7623e85.35b94e'),
           icon: 'pay-circle',
-          permissions: ['applications.pos.digios-psi-config']
+          permissions: ['applications.digios-psi-config']
         },
         component: () => import('@/views/applications/digios/psi-config')
       }
