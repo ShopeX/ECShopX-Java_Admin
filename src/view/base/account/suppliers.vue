@@ -32,6 +32,12 @@
       <el-button type="primary" plain icon="plus" @click="addSupplier">
         {{ $t('9bd7ffcf.4a3c32') }}
       </el-button>
+      <div class="supplier-login-tip">
+        <span>{{ $t('9bd7ffcf.bb12f4') }}</span>
+        <el-link :href="supplierLoginUrl" target="_blank" type="primary">
+          {{ supplierLoginUrl }}
+        </el-link>
+      </div>
     </div>
 
     <SpFinder
@@ -58,6 +64,8 @@
 </template>
 
 <script>
+import { resolveAppPath } from '@/utils'
+
 export default {
   data() {
     return {
@@ -80,6 +88,9 @@ export default {
     }
   },
   computed: {
+    supplierLoginUrl() {
+      return `${window.location.origin}${resolveAppPath('/supplier/login')}`
+    },
     supplierDialogTitle() {
       return this.supplierForm.id ? this.$t('9bd7ffcf.12928d') : this.$t('9bd7ffcf.4a3c32')
     },
@@ -248,5 +259,15 @@ export default {
 <style scoped lang="scss">
 .sp-filter-form {
   margin-bottom: 16px;
+}
+
+.supplier-login-tip {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+  color: #606266;
+  line-height: 22px;
 }
 </style>
