@@ -267,8 +267,12 @@ export default {
     },
     addCharacteristic(category, item) {
       if (!this.isEditMode) return
-      // 如果已存在，不重复添加
+      // 已选中时再次点击：取消选择并移除右侧对应规则
       if (this.isActive(item.type)) {
+        const index = this.formItems.findIndex((formItem) => formItem.type === item.type)
+        if (index !== -1) {
+          this.removeCharacteristic(index)
+        }
         return
       }
 
