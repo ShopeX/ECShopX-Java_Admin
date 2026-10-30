@@ -462,13 +462,13 @@ const routes = [
         component: () => import('@/views/applications/shuyun/crm-setting')
       },
       {
-        name: 'digiosPsiConfig',
-        path: 'digios-psi-config',
+        name: 'pos/digiosPsiConfig',
+        path: 'pos/digios-psi-config',
         meta: {
           aliasName: 'digios-psi-config',
           title: i18n.t('f7623e85.35b94e'),
           icon: 'pay-circle',
-          permissions: ['applications.digios-psi-config']
+          permissions: ['applications.pos.digios-psi-config']
         },
         component: () => import('@/views/applications/digios/psi-config')
       }
