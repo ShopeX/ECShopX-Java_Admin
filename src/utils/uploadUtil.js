@@ -151,7 +151,9 @@ class UploadUtil {
     try {
       const tokenRes = await getOssToken({
         filetype: this.fileType,
-        filename: `${file.uid}.${file.name}`
+        // file 类型保留原始文件名；图片/视频仍用 uid 前缀避免重名覆盖
+        filename:
+          this.fileType === 'file' ? file.name : `${file.uid}.${file.name}`
       })
       console.log('tokenRes', tokenRes)
       const data = { ...tokenRes.data.data.token }

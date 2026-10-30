@@ -3,7 +3,7 @@
 ### <p align="center">Admin Frontend</p>
 
 # Getting started
-Node.js (current LTS) and pnpm are required to run the project. Enable Node's corepack so the declared pnpm version is used.
+Node.js (current LTS) and npm are required to run the project.
 
 ### System Requirements
 Required Node.js Version: 22.23.4. If your current version differs, follow the steps below to switch
@@ -20,6 +20,8 @@ pnpm install --frozen-lockfile
 ```
 
 Docker / CI builds use Node `22.23.4` and pnpm `10.13.0` ([`Dockerfile`](Dockerfile), `node-python3:22.23.4-alpine3.20`).
+
+Docker / CI builds use Node `22.23.4` ([`Dockerfile`](Dockerfile), `node-python3:22.23.4-alpine3.20`).
 
 ### Configure the .env file
 ```shell

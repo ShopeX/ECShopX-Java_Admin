@@ -5,9 +5,9 @@
 <template>
   <div v-loading="loading" class="flex flex-col gap-4 bg-white border border-[#e6e6e6] rounded-lg p-5 h-full">
     <div>
-      <h3 class="m-0 text-base font-medium text-[#212121]">签到设置</h3>
+      <h3 class="m-0 text-base font-medium text-[#212121]">{{ $t('a170bbe8.df9514') }}</h3>
       <p class="mt-2 mb-0 text-xs text-[#999] leading-5">
-        分别设置周一到周日的签到积分，设置为 0 时不赠送，也不在用户端显示。
+        {{ $t('a170bbe8.d855d7') }}
       </p>
     </div>
     <div class="grid grid-cols-2 gap-x-6 gap-y-3 max-md:grid-cols-1">
@@ -19,11 +19,11 @@
           :precision="0"
           :disabled="saving"
         />
-        <span class="text-sm text-[#606266]">积分</span>
+        <span class="text-sm text-[#606266]">{{ $t('a170bbe8.9f68a8') }}</span>
       </div>
     </div>
     <div>
-      <div class="mb-2 text-sm font-medium text-[#212121]">签到规则说明</div>
+      <div class="mb-2 text-sm font-medium text-[#212121]">{{ $t('a170bbe8.11d416') }}</div>
       <div class="min-h-[180px] rounded">
         <SpRichText v-model="rule_desc" :disabled="saving" />
       </div>
@@ -35,7 +35,7 @@
         :disabled="loading || loadError || !loaded"
         @click="onSave"
       >
-        保存设置
+        {{ $t('a170bbe8.4323be') }}
       </el-button>
     </div>
   </div>
@@ -55,7 +55,15 @@ const WEEK_KEYS = [
   'points_sun'
 ]
 
-const WEEK_LABELS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+const WEEK_LABEL_KEYS = [
+  'a170bbe8.1603b0',
+  'a170bbe8.b5a6a0',
+  'a170bbe8.e60725',
+  'a170bbe8.170fc8',
+  'a170bbe8.eb79ce',
+  'a170bbe8.245751',
+  'a170bbe8.562d74'
+]
 
 function emptyPoints() {
   return WEEK_KEYS.reduce((acc, key) => {
@@ -98,7 +106,7 @@ export default {
     weekFields() {
       return WEEK_KEYS.map((key, index) => ({
         key,
-        label: WEEK_LABELS[index]
+        label: this.$t(WEEK_LABEL_KEYS[index])
       }))
     }
   },
@@ -133,7 +141,7 @@ export default {
       } catch (e) {
         this.loadError = true
         this.loaded = false
-        this.$message.error(apiErrorMessage(e, '加载失败'))
+        this.$message.error(apiErrorMessage(e, this.$t('a170bbe8.866b79')))
       } finally {
         this.loading = false
       }
@@ -143,9 +151,9 @@ export default {
       try {
         const res = await saveDailyPoints(this.buildSavePayload())
         this.applyDailyPoints(unwrap(res))
-        this.$message.success('保存成功')
+        this.$message.success(this.$t('a170bbe8.3b1083'))
       } catch (e) {
-        this.$message.error(apiErrorMessage(e, '保存失败'))
+        this.$message.error(apiErrorMessage(e, this.$t('a170bbe8.6de920')))
       } finally {
         this.saving = false
       }

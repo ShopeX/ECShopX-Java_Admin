@@ -13,23 +13,23 @@
   >
     <div v-loading="loading" class="flex flex-col gap-4">
       <el-form label-width="100px" class="mb-0">
-        <el-form-item label="活动标题" required>
+        <el-form-item :label="$t('0ebad5e0.902a3d')" required>
           <el-input
             v-model="form.name"
             maxlength="50"
             show-word-limit
-            placeholder="请输入活动标题"
+            :placeholder="$t('0ebad5e0.c0e2a5')"
             :disabled="saving"
           />
         </el-form-item>
-        <el-form-item label="活动时间" required>
+        <el-form-item :label="$t('0ebad5e0.c799f5')" required>
           <el-date-picker
             v-model="form.dateRange"
             type="daterange"
             value-format="yyyy-MM-dd"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
+            :range-separator="$t('0ebad5e0.981cbe')"
+            :start-placeholder="$t('0ebad5e0.b44c0f')"
+            :end-placeholder="$t('0ebad5e0.1d468b')"
             class="w-full"
             :picker-options="datePickerOptions"
             :disabled="saving"
@@ -38,13 +38,13 @@
       </el-form>
 
       <div class="flex items-center justify-between">
-        <div class="text-sm font-medium text-[#212121]">累计签到奖励</div>
+        <div class="text-sm font-medium text-[#212121]">{{ $t('0ebad5e0.db4c5c') }}</div>
         <el-button type="primary" size="small" :disabled="saving" @click="addTier">
-          + 添加累计签到规则
+          + {{ $t('0ebad5e0.45d599') }}
         </el-button>
       </div>
       <p class="m-0 text-xs text-[#999] leading-5">
-        累计签到奖励说明：累计次数不得超过活动周期天数，同一活动内不可重复。
+        {{ $t('0ebad5e0.364a15') }}
       </p>
 
       <div
@@ -56,7 +56,7 @@
           <div class="flex flex-col gap-5 min-w-0 flex-1">
             <div class="flex items-center gap-3 flex-wrap">
               <span class="inline-flex items-center gap-1 w-[108px] shrink-0 text-sm text-[#606266] leading-[32px]">
-                累计签到
+                {{ $t('0ebad5e0.bc0bf7') }}
                 <i class="text-[#f56c6c] not-italic">*</i>
               </span>
               <el-input-number
@@ -65,13 +65,13 @@
                 :precision="0"
                 :disabled="saving"
               />
-              <span class="text-[13px] text-black">次</span>
+              <span class="text-[13px] text-black">{{ $t('0ebad5e0.7229ec') }}</span>
             </div>
 
             <div class="flex flex-col gap-2.5">
               <div class="flex items-center gap-2.5 flex-wrap">
                 <span class="inline-flex items-center gap-1 w-[108px] shrink-0 text-sm text-[#606266] leading-[32px]">
-                  累计签到奖励
+                  {{ $t('0ebad5e0.db4c5c') }}
                   <i class="text-[#f56c6c] not-italic">*</i>
                 </span>
                 <el-dropdown
@@ -86,7 +86,7 @@
                     :plain="!!tierRewardOptions(tier).length"
                     :disabled="saving || !tierRewardOptions(tier).length"
                   >
-                    添加奖励
+                    {{ $t('0ebad5e0.485ffd') }}
                     <i class="el-icon-arrow-down el-icon--right" />
                   </el-button>
                   <el-dropdown-menu slot="dropdown">
@@ -99,7 +99,7 @@
                     </el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
-                <span class="text-xs text-[#808080]">累计签到奖励积分、优惠券各限 1 项</span>
+                <span class="text-xs text-[#808080]">{{ $t('0ebad5e0.e6dee2') }}</span>
               </div>
 
               <div
@@ -107,7 +107,7 @@
                 class="flex items-center gap-2.5 pl-[118px] flex-wrap"
               >
                 <span class="inline-flex items-center gap-1 text-sm text-[#606266]">
-                  积分
+                  {{ $t('0ebad5e0.9f68a8') }}
                   <i class="text-[#f56c6c] not-italic">*</i>
                 </span>
                 <el-input-number
@@ -120,7 +120,7 @@
                   class="text-[#f56c6c] cursor-pointer text-sm font-medium"
                   @click="removePointsReward(index)"
                 >
-                  删除
+                  {{ $t('0ebad5e0.2f4aad') }}
                 </span>
               </div>
 
@@ -129,7 +129,7 @@
                 class="flex items-center gap-2.5 pl-[118px] flex-wrap"
               >
                 <span class="inline-flex items-center gap-1 text-sm text-[#606266]">
-                  优惠券
+                  {{ $t('0ebad5e0.2f3635') }}
                   <i class="text-[#f56c6c] not-italic">*</i>
                 </span>
                 <button
@@ -139,14 +139,14 @@
                   :disabled="saving"
                   @click="openCouponPicker(index)"
                 >
-                  <span class="truncate max-w-[180px]">{{ tier._couponTitle || '请选择优惠券' }}</span>
+                  <span class="truncate max-w-[180px]">{{ tier._couponTitle || $t('0ebad5e0.25508b') }}</span>
                   <i class="el-icon-arrow-down text-[#c0c4cc]" />
                 </button>
                 <span
                   class="text-[#f56c6c] cursor-pointer text-sm font-medium"
                   @click="removeCouponReward(index)"
                 >
-                  删除
+                  {{ $t('0ebad5e0.2f4aad') }}
                 </span>
               </div>
             </div>
@@ -155,16 +155,16 @@
             class="text-[#f56c6c] cursor-pointer text-sm font-medium shrink-0 leading-[32px]"
             @click="removeTier(index)"
           >
-            删除累计规则
+            {{ $t('0ebad5e0.3feff6') }}
           </span>
         </div>
       </div>
     </div>
 
     <span slot="footer" class="dialog-footer">
-      <el-button :disabled="saving" @click="visible = false">取消</el-button>
+      <el-button :disabled="saving" @click="visible = false">{{ $t('0ebad5e0.625fb2') }}</el-button>
       <el-button type="primary" :loading="saving" :disabled="loading" @click="onSubmit">
-        确定
+        {{ $t('0ebad5e0.38cf16') }}
       </el-button>
     </span>
   </el-dialog>
@@ -224,7 +224,9 @@ export default {
   },
   computed: {
     dialogTitle() {
-      return this.mode === 'edit' ? '编辑累计签到活动' : '添加累计签到活动'
+      return this.mode === 'edit'
+        ? this.$t('0ebad5e0.d133f0')
+        : this.$t('0ebad5e0.b2861e')
     },
     datePickerOptions() {
       return {
@@ -266,7 +268,7 @@ export default {
         }
       } catch (e) {
         this.visible = false
-        this.$message.error('加载活动详情失败')
+        this.$message.error(this.$t('0ebad5e0.4efb2a'))
       } finally {
         this.loading = false
       }
@@ -280,7 +282,9 @@ export default {
           tier_count: t.tier_count != null ? Number(t.tier_count) : 1,
           points_reward: t.points_reward != null ? Number(t.points_reward) : null,
           coupon_id: couponId,
-          _couponTitle: couponTitle || (couponId != null ? `优惠券#${couponId}` : ''),
+          _couponTitle:
+            couponTitle ||
+            (couponId != null ? `${this.$t('0ebad5e0.4186a8')}${couponId}` : ''),
           _showCoupon: couponId != null
         }
       })
@@ -305,10 +309,10 @@ export default {
     tierRewardOptions(tier) {
       const opts = []
       if (!this.tierHasPoints(tier)) {
-        opts.push({ value: 'points', label: '积分' })
+        opts.push({ value: 'points', label: this.$t('0ebad5e0.9f68a8') })
       }
       if (!this.tierHasCoupon(tier)) {
-        opts.push({ value: 'coupon', label: '优惠券' })
+        opts.push({ value: 'coupon', label: this.$t('0ebad5e0.2f3635') })
       }
       return opts
     },
@@ -350,7 +354,10 @@ export default {
         if (!data || !data.length) return
         const coupon = data[0]
         tier.coupon_id = coupon.card_id != null ? coupon.card_id : coupon.id
-        tier._couponTitle = coupon.title || coupon.card_name || `优惠券#${tier.coupon_id}`
+        tier._couponTitle =
+          coupon.title ||
+          coupon.card_name ||
+          `${this.$t('0ebad5e0.4186a8')}${tier.coupon_id}`
         tier._showCoupon = true
       } catch (e) {
         // 用户取消弹框时 picker 会 reject，忽略即可
@@ -359,19 +366,19 @@ export default {
     validate() {
       const name = (this.form.name || '').trim()
       if (!name) {
-        this.$message.warning('请输入活动标题')
+        this.$message.warning(this.$t('0ebad5e0.c0e2a5'))
         return false
       }
       if (name.length > 50) {
-        this.$message.warning('活动标题不能超过50个字符')
+        this.$message.warning(this.$t('0ebad5e0.fc120f'))
         return false
       }
       if (!this.form.dateRange || this.form.dateRange.length !== 2 || !this.form.dateRange[0] || !this.form.dateRange[1]) {
-        this.$message.warning('请选择活动时间')
+        this.$message.warning(this.$t('0ebad5e0.d8e0d0'))
         return false
       }
       if (!this.form.tiers.length) {
-        this.$message.warning('请至少添加一条累计签到规则')
+        this.$message.warning(this.$t('0ebad5e0.6ec354'))
         return false
       }
 
@@ -384,22 +391,22 @@ export default {
         const tier = this.form.tiers[i]
         const count = Number(tier.tier_count)
         if (!Number.isFinite(count) || count < 1) {
-          this.$message.warning('累计签到次数须大于等于1')
+          this.$message.warning(this.$t('0ebad5e0.09f6e9'))
           return false
         }
         if (seenCounts.has(count)) {
-          this.$message.warning('累计签到次数不能重复')
+          this.$message.warning(this.$t('0ebad5e0.33e3eb'))
           return false
         }
         seenCounts.add(count)
         if (count > maxDays) {
-          this.$message.warning('累计签到次数不能超过活动周期天数')
+          this.$message.warning(this.$t('0ebad5e0.d3188b'))
           return false
         }
         const hasPoints = tier.points_reward != null
         const hasCoupon = tier.coupon_id != null
         if (!hasPoints && !hasCoupon) {
-          this.$message.warning('每条规则至少需要配置一种奖励')
+          this.$message.warning(this.$t('0ebad5e0.b26885'))
           return false
         }
       }
@@ -432,18 +439,18 @@ export default {
         } else {
           await createActivity(payload)
         }
-        this.$message.success('保存成功')
+        this.$message.success(this.$t('0ebad5e0.3b1083'))
         this.visible = false
         this.$emit('success')
       } catch (e) {
         const status = apiStatus(e)
         if (status === 409 && this.mode === 'edit') {
-          this.$message.error('活动配置已变更，请刷新后重试')
+          this.$message.error(this.$t('0ebad5e0.0a1986'))
           this.visible = false
           this.$emit('success')
           return
         }
-        this.$message.error(apiErrorMessage(e, '保存失败'))
+        this.$message.error(apiErrorMessage(e, this.$t('0ebad5e0.6de920')))
       } finally {
         this.saving = false
       }

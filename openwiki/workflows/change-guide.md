@@ -182,15 +182,15 @@ The generic picker plugin exposes `$picker.lottery(args)` as `pickerLottery`. `P
 
 ## 5. Validate proportionally
 
-Use the narrowest checks that cover the changed boundary, then manually exercise the affected role and state. The repository has no general unit test command and no general E2E test command; document that gap rather than implying that `pnpm test` exists.
+Use the narrowest checks that cover the changed boundary, then manually exercise the affected role and state. The repository has no general unit test command and no general E2E test command; document that gap rather than implying that `npm test` exists.
 
 - For route or permission changes, exercise the intended portal with an authorized role, an unauthorized menu, a missing token, a portal mismatch, a compatibility URL, and the fallback redirect.
 - For API changes, inspect the browser request for auth, `Accept-Language`, `country_code`, query/body encoding, pagination, and upload shape; check application errors, network/timeout messaging, and 401 redirection.
 - For lottery changes, test list tabs and refresh, create/edit/clone, ended read-only state, optimistic conflict reload, prize validation, coupon stock limits, preview/decorations, stop, statistics pagination, picker selection, and export navigation.
-- Run `pnpm run lint` for changed source files when appropriate; the script writes formatting changes, so review its diff. Husky pre-commit runs `lint-staged`, which applies ESLint/Prettier to staged JavaScript/Vue files.
-- Run `pnpm run build:b2c` or `pnpm run build:bbc` when shared runtime, environment handling, route loading, product configuration, or bundled assets are affected. The repository requires Node `22.23.4` and pnpm `10.13.0` through the declared engine and package manager settings.
+- Run `npm run lint` for changed source files when appropriate; the script writes formatting changes, so review its diff. Husky pre-commit runs `lint-staged`, which applies ESLint/Prettier to staged JavaScript/Vue files.
+- Run `npm run build:b2c` or `npm run build:bbc` when shared runtime, environment handling, route loading, product configuration, or bundled assets are affected. The repository requires Node `22.23.4` through the declared engine.
 - For decoration DSL/i18n persistence, run `node scripts/check-template-i18n-save-payload.mjs`; it checks payload shape, default-locale save behavior, and request `country_code` handling. This is a focused script, not a general test suite.
 
 ## 6. Keep release context visible
 
-Use targeted `git log` and diffs around the owning route, view, API module, and locale keys when a special case is unclear. Release changes update `package.json`, `pnpm-lock.yaml`, and `CHANGELOG.md`; do not mix release metadata into a feature fix unless the task requires it. Keep the final diff small enough that route/access, payload, i18n, and validation decisions can be reviewed independently.
+Use targeted `git log` and diffs around the owning route, view, API module, and locale keys when a special case is unclear. Release changes update `package.json`, `package-lock.json`, and `CHANGELOG.md`; do not mix release metadata into a feature fix unless the task requires it. Keep the final diff small enough that route/access, payload, i18n, and validation decisions can be reviewed independently.

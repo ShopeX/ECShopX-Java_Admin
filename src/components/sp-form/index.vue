@@ -217,7 +217,7 @@ export default {
     },
     _renderTextArea(item) {
       const { value } = this
-      const { placeholder, maxlength, key } = item
+      const { placeholder, maxlength, key, disabled = false } = item
       return (
         <el-input
           clearable
@@ -225,6 +225,7 @@ export default {
           placeholder={placeholder || this.$t('9f19bb67.a11cc7')}
           rows={5}
           maxlength={maxlength}
+          disabled={isFunction(disabled) ? disabled() : disabled}
           v-model={value[key]}
           show-word-limit
         />
