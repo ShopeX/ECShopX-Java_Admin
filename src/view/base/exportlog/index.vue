@@ -209,6 +209,7 @@ export default {
         if (this.IS_SUPPLIER()) {
           otherTabs.push({ label: this.$t('cb7af8ae.c7af0d'), name: 'supplier_order' })
         }
+        otherTabs.push({ label: this.$t('cb7af8ae.7e356a'), name: 'pos_store_account' })
         groups.push(
           { name: 'member', label: this.$t('cb7af8ae.c01f3d'), tabs: memberTabs },
           { name: 'order', label: this.$t('cb7af8ae.4e2a16'), tabs: orderTabs },

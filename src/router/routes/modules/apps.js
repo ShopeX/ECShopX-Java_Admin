@@ -232,6 +232,27 @@ const routes = [
       },
 
       {
+        name: 'posAccountManage',
+        path: 'pos/accounts',
+        meta: {
+          aliasName: 'pos_accounts',
+          icon: 'pay-circle',
+          title: i18n.t('9d1e03c7.f3b728'),
+          permissions: ['applications.pos.pos_accounts']
+        },
+        component: () => import('@/views/apps/pos-accounts/index.vue'),
+        children: [
+          {
+            path: 'import',
+            component: () => import('@/views/apps/pos-accounts/import.vue'),
+            meta: {
+              title: i18n.t('9d1e03c7.1bfbbc'),
+              hidden: true
+            }
+          }
+        ]
+      },
+      {
         name: 'guideAssistantWeChatSettings',
         path: 'guide-assistant/wechat-settings',
         meta: {
