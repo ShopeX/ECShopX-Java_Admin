@@ -796,6 +796,15 @@ export default {
             }
           },
           { name: this.$t('d41d8cd9.55c61d'), key: 'supplier_name', width: 120 },
+          {
+            name: this.$t('58789194.c8f2a1'),
+            key: 'is_sync_platform',
+            width: 120,
+            formatter: (value) => {
+              const synced = value === true || value === 1 || value === '1'
+              return synced ? this.$t('58789194.b3e901') : this.$t('58789194.a7d402')
+            }
+          },
           // {
           //   name: this.$t('d41d8cd9.g4h5i6'),
           //   key: 'tagList',
