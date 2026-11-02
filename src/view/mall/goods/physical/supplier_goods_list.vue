@@ -276,7 +276,8 @@
         ref="finder"
         :url="IS_DISTRIBUTOR() ? '/distributor/items' : '/goods/items'"
         fixed-row-action
-        row-actions-width="200px"
+        row-actions-width="160px"
+        :split-count="2"
         :other-config="{}"
         :setting="tableList"
         :hooks="{

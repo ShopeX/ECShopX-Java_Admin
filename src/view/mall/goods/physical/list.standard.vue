@@ -468,7 +468,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column fixed="left" :label="$t('b7aea01d.2b6bc0')" width="180">
+            <el-table-column fixed="left" :label="$t('b7aea01d.2b6bc0')" width="160">
               <template slot-scope="scope">
                 <el-button type="text" @click="editItemsAction(scope.$index, scope.row, false)">
                   {{ $t('b7aea01d.f26225') }}
