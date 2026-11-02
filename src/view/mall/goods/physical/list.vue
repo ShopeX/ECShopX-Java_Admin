@@ -136,6 +136,7 @@
         fixed-row-action
         :row-actions-align="'left'"
         row-actions-width="160px"
+        :split-count="2"
         :other-config="{}"
         :setting="tableList"
         :hooks="{
