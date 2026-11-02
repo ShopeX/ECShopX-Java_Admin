@@ -91,9 +91,6 @@
       <el-tab-pane v-if="isTabVisible('planting')" :label="$t('d81d8932.e8f87a')" name="planting">
         <PickerPlanting v-if="tabValue == 'planting'" ref="planting" :value="value" />
       </el-tab-pane>
-      <el-tab-pane v-if="isTabVisible('link')" :label="$t('d81d8932.59ceff')" name="link">
-        <PickerLink v-if="tabValue == 'link'" ref="link" :value="value" />
-      </el-tab-pane>
       <el-tab-pane
         v-if="isTabVisible('regactivity')"
         :label="$t('d81d8932.2bc045')"
@@ -130,6 +127,13 @@
           ref="custom_page"
           :value="value"
         />
+      </el-tab-pane>
+      <el-tab-pane
+        v-if="isTabVisible('link') && (!isWebPlatform || VERSION_PLATFORM())"
+        :label="$t('d81d8932.59ceff')"
+        name="link"
+      >
+        <PickerLink v-if="tabValue == 'link'" ref="link" :value="value" />
       </el-tab-pane>
       <el-tab-pane v-if="isTabVisible('live')" :label="$t('d81d8932.7bbe8e')" name="live">
         <PickerLive v-if="tabValue == 'live'" ref="live" :value="value" />

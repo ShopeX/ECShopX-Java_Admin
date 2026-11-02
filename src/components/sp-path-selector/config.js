@@ -1,3 +1,5 @@
+import { VERSION_PLATFORM } from '@/utils'
+
 export const PATH_SELECTOR_TYPES = [
   { name: 'goods', labelKey: 'd81d8932.9897d8' },
   { name: 'sale_category', labelKey: 'd81d8932.392d49' },
@@ -17,11 +19,17 @@ export const PATH_SELECTOR_TYPES = [
 ]
 
 export const PATH_SELECTOR_PLATFORM_TYPES = {
-  web: ['goods', 'sale_category', 'category', 'custom_page', 'regactivity']
+  web: ['goods', 'sale_category', 'category', 'custom_page', 'regactivity', 'link']
 }
 
 export function getPathSelectorTypes(platform) {
   const names = PATH_SELECTOR_PLATFORM_TYPES[platform]
-  if (!names) return PATH_SELECTOR_TYPES
-  return PATH_SELECTOR_TYPES.filter((item) => names.includes(item.name))
+  const types = names
+    ? PATH_SELECTOR_TYPES.filter((item) => names.includes(item.name))
+    : PATH_SELECTOR_TYPES
+  // PC 装修「页面/商家入驻」仅 platform 业态可配置
+  if (platform === 'web' && !VERSION_PLATFORM()) {
+    return types.filter((item) => item.name !== 'link')
+  }
+  return types
 }

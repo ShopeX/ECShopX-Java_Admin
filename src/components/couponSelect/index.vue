@@ -184,7 +184,8 @@ export default {
         ...this.query,
         ...this.paging,
         is_guide: 0,
-        end_date: 1
+        end_date: 1,
+        date_status: '1,2'
       })
       this.loading = false
 

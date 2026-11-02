@@ -149,13 +149,16 @@
       justify-content: flex-start !important;
       display: flex;
       gap: 8px;
-
-      .sp-finder-button {
-        .el-button {
-          padding: 8px 0;
-        }
-      }
     }
+  }
+
+  /* 仅表头区域主按钮加左右内边距（ECX-10696）；勿影响表格行内操作 */
+  .sp-finder-hd .sp-finder-actions__wrap .el-button:not(.el-button--text) {
+    padding: 8px 16px;
+  }
+
+  .sp-finder .el-table__row .el-button--text {
+    padding: 0;
   }
 
   .sp-finder-footer {

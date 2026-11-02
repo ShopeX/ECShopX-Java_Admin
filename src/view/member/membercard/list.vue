@@ -66,7 +66,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="discount" :label="$t('1cd1c781.8da606')" width="100">
-          <template slot-scope="scope"> {{ (100 - scope.row.discount) / 100 }}折 </template>
+          <template slot-scope="scope">
+            {{ (100 - scope.row.discount) / 100 }}{{ $t('1cd1c781.96c015') }}
+          </template>
         </el-table-column>
 
         <!-- <el-table-column label="操作">
@@ -155,7 +157,7 @@ export default {
   methods: {
     onCopy() {
       this.$notify.success({
-        message: '复制成功',
+        message: this.$t('1cd1c781.20a495'),
         showClose: true
       })
     },
@@ -195,14 +197,14 @@ export default {
           this.loading = false
           this.$message({
             type: 'error',
-            message: '获取列表信息出错'
+            message: this.$t('1cd1c781.f40299')
           })
         })
     },
     deleteAction(index, row) {
-      this.$confirm('此操作将删除数据, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('1cd1c781.38c88c'), this.$t('1cd1c781.02d981'), {
+        confirmButtonText: this.$t('1cd1c781.38cf16'),
+        cancelButtonText: this.$t('1cd1c781.625fb2'),
         type: 'warning'
       })
         .then(() => {
@@ -210,7 +212,7 @@ export default {
             .then((response) => {
               this.vipGradeList.splice(index, 1)
               this.$message({
-                message: '删除成功',
+                message: this.$t('1cd1c781.0007d1'),
                 type: 'success',
                 duration: 5 * 1000
               })
@@ -218,14 +220,14 @@ export default {
             .catch(() => {
               this.$message({
                 type: 'error',
-                message: '删除失败'
+                message: this.$t('1cd1c781.acf066')
               })
             })
         })
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: this.$t('1cd1c781.2111cc')
           })
         })
     },
@@ -252,7 +254,7 @@ export default {
           if (res.data.data) {
             this.$message({
               type: 'success',
-              message: '保存成功'
+              message: this.$t('1cd1c781.3b1083')
             })
             this.getDataList()
           }
@@ -262,7 +264,7 @@ export default {
           if (res.data.data) {
             this.$message({
               type: 'success',
-              message: '保存成功'
+              message: this.$t('1cd1c781.3b1083')
             })
             this.getDataList()
           }

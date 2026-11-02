@@ -265,17 +265,21 @@ export default {
   created() {},
   methods: {
     getRefundableNum(item, orderInfo = this.orderInfo, aftersalesType = this.form.aftersales_type) {
+      const aftersalesNum = Number(item.left_aftersales_num) || 0
+      // 部分发货 + 仅退款：优先 left_refund_only_num（已发可仅退）
+      // 未发货 SKU 该字段常为 0/空，需回退 left_aftersales_num，否则无法勾选
       if (orderInfo?.delivery_status === 'PARTAIL' && aftersalesType === 'ONLY_REFUND') {
-        return item.left_refund_only_num
+        const onlyRefundNum = Number(item.left_refund_only_num) || 0
+        return onlyRefundNum > 0 ? onlyRefundNum : aftersalesNum
       }
-      return item.left_aftersales_num
+      return aftersalesNum
     },
     syncItemsRefundNum(aftersalesType = this.form.aftersales_type) {
       if (!this.orderInfo?.items) return
       this.orderInfo.items.forEach((item) => {
         const refundableNum = this.getRefundableNum(item, this.orderInfo, aftersalesType)
         item.refundableNum = refundableNum
-        item.refundNum = refundableNum
+        item.refundNum = refundableNum > 0 ? refundableNum : undefined
         if (!refundableNum) {
           item.checked = false
         }
@@ -292,7 +296,7 @@ export default {
         return {
           ...item,
           refundableNum,
-          refundNum: refundableNum,
+          refundNum: refundableNum > 0 ? refundableNum : undefined,
           checked: false
         }
       })

@@ -5,77 +5,20 @@
 
 <template>
   <SpPage :title="$t('f7623e85.35b94e')">
-    <div v-loading="loading" class="digios-psi-settings">
-      <section class="settings-section">
-        <div class="settings-row">
-          <div class="settings-row__main">
-            <div class="settings-label">{{ $t('f7623e85.249e5b') }}</div>
-            <div class="settings-desc">{{ $t('f7623e85.a02513') }}</div>
-          </div>
-          <el-switch v-model="form.is_enabled" @change="onEnabledChange" />
-        </div>
-      </section>
-
-      <div class="settings-divider" />
-
-      <form
-        v-if="credentialsRendered"
-        class="digios-psi-credentials"
-        autocomplete="off"
-        @submit.prevent
-      >
-        <section class="settings-section">
-          <div class="settings-label settings-label--block">{{ $t('f7623e85.18862f') }}</div>
-          <el-input
-            v-model="form.base_url"
-            class="settings-input"
-            clearable
-            :placeholder="$t('f7623e85.6b4465')"
-          />
-          <div class="settings-hint">{{ $t('f7623e85.6247c1') }}</div>
-        </section>
-
-        <div class="settings-divider" />
-
-        <section class="settings-section">
-          <div class="settings-label settings-label--block">{{ $t('f7623e85.76525f') }}</div>
-          <el-input
-            v-model="form.client_id"
-            class="settings-input"
-            clearable
-            autocomplete="off"
-            :placeholder="$t('f7623e85.ef65c7')"
-          />
-          <div class="settings-hint">{{ $t('f7623e85.76df4c') }}</div>
-        </section>
-
-        <div class="settings-divider" />
-
-        <section class="settings-section">
-          <div class="settings-label settings-label--block">{{ $t('f7623e85.61be04') }}</div>
-          <el-input
-            v-model="form.app_secret"
-            class="settings-input"
-            clearable
-            show-password
-            autocomplete="new-password"
-            :placeholder="$t('f7623e85.5eace4')"
-          />
-          <div class="settings-hint">{{ $t('f7623e85.c186c9') }}</div>
-        </section>
-
-        <div class="settings-divider" />
-
-        <el-button
-          type="primary"
-          class="settings-save"
-          native-type="button"
-          :loading="saveLoading"
-          @click="handleSave"
-        >
+    <div v-loading="loading">
+      <SpFormPlus
+        ref="form"
+        v-model="form"
+        form-type="form"
+        :form-items="formItems"
+        label-width="150px"
+        :show-default-actions="false"
+      />
+      <div class="section-footer with-border content-center">
+        <el-button type="primary" :loading="saveLoading" @click="handleSave">
           {{ $t('f7623e85.4323be') }}
         </el-button>
-      </form>
+      </div>
     </div>
   </SpPage>
 </template>
@@ -87,13 +30,72 @@ export default {
     return {
       loading: false,
       saveLoading: false,
-      credentialsRendered: false,
       form: {
         is_enabled: false,
         base_url: '',
         client_id: '',
         app_secret: ''
       }
+    }
+  },
+  computed: {
+    formItems() {
+      const vm = this
+      return [
+        {
+          fieldName: 'is_enabled',
+          label: this.$t('f7623e85.249e5b'),
+          component: 'switch',
+          tip: this.$t('f7623e85.a02513'),
+          componentProps: {
+            onChange: (enabled) => {
+              vm.onEnabledChange(enabled)
+            }
+          }
+        },
+        {
+          fieldName: 'base_url',
+          label: this.$t('f7623e85.18862f'),
+          component: 'input',
+          tip: this.$t('f7623e85.6247c1'),
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('f7623e85.6b4465'),
+            style: { width: '480px' }
+          }
+        },
+        {
+          fieldName: 'client_id',
+          label: this.$t('f7623e85.76525f'),
+          component: 'input',
+          tip: this.$t('f7623e85.76df4c'),
+          componentProps: {
+            clearable: true,
+            autocomplete: 'off',
+            placeholder: this.$t('f7623e85.ef65c7'),
+            style: { width: '480px' }
+          }
+        },
+        {
+          fieldName: 'app_secret',
+          label: this.$t('f7623e85.61be04'),
+          tip: this.$t('f7623e85.c186c9'),
+          component: ({ value, onInput }) => {
+            return (
+              <el-input
+                value={value}
+                type='password'
+                show-password
+                clearable
+                autocomplete='new-password'
+                placeholder={vm.$t('f7623e85.5eace4')}
+                style='width: 480px'
+                on-input={onInput}
+              />
+            )
+          }
+        }
+      ]
     }
   },
   mounted() {
@@ -121,9 +123,6 @@ export default {
         this.$message.error(msg)
       } finally {
         this.loading = false
-        this.$nextTick(() => {
-          this.credentialsRendered = true
-        })
       }
     },
     isHttpUrl(url) {
@@ -179,77 +178,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.digios-psi-settings {
-  max-width: 720px;
-  padding-bottom: 48px;
-}
-
-.digios-psi-credentials {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  display: block;
-}
-
-.settings-section {
-  padding: 24px 0;
-}
-
-.settings-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.settings-row__main {
-  flex: 1;
-  min-width: 0;
-}
-
-.settings-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
-  line-height: 22px;
-}
-
-.settings-label--block {
-  margin-bottom: 12px;
-}
-
-.settings-desc {
-  margin-top: 4px;
-  font-size: 13px;
-  line-height: 20px;
-  color: #999;
-}
-
-.settings-divider {
-  height: 1px;
-  background: #ebeef5;
-}
-
-.settings-hint {
-  margin-top: 8px;
-  font-size: 13px;
-  line-height: 20px;
-  color: #999;
-}
-
-.settings-input {
-  max-width: 480px;
-
-  ::v-deep .el-input__inner {
-    border-radius: 8px;
-    background-color: #f5f7fa;
-  }
-}
-
-.settings-save {
-  margin-top: 8px;
-  border-radius: 6px;
-}
-</style>

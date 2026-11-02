@@ -319,7 +319,7 @@
                     type="text"
                     @click="handleAction(scope.row, btn)"
                   >
-                    {{ btn.name }}
+                    {{ $t(btn.name) }}
                   </el-button>
                 </template>
               </div>
@@ -348,7 +348,7 @@
     <SpDialog
       ref="remarkDialogRef"
       v-model="remarkDialog"
-      :title="`修改备注【订单:${remarkForm.orderId}】`"
+      :title="`${$t('9cc48a0d.b1bfe2')}【${$t('9cc48a0d.4c117f')}:${remarkForm.orderId}】`"
       :form="remarkForm"
       :form-list="remarkFormList"
       @onSubmit="onRemarkSubmit"
@@ -359,7 +359,7 @@
       ref="cancelOrderDialogRef"
       v-model="cancelOrderDialog"
       class="dialog-cancelorder"
-      :title="`取消订单【订单:${cancelOrderForm.order_id}】`"
+      :title="`${$t('9cc48a0d.b21b5e')}【${$t('9cc48a0d.4c117f')}:${cancelOrderForm.order_id}】`"
       :loading="cancelOrderForm.loading"
       :form="cancelOrderForm"
       :form-list="cancelOrderFormList"
@@ -370,8 +370,9 @@
     <SpDialog
       ref="deliverGoodsDialogRef"
       v-model="deliverGoodsDialog"
-      width="1000px"
-      :title="`发货【订单:${deliverGoodsForm.order_id}】`"
+      class="dialog-delivery"
+      width="1200px"
+      :title="`${$t('9cc48a0d.045315')}【${$t('9cc48a0d.4c117f')}:${deliverGoodsForm.order_id}】`"
       :form="deliverGoodsForm"
       :form-list="deliverGoodsFormList"
       @onSubmit="deliverGoodsSubmit"
@@ -381,7 +382,7 @@
     <SpDialog
       ref="writeOffDialogRef"
       v-model="writeOffDialog"
-      :title="`核销【订单:${writeOffForm.order_id}】`"
+      :title="`${$t('9cc48a0d.e7d31e')}【${$t('9cc48a0d.4c117f')}:${writeOffForm.order_id}】`"
       :form="writeOffForm"
       :form-list="writeOffFormList"
       @onSubmit="writeOffSubmit"
@@ -391,7 +392,7 @@
     <SpDialog
       ref="refundRef"
       v-model="refundDialog"
-      :title="`退款【订单:${refundForm.order_id}】`"
+      :title="`${$t('9cc48a0d.44c198')}【${$t('9cc48a0d.4c117f')}:${refundForm.order_id}】`"
       :form="refundForm"
       :form-list="refundFormList"
       @onSubmit="refundSubmit"
@@ -405,7 +406,7 @@
       class="dialog-changeprice"
       :loading="changePriceForm.loading"
       :destroy-on-close="true"
-      :title="`申请售后【订单:${changePriceForm.order_id}】`"
+      :title="`${$t('9cc48a0d.45eb0c')}【${$t('9cc48a0d.4c117f')}:${changePriceForm.order_id}】`"
       :form="changePriceForm"
       :form-list="changePriceFormList"
       @onSubmit="changePriceSubmit"
@@ -483,13 +484,13 @@ export default {
       remarkDialog: false,
       remarkFormList: [
         {
-          label: '备注信息',
+          label: this.$t('9cc48a0d.b57447'),
           key: 'remark',
           type: 'textarea',
           maxlength: 150,
-          placeholder: '请输入对此订单需要备注的内容',
+          placeholder: this.$t('9cc48a0d.bd36b6'),
           required: true,
-          message: '不能为空'
+          message: this.$t('9cc48a0d.281bad')
         }
       ],
       remarkForm: {
@@ -501,9 +502,7 @@ export default {
       cancelOrderFormList: [
         {
           component: () => (
-            <div class='tip-bar'>
-              订单取消后，消费者在商城中看到的订单状态将变更为已取消，无法对其进行支付操作。
-            </div>
+            <div class='tip-bar'>{this.$t('9cc48a0d.ef5069')}</div>
           )
         },
         {
@@ -516,26 +515,26 @@ export default {
           )
         },
         {
-          label: '取消原因',
+          label: this.$t('9cc48a0d.4a3df6'),
           key: 'cancel_reason',
-          placeholder: '请选择取消订单原因',
+          placeholder: this.$t('9cc48a0d.bc4a11'),
           type: 'select',
           options: [
-            { title: '客户现在不想购买', value: 1 },
-            { title: '客户商品价格较贵', value: 2 },
-            { title: '客户价格波动', value: 3 },
-            { title: '客户商品缺货', value: 4 },
-            { title: '客户重复下单', value: 5 },
-            { title: '客户订单商品选择有误', value: 6 },
-            { title: '客户支付方式选择有误', value: 7 },
-            { title: '客户收货信息填写有误', value: 8 },
-            { title: '客户发票信息填写有误', value: 9 },
-            { title: '客户无法支付订单', value: 10 },
-            { title: '客户长时间未付款', value: 11 },
-            { title: '客户其他原因', value: 12 }
+            { title: this.$t('9cc48a0d.8f038a'), value: 1 },
+            { title: this.$t('9cc48a0d.5e58ba'), value: 2 },
+            { title: this.$t('9cc48a0d.151111'), value: 3 },
+            { title: this.$t('9cc48a0d.baa450'), value: 4 },
+            { title: this.$t('9cc48a0d.3013ee'), value: 5 },
+            { title: this.$t('9cc48a0d.e7197e'), value: 6 },
+            { title: this.$t('9cc48a0d.74c00b'), value: 7 },
+            { title: this.$t('9cc48a0d.16264a'), value: 8 },
+            { title: this.$t('9cc48a0d.13bea0'), value: 9 },
+            { title: this.$t('9cc48a0d.0e6c86'), value: 10 },
+            { title: this.$t('9cc48a0d.e21052'), value: 11 },
+            { title: this.$t('9cc48a0d.94490e'), value: 12 }
           ],
           required: true,
-          message: '不能为空',
+          message: this.$t('9cc48a0d.281bad'),
           onChange: (e) => {
             if (e == 12) {
               this.cancelOrderFormList[3].isShow = true
@@ -545,14 +544,14 @@ export default {
           }
         },
         {
-          label: '其他原因',
+          label: this.$t('9cc48a0d.fba26e'),
           key: 'other_reason',
           type: 'input',
-          placeholder: '请填写取消订单原因',
+          placeholder: this.$t('9cc48a0d.c6af7d'),
           isShow: false,
           validator: (rule, value, callback) => {
             if (this.cancelOrderForm.cancel_reason == 12 && !value) {
-              callback(new Error('不能为空'))
+              callback(new Error(this.$t('9cc48a0d.281bad')))
             } else {
               callback()
             }
@@ -573,13 +572,13 @@ export default {
       deliverGoodsDialog: false,
       deliverGoodsFormList: [
         {
-          label: '发货类型',
+          label: this.$t('9cc48a0d.b01994'),
           key: 'delivery_type',
           type: 'radio',
           disabled: false,
           options: [
-            { label: 'batch', name: '整单发货' },
-            { label: 'sep', name: '拆分发货' }
+            { label: 'batch', name: this.$t('9cc48a0d.afb426') },
+            { label: 'sep', name: this.$t('9cc48a0d.95d243') }
           ],
           onChange: (e) => {
             if (e == 'sep') {
@@ -594,17 +593,17 @@ export default {
           key: 'items',
           type: 'table',
           options: [
-            { title: '商品名', key: 'item_name' },
-            { title: '数量', key: 'num', width: 60 },
-            { title: '已发货数量', key: 'delivery_item_num', width: 100 },
-            { title: '总支付价（¥）', key: 'price', width: 120 },
+            { title: this.$t('9cc48a0d.de5472'), key: 'item_name' },
+            { title: this.$t('9cc48a0d.0bf60b'), key: 'num', width: 60 },
+            { title: this.$t('9cc48a0d.745165'), key: 'delivery_item_num', width: 100 },
+            { title: this.$t('9cc48a0d.e95382'), key: 'price', width: 120 },
             {
-              title: '发货数量',
+              title: this.$t('9cc48a0d.4f5a46'),
               key: 'item_num',
               width: 160,
               render: (row, column, cell) => {
                 if (row.num - row.delivery_item_num == 0) {
-                  return '已完成'
+                  return this.$t('9cc48a0d.fad522')
                 } else {
                   return (
                     <el-input-number
@@ -621,21 +620,21 @@ export default {
           ]
         },
         {
-          label: '快递公司',
+          label: this.$t('9cc48a0d.f3af96'),
           key: 'delivery_corp',
-          placeholder: '请选择快递公司',
+          placeholder: this.$t('9cc48a0d.8367e8'),
           type: 'select',
           options: [],
           required: true,
-          message: '不能为空'
+          message: this.$t('9cc48a0d.281bad')
         },
         {
-          label: '物流单号',
+          label: this.$t('9cc48a0d.0bb075'),
           key: 'delivery_code',
           type: 'input',
-          placeholder: '物流公司单号',
+          placeholder: this.$t('9cc48a0d.0e9f1e'),
           required: true,
-          message: '不能为空'
+          message: this.$t('9cc48a0d.281bad')
         }
       ],
       deliverGoodsForm: {
@@ -653,10 +652,10 @@ export default {
           key: 'items',
           type: 'table',
           options: [
-            { title: '商品名', key: 'item_name' },
-            { title: '数量', key: 'num', width: 60 },
-            { title: '已发货数量', key: 'delivery_item_num', width: 100 },
-            { title: '总支付价（¥）', key: 'price', width: 120 }
+            { title: this.$t('9cc48a0d.de5472'), key: 'item_name' },
+            { title: this.$t('9cc48a0d.0bf60b'), key: 'num', width: 60 },
+            { title: this.$t('9cc48a0d.745165'), key: 'delivery_item_num', width: 100 },
+            { title: this.$t('9cc48a0d.e95382'), key: 'price', width: 120 }
           ]
         }
       ],
@@ -668,47 +667,47 @@ export default {
       refundDialog: false,
       refundFormList: [
         {
-          label: '取消来源',
+          label: this.$t('9cc48a0d.60d99e'),
           key: 'source',
           type: 'text'
         },
         {
-          label: '申请时间',
+          label: this.$t('9cc48a0d.5ba072'),
           key: 'applyTime',
           type: 'text'
         },
         {
-          label: '退款状态',
+          label: this.$t('9cc48a0d.db7c80'),
           key: 'refundStatus',
           type: 'text'
         },
         {
-          label: '处理进度',
+          label: this.$t('9cc48a0d.93b365'),
           key: 'process',
           type: 'text'
         },
         {
-          label: '退款金额',
+          label: this.$t('9cc48a0d.a0cd4c'),
           key: 'refundPrice',
           type: 'text'
         },
         {
-          label: '支付方式:',
+          label: this.$t('9cc48a0d.292de2'),
           key: 'payType',
           type: 'text'
         },
         {
-          label: '取消原因',
+          label: this.$t('9cc48a0d.4a3df6'),
           key: 'reason',
           type: 'text'
         },
         {
-          label: '处理结果',
+          label: this.$t('9cc48a0d.9eb71d'),
           key: 'check_cancel',
           type: 'radio',
           options: [
-            { label: '0', name: '不同意' },
-            { label: '1', name: '同意' }
+            { label: '0', name: this.$t('9cc48a0d.1bf19c') },
+            { label: '1', name: this.$t('9cc48a0d.e61f2c') }
           ],
           onChange: (e) => {
             if (e == '0') {
@@ -719,14 +718,14 @@ export default {
           }
         },
         {
-          label: '拒绝原因',
+          label: this.$t('9cc48a0d.f48f94'),
           key: 'shop_reject_reason',
           type: 'input',
-          placeholder: '请输入拒绝原因',
+          placeholder: this.$t('9cc48a0d.fc955a'),
           isShow: false,
           validator: (rule, value, callback) => {
             if (this.refundFormList.check_cancel == '0' && !value) {
-              callback(new Error('不能为空'))
+              callback(new Error(this.$t('9cc48a0d.281bad')))
             } else {
               callback()
             }
@@ -749,27 +748,29 @@ export default {
       changePriceFormList: [
         {
           component: () => (
-            <div class='tip-bar'>
-              仅未支付订单可修改价格，改价后请联系买家刷新订单并核实订单金额后再支付。
-            </div>
+            <div class='tip-bar'>{this.$t('9cc48a0d.596d85')}</div>
           )
         },
         {
           component: () => (
             <div class='receive-info'>
               <div class='receive-item'>
-                <label class='item-label'>买家：</label>
+                <label class='item-label'>{this.$t('9cc48a0d.60db2a')}</label>
                 {`${this.changePriceForm.buy_member} | ${this.changePriceForm.buy_mobile}`}
               </div>
               <div class='receive-item'>
-                <label class='item-label'>{`${
-                  this.changePriceForm.isZiti ? '提货人：' : '收货人：'
-                }`}</label>
+                <label class='item-label'>
+                  {this.changePriceForm.isZiti
+                    ? this.$t('9cc48a0d.6b1044')
+                    : this.$t('9cc48a0d.02ddb4')}
+                </label>
                 {`${this.changePriceForm.receive_name} | ${this.changePriceForm.receive_mobile}`}
               </div>
               <div class='receive-item'>
                 <label class='item-label'>
-                  {`${this.changePriceForm.isZiti ? '自提地址：' : '收货地址：'}`}
+                  {this.changePriceForm.isZiti
+                    ? this.$t('9cc48a0d.d87411')
+                    : this.$t('9cc48a0d.e512d6')}
                 </label>
                 {this.changePriceForm.receive_address}
               </div>
@@ -892,16 +893,17 @@ export default {
             !isDada &&
             cancel_status == 'NO_APPLY_CANCEL' &&
             ['NOTPAY', 'PAYED'].includes(order_status) &&
-            ziti_status != 'DONE'
+            ziti_status != 'DONE' &&
+            delivery_status != 'PARTAIL' // 部分发货不可整单取消
           ) {
             // 非同城配的取消订单按钮
             if (!isDada || (isDada && ['0', '1'].includes(dada.data_status))) {
-              actionBtns.push({ name: '取消订单', key: 'cancel' })
+              actionBtns.push({ name: '9cc48a0d.b21b5e', key: 'cancel' })
             }
           }
 
           if (order_status == 'PAYED' && receipt_type == 'ziti' && ziti_status == 'PENDING') {
-            actionBtns.push({ name: '核销', key: 'writeOff' })
+            actionBtns.push({ name: '9cc48a0d.e7d31e', key: 'writeOff' })
           }
 
           if (
@@ -911,11 +913,11 @@ export default {
             delivery_status != 'DONE' &&
             dada.dada_status == '0'
           ) {
-            actionBtns.push({ name: '接单', key: 'takeOrder' })
+            actionBtns.push({ name: '9cc48a0d.7d4577', key: 'takeOrder' })
           }
 
           if (isDada && pay_status == 'PAYED' && dada.dada_status == '9') {
-            actionBtns.push({ name: '确认退回', key: 'orderSendBack' })
+            actionBtns.push({ name: '9cc48a0d.f1557d', key: 'orderSendBack' })
           }
 
           if (
@@ -925,35 +927,35 @@ export default {
             delivery_status != 'DONE' &&
             receipt_type != 'ziti'
           ) {
-            actionBtns.push({ name: '发货', key: 'deliverGoods' })
+            actionBtns.push({ name: '9cc48a0d.045315', key: 'deliverGoods' })
           }
 
           if (cancel_status == 'WAIT_PROCESS' && order_status == 'PAYED') {
-            actionBtns.push({ name: '退款', key: 'refund' })
+            actionBtns.push({ name: '9cc48a0d.44c198', key: 'refund' })
           }
 
           if (is_invoiced == '0' && invoice) {
-            actionBtns.push({ name: '待开票', key: 'waitInvoice' })
+            actionBtns.push({ name: '9cc48a0d.963609', key: 'waitInvoice' })
           }
 
-          actionBtns.push({ name: '备注', key: 'remark' })
+          actionBtns.push({ name: '9cc48a0d.2432b5', key: 'remark' })
         }
         if (order_status == 'NOTPAY') {
           if (VERSION_PLATFORM()) {
             if ((this.IS_ADMIN() && distributor_id == 0) || this.IS_DISTRIBUTOR()) {
-              actionBtns.push({ name: '改价', key: 'changePrice' })
+              actionBtns.push({ name: '9cc48a0d.bb6d2b', key: 'changePrice' })
             }
           } else if (!VERSION_IN_PURCHASE()) {
-            actionBtns.push({ name: '改价', key: 'changePrice' })
+            actionBtns.push({ name: '9cc48a0d.bb6d2b', key: 'changePrice' })
           }
         }
         if (can_apply_aftersales == 1) {
           if (VERSION_PLATFORM()) {
             if ((this.IS_ADMIN() && distributor_id == 0) || this.IS_DISTRIBUTOR()) {
-              actionBtns.push({ name: '申请售后', key: 'salesAfter' })
+              actionBtns.push({ name: '9cc48a0d.45eb0c', key: 'salesAfter' })
             }
           } else if (!VERSION_IN_PURCHASE()) {
-            actionBtns.push({ name: '申请售后', key: 'salesAfter' })
+            actionBtns.push({ name: '9cc48a0d.45eb0c', key: 'salesAfter' })
           }
         }
 
@@ -973,7 +975,7 @@ export default {
     },
     getOrderType({ order_class, type }) {
       if (order_class == 'normal') {
-        return type == '1' ? '跨境订单' : '普通订单'
+        return type == '1' ? this.$t('9cc48a0d.443aa4') : this.$t('9cc48a0d.e7978e')
       }
       const fd = ORDER_TYPE.find((item) => item.value == order_class)
       if (fd) {
@@ -1038,7 +1040,7 @@ export default {
       } else if (key == 'deliverGoods') {
         // 已对接 OMS 时仅供应商端可发货，其余端不可操作
         if (this.isBindOMS && !IS_SUPPLIER()) {
-          return this.$message.warning('请至OMS处理订单发货')
+          return this.$message.warning(this.$t('9cc48a0d.72b354'))
         }
 
         this.$refs['deliverGoodsDialogRef'].resetForm()
@@ -1071,22 +1073,22 @@ export default {
         })
         this.writeOffDialog = true
       } else if (key == 'takeOrder') {
-        this.$confirm('请在接单前确认商品当前库存', '接单提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm(this.$t('9cc48a0d.f3e80d'), this.$t('9cc48a0d.c1b226'), {
+          confirmButtonText: this.$t('9cc48a0d.38cf16'),
+          cancelButtonText: this.$t('9cc48a0d.625fb2'),
           type: 'warning'
         }).then(async () => {
           await this.$api.trade.doBusinessReceipt(order_id)
-          this.$message.success('接单成功')
+          this.$message.success(this.$t('9cc48a0d.740ca1'))
         })
       } else if (key == 'orderSendBack') {
-        this.$confirm('确认退回', '确认退回提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm(this.$t('9cc48a0d.f1557d'), this.$t('9cc48a0d.df2e45'), {
+          confirmButtonText: this.$t('9cc48a0d.38cf16'),
+          cancelButtonText: this.$t('9cc48a0d.625fb2'),
           type: 'warning'
         }).then(async () => {
           await this.$api.trade.confirmBack(order_id)
-          this.$message.success('退回成功')
+          this.$message.success(this.$t('9cc48a0d.2ab3ab'))
         })
       } else if (key == 'refund') {
         this.$refs['refundRef'].resetForm()
@@ -1105,7 +1107,7 @@ export default {
         this.refundForm = {
           ...this.refundForm,
           order_id,
-          source: cancel_from == 'buyer' ? '消费者申请' : '系统自动取消',
+          source: cancel_from == 'buyer' ? this.$t('9cc48a0d.a54c66') : this.$t('9cc48a0d.ca6dd8'),
           applyTime: moment(create_time * 1000).format('YYYY-MM-DD HH:mm:ss'),
           refundStatus: REFUND_STATUS[refund_status],
           process: REFUND_PROCESS[progress],
@@ -1114,9 +1116,9 @@ export default {
           reason: cancel_reason
         }
       } else if (key == 'waitInvoice') {
-        this.$confirm('确定更新该订单开票状态？', '提示', {
-          cancelButtonText: '取消',
-          confirmButtonText: '确定',
+        this.$confirm(this.$t('9cc48a0d.23d4a7'), this.$t('9cc48a0d.02d981'), {
+          cancelButtonText: this.$t('9cc48a0d.625fb2'),
+          confirmButtonText: this.$t('9cc48a0d.38cf16'),
           type: 'warning'
         }).then(async () => {
           const { success } = await this.$api.trade.isInvoiced({
@@ -1125,9 +1127,9 @@ export default {
           })
           this.fetchList()
           if (success) {
-            this.$message.success('已更新开票状态')
+            this.$message.success(this.$t('9cc48a0d.ee73ff'))
           } else {
-            this.$message.error('更新开票状态失败')
+            this.$message.error(this.$t('9cc48a0d.34b438'))
           }
         })
       } else if (key == 'changePrice') {
@@ -1206,7 +1208,7 @@ export default {
     },
     async onRemarkSubmit() {
       await this.$api.order.remarks(this.remarkForm)
-      this.$message.success('订单备注修改成功!')
+      this.$message.success(this.$t('9cc48a0d.c75e91'))
       this.remarkDialog = false
       this.fetchList()
     },
@@ -1215,7 +1217,7 @@ export default {
       console.log(this.cancelOrderForm)
       await this.$api.trade.cancelOrderConfirm(order_id, this.cancelOrderForm)
       this.cancelOrderDialog = false
-      this.$message.success('订单取消成功!')
+      this.$message.success(this.$t('9cc48a0d.c771bd'))
       // await this.$confirm('订单已取消', '确认信息', {
       //   distinguishCancelAndClose: true,
       //   confirmButtonText: '确定',
@@ -1241,18 +1243,18 @@ export default {
       this.deliverGoodsDialog = false
       this.fetchList()
       if (delivery_status && delivery_status != 'PENDING') {
-        this.$message.success('发货成功!')
+        this.$message.success(this.$t('9cc48a0d.de3b52'))
       } else {
-        this.$message.error('发货失败!')
+        this.$message.error(this.$t('9cc48a0d.2249c1'))
       }
     },
     async writeOffSubmit() {
       const { order_id } = this.writeOffForm
       const { ziti_status } = await this.$api.trade.doWriteoff(order_id, this.writeOffForm)
       if (ziti_status == 'DONE') {
-        this.$message.success('自提订单核销成功!')
+        this.$message.success(this.$t('9cc48a0d.b8ba0a'))
       } else {
-        this.$message.error('自提订单核销失败!')
+        this.$message.error(this.$t('9cc48a0d.47c5ff'))
       }
       this.writeOffDialog = false
     },
@@ -1264,11 +1266,11 @@ export default {
         shop_reject_reason
       })
       if (refund_status == 'AUDIT_SUCCESS') {
-        this.$message.success('审核通过!')
+        this.$message.success(this.$t('9cc48a0d.a41119'))
       } else if (refund_status == 'SHOP_CHECK_FAILS') {
-        this.$message.success('审核已拒绝!')
+        this.$message.success(this.$t('9cc48a0d.ff3161'))
       } else {
-        this.$message.error('审核失败!')
+        this.$message.error(this.$t('9cc48a0d.f74090'))
       }
       this.refundDialog = false
     },
@@ -1304,13 +1306,13 @@ export default {
       }).then((response) => {
         const { status, url, filename } = response.data.data
         if (status) {
-          this.$message.success('已加入执行队列，请在设置-导出列表中下载')
+          this.$message.success(this.$t('9cc48a0d.3e1ddd'))
           this.$export_open('invoice')
           return
         } else if (url) {
           window.open(url)
         } else {
-          this.$message.error('无内容可导出或执行失败，请检查重试')
+          this.$message.error(this.$t('9cc48a0d.c849e4'))
           return
         }
       })
@@ -1354,13 +1356,13 @@ export default {
       orderExport(params).then((response) => {
         const { status, url, filename } = response.data.data
         if (status) {
-          this.$message.success('已加入执行队列，请在设置-导出列表中下载')
+          this.$message.success(this.$t('9cc48a0d.3e1ddd'))
           this.$export_open(type)
           return
         } else if (url) {
           window.open(url)
         } else {
-          this.$message.error('无内容可导出或执行失败，请检查重试')
+          this.$message.error(this.$t('9cc48a0d.c849e4'))
           return
         }
       })
@@ -1372,7 +1374,7 @@ export default {
         file: file.raw
       }
       await this.$api.common.handleUploadFile(params)
-      this.$message.success('上传成功，等待处理')
+      this.$message.success(this.$t('9cc48a0d.7bbfaa'))
       this.fetchList()
     },
     async uploadHandlePatchCancel(file) {
@@ -1382,19 +1384,19 @@ export default {
         file: file.raw
       }
       await this.$api.common.handleUploadFile(params)
-      this.$message.success('上传成功，等待处理')
+      this.$message.success(this.$t('9cc48a0d.7bbfaa'))
       this.fetchList()
     },
     async getPickupcodeSetting() {
       const { pickupcode_status } = await this.$api.company.getPickupcodeSetting()
       if (!pickupcode_status) return
       this.writeOffFormList.push({
-        label: '提货码:',
+        label: this.$t('9cc48a0d.a5a7dd'),
         key: 'pickupcode',
         type: 'input',
-        placeholder: '请输入提货码',
+        placeholder: this.$t('9cc48a0d.ba231e'),
         required: true,
-        message: '不能为空'
+        message: this.$t('9cc48a0d.281bad')
       })
     },
     onChangeTableView({ items, item_fee_new, freight_fee, total_fee, item_total_fee }) {
@@ -1419,6 +1421,7 @@ export default {
   margin-bottom: 16px;
 }
 
+.dialog-delivery,
 .dialog-changeprice,
 .dialog-cancelorder,
 .dialog-salesafter {

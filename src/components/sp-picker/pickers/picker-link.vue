@@ -73,6 +73,7 @@ const BASE_LINK_PAGES = [
   { id: 'recharge', titleKey: '223cc8af.1200d5' },
   { id: 'purchase', titleKey: '223cc8af.d0465c' },
   { id: 'pointShop', titleKey: '223cc8af.a13364' },
+  { id: 'memberSign', titleKey: '223cc8af.8e34d0' },
   { id: 'registActivity', titleKey: '223cc8af.7fb92b' },
   { id: 'group', titleKey: '223cc8af.75a1d2' },
   { id: 'coupon_list', titleKey: '223cc8af.2f3635' },
@@ -129,6 +130,12 @@ export default {
           { id: 'category', titleKey: '223cc8af.d0771a' },
           { id: 'hottopic', titleKey: '223cc8af.26b2d6' }
         ])
+      }
+
+      // PC 装修「页面」tab：仅 platform 业态可配置商家入驻
+      if (this.value?.platform === 'web') {
+        if (!this.VERSION_PLATFORM()) return []
+        return mapPageTitles(this, [{ id: 'tenants', titleKey: '223cc8af.1107a8' }])
       }
 
       const items = [...BASE_LINK_PAGES]

@@ -551,7 +551,22 @@ export default {
           let sku_images = []
           const result = value.find(({ spec_value_id }) => spec_value_id == item.attribute_value_id)
           if (result) {
-            sku_images = result.item_image_url
+            const fromItem = result.item_image_url
+            const fromSpec = result.spec_image_url
+            if (Array.isArray(fromItem) && fromItem.filter(Boolean).length) {
+              sku_images = fromItem.filter(Boolean)
+            } else if (typeof fromItem === 'string' && fromItem) {
+              sku_images = [fromItem]
+            } else if (Array.isArray(fromSpec) && fromSpec.filter(Boolean).length) {
+              sku_images = fromSpec.filter(Boolean)
+            } else if (typeof fromSpec === 'string' && fromSpec) {
+              sku_images = [fromSpec]
+            }
+          }
+          if (!sku_images.length && item.sku_images?.length) {
+            sku_images = item.sku_images
+          } else if (!sku_images.length && item.image_url) {
+            sku_images = [item.image_url]
           }
 
           return {

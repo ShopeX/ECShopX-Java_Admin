@@ -115,8 +115,8 @@ export default {
           financeTabs.push({ label: this.$t('cb7af8ae.355262'), name: 'adapay_tradedata' })
         }
         groups.push(
-          { name: 'finance', label: '财务导出', tabs: financeTabs },
-          { name: 'marketing', label: '营销导出', tabs: commonMarketingTabs }
+          { name: 'finance', label: this.$t('cb7af8ae.17c0dd'), tabs: financeTabs },
+          { name: 'marketing', label: this.$t('cb7af8ae.022f8f'), tabs: commonMarketingTabs }
         )
       } else if (this.$store.getters.login_type == 'merchant') {
         const orderTabs = [
@@ -144,10 +144,10 @@ export default {
           { label: this.$t('cb7af8ae.03c9b1'), name: 'delivery_staffdata' }
         ])
         groups.push(
-          { name: 'order', label: '订单售后', tabs: orderTabs },
-          { name: 'goods', label: '商品导出', tabs: goodsTabs },
-          { name: 'finance', label: '财务导出', tabs: financeTabs },
-          { name: 'marketing', label: '营销导出', tabs: marketingTabs }
+          { name: 'order', label: this.$t('cb7af8ae.4e2a16'), tabs: orderTabs },
+          { name: 'goods', label: this.$t('cb7af8ae.f83133'), tabs: goodsTabs },
+          { name: 'finance', label: this.$t('cb7af8ae.17c0dd'), tabs: financeTabs },
+          { name: 'marketing', label: this.$t('cb7af8ae.022f8f'), tabs: marketingTabs }
         )
       } else {
         const memberTabs = [
@@ -155,9 +155,9 @@ export default {
           { label: this.$t('cb7af8ae.1be670'), name: 'member_point_logs' },
           { label: this.$t('cb7af8ae.fa1b9f'), name: 'distributor_white_list' },
           { label: this.$t('cb7af8ae.d04e78'), name: 'employee_purchase_employees' },
-          { label: '活动商品导出', name: 'employee_purchase_activity_items' },
-          { label: '活动码导出', name: 'employee_purchase_activity_qrcode' },
-          { label: '扫码统计导出', name: 'employee_purchase_activity_scan_stats' }
+          { label: this.$t('cb7af8ae.d4fbfc'), name: 'employee_purchase_activity_items' },
+          { label: this.$t('cb7af8ae.17ec0a'), name: 'employee_purchase_activity_qrcode' },
+          { label: this.$t('cb7af8ae.06dcee'), name: 'employee_purchase_activity_scan_stats' }
         ]
         const orderTabs = [
           { label: this.$t('cb7af8ae.8045f7'), name: 'normal_master_order' },
@@ -185,7 +185,7 @@ export default {
         }
         const financeTabs = [
           { label: this.$t('cb7af8ae.b8338a'), name: 'bspay_withdraw' },
-          { label: '交易单导出', name: 'tradedata' },
+          { label: this.$t('cb7af8ae.c67ce6'), name: 'tradedata' },
           { label: this.$t('cb7af8ae.c97d08'), name: 'hfpay_trade_record' },
           { label: this.$t('cb7af8ae.b8338a'), name: 'hfpay_withdraw_record' },
           { label: this.$t('cb7af8ae.443bfc'), name: 'bspay_tradedata' }
@@ -211,12 +211,12 @@ export default {
         }
         otherTabs.push({ label: this.$t('cb7af8ae.7e356a'), name: 'pos_store_account' })
         groups.push(
-          { name: 'member', label: '会员与企业内购', tabs: memberTabs },
-          { name: 'order', label: '订单售后', tabs: orderTabs },
-          { name: 'goods', label: '商品导出', tabs: goodsTabs },
-          { name: 'finance', label: '财务导出', tabs: financeTabs },
-          { name: 'marketing', label: '营销导出', tabs: marketingTabs },
-          { name: 'other', label: '其他', tabs: otherTabs }
+          { name: 'member', label: this.$t('cb7af8ae.c01f3d'), tabs: memberTabs },
+          { name: 'order', label: this.$t('cb7af8ae.4e2a16'), tabs: orderTabs },
+          { name: 'goods', label: this.$t('cb7af8ae.f83133'), tabs: goodsTabs },
+          { name: 'finance', label: this.$t('cb7af8ae.17c0dd'), tabs: financeTabs },
+          { name: 'marketing', label: this.$t('cb7af8ae.022f8f'), tabs: marketingTabs },
+          { name: 'other', label: this.$t('cb7af8ae.0d98c7'), tabs: otherTabs }
         )
       }
       return groups

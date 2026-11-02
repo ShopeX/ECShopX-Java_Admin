@@ -21,16 +21,12 @@
     padding: 10px;
   }
   .attribute-values-scroll {
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 0;
     max-width: 100%;
-    /* 隐藏滚动条 */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 和 Edge */
-    &::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera */
-    }
+    white-space: normal;
+    word-break: break-all;
   }
 }
 </style>
@@ -122,9 +118,10 @@ export default {
                   return h(
                     'el-tag',
                     {
+                      key: index,
                       style: {
                         'margin-right': '10px',
-                        'flex-shrink': '0'
+                        'margin-bottom': '4px'
                       },
                       props: {
                         size: 'mini'
