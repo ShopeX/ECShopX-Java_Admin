@@ -20,6 +20,13 @@
     }
   }
 }
+.sync-pool-tip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  color: #909399;
+  line-height: 22px;
+}
 </style>
 <style lang="scss">
 .supplier-goods-check {
@@ -152,6 +159,9 @@
           >
             {{ $t('58789194.d351c3') }}
           </el-button>
+          <span class="sync-pool-tip">
+            {{ $t('58789194.97a8b4') }}
+          </span>
         </div>
 
         <el-tabs v-model="activeName" type="card" @tab-click="handleTabClick">
