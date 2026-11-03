@@ -98,7 +98,6 @@ export default {
               h(
                 'el-button',
                 {
-                  class: 'yahh',
                   props: { type: 'text' },
                   on: {
                     click: () => {
@@ -109,7 +108,6 @@ export default {
                 [
                   h(
                     'span',
-                    { class: 'aaa' },
                     row.audit_goods ? this.$t('5f6110bf.0a60ac') : this.$t('5f6110bf.c9744f')
                   ),
                   h('i', { class: 'el-icon-s-tools' }, '')
@@ -258,11 +256,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.merchantList {
-  .yahh {
-    color: #409eff;
-  }
-}
-</style>
