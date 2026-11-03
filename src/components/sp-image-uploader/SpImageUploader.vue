@@ -6,7 +6,6 @@
       accept="image/jpeg,image/png,image/gif"
       :multiple="true"
       :show-file-list="false"
-      :data="localpostData"
       :http-request="handleUpload"
       :before-upload="beforeAvatarUpload"
       :on-success="handleAvatarSuccess"
@@ -43,7 +42,10 @@
 
 <script>
 import UploadUtil from '@/utils/uploadUtil'
+import { createAsyncQueue } from '@/utils/asyncQueue'
 import { isMac as checkIsMac } from '@/utils'
+
+const UPLOAD_CONCURRENCY = 3
 
 export default {
   name: 'SpImageUploader',
@@ -68,7 +70,11 @@ export default {
   data() {
     return {
       isPasteMode: false,
-      pasteListener: null
+      pasteListener: null,
+      pendingUploads: 0,
+      uploadSuccessCount: 0,
+      uploadFailCount: 0,
+      runUploadTask: createAsyncQueue(UPLOAD_CONCURRENCY)
     }
   },
   computed: {
@@ -105,31 +111,10 @@ export default {
           ['image/jpeg', 'image/png', 'image/gif'].includes(file.type)
       )
       if (imageFiles.length === 0) return
-      const file = imageFiles[0]
-      if (this.beforeAvatarUpload(file)) {
-        this.handleUpload({
-          file: file,
-          onSuccess: async (res) => {
-            try {
-              const uploadParams = {
-                image_cat_id: this.currentCategory,
-                image_name: file.name,
-                image_url: res.key,
-                image_type: file.type,
-                storage: 'image'
-              }
-              await this.$api.qiniu.uploadQiniuPic(uploadParams)
-              this.$message.success(this.$t('0248fee0.0b1470'))
-              this.refresh(true)
-            } catch (err) {
-              this.$message.error(this.$t('0248fee0.54e5de'))
-            }
-          },
-          onError: (err) => {
-            this.$message.error(this.$t('0248fee0.54e5de'))
-          }
-        })
-      }
+      imageFiles.forEach((file) => {
+        if (!this.beforeAvatarUpload(file)) return
+        this.handleUpload({ file }).catch(() => {})
+      })
     },
 
     getImageExtension(mimeType) {
@@ -174,87 +159,80 @@ export default {
     },
 
     uploadPasteImage(file) {
-      if (this.beforeAvatarUpload(file)) {
-        this.handleUpload({
-          file: file,
-          onSuccess: async (res) => {
-            try {
-              const uploadParams = {
-                image_cat_id: this.currentCategory,
-                image_name: file.name,
-                image_url: res.key,
-                image_type: file.type,
-                storage: 'image'
-              }
-              await this.$api.qiniu.uploadQiniuPic(uploadParams)
-              this.$message.success(this.$t('0248fee0.41ae5e'))
-              this.refresh(true)
-            } catch (err) {
-              this.$message.error(this.$t('0248fee0.6d4f83'))
-            }
-          },
-          onError: (err) => {
-            this.$message.error(this.$t('0248fee0.6d4f83'))
-          }
-        })
-      }
+      if (!this.beforeAvatarUpload(file)) return
+      this.handleUpload({ file }).catch(() => {})
     },
-    //返回boolean
+
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
       const isPNG = file.type === 'image/png'
       const isGIF = file.type === 'image/gif'
-      const isLt5M = file.size / 1024 / 1024 < 5
       if (!isJPG && !isPNG && !isGIF) {
         this.$message.error(this.$t('0248fee0.34e969'))
         return false
       }
-      /*if (!isLt5M) {
-        this.$message.error('上传图片大小不能超过 5MB!')
-        return false
-      }*/
-      if (this.localpostData) {
-        this.localpostData.fname = file.name
-      }
       return true
     },
 
-    async handleAvatarSuccess(res, file) {
-      const uploadParams = {
-        image_cat_id: this.currentCategory,
-        image_name: file.name,
-        image_url: res.key,
-        image_type: file.raw.type,
-        storage: 'image'
-      }
-      try {
-        await this.$api.qiniu.uploadQiniuPic(uploadParams)
-        this.$message.success(this.$t('0248fee0.a7699b'))
-        this.refresh(true)
-      } catch (error) {
-        this.$message.error(this.$t('0248fee0.54e5de'))
-      }
-    },
+    // Element UI success hook: registration already finished in handleUpload.
+    handleAvatarSuccess() {},
+
+    /**
+     * Capture original file meta immediately, then upload+register under concurrency limit.
+     * Returning a Promise lets Element UI attach its own onSuccess once (do not also call e.onSuccess).
+     */
     handleUpload(e) {
-      const upload = new UploadUtil()
-      upload
-        .uploadImg(e.file)
-        .then(
-          (res) => {
-            if (e.onSuccess) e.onSuccess(res)
-          },
-          (err) => {
-            if (e.onError) e.onError(err)
+      const file = e.file
+      const imageName = file && file.name
+      const imageType = file && file.type
+      const imageCatId = this.currentCategory
+
+      this.pendingUploads++
+
+      return this.runUploadTask(async () => {
+        try {
+          const upload = new UploadUtil()
+          const res = await upload.uploadImg(file)
+          await this.$api.qiniu.uploadQiniuPic({
+            image_cat_id: imageCatId,
+            image_name: imageName,
+            image_url: res.key,
+            image_type: imageType,
+            storage: 'image'
+          })
+          this.uploadSuccessCount++
+          return res
+        } catch (err) {
+          this.uploadFailCount++
+          throw err
+        } finally {
+          this.pendingUploads--
+          if (this.pendingUploads === 0) {
+            this.finishBatch()
           }
-        )
-        .catch((err) => {
-          if (e.onError) e.onError(err)
-        })
+        }
+      })
+    },
+
+    finishBatch() {
+      const success = this.uploadSuccessCount
+      const fail = this.uploadFailCount
+      this.uploadSuccessCount = 0
+      this.uploadFailCount = 0
+
+      if (success > 0) {
+        this.refresh(true)
+        this.$message.success(this.$t('0248fee0.a7699b'))
+      }
+      if (fail > 0 && success === 0) {
+        this.$message.error(this.$t('0248fee0.54e5de'))
+      } else if (fail > 0) {
+        this.$message.warning(this.$t('0248fee0.54e5de'))
+      }
     },
 
     uploadError(e) {
       console.error(e)
-      this.$message.error(this.$t('0248fee0.54e5de'))
     }
   }
 }
