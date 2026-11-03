@@ -295,7 +295,12 @@
               </div>
             </div>
           </div>
-          <el-empty v-if="list.length == 0" :description="emptyDescription" />
+          <div
+            v-if="list.length == 0"
+            class="col-span-full flex items-center justify-center min-h-[300px]"
+          >
+            <el-empty :description="emptyDescription" />
+          </div>
         </div>
         <el-pagination
           layout="total, prev, pager, next"
