@@ -27,23 +27,15 @@
         </li>
       </ul>
     </tips>
-    <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onSearch">
-      <SpFilterFormItem prop="login_name" :label="$t('ab2cdfe4.8c2e31')">
-        <el-input v-model="params.login_name" :placeholder="$t('ab2cdfe4.3103ef')" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="mobile" :label="$t('ab2cdfe4.ce2bf3')">
-        <el-input v-model="params.mobile" :placeholder="$t('ab2cdfe4.6e4f4b')" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="username" :label="$t('ab2cdfe4.75d152')">
-        <el-input v-model="params.username" :placeholder="$t('ab2cdfe4.8093e3')" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="shop_name" :label="$t('ab2cdfe4.0d4934')">
-        <el-input v-model="params.shop_name" clearable :placeholder="$t('ab2cdfe4.867738')" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="shop_code" :label="$t('ab2cdfe4.f6d738')">
-        <el-input v-model="params.shop_code" clearable :placeholder="$t('ab2cdfe4.68f04a')" />
-      </SpFilterFormItem>
-    </SpFilterForm>
+    <SpFormPlus
+      v-model="params"
+      form-type="searchForm"
+      label-width="auto"
+      :default-cell-width="300"
+      :form-items="searchFormItems"
+      @submit="onSearch"
+      @reset="onSearch"
+    />
 
     <el-table v-loading="loading" border :data="accountsList">
       <el-table-column :label="$t('ab2cdfe4.2b6bc0')" width="100px">
@@ -287,8 +279,7 @@ export default {
         login_name: '',
         username: '',
         shop_name: '',
-        shop_code: '',
-        operator_type: 'distributor'
+        shop_code: ''
       },
       operator_id: 0,
       rolesListData: [],
@@ -296,6 +287,57 @@ export default {
       isHead: false,
       is_distributor_main: false,
       loginType: this.$store.getters.login_type
+    }
+  },
+  computed: {
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'login_name',
+          label: this.$t('ab2cdfe4.8c2e31'),
+          component: 'input',
+          componentProps: {
+            placeholder: this.$t('ab2cdfe4.3103ef'),
+            clearable: true
+          }
+        },
+        {
+          fieldName: 'mobile',
+          label: this.$t('ab2cdfe4.ce2bf3'),
+          component: 'input',
+          componentProps: {
+            placeholder: this.$t('ab2cdfe4.6e4f4b'),
+            clearable: true
+          }
+        },
+        {
+          fieldName: 'username',
+          label: this.$t('ab2cdfe4.75d152'),
+          component: 'input',
+          componentProps: {
+            placeholder: this.$t('ab2cdfe4.8093e3'),
+            clearable: true
+          }
+        },
+        {
+          fieldName: 'shop_name',
+          label: this.$t('ab2cdfe4.0d4934'),
+          component: 'input',
+          componentProps: {
+            placeholder: this.$t('ab2cdfe4.867738'),
+            clearable: true
+          }
+        },
+        {
+          fieldName: 'shop_code',
+          label: this.$t('ab2cdfe4.f6d738'),
+          component: 'input',
+          componentProps: {
+            placeholder: this.$t('ab2cdfe4.68f04a'),
+            clearable: true
+          }
+        }
+      ]
     }
   },
   watch: {
@@ -444,6 +486,7 @@ export default {
       let params = {
         page,
         pageSize,
+        operator_type: 'distributor',
         ...this.params
       }
       getAccountList(params).then((response) => {
