@@ -9,6 +9,7 @@
       :inline="true"
       label-position="left"
       label-width="70px"
+      :default-cell-width="300"
     />
 
     <div class="action-container mt-5">
@@ -229,12 +230,12 @@ export default {
     filterFormItems() {
       return [
         {
-          formItemClass: 'w-1/3',
           label: this.$t('34fa19b2.10a6f1'),
           fieldName: 'role_name',
           component: 'input',
           componentProps: {
-            placeholder: this.$t('34fa19b2.2a92f5')
+            placeholder: this.$t('34fa19b2.2a92f5'),
+            clearable: true
           }
         }
       ]

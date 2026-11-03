@@ -5,18 +5,28 @@
 
 <template>
   <SpPage class="merchantAccount">
-    <SpFinder
-      ref="finder"
-      :split-count="2"
-      :search-row-count="2"
-      :fixed-row-action="true"
-      :setting="setting"
-      no-selection
-      :hooks="{
-        beforeSearch: beforeSearch
-      }"
-      url="/merchant/operator"
+    <SpFormPlus
+      v-if="!isMerchant"
+      v-model="filters"
+      form-type="searchForm"
+      label-width="auto"
+      :default-cell-width="300"
+      class="mb-4"
+      :form-items="searchFormItems"
+      @submit="onSearch"
+      @reset="onSearch"
     />
+
+    <SpTable
+      ref="table"
+      url="/merchant/operator"
+      row-key="operator_id"
+      :columns="tableColumns"
+      :params="tableParams"
+      :page-size="20"
+      :page-sizes="[10, 20, 50]"
+    />
+
     <el-dialog
       :title="$t('6bfa2979.67b76a')"
       :visible.sync="visible"
@@ -26,7 +36,6 @@
       <el-form :model="form" label-width="60px">
         <el-form-item :label="$t('6bfa2979.bb2cdf')">
           <span>{{ form.mobile }}</span>
-          <!-- <el-input v-model="form.mobile" autocomplete="off"></el-input> -->
         </el-form-item>
         <el-form-item :label="$t('6bfa2979.2646b8')">
           <el-input
@@ -49,12 +58,22 @@
 </template>
 
 <script>
-import setting_ from './setting'
+import SpFormPlus from '@/components/sp-form-plus'
+import SpTable from '@/components/sp-table'
 import { setChangePassword, updateTheMerchantInfo } from '@/api/mall/marketing.js'
+
 export default {
+  components: {
+    SpFormPlus,
+    SpTable
+  },
   data() {
     return {
       visible: false,
+      filters: {
+        mobile: '',
+        merchant_name: ''
+      },
       form: {
         mobile: '',
         password: ''
@@ -65,11 +84,121 @@ export default {
     }
   },
   computed: {
-    setting() {
-      return setting_(this)
+    isMerchant() {
+      return this.$store.getters.login_type === 'merchant'
+    },
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'mobile',
+          label: this.$t('bc46a6b6.8098e2'),
+          component: 'input',
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('bc46a6b6.8098e2')
+          }
+        },
+        {
+          fieldName: 'merchant_name',
+          label: this.$t('bc46a6b6.e6f169'),
+          component: 'input',
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('bc46a6b6.e6f169')
+          }
+        }
+      ]
+    },
+    tableParams() {
+      if (this.isMerchant) return {}
+      const params = {}
+      if (this.filters.mobile) params.mobile = this.filters.mobile
+      if (this.filters.merchant_name) params.merchant_name = this.filters.merchant_name
+      return params
+    },
+    tableColumns() {
+      const columns = [
+        {
+          key: 'actions',
+          label: this.$t('ab2cdfe4.2b6bc0'),
+          width: 120,
+          render: {
+            functional: true,
+            render: (h, context) => {
+              const row = context.props.row
+              if (this.isMerchant) {
+                return h(
+                  'el-button',
+                  {
+                    props: { type: 'text' },
+                    on: { click: () => this.editHandler(row) }
+                  },
+                  [this.$t('bc46a6b6.95b351')]
+                )
+              }
+              return h(
+                'el-button',
+                {
+                  props: { type: 'text' },
+                  on: { click: () => this.fnChangePassword(row) }
+                },
+                [this.$t('bc46a6b6.0719aa')]
+              )
+            }
+          }
+        },
+        {
+          key: 'mobile',
+          label: this.$t('bc46a6b6.99359a'),
+          minWidth: 200,
+          render: {
+            functional: true,
+            render: (h, context) => {
+              const row = context.props.row
+              if (this.isMerchant) {
+                const nodes = [
+                  h('span', { style: { marginRight: '20px' } }, row.mobile)
+                ]
+                if (row.is_merchant_main == '1') {
+                  nodes.push(
+                    h(
+                      'el-tag',
+                      { props: { type: 'warning', size: 'medium' } },
+                      [this.$t('bc46a6b6.302ff0')]
+                    )
+                  )
+                }
+                return h('span', nodes)
+              }
+              const tagType = row.settled_type === 'soletrader' ? 'warning' : 'success'
+              const tagText =
+                row.settled_type === 'soletrader'
+                  ? this.$t('bc46a6b6.a41061')
+                  : this.$t('bc46a6b6.04c9e3')
+              return h('span', [
+                h('span', { style: { marginRight: '20px' } }, row.mobile),
+                h('el-tag', { props: { type: tagType, size: 'medium' } }, [tagText])
+              ])
+            }
+          }
+        }
+      ]
+      if (!this.isMerchant) {
+        columns.push({
+          key: 'merchant_name',
+          label: this.$t('bc46a6b6.e6f169'),
+          minWidth: 160
+        })
+      }
+      return columns
     }
   },
   methods: {
+    onSearch() {
+      if (this.$refs.table) {
+        this.$refs.table.refresh(true)
+      }
+    },
     fnChangePassword(row) {
       const merchantName = row.merchant_name || ''
       const message = `<p>${this.$t('6bfa2979.183307', {
@@ -91,9 +220,6 @@ export default {
         }
       })
     },
-    beforeSearch(params) {
-      return { ...params }
-    },
     async fnConfirm() {
       const result = await updateTheMerchantInfo({
         operator_id: this.currentUser.id,
@@ -105,7 +231,6 @@ export default {
       }
     },
     editHandler(row) {
-      console.log(row)
       this.visible = true
       this.form.mobile = row.mobile
       this.currentUser.id = row.operator_id
@@ -127,68 +252,15 @@ export default {
   .el-dialog__footer {
     border-top: 1px solid #ccc;
   }
-  .yahh {
-    color: #409eff;
-  }
-  .el-button--text {
-    color: red;
-  }
-  .sp-finder-search .el-input__inner {
-    height: 40px;
-    line-height: 40px;
-  }
-  .clearfix span {
-    font-weight: 700;
-  }
-  .search-field {
-    // width: 500px !important;
-  }
-  label {
-    font-size: 12px;
-    color: #000;
-  }
-  .el-row {
-    margin-bottom: 0px;
-  }
   .el-table th {
     background: #f5f5f5;
     color: #000;
-  }
-  .btn {
-    border: none;
   }
 }
 </style>
 
 <style lang="scss" scoped>
 .merchantAccount {
-  .group {
-    margin: 30px 0;
-    border: 1px solid #f5f5f5;
-    .item {
-      padding: 14px 0;
-      font-size: 16px;
-      font-weight: 700;
-      text-align: center;
-      .state {
-        font-size: 14px;
-        color: #000;
-        font-weight: 300;
-        margin-bottom: 20px;
-      }
-      .title {
-        margin-bottom: 10px;
-        border-right: 1px solid #000;
-      }
-    }
-  }
-  .tablelist {
-    margin: 40px 0;
-  }
-  .pagination {
-    margin: 20px 0;
-    text-align: center;
-  }
   .tips {
     .title {
       font-size: 15px;
