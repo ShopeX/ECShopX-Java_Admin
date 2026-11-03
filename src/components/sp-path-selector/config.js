@@ -27,7 +27,7 @@ export function getPathSelectorTypes(platform) {
   const types = names
     ? PATH_SELECTOR_TYPES.filter((item) => names.includes(item.name))
     : PATH_SELECTOR_TYPES
-  // PC 装修「页面/商家入驻」仅 platform 业态可配置
+  // PC 装修「页面」仅 platform 业态可配置
   if (platform === 'web' && !VERSION_PLATFORM()) {
     return types.filter((item) => item.name !== 'link')
   }
