@@ -5,7 +5,7 @@
 
 <template>
   <SpRouterView>
-    <SpPage>
+    <SpPage class="coupon-manage-page">
       <SpPlatformTip h5 app pc alipay />
       <SpPlatformTip
         class="damo-crm-tip"
@@ -765,8 +765,23 @@ export default {
   background: #fef5ea !important;
 }
 </style>
-<style>
-.el-table__column-filter-trigger {
-  line-height: initial;
+<style lang="scss">
+.coupon-manage-page {
+  /* Element 默认箭头 12px + scale(0.75) 偏小且易错位，放大到与表头文字一致 */
+  .el-table__column-filter-trigger {
+    line-height: 23px;
+    margin-left: 4px;
+    vertical-align: middle;
+
+    i {
+      font-size: 14px;
+      transform: none;
+      color: #909399;
+    }
+  }
+
+  .el-table th .cell.highlight .el-table__column-filter-trigger i {
+    color: var(--color-primary, #722ed1);
+  }
 }
 </style>
