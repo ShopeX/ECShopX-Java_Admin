@@ -151,7 +151,6 @@
         <div class="action-container">
           <el-button type="primary" plain @click="Examine"> {{ $t('d41d8cd9.298be1') }} </el-button>
           <el-button
-            v-if="VERSION_PLATFORM()"
             type="primary"
             plain
             :loading="syncToPoolLoading"
