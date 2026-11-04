@@ -4,9 +4,6 @@
 -->
 
 <style scoped lang="scss">
-.sp-filter-form {
-  margin-bottom: 16px;
-}
 .tab-tools {
   display: flex;
   justify-content: flex-start;
@@ -59,140 +56,17 @@
       <!--        </el-button>-->
       <!--      </div>-->
 
-      <SpFilterForm :model="searchParams" @onSearch="onSearch" @onReset="onSearch">
-        <SpFilterFormItem prop="keywords" :label="$t('d41d8cd9.16eddb')">
-          <el-input v-model="searchParams.keywords" :placeholder="$t('d41d8cd9.231f0b')" />
-        </SpFilterFormItem>
-        <!--        <SpFilterFormItem prop="supplier_goods_bn" label="供应商货号:">-->
-        <!--          <el-input v-model="searchParams.supplier_goods_bn" placeholder="请输入供应商货号" />-->
-        <!--        </SpFilterFormItem>-->
-        <SpFilterFormItem prop="approve_status" :label="$t('d41d8cd9.2253ba')">
-          <el-select
-            v-model="searchParams.approve_status"
-            clearable
-            :placeholder="$t('d41d8cd9.708c9d')"
-          >
-            <el-option
-              v-for="item in statusOption"
-              :key="item.value"
-              :label="item.title"
-              size="mini"
-              :value="item.value"
-            />
-          </el-select>
-        </SpFilterFormItem>
-        <SpFilterFormItem prop="main_cat_id" :label="$t('d41d8cd9.e73602')">
-          <el-cascader
-            v-model="searchParams.main_cat_id"
-            :placeholder="$t('d41d8cd9.708c9d')"
-            clearable
-            :options="itemCategoryList"
-            :props="{ value: 'category_id', label: 'category_name', checkStrictly: true }"
-          />
-        </SpFilterFormItem>
-        <SpFilterFormItem prop="category" :label="$t('d41d8cd9.7ef1b3')">
-          <el-cascader
-            v-model="searchParams.category"
-            :options="categoryList"
-            :props="{
-              checkStrictly: true,
-              label: 'category_name',
-              value: 'category_id',
-              emitPath: false
-            }"
-            clearable
-          />
-        </SpFilterFormItem>
-        <!-- <SpFilterFormItem prop="audit_status" label="审核状态:">
-          <el-select v-model="searchParams.audit_status">
-            <el-option value="processing" label="待审核" />
-            <el-option value="approved" label="审核通过" />
-            <el-option value="rejected" label="审核拒绝" />
-          </el-select>
-        </SpFilterFormItem> -->
-        <SpFilterFormItem prop="templates_id" :label="$t('d41d8cd9.63fc58')">
-          <el-select
-            v-model="searchParams.templates_id"
-            :placeholder="$t('d41d8cd9.708c9d')"
-            clearable
-          >
-            <el-option
-              v-for="item in templatesList"
-              :key="item.template_id"
-              :label="item.name"
-              :value="item.template_id"
-            />
-          </el-select>
-        </SpFilterFormItem>
-        <!--        <SpFilterFormItem prop="tax_rate_code" label="税率编码:">-->
-        <!--          <el-input v-model="searchParams.tax_rate_code" placeholder="商品编号或条形码" />-->
-        <!--        </SpFilterFormItem>-->
-        <SpFilterFormItem prop="brand_id" :label="$t('d41d8cd9.dab469')">
-          <el-select
-            v-model="searchParams.brand_id"
-            :placeholder="$t('d41d8cd9.2dd7e1')"
-            remote
-            filterable
-            clearable
-            :remote-method="getGoodsBranchList"
-          >
-            <el-option
-              v-for="item in goodsBranchList"
-              :key="item.attribute_id"
-              :label="item.attribute_name"
-              :value="item.attribute_id"
-            />
-          </el-select>
-        </SpFilterFormItem>
-        <SpFilterFormItem prop="goods_bn" :label="$t('d41d8cd9.288587')">
-          <el-input v-model="searchParams.goods_bn" :placeholder="$t('d41d8cd9.36438f')" />
-        </SpFilterFormItem>
-        <!--        <SpFilterFormItem prop="regions_id" label="商品产地:">-->
-        <!--          <el-cascader-->
-        <!--            v-model="searchParams.regions_id"-->
-        <!--            placeholder="请选择"-->
-        <!--            clearable-->
-        <!--            :options="regions"-->
-        <!--          />-->
-        <!--        </SpFilterFormItem>-->
-        <!--        <SpFilterFormItem prop="delivery_data_type" label="发货方式:">-->
-        <!--          <el-select v-model="searchParams.delivery_data_type">-->
-        <!--            <el-option value="fixed_date" label="指定发货日期" />-->
-        <!--            <el-option value="relative_date" label="相对发货日期" />-->
-        <!--            <el-option value="default_date" label="默认发货日期" />-->
-        <!--          </el-select>-->
-        <!--        </SpFilterFormItem>-->
-        <SpFilterFormItem prop="item_bn" :label="$t('d41d8cd9.8dd62f')">
-          <el-input v-model="searchParams.item_bn" :placeholder="$t('d41d8cd9.983e9f')" />
-        </SpFilterFormItem>
-        <SpFilterFormItem prop="item_bn" :label="$t('d41d8cd9.951f47')">
-          <el-cascader
-            v-model="searchParams.tag_id"
-            size="small"
-            :placeholder="$t('d41d8cd9.f9b05d')"
-            :options="tagList"
-            :props="{ value: 'tag_id', label: 'tag_name' }"
-            clearable
-          />
-        </SpFilterFormItem>
+      <SpFormPlus
+        ref="searchForm"
+        v-model="searchParams"
+        form-type="searchForm"
+        :inline="true"
+        :form-items="searchFormItems"
+        @submit="onSearch"
+        @reset="onSearch"
+      />
 
-        <SpFilterFormItem prop="regions_id" :label="$t('d41d8cd9.efcb2d')">
-          <el-cascader
-            v-model="searchParams.regions_id"
-            :placeholder="$t('d41d8cd9.708c9d')"
-            clearable
-            :options="regions"
-          />
-        </SpFilterFormItem>
-        <SpFilterFormItem prop="supplier_name" :label="$t('d41d8cd9.7054f6')">
-          <el-input v-model="searchParams.supplier_name" :placeholder="$t('d41d8cd9.5765f1')" />
-        </SpFilterFormItem>
-        <!-- <SpFilterFormItem prop="operator_name" label="来源供应商:">
-          <el-input v-model="searchParams.operator_name" placeholder="请输入来源供应商" />
-        </SpFilterFormItem> -->
-      </SpFilterForm>
-
-      <div class="action-container">
+      <div class="action-container mt-4">
         <el-button v-if="!IS_SUPPLIER()" type="primary" plain @click="changeCategory">
           {{ $t('d41d8cd9.51af77') }}
         </el-button>
@@ -635,7 +509,8 @@ export default {
         brand_id: '',
         goods_bn: '',
         operator_name: '',
-        category: ''
+        category: '',
+        main_cat_id: null
       },
       start_date: '',
       end_date: '',
@@ -1254,6 +1129,144 @@ export default {
           }
         ]
       }
+    }
+  },
+  computed: {
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'keywords',
+          label: this.$t('d41d8cd9.16eddb'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.231f0b')
+          }
+        },
+        {
+          fieldName: 'approve_status',
+          label: this.$t('d41d8cd9.2253ba'),
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('d41d8cd9.708c9d'),
+            options: this.statusOption.map((item) => ({
+              label: item.title,
+              value: item.value
+            }))
+          }
+        },
+        {
+          fieldName: 'main_cat_id',
+          label: this.$t('d41d8cd9.e73602'),
+          component: 'cascader',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.708c9d'),
+            clearable: true,
+            options: this.itemCategoryList,
+            props: { value: 'category_id', label: 'category_name', checkStrictly: true }
+          }
+        },
+        {
+          fieldName: 'category',
+          label: this.$t('d41d8cd9.7ef1b3'),
+          component: 'cascader',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            options: this.categoryList,
+            props: {
+              checkStrictly: true,
+              label: 'category_name',
+              value: 'category_id',
+              emitPath: false
+            }
+          }
+        },
+        {
+          fieldName: 'templates_id',
+          label: this.$t('d41d8cd9.63fc58'),
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.708c9d'),
+            clearable: true,
+            options: this.templatesList.map((item) => ({
+              label: item.name,
+              value: item.template_id
+            }))
+          }
+        },
+        {
+          fieldName: 'brand_id',
+          label: this.$t('d41d8cd9.dab469'),
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.2dd7e1'),
+            remote: true,
+            filterable: true,
+            clearable: true,
+            remoteMethod: this.getGoodsBranchList,
+            options: this.goodsBranchList.map((item) => ({
+              label: item.attribute_name,
+              value: item.attribute_id
+            }))
+          }
+        },
+        {
+          fieldName: 'goods_bn',
+          label: this.$t('d41d8cd9.288587'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.36438f')
+          }
+        },
+        {
+          fieldName: 'item_bn',
+          label: this.$t('d41d8cd9.8dd62f'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.983e9f')
+          }
+        },
+        {
+          fieldName: 'tag_id',
+          label: this.$t('d41d8cd9.951f47'),
+          component: 'cascader',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.f9b05d'),
+            clearable: true,
+            options: this.tagList,
+            props: { value: 'tag_id', label: 'tag_name' }
+          }
+        },
+        {
+          fieldName: 'regions_id',
+          label: this.$t('d41d8cd9.efcb2d'),
+          component: 'cascader',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.708c9d'),
+            clearable: true,
+            options: this.regions
+          }
+        },
+        {
+          fieldName: 'supplier_name',
+          label: this.$t('d41d8cd9.7054f6'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.5765f1')
+          }
+        }
+      ]
     }
   },
   mounted() {
