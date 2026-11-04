@@ -612,14 +612,6 @@ export default {
       return this.multiple ? this.selected.length == 0 : !this.selected
     }
   },
-  created() {
-    // 素材库传入 page-size=24（8 列 × 3 行）；未传则沿用 PageMixin 默认 18
-    const raw = this.$attrs['page-size'] ?? this.$attrs.pageSize
-    const size = Number(raw)
-    if (size > 0) {
-      this.pageSize = size
-    }
-  },
   mounted() {
     this.nextPage()
     this.getImageAllCatgory()

@@ -7,13 +7,8 @@ export default {
     return {
       pageCur: 1,
       pageCount: 0,
+      pageSize: 24,
       loading: false
-    }
-  },
-  created() {
-    // 允许组件用 prop / 自身 data 覆盖；都没有时默认 18
-    if (typeof this.pageSize !== 'number' || this.pageSize <= 0) {
-      this.$set(this, 'pageSize', 18)
     }
   },
   computed: {
