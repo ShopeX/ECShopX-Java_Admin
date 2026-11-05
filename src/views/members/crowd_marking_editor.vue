@@ -156,6 +156,14 @@
 
           <div class="py-1.5 px-4 border-t border-[#e4e7ed] flex items-center bg-white">
             <span class="pr-2">{{ $t('b0eef2c3.5df9fd', [estimateCount]) }}</span>
+            <el-button
+              v-if="isEditMode"
+              type="primary"
+              size="small"
+              @click="onSearchChange"
+            >
+              {{ $t('b0eef2c3.bee912') }}
+            </el-button>
           </div>
         </div>
         <div
