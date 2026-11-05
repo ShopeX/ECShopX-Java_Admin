@@ -587,7 +587,9 @@ export default {
       console.log('specItems:', this.skuData.specItems)
       // 查找规格图片, 取最后一行
       const skus = JSON.parse(JSON.stringify(this.skuData.skus))
-      const imgSkus = skus.reverse().find((item) => item.is_image == 'true')
+      const imgSkus = skus
+        .reverse()
+        .find((item) => item.is_image == true || item.is_image == 1 || item.is_image == 'true')
       if (imgSkus) {
         const checkedImgSkus = imgSkus.sku_value.filter(
           (item) => imgSkus.checked_sku.indexOf(item.attribute_value_id) > -1

@@ -284,6 +284,7 @@ export default {
         pay_fee: 0,
         check_status: '1',
         remark: '',
+        bank_account_id: '',
         bank_account_name: '',
         bank_account_no: '',
         bank_name: '',
@@ -431,15 +432,13 @@ export default {
           type: 'select',
           required: true,
           message: this.$t('77050e4f.f1cf1d'),
+          disabled: () => this.isLook,
           options: [
             // { title: '可售', value: 1 },
             // { title: '不可售', value: 0 }
           ],
           onChange: (e) => {
-            const targetItem = this.bankList.find((item) => item.id == e)
-            this.addForm.bank_account_no = targetItem?.bank_account_no
-            this.addForm.bank_name = targetItem?.bank_name
-            this.addForm.china_ums_no = targetItem?.china_ums_no
+            this.syncBankAccountFields(e)
           }
         },
         {
@@ -462,6 +461,7 @@ export default {
           key: 'check_status',
           type: 'radio',
           required: true,
+          disabled: () => this.isLook, // 已审核详情置灰
           options: [
             { label: '1', name: this.$t('77050e4f.871a30') },
             { label: '2', name: this.$t('77050e4f.146bb2') }
@@ -473,6 +473,7 @@ export default {
           type: 'textarea',
           maxlength: 500,
           required: false,
+          disabled: () => this.isLook, // 已审核详情置灰
           message: this.$t('77050e4f.91ef19')
         }
       ]
@@ -501,12 +502,21 @@ export default {
         ...item,
         //搜索银行选项label，bank_name
         label: `${item.bank_name}:${item.bank_account_no}`,
-        //弹框下拉选项value，title
-        value: item.id.toString(),
+        //弹框下拉选项value/title；value 统一字符串，避免回显成编号
+        value: String(item.id),
         title: item.bank_account_name
       }))
       this.bankList = _list
       this.addFormList[1].options = _list
+    },
+    syncBankAccountFields(accountId) {
+      const id = accountId != null && accountId !== '' ? String(accountId) : ''
+      const targetItem = this.bankList.find((item) => String(item.id) === id || String(item.value) === id)
+      if (!targetItem) return
+      this.addForm.bank_account_name = targetItem.bank_account_name || targetItem.title || ''
+      this.addForm.bank_account_no = targetItem.bank_account_no || ''
+      this.addForm.bank_name = targetItem.bank_name || ''
+      this.addForm.china_ums_no = targetItem.china_ums_no || ''
     },
     onSearch() {
       this.$refs['finder'].refresh()
@@ -559,10 +569,33 @@ export default {
         this.addForm.check_status = '1'
         this.addForm.remark = ''
       }
-      this.addForm.bank_account_id = res.bank_account_id
-      this.addForm.bank_account_no = res.bank_account_no
-      this.addForm.bank_name = res.bank_name
-      this.addForm.china_ums_no = res.china_ums_no
+      // 与下拉 options.value（字符串）保持一致，否则 el-select 匹配失败会直接显示编号
+      const accountId =
+        res.bank_account_id != null && res.bank_account_id !== '' ? String(res.bank_account_id) : ''
+      this.addForm.bank_account_id = accountId
+      this.addForm.bank_account_name = res.bank_account_name || ''
+      this.addForm.bank_account_no = res.bank_account_no || ''
+      this.addForm.bank_name = res.bank_name || ''
+      this.addForm.china_ums_no = res.china_ums_no || ''
+      // 优先用账户列表回填名称等展示字段
+      this.syncBankAccountFields(accountId)
+      // 列表中不存在时，补一条 option，保证详情也能显示名称而非编号
+      if (
+        accountId &&
+        !this.addFormList[1].options.some((item) => String(item.value) === accountId)
+      ) {
+        this.addFormList[1].options = [
+          ...this.addFormList[1].options,
+          {
+            value: accountId,
+            title: res.bank_account_name || accountId,
+            bank_account_name: res.bank_account_name,
+            bank_account_no: res.bank_account_no,
+            bank_name: res.bank_name,
+            china_ums_no: res.china_ums_no
+          }
+        ]
+      }
     },
     getCheckStatusLabel(status) {
       return this.checkStatusOptions.find((item) => item.value == status)?.label

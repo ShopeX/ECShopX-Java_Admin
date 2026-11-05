@@ -99,6 +99,7 @@
   </SpPage>
 </template>
 <script>
+import { i18n } from '@/i18n'
 import SpFormPlus from '@/components/sp-form-plus'
 import { hfpayVersionStatus } from '@/api/fenzhang'
 import { useForm } from '@/composables'
@@ -106,7 +107,7 @@ const [BatchStatusForm, BatchStatusFormApi] = useForm({
   formItems: [
     {
       component: 'input',
-      label: 'RSA公钥',
+      label: i18n.t('10d92d52.103592'),
       fieldName: 'rsa_public_key',
       formItemClass: 'w-3/4',
       componentProps: {
@@ -126,47 +127,47 @@ const [AccountForm, AccountFormApi] = useForm({
   formItems: [
     {
       fieldName: 'bank_account_name',
-      label: '收款人户名',
+      label: i18n.t('10d92d52.84fc41'),
       component: 'input',
       formItemClass: 'w-2/4',
       componentProps: {
-        placeholder: '请输入收款人户名'
+        placeholder: i18n.t('10d92d52.2eb695')
       },
-      rules: [{ required: true, message: '请输入收款人户名', trigger: 'blur' }]
+      rules: [{ required: true, message: i18n.t('10d92d52.2eb695'), trigger: 'blur' }]
     },
     {
       fieldName: 'bank_account_no',
-      label: '银行账号',
+      label: i18n.t('10d92d52.954218'),
       component: 'input',
       formItemClass: 'w-2/4',
       componentProps: {
-        placeholder: '请输入银行账号'
+        placeholder: i18n.t('10d92d52.f9aa7d')
       },
-      rules: [{ required: true, message: '请输入银行账号', trigger: 'blur' }]
+      rules: [{ required: true, message: i18n.t('10d92d52.f9aa7d'), trigger: 'blur' }]
     },
     {
       fieldName: 'bank_name',
-      label: '开户银行',
+      label: i18n.t('10d92d52.cc5ca0'),
       component: 'input',
       formItemClass: 'w-2/4',
       componentProps: {
-        placeholder: '请输入开户银行'
+        placeholder: i18n.t('10d92d52.46222a')
       },
-      rules: [{ required: true, message: '请输入开户银行', trigger: 'blur' }]
+      rules: [{ required: true, message: i18n.t('10d92d52.46222a'), trigger: 'blur' }]
     },
     {
       fieldName: 'china_ums_no',
-      label: '银联号',
+      label: i18n.t('10d92d52.4402fa'),
       component: 'input',
       formItemClass: 'w-2/4',
       componentProps: {
-        placeholder: '请输入银联号'
+        placeholder: i18n.t('10d92d52.e44953')
       },
-      rules: [{ required: true, message: '请输入银联号', trigger: 'blur' }]
+      rules: [{ required: true, message: i18n.t('10d92d52.e44953'), trigger: 'blur' }]
     },
     {
       fieldName: 'pic',
-      label: '银行LOGO',
+      label: i18n.t('10d92d52.e277b7'),
       component: 'imagepicker',
       componentProps: {
         multiple: false,
@@ -175,30 +176,30 @@ const [AccountForm, AccountFormApi] = useForm({
           console.log('图片选择变化:', value)
         }
       },
-      rules: [{ required: true, message: '请上传银行LOGO', trigger: 'change' }]
+      rules: [{ required: true, message: i18n.t('10d92d52.b1498f'), trigger: 'change' }]
     },
     {
       fieldName: 'remark',
-      label: '备注',
+      label: i18n.t('10d92d52.2432b5'),
       component: 'input',
       formItemClass: 'w-2/4',
       componentProps: {
         type: 'textarea',
         rows: 3,
-        placeholder: '请输入备注'
+        placeholder: i18n.t('10d92d52.3cac63')
       }
     },
     {
       fieldName: 'is_default',
-      label: '是否默认',
+      label: i18n.t('10d92d52.d1c357'),
       component: 'radio',
       componentProps: {
         options: [
-          { label: '是', value: 'true' },
-          { label: '否', value: 'false' }
+          { label: i18n.t('10d92d52.0a60ac'), value: 'true' },
+          { label: i18n.t('10d92d52.c9744f'), value: 'false' }
         ]
       },
-      rules: [{ required: true, message: '请选择是否默认', trigger: 'change' }]
+      rules: [{ required: true, message: i18n.t('10d92d52.1bd4a8'), trigger: 'change' }]
     }
   ]
 })
@@ -271,7 +272,7 @@ export default {
         },
         {
           name: 'doumen_intl',
-          title: '斗门国际',
+          titleKey: '10d92d52.e7ab49',
           descriptionKey: '10d92d52.ed7207',
           icon: '',
           enabled: false,
@@ -539,25 +540,24 @@ export default {
       return [
         {
           fieldName: 'group1',
-          label: '基础配置',
+          label: this.$t('10d92d52.b6453a'),
           component: 'group'
         },
         {
           fieldName: 'app_id',
-          label: '公众账号ID',
+          label: this.$t('10d92d52.be151f'),
           component: 'input',
           value: formData.app_id || '',
           componentProps: {
-            placeholder: '请输入公众账号ID',
+            placeholder: this.$t('10d92d52.09b451'),
             style: 'width: 300px'
           },
           tip: () => {
             return (
               <div>
-                <div>适用于【微信浏览器、第三方APP、第三方手机浏览器、微信小程序、PC网站】</div>
+                <div>{this.$t('10d92d52.ab69af')}</div>
                 <div>
-                  微信支付分配的公众账号ID（企业号corpid即为此appId）。请到 微信公众平台 → 开发 →
-                  基本配置 → 获取
+                  {this.$t('10d92d52.777b9b')}
                 </div>
               </div>
             )
@@ -565,19 +565,19 @@ export default {
         },
         {
           fieldName: 'app_app_id',
-          label: 'APP应用ID',
+          label: this.$t('10d92d52.47e254'),
           component: 'input',
           value: formData.app_app_id || '',
           componentProps: {
-            placeholder: '请输入APP应用ID',
+            placeholder: this.$t('10d92d52.46311b'),
             style: 'width: 300px'
           },
           tip: () => {
             return (
               <div>
-                <div>适用于【第三方APP】</div>
+                <div>{this.$t('10d92d52.ccb91e')}</div>
                 <div>
-                  微信开放平台审核通过的应用APPID（请登录open.weixin.qq.com查看，注意与公众号的APPID不同）
+                  {this.$t('10d92d52.460b81')}
                 </div>
               </div>
             )
@@ -585,38 +585,37 @@ export default {
         },
         {
           fieldName: 'merchant_id',
-          label: '商户号',
+          label: this.$t('10d92d52.f173b7'),
           component: 'input',
           value: formData.merchant_id || '',
           componentProps: {
-            placeholder: '请输入商户号',
+            placeholder: this.$t('10d92d52.b9a935'),
             style: 'width: 300px'
           },
           tip: () => {
             return (
               <div>
-                <div>适用于【微信浏览器、第三方APP、第三方手机浏览器、微信小程序、PC网站】</div>
-                <div>请到 微信支付商户平台→账户中心→商户信息→获取</div>
+                <div>{this.$t('10d92d52.ab69af')}</div>
+                <div>{this.$t('10d92d52.ff00eb')}</div>
               </div>
             )
           }
         },
         {
           fieldName: 'key',
-          label: 'API密钥',
+          label: this.$t('10d92d52.6f5c56'),
           component: 'input',
           value: formData.key || '',
           componentProps: {
-            placeholder: '请输入API密钥',
+            placeholder: this.$t('10d92d52.f160f3'),
             style: 'width: 300px'
           },
           tip: () => {
             return (
               <div>
-                <div>适用于【微信浏览器、第三方APP、第三方手机浏览器、微信小程序、PC网站】</div>
+                <div>{this.$t('10d92d52.ab69af')}</div>
                 <div>
-                  请到 微信支付商户平台 → 账户中心 → API安全 → API密钥
-                  中设置32位密钥，并将密钥复粘贴过来
+                  {this.$t('10d92d52.a63cd4')}
                 </div>
               </div>
             )
@@ -624,41 +623,41 @@ export default {
         },
         {
           fieldName: 'is_servicer',
-          label: '是否特约商户',
+          label: this.$t('10d92d52.a5e041'),
           component: 'switch',
           value: formData.is_servicer || false,
           componentProps: {
             activeColor: '#13ce66',
             inactiveColor: '#ff4949'
           },
-          tip: '如是特约商户，请联系您的服务商获取如下两个参数'
+          tip: this.$t('10d92d52.167466')
         },
         {
           fieldName: 'servicer_app_id',
-          label: '服务商APPID',
+          label: this.$t('10d92d52.e2febe'),
           component: 'input',
           value: formData.servicer_app_id || '',
           componentProps: {
-            placeholder: '请输入服务商APPID',
+            placeholder: this.$t('10d92d52.ea377b'),
             style: 'width: 300px'
           }
         },
         {
           fieldName: 'servicer_merchant_id',
-          label: '服务商商户号',
+          label: this.$t('10d92d52.13f855'),
           component: 'input',
           value: formData.servicer_merchant_id || '',
           componentProps: {
-            placeholder: '请输入服务商商户号',
+            placeholder: this.$t('10d92d52.d40bb8'),
             style: 'width: 300px'
           }
         },
         {
-          label: '商户证书',
+          label: this.$t('10d92d52.9fa3f8'),
           component: 'upload',
           componentProps: {
             title: formData.cert_name,
-            buttonSize: '点击上传',
+            buttonSize: this.$t('10d92d52.2c808b'),
             size: 'middle',
             autoUpload: false,
             multiple: false,
@@ -667,14 +666,14 @@ export default {
               this.paymentForms.wxpay.cert = file.raw
             }
           },
-          tip: '微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->证书下载 apiclient_cert.pem'
+          tip: this.$t('10d92d52.c58e48')
         },
         {
-          label: '商户证书秘钥',
+          label: this.$t('10d92d52.34c0ad'),
           component: 'upload',
           componentProps: {
             title: formData.cert_key_name,
-            buttonSize: '点击上传',
+            buttonSize: this.$t('10d92d52.2c808b'),
             size: 'middle',
             autoUpload: false,
             multiple: false,
@@ -683,7 +682,7 @@ export default {
               this.paymentForms.wxpay.cert_key = file.raw
             }
           },
-          tip: '微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->证书下载 apiclient_key.pem'
+          tip: this.$t('10d92d52.2af448')
         }
       ]
     },
@@ -694,51 +693,51 @@ export default {
       return [
         {
           fieldName: 'group1',
-          label: '基础配置',
+          label: this.$t('10d92d52.b6453a'),
           component: 'group'
         },
         {
           fieldName: 'app_id',
-          label: '合作者PID',
+          label: this.$t('10d92d52.edbcda'),
           component: 'input',
           value: formData.app_id || '',
           componentProps: {
-            placeholder: '请输入合作者PID',
+            placeholder: this.$t('10d92d52.0541f0'),
             style: 'width: 300px'
           },
           tip: 'APPID'
         },
         {
           fieldName: 'ali_public_key',
-          label: '支付宝公钥',
+          label: this.$t('10d92d52.c8ad33'),
           component: 'input',
           formItemClass: 'w-3/4',
           value: formData.ali_public_key || '',
           componentProps: {
             type: 'textarea',
             rows: 5,
-            placeholder: '请输入支付宝公钥'
+            placeholder: this.$t('10d92d52.0797c6')
           },
-          tip: 'RSA2(SHA256)密钥 支付宝公钥'
+          tip: this.$t('10d92d52.28b4cb')
         },
         {
           fieldName: 'private_key',
-          label: '应用私钥',
+          label: this.$t('10d92d52.7e99e0'),
           component: 'input',
           value: formData.private_key || '',
           formItemClass: 'w-3/4',
           componentProps: {
             type: 'textarea',
             rows: 5,
-            placeholder: '请输入应用私钥'
+            placeholder: this.$t('10d92d52.cb68a9')
           },
-          tip: 'RSA2(SHA256)密钥 自己私钥'
+          tip: this.$t('10d92d52.2b4b9b')
         },
         {
-          label: '温馨提示',
+          label: this.$t('10d92d52.947d98'),
           component: ({ value, props, onInput, h, formData }) => {
             return h('div', { class: 'custom-field' }, [
-              h('span', {}, '您绑定的企业支付宝账号必须开通'),
+              h('span', {}, this.$t('10d92d52.ac8b9f')),
               h(
                 'a',
                 {
@@ -748,7 +747,7 @@ export default {
                     class: 'text-blue-500'
                   }
                 },
-                '手机网站支付'
+                this.$t('10d92d52.953f30')
               )
             ])
           }
@@ -761,42 +760,42 @@ export default {
       return [
         {
           fieldName: 'mid',
-          label: '平台商户号',
+          label: this.$t('10d92d52.435ed4'),
           component: 'input',
           value: formData.mid || '',
           componentProps: {
-            placeholder: '请输入平台商户号',
+            placeholder: this.$t('10d92d52.ec3e6f'),
             style: 'width: 300px'
           }
         },
         {
           fieldName: 'tid',
-          label: '平台终端号',
+          label: this.$t('10d92d52.bdbef9'),
           component: 'input',
           value: formData.tid || '',
           componentProps: {
-            placeholder: '请输入平台终端号',
+            placeholder: this.$t('10d92d52.ee4264'),
             style: 'width: 300px'
           }
         },
         {
           fieldName: 'rate',
-          label: '费率',
+          label: this.$t('10d92d52.1abce7'),
           component: 'input',
           value: formData.rate || 0,
           componentProps: {
-            placeholder: '请输入内容',
+            placeholder: this.$t('10d92d52.a11cc7'),
             style: 'width: 300px',
             type: 'number'
           },
-          tip: '收单手续费（单位：%）'
+          tip: this.$t('10d92d52.cbac75')
         },
         {
-          label: '商户加签私钥',
+          label: this.$t('10d92d52.b1bbef'),
           component: 'upload',
           componentProps: {
             // title: formData.rsa_private_name,
-            buttonSize: '点击上传',
+            buttonSize: this.$t('10d92d52.2c808b'),
             size: 'middle',
             autoUpload: false,
             onChange: (file, fileList) => {
@@ -807,20 +806,20 @@ export default {
         },
         {
           fieldName: 'password',
-          label: '密码',
+          label: this.$t('10d92d52.a81052'),
           component: 'input',
           value: formData.password || '',
           componentProps: {
-            placeholder: '请输入密码',
+            placeholder: this.$t('10d92d52.e39ffe'),
             style: 'width: 300px'
           }
         },
         {
-          label: '商户回盘验签公钥',
+          label: this.$t('10d92d52.486605'),
           component: 'upload',
           componentProps: {
             // title: formData.rsa_public_name,
-            buttonSize: '点击上传',
+            buttonSize: this.$t('10d92d52.2c808b'),
             size: 'middle',
             autoUpload: false,
             onChange: (file, fileList) => {
@@ -838,57 +837,57 @@ export default {
       return [
         {
           fieldName: 'group1',
-          label: '基础配置',
+          label: this.$t('10d92d52.b6453a'),
           component: 'group'
         },
         {
           fieldName: 'pay_name',
-          label: '支付方式名称',
+          label: this.$t('10d92d52.9593e2'),
           component: 'input',
           value: formData.pay_name || '',
           componentProps: {
-            placeholder: '请输入支付方式名称',
+            placeholder: this.$t('10d92d52.192537'),
             style: 'width: 300px'
           },
-          rules: [{ required: true, message: '请输入支付方式名称', trigger: 'blur' }]
+          rules: [{ required: true, message: this.$t('10d92d52.192537'), trigger: 'blur' }]
         },
         {
           fieldName: 'pay_tips',
-          label: '收款说明',
+          label: this.$t('10d92d52.be8f34'),
           component: 'input',
           value: formData.pay_tips || '',
           formItemClass: 'w-3/4',
           componentProps: {
             type: 'textarea',
             rows: 5,
-            placeholder: '请输入收款说明'
+            placeholder: this.$t('10d92d52.b3c6af')
           }
         },
         {
           fieldName: 'pay_desc',
-          label: '付款说明',
+          label: this.$t('10d92d52.c4b7b7'),
           component: 'input',
           formItemClass: 'w-3/4',
           value: formData.pay_desc || '',
           componentProps: {
             type: 'textarea',
             rows: 5,
-            placeholder: '请输入付款说明'
+            placeholder: this.$t('10d92d52.add3c8')
           }
         },
         {
           fieldName: 'auto_cancel_time',
-          label: '订单自动取消时间',
+          label: this.$t('10d92d52.6a4400'),
           component: 'input',
           value: formData.auto_cancel_time || 0,
           componentProps: {
             type: 'number',
             min: 0,
-            placeholder: '请输入自动取消时间（小时）',
+            placeholder: this.$t('10d92d52.3974f9'),
             style: 'width: 300px'
           },
-          tip: `未付款订单将在指定时间 ${formData.auto_cancel_time}（小时）后自动取消`,
-          rules: [{ required: true, message: '请输入自动取消时间', trigger: 'blur' }]
+          tip: this.$t('10d92d52.c10815', { time: formData.auto_cancel_time }),
+          rules: [{ required: true, message: this.$t('10d92d52.850f4b'), trigger: 'blur' }]
         },
         {
           isShow: () => formData.is_open,
@@ -908,7 +907,7 @@ export default {
               </div>
             )
           },
-          rules: [{ required: true, message: '请输入商户RSA私钥', trigger: 'blur' }],
+          rules: [{ required: true, message: this.$t('10d92d52.641d0a'), trigger: 'blur' }],
           width: '960px'
         }
       ]
@@ -920,7 +919,7 @@ export default {
       return [
         {
           fieldName: 'group1',
-          label: '基础配置',
+          label: this.$t('10d92d52.b6453a'),
           component: 'group'
         },
         {
@@ -929,10 +928,10 @@ export default {
           component: 'input',
           value: formData.sys_id || '',
           componentProps: {
-            placeholder: '请输入sys_id',
+            placeholder: this.$t('10d92d52.f42890'),
             style: 'width: 300px'
           },
-          rules: [{ required: true, message: '请输入sys_id', trigger: 'blur' }]
+          rules: [{ required: true, message: this.$t('10d92d52.f42890'), trigger: 'blur' }]
         },
         {
           fieldName: 'product_id',
@@ -940,138 +939,138 @@ export default {
           component: 'input',
           value: formData.product_id || '',
           componentProps: {
-            placeholder: '请输入product_id',
+            placeholder: this.$t('10d92d52.af4773'),
             style: 'width: 300px'
           },
-          rules: [{ required: true, message: '请输入product_id', trigger: 'blur' }]
+          rules: [{ required: true, message: this.$t('10d92d52.af4773'), trigger: 'blur' }]
         },
         {
           fieldName: 'rsa_merch_private_key',
-          label: '商户私钥',
+          label: this.$t('10d92d52.00096b'),
           component: 'input',
           formItemClass: 'w-3/4',
           value: formData.rsa_merch_private_key || '',
           componentProps: {
             type: 'textarea',
             rows: 5,
-            placeholder: '请输入商户私钥'
+            placeholder: this.$t('10d92d52.4ac6d1')
           },
-          rules: [{ required: true, message: '请输入商户私钥', trigger: 'blur' }]
+          rules: [{ required: true, message: this.$t('10d92d52.4ac6d1'), trigger: 'blur' }]
         },
         {
           fieldName: 'rsa_huifu_public_key',
-          label: '汇付公钥',
+          label: this.$t('10d92d52.895807'),
           component: 'input',
           formItemClass: 'w-3/4',
           value: formData.rsa_huifu_public_key || '',
           componentProps: {
             type: 'textarea',
             rows: 5,
-            placeholder: '请输入汇付公钥',
+            placeholder: this.$t('10d92d52.2f3b3c'),
             style: 'width: 600px'
           },
-          rules: [{ required: true, message: '请输入汇付公钥', trigger: 'blur' }]
+          rules: [{ required: true, message: this.$t('10d92d52.2f3b3c'), trigger: 'blur' }]
         },
         {
           fieldName: 'admin_token_no',
-          label: '绑卡序列号',
+          label: this.$t('10d92d52.3a4fb2'),
           component: 'input',
           value: formData.admin_token_no || '',
           componentProps: {
-            placeholder: '请输入绑卡序列号',
+            placeholder: this.$t('10d92d52.5d72c5'),
             style: 'width: 300px'
           }
         },
         {
           fieldName: 'group2',
-          label: '支付渠道设置',
+          label: this.$t('10d92d52.f302e6'),
           component: 'group'
         },
         {
           fieldName: 'pay_channel',
-          label: '支付渠道',
+          label: this.$t('10d92d52.13022b'),
           component: 'checkbox',
           value: this.normalizePayChannel(formData.pay_channel),
           componentProps: {
             options: [
-              { label: '微信小程序支付', value: 'wx_lite' },
-              { label: '微信公众号支付', value: 'wx_pub' },
-              { label: '微信扫码支付', value: 'wx_qr' },
-              { label: '支付宝H5支付', value: 'alipay_wap' },
-              { label: '支付宝扫码支付', value: 'alipay_qr' }
+              { label: this.$t('10d92d52.18796a'), value: 'wx_lite' },
+              { label: this.$t('10d92d52.f661cb'), value: 'wx_pub' },
+              { label: this.$t('10d92d52.777d5d'), value: 'wx_qr' },
+              { label: this.$t('10d92d52.5a3c52'), value: 'alipay_wap' },
+              { label: this.$t('10d92d52.bd7030'), value: 'alipay_qr' }
             ]
           }
         },
         {
           fieldName: 'group3',
-          label: '费率设置',
+          label: this.$t('10d92d52.49df01'),
           component: 'group'
         },
         {
           fieldName: 'wxpay_fee_type',
-          label: '微信渠道费率类型',
+          label: this.$t('10d92d52.9a02d9'),
           component: 'radio',
           value: formData.wxpay_fee_type || 'online',
           componentProps: {
-            options: [{ label: '标准费率线上', value: 'online' }]
+            options: [{ label: this.$t('10d92d52.d47e15'), value: 'online' }]
           }
         },
         {
           fieldName: 'wx_lite_online',
-          label: '微信小程序支付费率',
+          label: this.$t('10d92d52.bec272'),
           component: 'input',
           value: formData.wx_lite_online || '',
           componentProps: {
-            placeholder: '请输入费率，如：0.26',
+            placeholder: this.$t('10d92d52.6cd5f1'),
             style: 'width: 300px'
           }
         },
         {
           fieldName: 'wx_pub_online',
-          label: '微信公众号支付费率',
+          label: this.$t('10d92d52.15dd13'),
           component: 'input',
           value: formData.wx_pub_online || '',
           componentProps: {
-            placeholder: '请输入费率，如：0.26',
+            placeholder: this.$t('10d92d52.6cd5f1'),
             style: 'width: 300px'
           }
         },
         {
           fieldName: 'wx_qr_online',
-          label: '微信扫码支付费率',
+          label: this.$t('10d92d52.a77c98'),
           component: 'input',
           value: formData.wx_qr_online || '',
           componentProps: {
-            placeholder: '请输入费率，如：0.26',
+            placeholder: this.$t('10d92d52.6cd5f1'),
             style: 'width: 300px'
           }
         },
         {
           fieldName: 'alipay_fee_type',
-          label: '支付宝渠道费率类型',
+          label: this.$t('10d92d52.ede962'),
           component: 'radio',
           value: formData.alipay_fee_type || 'online',
           componentProps: {
-            options: [{ label: '标准费率线上', value: 'online' }]
+            options: [{ label: this.$t('10d92d52.d47e15'), value: 'online' }]
           }
         },
         {
           fieldName: 'alipay_call',
-          label: '支付宝支付费率',
+          label: this.$t('10d92d52.c433c1'),
           component: 'input',
           value: formData.alipay_call || '',
           componentProps: {
-            placeholder: '请输入费率，如：0.26',
+            placeholder: this.$t('10d92d52.6cd5f1'),
             style: 'width: 300px'
           }
         },
         {
           fieldName: 'alipay_qr_online',
-          label: '支付宝扫码支付费率',
+          label: this.$t('10d92d52.bb71ae'),
           component: 'input',
           value: formData.alipay_qr_online || '',
           componentProps: {
-            placeholder: '请输入费率，如：0.26',
+            placeholder: this.$t('10d92d52.6cd5f1'),
             style: 'width: 300px'
           }
         }
@@ -1085,7 +1084,7 @@ export default {
       return [
         {
           fieldName: 'group1',
-          label: '基础配置',
+          label: this.$t('10d92d52.b6453a'),
           component: 'group'
         },
         {
@@ -1094,7 +1093,7 @@ export default {
           component: 'input',
           value: formData['X-AccessCode'] || '',
           componentProps: {
-            placeholder: '请输入 X-AccessCode',
+            placeholder: this.$t('10d92d52.ad3251'),
             style: 'width: 300px'
           }
         },
@@ -1106,8 +1105,8 @@ export default {
           componentProps: {
             type: 'password',
             placeholder: maskedSecret
-              ? `${formData['X-SecretKey']}（留空则不修改）`
-              : '请输入 X-SecretKey',
+              ? this.$t('10d92d52.274bbe', { value: formData['X-SecretKey'] })
+              : this.$t('10d92d52.41b138'),
             style: 'width: 300px'
           }
         },
@@ -1117,7 +1116,7 @@ export default {
           component: 'input',
           value: formData.appId || '',
           componentProps: {
-            placeholder: '请输入 appId',
+            placeholder: this.$t('10d92d52.a73c61'),
             style: 'width: 300px'
           }
         },
@@ -1128,7 +1127,7 @@ export default {
           formItemClass: 'w-3/4',
           value: formData.return_url || '',
           componentProps: {
-            placeholder: '请输入支付完成跳转地址',
+            placeholder: this.$t('10d92d52.34e6f0'),
             style: 'width: 600px'
           }
         }
@@ -1145,7 +1144,7 @@ export default {
       return [
         {
           fieldName: 'group1',
-          label: '基础配置',
+          label: this.$t('10d92d52.b6453a'),
           component: 'group'
         },
         {
@@ -1154,7 +1153,7 @@ export default {
           component: 'input',
           value: formData.client_id || '',
           componentProps: {
-            placeholder: '请输入PayPal Client ID',
+            placeholder: this.$t('10d92d52.3ad62e'),
             style: 'width: 300px'
           }
         },
@@ -1164,13 +1163,13 @@ export default {
           component: 'input',
           value: formData.client_secret || '',
           componentProps: {
-            placeholder: '请输入PayPal Client Secret',
+            placeholder: this.$t('10d92d52.7235e6'),
             style: 'width: 300px'
           }
         },
         {
           fieldName: 'sandbox',
-          label: '是否沙盒环境',
+          label: this.$t('10d92d52.7187da'),
           component: 'switch',
           value: formData.sandbox || false,
           componentProps: {
@@ -1184,7 +1183,7 @@ export default {
           component: 'input',
           value: formData.webhook_id || '',
           componentProps: {
-            placeholder: '请输入webhook_id',
+            placeholder: this.$t('10d92d52.d87054'),
             style: 'width: 300px'
           }
         }
@@ -1205,7 +1204,7 @@ export default {
       const newEnabled = paymentItem.enabled
 
       if (newEnabled && paymentItem.name !== 'doumen_intl' && this.isDoumenIntlEnabled()) {
-        this.$message.warning('请先关闭斗门国际收银台')
+        this.$message.warning(this.$t('10d92d52.65b8e8'))
         paymentItem.enabled = false
         return
       }
@@ -1213,11 +1212,11 @@ export default {
       if (newEnabled && paymentItem.name === 'doumen_intl') {
         try {
           await this.$confirm(
-            '请确认是否启用斗门国际收银台，启用会默认关闭其他支付方式',
-            '提示',
+            this.$t('10d92d52.9e58e2'),
+            this.$t('10d92d52.02d981'),
             {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
+              confirmButtonText: this.$t('10d92d52.38cf16'),
+              cancelButtonText: this.$t('10d92d52.625fb2'),
               type: 'warning'
             }
           )
@@ -1303,7 +1302,7 @@ export default {
           params.is_open === 'true' &&
           this.isDoumenIntlEnabled()
         ) {
-          throw new Error('请先关闭斗门国际收银台')
+          throw new Error(this.$t('10d92d52.65b8e8'))
         }
 
         await this.$api.trade.setPaymentSetting(params)
@@ -1326,7 +1325,7 @@ export default {
       this.paymentForms.adapay.rsa_private_key = rsa_private_key
       this.publicKeyDialogForm.rsa_public_key = rsa_public_key
       await this.$dialog.open({
-        title: 'RSA公钥',
+        title: this.$t('10d92d52.103592'),
         size: 'small',
         content: <BatchStatusForm value={this.publicKeyDialogForm} />,
         confirmBefore: async () => {

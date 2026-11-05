@@ -116,7 +116,7 @@ export default {
             render: (h, { row }) =>
               h('el-switch', {
                 props: {
-                  'value': row.is_open,
+                  value: this.normalizeIsOpen(row.is_open),
                   'active-value': '1',
                   'inactive-value': '0'
                 },
@@ -132,7 +132,7 @@ export default {
                     })
                     row.is_open = e
                     this.$message.success(this.$t('c7eb6efa.55aa63'))
-                    // this.$refs.finder.refresh()
+                    this.$refs.finder.refresh()
                   }
                 }
               }),
@@ -287,6 +287,9 @@ export default {
     this.$refs['finder'].refresh()
   },
   methods: {
+    normalizeIsOpen(value) {
+      return value == 1 || value === true || value === '1' ? '1' : '0'
+    },
     onSearch() {
       this.$refs['finder'].refresh()
     },
@@ -350,9 +353,5 @@ export default {
 <style lang="scss">
 .sp-finder-actions__wrap {
   margin-bottom: 16px !important;
-}
-
-.sp-page--financial-detailed .sp-finder .sp-finder-actions__wrap .sp-finder-button .el-button {
-  padding: 8px 8px !important;
 }
 </style>

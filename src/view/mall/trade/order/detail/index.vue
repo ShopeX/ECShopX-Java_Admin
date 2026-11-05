@@ -575,7 +575,8 @@
       <SpDialog
         ref="deliverGoodsDialogRef"
         v-model="deliverGoodsDialog"
-        width="1000px"
+        class="dialog-delivery"
+        width="1200px"
         :title="$t('3cdfcea1.cfcc1e') + deliverGoodsForm.order_id + '】'"
         :form="deliverGoodsForm"
         :form-list="deliverGoodsFormList"
@@ -1369,6 +1370,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.dialog-delivery {
+  .el-form {
+    margin-right: 0 !important;
+  }
+}
 .delivery-log {
   margin-top: 16px;
 }

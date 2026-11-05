@@ -85,7 +85,7 @@
       v-model="form"
       v-loading="loading"
       show-message
-      label-width="100px"
+      label-width="120px"
       :form-list="formList"
       :submit="false"
     />
@@ -108,6 +108,7 @@ import GoodsParams from './components/GoodsParams'
 import SpecParams from './components/SpecParams'
 import SkuParams from './components/SkuParams'
 import VideoPicker from '@/components/sp-picker-plus/VideoPicker.vue'
+import PdfMaterialsUpload from './components/PdfMaterialsUpload.vue'
 import sku from '../../store/modules/sku'
 import districtOptions from '@/mixins/districtOptions'
 export default {
@@ -168,6 +169,7 @@ export default {
         pics: [],
         picsQrcode: [],
         videos: '',
+        other_product_materials: [],
         paramsData: [],
         isSpecs: false, // 单规格
         isShowSpecimg: false, // 商品详情页规格选择器显示规格图片
@@ -639,6 +641,20 @@ export default {
           )
         },
         {
+          label: this.$t('de022579.3aa1fb'),
+          key: 'other_product_materials',
+          component: ({ key }, value) => (
+            <PdfMaterialsUpload
+              value={value[key]}
+              disabled={disabled}
+              max={5}
+              on-input={(list) => {
+                this.$set(value, key, list)
+              }}
+            />
+          )
+        },
+        {
           label: this.$t('de022579.8686bb'),
           disabled,
           type: 'group',
@@ -913,6 +929,69 @@ export default {
     this.getBaseSetting()
   },
   methods: {
+    // 兼容接口返回 true / 1 / 'true'；避免 Boolean('false') === true
+    normalizeIsImage(value) {
+      return value == true || value == 1 || value == 'true'
+    },
+    // 规格图片字段兼容：item_image_url / spec_image_url，支持字符串与数组
+    normalizeSpecImageUrls(source = {}) {
+      const fromItem = source.item_image_url
+      if (Array.isArray(fromItem) && fromItem.filter(Boolean).length) {
+        return fromItem.filter(Boolean)
+      }
+      if (typeof fromItem === 'string' && fromItem) {
+        return [fromItem]
+      }
+      const fromSpec = source.spec_image_url
+      if (Array.isArray(fromSpec) && fromSpec.filter(Boolean).length) {
+        return fromSpec.filter(Boolean)
+      }
+      if (typeof fromSpec === 'string' && fromSpec) {
+        return [fromSpec]
+      }
+      return []
+    },
+    // 合并详情接口多处来源的规格图，按 spec_value_id 去重
+    resolveSpecImages(detailSpecImages, itemSpecDesc, specItems) {
+      const imageMap = new Map()
+      const put = (specValueId, urls, itemSpec) => {
+        if (!specValueId || !urls.length) return
+        const prev = imageMap.get(specValueId)
+        if (!prev || !prev.item_image_url.length) {
+          imageMap.set(specValueId, {
+            spec_value_id: specValueId,
+            item_spec: itemSpec || prev?.item_spec || '',
+            item_image_url: urls
+          })
+        }
+      }
+
+      ;(detailSpecImages || []).forEach((item) => {
+        put(item.spec_value_id, this.normalizeSpecImageUrls(item), item.item_spec)
+      })
+      ;(itemSpecDesc || [])
+        .filter((spec) => this.normalizeIsImage(spec.is_image))
+        .forEach((spec) => {
+          ;(spec.spec_values || []).forEach((val) => {
+            put(
+              val.spec_value_id,
+              this.normalizeSpecImageUrls(val),
+              val.spec_custom_value_name || val.spec_value_name
+            )
+          })
+        })
+      ;(specItems || []).forEach((sku) => {
+        ;(sku.item_spec || []).forEach((spec) => {
+          put(
+            spec.spec_value_id,
+            this.normalizeSpecImageUrls(spec),
+            spec.spec_custom_value_name || spec.spec_value_name
+          )
+        })
+      })
+
+      return Array.from(imageMap.values())
+    },
     async getBaseSetting() {
       const res = await this.$api.company.getGlobalSetting()
       this.is_pharma_industry = res.medicine_setting?.is_pharma_industry == '1'
@@ -1030,11 +1109,14 @@ export default {
         item_main_cat_id,
         is_show_specimg,
         is_market,
+        spec_images: detailSpecImages,
+        item_spec_desc,
         spec_items,
         mode,
         tdk_content,
         intro,
         videos,
+        other_product_materials,
         item_params_list,
         item_params,
         aftersales_end_date,
@@ -1093,6 +1175,9 @@ export default {
       this.form.isGift = is_gift
       this.form.taxRate = tax_rate
       this.form.videos = videos || ''
+      this.form.other_product_materials = Array.isArray(other_product_materials)
+        ? other_product_materials.filter((item) => item && item.url)
+        : []
       this.form.isShowSpecimg = is_show_specimg
       this.form.is_market = is_market
       this.form.aftersales_end_date = aftersales_end_date
@@ -1170,12 +1255,8 @@ export default {
           package_type
         }
         this.resolveSkuParams(goods_spec, spec_items)
-        let spec_images = []
-        spec_items.forEach((item) => {
-          item.item_spec.forEach((item) => {
-            spec_images.push(item)
-          })
-        })
+        // 编辑回显：合并 spec_images / item_spec_desc / spec_items.item_spec（含 spec_image_url）
+        const spec_images = this.resolveSpecImages(detailSpecImages, item_spec_desc, spec_items)
         this.$refs['skuParams'].onSkuChange({ spec_images, spec_items, restParams })
       } else {
         this.resolveSkuParams(goods_spec)
@@ -1319,8 +1400,8 @@ export default {
           let t = {
             skuId: attribute_id,
             skuName: attribute_name,
-            isImage: Boolean(is_image),
-            skuValue: list.map(({ attribute_value_id, attribute_value }) => {
+            isImage: this.normalizeIsImage(is_image),
+            skuValue: list.map(({ attribute_value_id, attribute_value, image_url }) => {
               if (specValueIds.find(({ spec_value_id }) => spec_value_id == attribute_value_id)) {
                 checkedSku.push(attribute_value_id)
               }
@@ -1330,7 +1411,8 @@ export default {
                 attribute_value_id,
                 attribute_value,
                 custom_attribute_value: spec_custom_value_name,
-                sku_images: []
+                image_url: image_url || '',
+                sku_images: image_url ? [image_url] : []
               }
             }),
             checkedSku
@@ -1421,6 +1503,7 @@ export default {
         pics,
         picsQrcode,
         videos,
+        other_product_materials,
         isSpecs,
         is_market,
         title,
@@ -1493,6 +1576,14 @@ export default {
         pics,
         pics_create_qrcode: _picsQrcode,
         videos: videos,
+        other_product_materials: (other_product_materials || [])
+          .filter((item) => item && item.url)
+          .map(({ name, url, size }) => {
+            const material = { url }
+            if (name) material.name = name
+            if (size !== undefined && size !== null && size !== '') material.size = size
+            return material
+          }),
         nospec: String(!isSpecs),
         is_show_specimg: isShowSpecimg,
         audit_reason: this.applyForm.audit_reason,

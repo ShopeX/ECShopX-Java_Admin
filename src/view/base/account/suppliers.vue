@@ -5,33 +5,26 @@
 
 <template>
   <SpPage>
-    <SpFilterForm :model="searchParams" @onSearch="onSearch" @onReset="onSearch">
-      <SpFilterFormItem :label="$t('9bd7ffcf.7035c6')" prop="login_name">
-        <el-input
-          v-model="searchParams.login_name"
-          :placeholder="$t('9bd7ffcf.f821a7')"
-          clearable
-        />
-      </SpFilterFormItem>
-      <SpFilterFormItem :label="$t('9bd7ffcf.8098e2')" prop="mobile">
-        <el-input v-model="searchParams.mobile" :placeholder="$t('9bd7ffcf.6e4f4b')" clearable />
-      </SpFilterFormItem>
-      <SpFilterFormItem :label="$t('9bd7ffcf.60d045')" prop="username">
-        <el-input v-model="searchParams.username" :placeholder="$t('9bd7ffcf.8093e3')" clearable />
-      </SpFilterFormItem>
-      <SpFilterFormItem :label="$t('9bd7ffcf.9190cc')" prop="supplier_name">
-        <el-input
-          v-model="searchParams.supplier_name"
-          :placeholder="$t('9bd7ffcf.f0c2bb')"
-          clearable
-        />
-      </SpFilterFormItem>
-    </SpFilterForm>
+    <SpFormPlus
+      ref="searchForm"
+      v-model="searchParams"
+      form-type="searchForm"
+      :inline="true"
+      :form-items="searchFormItems"
+      @submit="onSearch"
+      @reset="onSearch"
+    />
 
-    <div class="action-container">
+    <div class="action-container mt-4">
       <el-button type="primary" plain icon="plus" @click="addSupplier">
         {{ $t('9bd7ffcf.4a3c32') }}
       </el-button>
+      <div class="supplier-login-tip">
+        <span>{{ $t('9bd7ffcf.bb12f4') }}</span>
+        <el-link :href="supplierLoginUrl" target="_blank" type="primary">
+          {{ supplierLoginUrl }}
+        </el-link>
+      </div>
     </div>
 
     <SpFinder
@@ -58,6 +51,8 @@
 </template>
 
 <script>
+import { resolveAppPath } from '@/utils'
+
 export default {
   data() {
     return {
@@ -80,6 +75,53 @@ export default {
     }
   },
   computed: {
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'login_name',
+          label: this.$t('9bd7ffcf.7035c6'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('9bd7ffcf.f821a7')
+          }
+        },
+        {
+          fieldName: 'mobile',
+          label: this.$t('9bd7ffcf.8098e2'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('9bd7ffcf.6e4f4b')
+          }
+        },
+        {
+          fieldName: 'username',
+          label: this.$t('9bd7ffcf.60d045'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('9bd7ffcf.8093e3')
+          }
+        },
+        {
+          fieldName: 'supplier_name',
+          label: this.$t('9bd7ffcf.9190cc'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('9bd7ffcf.f0c2bb')
+          }
+        }
+      ]
+    },
+    supplierLoginUrl() {
+      return `${window.location.origin}${resolveAppPath('/supplier/login')}`
+    },
     supplierDialogTitle() {
       return this.supplierForm.id ? this.$t('9bd7ffcf.12928d') : this.$t('9bd7ffcf.4a3c32')
     },
@@ -248,5 +290,15 @@ export default {
 <style scoped lang="scss">
 .sp-filter-form {
   margin-bottom: 16px;
+}
+
+.supplier-login-tip {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+  color: #606266;
+  line-height: 22px;
 }
 </style>

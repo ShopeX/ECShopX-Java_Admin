@@ -136,6 +136,7 @@
         fixed-row-action
         :row-actions-align="'left'"
         row-actions-width="160px"
+        :split-count="2"
         :other-config="{}"
         :setting="tableList"
         :hooks="{
@@ -371,12 +372,6 @@
         </span>
       </el-dialog>
 
-      <el-dialog :title="$t('dc9cefd6.4604d5')" :visible.sync="errMessageVis" width="560px">
-        <div class="page-code">
-          {{ errMessage }}
-        </div>
-      </el-dialog>
-
       <!-- 查看多规格信息 -->
       <SpDrawer
         v-model="showItemSkuDrawer"
@@ -524,13 +519,11 @@ export default {
         category: 0,
         item_category: 0,
         is_warning: false,
-        is_medicine: '',
         audit_status: '',
         delivery_data_type: '',
         tag_id: '',
         tax_rate_code: '',
         is_gift: undefined,
-        is_prescription: '',
         type: 0,
         barcode: '',
         distributor_id: 0,
@@ -554,8 +547,6 @@ export default {
       isGiftsData: {},
       exportData: {},
       exportTagData: {},
-      errMessage: '',
-      errMessageVis: false,
       tagList: [],
       grade: [],
       vipGrade: [],
@@ -580,7 +571,6 @@ export default {
       batchChangeStateForm: {
         status: ''
       },
-      is_pharma_industry: false,
       isBindWdtErp: false,
       isBindJstErp: false,
       categoryList: [],
@@ -760,23 +750,6 @@ export default {
                     detail: true
                   }
                 })
-              }
-            }
-          },
-          {
-            name: this.$t('dc9cefd6.6271ca'),
-            key: 'repush',
-            type: 'button',
-            buttonType: 'text',
-            visible: (row) => row.medicine_data?.audit_status == 3,
-            action: {
-              type: 'link',
-              handler: async ([row]) => {
-                await this.$api.goods.medicineItemsSync({ goods_id: row.goods_id })
-                this.$message.success(this.$t('dc9cefd6.33130f'))
-                setTimeout(() => {
-                  this.$refs['finder'].refresh(true)
-                }, 200)
               }
             }
           },
@@ -993,10 +966,32 @@ export default {
           {
             name: this.$t('dc9cefd6.07ec01'),
             key: 'itemName',
-            width: 280,
+            width: 320,
             render: (h, scope) => {
+              let pics = scope.row.pics
+              if (typeof pics === 'string' && pics.trim()) {
+                try {
+                  pics = JSON.parse(pics)
+                } catch (e) {
+                  pics = []
+                }
+              }
+              const pic =
+                (Array.isArray(pics) && pics[0]) ||
+                scope.row.pic ||
+                scope.row.image_url ||
+                ''
               return (
-                <div>
+                <div style='display: flex; align-items: flex-start; gap: 8px;'>
+                  {h('SpImage', {
+                    props: {
+                      src: pic,
+                      width: 56,
+                      height: 56,
+                      fit: 'cover'
+                    }
+                  })}
+                  <div style='flex: 1; min-width: 0;'>
                   <div style='white-space: normal;'>
                     {scope.row.itemName}
                     {!scope.row.nospec && (
@@ -1045,22 +1040,10 @@ export default {
                       />
                     </el-tooltip>
                   </div>
+                  </div>
                 </div>
               )
             }
-          },
-          // {
-          //   name: '是否处方',
-          //   key: 'item_bn',
-          //   width: 150,
-          //   render: (h, { row }) => (row.is_prescription == '1' ? '是' : '否')
-          // },
-          {
-            name: this.$t('d41d8cd9.0888fc'),
-            key: 'item_bn',
-            width: 160,
-            align: 'right',
-            headerAlign: 'center'
           },
           {
             name: this.$t('dc9cefd6.14d342'),
@@ -1206,30 +1189,6 @@ export default {
             }
           },
           {
-            name: this.$t('dc9cefd6.73cfdf'),
-            key: 'is_prescription',
-            width: 150,
-            render: (h, { row }) =>
-              row.is_prescription == '1' ? this.$t('dc9cefd6.0a60ac') : this.$t('dc9cefd6.c9744f'),
-            visible: this.is_pharma_industry
-          },
-          {
-            name: this.$t('d41d8cd9.72ba49'),
-            key: 'audit_reason',
-            width: 150,
-            render: (h, { row }) => (
-              <div>
-                {row.medicine_data?.audit_reason && row.medicine_data?.audit_status == 3 && (
-                  <div onClick={() => this.handleErrDetail(row.medicine_data)}>
-                    {this.handleAuditReason(row.medicine_data)}
-                    <i class='el-icon-info'></i>
-                  </div>
-                )}
-              </div>
-            ),
-            visible: this.is_pharma_industry
-          },
-          {
             name: this.$t('d41d8cd9.ec05e3'),
             key: 'created',
             width: 160,
@@ -1330,6 +1289,40 @@ export default {
             }
           }
         },
+        // SKU编码
+        {
+          fieldName: 'item_bn',
+          label: this.$t('d41d8cd9.8a2c1f'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.6e19f2')
+          }
+        },
+        // SPU编码
+        {
+          fieldName: 'goods_bn',
+          label: this.$t('d41d8cd9.c3a815'),
+          cellWidth: 1.3,
+          component: 'input',
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.7d3a61')
+          }
+        },
+        // 商品标签（非供应商）
+        {
+          fieldName: 'tag_id',
+          label: this.$t('d41d8cd9.f1a62d'),
+          component: 'cascader',
+          cellWidth: 1.3,
+          isShow: () => !this.IS_SUPPLIER(),
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.2c9b17'),
+            clearable: true,
+            options: this.tagList,
+            props: { value: 'tag_id', label: 'tag_name' }
+          }
+        },
         // 运费模板
         {
           fieldName: 'templates_id',
@@ -1363,52 +1356,6 @@ export default {
             }))
           }
         },
-        // SKU编码
-        {
-          fieldName: 'item_bn',
-          label: this.$t('d41d8cd9.8a2c1f'),
-          component: 'input',
-          cellWidth: 1.3,
-          componentProps: {
-            placeholder: this.$t('d41d8cd9.6e19f2')
-          }
-        },
-        // SPU编码
-        {
-          fieldName: 'goods_bn',
-          label: this.$t('d41d8cd9.c3a815'),
-          cellWidth: 1.3,
-          component: 'input',
-          componentProps: {
-            placeholder: this.$t('d41d8cd9.7d3a61')
-          }
-        },
-        // 商品产地
-        {
-          fieldName: 'regions_id',
-          label: this.$t('d41d8cd9.d82b43'),
-          component: 'cascader',
-          cellWidth: 1.3,
-          componentProps: {
-            placeholder: this.$t('d41d8cd9.3e1b0a'),
-            clearable: true,
-            options: this.regions
-          }
-        },
-        // 商品标签（非供应商）
-        {
-          fieldName: 'tag_id',
-          label: this.$t('d41d8cd9.f1a62d'),
-          component: 'cascader',
-          cellWidth: 1.3,
-          isShow: () => !this.IS_SUPPLIER(),
-          componentProps: {
-            placeholder: this.$t('d41d8cd9.2c9b17'),
-            clearable: true,
-            options: this.tagList,
-            props: { value: 'tag_id', label: 'tag_name' }
-          }
-        },
         // 赠品
         {
           fieldName: 'is_gift',
@@ -1424,20 +1371,16 @@ export default {
             ]
           }
         },
-        // 处方药（医药行业）
+        // 商品产地
         {
-          fieldName: 'is_prescription',
-          label: this.$t('d41d8cd9.e7f3a5'),
-          component: 'select',
+          fieldName: 'regions_id',
+          label: this.$t('d41d8cd9.d82b43'),
+          component: 'cascader',
           cellWidth: 1.3,
-          isShow: () => this.is_pharma_industry,
           componentProps: {
+            placeholder: this.$t('d41d8cd9.3e1b0a'),
             clearable: true,
-            options: [
-              { label: this.$t('d41d8cd9.a8b0c2'), value: '' },
-              { label: this.$t('d41d8cd9.e7f3a5'), value: '1' },
-              { label: this.$t('d41d8cd9.c6e8d4'), value: '0' }
-            ]
+            options: this.regions
           }
         }
       ]
@@ -1461,14 +1404,6 @@ export default {
         ]
       }
 
-      if (this.is_pharma_industry) {
-        tabList.splice(1, 0, {
-          name: this.$t('d41d8cd9.a7d0ec'),
-          value: 'is_medicine',
-          activeName: 'third'
-        })
-      }
-
       return tabList
     },
     tbAddFormList() {
@@ -1482,7 +1417,6 @@ export default {
     this.fetchWechatList()
     this.checkWdtErpBind()
     this.checkJstErpBind()
-    this.getBaseSetting()
 
     // resetPage=true 回第 1 页（新建）；false/缺省保留当前页（编辑）
     this.$activated = (_from, _to, resetPage = false) => {
@@ -1490,10 +1424,6 @@ export default {
     }
   },
   methods: {
-    async getBaseSetting() {
-      const res = await this.$api.company.getGlobalSetting()
-      this.is_pharma_industry = res.medicine_setting?.is_pharma_industry == '1'
-    },
     async fetchWechatList() {
       try {
         const data = (await this.$api.minimanage.gettemplateweapplist()) || {}
@@ -1514,7 +1444,7 @@ export default {
         item_type: 'normal',
         operate_source: IS_SUPPLIER() ? 'supplier' : 'platform',
         ...this.searchParams,
-        item_source: 'platform',
+        item_source: IS_ADMIN() ? 'platform' : '',
         created_time_start:
           this.searchParams.created_time.length > 0 ? this.searchParams.created_time[0] / 1000 : '',
         created_time_end:
@@ -1597,11 +1527,6 @@ export default {
         this.sunCode = true
       })
     },
-    handleErrDetail(val) {
-      if (!val || !val.audit_reason) return
-      this.errMessage = val.audit_reason
-      this.errMessageVis = true
-    },
     async getSkuStoreByGoods(item_id) {
       this.skuLoading = true
       const { list } = await this.$api.goods.getItemsList({
@@ -1683,13 +1608,6 @@ export default {
       } else {
         this.searchParams.is_warning = false
         this.searchParams.audit_status = this.activeName
-      }
-
-      if (this.activeName == 'third') {
-        this.searchParams.is_medicine = 1
-        this.searchParams.audit_status = ''
-      } else {
-        this.searchParams.is_medicine = ''
       }
 
       //淘宝商品
@@ -1785,10 +1703,6 @@ export default {
       } else {
         this.$message.error(this.$t('dc9cefd6.ace302'))
       }
-    },
-    handleAuditReason(data) {
-      const { audit_reason = '' } = data || {}
-      return audit_reason.length > 8 ? audit_reason.slice(0, 8) + '...' : audit_reason
     },
     async onFreightTemplateSubmit() {
       const { item_id, templates_id } = this.freightTemplateForm
@@ -2054,7 +1968,7 @@ export default {
     async exportItemsData() {
       const exportParams = {
         ...this.searchParams,
-        item_source: 'platform'
+        item_source: IS_ADMIN() ? 'platform' : '',
       }
       if (this.selectionItems.length > 0) {
         exportParams['item_id'] = this.selectionItems.map((item) => item.item_id)
@@ -2158,7 +2072,7 @@ export default {
         page: 1,
         pageSize: 1000
       })
-      this.itemSkuDrawerTitle = `${this.$t('d41d8cd9.k1l2m3')}${item.item_name}】`
+      this.itemSkuDrawerTitle = `${this.$t('d41d8cd9.g5h6i7')}${item.item_name}】`
       this.itemSkuList = list || []
       this.showItemSkuDrawer = true
       this.itemSkuList = list
@@ -2235,13 +2149,12 @@ export default {
   margin-bottom: 16px;
 }
 .tab-tools {
-  text-align: right;
-  @include clearfix();
+  display: flex;
+  justify-content: flex-start;
   margin-bottom: 8px;
   .warn-input {
     display: flex;
     align-items: center;
-    float: right;
     .el-input {
       width: 120px;
       margin: 0 8px;

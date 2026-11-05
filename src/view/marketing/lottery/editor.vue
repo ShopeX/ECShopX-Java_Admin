@@ -111,12 +111,12 @@ const normalizePrize = (el = {}, index = 0, tplPrize = {}) => {
   }
 }
 
-const createDefaultPrizes = () => [
+const createDefaultPrizesPlaceholder = () => [
   {
     ...defaultItem,
     index: prizeIndexSeed++,
     type: 'thanks',
-    name: '谢谢参与',
+    name: '',
     probability: 0
   },
   { ...defaultItem, index: prizeIndexSeed++ }
@@ -135,7 +135,7 @@ export default {
         limit_total: 0,
         limit_day: 0,
         quantity: '',
-        prize_data: createDefaultPrizes(),
+        prize_data: createDefaultPrizesPlaceholder(),
         background: '',
         backgroundColor: '#ffffff',
         gameMarginTop: 150,
@@ -201,10 +201,28 @@ export default {
       }
     }
   },
+  created() {
+    const thanks = this.form.prize_data.find((p) => p.type === 'thanks')
+    if (thanks && !thanks.name) {
+      thanks.name = this.$t('d8d84692.8ee30c')
+    }
+  },
   mounted() {
     this.init()
   },
   methods: {
+    createDefaultPrizes() {
+      return [
+        {
+          ...defaultItem,
+          index: prizeIndexSeed++,
+          type: 'thanks',
+          name: this.$t('d8d84692.8ee30c'),
+          probability: 0
+        },
+        { ...defaultItem, index: prizeIndexSeed++ }
+      ]
+    },
     init() {
       const editId = this.$route.params.id
       const cloneId = this.$route.query.clone_id
@@ -221,9 +239,9 @@ export default {
           const code = err?.data?.code || err?.code
           if (code === 'LUCKY_DRAW_ENDED') {
             this.formReadonly = true
-            this.$message.warning('活动已结束，不可编辑')
+            this.$message.warning(this.$t('d8d84692.01c253'))
           } else {
-            this.$message.error(err?.data?.message || err?.message || '加载活动失败')
+            this.$message.error(err?.data?.message || err?.message || this.$t('d8d84692.3c6ea0'))
           }
         })
         .finally(() => {
@@ -240,7 +258,9 @@ export default {
 
       this.form = {
         ...generatorParams(formList(this), res),
-        activity_name: asClone ? `${res.activity_name || ''} 副本`.trim() : res.activity_name,
+        activity_name: asClone
+          ? `${res.activity_name || ''}${this.$t('d8d84692.f483c2')}`.trim()
+          : res.activity_name,
         start_time: asClone
           ? []
           : [
@@ -272,7 +292,9 @@ export default {
       this.hotArea = blocks[0]?.imgs?.[0]?.src
         ? {
             backImg: blocks[0].imgs[0].src,
-            padding: blocks[0].padding ?? 20,
+            // 配置里存的是 "20px"，number 输入框需纯数字才能回显
+            padding:
+              parseInt(String(blocks[0].padding ?? 20).replace(/px$/i, ''), 10) || 20,
             img: buttons[0]?.imgs?.[0]?.src || ''
           }
         : { ...generatorParams(lotteryAreaSchema(this)), padding: 20 }
@@ -293,7 +315,7 @@ export default {
       // 已结束：编辑态只读（终止后 end_time<=now）
       if (!asClone && res.end_time && res.end_time * 1000 <= Date.now()) {
         this.formReadonly = true
-        this.$message.warning('活动已结束，不可编辑')
+        this.$message.warning(this.$t('d8d84692.01c253'))
       }
     },
     cancel() {
@@ -318,49 +340,49 @@ export default {
       const begin = this.form.start_time?.[0]
       const end = this.form.start_time?.[1]
       if (!begin || !end) {
-        return Promise.reject(new Error('请选择活动时间'))
+        return Promise.reject(new Error(this.$t('d8d84692.d8e0d0')))
       }
       const beginUnix = moment(begin).unix()
       const endUnix = moment(end).unix()
       const now = moment().unix()
       if (endUnix <= beginUnix) {
-        return Promise.reject(new Error('结束时间必须大于开始时间'))
+        return Promise.reject(new Error(this.$t('d8d84692.c903b9')))
       }
       if (endUnix <= now) {
-        return Promise.reject(new Error('结束时间必须大于当前时间'))
+        return Promise.reject(new Error(this.$t('d8d84692.20d9a8')))
       }
       const limitTotal = Number(this.form.limit_total) || 0
       const limitDay = Number(this.form.limit_day) || 0
       if (limitTotal > 0 && limitDay > limitTotal) {
-        return Promise.reject(new Error('每日限额不可大于总限额'))
+        return Promise.reject(new Error(this.$t('d8d84692.b12c1c')))
       }
       const cost = Number(this.form.cost_value)
       if (Number.isNaN(cost) || cost < 1) {
         return Promise.reject(new Error(this.$t('d8d84692.a9b89a')))
       }
       if (!this.form.intro || !String(this.form.intro).replace(/<[^>]+>/g, '').trim()) {
-        return Promise.reject(new Error('请填写活动说明'))
+        return Promise.reject(new Error(this.$t('d8d84692.7c8c06')))
       }
       const prizes = (this.form.prize_data || []).filter((el) => el.name?.trim() && el.type)
       if (!prizes.some((el) => el.type === 'thanks')) {
-        return Promise.reject(new Error('至少配置一个「无奖品/谢谢参与」奖项'))
+        return Promise.reject(new Error(this.$t('d8d84692.8f5d36')))
       }
       const probSum = prizes.reduce((acc, item) => acc + (Number(item.probability) || 0), 0)
       if (probSum <= 0 || probSum > 100) {
-        return Promise.reject(new Error('全部奖项概率之和须大于 0 且不超过 100'))
+        return Promise.reject(new Error(this.$t('d8d84692.a8387a')))
       }
       for (const p of prizes) {
         if (!p.name || String(p.name).length > 5) {
-          return Promise.reject(new Error('奖项名称必填且不超过 5 个字'))
+          return Promise.reject(new Error(this.$t('d8d84692.c3c560')))
         }
         if (['coupon', 'coupons'].includes(p.type)) {
           const stock = p.dailyStock
           if (stock !== '' && stock != null && Number(stock) < 0) {
-            return Promise.reject(new Error('每日奖品库存不可为负数'))
+            return Promise.reject(new Error(this.$t('d8d84692.1c874d')))
           }
           const maxQty = Number(p.prize_detail?.quantity)
           if (stock !== '' && stock != null && maxQty > 0 && Number(stock) > maxQty) {
-            return Promise.reject(new Error('每日库存不可大于该券总可用库存'))
+            return Promise.reject(new Error(this.$t('d8d84692.1c6eab')))
           }
         }
       }
@@ -475,7 +497,7 @@ export default {
                     imgs: [],
                     radius: '35%',
                     pointer: true,
-                    fonts: [{ text: '开始', top: '-10px' }]
+                    fonts: [{ text: this.$t('d8d84692.a3e3b8'), top: '-10px' }]
                   }
                 ],
             ruleFormConfig: this.ruleForm,
@@ -493,24 +515,24 @@ export default {
       try {
         const res = await api.marketing.editTurntableConfig(params)
         if (res?.result) {
-          this.$message.success('保存成功')
+          this.$message.success(this.$t('d8d84692.3b1083'))
           this.$router.push('/marketing/interactive/lottery')
           return
         }
-        this.$message.error('保存失败')
+        this.$message.error(this.$t('d8d84692.6de920'))
       } catch (err) {
         const code = err?.data?.code || err?.code
         if (code === 'LUCKY_DRAW_CONFIG_VERSION_CONFLICT') {
-          this.$message.error('配置已被他人更新，请刷新后重试')
+          this.$message.error(this.$t('d8d84692.ce663f'))
           this.init()
           return
         }
         if (code === 'LUCKY_DRAW_ENDED') {
           this.formReadonly = true
-          this.$message.error('活动已结束，不可编辑')
+          this.$message.error(this.$t('d8d84692.01c253'))
           return
         }
-        this.$message.error(err?.data?.message || err?.message || '保存失败')
+        this.$message.error(err?.data?.message || err?.message || this.$t('d8d84692.6de920'))
       }
     },
     handleInput(val, row, index, key) {
@@ -561,7 +583,7 @@ export default {
     },
     addHandle() {
       if (this.form.prize_data.length >= 8) {
-        this.$message.error('最多添加8项')
+        this.$message.error(this.$t('d8d84692.5ef360'))
         return
       }
       this.form = {

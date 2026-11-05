@@ -586,6 +586,17 @@ const routes = [
             component: () => import('@/view/marketing/lottery/editor.vue')
           }
         ]
+      },
+      {
+        name: 'memberSignin',
+        path: 'interactive/member-signin',
+        meta: {
+          aliasName: 'member_signin',
+          icon: 'calendar',
+          title: '会员签到',
+          permissions: ['marketing.interactive.member_signin']
+        },
+        component: () => import('@/views/marketing/member-signin/index.vue')
       }
     ]
   }

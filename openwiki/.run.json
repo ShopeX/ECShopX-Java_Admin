@@ -1,0 +1,451 @@
+{
+  "schemaVersion": 1,
+  "runId": "5ad47bf5-0783-40f9-86e7-a041bd8f5654",
+  "mode": "update",
+  "phase": "generating",
+  "startedAt": "2026-10-23T02:32:18.329Z",
+  "language": "en",
+  "languageChanged": false,
+  "requiredRewritePages": [],
+  "initialPages": [
+    "/openwiki/_plan.md",
+    "/openwiki/api/lottery-wheel-contract.md",
+    "/openwiki/architecture/overview.md",
+    "/openwiki/marketing/lottery/code-map.md",
+    "/openwiki/marketing/lottery/requirements.md",
+    "/openwiki/operations/build-and-delivery.md",
+    "/openwiki/operations/integrations-and-quality.md",
+    "/openwiki/quickstart.md",
+    "/openwiki/source-map.md",
+    "/openwiki/workflows/change-guide.md",
+    "/openwiki/workflows/commerce-admin.md"
+  ],
+  "sourceFingerprint": "sha256:10cb7d2f44054d31912c96c02e95e9ddf9f50bfc791cd9f7d45e271f940f92d7",
+  "targetGitHead": "4fa0efc505e78ad84af7b422a6c8a6f8d7c9cfa7",
+  "actor": {
+    "producerActor": "openwiki/0.5.1",
+    "metadataModel": "gpt-5.6-sol"
+  },
+  "previousLastUpdate": {
+    "updatedAt": "2026-07-17T10:21:23.409Z",
+    "command": "init",
+    "gitHead": "230fa7b6ba57766267608184704f50f801cd0897",
+    "model": "gpt-5.6-terra",
+    "status": "complete"
+  },
+  "baseGitHead": "230fa7b6ba57766267608184704f50f801cd0897",
+  "wikiGoal": "# OpenWiki INSTRUCTIONS — ecshopx-admin\n\nUser-authored scope and priority brief for `openwiki/`. Routine openwiki init/update should not rewrite this file.\n\n## Scope\n\nDocument **ecshopx-admin** (Vue admin) with priority on the **大转盘抽奖** feature set under marketing:\n\n- 列表 / 编辑 / 终止 / 复制 / 统计导出\n- 装修路径挂载抽奖活动\n- 管理端对接的 promotions 接口契约\n\nOut of scope for this brief: Vshop/H5 用户端交互实现（仅在契约 §2 留联调对照）。\n\n## Priorities\n\n1. **Contract first** — Admin 联调以 `openwiki/api/lottery-wheel-contract.md` 为准；冲突回退 GitLab PRD `ECX-9907-lottery-wheel.md`。\n2. **Evidence** — 每个结论引用 `src/...` 真实路径；无证据则标「待验证」。\n3. **Task map** — 需求切片以 `openwiki/marketing/lottery/requirements.md` 为准（排除 Vshop 任务）。\n\n## Sources of truth\n\n| 类型 | 来源 |\n|------|------|\n| 接口契约 | INT-01 / ECX-9971 冻结稿（已落入本 wiki） |\n| 产品 PRD | `ecshopx-product` → `prds/active/ECX-9907-lottery-wheel.md` |\n| 原型 | Axhub：https://axhub.it.shopex123.com/pro/50zxABEUWFH/ （父任务 ECX-9907） |\n| 代码索引 | 本仓 `.codegraph/`（`codegraph init`） |\n\n## Boundaries\n\n- 不把 Vshop 抽奖页实现细节写入 Admin wiki 正文。\n- 不把 Operator JWT / 密钥写入 wiki。\n- 现有遗留双路由 `/marketing/wheel` 与 `/marketing/interactive/lottery` 需在文档中标明，避免落地时跳错路径。",
+  "beforeContentSnapshot": "ca351d05d1f4048b4a1756b1ff04887295e67fb8eee17bb8f16a6f73263e98d7",
+  "preparedWiki": {
+    "generatedProvenance": [
+      {
+        "page": "/openwiki/_plan.md",
+        "bodyHash": "3be1a2770ef40650d4ff4c495871f74358aad57dcc649e6f4685478b12a3f370"
+      },
+      {
+        "page": "/openwiki/api/lottery-wheel-contract.md",
+        "bodyHash": "23ac8a02bc4f05c70368ff83b22b3c32b7342ea5bef2b59768a44018370a4487"
+      },
+      {
+        "page": "/openwiki/architecture/overview.md",
+        "bodyHash": "cf18fb60feb8a7f28b67aa93a732e5de05661390c15a29279b12c89407334052"
+      },
+      {
+        "page": "/openwiki/marketing/lottery/code-map.md",
+        "bodyHash": "328ab68d5bb3d051dd4e284baef562e7eef8344889fed8344c248411c870c1b6"
+      },
+      {
+        "page": "/openwiki/marketing/lottery/requirements.md",
+        "bodyHash": "11d3ec66cf426dbf5a1924f4f4d01c69a212108fb361b641e4c876b924865ed6"
+      },
+      {
+        "page": "/openwiki/operations/build-and-delivery.md",
+        "bodyHash": "179244dec6105456e8407abafe9470e8ee9f8f86f915860d97ebe2fd62e03905"
+      },
+      {
+        "page": "/openwiki/operations/integrations-and-quality.md",
+        "bodyHash": "c77b4c261ac934c6e2716e04a41b14425cf7b5f60c2f17417658330d61ccac14"
+      },
+      {
+        "page": "/openwiki/quickstart.md",
+        "bodyHash": "000e4207b91a93af32a4562d790bc9ade5228ff71b4ad5d45cccc54b6eeabbe1"
+      },
+      {
+        "page": "/openwiki/source-map.md",
+        "bodyHash": "c90842a22df2a88d8725219d18a521dea4ed44e29e9fe038324e5231322a070a"
+      },
+      {
+        "page": "/openwiki/workflows/change-guide.md",
+        "bodyHash": "94090dd3c52dc8fd085c8c598b5c3860fd60cd90b51ce241bc5ced3ebff941bc"
+      },
+      {
+        "page": "/openwiki/workflows/commerce-admin.md",
+        "bodyHash": "6fcbdb8311c1a5627ec37d8187b60461a4af656bbcba00197c392869269484f9"
+      }
+    ]
+  },
+  "plan": {
+    "pages": [
+      {
+        "id": "6f9ac518-21a5-4a71-bb45-6c9c6ac38335",
+        "path": "/openwiki/api/lottery-wheel-contract.md",
+        "title": "Lottery Wheel Admin and API Contract",
+        "purpose": "Refresh the frozen INT-01 reference with repository-backed Admin endpoint wrappers, request field mapping, status and error semantics, versioning, prize schema, reporting, and the explicit Admin versus user-facing boundary.",
+        "seedPaths": [
+          "openwiki/marketing/lottery/requirements.md",
+          "src/api/marketing.js",
+          "src/api/promotions.js",
+          "src/api/request/index.js",
+          "src/view/marketing/lottery/editor.vue",
+          "src/view/marketing/lottery/list.vue",
+          "src/view/marketing/lottery/schema.js"
+        ],
+        "relatedPages": [
+          "/openwiki/architecture/overview.md",
+          "/openwiki/marketing/lottery/code-map.md",
+          "/openwiki/marketing/lottery/requirements.md",
+          "/openwiki/operations/integrations-and-quality.md",
+          "/openwiki/workflows/lottery-wheel-admin.md"
+        ],
+        "instructions": [
+          "Keep Admin contract-first priority: use INT-01 as the Admin integration authority and fall back to the GitLab PRD only for conflicts explicitly recorded by the repository brief.",
+          "Keep the Vshop/H5 section limited to the contract-level integration comparison; do not document user-client implementation details.",
+          "Never document Operator JWT or secret values. Use Mermaid for request/lifecycle material where it clarifies the contract.",
+          "Verify every endpoint, method, field, status, and error claim against current source; distinguish direct Finder URLs from named API wrappers."
+        ],
+        "status": "complete",
+        "completedBy": "openwiki/0.5.1"
+      },
+      {
+        "id": "a1e9a3a0-c9f8-4b5e-ace2-6e1ca24244c4",
+        "path": "/openwiki/architecture/overview.md",
+        "title": "Runtime Architecture and Access Model",
+        "purpose": "Explain Vue 2 startup, plugin composition, portal-aware routing and permissions, persisted Vuex state, active API request boundary, and how these infrastructure systems constrain feature changes.",
+        "seedPaths": [
+          "src/App.vue",
+          "src/api/index.js",
+          "src/api/req.js",
+          "src/api/request/index.js",
+          "src/bootstrap/index.js",
+          "src/i18n/index.js",
+          "src/main.js",
+          "src/router/access.js",
+          "src/router/guard.js",
+          "src/router/index.js",
+          "src/router/routes/index.js",
+          "src/store/index.js",
+          "src/store/modules/access.js",
+          "src/store/modules/user.js"
+        ],
+        "relatedPages": [
+          "/openwiki/operations/build-and-delivery.md",
+          "/openwiki/operations/integrations-and-quality.md",
+          "/openwiki/quickstart.md",
+          "/openwiki/workflows/change-guide.md",
+          "/openwiki/workflows/commerce-admin.md",
+          "/openwiki/workflows/lottery-wheel-admin.md"
+        ],
+        "instructions": [
+          "Do not document operator JWT contents or secrets.",
+          "Treat source and tests as authoritative; distinguish the active `src/api/request/` client from legacy or alternate request wrappers.",
+          "When documenting startup, authentication, request, or state flows, include Mermaid diagrams grounded in inspected code."
+        ],
+        "status": "complete",
+        "completedBy": "openwiki/0.5.1"
+      },
+      {
+        "id": "8b81b5d4-0e3b-429a-947d-9996b91623f6",
+        "path": "/openwiki/marketing/lottery/code-map.md",
+        "title": "Lottery Wheel Admin Code Map",
+        "purpose": "Correct and maintain the implementation index for lottery routes, views, schemas, constants, picker integration, API wrappers, and the behavior each file owns.",
+        "seedPaths": [
+          "src/api/marketing.js",
+          "src/api/promotions.js",
+          "src/components/sp-picker/pickers/picker-lottery.vue",
+          "src/router/routes/modules/marketing.js",
+          "src/router/src/route-marketing.js",
+          "src/view/marketing/lottery/constants.js",
+          "src/view/marketing/lottery/editor.vue",
+          "src/view/marketing/lottery/editorSchema.js",
+          "src/view/marketing/lottery/list.vue",
+          "src/view/marketing/lottery/schema.js"
+        ],
+        "relatedPages": [
+          "/openwiki/api/lottery-wheel-contract.md",
+          "/openwiki/marketing/lottery/requirements.md",
+          "/openwiki/source-map.md",
+          "/openwiki/workflows/lottery-wheel-admin.md"
+        ],
+        "instructions": [
+          "Correct stale route direction: `/marketing/interactive/lottery` is the canonical route; `/marketing/wheel` and `/marketing/membermarket/wheel` redirect to it.",
+          "Map actual callers to API wrappers and direct Finder URLs, including the decoration picker and shared API aggregation behavior.",
+          "Record observed gaps or inconsistencies as evidence-backed risks, not assumed fixes."
+        ],
+        "status": "complete",
+        "completedBy": "openwiki/0.5.1"
+      },
+      {
+        "id": "d0892b2e-3422-49af-bc66-578d1c2d41a0",
+        "path": "/openwiki/marketing/lottery/requirements.md",
+        "title": "Lottery Wheel Admin Requirements",
+        "purpose": "Maintain the Admin-only task and acceptance map for list, editor, termination, copy, statistics/export, and decoration mounting, tied to the current implementation and frozen contract.",
+        "seedPaths": [
+          "openwiki/INSTRUCTIONS.md",
+          "openwiki/api/lottery-wheel-contract.md",
+          "src/api/marketing.js",
+          "src/components/sp-picker/pickers/picker-lottery.vue",
+          "src/view/marketing/lottery/editor.vue",
+          "src/view/marketing/lottery/editorSchema.js",
+          "src/view/marketing/lottery/list.vue",
+          "src/view/marketing/lottery/schema.js"
+        ],
+        "relatedPages": [
+          "/openwiki/api/lottery-wheel-contract.md",
+          "/openwiki/marketing/lottery/code-map.md",
+          "/openwiki/workflows/change-guide.md",
+          "/openwiki/workflows/lottery-wheel-admin.md"
+        ],
+        "instructions": [
+          "Cite current `src/...` paths for implementation status and mark absent test evidence as pending verification.",
+          "Keep the task map scoped to Admin and exclude Vshop tasks.",
+          "Use the contract for HTTP paths and error codes and the PRD only for explicitly recorded product decisions; identify unresolved mismatches such as cost-value rules rather than silently choosing one."
+        ],
+        "status": "complete",
+        "completedBy": "openwiki/0.5.1"
+      },
+      {
+        "id": "1523758c-d5e6-4856-af3f-dfe1d6863fb4",
+        "path": "/openwiki/operations/build-and-delivery.md",
+        "title": "Build, Configuration, and Delivery",
+        "purpose": "Document Node/runtime requirements, B2C and BBC commands, build-time environment behavior, Vue CLI output, Docker/OpenResty packaging, SPA fallback, and deployment checks from current manifests and configuration.",
+        "seedPaths": [
+          ".github/workflows",
+          ".nvmrc",
+          "Dockerfile",
+          "Dockerfile-Atlas",
+          "README.md",
+          "docker",
+          "package.json",
+          "public",
+          "src/config",
+          "vue.config.js"
+        ],
+        "relatedPages": [
+          "/openwiki/architecture/overview.md",
+          "/openwiki/operations/integrations-and-quality.md",
+          "/openwiki/quickstart.md",
+          "/openwiki/workflows/change-guide.md"
+        ],
+        "instructions": [
+          "Document only placeholder/non-secret configuration; never copy `.env`, credentials, tokens, or keys into the wiki.",
+          "Include the two platform build variants and explain that `VUE_APP_*` values are baked in at build time.",
+          "Use current repository evidence for Node and container versions, resolving discrepancies between README, `.nvmrc`, package engines, and Dockerfile instead of repeating stale claims."
+        ],
+        "status": "complete",
+        "completedBy": "openwiki/0.5.1"
+      },
+      {
+        "id": "69547a7c-c119-402f-823a-6d5abf5fd42b",
+        "path": "/openwiki/operations/integrations-and-quality.md",
+        "title": "Integrations, Automation, and Verification",
+        "purpose": "Catalog external service boundaries and concrete repository checks, hooks, scripts, build verification, OpenWiki automation, and the absence or presence of focused tests relevant to safe changes.",
+        "seedPaths": [
+          ".github/workflows",
+          ".husky",
+          "commitlint.config.js",
+          "package.json",
+          "scripts",
+          "src/api",
+          "src/api/request/index.js",
+          "src/components/sp-picker",
+          "src/i18n/index.js"
+        ],
+        "relatedPages": [
+          "/openwiki/architecture/overview.md",
+          "/openwiki/operations/build-and-delivery.md",
+          "/openwiki/quickstart.md",
+          "/openwiki/workflows/change-guide.md",
+          "/openwiki/workflows/lottery-wheel-admin.md"
+        ],
+        "instructions": [
+          "Do not document provider credentials, JWTs, or secret environment values.",
+          "For lottery integration verification, include promotions endpoints, coupon/coupon-package picker dependencies, decoration activity selection, and focused manual cases grounded in source.",
+          "Inspect current manifests and workflows before claiming a test runner or CI behavior; distinguish available lint/build/targeted scripts from absent general unit/E2E coverage."
+        ],
+        "status": "complete",
+        "completedBy": "openwiki/0.5.1"
+      },
+      {
+        "id": "db3d2acd-e8cc-4d3a-9bac-0d5ac708bdb9",
+        "path": "/openwiki/source-map.md",
+        "title": "ECShopX Admin Source Map",
+        "purpose": "Provide a concise ownership navigator from runtime infrastructure and portal routing to API modules, parallel view trees, lottery implementation, shared pickers, localization, build configuration, and quality automation.",
+        "seedPaths": [
+          "Dockerfile",
+          "scripts",
+          "src",
+          "src/api",
+          "src/components",
+          "src/config",
+          "src/i18n",
+          "src/main.js",
+          "src/router",
+          "src/view",
+          "src/views",
+          "vue.config.js"
+        ],
+        "relatedPages": [
+          "/openwiki/architecture/overview.md",
+          "/openwiki/operations/build-and-delivery.md",
+          "/openwiki/quickstart.md",
+          "/openwiki/workflows/change-guide.md",
+          "/openwiki/workflows/commerce-admin.md",
+          "/openwiki/workflows/lottery-wheel-admin.md"
+        ],
+        "instructions": [
+          "Call out that route/import evidence determines ownership across `src/view/` and `src/views/`, and include the canonical lottery route plus compatibility aliases.",
+          "Organize by system ownership and runtime purpose, not as an exhaustive file inventory.",
+          "Use only repository-backed paths and avoid documenting secrets."
+        ],
+        "status": "complete",
+        "completedBy": "openwiki/0.5.1"
+      },
+      {
+        "id": "88834672-7293-4a02-b194-311b18351757",
+        "path": "/openwiki/workflows/change-guide.md",
+        "title": "Feature and Fix Change Guide",
+        "purpose": "Give coding agents a safe repository-specific procedure for tracing a route to its owning view and API, preserving portal permissions and business invariants, updating i18n, and choosing focused validation.",
+        "seedPaths": [
+          ".husky",
+          "AGENTS.md",
+          "README.md",
+          "package.json",
+          "scripts",
+          "src/api/request/index.js",
+          "src/components/sp-picker",
+          "src/i18n/index.js",
+          "src/router/access.js",
+          "src/router/guard.js",
+          "src/router/routes",
+          "src/view/marketing/lottery"
+        ],
+        "relatedPages": [
+          "/openwiki/architecture/overview.md",
+          "/openwiki/operations/build-and-delivery.md",
+          "/openwiki/operations/integrations-and-quality.md",
+          "/openwiki/workflows/commerce-admin.md",
+          "/openwiki/workflows/lottery-wheel-admin.md"
+        ],
+        "instructions": [
+          "For lottery changes, route through the contract, requirements, and workflow pages and preserve route aliases, optimistic versioning, prize validation, export semantics, and decoration picker behavior.",
+          "Preserve repository engineering constraints from `AGENTS.md`, including small scoped changes, active request-client conventions, and synchronized locale handling.",
+          "State clearly that the repository has no general unit/E2E test command when describing validation gaps."
+        ],
+        "status": "complete",
+        "completedBy": "openwiki/0.5.1"
+      },
+      {
+        "id": "77138898-82d8-4068-8571-dc152b3706c0",
+        "path": "/openwiki/workflows/commerce-admin.md",
+        "title": "Commerce Administration Domains",
+        "purpose": "Map the repository's owned business domains and representative route, view, API, shared-component, and integration boundaries, with special emphasis on marketing and decoration ownership.",
+        "seedPaths": [
+          "src/api/decoration.js",
+          "src/api/marketing.js",
+          "src/api/promotions.js",
+          "src/components",
+          "src/router/routes/modules/marketing.js",
+          "src/view/decorate",
+          "src/view/marketing",
+          "src/views/decoration",
+          "src/views/marketing"
+        ],
+        "relatedPages": [
+          "/openwiki/architecture/overview.md",
+          "/openwiki/operations/integrations-and-quality.md",
+          "/openwiki/source-map.md",
+          "/openwiki/workflows/change-guide.md",
+          "/openwiki/workflows/lottery-wheel-admin.md"
+        ],
+        "instructions": [
+          "Keep lottery coverage focused on Admin and its decoration/API boundaries; do not describe Vshop UI implementation.",
+          "Organize by owned systems and runtime domains rather than enumerating every source directory.",
+          "Use route/import evidence to resolve the parallel `src/view/` and `src/views/` trees."
+        ],
+        "status": "complete",
+        "completedBy": "openwiki/0.5.1"
+      },
+      {
+        "id": "55ee42d0-d14e-42cd-be1b-528d8a2efdb5",
+        "path": "/openwiki/workflows/lottery-wheel-admin.md",
+        "title": "Lottery Wheel Admin Workflow",
+        "purpose": "Document the end-to-end Admin lottery lifecycle across canonical routes, list tabs and actions, editor state and validation, promotions API calls, statistics/export, and decoration activity selection.",
+        "seedPaths": [
+          "openwiki/api/lottery-wheel-contract.md",
+          "openwiki/marketing/lottery/requirements.md",
+          "src/api/index.js",
+          "src/api/marketing.js",
+          "src/api/promotions.js",
+          "src/components/sp-picker/pickers/picker-lottery.vue",
+          "src/router/routes/modules/marketing.js",
+          "src/router/src/route-marketing.js",
+          "src/view/marketing/lottery/constants.js",
+          "src/view/marketing/lottery/editor.vue",
+          "src/view/marketing/lottery/editorSchema.js",
+          "src/view/marketing/lottery/list.vue",
+          "src/view/marketing/lottery/schema.js"
+        ],
+        "relatedPages": [
+          "/openwiki/api/lottery-wheel-contract.md",
+          "/openwiki/architecture/overview.md",
+          "/openwiki/marketing/lottery/code-map.md",
+          "/openwiki/marketing/lottery/requirements.md",
+          "/openwiki/operations/integrations-and-quality.md",
+          "/openwiki/workflows/commerce-admin.md"
+        ],
+        "instructions": [
+          "Cover list/edit/terminate/copy/statistics/export and decoration picker behavior, including state transitions, optimistic `config_version`, prize constraints, error handling, and the no-status-filter picker rule.",
+          "Document the canonical `/marketing/interactive/lottery` route and its editor child, plus compatibility redirects from `/marketing/wheel` and `/marketing/membermarket/wheel`; correct stale opposite-direction claims.",
+          "Make the contract page the Admin integration source of truth and use the PRD requirements page for product decisions; call out any source/contract discrepancy as evidence or pending verification.",
+          "Use Mermaid for the end-to-end request sequence and relevant lifecycle/control flow. Exclude Vshop implementation details and never include secrets."
+        ],
+        "status": "complete",
+        "completedBy": "openwiki/0.5.1"
+      },
+      {
+        "id": "3889aa2c-cbec-4d59-98bb-22f34f4683ed",
+        "path": "/openwiki/quickstart.md",
+        "title": "ecshopx-admin OpenWiki Quickstart",
+        "purpose": "Initialize the wiki entry point with a task-routing map for the Vue admin runtime, lottery administration workflow, API contract, decoration integration, build operations, and verification boundaries.",
+        "seedPaths": [
+          "README.md",
+          "openwiki/INSTRUCTIONS.md",
+          "package.json",
+          "src/api/marketing.js",
+          "src/components/sp-picker/pickers/picker-lottery.vue",
+          "src/main.js",
+          "src/router/index.js",
+          "src/router/routes/modules/marketing.js",
+          "src/view/marketing/lottery/editor.vue",
+          "src/view/marketing/lottery/list.vue"
+        ],
+        "relatedPages": [
+          "/openwiki/api/lottery-wheel-contract.md",
+          "/openwiki/architecture/overview.md",
+          "/openwiki/marketing/lottery/requirements.md",
+          "/openwiki/operations/build-and-delivery.md",
+          "/openwiki/source-map.md",
+          "/openwiki/workflows/lottery-wheel-admin.md"
+        ],
+        "instructions": [
+          "Do not include credentials, JWTs, or secret environment values.",
+          "Keep the routing map aligned with the canonical lottery route `/marketing/interactive/lottery`; explicitly note `/marketing/wheel` and `/marketing/membermarket/wheel` as compatibility redirects.",
+          "Respect the repository brief: prioritize lottery Admin and promotions integration, exclude Vshop implementation details, cite real `src/...` evidence, and mark unsupported claims as pending verification."
+        ],
+        "status": "complete",
+        "completedBy": "openwiki/0.5.1"
+      }
+    ],
+    "deletePages": []
+  }
+}

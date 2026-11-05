@@ -138,7 +138,15 @@
           :label="item.title"
           :name="item.value"
         />
-        <el-table v-loading="loading" border :data="tableList">
+        <OrderListTable
+          :list="tableList"
+          :loading="loading"
+          :show-selection="false"
+          :get-distribution-type="getDistributionType"
+          :get-order-category-name="getOrderCategoryName"
+          @action="handleAction"
+        />
+        <el-table v-if="false" v-loading="loading" border :data="tableList">
           <el-table-column width="220" prop="order_id" :label="$t('931fca81.a6d10d')">
             <template slot-scope="scope">
               <div class="order-num">
@@ -278,18 +286,6 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="mt-4 text-right">
-          <el-pagination
-            background
-            layout="total, sizes, prev, pager, next, jumper"
-            :current-page.sync="page.pageIndex"
-            :page-sizes="[10, 20, 50]"
-            :total="page.total"
-            :page-size="page.pageSize"
-            @current-change="onCurrentChange"
-            @size-change="onSizeChange"
-          />
-        </div>
       </el-tabs>
 
       <!-- 备注 -->
@@ -318,7 +314,8 @@
       <SpDialog
         ref="deliverGoodsDialogRef"
         v-model="deliverGoodsDialog"
-        width="1000px"
+        class="dialog-delivery"
+        width="1200px"
         :title="$t('931fca81.b70c69', [deliverGoodsForm.order_id])"
         :form="deliverGoodsForm"
         :form-list="deliverGoodsFormList"
@@ -359,6 +356,21 @@
         @onSubmit="changePriceSubmit"
       />
     </SpRouterView>
+
+    <template #page-footer>
+      <div class="order-list-page-footer">
+        <el-pagination
+          background
+          layout="total, sizes, prev, pager, next, jumper"
+          :current-page.sync="page.pageIndex"
+          :page-sizes="[10, 20, 50]"
+          :total="page.total"
+          :page-size="page.pageSize"
+          @current-change="onCurrentChange"
+          @size-change="onSizeChange"
+        />
+      </div>
+    </template>
   </SpPage>
 </template>
 <script>
@@ -378,6 +390,7 @@ import { exportInvoice, orderExport } from '@/api/trade'
 import Pages from '@/utils/pages'
 import CompTableView from './comps/comp-tableview'
 import CompReceiveInfo from './comps/comp-receiveInfo'
+import OrderListTable from '@/view/mall/trade/normalorders/components/OrderListTable'
 import moment from 'moment'
 import {
   DISTRIBUTION_TYPE,
@@ -394,7 +407,7 @@ import {
 } from '@/consts'
 
 export default {
-  // components: { CompTableView },
+  components: { OrderListTable },
   mixins: [mixin, pageMixin],
   data() {
     return {
@@ -901,7 +914,8 @@ export default {
             !isDada &&
             cancel_status == 'NO_APPLY_CANCEL' &&
             ['NOTPAY', 'PAYED'].includes(order_status) &&
-            ziti_status != 'DONE'
+            ziti_status != 'DONE' &&
+            delivery_status != 'PARTAIL' // 部分发货不可整单取消
           ) {
             // 非同城配的取消订单按钮
             if (!isDada || (isDada && ['0', '1'].includes(dada.data_status))) {
@@ -982,7 +996,15 @@ export default {
       this.subDistrictList = res
     },
     getOrderStoreName(row) {
-      return row.distributor_name || row.distributor_info?.name || row.sale_salesman_distributor_info?.name || ''
+      return (
+        row.distributor_name ||
+        row.distributor_info?.name ||
+        row.sale_salesman_distributor_info?.name ||
+        ''
+      )
+    },
+    getOrderCategoryName(order_holder) {
+      return order_holder == 'supplier' ? this.$t('931fca81.185202') : ''
     },
     getOrderType({ order_class, type }) {
       if (order_class == 'normal') {
@@ -1439,11 +1461,32 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+::v-deep .sp-page__footer {
+  border-top: 1px solid #ebeef5;
+  background: #fff !important;
+  z-index: 10;
+}
+
+::v-deep .sp-page__footer .footer-content {
+  padding: 12px 0 !important;
+  background: #fff !important;
+}
+
+.order-list-page-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 16px;
+  background: #fff;
+}
+</style>
 <style lang="scss" scope>
 .sp-filter-form {
   margin-bottom: 16px;
 }
 
+.dialog-delivery,
 .dialog-changeprice,
 .dialog-cancelorder,
 .dialog-salesafter {

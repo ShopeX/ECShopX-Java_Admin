@@ -256,7 +256,8 @@
                   scope.row.receipt_type != 'dada' &&
                   scope.row.cancel_status == 'NO_APPLY_CANCEL' &&
                   (scope.row.order_status == 'NOTPAY' || scope.row.order_status == 'PAYED') &&
-                  scope.row.ziti_status != 'DONE'
+                  scope.row.ziti_status != 'DONE' &&
+                  scope.row.delivery_status != 'PARTAIL'
                 "
                 type="text"
                 :size="size"
@@ -271,6 +272,7 @@
                   scope.row.cancel_status == 'NO_APPLY_CANCEL' &&
                   (scope.row.order_status == 'NOTPAY' || scope.row.order_status == 'PAYED') &&
                   scope.row.ziti_status != 'DONE' &&
+                  scope.row.delivery_status != 'PARTAIL' &&
                   (scope.row.dada.dada_status == '0' || scope.row.dada.dada_status == '1')
                 "
                 type="text"
@@ -428,6 +430,7 @@ export default {
         { name: this.$t('37f26730.a8b0c2'), value: 'all' },
         { name: this.$t('37f26730.9246fe'), value: 'notpay' },
         { name: this.$t('37f26730.d8476e'), value: 'notship' },
+        { name: this.$t('37f26730.5296ac'), value: 'payed_partial' },
         { name: this.$t('37f26730.4933ca'), value: 'shipping' },
         { name: this.$t('37f26730.6b715b'), value: 'cancelapply' },
         { name: this.$t('37f26730.25d532'), value: 'ziti' },

@@ -10,11 +10,11 @@
         <SpFilterFormItem prop="merchant_name" :label="$t('5f6110bf.a1b85f')">
           <el-input v-model="formParams.merchant_name" :placeholder="$t('5f6110bf.18213b')" />
         </SpFilterFormItem>
-        <SpFilterFormItem prop="legal_name" :label="$t('5f6110bf.eaa028')">
-          <el-input v-model="formParams.legal_name" :placeholder="$t('5f6110bf.9e3f21')" />
+        <SpFilterFormItem prop="contact_name" :label="$t('5f6110bf.eaa028')">
+          <el-input v-model="formParams.contact_name" :placeholder="$t('5f6110bf.9e3f21')" />
         </SpFilterFormItem>
-        <SpFilterFormItem prop="legal_mobile" :label="$t('5f6110bf.733e3f')">
-          <el-input v-model="formParams.legal_mobile" :placeholder="$t('5f6110bf.7b540b')" />
+        <SpFilterFormItem prop="contact_mobile" :label="$t('5f6110bf.733e3f')">
+          <el-input v-model="formParams.contact_mobile" :placeholder="$t('5f6110bf.7b540b')" />
         </SpFilterFormItem>
         <SpFilterFormItem prop="time_start" :label="$t('5f6110bf.02a31d')" size="max">
           <el-date-picker
@@ -65,16 +65,24 @@ export default {
       pickerOptions: PICKER_DATE_OPTIONS,
       formParams: {
         merchant_name: '',
-        legal_name: '',
-        legal_mobile: '',
+        contact_name: '',
+        contact_mobile: '',
         time_start: []
       },
       datapass_block: 0,
       setting: createSetting({
         columns: [
           { name: this.$t('5f6110bf.e6f169'), key: 'merchant_name' },
-          { name: this.$t('5f6110bf.52409d'), key: 'legal_name' },
-          { name: this.$t('5f6110bf.09a1f6'), key: 'legal_mobile' },
+          {
+            name: this.$t('5f6110bf.52409d'),
+            key: 'contact_name',
+            formatter: (h, row) => row.contact_name || row.legal_name || '-'
+          },
+          {
+            name: this.$t('5f6110bf.09a1f6'),
+            key: 'contact_mobile',
+            formatter: (h, row) => row.contact_mobile || row.legal_mobile || '-'
+          },
           {
             name: this.$t('5f6110bf.773775'),
             key: 'created',
@@ -90,7 +98,6 @@ export default {
               h(
                 'el-button',
                 {
-                  class: 'yahh',
                   props: { type: 'text' },
                   on: {
                     click: () => {
@@ -101,7 +108,6 @@ export default {
                 [
                   h(
                     'span',
-                    { class: 'aaa' },
                     row.audit_goods ? this.$t('5f6110bf.0a60ac') : this.$t('5f6110bf.c9744f')
                   ),
                   h('i', { class: 'el-icon-s-tools' }, '')
@@ -250,11 +256,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.merchantList {
-  .yahh {
-    color: #409eff;
-  }
-}
-</style>

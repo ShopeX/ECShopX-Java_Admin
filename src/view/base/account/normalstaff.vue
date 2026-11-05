@@ -5,17 +5,15 @@
 
 <template>
   <SpPage>
-    <SpFilterForm :model="params" @onSearch="onSearch" @onReset="onSearch">
-      <SpFilterFormItem prop="login_name" :label="$t('81d2acb6.8c2e31')">
-        <el-input v-model="params.login_name" :placeholder="$t('81d2acb6.3103ef')" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="mobile" :label="$t('81d2acb6.ce2bf3')">
-        <el-input v-model="params.mobile" :placeholder="$t('81d2acb6.6e4f4b')" />
-      </SpFilterFormItem>
-      <SpFilterFormItem prop="username" :label="$t('81d2acb6.75d152')">
-        <el-input v-model="params.username" :placeholder="$t('81d2acb6.8093e3')" />
-      </SpFilterFormItem>
-    </SpFilterForm>
+    <SpFormPlus
+      v-model="params"
+      form-type="searchForm"
+      label-width="auto"
+      :default-cell-width="300"
+      :form-items="searchFormItems"
+      @submit="onSearch"
+      @reset="onSearch"
+    />
 
     <div class="action-container">
       <el-button type="primary" icon="plus" @click="addLabels">
@@ -241,14 +239,47 @@ export default {
       total_count: 0,
       params: {
         mobile: '',
-        operator_type: 'staff'
+        login_name: '',
+        username: ''
       },
       operator_id: 0,
       rolesListData: [],
       datapass_block: 0
     }
   },
-
+  computed: {
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'login_name',
+          label: this.$t('81d2acb6.8c2e31'),
+          component: 'input',
+          componentProps: {
+            placeholder: this.$t('81d2acb6.3103ef'),
+            clearable: true
+          }
+        },
+        {
+          fieldName: 'mobile',
+          label: this.$t('81d2acb6.ce2bf3'),
+          component: 'input',
+          componentProps: {
+            placeholder: this.$t('81d2acb6.6e4f4b'),
+            clearable: true
+          }
+        },
+        {
+          fieldName: 'username',
+          label: this.$t('81d2acb6.75d152'),
+          component: 'input',
+          componentProps: {
+            placeholder: this.$t('81d2acb6.8093e3'),
+            clearable: true
+          }
+        }
+      ]
+    }
+  },
   watch: {
     status(val) {
       if (val) {
@@ -378,6 +409,7 @@ export default {
       let params = {
         page,
         pageSize,
+        operator_type: 'staff',
         ...this.params
       }
       getAccountList(params).then((response) => {

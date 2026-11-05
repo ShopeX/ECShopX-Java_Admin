@@ -3,40 +3,22 @@
   See LICENSE file for license details.
 -->
 
-<style scoped lang="scss">
-.sp-filter-form {
-  margin-bottom: 16px;
-}
-</style>
-
 <template>
   <SpPage class="distributorAftersalesAddress">
     <SpPlatformTip v-if="!VERSION_SHUYUN()" h5 app alipay />
-    <SpFilterForm :model="searchParams" @onSearch="onSearch" @onReset="onSearch">
-      <SpFilterFormItem :label="$t('bb662cf9.9190cc')" prop="supplier_name">
-        <el-input
-          v-model="searchParams.supplier_name"
-          :placeholder="$t('bb662cf9.f0c2bb')"
-          clearable
-        />
-      </SpFilterFormItem>
-      <SpFilterFormItem :label="$t('bb662cf9.8098e2')" prop="mobile">
-        <el-input v-model="searchParams.mobile" :placeholder="$t('bb662cf9.6e4f4b')" clearable />
-      </SpFilterFormItem>
-      <SpFilterFormItem :label="$t('bb662cf9.b6d0e9')" prop="is_check">
-        <el-select v-model="searchParams.is_check" :placeholder="$t('bb662cf9.708c9d')" clearable>
-          <el-option
-            v-for="item in check_options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </SpFilterFormItem>
-    </SpFilterForm>
+    <SpFormPlus
+      ref="searchForm"
+      v-model="searchParams"
+      form-type="searchForm"
+      :inline="true"
+      :form-items="searchFormItems"
+      @submit="onSearch"
+      @reset="onSearch"
+    />
 
     <SpFinder
       ref="finder"
+      class="mt-4"
       url="/supplier/get_supplier_list"
       fixed-row-action
       row-actions-width="200px"
@@ -144,8 +126,9 @@ export default {
   data() {
     return {
       searchParams: {
-        agent_name: '',
-        province: []
+        supplier_name: '',
+        mobile: '',
+        is_check: ''
       },
       check_options: [
         { label: this.$t('bb662cf9.5cb424'), value: 0 },
@@ -205,6 +188,43 @@ export default {
           }
         ]
       }
+    }
+  },
+  computed: {
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'supplier_name',
+          label: this.$t('bb662cf9.9190cc'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('bb662cf9.f0c2bb')
+          }
+        },
+        {
+          fieldName: 'mobile',
+          label: this.$t('bb662cf9.8098e2'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('bb662cf9.6e4f4b')
+          }
+        },
+        {
+          fieldName: 'is_check',
+          label: this.$t('bb662cf9.b6d0e9'),
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('bb662cf9.708c9d'),
+            options: this.check_options
+          }
+        }
+      ]
     }
   },
   mounted() {},

@@ -5,11 +5,9 @@
 
 <style lang="scss">
 .picker-coupon {
-  .sp-filter-form {
-    margin-bottom: 0;
-    .filter-form__bd {
-      margin-left: 16px;
-    }
+  // 无 label 时筛选项贴边，补左侧间距
+  .sp-finder-search-fields {
+    padding-left: 16px;
   }
   .filter-tools {
     display: flex;
@@ -73,8 +71,7 @@ export default {
       const getCardValidate = this.getCardValidate
       return {
         search: [
-          { key: 'title', name: '', placeholder: t('f6fbe152.fbaebb') },
-          { key: 'card_id', name: '', placeholder: t('f6fbe152.c1cad9') }
+          { key: 'title', name: '', placeholder: t('f6fbe152.fbaebb') }
         ],
         columns: [
           { name: t('f6fbe152.c1cad9'), key: 'card_id' },
@@ -103,6 +100,17 @@ export default {
               } else {
                 return getCardValidate(begin_time, end_time)
               }
+            }
+          },
+          {
+            // 可领取库存（接口 quantity/get_num 实时返回，列表刷新即更新）
+            name: t('f6fbe152.0eac88'),
+            key: 'quantity',
+            width: '100px',
+            formatter: (value, { quantity, get_num }) => {
+              const total = Number(quantity) || 0
+              const got = Number(get_num) || 0
+              return total > got ? total - got : 0
             }
           }
         ]

@@ -5,7 +5,7 @@
 
 <template>
   <SpRouterView>
-    <SpPage>
+    <SpPage class="coupon-manage-page">
       <SpPlatformTip h5 app pc alipay />
       <SpPlatformTip
         class="damo-crm-tip"
@@ -13,18 +13,28 @@
         :text-val="$t('9cc0c982.44de88')"
       />
 
-      <div class="action-container" v-if="!dmcrmSetting.is_open">
+      <SpFormPlus
+        ref="searchForm"
+        v-model="params"
+        form-type="searchForm"
+        :inline="true"
+        :form-items="searchFormItems"
+        @submit="onSearch"
+        @reset="onReset"
+      />
+
+      <div v-if="!dmcrmSetting.is_open" class="action-container mt-4">
         <el-button type="primary" @click="addCoupon"> {{ $t('9cc0c982.2ec71c') }} </el-button>
       </div>
 
-      <el-tabs v-model="params.date_status" type="card" @tab-click="handleClick">
+      <el-tabs v-model="params.date_status" type="card" class="mt-4" @tab-click="handleClick">
         <el-tab-pane
           v-for="(item, index) in tabList"
           :key="index"
           :label="item.name"
           :name="item.activeName"
         >
-          <el-table v-loading="loading" :data="tableList" border @filter-change="filterTag">
+          <el-table v-loading="loading" :data="tableList" border>
             <el-table-column width="240" :label="$t('9cc0c982.2b6bc0')" fixed="left">
               <template slot-scope="scope">
                 <div class="flex items-center flex-wrap gap-2">
@@ -103,16 +113,9 @@
                 <!-- <a v-if="!scope.row.ifpass" href="#" @click="sendoutShowAction(scope.row.card_id, scope.$index)">投放</a> -->
               </template>
             </el-table-column>
+            <el-table-column prop="card_id" :label="$t('9cc0c982.2f254b')" width="100" />
             <!-- <el-table-column type="selection" width="55"></el-table-column> -->
-            <el-table-column
-              prop="card_type"
-              column-key="type"
-              :label="$t('9cc0c982.f47182')"
-              width="120"
-              :filter-multiple="false"
-              :filters="typeFilters"
-              filter-placement="bottom-end"
-            >
+            <el-table-column prop="card_type" :label="$t('9cc0c982.f47182')" width="120">
               <template slot-scope="scope">
                 <el-tag
                   :type="
@@ -296,7 +299,9 @@ export default {
   data() {
     const initialParams = {
       date_status: '2',
-      card_type: undefined,
+      card_id: '',
+      title: '',
+      card_type: '',
       status: undefined,
       store_self: undefined
     }
@@ -373,11 +378,52 @@ export default {
       dmcrmSetting: {}
     }
   },
+  computed: {
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'card_id',
+          label: this.$t('9cc0c982.2f254b'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('9cc0c982.2f254b')
+          }
+        },
+        {
+          fieldName: 'title',
+          label: this.$t('9cc0c982.d90724'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('9cc0c982.d90724')
+          }
+        },
+        {
+          fieldName: 'card_type',
+          label: this.$t('9cc0c982.f47182'),
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('9cc0c982.f47182'),
+            options: this.typeFilters.map((item) => ({
+              label: item.text,
+              value: item.value
+            }))
+          }
+        }
+      ]
+    }
+  },
   mounted() {
     this.params.store_self = false
     if (this.VERSION_PLATFORM() && store.getters.login_type !== 'distributor') {
       this.params.store_self = true
     }
+    this.initialParams.store_self = this.params.store_self
     this.fetchList()
     this.fetchWechatList()
     this.getDmcrmSetting()
@@ -427,8 +473,20 @@ export default {
       this.fetchList()
     },
     getParams() {
-      let params = {
-        ...this.params
+      const { card_id, title, card_type, date_status, status, store_self } = this.params
+      const params = {
+        date_status,
+        status,
+        store_self
+      }
+      if (card_id !== '' && card_id != null) {
+        params.card_id = card_id
+      }
+      if (title) {
+        params.title = title
+      }
+      if (card_type) {
+        params.card_type = card_type
       }
       return params
     },
@@ -439,7 +497,12 @@ export default {
       })
     },
     onReset() {
-      this.params = { ...this.initialParams }
+      const { date_status, store_self } = this.params
+      this.params = {
+        ...this.initialParams,
+        date_status,
+        store_self
+      }
       this.onSearch()
     },
     async fetchList() {
@@ -527,16 +590,6 @@ export default {
             message: this.$t('9cc0c982.2111cc')
           })
         })
-    },
-    filterTag(value) {
-      if (value.type) {
-        this.params.card_type = value.type[0]
-        this.fetchList()
-      }
-      if (value.status) {
-        this.params.status = value.status
-        this.fetchList()
-      }
     },
     saveStore(index, operationType) {
       this.loadingbtn = true
@@ -764,8 +817,23 @@ export default {
   background: #fef5ea !important;
 }
 </style>
-<style>
-.el-table__column-filter-trigger {
-  line-height: initial;
+<style lang="scss">
+.coupon-manage-page {
+  /* Element 默认箭头 12px + scale(0.75) 偏小且易错位，放大到与表头文字一致 */
+  .el-table__column-filter-trigger {
+    line-height: 23px;
+    margin-left: 4px;
+    vertical-align: middle;
+
+    i {
+      font-size: 14px;
+      transform: none;
+      color: #909399;
+    }
+  }
+
+  .el-table th .cell.highlight .el-table__column-filter-trigger i {
+    color: var(--color-primary, #722ed1);
+  }
 }
 </style>
