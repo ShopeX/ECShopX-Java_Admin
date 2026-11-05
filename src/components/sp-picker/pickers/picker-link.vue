@@ -64,6 +64,7 @@
 
 <script>
 import { i18n } from '@/i18n'
+import { canUseWebLinkTab } from '@/components/sp-path-selector/config'
 import BasePicker from './base'
 import PageMixin from '../mixins/page'
 
@@ -132,13 +133,14 @@ export default {
         ])
       }
 
-      // PC 装修「页面」tab：仅 platform 业态可配置
+      // PC 装修「页面」tab：BBC / B2C（含 standard）可配置
       if (this.value?.platform === 'web') {
-        if (!this.VERSION_PLATFORM()) return []
-        return mapPageTitles(this, [
-          { id: 'tenants', titleKey: '223cc8af.1107a8' },
-          { id: 'activityList', titleKey: '223cc8af.activityList' }
-        ])
+        if (!canUseWebLinkTab()) return []
+        const pages = [{ id: 'activityList', titleKey: '223cc8af.activityList' }]
+        if (this.VERSION_PLATFORM()) {
+          pages.push({ id: 'tenants', titleKey: '223cc8af.1107a8' })
+        }
+        return mapPageTitles(this, pages)
       }
 
       const items = [...BASE_LINK_PAGES]
