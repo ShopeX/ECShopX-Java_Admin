@@ -151,6 +151,14 @@ export function deleteTag(tagId) {
   })
 }
 
+export function memberRelTag(query) {
+  return fetch({
+    url: '/member/reltag',
+    method: 'post',
+    params: query
+  })
+}
+
 export function usersRelTagsDel(query) {
   return fetch({
     url: '/member/reltagdel',

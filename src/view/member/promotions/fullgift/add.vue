@@ -183,6 +183,13 @@
           </el-checkbox>
         </el-checkbox-group>
       </el-form-item>
+      <el-form-item :label="$t('26b7f367.db64f9')">
+        <PromotionMemberTags
+          :member-tag-mode.sync="memberTagMode"
+          :member-tags.sync="memberTags"
+          :disabled="!hasSaveButton"
+        />
+      </el-form-item>
       <el-form-item :label="$t('5c0a87f2.b90304')">
         <el-radio-group v-model="form.used_platform">
           <el-radio :label="0"> {{ $t('5c0a87f2.6e78ce') }} </el-radio>
@@ -375,13 +382,15 @@ import { transformTree } from '@/utils'
 import { mapGetters } from 'vuex'
 import SpTranslatePopup from '@/components/sp-translate-popup'
 import translateMixin from '@/mixins/translateMixin'
+import PromotionMemberTags from '@/components/function/promotionMemberTags'
 export default {
   components: {
     GoodsSelect,
     StoreSelect,
     SkuSelector,
     Treeselect,
-    SpTranslatePopup
+    SpTranslatePopup,
+    PromotionMemberTags
   },
   mixins: [translateMixin],
   inject: ['refresh'],
@@ -426,6 +435,8 @@ export default {
       memberGrade: [],
       conditionValue: [{ full: '', relGifts: [] }],
       validGrade: [],
+      memberTagMode: 'include',
+      memberTags: [],
       activity_date: '',
       selectItemType: 'normal',
       itemVisible: false,
@@ -521,6 +532,20 @@ export default {
     this.getBrandList('', true)
   },
   methods: {
+    normalizeMemberTags(response = {}) {
+      const list = response.member_tags || response.member_tag_list || []
+      if (Array.isArray(list) && list.length > 0) {
+        return list.map((tag) => ({
+          tag_id: tag.tag_id,
+          tag_name: tag.tag_name,
+          group_id: tag.group_id
+        }))
+      }
+      return (response.member_tag_ids || []).map((id) => ({
+        tag_id: id,
+        tag_name: String(id)
+      }))
+    },
     getItems(data) {
       let ids = []
       data.forEach((item) => {
@@ -566,6 +591,8 @@ export default {
       if (this.validGrade.length > 0) {
         thisform.valid_grade = this.validGrade
       }
+      thisform.member_tag_mode = this.memberTagMode || 'include'
+      thisform.member_tag_ids = (this.memberTags || []).map((t) => t.tag_id)
 
       this.form.shop_ids = []
       if (this.relStores && this.relStores.length > 0) {
@@ -725,6 +752,8 @@ export default {
         // this.conditionValue = response.condition_value
         this.conditionValue = gift
         this.validGrade = response.valid_grade
+        this.memberTagMode = response.member_tag_mode || 'include'
+        this.memberTags = this.normalizeMemberTags(response)
         this.activity_date = [response.start_time, response.end_time]
         this.relItems = response.itemTreeLists || []
         this.relStores = response.storeLists || []
