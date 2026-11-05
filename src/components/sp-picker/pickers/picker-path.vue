@@ -129,7 +129,7 @@
         />
       </el-tab-pane>
       <el-tab-pane
-        v-if="isTabVisible('link') && (!isWebPlatform || VERSION_PLATFORM())"
+        v-if="isTabVisible('link') && (!isWebPlatform || canUseWebLinkTab)"
         :label="$t('d81d8932.59ceff')"
         name="link"
       >
@@ -195,7 +195,10 @@ import PickerSharePage from './picker-share-page'
 import PickerCoupon from './picker-coupon'
 import PickerCustomerService from './picker-customer-service'
 import WebCustomPagePicker from '@/components/sp-picker-plus/WebCustomPagePicker.vue'
-import { PATH_SELECTOR_PLATFORM_TYPES } from '@/components/sp-path-selector/config'
+import {
+  PATH_SELECTOR_PLATFORM_TYPES,
+  canUseWebLinkTab
+} from '@/components/sp-path-selector/config'
 
 export default {
   name: 'PickerPath',
@@ -248,6 +251,9 @@ export default {
   computed: {
     isWebPlatform() {
       return this.value?.platform === 'web'
+    },
+    canUseWebLinkTab() {
+      return canUseWebLinkTab()
     },
     webCustomPageInitialSelected() {
       const raw = this.value?.data

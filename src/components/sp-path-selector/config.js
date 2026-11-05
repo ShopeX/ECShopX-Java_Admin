@@ -1,4 +1,4 @@
-import { VERSION_PLATFORM } from '@/utils'
+import { VERSION_PLATFORM, VERSION_B2C, VERSION_STANDARD } from '@/utils'
 
 export const PATH_SELECTOR_TYPES = [
   { name: 'goods', labelKey: 'd81d8932.9897d8' },
@@ -22,13 +22,22 @@ export const PATH_SELECTOR_PLATFORM_TYPES = {
   web: ['goods', 'sale_category', 'category', 'custom_page', 'regactivity', 'link']
 }
 
+/** PC 装修「页面」tab：BBC / B2C（含 standard 业态）可配置 */
+export function canUseWebLinkTab() {
+  return (
+    VERSION_PLATFORM() ||
+    VERSION_B2C() ||
+    VERSION_STANDARD() ||
+    process.env.VUE_APP_PLATFORM === 'b2c'
+  )
+}
+
 export function getPathSelectorTypes(platform) {
   const names = PATH_SELECTOR_PLATFORM_TYPES[platform]
   const types = names
     ? PATH_SELECTOR_TYPES.filter((item) => names.includes(item.name))
     : PATH_SELECTOR_TYPES
-  // PC 装修「页面」仅 platform 业态可配置
-  if (platform === 'web' && !VERSION_PLATFORM()) {
+  if (platform === 'web' && !canUseWebLinkTab()) {
     return types.filter((item) => item.name !== 'link')
   }
   return types
