@@ -40,19 +40,43 @@ const config = {
       value: [
         {
           content: i18n.t('cff31093.818d78'),
-          imgUrl: ''
+          imgUrl: '',
+          linkType: 0,
+          linkPage: 'link',
+          id: 'orderWaitPay',
+          title: i18n.t('cff31093.818d78')
+        },
+        {
+          content: i18n.t('2345face.d8476e'),
+          imgUrl: '',
+          linkType: 0,
+          linkPage: 'link',
+          id: 'orderWaitSend',
+          title: i18n.t('2345face.d8476e')
         },
         {
           content: i18n.t('cff31093.4933ca'),
-          imgUrl: ''
+          imgUrl: '',
+          linkType: 0,
+          linkPage: 'link',
+          id: 'orderWaitReceive',
+          title: i18n.t('cff31093.4933ca')
         },
         {
           content: i18n.t('cff31093.a48b28'),
-          imgUrl: ''
+          imgUrl: '',
+          linkType: 0,
+          linkPage: 'link',
+          id: 'orderWaitEvaluate',
+          title: i18n.t('cff31093.a48b28')
         },
         {
           content: i18n.t('cff31093.59bd68'),
-          imgUrl: ''
+          imgUrl: '',
+          linkType: 0,
+          linkPage: 'link',
+          id: 'orderAfterSale',
+          title: i18n.t('cff31093.59bd68')
         }
       ]
     }
