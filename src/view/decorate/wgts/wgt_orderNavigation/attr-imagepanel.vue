@@ -29,6 +29,7 @@ import { i18n } from '@/i18n'
 import CompPickerLink from '../../comps/comp-pickerLink'
 import CompTodoList from '../../comps/comp-todoList'
 import CompButton from '../../comps/comp-button'
+import { ORDER_NAV_ID_TO_KEY, syncKeyFromLinkPicker } from './order-nav-meta'
 export default {
   name: 'AttrNavItem',
   components: { CompPickerLink, CompTodoList, CompButton },
@@ -40,6 +41,7 @@ export default {
       this.value.push({
         content: i18n.t('c1030e12.8585af'),
         imgUrl: '',
+        key: '',
         linkType: 0,
         linkPage: '',
         id: '',
@@ -47,10 +49,18 @@ export default {
       })
     },
     handleChangeLink(e, index) {
-      Vue.set(this.value, index, {
-        ...this.value[index],
-        ...e
-      })
+      Vue.set(
+        this.value,
+        index,
+        syncKeyFromLinkPicker({
+          ...this.value[index],
+          ...e,
+          key:
+            this.value[index].key ||
+            ORDER_NAV_ID_TO_KEY[e.id] ||
+            ORDER_NAV_ID_TO_KEY[this.value[index].id]
+        })
+      )
     }
   }
 }

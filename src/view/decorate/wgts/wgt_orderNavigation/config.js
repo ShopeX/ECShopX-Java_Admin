@@ -6,6 +6,7 @@ import { pickBy } from '@/utils'
 import { i18n } from '@/i18n'
 import AttrNavItem from './attr-imagepanel'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
+import { createDefaultOrderNavItems5, normalizeOrderNavData } from './order-nav-meta'
 
 const config = {
   name: 'orderNavigation',
@@ -37,48 +38,7 @@ const config = {
       component: function (h, { key }) {
         return <AttrNavItem v-model={this.value[key]} isBusinessShow={this.value.navigation} />
       },
-      value: [
-        {
-          content: i18n.t('cff31093.818d78'),
-          imgUrl: '',
-          linkType: 0,
-          linkPage: 'link',
-          id: 'orderWaitPay',
-          title: i18n.t('cff31093.818d78')
-        },
-        {
-          content: i18n.t('2345face.d8476e'),
-          imgUrl: '',
-          linkType: 0,
-          linkPage: 'link',
-          id: 'orderWaitSend',
-          title: i18n.t('2345face.d8476e')
-        },
-        {
-          content: i18n.t('cff31093.4933ca'),
-          imgUrl: '',
-          linkType: 0,
-          linkPage: 'link',
-          id: 'orderWaitReceive',
-          title: i18n.t('cff31093.4933ca')
-        },
-        {
-          content: i18n.t('cff31093.a48b28'),
-          imgUrl: '',
-          linkType: 0,
-          linkPage: 'link',
-          id: 'orderWaitEvaluate',
-          title: i18n.t('cff31093.a48b28')
-        },
-        {
-          content: i18n.t('cff31093.59bd68'),
-          imgUrl: '',
-          linkType: 0,
-          linkPage: 'link',
-          id: 'orderAfterSale',
-          title: i18n.t('cff31093.59bd68')
-        }
-      ]
+      value: createDefaultOrderNavItems5()
     }
   ],
   transformIn: (v) => {
@@ -89,7 +49,7 @@ const config = {
       name,
       ...transformedBase,
       ...(cfg || {}),
-      data: Array.isArray(data) ? data : [],
+      data: normalizeOrderNavData(Array.isArray(data) ? data : []),
       track,
       tags: {
         type: tagsType || '2',
@@ -99,7 +59,11 @@ const config = {
     }
   },
   transformOut: (v) => {
-    return pickBy(v, {
+    const payload = {
+      ...v,
+      data: normalizeOrderNavData(Array.isArray(v.data) ? v.data : [])
+    }
+    return pickBy(payload, {
       id: 'id',
       name: 'name',
       base: createTransformOutBase(
