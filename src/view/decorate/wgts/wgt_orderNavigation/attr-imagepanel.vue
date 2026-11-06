@@ -5,12 +5,16 @@
 
 <template>
   <div class="attr-nav-item">
-    <CompTodoList v-model="value" :max="4" :is-show-del="false" @onAddItem="handleClickAdd">
+    <CompTodoList v-model="value" :max="5" @onAddItem="handleClickAdd">
       <template slot="body" slot-scope="scope">
         <div class="nav-item--wrap">
           <el-input v-model="scope.data.content" :placeholder="$t('c1030e12.8585af')" />
           <div class="nav-item--picker">
             <SpImagePicker v-model="scope.data.imgUrl" size="small" />
+            <CompPickerLink
+              :value="scope.data"
+              @change="(e) => handleChangeLink(e, scope.index)"
+            />
           </div>
           <div class="cell-value-tip">{{ $t('c1030e12.53f5ef') }}</div>
         </div>
@@ -35,18 +39,17 @@ export default {
     handleClickAdd() {
       this.value.push({
         content: i18n.t('c1030e12.8585af'),
-        imgUrl: ''
+        imgUrl: '',
+        linkType: 0,
+        linkPage: '',
+        id: '',
+        title: ''
       })
     },
-    handleChangeGoods(e, index) {
+    handleChangeLink(e, index) {
       Vue.set(this.value, index, {
         ...this.value[index],
         ...e
-      })
-    },
-    onRemoveItem(index) {
-      Vue.set(this.value, index, {
-        ...this.value[index]
       })
     }
   }
@@ -59,9 +62,5 @@ export default {
     display: flex;
     margin-top: 10px;
   }
-  // .cell-value-tip {
-  //   position: relative;
-  //   top: -12px;
-  // }
 }
 </style>
