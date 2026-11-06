@@ -150,7 +150,8 @@
         ref="finder"
         :url="IS_DISTRIBUTOR() ? '/distributor/items' : '/goods/items'"
         fixed-row-action
-        row-actions-width="160px"
+        row-actions-width="240px"
+        :row-actions-align="'left'"
         :split-count="2"
         :other-config="{}"
         :setting="tableList"
