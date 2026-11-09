@@ -187,14 +187,23 @@ export default {
         {
           key: 'rewards',
           label: vm.$t('4ad97968.897b3c'),
-          minWidth: 140,
-          formatter: (_value, row) => formatReward(row)
+          minWidth: 280,
+          showOverflowTooltip: false,
+          className: 'member-task-list-rewards',
+          render: {
+            functional: true,
+            render(h, { props }) {
+              const text = formatReward(props.row)
+              return h('div', { class: 'member-task-list-rewards__text' }, text)
+            }
+          }
         },
         {
           key: 'actions',
           label: vm.$t('4ad97968.2b6bc0'),
-          width: 280,
+          width: 200,
           fixed: 'right',
+          className: 'member-task-list-actions',
           render: {
             functional: true,
             render(h, { props }) {
@@ -424,14 +433,34 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .table-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0 4px;
+  gap: 0 2px;
+
+  ::v-deep .el-button--text {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  ::v-deep .el-button--mini {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
 }
 .ml-1 {
   margin-left: 4px;
+}
+
+::v-deep .member-task-list-rewards .cell {
+  white-space: normal;
+  word-break: break-word;
+  line-height: 22px;
+}
+
+::v-deep .member-task-list-actions .cell {
+  white-space: normal;
 }
 </style>
