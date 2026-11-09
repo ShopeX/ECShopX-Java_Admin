@@ -395,6 +395,7 @@ export default {
         total: 0
       },
       searchParams: {
+        is_market: '',
         item_type: 'normal',
         templates_id: '',
         keywords: '',
@@ -888,6 +889,20 @@ export default {
           cellWidth: 1.3,
           componentProps: {
             placeholder: this.$t('d41d8cd9.s8p9l1p')
+          }
+        },
+        {
+          fieldName: 'is_market',
+          label: this.$t('d41d8cd9.6e27f4'),
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            clearable: true,
+            placeholder: this.$t('d41d8cd9.3e1b0a'),
+            options: [
+              { label: this.$t('d41d8cd9.8c1a2d'), value: 1 },
+              { label: this.$t('d41d8cd9.f4b3e1'), value: 0 }
+            ]
           }
         },
         {
