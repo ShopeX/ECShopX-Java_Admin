@@ -1736,6 +1736,7 @@ export default {
               message: this.$t(status === 'true' ? 'dc9cefd6.e8f9a1' : 'dc9cefd6.f0a2b3'),
               duration: 2000
             })
+            this.$refs['finder'].refresh()
           } else {
             this.$message({
               type: 'error',
