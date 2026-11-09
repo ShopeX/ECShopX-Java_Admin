@@ -19,7 +19,7 @@
       row-key="theme_pc_template_id"
       max-height="420"
       :columns="columns"
-      :hooks="{ beforeSearch }"
+      :hooks="{ beforeSearch, afterSearch }"
       :params="searchParams"
       selection-mode="single"
       :selected-rows.sync="selectedRowsValue"
@@ -48,7 +48,15 @@ export default {
       searchParams: {
         template_title: ''
       },
-      selectedRow: this.initialSelected ? { ...this.initialSelected } : null
+      selectedRow: null
+    }
+  },
+  watch: {
+    initialSelected: {
+      immediate: true,
+      handler(value) {
+        this.selectedRow = value ? this.toSelectionRow(value) : null
+      }
     }
   },
   computed: {
@@ -90,8 +98,31 @@ export default {
     }
   },
   methods: {
+    toSelectionRow(source) {
+      if (!source) return null
+      const id = source.theme_pc_template_id ?? source.id
+      if (id == null || id === '') return null
+      const title = source.template_title ?? source.title ?? ''
+      return {
+        theme_pc_template_id: id,
+        id,
+        template_title: title,
+        title
+      }
+    },
     beforeSearch(query) {
       return { ...query, ...this.searchParams, page_type: 'custom' }
+    },
+    afterSearch(response) {
+      const list =
+        response?.data?.data?.list || response?.data?.list || response?.list || []
+      if (!this.selectedRow || !Array.isArray(list) || !list.length) return response
+      const targetId = String(this.selectedRow.theme_pc_template_id ?? this.selectedRow.id)
+      const matched = list.find((row) => String(row.theme_pc_template_id) === targetId)
+      if (matched) {
+        this.selectedRow = this.normalizeSelectedRow(matched)
+      }
+      return response
     },
     onSearch() {
       this.$refs.table.refresh(true)
@@ -101,9 +132,13 @@ export default {
       this.$refs.table.refresh(true)
     },
     normalizeSelectedRow(row) {
+      const id = row.theme_pc_template_id ?? row.id
+      const title = row.template_title ?? row.title ?? ''
       return {
-        id: row.theme_pc_template_id ?? row.id,
-        title: row.template_title ?? row.title
+        theme_pc_template_id: id,
+        id,
+        template_title: title,
+        title
       }
     },
     submit() {

@@ -60,6 +60,7 @@ import {
 import PickerListField from './picker-list-field.vue'
 import PickerSingleField from './picker-single-field.vue'
 import TypeExclusivePanel from './type-exclusive-panel.vue'
+import { memberTaskPathValidateKey } from './path-value'
 
 const TYPE_CATEGORY_I18N = {
   newcomer: '67a8e492.09eec2',
@@ -899,9 +900,17 @@ export default {
         if (!rule.share_cover) return t('67a8e492.a911f5')
         if (!(rule.share_title || '').trim()) return t('67a8e492.633833')
         if (!(rule.share_jump_page || '').trim()) return t('67a8e492.24e938')
+        const sharePathKey = memberTaskPathValidateKey(rule.share_jump_page)
+        if (sharePathKey) return t(sharePathKey)
       }
       if (this.needBrowseRule) {
         if (!(rule.browse_page || '').trim()) return t('67a8e492.2ff70d')
+        const browsePathKey = memberTaskPathValidateKey(rule.browse_page)
+        if (browsePathKey) return t(browsePathKey)
+      }
+      if (this.needJumpPage && (rule.jump_page || '').trim()) {
+        const jumpPathKey = memberTaskPathValidateKey(rule.jump_page)
+        if (jumpPathKey) return t(jumpPathKey)
       }
       return ''
     },
