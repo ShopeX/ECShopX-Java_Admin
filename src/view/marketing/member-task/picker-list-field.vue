@@ -9,8 +9,14 @@
       {{ $t('67a8e492.f09198', { count: value.length, unit: unit }) }}
     </span>
     <span v-else class="text-[13px] text-[#c0c4cc]">{{ emptyText }}</span>
-    <el-button type="text" size="mini" :disabled="disabled" @click="$emit('pick')">
-      {{ value.length ? $t('67a8e492.5a0aa4') : pickText }}
+    <el-button
+      v-if="showPickButton"
+      type="text"
+      size="mini"
+      :disabled="disabled && !allowPickWhenDisabled"
+      @click="$emit('pick')"
+    >
+      {{ value.length ? pickLabelWhenSelected : pickText }}
     </el-button>
     <el-button
       v-if="value.length && !disabled"
@@ -43,6 +49,23 @@ export default {
     unit: {
       type: String,
       default: ''
+    },
+    /** 只读时仍可点击查看已选列表 */
+    allowPickWhenDisabled: Boolean,
+    viewPickText: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    showPickButton() {
+      return !this.disabled || this.allowPickWhenDisabled
+    },
+    pickLabelWhenSelected() {
+      if (this.disabled && this.allowPickWhenDisabled && this.viewPickText) {
+        return this.viewPickText
+      }
+      return this.$t('67a8e492.5a0aa4')
     }
   }
 }

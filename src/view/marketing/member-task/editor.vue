@@ -39,6 +39,15 @@
         @click="onSave"
       >{{ $t('67a8e492.be5fbb') }}</el-button>
     </div>
+
+    <MemberTaskSelectedGoodsViewDialog
+      :visible.sync="selectedGoodsViewVisible"
+      :items="ruleForm.goods_items"
+    />
+    <MemberTaskSelectedStoresViewDialog
+      :visible.sync="selectedStoresViewVisible"
+      :items="ruleForm.stores"
+    />
   </SpPage>
 </template>
 
@@ -60,6 +69,8 @@ import {
 import PickerListField from './picker-list-field.vue'
 import PickerSingleField from './picker-single-field.vue'
 import TypeExclusivePanel from './type-exclusive-panel.vue'
+import MemberTaskSelectedGoodsViewDialog from './selected-goods-view-dialog.vue'
+import MemberTaskSelectedStoresViewDialog from './selected-stores-view-dialog.vue'
 import { memberTaskPathValidateKey } from './path-value'
 
 const TYPE_CATEGORY_I18N = {
@@ -163,10 +174,16 @@ function toIntOrNull(value) {
 
 export default {
   name: 'MemberTaskEditor',
+  components: {
+    MemberTaskSelectedGoodsViewDialog,
+    MemberTaskSelectedStoresViewDialog
+  },
   data() {
     return {
       pageLoading: false,
       saving: false,
+      selectedGoodsViewVisible: false,
+      selectedStoresViewVisible: false,
       taskId: null,
       configVersion: null,
       detailStatus: null,
@@ -338,9 +355,11 @@ export default {
           formItemClass: 'w-full',
           component: ({ h }) =>
             h(TypeExclusivePanel, {
+              key: `type-exclusive-${vm.readonly ? 'ro' : 'ed'}`,
               props: {
                 form: vm.ruleForm,
                 disabled: vm.fieldDisabled,
+                allowReadonlyListView: vm.readonly,
                 needPurchaseRule: vm.needPurchaseRule,
                 needShareCard: vm.needShareCard,
                 needBrowseRule: vm.needBrowseRule,
@@ -663,6 +682,18 @@ export default {
       if (Array.isArray(categoryIds) && categoryIds.length) return { id: categoryIds[0] }
       return null
     },
+    /** 详情：reward_config.coupon_id + rewards[kind=coupon] */
+    toRewardCoupon(data, reward) {
+      const couponId = reward.coupon_id
+      if (couponId == null || couponId === '') return null
+      const couponReward = (data.rewards || []).find(
+        (item) => item.kind === 'coupon' && item.coupon_id === couponId
+      )
+      return {
+        card_id: couponId,
+        title: couponReward ? couponReward.title || '' : ''
+      }
+    },
     applyDetail(data, { keepIdentity }) {
       if (keepIdentity) {
         this.taskId = data.task_id || this.taskId
@@ -699,10 +730,7 @@ export default {
         audience_tag_combine: data.audience_tag_combine || 'union',
         task_rule: data.task_rule || '',
         reward_points: reward.points != null && reward.points !== '' ? reward.points : '',
-        reward_coupon:
-          reward.coupon_id != null && reward.coupon_id !== ''
-            ? { card_id: reward.coupon_id, title: reward.coupon_title || '' }
-            : null
+        reward_coupon: this.toRewardCoupon(data, reward)
       }
 
       this.ruleForm = {
@@ -770,7 +798,7 @@ export default {
         config.points = points
       }
       const coupon = this.form.reward_coupon
-      const couponId = coupon ? Number(coupon.card_id || coupon.id) : NaN
+      const couponId = coupon ? Number(coupon.card_id) : NaN
       if (!Number.isNaN(couponId) && couponId > 0) {
         config.coupon_id = couponId
       }
@@ -919,12 +947,18 @@ export default {
     },
     // ---------- 选择器 ----------
     async pickGoods(target = 'goods_items') {
+      if (this.readonly && target === 'goods_items') {
+        this.selectedGoodsViewVisible = true
+        return
+      }
+      if (this.fieldDisabled) return
       try {
         const selected = this.ruleForm[target] || []
         const { data } = await this.$picker.goods({
           multiple: true,
           data: selected.map((item) => item.item_id || item.id)
         })
+        if (!data) return
         if (data) {
           this.$set(
             this.ruleForm,
@@ -954,8 +988,8 @@ export default {
         const category = list[0]
         if (category) {
           this.$set(this.ruleForm, 'goods_category', {
-            ...category,
-            id: category.id || category.category_id
+            id: category.id,
+            title: category.title || ''
           })
         }
       } catch (e) {
@@ -963,6 +997,11 @@ export default {
       }
     },
     async pickStores(target = 'stores') {
+      if (this.readonly && target === 'stores') {
+        this.selectedStoresViewVisible = true
+        return
+      }
+      if (this.fieldDisabled) return
       try {
         const selected = this.ruleForm[target] || []
         // picker-store 按对象的 distributor_id 回显，不能只传 id 数组
@@ -974,6 +1013,7 @@ export default {
             distributor_name: item.distributor_name || item.name
           }))
         })
+        if (!data) return
         if (data) {
           this.$set(
             this.ruleForm,
@@ -1023,15 +1063,14 @@ export default {
         const current = this.form.reward_coupon
         const { data } = await this.$picker.couponV2({
           multiple: false,
-          data: current ? [current.card_id || current.id] : [],
+          data: current ? [current.card_id] : [],
           params: { date_status: 2 }
         })
         const coupon = data && data[0]
         if (coupon) {
           this.setFormField('reward_coupon', {
-            ...coupon,
-            card_id: coupon.card_id || coupon.id,
-            title: coupon.title || coupon.card_name
+            card_id: coupon.card_id,
+            title: coupon.title || ''
           })
         }
       } catch (e) {

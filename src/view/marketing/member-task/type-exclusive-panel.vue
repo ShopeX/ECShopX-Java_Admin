@@ -34,6 +34,8 @@
             <PickerListField
               :value="form.goods_items"
               :disabled="disabled"
+              :allow-pick-when-disabled="allowReadonlyListView"
+              :view-pick-text="$t('67a8e492.e3b8c1')"
               :empty-text="$t('67a8e492.1c652d')"
               :pick-text="$t('67a8e492.43d1e2')"
               :unit="$t('67a8e492.9897d8')"
@@ -55,6 +57,8 @@
               :empty-text="$t('67a8e492.05bfa7')"
               :pick-text="$t('67a8e492.5fcb1e')"
               :unit="$t('67a8e492.d0771a')"
+              id-key="id"
+              title-key="title"
               @input="(v) => setField('goods_category', v)"
               @pick="$emit('pick-category')"
             />
@@ -73,6 +77,8 @@
             <PickerListField
               :value="form.stores"
               :disabled="disabled"
+              :allow-pick-when-disabled="allowReadonlyListView"
+              :view-pick-text="$t('67a8e492.e3b8c1')"
               :empty-text="$t('67a8e492.a9b31e')"
               :pick-text="$t('67a8e492.afa2e6')"
               :unit="$t('67a8e492.295713')"
@@ -272,6 +278,7 @@ export default {
       required: true
     },
     disabled: Boolean,
+    allowReadonlyListView: Boolean,
     needPurchaseRule: Boolean,
     needShareCard: Boolean,
     needBrowseRule: Boolean,

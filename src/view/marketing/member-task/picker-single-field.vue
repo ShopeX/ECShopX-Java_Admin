@@ -5,8 +5,8 @@
 
 <template>
   <div class="flex h-8 flex-wrap items-center gap-x-2">
-    <span v-if="hasValue" class="text-[13px] text-[#303133]">
-      {{ $t('67a8e492.271642', { unit: unit }) }}
+    <span v-if="hasValue" class="max-w-full truncate text-[13px] text-[#303133]" :title="summaryText">
+      {{ summaryText }}
     </span>
     <span v-else class="text-[13px] text-[#c0c4cc]">{{ emptyText }}</span>
     <el-button type="text" size="mini" :disabled="disabled" @click="$emit('pick')">
@@ -43,12 +43,33 @@ export default {
     unit: {
       type: String,
       default: ''
+    },
+    idKey: {
+      type: String,
+      default: 'card_id'
+    },
+    titleKey: {
+      type: String,
+      default: 'title'
     }
   },
   computed: {
     hasValue() {
       const v = this.value
       return !(v === null || v === undefined || v === '')
+    },
+    summaryText() {
+      if (!this.hasValue) return ''
+      const v = this.value
+      if (!v || typeof v !== 'object') {
+        return this.$t('67a8e492.271642', { unit: this.unit })
+      }
+      const id = v[this.idKey]
+      const title = v[this.titleKey]
+      if (title && id != null && id !== '') return `${title}（${id}）`
+      if (title) return title
+      if (id != null && id !== '') return String(id)
+      return this.$t('67a8e492.271642', { unit: this.unit })
     }
   }
 }
