@@ -114,6 +114,7 @@ export default {
     },
     async handleSelect() {
       const { data } = await this.$picker.crowds({
+        title: this.$t('26b7f367.f9b05d'),
         data:
           this.selectedCrowds.type == '1'
             ? this.selectedCrowds.no_meber_tags

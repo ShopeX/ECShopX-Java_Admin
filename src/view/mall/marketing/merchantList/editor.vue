@@ -58,28 +58,11 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item :label="$t('e8e4e935.8c74f2')" prop="regions_id">
+              <el-form-item :label="$t('e8e4e935.61a0ec')" prop="license_registered_address">
                 <span v-if="$route.query.type == 'detail' || $route.query.type == 'verify'">{{
-                  form.regions.join('/')
+                  form.license_registered_address
                 }}</span>
-                <el-cascader
-                  v-else
-                  v-model="form.regions_id"
-                  style="width: 100%"
-                  :options="AreaJson"
-                  clearable
-                  :props="{ value: 'value', label: 'label', children: 'children' }"
-                  :disabled="disabled"
-                  @change="regionChange"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item :label="$t('e8e4e935.61a0ec')" prop="address">
-                <span v-if="$route.query.type == 'detail' || $route.query.type == 'verify'">{{
-                  form.address
-                }}</span>
-                <el-input v-else v-model="form.address" :disabled="disabled" />
+                <el-input v-else v-model="form.license_registered_address" :disabled="disabled" />
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -87,12 +70,12 @@
                 :label="
                   form.settled_type == 'enterprise' ? $t('e8e4e935.2fe17a') : $t('e8e4e935.610859')
                 "
-                prop="legal_name"
+                prop="license_legal_representative"
               >
                 <span v-if="$route.query.type == 'detail' || $route.query.type == 'verify'">{{
-                  form.legal_name
+                  form.license_legal_representative
                 }}</span>
-                <el-input v-else v-model="form.legal_name" :disabled="disabled" />
+                <el-input v-else v-model="form.license_legal_representative" :disabled="disabled" />
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -109,16 +92,24 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
+              <el-form-item :label="$t('5f6110bf.eaa028')" prop="contact_name">
+                <span v-if="$route.query.type == 'detail' || $route.query.type == 'verify'">{{
+                  form.contact_name
+                }}</span>
+                <el-input v-else v-model="form.contact_name" :disabled="disabled" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
               <el-form-item
                 :label="
                   form.settled_type == 'enterprise' ? $t('e8e4e935.f50f83') : $t('e8e4e935.8de58d')
                 "
-                prop="legal_mobile"
+                prop="contact_mobile"
               >
                 <span v-if="$route.query.type == 'detail' || $route.query.type == 'verify'">{{
-                  form.legal_mobile
+                  form.contact_mobile
                 }}</span>
-                <el-input v-else v-model="form.legal_mobile" :disabled="disabled" />
+                <el-input v-else v-model="form.contact_mobile" :disabled="disabled" />
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -208,53 +199,35 @@
           <span class="theme">{{ $t('e8e4e935.e48700') }} </span>
         </div>
         <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item :label="$t('e8e4e935.4709c8')" prop="merchant_type">
+          <el-col :span="16">
+            <el-form-item :label="$t('e8e4e935.4709c8')" prop="main_category_selection">
               <span v-if="$route.query.type == 'detail' || $route.query.type == 'verify'">{{
-                form.merchant_type_parent_name
+                mainCategoryDisplayText
               }}</span>
-              <el-select
+              <el-cascader
                 v-else
-                v-model="form.merchant_type"
-                :placeholder="$t('e8e4e935.708c9d')"
+                v-model="mainCategoryPaths"
+                :options="categoryOptions"
+                :props="categoryCascaderProps"
+                clearable
+                filterable
+                collapse-tags
                 style="width: 100%"
                 :disabled="disabled"
-                @change="merchantType_change"
-              >
-                <el-option
-                  v-for="item in MerchantsType"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item :label="$t('e8e4e935.04228b')" prop="merchant_type_id">
-              <span v-if="$route.query.type == 'detail' || $route.query.type == 'verify'">{{
-                form.merchant_type_name
-              }}</span>
-              <el-select
-                v-else
-                v-model="form.merchant_type_id"
                 :placeholder="$t('e8e4e935.708c9d')"
-                style="width: 100%"
-                :disabled="disabled"
-              >
-                <el-option
-                  v-for="item in WorkingGroupList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select>
+                @change="onMainCategoryPathsChange"
+              />
+              <div v-if="!($route.query.type == 'detail' || $route.query.type == 'verify')" class="category-tip">
+                勾选二级将默认选中其下全部三级，也可单独勾选三级；仅提交二级/三级
+              </div>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item :label="$t('e8e4e935.48f0ee')" prop="audit_goods">
               <span v-if="$route.query.type == 'detail'">{{
-                form.audit_goods == 'true' ? $t('e8e4e935.0a60ac') : $t('e8e4e935.c9744f')
+                form.audit_goods === true || form.audit_goods === 'true'
+                  ? $t('e8e4e935.0a60ac')
+                  : $t('e8e4e935.c9744f')
               }}</span>
               <el-select
                 v-else
@@ -263,8 +236,8 @@
                 :placeholder="$t('e8e4e935.708c9d')"
                 :disabled="$route.query.type == 'verify' ? verifyDisabled : disabled"
               >
-                <el-option :label="$t('e8e4e935.0a60ac')" value="true" />
-                <el-option :label="$t('e8e4e935.c9744f')" value="false" />
+                <el-option :label="$t('e8e4e935.0a60ac')" :value="true" />
+                <el-option :label="$t('e8e4e935.c9744f')" :value="false" />
               </el-select>
               <el-tooltip
                 :style="{ 'margin-left': 30 + 'px' }"
@@ -348,7 +321,7 @@
         </div>
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item :label="$t('e8e4e935.c41aeb')" prop="createAccount">
+            <el-form-item :label="$t('e8e4e935.c41aeb')">
               <el-tooltip
                 :style="{ 'margin-right': 30 + 'px' }"
                 :content="$t('e8e4e935.f5dfab')"
@@ -357,7 +330,7 @@
               >
                 <i class="el-icon-warning-outline" />
               </el-tooltip>
-              <el-radio-group v-model="form.createAccount" :disabled="disabled">
+              <el-radio-group v-model="createAccount" :disabled="disabled">
                 <el-radio label="1">
                   {{
                     form.settled_type == 'enterprise'
@@ -367,15 +340,13 @@
                 </el-radio>
                 <el-radio label="2"> {{ $t('e8e4e935.0d98c7') }} </el-radio>
               </el-radio-group>
-              <template v-if="form.createAccount == '2'">
-                <el-form-item prop="mobile">
-                  <el-input
-                    v-model="form.mobile"
-                    :placeholder="$t('e8e4e935.2628fc')"
-                    :disabled="disabled"
-                    style="width: 300px"
-                  />
-                </el-form-item>
+              <template v-if="createAccount == '2'">
+                <el-input
+                  v-model="mobile"
+                  :placeholder="$t('e8e4e935.2628fc')"
+                  :disabled="disabled"
+                  style="width: 300px; margin-left: 12px"
+                />
               </template>
             </el-form-item>
           </el-col>
@@ -481,10 +452,9 @@ import {
   getTheMerchant,
   merchantsInDetail,
   setCheckTheEntryOfMerchants,
-  getTheMerchantInfo,
-  getArea,
-  getMerchantsType
+  getTheMerchantInfo
 } from '@/api/mall/marketing.js'
+import { getCategory } from '@/api/goods'
 import imgPicker from '@/components/imageselect'
 import InfoTipModal from '../component/InfoTipModal.vue'
 import checkBox from '@/view/base/setting/dealer/cpn/checkBox.vue'
@@ -515,150 +485,121 @@ export default {
       audit_status: '',
       audit_memo: '',
       // ---------
-      AreaJson: [],
-      MerchantsType: [],
-      WorkingGroupList: [],
+      // 级联多选路径（UI），提交时同步为 form.main_category_selection
+      mainCategoryPaths: [],
+      categoryOptions: [],
+      categoryCascaderProps: {
+        value: 'category_id',
+        label: 'category_name',
+        children: 'children',
+        multiple: true,
+        // false：父子联动，选中三级时一级/二级会显示勾选或半选
+        checkStrictly: false,
+        emitPath: true
+      },
       sort_order_by: 'asc',
       pickerImgType: '',
       disabled: false,
       editDisabled: false,
       verifyDisabled: false,
-      // 图片选择
       imgDialog: false,
       isGetImage: false,
-      // 脱敏
       datapass_block: 0,
-      // form: {
-      //   settled_type: 'enterprise',
-      //   merchant_name:'张三的烧饼店',
-      //   social_credit_code_id:'888898981209876543',
-      //   regions_id:['140000','140100','140107'],
-      //   regions:[],
-      //   address:'张村',
-      //   legal_name:'张三',
-      //   legal_cert_id:'343672981078223457',
-      //   legal_mobile:'13909098888',
-      //   email:'111@qq.com',
-      //   // 结算信息
-      //   bank_acct_type:'1',
-      //   bank_name:'上海闵行上银村镇银行',
-      //   bank_mobile:'13909098888',
-      //   card_id_mask:'343672981078223457',
-      //   // 入驻信息
-      //   merchant_type:'',
-      //   merchant_type_id:'6',
-      //   audit_goods:'true',
-      //   // 证照信息
-      //   license_url:"http://bbctest.aixue7.com/platform_develop/image/1/2021/12/16/b88a6bb01f3c5e34186f6e34ff120931kBaR0tsJbdL98htZIjoEfl3XJA6EPssU",
-      //   legal_certid_front_url:"http://bbctest.aixue7.com/platform_develop/image/1/2021/12/16/b88a6bb01f3c5e34186f6e34ff1209315al9PCCnCwJvqhQteYPwZQ0fs6IYyB7g",
-      //   legal_cert_id_back_url:"http://bbctest.aixue7.com/platform_develop/image/1/2021/12/16/b88a6bb01f3c5e34186f6e34ff12093158TnMCm9r4DdEOOaYOoyV7UvzQG1xr0t",
-      //   bank_card_front_url:"http://bbctest.aixue7.com/platform_develop/image/1/2021/12/16/fb85f3523c2b1eecf9f1951348eb71aa8y1TKHdzE7AxmVrsFsopw2azEIicWVtP",
-      //   contract_url:"http://bbctest.aixue7.com/platform_develop/image/1/2021/12/16/fb85f3523c2b1eecf9f1951348eb71aaUu6NzsGLwIGz0h1SuXfhgXI1jhQ0YV5g",
-      //   // 账号信息
-      //   createAccount:'1',
-      //   mobile:'',
-      //   settled_succ_sendsms:'2',// 1:立即 2:商家H5确认入驻协议后
-
-      // },
+      // 仅新增账号时用的 UI 字段，不参与接口映射
+      createAccount: '1',
+      mobile: '',
       form: {
         settled_type: '',
         merchant_name: '',
-        regions_id: [],
-        regions: [],
         social_credit_code_id: '',
-        address: '',
-        legal_name: '',
+        license_registered_address: '',
+        license_legal_representative: '',
         legal_cert_id: '',
-        legal_mobile: '',
+        contact_name: '',
+        contact_mobile: '',
         email: '',
-        // 结算信息
         bank_acct_type: '',
         bank_name: '',
         bank_mobile: '',
         card_id_mask: '',
-        // 入驻信息
-        merchant_type: '',
-        merchant_type_id: '',
-        audit_goods: 'true',
-        // 证照信息
+        main_category_selection: [],
+        main_category_names: [],
+        audit_goods: true,
         license_url: '',
         legal_certid_front_url: '',
         legal_cert_id_back_url: '',
         bank_card_front_url: '',
         contract_url: '',
-        // 账号信息
-        createAccount: '1',
-        mobile: '',
-        settled_succ_sendsms: '', // 1:立即 2:商家H5确认入驻协议后
-        id: '', // 会多返回一个ID 作为当前id
-        // 会回显时需要
-        merchant_type_parent_name: '',
-        merchant_type_name: ''
+        settled_succ_sendsms: '',
+        id: ''
       }
     }
   },
   computed: {
+    mainCategoryDisplayText() {
+      const names = this.form.main_category_names || []
+      if (names.length) return names.join('、')
+      const selection = this.form.main_category_selection || []
+      if (!selection.length) return '-'
+      return selection
+        .map((item) => {
+          if (item.name) return item.name
+          const node = this.findCategoryNode(this.categoryOptions, item.category_id)
+          return node?.category_name || item.category_id
+        })
+        .join('、')
+    },
     rules() {
       return {
         merchant_name: [requiredRules(this.$t('e8e4e935.0b66da'))],
         social_credit_code_id: [requiredRules(this.$t('e8e4e935.25c0bd')), MaxRules(18)],
-        regions_id: [requiredRules(this.$t('e8e4e935.8c74f2'), 'change')],
-        address: [requiredRules(this.$t('e8e4e935.61a0ec'))],
-        legal_name: [requiredRules(this.$t('e8e4e935.2fe17a'))],
+        license_registered_address: [requiredRules(this.$t('e8e4e935.61a0ec'))],
+        license_legal_representative: [requiredRules(this.$t('e8e4e935.2fe17a'))],
         legal_cert_id: [requiredRules(this.$t('e8e4e935.e8b4af')), MaxRules(18)],
-        legal_mobile: [requiredRules(this.$t('e8e4e935.f50f83')), MaxRules(11)],
+        contact_name: [requiredRules(this.$t('5f6110bf.eaa028'))],
+        contact_mobile: [requiredRules(this.$t('e8e4e935.f50f83')), MaxRules(11)],
         bank_mobile: [MaxRules('11')],
         card_id_mask: [MaxRules('19')],
-        merchant_type: [requiredRules(this.$t('e8e4e935.4709c8'), 'change')],
-        merchant_type_id: [requiredRules(this.$t('e8e4e935.15151f'), 'change')],
+        main_category_selection: [
+          {
+            validator: (rule, value, callback) => {
+              const selection = Array.isArray(value) ? value : []
+              const valid = selection.some((item) => [2, 3].includes(Number(item?.level)))
+              if (!selection.length || !valid) {
+                callback(new Error(this.$t('e8e4e935.4709c8')))
+              } else {
+                callback()
+              }
+            },
+            trigger: 'change'
+          }
+        ],
         audit_goods: requiredRules(this.$t('e8e4e935.be5d9e'), 'change'),
         license_url: requiredRules(this.$t('e8e4e935.e0b8cc'), 'change'),
         legal_certid_front_url: requiredRules(this.$t('e8e4e935.4161c3'), 'change'),
         legal_cert_id_back_url: requiredRules(this.$t('e8e4e935.845be5'), 'change'),
-        createAccount: requiredRules(this.$t('e8e4e935.c41aeb'), 'change'),
-        mobile: requiredRules(this.$t('e8e4e935.8098e2')),
         settled_succ_sendsms: requiredRules(this.$t('e8e4e935.11d8b6'), 'change')
       }
     }
   },
   watch: {
-    'form.merchant_type': {
-      handler(value) {
-        if (this.MerchantsType.length > 0) {
-          this.getWorkingGroupList(value)
-        }
-        console.log(value)
+    'form.contact_mobile'(value) {
+      if (this.createAccount == '1') {
+        this.mobile = value || ''
       }
     },
-    MerchantsType: {
-      handler() {
-        if (this.form.merchant_type) {
-          this.getWorkingGroupList(this.form.merchant_type)
-        }
-      }
-    },
-    'form.legal_mobile'(value) {
-      if (value && this.form.createAccount == '1') {
-        this.form.mobile = value
-      } else {
-        this.form.mobile = ''
-      }
-    },
-    'form.createAccount': {
+    createAccount: {
       immediate: true,
       handler(val) {
-        if (val == '1' && this.form.legal_mobile) {
-          this.form.mobile = this.form.legal_mobile
-        } else {
-          this.form.mobile = ''
+        if (val == '1') {
+          this.mobile = this.form.contact_mobile || ''
         }
       }
     }
   },
-  mounted() {
-    this.getMerchantsTypeList()
-    this.getAreaList()
-    this.init()
+  async mounted() {
+    await this.getCategoryOptions()
+    await this.init()
     this.getConfig()
   },
   methods: {
@@ -700,71 +641,75 @@ export default {
       }
     },
     resultHandler(result) {
-      const {
-        settled_type,
-        merchant_name,
-        regions_id,
-        address,
-        province,
-        city,
-        area,
-        social_credit_code_id,
-        legal_name,
-        legal_cert_id,
-        legal_mobile,
-        email,
-        bank_acct_type,
-        bank_name,
-        bank_mobile,
-        card_id_mask,
-        merchant_type_id,
-        audit_goods,
-        license_url,
-        legal_certid_front_url,
-        legal_cert_id_back_url,
-        bank_card_front_url,
-        contract_url,
-        merchant_type_parent_id,
-        audit_status,
-        id,
-        datapass_block,
-        audit_memo,
-        merchant_type_name,
-        merchant_type_parent_name
-      } = result.data.data
+      const data = result.data.data || {}
       this.form = {
-        settled_type,
-        merchant_name,
-        address,
-        social_credit_code_id,
-        legal_name,
-        legal_cert_id,
-        legal_mobile,
-        email,
-        bank_acct_type,
-        bank_name,
-        bank_mobile,
-        card_id_mask,
-        merchant_type_id,
-        license_url,
-        legal_certid_front_url,
-        legal_cert_id_back_url,
-        bank_card_front_url,
-        contract_url,
-        audit_goods: JSON.stringify(audit_goods),
-        regions_id: JSON.parse(regions_id),
-        regions: [province, city, area],
-        merchant_type: merchant_type_parent_id,
-        id,
-        merchant_type_parent_name,
-        merchant_type_name
+        ...this.form,
+        settled_type: data.settled_type || '',
+        merchant_name: data.merchant_name || '',
+        social_credit_code_id: data.social_credit_code_id || '',
+        license_registered_address: data.license_registered_address || '',
+        license_legal_representative: data.license_legal_representative || '',
+        legal_cert_id: data.legal_cert_id || '',
+        contact_name: data.contact_name || '',
+        contact_mobile: data.contact_mobile || '',
+        email: data.email || '',
+        bank_acct_type: data.bank_acct_type || '',
+        bank_name: data.bank_name || '',
+        bank_mobile: data.bank_mobile || '',
+        card_id_mask: data.card_id_mask || '',
+        main_category_selection: data.main_category_selection || [],
+        main_category_names: data.main_category_names || [],
+        audit_goods: data.audit_goods === true || data.audit_goods === 'true' || data.audit_goods === 1,
+        license_url: data.license_url || '',
+        legal_certid_front_url: data.legal_certid_front_url || '',
+        legal_cert_id_back_url: data.legal_cert_id_back_url || '',
+        bank_card_front_url: data.bank_card_front_url || '',
+        contract_url: data.contract_url || '',
+        settled_succ_sendsms: data.settled_succ_sendsms || '',
+        id: data.id || ''
       }
-      this.datapass_block = datapass_block
-      this.audit_status = audit_status
-      this.audit_memo = audit_memo
+      this.mainCategoryPaths = this.resolveCategoryPaths(this.form.main_category_selection)
+      this.datapass_block = data.datapass_block
+      this.audit_status = data.audit_status
+      this.audit_memo = data.audit_memo
+    },
+    buildPayload() {
+      const f = this.form
+      const payload = {
+        settled_type: f.settled_type,
+        main_category_selection: (f.main_category_selection || []).map((item) => ({
+          category_id: Number(item.category_id) || item.category_id,
+          level: Number(item.level)
+        })),
+        merchant_name: f.merchant_name,
+        social_credit_code_id: f.social_credit_code_id,
+        license_registered_address: f.license_registered_address,
+        license_legal_representative: f.license_legal_representative,
+        legal_cert_id: f.legal_cert_id,
+        contact_name: f.contact_name,
+        contact_mobile:
+          this.createAccount == '2' && this.mobile ? this.mobile : f.contact_mobile,
+        email: f.email,
+        bank_acct_type: f.bank_acct_type,
+        bank_name: f.bank_name,
+        bank_mobile: f.bank_mobile,
+        card_id_mask: f.card_id_mask,
+        audit_goods: f.audit_goods === true || f.audit_goods === 'true',
+        license_url: f.license_url,
+        legal_certid_front_url: f.legal_certid_front_url,
+        legal_cert_id_back_url: f.legal_cert_id_back_url,
+        bank_card_front_url: f.bank_card_front_url,
+        contract_url: f.contract_url
+      }
+
+      if (this.$route.query.type === 'add') {
+        payload.settled_succ_sendsms = f.settled_succ_sendsms
+        payload.source = 'admin'
+      }
+      return payload
     },
     async getInfo() {
-      const result = await addTheBusinessman(this.form, null)
+      const result = await addTheBusinessman(this.buildPayload(), null)
       if (result.data.data.mobile && result.data.data.password) {
         this.tip = {
           username: result.data.data.mobile,
@@ -774,29 +719,37 @@ export default {
     },
     submitFn(formName) {
       this.$refs[formName].validate(async (valid) => {
-        if (valid) {
-          const { type, merchantId } = this.$route.query
-          const result = await addTheBusinessman(this.form, type == 'edit' ? merchantId : null)
-          if (result.data.data.status) {
-            this.$message.success(this.$t('e8e4e935.3b1083'))
-            this.isEditCheckBox = true
-            this.$router.go(-1)
-          }
-
-          if (type === 'add' && result.data.data.mobile && result.data.data.password) {
-            this.$message.success(this.$t('e8e4e935.3b1083'))
-            this.infoTipVisible = true
-            this.isEditCheckBox = true
-            this.tip = {
-              username: result.data.data.mobile,
-              password: result.data.data.password
-            }
-          }
-
-          console.log(result)
-        } else {
-          console.log('error submit!!')
+        if (!valid) return false
+        if (this.$route.query.type === 'add' && this.createAccount == '2' && !this.mobile) {
+          this.$message.error(this.$t('e8e4e935.8098e2'))
           return false
+        }
+        this.syncMainCategorySelection()
+        const selection = this.form.main_category_selection || []
+        const hasValidCategory = selection.some((item) =>
+          [2, 3].includes(Number(item.level))
+        )
+        if (!selection.length || !hasValidCategory) {
+          this.$message.error(this.$t('e8e4e935.4709c8'))
+          return false
+        }
+        const { type, merchantId } = this.$route.query
+        const payload = this.buildPayload()
+        const result = await addTheBusinessman(payload, type == 'edit' ? merchantId : null)
+        if (result.data.data.status) {
+          this.$message.success(this.$t('e8e4e935.3b1083'))
+          this.isEditCheckBox = true
+          this.$router.go(-1)
+        }
+
+        if (type === 'add' && result.data.data.mobile && result.data.data.password) {
+          this.$message.success(this.$t('e8e4e935.3b1083'))
+          this.infoTipVisible = true
+          this.isEditCheckBox = true
+          this.tip = {
+            username: result.data.data.mobile,
+            password: result.data.data.password
+          }
         }
       })
     },
@@ -818,7 +771,7 @@ export default {
         id: this.form.id,
         audit_status: this.currentCheckBoxStatus ? '2' : '3',
         audit_memo: data.comments,
-        audit_goods: this.form.audit_goods ? '1' : '0'
+        audit_goods: this.form.audit_goods === true || this.form.audit_goods === 'true'
       }
       const result = await setCheckTheEntryOfMerchants(obj)
       if (result.data.data.status) {
@@ -854,14 +807,103 @@ export default {
     },
     /* -------------------------图片选择------------------------- */
 
-    // 获取商户类型及经营范围
-    async getMerchantsTypeList() {
-      const result = await getMerchantsType()
-      this.MerchantsType = result.data.data
+    async getCategoryOptions() {
+      const res = await getCategory({ is_main_category: true })
+      const list = Array.isArray(res) ? res : res?.data?.data || []
+      this.categoryOptions = this.normalizeCategoryTree(list)
     },
-    async getWorkingGroupList(id) {
-      const result = await getMerchantsType({ parent_id: id })
-      this.WorkingGroupList = (result.data.data.length > 0 && result.data.data) || []
+    normalizeCategoryTree(list = [], depth = 1) {
+      return list.map((item) => {
+        const level = Number(item.category_level) || depth
+        const children =
+          item.children && item.children.length
+            ? this.normalizeCategoryTree(item.children, depth + 1)
+            : undefined
+        return {
+          ...item,
+          category_level: level,
+          children
+        }
+      })
+    },
+    onMainCategoryPathsChange() {
+      this.syncMainCategorySelection()
+    },
+    syncMainCategorySelection() {
+      this.form.main_category_selection = this.buildMainCategorySelection()
+      this.$nextTick(() => {
+        this.$refs.form && this.$refs.form.validateField('main_category_selection')
+      })
+    },
+    findCategoryNode(list = [], categoryId) {
+      for (const item of list) {
+        if (String(item.category_id) === String(categoryId)) return item
+        if (item.children?.length) {
+          const found = this.findCategoryNode(item.children, categoryId)
+          if (found) return found
+        }
+      }
+      return null
+    },
+    findCategoryPath(list = [], categoryId, path = []) {
+      for (const item of list) {
+        const next = [...path, item.category_id]
+        if (String(item.category_id) === String(categoryId)) return next
+        if (item.children?.length) {
+          const found = this.findCategoryPath(item.children, categoryId, next)
+          if (found) return found
+        }
+      }
+      return null
+    },
+    resolveCategoryPaths(selection) {
+      if (!Array.isArray(selection) || !selection.length) return []
+      return selection
+        .map((item) => {
+          if (item?.path) {
+            return String(item.path)
+              .split(/[,/|>]/)
+              .map((id) => Number(id) || id)
+              .filter((id) => id !== '' && id != null)
+          }
+          if (item?.category_id == null) return []
+          return (
+            this.findCategoryPath(this.categoryOptions, item.category_id) || [item.category_id]
+          )
+        })
+        .filter((path) => path.length)
+    },
+    /**
+     * 对齐 web 端 selectionFromTreeItems：
+     * 一级不提交；有三级的二级只提交已选三级；无三级的二级提交自身。
+     */
+    buildMainCategorySelection() {
+      const paths = this.mainCategoryPaths || []
+      if (!paths.length) return []
+      const result = []
+      const seen = new Set()
+      paths.forEach((path) => {
+        if (!Array.isArray(path) || !path.length) return
+        const categoryId = path[path.length - 1]
+        const node = this.findCategoryNode(this.categoryOptions, categoryId)
+        const level = Number(node?.category_level) || path.length
+        if (level === 1) return
+        if (level === 2) {
+          const hasLevel3 = (node?.children || []).some(
+            (child) => Number(child.category_level) === 3
+          )
+          if (hasLevel3) return
+        }
+        if (![2, 3].includes(level)) return
+        const key = `${categoryId}:${level}`
+        if (seen.has(key)) return
+        seen.add(key)
+        result.push({
+          category_id: Number(categoryId) || categoryId,
+          level
+        })
+      })
+      return result
     },
     // 结算所属银行
     async querySearch(queryString, cb) {
@@ -885,46 +927,14 @@ export default {
       }
     },
     handleSelectBank(val) {
-      console.log(val)
       this.form.bank_code = val.bank_code
       this.form.bank_name = val.value
-    },
-    merchantType_change(val) {
-      this.form.merchant_type = val
-      this.form.merchant_type_id = ''
-      // this.getWorkingGroupList(val)
-      // console.log(val);
-    },
-    regionChange(value) {
-      console.log(value)
-      var vals = this.getCascaderObj(value, this.AreaJson)
-      if (vals.length > 0) {
-        this.form.regions = [vals[0].label, vals[1].label, vals[2].label]
-      } else {
-        this.form.regions = []
-      }
-      console.log(this.form.regions)
-    },
-    getCascaderObj(val, opt) {
-      return val.map(function (value) {
-        for (var itm of opt) {
-          if (itm.value === value) {
-            opt = itm.children
-            return itm
-          }
-        }
-        return null
-      })
     },
     checkBoxMessage(status) {
       return this.$t('e8e4e935.605550', {
         status,
         name: this.form.merchant_name
       })
-    },
-    async getAreaList() {
-      const result = await getArea()
-      this.AreaJson = result.data.data
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -951,6 +961,13 @@ export default {
 
 <style lang="scss" scoped>
 .MerchantsEditor {
+  .category-tip {
+    margin-top: 4px;
+    color: #909399;
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 400;
+  }
   .upload-box {
     width: 150px;
     height: 150px;

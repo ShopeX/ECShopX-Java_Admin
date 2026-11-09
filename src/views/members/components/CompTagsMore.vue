@@ -25,11 +25,9 @@
           </div>
           <CompTagList
             :list="getFormattedTags(category)"
-            :tags-id="category.group_id"
             :selection-babel="true"
             :readonly="IS_DISTRIBUTOR()"
-            tag-size="small"
-            :no-background="true"
+            :select-only="selectOnly || isSystemGroup(category)"
             @add-tag="(val) => handleAddTags(category, val)"
             @tag-select="(tag, index) => handleTagSelect(category, tag, index)"
           />
@@ -39,15 +37,15 @@
       <div
         slot="footer"
         :class="{
-          'flex justify-between items-center': !IS_DISTRIBUTOR(),
-          'flex justify-end items-center': IS_DISTRIBUTOR()
+          'flex justify-between items-center': !IS_DISTRIBUTOR() && !selectOnly,
+          'flex justify-end items-center': IS_DISTRIBUTOR() || selectOnly
         }"
       >
         <el-button
+          v-if="!IS_DISTRIBUTOR() && !selectOnly"
           type="text"
-          @click="showAddTagDialog"
           class="text-[#409EFF]"
-          v-if="!IS_DISTRIBUTOR()"
+          @click="showAddTagDialog"
         >
           {{ $t('ee0ad640.19214e') }}
         </el-button>
@@ -89,6 +87,16 @@ export default {
     selectedTags: {
       type: Array,
       default: () => []
+    },
+    /** 筛选/营销场景传 true，列表前置系统标签虚拟组 */
+    withSystem: {
+      type: Boolean,
+      default: false
+    },
+    /** 仅选择：不展示新建组与行内添加（人群筛选弹窗） */
+    selectOnly: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -116,19 +124,26 @@ export default {
       this.$emit('update:visible', newVal)
     },
     selectedTags: {
-      handler(newVal) {
+      handler() {
         this.initSelectedTags()
       },
       deep: true
     }
   },
   methods: {
+    isSystemGroup(category) {
+      return String(category.group_id) === 'system'
+    },
     async loadTagCategories() {
       try {
-        const { list = [] } = await this.$api.member.getTagGroupList({
+        const params = {
           page: 1,
           page_size: 100
-        })
+        }
+        if (this.withSystem) {
+          params.with_system = 1
+        }
+        const { list = [] } = await this.$api.member.getTagGroupList(params)
         this.tagCategories = list
       } catch (error) {
         console.log(error)
@@ -185,7 +200,7 @@ export default {
       this.addTagForm = {
         group_id: '',
         group_name: '',
-        tags: [{ tag_name: '', tag_color: '', font_color: '' }]
+        tags: [{ tag_name: '' }]
       }
       this.addTagDialogVisible = true
     },
@@ -214,9 +229,7 @@ export default {
           allSelectedTags.push({
             group_id: groupId,
             tag_id: tag.tag_id,
-            tag_name: tag.tag_name,
-            tag_color: tag.tag_color,
-            font_color: tag.font_color
+            tag_name: tag.tag_name
           })
         })
       })
@@ -224,12 +237,11 @@ export default {
       this.handleClose()
     },
     async handleAddTags(row, value) {
+      if (this.selectOnly || this.isSystemGroup(row)) return
       try {
         const params = {
           group_id: row.group_id,
-          tag_name: value,
-          tag_color: '#ff1939',
-          font_color: '#ffffff'
+          tag_name: value
         }
         await this.$api.member.saveTag(params)
         await this.loadTagCategories()

@@ -73,7 +73,7 @@ export default {
     {
       path: 'member/Managetag',
       name: 'd251b20e.3cc026',
-      component: () => import('@/view/member/members/tags')
+      component: () => import('@/views/members/customer_tags')
     },
     {
       path: 'membertouch/smssend',

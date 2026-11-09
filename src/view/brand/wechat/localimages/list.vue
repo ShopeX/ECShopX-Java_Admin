@@ -45,6 +45,7 @@
     }
     .rg-container {
       flex: 1;
+      min-width: 0;
     }
   }
   .catgory-item {
@@ -163,6 +164,16 @@
   }
   .image-list {
     height: 452px;
+
+    .el-empty {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+    }
   }
   .cropper-container {
     width: 498px;

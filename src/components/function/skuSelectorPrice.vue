@@ -48,7 +48,7 @@
         type="primary"
         @click="handleGoodsDialogShow"
       >
-        选择商品
+        {{ $t('9c91acb5.43d1e2') }}
       </el-button>
     </div>
     <el-dialog :title="$t('9c91acb5.8aa2c1')" :visible.sync="dialogVisible" width="50%">

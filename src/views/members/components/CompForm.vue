@@ -3,6 +3,20 @@ import { h } from 'vue'
 import dayjs from 'dayjs'
 import { PICKER_DATE_OPTIONS } from '@/consts'
 
+function getGoodsImage(item = {}) {
+  if (item.image) return item.image
+  if (Array.isArray(item.pics) && item.pics.length) return item.pics[0]
+  if (typeof item.pics === 'string' && item.pics) {
+    try {
+      const parsed = JSON.parse(item.pics)
+      if (Array.isArray(parsed) && parsed.length) return parsed[0]
+    } catch (e) {
+      return item.pics
+    }
+  }
+  return ''
+}
+
 export default {
   name: 'CompForm',
   props: ['item', 'index', 'disabled'],
@@ -14,7 +28,8 @@ export default {
       selectedGoods: [],
       checkoutValues: [],
       options: [],
-      radioValue: null
+      radioValue: null,
+      enrichingGoods: false
     }
   },
   computed: {
@@ -117,6 +132,7 @@ export default {
         const newSelectedGoods = val && Array.isArray(val) ? val : []
         if (JSON.stringify(this.selectedGoods) !== JSON.stringify(newSelectedGoods)) {
           this.selectedGoods = newSelectedGoods
+          this.ensureGoodsDetails(newSelectedGoods)
         }
       } else if (type === 'mapping') {
         const newCheckoutValues = val && Array.isArray(val) ? val : []
@@ -127,6 +143,53 @@ export default {
         if (this.radioValue !== val) {
           this.radioValue = val
         }
+      }
+    },
+    async ensureGoodsDetails(goods) {
+      const list = Array.isArray(goods) ? goods : []
+      const needFetch = list.some((g) => g && g.item_id && (!g.item_name || !g.image))
+      if (!needFetch || this.enrichingGoods) return
+      this.enrichingGoods = true
+      try {
+        const enriched = await this.fetchGoodsDetails(list)
+        if (JSON.stringify(enriched) !== JSON.stringify(this.selectedGoods)) {
+          this.selectedGoods = enriched
+        }
+      } finally {
+        this.enrichingGoods = false
+      }
+    },
+    async fetchGoodsDetails(goods) {
+      const ids = goods.map((g) => g.item_id).filter(Boolean)
+      if (!ids.length) return goods
+      try {
+        const { list } = await this.$api.goods.getItemsList({
+          item_id: ids,
+          page: 1,
+          pageSize: Math.max(ids.length, 20)
+        })
+        const detailMap = {}
+        ;(list || []).forEach((item) => {
+          detailMap[item.item_id] = item
+        })
+        return goods.map((g) => {
+          const detail = detailMap[g.item_id]
+          if (!detail) {
+            return {
+              item_id: g.item_id,
+              item_name: g.item_name || '',
+              image: g.image || ''
+            }
+          }
+          return {
+            item_id: g.item_id,
+            item_name: g.item_name || detail.item_name || '',
+            image: g.image || getGoodsImage(detail)
+          }
+        })
+      } catch (error) {
+        console.error('加载商品详情失败:', error)
+        return goods
       }
     },
     // 渲染时间范围选择器
@@ -194,26 +257,87 @@ export default {
         h('span', { class: 'mx-2 ml-2' }, unit)
       ])
     },
+    renderSelectedGoodsList() {
+      if (!this.selectedGoods.length) return null
+      return h(
+        'div',
+        { class: 'flex flex-wrap gap-3 mt-3' },
+        this.selectedGoods.map((goods) =>
+          h(
+            'div',
+            {
+              class:
+                'flex items-center w-[260px] px-2.5 py-2 border border-[#ebeef5] rounded bg-[#fafafa] box-border',
+              key: goods.item_id
+            },
+            [
+              h(
+                'div',
+                {
+                  class:
+                    'flex items-center justify-center flex-none w-12 h-12 mr-2.5 overflow-hidden rounded bg-[#ebeef5] text-[#c0c4cc] text-xl'
+                },
+                [
+                  goods.image
+                    ? h('img', {
+                        class: 'w-full h-full object-cover',
+                        attrs: {
+                          src: goods.image,
+                          alt: goods.item_name || ''
+                        }
+                      })
+                    : h('i', { class: 'el-icon-picture-outline' })
+                ]
+              ),
+              h(
+                'div',
+                {
+                  class:
+                    'flex-1 min-w-0 overflow-hidden text-[#303133] text-[13px] leading-[18px] text-ellipsis whitespace-nowrap',
+                  attrs: { title: goods.item_name || String(goods.item_id || '') }
+                },
+                goods.item_name || `ID: ${goods.item_id}`
+              ),
+              this.disabled
+                ? null
+                : h('el-button', {
+                    class: 'flex-none ml-1 p-0 text-[#909399]',
+                    props: {
+                      type: 'text',
+                      icon: 'el-icon-close'
+                    },
+                    on: {
+                      click: () => this.removeGoods(goods.item_id)
+                    }
+                  })
+            ]
+          )
+        )
+      )
+    },
     // 渲染选择商品
     renderPickGoods() {
-      return h('div', { class: 'flex items-center' }, [
-        h(
-          'el-button',
-          {
-            props: {
-              size: 'small',
-              type: 'primary',
-              disabled: this.disabled
+      return h('div', { class: 'w-full' }, [
+        h('div', { class: 'flex items-center' }, [
+          h(
+            'el-button',
+            {
+              props: {
+                size: 'small',
+                type: 'primary',
+                disabled: this.disabled
+              },
+              on: {
+                click: this.selectGoods
+              }
             },
-            on: {
-              click: this.selectGoods
-            }
-          },
-          this.$t('bb4b0675.43d1e2')
-        ),
-        this.selectedGoods.length > 0
-          ? h('span', { class: 'ml-2.5' }, this.$t('bb4b0675.14699a', [this.selectedGoods.length]))
-          : null
+            this.$t('bb4b0675.43d1e2')
+          ),
+          this.selectedGoods.length > 0
+            ? h('span', { class: 'ml-2.5' }, this.$t('bb4b0675.14699a', [this.selectedGoods.length]))
+            : null
+        ]),
+        this.renderSelectedGoodsList()
       ])
     },
     // 渲染复选框（mapping）
@@ -292,11 +416,16 @@ export default {
         })
         this.selectedGoods = data.map((item) => ({
           item_id: item.item_id,
-          item_name: item.item_name
+          item_name: item.item_name,
+          image: getGoodsImage(item)
         }))
       } catch (error) {
         console.error('选择商品失败:', error)
       }
+    },
+    removeGoods(itemId) {
+      if (this.disabled) return
+      this.selectedGoods = this.selectedGoods.filter((item) => item.item_id !== itemId)
     }
   },
   render() {

@@ -21,38 +21,44 @@
 
       <SpTabs :tab-list="tabList" v-model="activeTab" @change="handleTabChange" />
 
-      <SpFinder
-        no-selection
-        ref="finder"
-        url="/orders"
-        row-actions-align="left"
-        row-actions-fixed-align="left"
-        row-actions-width="120px"
-        :fixed-row-action="true"
-        :setting="finderSetting"
-        :hooks="{
-          beforeSearch: beforeSearch,
-          afterSearch: afterSearch
-        }"
+      <OrderListTable
+        :list="tableList"
+        :loading="loading"
+        :show-selection="false"
+        :show-process="false"
+        detail-label="2345face.f26225"
+        :detail-resource="isSelfOrderList ? $route.path : '/mall/trade/normalorders'"
+        :get-distribution-type="getDistributionType"
+        :get-order-category-name="getOrderCategoryName"
+        @action="handleAction"
       />
+
+      <template #page-footer>
+        <div class="order-list-page-footer">
+          <el-pagination
+            background
+            layout="total, sizes, prev, pager, next, jumper"
+            :current-page.sync="page.pageIndex"
+            :page-sizes="[10, 20, 50]"
+            :total="page.total"
+            :page-size="page.pageSize"
+            @current-change="onCurrentChange"
+            @size-change="onSizeChange"
+          />
+        </div>
+      </template>
     </SpPage>
   </SpRouterView>
 </template>
 
 <script>
-import { createSetting } from '@shopex-ui/finder'
 import _map from 'lodash/map'
-import moment from 'moment'
-import {
-  ORDER_TYPE,
-  ORDER_ZITI_STATUS_MAP,
-  ORDER_DELIVERY_STATUS_MAP,
-  GLOBAL_ORDER_STATUS_MAP
-} from '@/consts'
-import { IS_ADMIN, VERSION_STANDARD, formatPrice } from '@/utils'
+import { ORDER_TYPE, DISTRIBUTION_TYPE, ORDER_CATEGORY } from '@/consts'
+import { IS_ADMIN, formatPrice } from '@/utils'
 import { useForm } from '@/composables'
 import hqbdlycorp from '@/common/hqbdlycorp.json'
 import { i18n } from '@/i18n'
+import OrderListTable from '@/view/mall/trade/normalorders/components/OrderListTable'
 
 const LOCAL_ORDER_TYPE = _map(ORDER_TYPE, (item) => ({ label: item.title, value: item.value }))
 
@@ -111,6 +117,7 @@ const [DeliveryForm, DeliveryFormApi] = useForm({
 })
 
 export default {
+  components: { OrderListTable },
   data() {
     return {
       searchParams: {
@@ -120,143 +127,9 @@ export default {
         create_time: []
       },
       datapass_block: 1,
-      finderSetting: createSetting({
-        actions: [
-          {
-            name: this.$t('2345face.f26225'),
-            key: 'detail',
-            type: 'button',
-            buttonType: 'text',
-            action: {
-              handler: ([row]) => {
-                this.$router.push({
-                  path: `${this.$route.path}/detail`,
-                  query: {
-                    orderId: row.order_id,
-                    resource: this.isSelfOrderList ? this.$route.path : '/mall/trade/normalorders'
-                  }
-                })
-              }
-            }
-          },
-          {
-            name: this.$t('2345face.045315'),
-            key: 'delivery',
-            type: 'button',
-            buttonType: 'text',
-            action: {
-              handler: async ([row]) => {
-                const { orderInfo } = await this.$api.trade.getOrderDetail(row.order_id)
-                const goodsInfo = orderInfo?.items || []
-                await this.$dialog.open({
-                  title: this.$t('2345face.045315'),
-                  content: (
-                    <DeliveryForm
-                      value={{
-                        order_id: row.order_id,
-                        goods_info: goodsInfo
-                      }}
-                    />
-                  ),
-                  confirmBefore: async () => {
-                    try {
-                      await DeliveryFormApi.validate()
-                    } catch (error) {
-                      throw new Error(this.$t('2345face.53aadf'))
-                    }
-                  }
-                })
-                const res = await DeliveryFormApi.getFieldsValue()
-                await this.$api.trade.delivery({
-                  order_id: row.order_id,
-                  delivery_corp: res.delivery_corp,
-                  delivery_code: res.delivery_code
-                })
-                this.$message.success(this.$t('2345face.2c8dba'))
-                this.$refs.finder.refresh()
-              }
-            },
-            visible: (row) => {
-              return (
-                row.receipt_type == 'logistics' &&
-                row.order_status == 'PAYED' &&
-                row.delivery_status != 'DONE' &&
-                !IS_ADMIN()
-              )
-            }
-          }
-        ],
-        columns: [
-          {
-            name: this.$t('2345face.1e8dc2'),
-            key: 'order_id',
-            width: 220,
-            render(h, { row }) {
-              return (
-                <div>
-                  <SpClipboard content={row.order_id} />
-                  <div class='flex items-center'>
-                    <SpIcon class='mr-1' name='store' />
-                    {row.distributor_name}
-                  </div>
-                </div>
-              )
-            }
-          },
-          {
-            name: this.$t('2345face.56e3f8'),
-            key: 'create_time',
-            width: 180,
-            formatter: (value, row, col) => {
-              return `${moment(row.create_time * 1000).format('YYYY-MM-DD HH:mm:ss')}`
-            }
-          },
-          {
-            name: this.$t('2345face.9a935b'),
-            key: 'freight_fee',
-            width: 100,
-            formatter: (value, row, col) => {
-              return `${formatPrice(value || 0)}`
-            }
-          },
-          {
-            name: this.$t('2345face.b1862e'),
-            key: 'total_fee',
-            width: 120,
-            formatter: (value, row, col) => `${formatPrice(value)}`
-          },
-          {
-            name: this.$t('2345face.09a1f6'),
-            key: 'mobile',
-            render(h, { row }) {
-              return <SpClipboard content={row.mobile} />
-            }
-          },
-          {
-            name: this.$t('2345face.5cd56b'),
-            key: 'order_class',
-            formatter: (value) => {
-              return LOCAL_ORDER_TYPE.find((item) => item.value == value)?.label
-            }
-          },
-          {
-            name: this.$t('2345face.86f6cf'),
-            key: 'order_status',
-            render(h, { row }) {
-              return h(
-                'el-tag',
-                {
-                  props: {
-                    type: GLOBAL_ORDER_STATUS_MAP[row.order_status_des]?.type,
-                    size: 'mini'
-                  }
-                },
-                row.order_status_msg
-              )
-            }
-          }
-        ]
-      }),
+      tableList: [],
+      loading: false,
+      page: { pageIndex: 1, pageSize: 20, total: 0 },
       activeTab: 'all',
       tabList: [
         { label: this.$t('2345face.dbb4d8'), name: 'all' },
@@ -316,6 +189,9 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.fetchList()
+  },
   methods: {
     beforeSearch(params) {
       const { create_time, mobile, order_id, order_class, distributor_id } = this.searchParams
@@ -353,16 +229,98 @@ export default {
       }
       return _params
     },
-    afterSearch(response) {
-      response.data.data['total_count'] = response.data.data.pager.count
-      return response
+    getDistributionType({ receipt_type }) {
+      return DISTRIBUTION_TYPE.find((item) => item.value == receipt_type)?.title || ''
+    },
+    getOrderCategoryName(order_holder) {
+      return ORDER_CATEGORY.find((item) => item.value == order_holder)?.title || ''
+    },
+    async fetchList() {
+      this.loading = true
+      try {
+        const params = this.beforeSearch({
+          page: this.page.pageIndex,
+          pageSize: this.page.pageSize
+        })
+        const { list, pager } = await this.$api.trade.getOrderList(params)
+        this.tableList = (list || []).map((row) => ({
+          ...row,
+          actionBtns:
+            row.receipt_type == 'logistics' &&
+            row.order_status == 'PAYED' &&
+            row.delivery_status != 'DONE' &&
+            !IS_ADMIN()
+              ? [{ name: '2345face.045315', key: 'delivery' }]
+              : []
+        }))
+        this.page.total = pager?.count || 0
+      } finally {
+        this.loading = false
+      }
+    },
+    onCurrentChange(pageIndex) {
+      this.page.pageIndex = pageIndex
+      this.fetchList()
+    },
+    onSizeChange(pageSize) {
+      this.page.pageSize = pageSize
+      this.page.pageIndex = 1
+      this.fetchList()
+    },
+    async handleAction(row, btn) {
+      if (btn.key !== 'delivery') return
+      const { orderInfo } = await this.$api.trade.getOrderDetail(row.order_id)
+      await this.$dialog.open({
+        title: this.$t('2345face.045315'),
+        content: (
+          <DeliveryForm value={{ order_id: row.order_id, goods_info: orderInfo?.items || [] }} />
+        ),
+        confirmBefore: async () => {
+          try {
+            await DeliveryFormApi.validate()
+          } catch (error) {
+            throw new Error(this.$t('2345face.53aadf'))
+          }
+        }
+      })
+      const res = await DeliveryFormApi.getFieldsValue()
+      await this.$api.trade.delivery({
+        order_id: row.order_id,
+        delivery_corp: res.delivery_corp,
+        delivery_code: res.delivery_code
+      })
+      this.$message.success(this.$t('2345face.2c8dba'))
+      this.fetchList()
     },
     handleTabChange(tab) {
-      this.$refs.finder.refresh(true)
+      this.page.pageIndex = 1
+      this.fetchList()
     },
     handleSearch() {
-      this.$refs.finder.refresh(true)
+      this.page.pageIndex = 1
+      this.fetchList()
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep .sp-page__footer {
+  border-top: 1px solid #ebeef5;
+  background: #fff !important;
+  z-index: 10;
+}
+
+::v-deep .sp-page__footer .footer-content {
+  padding: 12px 0 !important;
+  background: #fff !important;
+}
+
+.order-list-page-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 16px;
+  background: #fff;
+}
+</style>

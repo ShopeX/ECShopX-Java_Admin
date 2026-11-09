@@ -87,7 +87,7 @@ export default {
 
 <style lang="scss" scoped>
 .baseSetting {
-  padding: 30px;
+  padding: 24px;
   .content {
     border: 1px solid #ccc;
     p {

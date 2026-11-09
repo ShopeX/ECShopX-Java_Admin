@@ -44,8 +44,7 @@
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.order_type != 'membercard'"
-            size="small"
-            icon="view"
+            type="text"
             @click="getDetail(scope.row.order_id)"
           >
             {{ $t('63018193.f26225') }}

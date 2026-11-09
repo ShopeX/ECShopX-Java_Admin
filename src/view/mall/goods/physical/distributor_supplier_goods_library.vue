@@ -13,26 +13,33 @@
     <SpRouterView>
       <SpPage>
         <SpFilterForm :model="searchParams" @onSearch="onSearch" @onReset="onSearch">
-          <SpFilterFormItem prop="keywords" label="商品标题:">
-            <el-input v-model="searchParams.keywords" placeholder="商品标题" />
+          <SpFilterFormItem prop="keywords" :label="$t('aa50e3a2.16eddb')">
+            <el-input v-model="searchParams.keywords" :placeholder="$t('aa50e3a2.07ec01')" />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="goods_bn" label="SPU编码:">
-            <el-input v-model="searchParams.goods_bn" placeholder="请输入SPU编码" />
+          <SpFilterFormItem prop="goods_bn" :label="$t('aa50e3a2.288587')">
+            <el-input v-model="searchParams.goods_bn" :placeholder="$t('aa50e3a2.36438f')" />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="supplier_name" label="来源供应商:">
-            <el-input v-model="searchParams.supplier_name" placeholder="请输入来源供应商" />
+          <SpFilterFormItem prop="supplier_name" :label="$t('aa50e3a2.a54fd2')">
+            <el-input
+              v-model="searchParams.supplier_name"
+              :placeholder="$t('aa50e3a2.1542c0')"
+            />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="main_cat_id" label="管理分类:">
+          <SpFilterFormItem prop="main_cat_id" :label="$t('aa50e3a2.e73602')">
             <el-cascader
               v-model="searchParams.main_cat_id"
-              placeholder="请选择"
+              :placeholder="$t('aa50e3a2.708c9d')"
               clearable
               :options="itemCategoryList"
               :props="{ value: 'category_id', label: 'category_name', checkStrictly: true }"
             />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="templates_id" label="运费模板:">
-            <el-select v-model="searchParams.templates_id" placeholder="请选择" clearable>
+          <SpFilterFormItem prop="templates_id" :label="$t('aa50e3a2.63fc58')">
+            <el-select
+              v-model="searchParams.templates_id"
+              :placeholder="$t('aa50e3a2.708c9d')"
+              clearable
+            >
               <el-option
                 v-for="item in templatesList"
                 :key="item.template_id"
@@ -41,10 +48,10 @@
               />
             </el-select>
           </SpFilterFormItem>
-          <SpFilterFormItem prop="brand_id" label="品牌:">
+          <SpFilterFormItem prop="brand_id" :label="$t('aa50e3a2.dab469')">
             <el-select
               v-model="searchParams.brand_id"
-              placeholder="商品/商标关键词"
+              :placeholder="$t('aa50e3a2.2dd7e1')"
               remote
               filterable
               clearable
@@ -58,22 +65,22 @@
               />
             </el-select>
           </SpFilterFormItem>
-          <SpFilterFormItem prop="regions_id" label="商品产地:">
+          <SpFilterFormItem prop="regions_id" :label="$t('aa50e3a2.efcb2d')">
             <el-cascader
               v-model="searchParams.regions_id"
-              placeholder="请选择"
+              :placeholder="$t('aa50e3a2.708c9d')"
               clearable
               :options="regions"
             />
           </SpFilterFormItem>
-          <SpFilterFormItem prop="item_bn" label="SKU编码:">
+          <SpFilterFormItem prop="item_bn" :label="$t('aa50e3a2.8dd62f')">
             <el-input v-model="searchParams.item_bn" />
           </SpFilterFormItem>
         </SpFilterForm>
 
         <div class="action-container">
           <el-button type="primary" plain :loading="syncToShopLoading" @click="syncToShop">
-            同步到店铺
+            {{ $t('aa50e3a2.9cf126') }}
           </el-button>
         </div>
 
@@ -99,10 +106,22 @@
           "
         >
           <el-table v-loading="skuLoading" border :data="itemSkuList" height="100%">
-            <el-table-column label="规格" prop="item_spec_desc" min-width="120" />
-            <el-table-column label="商品货号" prop="supplier_goods_bn" min-width="120" />
-            <el-table-column label="税率编码" prop="tax_rate_code" min-width="120" />
-            <el-table-column label="税率" prop="tax_rate" min-width="120">
+            <el-table-column
+              :label="$t('aa50e3a2.ea887b')"
+              prop="item_spec_desc"
+              min-width="120"
+            />
+            <el-table-column
+              :label="$t('aa50e3a2.e9de29')"
+              prop="supplier_goods_bn"
+              min-width="120"
+            />
+            <el-table-column
+              :label="$t('aa50e3a2.c927ea')"
+              prop="tax_rate_code"
+              min-width="120"
+            />
+            <el-table-column :label="$t('aa50e3a2.2a79a7')" prop="tax_rate" min-width="120">
               <template slot-scope="scope">
                 <span>{{ `${scope.row.tax_rate}%` }}</span>
               </template>
@@ -152,7 +171,7 @@ export default {
       tableList: {
         actions: [
           {
-            name: '查看',
+            name: this.$t('aa50e3a2.607e7a'),
             key: 'view',
             type: 'button',
             buttonType: 'text',
@@ -171,16 +190,22 @@ export default {
           }
         ],
         columns: [
-          { name: '供应商品ID', key: 'item_id', width: 120, align: 'right', headerAlign: 'center' },
           {
-            name: '商品ID',
+            name: this.$t('aa50e3a2.b9c2e7'),
+            key: 'item_id',
+            width: 120,
+            align: 'right',
+            headerAlign: 'center'
+          },
+          {
+            name: this.$t('aa50e3a2.858526'),
             key: 'main_item_id',
             width: 120,
             align: 'right',
             headerAlign: 'center'
           },
           {
-            name: '商品',
+            name: this.$t('aa50e3a2.9897d8'),
             key: 'itemName',
             width: 280,
             render: (h, scope) => {
@@ -198,7 +223,7 @@ export default {
                           this.handleViewSkuInfo(scope.row)
                         }}
                       >
-                        多
+                        {this.$t('aa50e3a2.7b1568')}
                         <i
                           class="ecx-icon icon-sousuo"
                           style="font-size: 12px; margin-left: 2px;"
@@ -207,12 +232,16 @@ export default {
                     )}
                   </div>
                   <div style="color: #666;">
-                    {`SPU编码：${scope.row.goods_bn}`}
-                    <el-tooltip effect="dark" content="复制" placement="top-start">
+                    {`${this.$t('aa50e3a2.2c8af9')}${scope.row.goods_bn}`}
+                    <el-tooltip
+                      effect="dark"
+                      content={this.$t('aa50e3a2.79d3ab')}
+                      placement="top-start"
+                    >
                       <i
                         on-click={() => {
                           this.$copyText(scope.row.goods_bn).then(() => {
-                            this.$message.success('复制成功')
+                            this.$message.success(this.$t('aa50e3a2.20a495'))
                           })
                         }}
                         class="el-icon-document-copy"
@@ -224,10 +253,10 @@ export default {
               )
             }
           },
-          { name: 'sku编码', key: 'item_bn', width: 120 },
-          { name: '来源供应商', key: 'supplier_name', width: 120 },
+          { name: this.$t('aa50e3a2.0888fc'), key: 'item_bn', width: 120 },
+          { name: this.$t('aa50e3a2.a54fd2').replace(':', ''), key: 'supplier_name', width: 120 },
           {
-            name: '标签',
+            name: this.$t('aa50e3a2.14d342'),
             key: 'tagList',
             render: (h, scope) => (
               <div style="white-space: normal;">
@@ -249,7 +278,7 @@ export default {
             )
           },
           {
-            name: '排序编号',
+            name: this.$t('aa50e3a2.e8373a'),
             key: 'sort',
             width: 120,
             showType: 'editable',
@@ -261,9 +290,14 @@ export default {
               }
             }
           },
-          { name: '库存', key: 'store', align: 'right', headerAlign: 'center' },
           {
-            name: '市场价（¥）',
+            name: this.$t('aa50e3a2.0eac88'),
+            key: 'store',
+            align: 'right',
+            headerAlign: 'center'
+          },
+          {
+            name: this.$t('aa50e3a2.5cd87e'),
             key: 'market_price',
             width: 100,
             formatter: (value) => (value / 100).toFixed(2),
@@ -271,7 +305,7 @@ export default {
             headerAlign: 'center'
           },
           {
-            name: '销售价（¥）',
+            name: this.$t('aa50e3a2.cf0170'),
             key: 'price',
             width: 100,
             formatter: (value) => (value / 100).toFixed(2),
@@ -279,7 +313,7 @@ export default {
             headerAlign: 'center'
           },
           {
-            name: '成本价（¥）',
+            name: this.$t('aa50e3a2.066804'),
             key: 'cost_price',
             width: 100,
             formatter: (value) => (value / 100).toFixed(2),
@@ -287,37 +321,38 @@ export default {
             headerAlign: 'center'
           },
           {
-            name: '毛利率（%)',
+            name: this.$t('aa50e3a2.4d02c7'),
             key: 'gross_profit_rate',
             width: 100,
             align: 'right',
             headerAlign: 'center'
           },
           {
-            name: '供应状态',
+            name: this.$t('aa50e3a2.63d68b'),
             key: 'is_market',
-            formatter: (value) => (value == '1' ? '可售' : '不可售')
+            formatter: (value) =>
+              value == '1' ? this.$t('aa50e3a2.434e17') : this.$t('aa50e3a2.b37fb8')
           },
           {
-            name: '审核状态',
+            name: this.$t('aa50e3a2.b6d0e9'),
             key: 'audit_status',
             formatter: (value) => GOODS_APPLY_STATUS[value]
           },
-          { name: '销售分类', key: 'itemCatName', minWidth: 120 },
+          { name: this.$t('aa50e3a2.392d49'), key: 'itemCatName', minWidth: 120 },
           {
-            name: '创建时间',
+            name: this.$t('aa50e3a2.eca37c'),
             key: 'created',
             width: 160,
             formatter: (value) => moment(value * 1000).format('YYYY-MM-DD HH:mm:ss')
           },
           {
-            name: '审核时间',
+            name: this.$t('aa50e3a2.e6f070'),
             key: 'audit_date',
             width: 160,
             formatter: (value) => (value ? moment(value * 1000).format('YYYY-MM-DD HH:mm:ss') : '')
           },
           {
-            name: '更新时间',
+            name: this.$t('aa50e3a2.a001a2'),
             key: 'updated',
             width: 160,
             formatter: (value) => moment(value * 1000).format('YYYY-MM-DD HH:mm:ss')
@@ -379,25 +414,25 @@ export default {
         page: 1,
         pageSize: 1000
       })
-      this.itemSkuDrawerTitle = `商品【${item.item_name}】`
+      this.itemSkuDrawerTitle = this.$t('aa50e3a2.396a82', { name: item.item_name })
       this.itemSkuList = list || []
       this.showItemSkuDrawer = true
       this.skuLoading = false
     },
     async syncToShop() {
       if (this.selectionItems.length === 0) {
-        this.$message.error('请选择至少一个商品')
+        this.$message.error(this.$t('aa50e3a2.ace302'))
         return
       }
       const notApproved = this.selectionItems.filter((item) => item.audit_status !== 'approved')
       if (notApproved.length > 0) {
-        this.$message.error('仅审核通过的商品可同步到店铺')
+        this.$message.error(this.$t('aa50e3a2.f4a841'))
         return
       }
       try {
-        await this.$confirm('确定将选中的商品同步到本店？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        await this.$confirm(this.$t('aa50e3a2.1886ba'), this.$t('aa50e3a2.02d981'), {
+          confirmButtonText: this.$t('aa50e3a2.38cf16'),
+          cancelButtonText: this.$t('aa50e3a2.625fb2'),
           type: 'warning'
         })
       } catch (e) {
@@ -408,7 +443,7 @@ export default {
         await batchSyncToShop({
           item_ids: this.selectionItems.map((item) => item.item_id).join(',')
         })
-        this.$message.success('同步成功')
+        this.$message.success(this.$t('aa50e3a2.52b85c'))
         this.$refs['finder'].refresh()
       } finally {
         this.syncToShopLoading = false

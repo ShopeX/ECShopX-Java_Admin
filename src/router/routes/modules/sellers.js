@@ -118,7 +118,7 @@ const routes = [
         meta: {
           aliasName: 'storemanager_setting',
           icon: 'pay-circle',
-          title: i18n.t('fb06c42c.b2662c'),
+          title: i18n.t('81ec8afa.b6453a'),
           permissions: ['sellers.salesetting.storemanager_setting']
         },
         component: () => import('@/view/mall/marketing/setting')

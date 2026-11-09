@@ -16,7 +16,8 @@ const config = {
         { name: i18n.t('7a0ee76a.4f9974'), label: 'vertical' }
       ],
       tips: i18n.t('7a0ee76a.cc9f07'),
-      value: 'vertical'
+      // 界面「纵向排列」对应内部值 horizontal；vertical 表示「横向排列」
+      value: 'horizontal'
     },
     {
       group: i18n.t('7a0ee76a.eeb8e8'),

@@ -19,7 +19,7 @@
     >
       <template slot="tableTop">
         <div class="action-container">
-          <el-button @click="addStoreValue">{{ $t('598bafdd.e50663') }}</el-button>
+          <el-button type="primary" plain @click="addStoreValue">{{ $t('598bafdd.e50663') }}</el-button>
         </div>
       </template>
     </SpFinder>

@@ -3,6 +3,7 @@
  * See LICENSE file for license details.
  */
 import moment from 'moment'
+import { i18n } from '@/i18n'
 
 const install = function (Vue) {
   Vue.filter('datetime', (time, pattern) => {
@@ -40,7 +41,7 @@ const install = function (Vue) {
   Vue.filter('formatCityData', function (areaValue, district, defaultValue = true) {
     if (areaValue == 0 || typeof areaValue === 'undefined') {
       if (!defaultValue) return ''
-      return '全国（默认）'
+      return i18n.t('1182143c.9cd661')
     }
     var area_str = ''
     for (var province in district) {

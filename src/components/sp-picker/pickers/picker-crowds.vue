@@ -1,6 +1,6 @@
 <template>
   <div class="picker-crowds">
-    <div class="max-h-[500px] overflow-y-auto pr-2.5 pl-2.5">
+    <div class="max-h-[500px] overflow-y-auto pr-4 pl-4 pt-3">
       <div
         v-for="category in tagCategories"
         :key="category.group_id"
@@ -11,7 +11,6 @@
         </div>
         <CompTagList
           :list="getFormattedTags(category)"
-          :tags-id="category.group_id"
           :selection-babel="true"
           :select-only="true"
           tag-size="small"
@@ -40,7 +39,7 @@ export default {
     CompTagList
   },
   config: {
-    title: ''
+    title: '394573fc.d2a769'
   },
   props: ['value'],
   computed: {
@@ -49,14 +48,6 @@ export default {
     },
     loadingText() {
       return i18n.t('394573fc.26b5bd')
-    },
-    crowdsSetting() {
-      return {
-        columns: [
-          { name: 'ID', key: 'tag_id', width: 80 },
-          { name: i18n.t('394573fc.341fe8'), key: 'tag_name' }
-        ]
-      }
     }
   },
   data() {
@@ -68,7 +59,6 @@ export default {
     }
   },
   created() {
-    this.$options.config.title = i18n.t('394573fc.d2a769')
     this.initSelectedFromValue()
   },
   mounted() {
@@ -150,7 +140,8 @@ export default {
       try {
         const { list = [] } = await this.$api.member.getTagGroupList({
           page: 1,
-          page_size: 100
+          page_size: 100,
+          with_system: 1
         })
         this.tagCategories = list
         this.resolvePendingSelection()

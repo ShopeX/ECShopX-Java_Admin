@@ -232,6 +232,27 @@ const routes = [
       },
 
       {
+        name: 'posAccountManage',
+        path: 'pos/accounts',
+        meta: {
+          aliasName: 'pos_accounts',
+          icon: 'pay-circle',
+          title: i18n.t('9d1e03c7.f3b728'),
+          permissions: ['applications.pos.pos_accounts']
+        },
+        component: () => import('@/views/apps/pos-accounts/index.vue'),
+        children: [
+          {
+            path: 'import',
+            component: () => import('@/views/apps/pos-accounts/import.vue'),
+            meta: {
+              title: i18n.t('9d1e03c7.1bfbbc'),
+              hidden: true
+            }
+          }
+        ]
+      },
+      {
         name: 'guideAssistantWeChatSettings',
         path: 'guide-assistant/wechat-settings',
         meta: {
@@ -460,6 +481,17 @@ const routes = [
           permissions: ['applications.shuyun-data-winner.crm-setting']
         },
         component: () => import('@/views/applications/shuyun/crm-setting')
+      },
+      {
+        name: 'pos/digiosPsiConfig',
+        path: 'pos/digios-psi-config',
+        meta: {
+          aliasName: 'digios-psi-config',
+          title: i18n.t('f7623e85.35b94e'),
+          icon: 'pay-circle',
+          permissions: ['applications.pos.digios-psi-config']
+        },
+        component: () => import('@/views/applications/digios/psi-config')
       }
     ]
   }

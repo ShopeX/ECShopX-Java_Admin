@@ -153,13 +153,11 @@ export const finderSetting = (vm) =>
                   {
                     key: tag.tag_id,
                     props: {
-                      size: 'mini',
+                      size: 'medium',
                       closable: true,
-                      effect: 'plain',
-                      color: tag.tag_color || ''
+                      effect: 'plain'
                     },
                     style: {
-                      color: tag.font_color || '',
                       marginBottom: '2px'
                     },
                     on: {

@@ -64,6 +64,7 @@
 
 <script>
 import { i18n } from '@/i18n'
+import { canUseWebLinkTab } from '@/components/sp-path-selector/config'
 import BasePicker from './base'
 import PageMixin from '../mixins/page'
 
@@ -73,6 +74,7 @@ const BASE_LINK_PAGES = [
   { id: 'recharge', titleKey: '223cc8af.1200d5' },
   { id: 'purchase', titleKey: '223cc8af.d0465c' },
   { id: 'pointShop', titleKey: '223cc8af.a13364' },
+  { id: 'memberSign', titleKey: '223cc8af.8e34d0' },
   { id: 'registActivity', titleKey: '223cc8af.7fb92b' },
   { id: 'group', titleKey: '223cc8af.75a1d2' },
   { id: 'coupon_list', titleKey: '223cc8af.2f3635' },
@@ -82,6 +84,12 @@ const BASE_LINK_PAGES = [
   { id: 'groups_list', titleKey: '223cc8af.f38e72' },
   { id: 'hottopic', titleKey: '223cc8af.26b2d6' },
   { id: 'zitiOrder', titleKey: '223cc8af.d50361' },
+  { id: 'orderAll', titleKey: 'c398c1c2.dbb4d8' },
+  { id: 'orderWaitPay', titleKey: 'cff31093.818d78' },
+  { id: 'orderWaitSend', titleKey: '2345face.d8476e' },
+  { id: 'orderWaitReceive', titleKey: 'cff31093.4933ca' },
+  { id: 'orderWaitEvaluate', titleKey: 'cff31093.a48b28' },
+  { id: 'orderAfterSale', titleKey: 'cff31093.59bd68' },
   { id: 'homeSearch', titleKey: '223cc8af.e5f71f' },
   { id: 'settings', titleKey: '223cc8af.e366cc' },
   { id: 'kujiale', titleKey: '223cc8af.f2d3e5' },
@@ -129,6 +137,16 @@ export default {
           { id: 'category', titleKey: '223cc8af.d0771a' },
           { id: 'hottopic', titleKey: '223cc8af.26b2d6' }
         ])
+      }
+
+      // PC 装修「页面」tab：BBC / B2C（含 standard）可配置
+      if (this.value?.platform === 'web') {
+        if (!canUseWebLinkTab()) return []
+        const pages = [{ id: 'activityList', titleKey: '223cc8af.activityList' }]
+        if (this.VERSION_PLATFORM()) {
+          pages.push({ id: 'tenants', titleKey: '223cc8af.1107a8' })
+        }
+        return mapPageTitles(this, pages)
       }
 
       const items = [...BASE_LINK_PAGES]

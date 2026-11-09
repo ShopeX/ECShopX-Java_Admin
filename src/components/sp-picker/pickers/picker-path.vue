@@ -91,9 +91,6 @@
       <el-tab-pane v-if="isTabVisible('planting')" :label="$t('d81d8932.e8f87a')" name="planting">
         <PickerPlanting v-if="tabValue == 'planting'" ref="planting" :value="value" />
       </el-tab-pane>
-      <el-tab-pane v-if="isTabVisible('link')" :label="$t('d81d8932.59ceff')" name="link">
-        <PickerLink v-if="tabValue == 'link'" ref="link" :value="value" />
-      </el-tab-pane>
       <el-tab-pane
         v-if="isTabVisible('regactivity')"
         :label="$t('d81d8932.2bc045')"
@@ -130,6 +127,13 @@
           ref="custom_page"
           :value="value"
         />
+      </el-tab-pane>
+      <el-tab-pane
+        v-if="isTabVisible('link') && (!isWebPlatform || canUseWebLinkTab)"
+        :label="$t('d81d8932.59ceff')"
+        name="link"
+      >
+        <PickerLink v-if="tabValue == 'link'" ref="link" :value="value" />
       </el-tab-pane>
       <el-tab-pane v-if="isTabVisible('live')" :label="$t('d81d8932.7bbe8e')" name="live">
         <PickerLive v-if="tabValue == 'live'" ref="live" :value="value" />
@@ -191,7 +195,10 @@ import PickerSharePage from './picker-share-page'
 import PickerCoupon from './picker-coupon'
 import PickerCustomerService from './picker-customer-service'
 import WebCustomPagePicker from '@/components/sp-picker-plus/WebCustomPagePicker.vue'
-import { PATH_SELECTOR_PLATFORM_TYPES } from '@/components/sp-path-selector/config'
+import {
+  PATH_SELECTOR_PLATFORM_TYPES,
+  canUseWebLinkTab
+} from '@/components/sp-path-selector/config'
 
 export default {
   name: 'PickerPath',
@@ -244,6 +251,9 @@ export default {
   computed: {
     isWebPlatform() {
       return this.value?.platform === 'web'
+    },
+    canUseWebLinkTab() {
+      return canUseWebLinkTab()
     },
     webCustomPageInitialSelected() {
       const raw = this.value?.data

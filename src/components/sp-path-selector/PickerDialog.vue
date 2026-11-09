@@ -268,7 +268,8 @@ export default {
         linkPageValue: this.tabValue,
         trackingParams: iv.trackingParams || '',
         ...iv,
-        ...(iv.extra || {})
+        ...(iv.extra || {}),
+        platform: this.platform
       }
     },
     createGoodsInitialSelected() {

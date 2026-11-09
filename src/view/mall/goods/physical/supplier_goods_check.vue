@@ -4,22 +4,25 @@
 -->
 
 <style scoped lang="scss">
-.sp-filter-form {
-  margin-bottom: 16px;
-}
 .tab-tools {
-  text-align: right;
-  @include clearfix();
+  display: flex;
+  justify-content: flex-start;
   margin-bottom: 8px;
   .warn-input {
     display: flex;
     align-items: center;
-    float: right;
     .el-input {
       width: 120px;
       margin: 0 8px;
     }
   }
+}
+.sync-pool-tip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  color: #909399;
+  line-height: 22px;
 }
 </style>
 <style lang="scss">
@@ -52,101 +55,29 @@
         <!--        </el-dropdown>-->
         <!--      </div>-->
 
-        <SpFilterForm :model="searchParams" @onSearch="onSearch" @onReset="onSearch">
-          <SpFilterFormItem prop="keywords" :label="$t('d41d8cd9.9d02ac') + ':'">
-            <el-input v-model="searchParams.keywords" :placeholder="$t('d41d8cd9.9d02ac')" />
-          </SpFilterFormItem>
-          <SpFilterFormItem prop="goods_bn" :label="$t('d41d8cd9.c3a815') + ':'">
-            <el-input v-model="searchParams.goods_bn" :placeholder="$t('d41d8cd9.7d3a61')" />
-          </SpFilterFormItem>
-          <SpFilterFormItem prop="supplier_name" :label="$t('d41d8cd9.55c61d') + ':'">
-            <el-input v-model="searchParams.supplier_name" :placeholder="$t('d41d8cd9.s8p9l1p')" />
-          </SpFilterFormItem>
-          <!--        <SpFilterFormItem prop="approve_status" label="商品状态:">-->
-          <!--          <el-select v-model="searchParams.approve_status" clearable placeholder="请选择">-->
-          <!--            <el-option-->
-          <!--              v-for="item in statusOption"-->
-          <!--              :key="item.value"-->
-          <!--              :label="item.title"-->
-          <!--              size="mini"-->
-          <!--              :value="item.value"-->
-          <!--            />-->
-          <!--          </el-select>-->
-          <!--        </SpFilterFormItem>-->
-          <SpFilterFormItem prop="main_cat_id" :label="$t('d41d8cd9.7f29b6') + ':'">
-            <el-cascader
-              v-model="searchParams.main_cat_id"
-              :placeholder="$t('d41d8cd9.3e1b0a')"
-              clearable
-              :options="itemCategoryList"
-              :props="{ value: 'category_id', label: 'category_name', checkStrictly: true }"
-            />
-          </SpFilterFormItem>
-          <!-- <SpFilterFormItem prop="audit_status" label="审核状态:">
-          <el-select v-model="searchParams.audit_status">
-            <el-option value="processing" label="待审核" />
-            <el-option value="approved" label="审核通过" />
-            <el-option value="rejected" label="审核拒绝" />
-          </el-select>
-        </SpFilterFormItem> -->
-          <SpFilterFormItem prop="templates_id" :label="$t('d41d8cd9.c9b832') + ':'">
-            <el-select
-              v-model="searchParams.templates_id"
-              :placeholder="$t('d41d8cd9.3e1b0a')"
-              clearable
-            >
-              <el-option
-                v-for="item in templatesList"
-                :key="item.template_id"
-                :label="item.name"
-                :value="item.template_id"
-              />
-            </el-select>
-          </SpFilterFormItem>
-          <!--        <SpFilterFormItem prop="tax_rate_code" label="税率编码:">-->
-          <!--          <el-input v-model="searchParams.tax_rate_code" placeholder="商品编号或条形码" />-->
-          <!--        </SpFilterFormItem>-->
-          <SpFilterFormItem prop="brand_id" :label="$t('d41d8cd9.4a8f15') + ':'">
-            <el-select
-              v-model="searchParams.brand_id"
-              :placeholder="$t('d41d8cd9.5b6c09')"
-              remote
-              filterable
-              clearable
-              :remote-method="getGoodsBranchList"
-            >
-              <el-option
-                v-for="item in goodsBranchList"
-                :key="item.attribute_id"
-                :label="item.attribute_name"
-                :value="item.attribute_id"
-              />
-            </el-select>
-          </SpFilterFormItem>
-          <SpFilterFormItem prop="regions_id" :label="$t('d41d8cd9.d82b43') + ':'">
-            <el-cascader
-              v-model="searchParams.regions_id"
-              :placeholder="$t('d41d8cd9.3e1b0a')"
-              clearable
-              :options="regions"
-            />
-          </SpFilterFormItem>
-          <!--        <SpFilterFormItem prop="delivery_data_type" label="发货方式:">-->
-          <!--          <el-select v-model="searchParams.delivery_data_type">-->
-          <!--            <el-option value="fixed_date" label="指定发货日期" />-->
-          <!--            <el-option value="relative_date" label="相对发货日期" />-->
-          <!--          </el-select>-->
-          <!--        </SpFilterFormItem>-->
-          <SpFilterFormItem prop="item_bn" :label="$t('d41d8cd9.8a2c1f') + ':'">
-            <el-input v-model="searchParams.item_bn" />
-          </SpFilterFormItem>
-        </SpFilterForm>
+        <SpFormPlus
+          ref="searchForm"
+          v-model="searchParams"
+          form-type="searchForm"
+          :inline="true"
+          :form-items="searchFormItems"
+          @submit="onSearch"
+          @reset="onSearch"
+        />
 
-        <div class="action-container">
+        <div class="action-container mt-4">
           <el-button type="primary" plain @click="Examine"> {{ $t('d41d8cd9.298be1') }} </el-button>
-          <el-button type="primary" plain :loading="syncToPoolLoading" @click="syncToPool">
+          <el-button
+            type="primary"
+            plain
+            :loading="syncToPoolLoading"
+            @click="syncToPool"
+          >
             {{ $t('58789194.d351c3') }}
           </el-button>
+          <span class="sync-pool-tip">
+            {{ $t('58789194.97a8b4') }}
+          </span>
         </div>
 
         <el-tabs v-model="activeName" type="card" @tab-click="handleTabClick">
@@ -170,7 +101,8 @@
           ref="finder"
           :url="IS_DISTRIBUTOR() ? '/distributor/items' : '/goods/items'"
           fixed-row-action
-          row-actions-width="200px"
+          row-actions-width="160px"
+          :split-count="2"
           :other-config="{}"
           :setting="tableList"
           :hooks="{
@@ -481,7 +413,8 @@ export default {
         regions_id: [],
         brand_id: '',
         goods_bn: '',
-        supplier_name: ''
+        supplier_name: '',
+        main_cat_id: null
       },
       start_date: '',
       end_date: '',
@@ -710,10 +643,32 @@ export default {
           {
             name: this.$t('d41d8cd9.i8j9k0'),
             key: 'itemName',
-            width: 280,
+            width: 320,
             render: (h, scope) => {
+              let pics = scope.row.pics
+              if (typeof pics === 'string' && pics.trim()) {
+                try {
+                  pics = JSON.parse(pics)
+                } catch (e) {
+                  pics = []
+                }
+              }
+              const pic =
+                (Array.isArray(pics) && pics[0]) ||
+                scope.row.pic ||
+                scope.row.image_url ||
+                ''
               return (
-                <div>
+                <div style='display: flex; align-items: flex-start; gap: 8px;'>
+                  {h('SpImage', {
+                    props: {
+                      src: pic,
+                      width: 56,
+                      height: 56,
+                      fit: 'cover'
+                    }
+                  })}
+                  <div style='flex: 1; min-width: 0;'>
                   <div style='white-space: normal;'>
                     {scope.row.itemName}
                     {!scope.row.nospec && (
@@ -752,12 +707,21 @@ export default {
                       />
                     </el-tooltip>
                   </div>
+                  </div>
                 </div>
               )
             }
           },
-          { name: this.$t('d41d8cd9.0888fc'), key: 'item_bn' },
           { name: this.$t('d41d8cd9.55c61d'), key: 'supplier_name', width: 120 },
+          {
+            name: this.$t('58789194.c8f2a1'),
+            key: 'is_sync_platform',
+            width: 120,
+            formatter: (value) => {
+              const synced = value === true || value === 1 || value === '1'
+              return synced ? this.$t('58789194.b3e901') : this.$t('58789194.a7d402')
+            }
+          },
           // {
           //   name: this.$t('d41d8cd9.g4h5i6'),
           //   key: 'tagList',
@@ -894,6 +858,102 @@ export default {
           }
         ]
       }
+    }
+  },
+  computed: {
+    searchFormItems() {
+      return [
+        {
+          fieldName: 'keywords',
+          label: this.$t('d41d8cd9.9d02ac'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.9d02ac')
+          }
+        },
+        {
+          fieldName: 'goods_bn',
+          label: this.$t('d41d8cd9.c3a815'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.7d3a61')
+          }
+        },
+        {
+          fieldName: 'supplier_name',
+          label: this.$t('d41d8cd9.55c61d'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.s8p9l1p')
+          }
+        },
+        {
+          fieldName: 'main_cat_id',
+          label: this.$t('d41d8cd9.7f29b6'),
+          component: 'cascader',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.3e1b0a'),
+            clearable: true,
+            options: this.itemCategoryList,
+            props: { value: 'category_id', label: 'category_name', checkStrictly: true }
+          }
+        },
+        {
+          fieldName: 'templates_id',
+          label: this.$t('d41d8cd9.c9b832'),
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.3e1b0a'),
+            clearable: true,
+            options: this.templatesList.map((item) => ({
+              label: item.name,
+              value: item.template_id
+            }))
+          }
+        },
+        {
+          fieldName: 'brand_id',
+          label: this.$t('d41d8cd9.4a8f15'),
+          component: 'select',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.5b6c09'),
+            remote: true,
+            filterable: true,
+            clearable: true,
+            remoteMethod: this.getGoodsBranchList,
+            options: this.goodsBranchList.map((item) => ({
+              label: item.attribute_name,
+              value: item.attribute_id
+            }))
+          }
+        },
+        {
+          fieldName: 'regions_id',
+          label: this.$t('d41d8cd9.d82b43'),
+          component: 'cascader',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.3e1b0a'),
+            clearable: true,
+            options: this.regions
+          }
+        },
+        {
+          fieldName: 'item_bn',
+          label: this.$t('d41d8cd9.8a2c1f'),
+          component: 'input',
+          cellWidth: 1.3,
+          componentProps: {
+            placeholder: this.$t('d41d8cd9.6e19f2')
+          }
+        }
+      ]
     }
   },
   mounted() {
@@ -1288,7 +1348,8 @@ export default {
         page: 1,
         pageSize: 1000
       })
-      this.itemSkuDrawerTitle = this.$t('58789194.9897d8') + '【' + item.item_name + '】'
+      this.itemSkuDrawerTitle =
+        this.$t('58789194.9897d8') + '【' + (item.itemName || item.item_name || '') + '】'
       this.itemSkuList = list || []
       this.showItemSkuDrawer = true
       this.itemSkuList = list

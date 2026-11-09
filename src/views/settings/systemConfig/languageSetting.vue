@@ -6,9 +6,9 @@
   <SpPage>
     <div v-loading="pageLoading" class="px-6 py-4">
       <div class="mb-4">
-        <h2 class="m-0 text-xl font-medium text-gray-900">语言设置</h2>
+        <h2 class="m-0 text-xl font-medium text-gray-900">{{ $t('9a1c99c9.0e836f') }}</h2>
         <p class="mt-2 mb-0 text-sm text-gray-500">
-          配置管理后台和用户前端可使用的语言，以及进入时默认展示的语言。
+          {{ $t('9a1c99c9.9c2a22') }}
         </p>
       </div>
 
@@ -20,17 +20,17 @@
       </div>
 
       <div class="mb-4 flex flex-wrap items-center gap-4 text-sm text-gray-600">
-        <span>已启用语言：{{ enabledCount }}</span>
+        <span>{{ $t('9a1c99c9.9131ba', { count: enabledCount }) }}</span>
         <span>
-          当前默认语言：
+          {{ $t('9a1c99c9.88c05e') }}
           <template v-if="draft.defaultLanguage">
             {{ displayNameOf(draft.defaultLanguage) }}
           </template>
           <template v-else>
-            <span class="text-amber-600">请选择新的默认语言</span>
+            <span class="text-amber-600">{{ $t('9a1c99c9.6cf2ed') }}</span>
           </template>
         </span>
-        <span v-if="isDirty" class="text-amber-600">有未保存的变更</span>
+        <span v-if="isDirty" class="text-amber-600">{{ $t('9a1c99c9.65a497') }}</span>
       </div>
 
       <div class="overflow-hidden rounded border border-gray-200 bg-white">
@@ -43,11 +43,11 @@
           <div class="min-w-[160px] flex-1">
             <div class="font-medium text-gray-900">{{ row.displayName }}</div>
             <div class="mt-1 text-xs text-gray-400">{{ row.code }}</div>
-            <div class="mt-1 text-xs text-gray-400">作用范围：管理后台、用户前端</div>
+            <div class="mt-1 text-xs text-gray-400">{{ $t('9a1c99c9.46fd97') }}</div>
           </div>
 
           <div class="flex items-center gap-2">
-            <span class="text-sm text-gray-500">启用</span>
+            <span class="text-sm text-gray-500">{{ $t('9a1c99c9.7854b5') }}</span>
             <el-switch
               :value="row.enabled"
               active-color="var(--color-primary, #722ed1)"
@@ -63,20 +63,22 @@
               :disabled="!row.enabled"
               @change="onSelectDefault(row.code)"
             >
-              默认语言
+              {{ $t('9a1c99c9.d69990') }}
             </el-radio>
           </div>
         </div>
       </div>
 
       <p class="mt-4 mb-6 text-xs leading-5 text-gray-400">
-        关闭语言后，管理后台和用户前端将不再提供该语言的选择入口；已使用该语言的用户将在下一次进入时使用当前默认语言。
+        {{ $t('9a1c99c9.8d1ad9') }}
       </p>
 
       <div class="flex justify-center gap-3 border-t border-gray-100 pt-4">
-        <el-button :disabled="!isDirty || saving" @click="onReset">恢复</el-button>
+        <el-button :disabled="!isDirty || saving" @click="onReset">
+          {{ $t('9a1c99c9.c7db6d') }}
+        </el-button>
         <el-button type="primary" :loading="saving" :disabled="!canSave" @click="onSave">
-          保存
+          {{ $t('9a1c99c9.be5fbb') }}
         </el-button>
       </div>
     </div>
@@ -142,9 +144,9 @@ export default {
       next()
       return
     }
-    this.$confirm('当前有未保存的语言设置，是否放弃变更？', '提示', {
-      confirmButtonText: '放弃变更',
-      cancelButtonText: '继续编辑',
+    this.$confirm(this.$t('9a1c99c9.a83346'), this.$t('9a1c99c9.02d981'), {
+      confirmButtonText: this.$t('9a1c99c9.f75da7'),
+      cancelButtonText: this.$t('9a1c99c9.20ce8e'),
       type: 'warning',
       distinguishCancelAndClose: true
     })
@@ -196,7 +198,7 @@ export default {
       if (!enabled) {
         const otherEnabled = this.draft.languages.some((l) => l.code !== code && l.enabled)
         if (!otherEnabled) {
-          this.$message.warning('至少保持一种语言开启')
+          this.$message.warning(this.$t('9a1c99c9.a891b3'))
           // 强制回刷开关受控态
           this.draft.languages = this.draft.languages.map((item) => ({ ...item }))
           return
@@ -204,7 +206,7 @@ export default {
         row.enabled = false
         if (this.draft.defaultLanguage === code) {
           this.draft.defaultLanguage = ''
-          this.$message.warning('请选择新的默认语言')
+          this.$message.warning(this.$t('9a1c99c9.6cf2ed'))
         }
         return
       }
@@ -218,16 +220,16 @@ export default {
     },
     validateBeforeSave() {
       if (this.enabledCount < 1) {
-        this.$message.error('至少开启一种语言后才能保存')
+        this.$message.error(this.$t('9a1c99c9.8317e6'))
         return false
       }
       if (!this.draft.defaultLanguage) {
-        this.$message.error('请选择默认语言后再保存')
+        this.$message.error(this.$t('9a1c99c9.4ed690'))
         return false
       }
       const defaultRow = this.draft.languages.find((l) => l.code === this.draft.defaultLanguage)
       if (!defaultRow || !defaultRow.enabled) {
-        this.$message.error('默认语言必须是已开启语言')
+        this.$message.error(this.$t('9a1c99c9.8cc4d5'))
         return false
       }
       return true
@@ -252,7 +254,7 @@ export default {
         if (inner?.message) {
           this.$message.success(inner.message)
         } else {
-          this.$message.success('语言设置已保存')
+          this.$message.success(this.$t('9a1c99c9.40846a'))
         }
         clearLanguageSettingCache()
         // 保存成功后重新拉取，保证 version / 列表与服务端一致

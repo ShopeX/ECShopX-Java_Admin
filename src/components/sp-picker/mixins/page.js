@@ -6,8 +6,8 @@ export default {
   data() {
     return {
       pageCur: 1,
-      pageSize: 18,
       pageCount: 0,
+      pageSize: 24,
       loading: false
     }
   },

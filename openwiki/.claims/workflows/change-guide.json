@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:18131984f4333d0be5478896d39536275f84cfa0be3b111c2d4997e24d6dc1e1",
+  "claims": [
+    {
+      "id": "claim_fccfc2b728ae4580bfe2178e02177128",
+      "statement": "Dynamic route ownership is selected from the current portal URL, then filtered by leaf menu permissions before being added to the router; the access guard allows core/login routes, rejects missing-token or portal-role mismatches, and redirects inaccessible targets to the first permitted route.",
+      "evidence": [
+        {
+          "resource": "repo://src/router/access.js#L17-L45",
+          "version": "repo-lines-v1:sha256:c38b697c7cd22edbfabeb8e590b54719b4c36517f17eba763aeec59962ed2fa1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlMDMyYmI1ODNmMjNiMGI5YWNhYjQyYzI5NGJjYzNjZjhhNGU2NmNjYTZiNjhlZDAyMWNjNGQwZDA5Y2FiOGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3ZGJmYjRmNTJlMjVhMjQxYWFlNzc1MTQzNGVlNmM1ZTcxZmY4OTAwZTBhY2IyZWRmODlmMjZkNTcyZjY2ZjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk5ZjM3ZDQzNDlmNWFlMjNkMmM5ZGJmN2VhZmUxYmIzNDc1MTMxNjcyMzA5NzgyMGE0OWI2ZDFmMDhmZTlkMGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJmYmViMDg4ZDdjN2QxMmQ0M2Q5MmFiNzk5OTEyYzI0ODBjZjg1ODgzMTJhMzU5NmNhNTQ0MTk1MjA4OWI0NmEifQ"
+        },
+        {
+          "resource": "repo://src/router/access.js#L86-L117",
+          "version": "repo-lines-v1:sha256:087abe2ee2c1254f8d902d35f8f02113bf370b6def4ac19b89e51eabf3597798:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3ZDFiZWRjODczN2I1MmUxNjA4MzAwNDBlZDRiOTJkNGRjNjdmMjllOGFiNGQyZjc1YjczN2U0OTU0ZDc1ZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJkMjNlNTkyZTQ5MzAzNWExOWZmMzExZWMxZWNlMjgzN2FmYjhlM2NhOGE3OTJiZmMyY2UxNzg0M2M3ODg5NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU4MjgyMjJhMzEyOGE2MjZlMWI0YmU1OTE2YmQ2ZjA3OGUzOTY5ODlhYTMzZWU3MzU4YWIzMTBmYWM0NmVhMGMifQ"
+        },
+        {
+          "resource": "repo://src/router/guard.js#L36-L136",
+          "version": "repo-lines-v1:sha256:b08dcf1ec77e1e24f65f426d6126ef3de6738650db4cdd9caa5ffc8dad67e7e9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDRmYzQ1MDA1NjRjNjE5MjlhMTgxOTliNWNjOGI0NDNlODdhYjA2Y2Q0NWE5NTc2MmM3MmM4ODE2NjE4OWZkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMjM1MjU4OWMzNGQzYzYwNjg1OTMxYjZlY2M0ZDUwOTkxYTdjNTZjOGZiYTI4OTQxMTQ2NTc2OTAyNzJjYWMzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkY2Y5NWYyYTJmZjQ1NDQyZTEzNWQwNGY2NmZiMjU0YmE3MDEwZWUzMmJlOGIzYWNhMDAyNzNlMTc3ZDA5ZjIzIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIyZGUzNWNkYTljNTUwNzI5Y2VjY2ZkZTI3Y2RmYTU4NGVhNTQ3Njc0ZjNjZTY0YmRkYjAyM2I4MWNmM2U4MWM3In0"
+        },
+        {
+          "resource": "repo://src/router/routes/index.js#L7-L40",
+          "version": "repo-lines-v1:sha256:e1df31604b329402af838238c9460013cd76dd055976784b119a42f0a5e9f18d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFhMzcwMDBmOTA3ZDIwZDhmMzk5Mjg1Nzc2NjE4NzJiZTEyNDA0ODVkNmNmZTlmNzNkYzA1N2EyODFmYjRjNTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxNzMwM2E3ZmU3Y2M4NGZmMmJmMzc0Njg0MjAwOGE1YzgzYWVkODM4ZDU4NDI4Yjg4ZWZjNzAyZjgyZDQ0YjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlMjUzMDkwOTc1NWI2MDMyYzljNDY5OTAyNzZjZDA0OWUzN2JmNDU0ZTIxMzY1Yjg4MDJkYjljYTk1OWJlNjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2OTJiNDBlZjA3YTEzNzlmZmJkNzcxNjhiMDcyODA3MzFiNDA1NGNlMmU5ZTJlNDhiYzAyODVhN2ZlM2U0NmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cd8412b7387d46a3b05feb09029185c9",
+      "statement": "The shared request layer adds bearer authentication, locale-derived country_code and Accept-Language values, normalizes GET parameters, handles marked file uploads and form-urlencoded bodies, surfaces localized network/timeout errors, and clears session state with a portal-specific login redirect on 401; token refresh is not active.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/request/index.js#L122-L242",
+          "version": "repo-lines-v1:sha256:4b0dd1d8a746bc8d03527682b6bbbc82014864f224c9e7ba6f1c2720e57143f5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI1MDMzNmY3N2UzMDdiZjBiM2IyMmIzMDY0ZDBiOGFjZjU1ZWM4MGY2NDA1NTczOTk0ZmM1ZjI0NDYyYWUxYjc2IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMjM1MjU4OWMzNGQzYzYwNjg1OTMxYjZlY2M0ZDUwOTkxYTdjNTZjOGZiYTI4OTQxMTQ2NTc2OTAyNzJjYWMzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJiYWQxNzhjYzM2YjJjMmQ0YjZmOWZmNTlmNDc5NDNlMzQyYTM2N2ZlOWM1ZTBmN2NhMTM3NWYwNTczNjM2ZGUyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI1NGE0YjU5NzBlY2NlZTNmZTI1YmEyOTk3Yjg0Y2RlZWM0OWM3MzU1MTRjNzI4YjY4ODViZDJjYjIwZjQ0MzRjIn0"
+        },
+        {
+          "resource": "repo://src/api/request/index.js#L55-L105",
+          "version": "repo-lines-v1:sha256:99179b3c6464c0b58cd29895e68e942b948d6adf50173efe81aa4a4e80432889:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4MjRhNzQwNzM0NjY3M2I4OGNmOTBhZGEwNzZkMzFkNzRkNjM2ZTZjYjdjNzk0OGVlNDg0OTU1NzRlMjU4MTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmNDBkZmM1YWI3NGEwNjFkNWE4OWU0OWMwOWQ2NzkzMzRmZmRkMzYwNjBjNjhlYmFjYmIwOTY2NmZlMjQyYTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUxOWIwOTQ0NzU1MmEyZjkyOWYzY2IwOWY5NjgwMDFlODA5ODhkYjUxMGI5NmExYzBjYzA5NmM5NTRiMzU4YzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIifQ"
+        },
+        {
+          "resource": "repo://src/api/request/request.js#L10-L85",
+          "version": "repo-lines-v1:sha256:f21ece551e8a2aeba21c5ad31e9235539a353c56ade1acf79835e3c8d739ec7a:eyJzZWxlY3RlZExpbmVDb3VudCI6NzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwMTY2ZjI0NzJmNWM1NmNiMjVmNjgzOTczN2VkNWQ5OGZjZWRiMDI4MmQzOGI4NzIwMGVmMmZiZjVjYWFjM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4NDQyNjM2N2I2OTc4ZTVhNTI2ODc0OTAwZGQ4YzY3ZWJlY2RlNjU3NjE5OWNkOGQ5MWE5MTNmNDk0OGNjMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxYWQwYjNlOWIwNmI1ODBmNWZmMzIzNTE3ZmIzMTE3NzUyMTBhNTVkYjBiNjAzMDcxYzY1MzE0NmYyNzQ4NGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8dffe4a9342144a4b001e079a9dc9743",
+      "statement": "The i18n configuration loads six runtime locales, persists and applies locale direction, and derives country_code from the selected language; repository instructions require synchronized locale updates and semantic translation keys for user-facing text.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L36-L58",
+          "version": "repo-lines-v1:sha256:3f9f1319d3e97816af109a9dfb93c983f84580ef125f7a94004aef278fcedcab:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0ODcxMzM1NWYwNWQ1NjE4OGE2MWIzZTNmNjE4ODhlMjZjMzdhYWEwMzJiYzRkZWE5OTgwOWI2ZTEzNjAzM2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiODYxMjE1NWM4MmZmYWNjNGZkMjI0NDA0ZGRlNjY3NjBhNGIzMDJmOTJlMmNhM2Y1OTI3ODhiOTcwNjQ2MTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4OTNhYjE2ODlmYzEyZTMyNjdjMDlkMmI1ODFjYTJjZWRjMmNhM2I1MGIxYjE4MDkzZTEzMzM1YWRlOTNlYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4NTE5MDE0ZTA3NzYxNDJiMzkxMTJkYTNjMzI1NzliYTQwODExNzNkOTNiOWUyZmZjYjM3MzExZjU1Y2UzNTgifQ"
+        },
+        {
+          "resource": "repo://src/i18n/index.js#L33-L64",
+          "version": "repo-lines-v1:sha256:3c04080c22edafd12340b362e4b948bd0216f58fafdf4779803427edb6ac9dd5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyNzYzOTNmYTEzOGQ3Y2I2OTU5ZWU5YTRhMzUzZDYxZjkxNTE1MjZhMzFmZDg0NTJiOWZhNGEwMTFiZDU1YTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjMGMwYzI4MjU5ZGI1ZGVlODdmNDczNzAwNzU3NzNmMmQ3YTNiOTg0YTBjZDNjY2IwMWYzMGQ3MTM1NjA3YjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjY2QzNWVjMTMyZjQ2ZWRiMzNiZDA1MDQxNTdjMDk5N2VhMTQwMjcyNzhmZTNmNWY1NjIxNmRiNmMyMWViZmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyZDliNzkwZTI2NTIzYmI1ZWMyNmUxYjE5Y2U2MmZjNWFhMmRlMzFiOWFmOWQ3MzVlYWViYTlkODlmMmIwY2MifQ"
+        },
+        {
+          "resource": "repo://src/i18n/index.js#L5-L19",
+          "version": "repo-lines-v1:sha256:50082c2c09da04e1e98841c842d73dab05614df2d9bea4eeaf102f1e1f5be130:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5NzFmNTlhODdhZTdkMjFlYmYzNGM5ZWY0ZWM3YTllNzU5MDU3OGUyMTUyM2Y4ZjI1Yzk3ODczOTMxZDc0NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjMDMzMDYzZDk1YTYzZjljMTVjYmVjNTU1ZTI4MTlhNzk5MjM5NmY3ZjA4ZjZiZmI4MmJhN2ZkNjc2MDg3NTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1ODUzYTgwNzNlNWUxNjY2Mjg1Yjk5ZWJjNmRkNjA3Yjg5NzM1OWQzYjIzZTk2MmViN2IyN2JhYjI5YjRlZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2NWRmMjY2NDNhYjM5NzJiNzRkNGY4MGFmODZiODM3ZmU1M2M0ZTNhMzk1OGU0MjA5MTI0MzljNzM0N2E0YzcifQ"
+        },
+        {
+          "resource": "repo://src/i18n/index.js#L84-L141",
+          "version": "repo-lines-v1:sha256:804016adbcee3d90df56586a50fc29eae0a37295cb4ddb4f5135d002da52f12c:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1MTBiMjNkNDE5MDliMzgzYWRmMzhlMThhNGI4M2NmYjVhMzllZGFiZDA4YzY2MTc3MWRjNzg5N2QwNjUwNjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMxMjI4Yjg5ZWFmYTFkNmFmOGIzMGU2MGE4YzYwMjRkYzEwZjdmMDY5ZmVlZTJhODc4YmMyZDRiMjQ3MzQwZjYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_007cd78227574c72a27ea83a88ba543e",
+      "statement": "Lottery management is canonically routed at /marketing/interactive/lottery with permission marketing.interactive.lottery, while /marketing/membermarket/wheel and /marketing/wheel redirect to it; the list owns status filtering, activity actions, statistics, and portal-aware export navigation.",
+      "evidence": [
+        {
+          "resource": "repo://src/router/routes/modules/marketing.js#L561-L589",
+          "version": "repo-lines-v1:sha256:81a137679d60efe924b3ce0343ad1b46a558cb5a0aa603f70c6b8c275b114fbe:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5NWI4YzViZjg2Mzc0MzY3MWRlZjNmNjMwZWIyMzJkNTlhN2E2MzRhMDcwZmM0MzZlZWMzN2E4Njc0ZTZjMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA1OWY5MDQ5YjkwYzdhYTkzNzQzOWQ3ZmQ1OTU1MDMwNTlkODAyZTBlZjNjYTY5NWI4YTUxYjNhZDYzZTExZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE1YmUzNjk2MWUwNDk0OGIyYTg4YmJkYWZlNjJiN2RmMWM0YjE4NTVhYWRmYzM3YzNkNzk4NmQ5M2Y4NmU5ZTUifQ"
+        },
+        {
+          "resource": "repo://src/utils/src/utils.js#L52-L66",
+          "version": "repo-lines-v1:sha256:31f6db6dd9393ea695b2d8ab6795ad9d8c0a3792014959f042255ebf64bd16ff:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlODNjNTFjZWJjNzliMjAyN2MxYjYwYTZlMTkxZjA4OWQ4YTJhOThlNDhmNzdiYzRiODlkZGQwNTg5YTg4YWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjYmYxYTgwMjExM2Q5NzNjMmU2MTFjZmNhODUwZmI4ZTNiNGMwMjRlMmQwYWUxNWVjMjkwZWQ1MDE5YmU4NTgifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/list.vue#L25-L37",
+          "version": "repo-lines-v1:sha256:b16c6ff0ae37d0b879adbe5c4b82a3562073e992c1fc7734e57cd694b315f626:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhMjMwNjc5ZTcwNWQxMmUyNzMyODg0NDcxOWZkNWU1ZTkzYjljNTE2MWUwMWRjMGQ4ZmYxNTQzNDVlY2M2ZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiMTA2M2M0ZGVhNjhhMzgxNjYxMTBiYWQyZDMzOGI0ZDcyZTAyZDM3YmUwODE1YTc4NDUxZTk5MzMyZDZkZmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU5YzMwYWQ5MmQ5N2MxMzk5OWI1MWZlZmMyYjdjYmI2MWE1ZTVlYTBlYjYzYjU2YmJiNDhjNjAxY2I2ZWJlZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlNmYyMzQxYzY2NmQ2NWJhZmE0NmFmY2EyNDUwN2E3NzFlOTEzM2Y0YzE0ZDE2NDI0OTNmOTgzNGQ4YTg0NDQifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/list.vue#L90-L166",
+          "version": "repo-lines-v1:sha256:011558f86876fbcb0abece571432b3e17ef5a25023cd7df32d7fc8fcf965be0b:eyJzZWxlY3RlZExpbmVDb3VudCI6NzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliMWUwZWFiZGVlYjU1MzBjN2Q1NzBmODhhNGI0YzE2N2Y2ZWZmMTYyY2M1MGNlYjA0Njg5MTdkNDU3ZTJhMjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3ZTk1ZWU5M2M0ZDM1Y2RlOThmZmJiZjJkM2JiMjkyNzQxNmEyYWM5ZTVjY2EwMzMxZDBjYmU3N2FlZjdmNGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwMzhlZTJlMTQ3YWI0ZjgyZjgyMTBmZGJhZTMxNjIzY2Q4MGI2NmEwN2E3ZjFmZTMyODZkNjliZjA3OGQ4MDcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d8ef3c7523604282ab25553f91938110",
+      "statement": "Lottery editing loads detail data for an id or clone_id, normalizes prize and template fields, makes ended activities read-only, submits config_version on edits, and distinguishes optimistic version conflicts from ended-activity failures by reloading or locking the editor.",
+      "evidence": [
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L204-L300",
+          "version": "repo-lines-v1:sha256:911409815a627472a77546b97d5f33b2146e76aff4c7e8d15a0136a38831816d:eyJzZWxlY3RlZExpbmVDb3VudCI6OTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjYzlhZGVlOWJjNmQ1YWQ0YmFlOTU5NDUzZjlhMjExOGJmN2YyNGQxMjBiY2ZlZGE0YTVkYWU1MWMzZjRlMmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlmZTkzMGEyMjliOWM0Mzk3ZWI2YjRmOTMyOGE4YTNkMjE0ZTRhNGY3M2ZhZDZmNDcwYjdjNjc4YzU4ZTQzMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjczOWI3ZjhhMzExZDBlMThjYTZiYjA4M2MyMjE4ZmJjOWQzZWFhYmFiNDY2MzM0Njg4OTFlOTJlZjA1OTg3YWEifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L489-L516",
+          "version": "repo-lines-v1:sha256:78920c0242fd83c4e09042cb5c775199b0bafe3e193181cd846e7f687fbf83b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYWE1NTBhOTBjMjE2YmYxZjMwYmI3NjJlMDI4Yzk3ZDY2NzljNzFmM2VmZTQ3ODE3OTM2YjU5ZDY5MGNiMWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhY2U2M2JjMTA0Y2E1YzI5MmNiZGQ3OTc3YjliNDk4ZWM5YmU3NmUxY2Q5MjdiZjIzNDE0MGM2ODc5YjA0MjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE5NGI0Zjg0ZDQwMmE0NmY5MzllYTBmZjlkMzQ1NDQwOTljMGM3YWIzYTZjZWM2YjM3MDRhZTQxMGVkNjMxNDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5b7210bc954a495787ab6b6126c0bbfe",
+      "statement": "Lottery save payloads use POST /promotions/turntableconfig and serialize prize_data plus activity_template_config, including wheel styling, hot-area and button decoration, rule configuration, record configuration, and a duplicated gameConfig.prizes representation.",
+      "evidence": [
+        {
+          "resource": "repo://src/api/marketing.js#L824-L840",
+          "version": "repo-lines-v1:sha256:3cbdf6dab22ef2aa69579e481b425ea70ee5839f16c8dbad62834d2b4dd44e08:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1ZmM3NzllNWI3ZGFhMWI2ZGQ0ZGY4YmNiYzliYWVkYzg5Y2MzNDhiOGY0NmMzYTU4MWFjZGNmODU0NWM3NmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3YzM0ZDFhODMyZjE0M2I2ZGQ1ODRiMmE2Mjk5ZjVlMmY5MzAxNzgxNmE3Njg1OWI1NjZhNDc5OGFkYWI1NTkifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L382-L486",
+          "version": "repo-lines-v1:sha256:19804f4baf278a086a28f1c826a37e59312db8adb3eac25620e5d8c0436ca76b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0NTY3ZWZhZGU4NjBkYjRmMjdmOGEwOTc0M2E4YWVhNTQ4YTIzNDEwNjRjNzRlNjJlYTM0OTEyNTFkMjczODgwIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJmOWIxOTgyZThkZDc0ODExODE0NmIzOWEyZDAwNjJmNDA4MWUzNDc3OWI4Njc1YzIzNGM0ZmIxMjRkYzM5MzkwIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI1OWUzYTA4ZTgzNTUyZGRkYzMxNzIyMDMyMmIxY2NmMGQ0YzFhYzhkMjQwZTY5YzQ1YmU3MmY4MmVmMTg1YjJlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJhM2IwODY0MzUxNWM0Yjc0NGNjYTY1MDg3ODAzMGY3N2E5ZWJkMmZlNmUxMjBiZmE3NDM2ZTU4NTk3MmE2MWJkIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_95c28df2fd4542f2bf0157e6ed71bc32",
+      "statement": "Lottery client-side business validation requires a future end after the start, constrains daily and total limits, requires cost and non-empty description, requires a thanks prize and bounded probability sum, limits prize names and inventory, preserves the thanks prize, caps prizes at eight, and applies defaults for game margin and hot-area padding.",
+      "evidence": [
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L319-L376",
+          "version": "repo-lines-v1:sha256:775ee24ef525ce044629c044d7e101f6daf4edb724ee9c82bbbce3151ffbf39f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFjOGZhYmQxODg0YTczYWMxZGEwZDk1NmI5YmMxMzJiZTg2ZjYzMzQxMDMxNDFlOGQwNmFhNWFmNWM1ZTI3NWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5MGY4ZDkxOGFlOTFkNTljMzZmNTU3MzRmNzQ5OTgyYmNkMGEzNzYzNmYzZGZiOTBiNTFmODQzNDA1NjhiMmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2ZmNkNjMxMGIzNDlmZThhODcwZTI2MjY0ZTUxNDNiMzExMzAwZjgzOGFiZjA0YWI4ZjE0NjdmY2ZmMGJiODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmMTA3YmEyYWM3NmJlMmMyNzY2YjMwZDczZDE3YmU3MWIxZWNkODM0MGQ4OTY3ODYyMzAwOGI1MGQ5YTFlNGMifQ"
+        },
+        {
+          "resource": "repo://src/view/marketing/lottery/editor.vue#L518-L575",
+          "version": "repo-lines-v1:sha256:3e386149fc0fb69abc9dc4580a6cd35a162691fa61addfb5789b8fc9c3c12390:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3MWRkZDBmZWZlMDc1YmQ3YTQ3OTBiNjliNDgzMDcwMzU3MjUwNTgzZDU5YTM5ZGQwNDQ0YzVkMDNjNzk1ODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYwYTFhNDFlOTUzYjVkMjQ3MGFjM2I0N2FlOWNjZThkMzc1NTIxMWU1M2IxM2Q3ODE2ZmQ3ZWUzZTBjMDA1ODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ1ZWFmNDVmYjI1NDM3MTk0NTdhYmM2YWQwNzMzMjE0ZWFkZjQ0NjQ3MjY5OWM2NTIzZTFhMjI4MTE3Yjk2ZDkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0143759a2dd54a5aaeda550144a1cab3",
+      "statement": "The lottery picker is exposed as $picker.lottery, uses the shared lottery list endpoint, follows the BasePicker value and updateVal contract, restores selected rows after search, and intentionally removes status and regionauth_id filters so callers can select activities across statuses.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/sp-picker/pickers/base.js#L7-L25",
+          "version": "repo-lines-v1:sha256:2b5eb3796380715d952bd9d89ca360b8d47918713fc43cd8a8f4bdcd771ac828:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzMjdiNmMyNmNjYTI4MDRiMjY2YTc3YTJhNGYxMTU1NTBkOTNiNmUyYzI3MjI4MmJiMGJjZjY0OWQ1Y2MzMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMwYjMwOWU3ZmJkMWQxOWIyMWRlNjgyMjIxOTZkYjM4ZGRlMzEwMTk3MzkyNTNlZTEzZmZkYmEzYmI4Y2UwNmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdjZGU1N2QwMzIwMjE2NjI5M2Y1MzQ4ZmIxMzI3NGZhMmQ4YzQ4MGNjN2U1YWMwNjA4ZTBiMTQwZTllY2U3YmYifQ"
+        },
+        {
+          "resource": "repo://src/components/sp-picker/pickers/base.js#L90-L101",
+          "version": "repo-lines-v1:sha256:749bf4c0a783cb17095cd6023077ca3ce5196db04126c76eddaa46a16b4933e5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0MGQ2MWNlNTdkNmY0ZDg4ZjBlMjUwY2YxZmMzODY5ODA3N2IyZGI1M2YzYzMyZDMwODMzMTk4N2RlMWFiMzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjZDk2ZGU0ZWY0ZDAzNTdmYmQzMDQxYmQ3Yzc3OGVjMzViMDIxOTgwN2IwODFmNWU3MzExYTI5YjA0NzgzY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRmNzM5YTA2YzFjYmIxMjQ0ZTMzNjNkMzhiY2Y5ZmE1MGNlODRmZWQzOTljMjE5M2EzYzdmMDhkNTk5MThiMmEifQ"
+        },
+        {
+          "resource": "repo://src/components/sp-picker/pickers/picker-lottery.vue#L106-L149",
+          "version": "repo-lines-v1:sha256:004e5ea1813426e0b80496a711277007917707b624e1869b6dc0d85b9b118548:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhMTVlZGQ5ZjNkYTM3ZmVlNWIyODQ3NzE2YzY2ZDczMWRhMWIyOTAyYzc2ZGQ4NGZhOTkzMzBjODU1M2RhMzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMwMmNkMjk4YTRjNTAzNzdiOWY1Yjc2MDQxNTdlNTI5NGY5YjZkNmMxYTAwZTY0YzNiZDMzOWJlZDY5NTBlNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmMDFiZjY1M2I2M2Y2Nzg5Mzc2NDYyMTg1Y2Q3OTliM2ZlY2JhNzVlNWVkNjNmYzg1ZTk5ZWMzOTFhNjVmOWYifQ"
+        },
+        {
+          "resource": "repo://src/components/sp-picker/pickers/picker-lottery.vue#L35-L50",
+          "version": "repo-lines-v1:sha256:d5de0421aeff1e71e312bb658b82f0ce012d9f12f0b29a5bbbb10040d64a2f29:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwMzE0MDhiZmM0NWViN2ZhMzQ3NWIwYTljMTEwYzQyYjA2OTlmNjMwNTY5MWRkYzNiOThjZjcyYmU1ZDYyZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3YWQ2YTdiYWFkYjcwODAzNDU3NGVlMDQwY2I4ZjA1ZTc5OTVjZTUwNDk0ZTIyZjUyMDZlOWEwYTE2N2ZiZGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkODkzOGY5YzEzN2JlOWJmNjMyN2MzZDg2NDUzNjkwM2JjNzAwNWNmYTk3ZDNiOGY4MGRlNTcxMGNlZGZiZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxYjkzZWJkNGEyODg4ZWYyZjQwZDljNjMwNmRiYTk0MzM4ZjM4MmMzMDdjOTk5MjY0YjdhMjk3ODhjZTc1NGIifQ"
+        },
+        {
+          "resource": "repo://src/components/sp-picker/plugin.js#L36-L81",
+          "version": "repo-lines-v1:sha256:bc13a5be9b809ec997bb1461db02bbffd3c3a5e6c853056b2ad18d3159160005:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjOTgyNGI3OThmZDgyYjJiZGY2ZTEwMTU2NTAzOGNjMzZhNmI1NjdiN2I2OGI5ZWNmNDY1Y2FmMjY3MGUxZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1OWI1MGFjNjQ1YTUwNmI4MDJjNDBiZDQ4MDhjOWExYjNiNTExMTljYzNjNzYyNDllZThkM2I2YWUxYzQ4YWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBlOTBiY2E1NDgzNWM5NTE0NGU5NTNmNzlkYjZiZWJhYTI4MGIxZGY2MmNlZWM0ZmY4YzkyNzk2OWNhZGU1NzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIwMjFiYzg5ZWFkMzg1NDZiMDVkYzAwZjAzOWIyZjdiYWUxYzVlNjIzMzdlOTlkMzcwNjExYzgwZmFmZmFhMGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c770a554d1e0400dafd7a820f4aae04f",
+      "statement": "The repository provides lint, B2C/B2B2C build, and focused decoration contract/i18n payload scripts, but no general unit or E2E test command; the focused template script checks DSL payload shape, default-locale save behavior, and country_code handling.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L116-L138",
+          "version": "repo-lines-v1:sha256:427d8a676d027cc32d2c823eae2f61c23fa6783fcd23e405bcc68f0aebbdf8c1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmNjAxNTU0MTIyZWZlODU1ZDU2ZTEwY2M5YmFmMjAzMWNhM2Y0YWIxMWNkYmEyMmYxZWJjNWQzOWE3NTU4MjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkZDI0NDU4MmI2ZmIwM2QyM2I4NDE1YWJlY2QzNDZiMGM5ZjQ2NmI2Zjc1MmIwNjgxODljZTdlOWEyZGMzNTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVkNDEzNmE4MGJkNDJhOGI3Y2JiOWU1NzRjMzQ5OTljMTM4ZTk5MTIyYzc3NTU2MWYzOTA4YjYwMGUyMjhjZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNhMjYyM2ZlNmE3YWE1OTA2NzgzNzk4NjBkYzFiMjEzZWE3ZTkwZWFhNzQyM2RjODE4MTI2MDVkMWViN2Q3MDMifQ"
+        },
+        {
+          "resource": "repo://package.json#L9-L25",
+          "version": "repo-lines-v1:sha256:e766a05df3d17f17271b5bca7b186b5400629985e232db0dd9f379b7ca1e2f97:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ODMzZDU5NDljMDNhNDBjYTk1MjQ5MTYxMGE2NjU5NjQ0YjNhYTQ2NjM2MmY3OTkwMjBkYmYxOTgxNTQ3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0ODVhNDQxMjJiZTJjZGRiYTBmYjc4MDhlYmUwNWJmNzAyMzJlZTZkNDU0M2VmNzM2YTI3MjVlNDgwYTk2NTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyNTVkOGU0NTYyZjkzYjY0YjZjODhiMzY4ZWQyMTY0M2EyNjA4OTNjMjM3NjIyMDNlZmE5ZTA0OGYyMTBiYjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRmNTlmMjhiYzcwZDk0ODk0NGNkMTJiYzM0YTIzMjczYTNiM2I1ZTFhMmNhNTdhYjlhMmJlYjUwMWE3M2RmMWEifQ"
+        },
+        {
+          "resource": "repo://scripts/check-template-i18n-save-payload.mjs#L136-L155",
+          "version": "repo-lines-v1:sha256:1a8cfb1fd49ffecabaf9ddbe489e2ebf3f799dd0328e8d5fd3f1baea75825111:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBiOGViYjc2N2JmMzJmOGIzYzNlY2JjYjc5OTc4MzVjNDAzNGJmMzM5OWQwODQ4YWEzNzcxZTE3YmZiYTAwOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcxYmZkYTMyMzQ5ZTIyN2U2ZDE5Y2JlNTNmNDhkNTNlNWVjMjgwMzgxMWZkNjVkNmJhZjBlZTBhZTk0MzRiOTUifQ"
+        },
+        {
+          "resource": "repo://scripts/check-template-i18n-save-payload.mjs#L187-L233",
+          "version": "repo-lines-v1:sha256:98081c1cc42a9fa86807f64e8f5b3e2dfc413e3b13a1ad80ef287b7f3686052b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxMDU1ODRkMDk0NWUyMDk3ZmU5NjY2ZDU0MDQ4ODk5MzgzYWFiODQ2M2QwYjViNTVjMjBmZDgzYzY3ZjQ3MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkMTYxODlkNjk1NWY0MDk2NWFlODA1OGQyZTk5NTliMGQwNzQyYzZhZGE2ZTMzZDIwNzM2OWZjMDA1YjU5OTIifQ"
+        },
+        {
+          "resource": "repo://scripts/check-template-i18n-save-payload.mjs#L259-L272",
+          "version": "repo-lines-v1:sha256:4b40b26e6cd6853c555109d3d28b846d5bc521f1e411c519faa76ba34ffa7db0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmMjcyNjYzOGI1ZWEwMWIyNmQwNDNkYzZhZTdmMTdmOTNkYWIxY2IxOGY0NGE0YmM2Njg3ZmYwY2E1YTcxM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5NTg2ZjY1MTMxODBmYTIxYWYxNmVjZDY4YjRhZmJlZjA3YTBhN2M0M2Q2YmQ3MmJmNjE4Njk1ZGZjNzhmYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.1",
+    "at": "2026-10-23T02:32:18.329Z"
+  }
+}

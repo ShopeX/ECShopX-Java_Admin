@@ -607,6 +607,17 @@ const routes = [
             component: () => import('@/view/marketing/member-task/stats.vue')
           }
         ]
+      },
+      {
+        name: 'memberSignin',
+        path: 'interactive/member-signin',
+        meta: {
+          aliasName: 'member_signin',
+          icon: 'calendar',
+          title: i18n.t('6bfcaec0.8e34d0'),
+          permissions: ['marketing.interactive.member_signin']
+        },
+        component: () => import('@/views/marketing/member-signin/index.vue')
       }
     ]
   }

@@ -6,6 +6,7 @@ import { pickBy } from '@/utils'
 import { i18n } from '@/i18n'
 import AttrNavItem from './attr-imagepanel'
 import { transformInBase, createTransformOutBase } from '../../comps/transform-utils'
+import { createDefaultOrderNavItems5, normalizeOrderNavData } from './order-nav-meta'
 
 const config = {
   name: 'orderNavigation',
@@ -37,24 +38,7 @@ const config = {
       component: function (h, { key }) {
         return <AttrNavItem v-model={this.value[key]} isBusinessShow={this.value.navigation} />
       },
-      value: [
-        {
-          content: i18n.t('cff31093.818d78'),
-          imgUrl: ''
-        },
-        {
-          content: i18n.t('cff31093.4933ca'),
-          imgUrl: ''
-        },
-        {
-          content: i18n.t('cff31093.a48b28'),
-          imgUrl: ''
-        },
-        {
-          content: i18n.t('cff31093.59bd68'),
-          imgUrl: ''
-        }
-      ]
+      value: createDefaultOrderNavItems5()
     }
   ],
   transformIn: (v) => {
@@ -65,7 +49,7 @@ const config = {
       name,
       ...transformedBase,
       ...(cfg || {}),
-      data: Array.isArray(data) ? data : [],
+      data: normalizeOrderNavData(Array.isArray(data) ? data : []),
       track,
       tags: {
         type: tagsType || '2',
@@ -75,7 +59,11 @@ const config = {
     }
   },
   transformOut: (v) => {
-    return pickBy(v, {
+    const payload = {
+      ...v,
+      data: normalizeOrderNavData(Array.isArray(v.data) ? v.data : [])
+    }
+    return pickBy(payload, {
       id: 'id',
       name: 'name',
       base: createTransformOutBase(

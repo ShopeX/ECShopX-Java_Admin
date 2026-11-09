@@ -49,7 +49,7 @@
             />
             {{ $t('188e1819.249aba') }}<span v-if="index < userVipGrade.length - 1">，</span>
           </div>
-          <el-button @click="addStoreValue">{{ $t('188e1819.be5fbb') }}</el-button>
+          <el-button type="primary" plain @click="addStoreValue">{{ $t('188e1819.be5fbb') }}</el-button>
         </div>
       </template>
     </SpFinder>

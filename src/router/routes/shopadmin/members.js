@@ -48,7 +48,7 @@ const routes = [
       {
         name: 'manageTag',
         path: 'Managetag',
-        component: () => import('@/view/member/members/tags'),
+        component: () => import('@/views/members/customer_tags'),
         meta: {
           aliasName: 'managetag',
           icon: 'icon-tag',

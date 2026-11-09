@@ -202,6 +202,9 @@
         <el-button :disabled="disabledBtn" @click="handleCancelAll">
           {{ cancelAllBtnText }}
         </el-button>
+        <el-button :disabled="disabledBtn" @click="handleBatchDelete">
+          {{ batchDeleteBtnText }}
+        </el-button>
       </div>
       <!-- <div>
         <el-input size="small" placeholder="请输入图片名称" suffix-icon="el-icon-search" />
@@ -295,7 +298,12 @@
               </div>
             </div>
           </div>
-          <el-empty v-if="list.length == 0" :description="emptyDescription" />
+          <div
+            v-if="list.length == 0"
+            class="col-span-full flex items-center justify-center min-h-[300px]"
+          >
+            <el-empty :description="emptyDescription" />
+          </div>
         </div>
         <el-pagination
           layout="total, prev, pager, next"
@@ -530,6 +538,9 @@ export default {
     },
     cancelAllBtnText() {
       return i18n.t('4c4bec01.4c347e')
+    },
+    batchDeleteBtnText() {
+      return i18n.t('4c4bec01.4c768b')
     },
     emptyDescription() {
       return i18n.t('4c4bec01.21efd8')
@@ -853,6 +864,39 @@ export default {
       const { multiple } = this
       this.selected = multiple ? [] : null
       this.updateVal(this.selected)
+    },
+    handleBatchDelete() {
+      const { multiple, selected } = this
+      const hasSelected = multiple
+        ? isArray(selected) && selected.length > 0
+        : !!selected
+      if (!hasSelected) {
+        this.$message.warning(i18n.t('4c4bec01.260b4d'))
+        return
+      }
+      this.$confirm(i18n.t('4c4bec01.f73024'), i18n.t('4c4bec01.02d981'), {
+        confirmButtonText: i18n.t('4c4bec01.38cf16'),
+        cancelButtonText: i18n.t('4c4bec01.625fb2'),
+        type: 'warning'
+      })
+        .then(() => {
+          let image_id
+          if (multiple && isArray(selected)) {
+            image_id = selected.map((item) => item.image_id).join(',')
+          } else {
+            image_id = selected.image_id
+          }
+          return deleteImage({ image_id }).then(() => {
+            this.handleCancelAll()
+            this.refresh(true)
+            this.$message({
+              message: i18n.t('4c4bec01.0007d1'),
+              type: 'success',
+              duration: 5 * 1000
+            })
+          })
+        })
+        .catch(() => {})
     }
     /*handleCropperAction(action) {
       switch (action) {
