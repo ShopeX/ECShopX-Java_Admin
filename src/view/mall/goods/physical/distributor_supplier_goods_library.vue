@@ -25,6 +25,16 @@
               :placeholder="$t('aa50e3a2.1542c0')"
             />
           </SpFilterFormItem>
+          <SpFilterFormItem prop="is_market" :label="$t('aa50e3a2.63d68b')">
+            <el-select
+              v-model="searchParams.is_market"
+              :placeholder="$t('aa50e3a2.708c9d')"
+              clearable
+            >
+              <el-option :label="$t('aa50e3a2.434e17')" :value="1" />
+              <el-option :label="$t('aa50e3a2.b37fb8')" :value="0" />
+            </el-select>
+          </SpFilterFormItem>
           <SpFilterFormItem prop="main_cat_id" :label="$t('aa50e3a2.e73602')">
             <el-cascader
               v-model="searchParams.main_cat_id"
@@ -158,6 +168,7 @@ export default {
         attribute_name: ''
       },
       searchParams: {
+        is_market: '',
         keywords: '',
         goods_bn: '',
         supplier_name: '',
