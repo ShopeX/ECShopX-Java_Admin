@@ -57,6 +57,10 @@
           </span>
           <span class="order-card__sep">|</span>
           <span class="order-card__type">{{ getOrderHolderLabel(row) }}</span>
+          <span class="order-card__sep">|</span>
+          <span class="order-card__mobile">
+            {{ $t('b64cb62b.468c2b') }}{{ row.mobile || '-' }}
+          </span>
         </div>
         <div class="order-card__meta-right">
           <router-link
@@ -290,7 +294,7 @@ export default {
       return this.getDistributionType(row) || '-'
     },
     getBuyerName(row) {
-      return row.username || row.nickname || row.member_uname || row.mobile || '-'
+      return row.username || row.nickname || row.member_uname || '-'
     },
     getOrderHolderLabel(row) {
       if (row.order_holder === 'supplier') {
@@ -510,7 +514,8 @@ $order-grid-cols: minmax(395px, 1fr) 107px 254px 110px 119px max-content;
 
 .order-card__shop,
 .order-card__time,
-.order-card__type {
+.order-card__type,
+.order-card__mobile {
   color: #444;
   font-size: 12px;
   line-height: 22px;
