@@ -92,17 +92,23 @@
       <template>
         <el-form ref="form" :model="form" class="demo-ruleForm" label-width="120px">
           <el-form-item :label="$t('81d2acb6.bb2cdf')">
-            <el-col :span="10">
+            <div class="flex flex-col items-start">
               <el-input
                 v-if="!editLoginName"
                 v-model="form.login_name"
+                class="!w-[250px]"
                 :minlength="4"
                 :maxlength="16"
                 :placeholder="$t('81d2acb6.2b668a')"
               />
-              <el-input v-else v-model="form.login_name" :disabled="true" />
-            </el-col>
-            <p class="frm-tips">{{ $t('81d2acb6.d59d95') }}</p>
+              <el-input
+                v-else
+                v-model="form.login_name"
+                class="!w-[250px]"
+                :disabled="true"
+              />
+              <p class="frm-tips whitespace-nowrap !pb-0">{{ $t('81d2acb6.d59d95') }}</p>
+            </div>
           </el-form-item>
           <el-form-item :label="$t('81d2acb6.8098e2')">
             <el-col :span="10">
@@ -126,19 +132,32 @@
             </el-col>
           </el-form-item>
           <el-form-item :label="$t('81d2acb6.baad7e')">
-            <el-tag
-              v-for="(item, index) in relDistributors"
-              :key="item.distributor_id"
-              class="new-tag"
-              closable
-              :disable-transitions="false"
-              @close="handleClose(index)"
-            >
-              {{ item.name }}
-            </el-tag>
-            <el-button size="medium" class="button-new-tag" @click="addDistributoreAction">
-              {{ $t('81d2acb6.a5d26b') }}
-            </el-button>
+            <div class="flex flex-col items-start gap-2">
+              <SpSelectShop
+                ref="shopSelect"
+                v-model="selectedDistributorIds"
+                multiple
+                class="!w-[250px]"
+                :placeholder="$t('81d2acb6.a5d26b')"
+                :query-params="shopPickerQueryParams"
+                @change="onShopSelectChange"
+              />
+              <div
+                v-if="boundDistributors.length"
+                class="flex max-w-[480px] flex-wrap gap-1"
+              >
+                <el-tag
+                  v-for="item in boundDistributors"
+                  :key="item.distributor_id"
+                  size="small"
+                  closable
+                  @close="removeBoundShop(item.distributor_id)"
+                >
+                  {{ item.name }}
+                  <span v-if="item.shop_code" class="text-[#909399]">（{{ item.shop_code }}）</span>
+                </el-tag>
+              </div>
+            </div>
           </el-form-item>
           <el-form-item :label="$t('81d2acb6.464f3d')">
             <el-checkbox-group v-model="form.role_id">
@@ -159,25 +178,6 @@
         <el-button type="primary" @click="submitAction"> {{ $t('81d2acb6.be5fbb') }} </el-button>
       </div>
     </el-dialog>
-    <DistributorSelect
-      :store-visible="DistributorVisible"
-      :is-valid="isValid"
-      is-valid-filter="cloud_all"
-      :rel-data-ids="relDistributors"
-      :get-status="DistributorStatus"
-      :query-params="{ show_distributor_self: 1 }"
-      @chooseStore="DistributorChooseAction"
-      @closeStoreDialog="closeDialogAction"
-    />
-    <ShopSelect
-      :store-visible="ShopVisible"
-      :is-valid="isValid"
-      :rel-data-ids="relShops"
-      :old-data="oldData"
-      :get-status="ShopStatus"
-      @chooseStore="ShopChooseAction"
-      @closeStoreDialog="closeDialogAction"
-    />
   </SpPage>
 </template>
 <script>
@@ -192,13 +192,7 @@ import {
 import { getDistributorList } from '@/api/marketing'
 import { changeOperatorStatus } from '@/api/login'
 import { pageMixin } from '@/mixins'
-import DistributorSelect from '@/components/function/distributorSelect'
-import ShopSelect from '@/components/function/shopSelect'
 export default {
-  components: {
-    DistributorSelect,
-    ShopSelect
-  },
   mixins: [pageMixin],
   props: {
     status: {
@@ -208,14 +202,9 @@ export default {
   },
   data() {
     return {
-      oldData: [],
-      isValid: true,
-      DistributorStatus: false,
-      ShopStatus: false,
-      relDistributors: [],
-      relShops: [],
-      DistributorVisible: false,
-      ShopVisible: false,
+      /** 账户已绑定店铺（提交全量；追加选择时合并去重） */
+      boundDistributors: [],
+      selectedDistributorIds: [],
       isEdit: false,
       editVisible: false,
       editTitle: '',
@@ -248,6 +237,13 @@ export default {
     }
   },
   computed: {
+    /** 与原先 DistributorSelect 请求范围一致 */
+    shopPickerQueryParams() {
+      return {
+        show_distributor_self: 1,
+        is_valid: 'cloud_all'
+      }
+    },
     searchFormItems() {
       return [
         {
@@ -292,30 +288,69 @@ export default {
     this.getRolesListData()
   },
   methods: {
-    handleClose(index) {
-      this.relDistributors.splice(index, 1)
-      this.form.distributor_ids.splice(index, 1)
-      //this.$forceUpdate()
+    onShopSelectChange(val) {
+      const pickedIds = val == null || val === '' ? [] : Array.isArray(val) ? val : [val]
+      if (!pickedIds.length) {
+        this.syncShopSelectLabel()
+        return
+      }
+      const mergedIds = [
+        ...new Set([
+          ...this.boundDistributors.map((item) => item.distributor_id),
+          ...pickedIds
+        ])
+      ]
+      this.mergeBoundDistributors(mergedIds)
     },
-    storeHandleClose(index) {
-      this.DistributorStatus = false
-      this.form.shop_ids.splice(index, 1)
-      this.relShops.splice(index, 1)
-      //this.$forceUpdate()
+    removeBoundShop(distributorId) {
+      this.boundDistributors = this.boundDistributors.filter(
+        (item) => item.distributor_id !== distributorId
+      )
+      this.selectedDistributorIds = this.boundDistributors.map((item) => item.distributor_id)
+      this.syncShopSelectLabel()
     },
-    addDistributoreAction() {
-      this.DistributorVisible = true
-      this.DistributorStatus = true
+    setBoundFromAccountRows(rows) {
+      this.boundDistributors = (rows || []).map((item) => ({
+        distributor_id: item.distributor_id,
+        name: item.name,
+        shop_code: item.shop_code
+      }))
+      this.selectedDistributorIds = this.boundDistributors.map((item) => item.distributor_id)
+      this.syncShopSelectLabel()
     },
-    addStoreAction() {
-      this.ShopVisible = true
-      this.ShopStatus = true
+    syncShopSelectLabel() {
+      this.$nextTick(() => {
+        const shopSelect = this.$refs.shopSelect
+        if (!shopSelect) return
+        const list = this.boundDistributors
+        if (!list.length) {
+          shopSelect.selectValue = ''
+          return
+        }
+        shopSelect.selectValue =
+          list.length === 1 ? list[0].name : this.$t('d6d1dfc8.013ecd', { n: list.length })
+      })
     },
-    getDistributor(ids) {
-      let param = { distributor_id: ids }
-      getDistributorList({ ...param, is_app: 1, is_valid: 'cloud_all' }).then((res) => {
-        this.relDistributors = res.data.data.list
-        this.oldData = [...res.data.data.list]
+    mergeBoundDistributors(ids) {
+      if (!ids.length) {
+        this.boundDistributors = []
+        this.selectedDistributorIds = []
+        this.syncShopSelectLabel()
+        return
+      }
+      getDistributorList({ distributor_id: ids, is_app: 1, is_valid: 'cloud_all', show_distributor_self: 1 }).then((res) => {
+        const fetched = res.data.data.list || []
+        const byId = new Map(
+          this.boundDistributors.map((item) => [String(item.distributor_id), item])
+        )
+        fetched.forEach((item) => {
+          byId.set(String(item.distributor_id), item)
+        })
+        this.boundDistributors = ids
+          .map((id) => byId.get(String(id)))
+          .filter(Boolean)
+        this.selectedDistributorIds = this.boundDistributors.map((item) => item.distributor_id)
+        this.syncShopSelectLabel()
       })
     },
     handleCancel() {
@@ -328,9 +363,9 @@ export default {
       this.form.password = ''
       this.form.role_id = []
       this.form.distributor_ids = []
-      this.form.shop_ids = []
-      this.relDistributors = []
-      this.relShops = []
+      this.boundDistributors = []
+      this.selectedDistributorIds = []
+      this.syncShopSelectLabel()
     },
     addLabels() {
       // 添加物料弹框
@@ -362,24 +397,14 @@ export default {
         this.form.role_id.push(item.role_id)
       })
       if (row.distributor_ids && row.distributor_ids.length > 0) {
-        let ids = []
-        row.distributor_ids.forEach((item) => {
-          ids.push(item.distributor_id)
-        })
-        this.getDistributor(ids)
+        this.setBoundFromAccountRows(row.distributor_ids)
       }
     },
     submitAction() {
       // 提交物料
-      this.form.shop_ids = []
       this.form.distributor_ids = []
-      if (this.relShops.length > 0) {
-        this.relShops.forEach((shop) => {
-          this.form.shop_ids.push({ name: shop.storeName, shop_id: shop.wxShopId })
-        })
-      }
-      if (this.relDistributors.length > 0) {
-        this.relDistributors.forEach((distributor) => {
+      if (this.boundDistributors.length > 0) {
+        this.boundDistributors.forEach((distributor) => {
           this.form.distributor_ids.push({
             name: distributor.name,
             distributor_id: distributor.distributor_id
@@ -489,26 +514,6 @@ export default {
       getRolesList(params).then((res) => {
         this.rolesListData = res.data.data.list
       })
-    },
-    DistributorChooseAction(data) {
-      this.DistributorVisible = false
-      this.DistributorStatus = false
-      if (data === null || data.length <= 0) return
-      this.relDistributors = data
-    },
-    ShopChooseAction(data) {
-      this.ShopVisible = false
-      this.ShopStatus = false
-      if (data === null || data.length <= 0) return
-      this.relShops = data
-      this.relDistributors = data
-    },
-    closeDialogAction() {
-      this.ShopVisible = false
-      this.ShopStatus = false
-      this.relDistributors = this.oldData
-      this.DistributorStatus = false
-      this.DistributorVisible = false
     }
   }
 }
@@ -520,25 +525,6 @@ export default {
 .rel-distributor-tag + .rel-distributor-tag {
   margin-left: 5px;
 }
-.new-tag {
-  height: 40px;
-  line-height: 40px;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-.button-new-tag {
-  height: 40px;
-  line-height: 40px;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-.input-new-tag {
-  height: 40px;
-  line-height: 40px;
-  width: 138px;
-  vertical-align: bottom;
-}
-
 .el-row {
   margin-bottom: 20px;
   &:last-child {

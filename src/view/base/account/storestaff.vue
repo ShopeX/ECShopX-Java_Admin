@@ -166,17 +166,31 @@
             </el-col>
           </el-form-item>
           <el-form-item :label="$t('ab2cdfe4.baad7e')">
-            <div class="flex flex-col items-start">
+            <div class="flex flex-col items-start gap-2">
               <SpSelectShop
                 ref="shopSelect"
                 v-model="selectedDistributorIds"
                 multiple
-                clearable
                 class="!w-[250px]"
                 :placeholder="$t('ab2cdfe4.a5d26b')"
                 :query-params="{ distribution_type: distributionType }"
                 @change="onShopSelectChange"
               />
+              <div
+                v-if="boundDistributors.length"
+                class="flex max-w-[480px] flex-wrap gap-1"
+              >
+                <el-tag
+                  v-for="item in boundDistributors"
+                  :key="item.distributor_id"
+                  size="small"
+                  closable
+                  @close="removeBoundShop(item.distributor_id)"
+                >
+                  {{ item.name }}
+                  <span v-if="item.shop_code" class="text-[#909399]">（{{ item.shop_code }}）</span>
+                </el-tag>
+              </div>
               <p class="frm-tips whitespace-nowrap !pb-0">{{ $t('ab2cdfe4.2242ee') }}</p>
             </div>
           </el-form-item>
@@ -248,7 +262,8 @@ export default {
   },
   data() {
     return {
-      relDistributors: [],
+      /** 账户已绑定店铺（提交全量；追加选择时合并去重，不覆盖） */
+      boundDistributors: [],
       selectedDistributorIds: [],
       login_type: 'default',
       isEdit: false,
@@ -361,19 +376,40 @@ export default {
       this.subDistrictList = res
     },
     onShopSelectChange(val) {
-      const ids = val == null || val === '' ? [] : Array.isArray(val) ? val : [val]
-      this.selectedDistributorIds = ids
-      if (ids.length > 0) {
-        this.getDistributor(ids)
-      } else {
-        this.relDistributors = []
+      const pickedIds = val == null || val === '' ? [] : Array.isArray(val) ? val : [val]
+      if (!pickedIds.length) {
+        this.syncShopSelectLabel()
+        return
       }
+      const mergedIds = [
+        ...new Set([
+          ...this.boundDistributors.map((item) => item.distributor_id),
+          ...pickedIds
+        ])
+      ]
+      this.mergeBoundDistributors(mergedIds)
+    },
+    removeBoundShop(distributorId) {
+      this.boundDistributors = this.boundDistributors.filter(
+        (item) => item.distributor_id !== distributorId
+      )
+      this.selectedDistributorIds = this.boundDistributors.map((item) => item.distributor_id)
+      this.syncShopSelectLabel()
+    },
+    setBoundFromAccountRows(rows) {
+      this.boundDistributors = (rows || []).map((item) => ({
+        distributor_id: item.distributor_id,
+        name: item.name,
+        shop_code: item.shop_code
+      }))
+      this.selectedDistributorIds = this.boundDistributors.map((item) => item.distributor_id)
+      this.syncShopSelectLabel()
     },
     syncShopSelectLabel() {
       this.$nextTick(() => {
         const shopSelect = this.$refs.shopSelect
         if (!shopSelect) return
-        const list = this.relDistributors
+        const list = this.boundDistributors
         if (!list.length) {
           shopSelect.selectValue = ''
           return
@@ -382,11 +418,25 @@ export default {
           list.length === 1 ? list[0].name : this.$t('d6d1dfc8.013ecd', { n: list.length })
       })
     },
-    getDistributor(ids) {
-      let param = { distributor_id: ids }
-      getDistributorList(param).then((res) => {
-        this.relDistributors = res.data.data.list
-        this.selectedDistributorIds = this.relDistributors.map((item) => item.distributor_id)
+    mergeBoundDistributors(ids) {
+      if (!ids.length) {
+        this.boundDistributors = []
+        this.selectedDistributorIds = []
+        this.syncShopSelectLabel()
+        return
+      }
+      getDistributorList({ distributor_id: ids }).then((res) => {
+        const fetched = res.data.data.list || []
+        const byId = new Map(
+          this.boundDistributors.map((item) => [String(item.distributor_id), item])
+        )
+        fetched.forEach((item) => {
+          byId.set(String(item.distributor_id), item)
+        })
+        this.boundDistributors = ids
+          .map((id) => byId.get(String(id)))
+          .filter(Boolean)
+        this.selectedDistributorIds = this.boundDistributors.map((item) => item.distributor_id)
         this.syncShopSelectLabel()
       })
     },
@@ -401,7 +451,7 @@ export default {
       this.form.role_id = []
       this.form.distributor_ids = []
       this.form.shop_ids = []
-      this.relDistributors = []
+      this.boundDistributors = []
       this.selectedDistributorIds = []
       this.syncShopSelectLabel()
     },
@@ -436,19 +486,15 @@ export default {
         this.form.role_id.push(item.role_id)
       })
       if (row.distributor_ids && row.distributor_ids.length > 0) {
-        let ids = []
-        row.distributor_ids.forEach((item) => {
-          ids.push(item.distributor_id)
-        })
-        this.getDistributor(ids)
+        this.setBoundFromAccountRows(row.distributor_ids)
       }
     },
     submitAction() {
       // 提交物料
       this.form.shop_ids = []
       this.form.distributor_ids = []
-      if (this.relDistributors.length > 0) {
-        this.relDistributors.forEach((distributor) => {
+      if (this.boundDistributors.length > 0) {
+        this.boundDistributors.forEach((distributor) => {
           this.form.distributor_ids.push({
             name: distributor.name,
             distributor_id: distributor.distributor_id
