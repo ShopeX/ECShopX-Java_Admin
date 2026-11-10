@@ -181,8 +181,9 @@ const routes = [
         path: 'base-config/search-synonym',
         component: () => import('@/view/mall/goods/search-synonym/index'),
         meta: {
+          aliasName: 'searchsynonym',
           title: '搜索同义词',
-          permissions: ['entity.goodsbase.goodsparams']
+          permissions: ['entity.goodsbase.searchsynonym']
         }
       },
       {
