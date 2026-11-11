@@ -1307,8 +1307,13 @@ export default {
 
         await this.$api.trade.setPaymentSetting(params)
 
-        // 任意支付开关保存后都重新拉取，避免后端联动关闭其他方式时页面只提示成功、开关不刷新
-        await this.loadAllPaymentConfigs()
+        // 斗门国际支付开启时后端会联动关闭其他方式，需全量刷新开关状态
+        const doumenTurnedOn = payType === 'doumen_intl' && params.is_open === 'true'
+        if (doumenTurnedOn) {
+          await this.loadAllPaymentConfigs()
+        } else {
+          await this.loadPaymentConfig(payType)
+        }
 
         this.$message.success(this.$t('10d92d52.3b1083'))
       } catch (error) {
