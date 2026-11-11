@@ -222,10 +222,10 @@
           <el-table-column prop="promoter_grade_name" :label="$t('a8b7ec6e.917de5')" />
           <el-table-column prop="disabled" :label="$t('a8b7ec6e.3fea7c')">
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.disabled == '0'" type="success" size="mini">
-                {{ $t('a8b7ec6e.c6cc39') }}
+              <el-tag v-if="Number(scope.row.disabled) === 0" type="success" size="mini">
+                {{ $t('8fe988ed.c6cc39') }}
               </el-tag>
-              <el-tag v-else type="info" size="mini"> {{ $t('a8b7ec6e.1abbb1') }} </el-tag>
+              <el-tag v-else type="info" size="mini"> {{ $t('8fe988ed.1abbb1') }} </el-tag>
             </template>
           </el-table-column>
         </el-table>
