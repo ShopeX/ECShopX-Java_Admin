@@ -42,11 +42,11 @@
 
     <MemberTaskSelectedGoodsViewDialog
       :visible.sync="selectedGoodsViewVisible"
-      :items="ruleForm.goods_items"
+      :items="selectedGoodsViewItems"
     />
     <MemberTaskSelectedStoresViewDialog
       :visible.sync="selectedStoresViewVisible"
-      :items="ruleForm.stores"
+      :items="selectedStoresViewItems"
     />
   </SpPage>
 </template>
@@ -184,6 +184,8 @@ export default {
       saving: false,
       selectedGoodsViewVisible: false,
       selectedStoresViewVisible: false,
+      selectedGoodsViewItems: [],
+      selectedStoresViewItems: [],
       taskId: null,
       configVersion: null,
       detailStatus: null,
@@ -676,10 +678,34 @@ export default {
       }
       return []
     },
+    /** 详情 rule_config.item_list → 表单展示字段 */
+    normalizeGoodsRows(list, ids) {
+      return this.toKeyedList(list, ids, 'item_id').map((row) => ({
+        ...row,
+        item_id: row.item_id ?? row.id,
+        item_name: row.item_name || row.name || row.title || '',
+        item_bn: row.item_bn || row.bn || row.goods_bn || ''
+      }))
+    },
+    /** 详情 rule_config.distributor_list → 表单展示字段 */
+    normalizeStoreRows(list, ids) {
+      return this.toKeyedList(list, ids, 'distributor_id').map((row) => ({
+        distributor_id: row.distributor_id,
+        distributor_name: row.name
+      }))
+    },
     toCategory(rule, categoryIds) {
-      const list = this.toArray(rule.categories || rule.category_list)
-      if (list.length) return list[0]
-      if (Array.isArray(categoryIds) && categoryIds.length) return { id: categoryIds[0] }
+      const list = this.toArray(rule.category_list)
+      if (list.length) {
+        const c = list[0]
+        return {
+          id: c.category_id,
+          title: c.category_name
+        }
+      }
+      if (Array.isArray(categoryIds) && categoryIds.length) {
+        return { id: categoryIds[0], title: '' }
+      }
       return null
     },
     /** 详情：reward_config.coupon_id + rewards[kind=coupon] */
@@ -737,17 +763,13 @@ export default {
         ...createEmptyRuleForm(),
         goods_scope: rule.goods_scope || 'unlimited',
         goods_items: PURCHASE_RULE_DETAILS.includes(typeDetail)
-          ? this.toKeyedList(rule.items || rule.item_list, rule.item_ids, 'item_id')
+          ? this.normalizeGoodsRows(rule.items || rule.item_list, rule.item_ids)
           : [],
         goods_category: PURCHASE_RULE_DETAILS.includes(typeDetail)
           ? this.toCategory(rule, rule.category_ids)
           : null,
         stores: PURCHASE_RULE_DETAILS.includes(typeDetail)
-          ? this.toKeyedList(
-              rule.stores || rule.distributor_list,
-              rule.distributor_ids,
-              'distributor_id'
-            )
+          ? this.normalizeStoreRows(rule.stores || rule.distributor_list, rule.distributor_ids)
           : [],
         amount_yuan:
           rule.amount_fen != null && rule.amount_fen !== '' ? Number(rule.amount_fen) / 100 : 0,
@@ -761,17 +783,15 @@ export default {
         browse_stay_seconds:
           rule.stay_seconds != null && rule.stay_seconds !== '' ? Number(rule.stay_seconds) : 0,
         favorite_items: FAVORITE_RULE_DETAILS.includes(typeDetail)
-          ? this.toKeyedList(
-              rule.favorite_items || rule.items,
-              rule.item_ids || rule.favorite_item_ids,
-              'item_id'
+          ? this.normalizeGoodsRows(
+              rule.favorite_items || rule.items || rule.item_list,
+              rule.favorite_item_ids || rule.item_ids
             )
           : [],
         favorite_stores: FAVORITE_RULE_DETAILS.includes(typeDetail)
-          ? this.toKeyedList(
-              rule.favorite_stores || rule.distributors,
-              rule.distributor_ids || rule.favorite_distributor_ids,
-              'distributor_id'
+          ? this.normalizeStoreRows(
+              rule.favorite_stores || rule.distributors || rule.distributor_list,
+              rule.favorite_distributor_ids || rule.distributor_ids
             )
           : [],
         jump_page: data.jump_page || ''
@@ -947,7 +967,8 @@ export default {
     },
     // ---------- 选择器 ----------
     async pickGoods(target = 'goods_items') {
-      if (this.readonly && target === 'goods_items') {
+      if (this.readonly && (target === 'goods_items' || target === 'favorite_items')) {
+        this.selectedGoodsViewItems = this.ruleForm[target] || []
         this.selectedGoodsViewVisible = true
         return
       }
@@ -997,7 +1018,8 @@ export default {
       }
     },
     async pickStores(target = 'stores') {
-      if (this.readonly && target === 'stores') {
+      if (this.readonly && (target === 'stores' || target === 'favorite_stores')) {
+        this.selectedStoresViewItems = this.ruleForm[target] || []
         this.selectedStoresViewVisible = true
         return
       }

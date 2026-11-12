@@ -40,7 +40,7 @@ export default {
     rows() {
       return (this.items || []).map((row) => ({
         distributor_id: row.distributor_id,
-        distributor_name: row.distributor_name || ''
+        distributor_name: row.distributor_name
       }))
     }
   },

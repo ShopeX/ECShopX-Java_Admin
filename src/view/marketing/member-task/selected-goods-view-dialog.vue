@@ -35,9 +35,9 @@ export default {
   computed: {
     rows() {
       return (this.items || []).map((row) => ({
-        item_id: row.item_id,
-        item_name: row.item_name || '',
-        item_bn: row.item_bn || ''
+        item_id: row.item_id ?? row.id,
+        item_name: row.item_name || row.name || row.title || '',
+        item_bn: row.item_bn || row.bn || row.goods_bn || ''
       }))
     }
   },
