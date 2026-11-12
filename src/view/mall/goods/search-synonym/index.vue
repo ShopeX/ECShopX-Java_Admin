@@ -5,8 +5,11 @@
 
 <template>
   <SpPage>
+    <template v-if="!isImportRoute">
     <div class="action-container">
       <el-button type="primary" icon="el-icon-plus" @click="openDialog()"> 新增同义词组 </el-button>
+      <el-button @click="downloadTemplate">下载模板</el-button>
+      <el-button type="primary" plain @click="goImport">导入</el-button>
     </div>
 
     <el-table v-loading="loading" class="mt-4" border :data="list" row-key="id">
@@ -82,10 +85,13 @@
         <el-button type="primary" :loading="saving" @click="submitForm">保存</el-button>
       </span>
     </el-dialog>
+    </template>
+    <router-view />
   </SpPage>
 </template>
 
 <script>
+import { exportUploadTemplate, getFileBlob } from '@/api/common'
 import { listSynonyms, saveSynonymGroup, removeSynonymGroup } from '@/api/searchSynonym'
 
 const SUCCESS_HOT_RELOAD_MSG = '保存成功，已提交热更新'
@@ -119,10 +125,50 @@ export default {
       wordInputValue: ''
     }
   },
+  computed: {
+    isImportRoute() {
+      return this.$route.name === 'searchSynonymImport'
+    }
+  },
   mounted() {
     this.loadList()
   },
   methods: {
+    goImport() {
+      this.$router.push({ name: 'searchSynonymImport' })
+    },
+    downloadTemplate() {
+      exportUploadTemplate({
+        file_type: 'search_synonym',
+        file_name: '搜索同义词导入模板'
+      }).then((response) => {
+        const data = response.data && response.data.data
+        if (!data || !data.file) {
+          this.$message({ type: 'error', message: '模板下载失败' })
+          return
+        }
+        getFileBlob(data.file)
+          .then((arrayBuffer) => {
+            const blob = new Blob([arrayBuffer], {
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            })
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = data.name || '搜索同义词导入模板.xlsx'
+            document.body.appendChild(a)
+            a.click()
+            a.remove()
+            window.URL.revokeObjectURL(url)
+          })
+          .catch((err) => {
+            this.$message({
+              type: 'error',
+              message: typeof err === 'string' ? err : '模板下载失败'
+            })
+          })
+      })
+    },
     loadList() {
       this.loading = true
       listSynonyms()
@@ -229,6 +275,9 @@ export default {
 <style scoped>
 .action-container {
   margin-bottom: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 .mt-4 {
   margin-top: 16px;

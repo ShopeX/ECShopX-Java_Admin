@@ -184,7 +184,18 @@ const routes = [
           aliasName: 'searchsynonym',
           title: '搜索同义词',
           permissions: ['entity.goodsbase.searchsynonym']
-        }
+        },
+        children: [
+          {
+            name: 'searchSynonymImport',
+            path: 'import',
+            component: () => import('@/view/mall/goods/search-synonym/upload'),
+            meta: {
+              title: '搜索同义词导入',
+              hidden: true
+            }
+          }
+        ]
       },
       {
         name: 'exportstoreitems',
