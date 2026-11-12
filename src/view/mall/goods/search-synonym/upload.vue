@@ -33,12 +33,22 @@
         <el-table-column prop="file_name" label="文件名" min-width="120" show-overflow-tooltip />
         <el-table-column prop="created_date" label="上传时间" min-width="100" />
         <el-table-column prop="file_size_format" label="大小" min-width="80" />
-        <el-table-column label="处理状态" min-width="90">
+        <el-table-column label="处理状态" min-width="200">
           <template slot-scope="scope">
-            <span v-if="scope.row.handle_status === 'wait'">等待处理</span>
-            <span v-else-if="scope.row.handle_status === 'processing'">处理中</span>
-            <span v-else-if="scope.row.handle_status === 'finish'">已完成</span>
-            <span v-else>{{ scope.row.handle_status }}</span>
+            <div>
+              <span v-if="scope.row.handle_status === 'wait'">等待处理</span>
+              <span v-else-if="scope.row.handle_status === 'processing'">处理中</span>
+              <span v-else-if="scope.row.handle_status === 'finish'">已完成</span>
+              <span v-else>{{ scope.row.handle_status }}</span>
+              <el-alert
+                v-if="scope.row.handle_message && scope.row.handle_message.esReloadWarning"
+                class="es-reload-warn"
+                :title="scope.row.handle_message.esReloadWarning"
+                type="warning"
+                :closable="false"
+                show-icon
+              />
+            </div>
           </template>
         </el-table-column>
         <el-table-column prop="finish_date" label="完成时间" min-width="100" />
@@ -200,5 +210,13 @@ export default {
 }
 .content-center {
   text-align: center;
+}
+.es-reload-warn {
+  margin-top: 6px;
+  padding: 4px 0;
+}
+.es-reload-warn >>> .el-alert__title {
+  font-size: 12px;
+  line-height: 1.4;
 }
 </style>
