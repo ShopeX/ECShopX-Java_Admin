@@ -130,8 +130,17 @@ export default {
       return this.$route.name === 'searchSynonymImport'
     }
   },
+  watch: {
+    isImportRoute(val, oldVal) {
+      if (oldVal === true && val === false) {
+        this.loadList()
+      }
+    }
+  },
   mounted() {
-    this.loadList()
+    if (!this.isImportRoute) {
+      this.loadList()
+    }
   },
   methods: {
     goImport() {
