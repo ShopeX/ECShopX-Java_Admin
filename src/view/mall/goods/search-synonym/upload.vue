@@ -20,7 +20,6 @@
           <el-button size="small" type="primary">上传文件</el-button>
         </el-upload>
         <el-button size="small" type="primary" @click="uploadHandleTemplate">下载模板</el-button>
-        <el-button size="small" @click="goBack">返回列表</el-button>
       </div>
       <el-table
         v-loading="loading"
@@ -114,9 +113,6 @@ export default {
     this.getUploadList()
   },
   methods: {
-    goBack() {
-      this.$router.push({ name: 'searchSynonym' })
-    },
     uploadPayload(response) {
       return (response && response.data && response.data.data) || {}
     },
@@ -192,6 +188,7 @@ export default {
 .upload-actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
 }
 .tip-info {
