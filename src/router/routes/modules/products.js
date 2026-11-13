@@ -177,6 +177,27 @@ const routes = [
         }
       },
       {
+        name: 'searchSynonym',
+        path: 'base-config/search-synonym',
+        component: () => import('@/view/mall/goods/search-synonym/index'),
+        meta: {
+          aliasName: 'searchsynonym',
+          title: '搜索同义词',
+          permissions: ['entity.goodsbase.searchsynonym']
+        },
+        children: [
+          {
+            name: 'searchSynonymImport',
+            path: 'import',
+            component: () => import('@/view/mall/goods/search-synonym/upload'),
+            meta: {
+              title: '搜索同义词导入',
+              hidden: true
+            }
+          }
+        ]
+      },
+      {
         name: 'exportstoreitems',
         path: 'product-manage/exportstoreitems',
         component: () => import('@/view/mall/marketing/productUpdate'),
