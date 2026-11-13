@@ -588,12 +588,33 @@ const routes = [
         ]
       },
       {
+        name: 'memberTaskList',
+        path: 'interactive/member-tasks',
+        meta: {
+          aliasName: 'membertasks',
+          icon: 'pay-circle',
+          title: i18n.t('b213c3c4.18b194'),
+          permissions: ['marketing.interactive.membertasks']
+        },
+        component: () => import('@/view/marketing/member-task/list.vue'),
+        children: [
+          {
+            path: 'editor/:id?',
+            component: () => import('@/view/marketing/member-task/editor.vue')
+          },
+          {
+            path: 'stats/:id',
+            component: () => import('@/view/marketing/member-task/stats.vue')
+          }
+        ]
+      },
+      {
         name: 'memberSignin',
         path: 'interactive/member-signin',
         meta: {
           aliasName: 'member_signin',
           icon: 'calendar',
-          title: '会员签到',
+          title: i18n.t('6bfcaec0.8e34d0'),
           permissions: ['marketing.interactive.member_signin']
         },
         component: () => import('@/views/marketing/member-signin/index.vue')

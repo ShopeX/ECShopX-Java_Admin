@@ -75,6 +75,7 @@ const BASE_LINK_PAGES = [
   { id: 'purchase', titleKey: '223cc8af.d0465c' },
   { id: 'pointShop', titleKey: '223cc8af.a13364' },
   { id: 'memberSign', titleKey: '223cc8af.8e34d0' },
+  { id: 'memberTask', titleKey: 'b213c3c4.18b194' },
   { id: 'registActivity', titleKey: '223cc8af.7fb92b' },
   { id: 'group', titleKey: '223cc8af.75a1d2' },
   { id: 'coupon_list', titleKey: '223cc8af.2f3635' },

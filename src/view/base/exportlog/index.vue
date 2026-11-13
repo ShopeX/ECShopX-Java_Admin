@@ -141,6 +141,8 @@ export default {
         }
         const marketingTabs = commonMarketingTabs.concat([
           { label: this.$t('cb7af8ae.41356e'), name: 'export_luckdraw_log' },
+          { label: this.$t('cb7af8ae.7eada2'), name: 'export_member_task_overview' },
+          { label: this.$t('cb7af8ae.373f10'), name: 'export_member_task_completion' },
           { label: this.$t('cb7af8ae.03c9b1'), name: 'delivery_staffdata' }
         ])
         groups.push(
@@ -200,7 +202,9 @@ export default {
           )
         }
         const marketingTabs = commonMarketingTabs.concat([
-          { label: this.$t('cb7af8ae.41356e'), name: 'export_luckdraw_log' }
+          { label: this.$t('cb7af8ae.41356e'), name: 'export_luckdraw_log' },
+          { label: this.$t('cb7af8ae.7eada2'), name: 'export_member_task_overview' },
+          { label: this.$t('cb7af8ae.373f10'), name: 'export_member_task_completion' }
         ])
         const otherTabs = [{ label: this.$t('cb7af8ae.03c9b1'), name: 'delivery_staffdata' }]
         if (!this.VERSION_IN_PURCHASE()) {

@@ -60,7 +60,7 @@ export default {
         return matched.length > depth + 1
       }
       // 兜底：常见列表子页 path（含店铺支付配置等）
-      return /\/(editor|detail|info|details|wxpaysetting|alipaysetting|template|storeupload)(?:\/|$)/i.test(
+      return /\/(editor|detail|info|details|stats|wxpaysetting|alipaysetting|template|storeupload)(?:\/|$)/i.test(
         this.$route.path
       )
     },

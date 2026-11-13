@@ -12,8 +12,9 @@
         <CompTagList
           :list="getFormattedTags(category)"
           :selection-babel="true"
-          :readonly="false"
           :select-only="true"
+          tag-size="small"
+          :no-background="true"
           @tag-select="(tag, index) => handleTagSelect(category, tag, index)"
         />
       </div>
@@ -52,7 +53,8 @@ export default {
   data() {
     return {
       tagCategories: [],
-      selectedTagMap: {},
+      selectedTagMap: {}, // { group_id: [tag1, tag2, ...] }
+      pendingSelectedIds: [], // 仅有 tag_id、缺 group_id 时，等列表加载后再回显
       loading: false
     }
   },
@@ -63,18 +65,75 @@ export default {
     this.loadTagCategories()
   },
   methods: {
+    groupKey(groupId) {
+      return groupId != null && groupId !== '' ? String(groupId) : ''
+    },
+    normalizeIncomingTag(tag) {
+      if (tag == null) return null
+      if (typeof tag !== 'object') {
+        return { tag_id: tag }
+      }
+      return {
+        ...tag,
+        tag_id: tag.tag_id != null ? tag.tag_id : tag.id,
+        tag_name: tag.tag_name || tag.name,
+        group_id: tag.group_id != null && tag.group_id !== '' ? String(tag.group_id) : undefined
+      }
+    },
     initSelectedFromValue() {
       this.selectedTagMap = {}
+      this.pendingSelectedIds = []
       const data = this.value && this.value.data ? cloneDeep(this.value.data) : []
-      if (Array.isArray(data) && data.length > 0) {
-        data.forEach((tag) => {
-          const groupId = tag.group_id
+      if (!Array.isArray(data) || !data.length) return
+      data.forEach((raw) => {
+        const tag = this.normalizeIncomingTag(raw)
+        if (!tag || tag.tag_id == null) return
+        const groupId = this.groupKey(tag.group_id)
+        if (groupId) {
           if (!this.selectedTagMap[groupId]) {
             this.$set(this.selectedTagMap, groupId, [])
           }
-          this.selectedTagMap[groupId].push(tag)
+          this.selectedTagMap[groupId].push({ ...tag, group_id: groupId })
+        } else {
+          this.pendingSelectedIds.push(tag.tag_id)
+        }
+      })
+    },
+    /** 按 tag_id 在各组中匹配，补齐 group_id 后写入 selectedTagMap */
+    resolvePendingSelection() {
+      if (!this.pendingSelectedIds.length || !this.tagCategories.length) return
+      const idSet = new Set(this.pendingSelectedIds.map(String))
+      this.tagCategories.forEach((category) => {
+        const groupId = this.groupKey(category.group_id)
+        let tags = category.tags || []
+        if (typeof tags === 'string') {
+          try {
+            tags = JSON.parse(tags)
+          } catch (e) {
+            tags = []
+          }
+        }
+        ;(Array.isArray(tags) ? tags : []).forEach((tag) => {
+          if (!idSet.has(String(tag.tag_id))) return
+          if (!this.selectedTagMap[groupId]) {
+            this.$set(this.selectedTagMap, groupId, [])
+          }
+          const exists = this.selectedTagMap[groupId].some(
+            (t) => String(t.tag_id) === String(tag.tag_id)
+          )
+          if (!exists) {
+            this.selectedTagMap[groupId].push({
+              group_id: groupId,
+              tag_id: tag.tag_id,
+              tag_name: tag.tag_name,
+              tag_color: tag.tag_color,
+              font_color: tag.font_color
+            })
+          }
         })
-      }
+      })
+      this.pendingSelectedIds = []
+      this.flushSelection()
     },
     async loadTagCategories() {
       this.loading = true
@@ -82,10 +141,10 @@ export default {
         const { list = [] } = await this.$api.member.getTagGroupList({
           page: 1,
           page_size: 100,
-          country_code: 'zh-CN',
           with_system: 1
         })
         this.tagCategories = list
+        this.resolvePendingSelection()
       } catch (error) {
         console.error(error)
       } finally {
@@ -94,7 +153,7 @@ export default {
     },
     getFormattedTags(category) {
       let tags = category.tags || []
-      const groupId = category.group_id
+      const groupId = this.groupKey(category.group_id)
       if (typeof tags === 'string') {
         try {
           tags = JSON.parse(tags)
@@ -107,14 +166,14 @@ export default {
           (t) => String(t.tag_id) === String(tag.tag_id)
         )
         return {
+          ...tag,
           selected,
-          group_id: groupId,
-          ...tag
+          group_id: groupId
         }
       })
     },
     handleTagSelect(category, tag) {
-      const groupId = category.group_id
+      const groupId = this.groupKey(category.group_id)
       if (!this.selectedTagMap[groupId]) {
         this.$set(this.selectedTagMap, groupId, [])
       }
@@ -124,7 +183,9 @@ export default {
         list.push({
           group_id: groupId,
           tag_id: tag.tag_id,
-          tag_name: tag.tag_name
+          tag_name: tag.tag_name,
+          tag_color: tag.tag_color,
+          font_color: tag.font_color
         })
       } else if (!tag.selected && idx > -1) {
         list.splice(idx, 1)
