@@ -319,11 +319,12 @@ export default {
       {
         text: this.$t('9cc0c982.f23195'),
         value: 'cash'
+      },
+      {
+        text: this.$t('9cc0c982.8bc752'),
+        value: 'new_gift'
       }
     ]
-    if (this.VERSION_STANDARD()) {
-      typeFilters.push({ text: this.$t('9cc0c982.8bc752'), value: 'new_gift' })
-    }
     return {
       initialParams,
       params: {
