@@ -139,35 +139,6 @@
       <div class="level-item">
         <div class="clearfix">
           <h3 class="f_l">
-            <span>{{ $t('901267f6.271ccd') }}</span>
-          </h3>
-        </div>
-        <div class="flex">
-          <div class="preview-box f_l">
-            <div>
-              <div class="upload-box" @click="handleImgChange('seckill')">
-                <SpImagePicker v-model="shareForm.seckill.imageUrl" />
-                <!-- <img v-if="shareForm.seckill.imageUrl" :src="wximageurl + shareForm.seckill.imageUrl" class="avatar" />
-                <i v-else class="el-icon-plus avatar-uploader-icon" /> -->
-              </div>
-            </div>
-            <p class="content-center">{{ $t('901267f6.9cbbc8') }}</p>
-          </div>
-          <div class="item-content f_l">
-            <div>
-              <span class="txt">{{ $t('901267f6.32c65d') }}</span>
-              <el-input v-model="shareForm.seckill.title" />
-            </div>
-            <!-- <div>
-              <span class="txt">副标题</span>
-              <el-input v-model="shareForm.seckill.desc"></el-input>
-            </div> -->
-          </div>
-        </div>
-      </div>
-      <div class="level-item">
-        <div class="clearfix">
-          <h3 class="f_l">
             <span>{{ $t('901267f6.d3eceb') }}</span>
           </h3>
         </div>
@@ -227,11 +198,6 @@ export default {
           imageUrl: ''
         },
         group: {
-          title: '',
-          desc: '',
-          imageUrl: ''
-        },
-        seckill: {
           title: '',
           desc: '',
           imageUrl: ''
